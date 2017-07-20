@@ -89,7 +89,7 @@
             android:layout_below="@+id/iv_empty"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/font_20"
-            android:text="去发布一张晒家图片分享给朋友吧！"
+            android:text="快去收藏你喜欢的图片呀！"
             android:textColor="@color/bg_8f8f8f"
             android:textSize="@dimen/font_14" />
 

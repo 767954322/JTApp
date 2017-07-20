@@ -376,11 +376,11 @@ public class ShouCangArticleFragment
                         }
                     }
                 } catch (JSONException e) {
-                    ToastUtils.showCenter(activity, UIUtils.getString(R.string.error_shaijia));
+                    ToastUtils.showCenter(activity, "收藏文章数据加载失败！");
                 }
             }
         };
-        MyHttpManager.getInstance().getShaiJiaArticleList(user_id, (page_num - 1) * 20, "20", callback);
+        MyHttpManager.getInstance().getShouCangArticleList(user_id, (page_num - 1) * 20, "20", callback);
     }
 
     private void updateViewFromData(List<ArticleBean> listData, String state) {
