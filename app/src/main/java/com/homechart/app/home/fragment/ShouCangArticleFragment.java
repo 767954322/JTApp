@@ -336,7 +336,7 @@ public class ShouCangArticleFragment
             public void onErrorResponse(VolleyError error) {
                 mRecyclerView.setRefreshing(false);//刷新完毕
                 mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-                ToastUtils.showCenter(activity, UIUtils.getString(R.string.error_shaijia));
+                ToastUtils.showCenter(activity, "收藏文章数据加载失败！");
                 if (state.equals(LOADMORE_STATUS)) {
                     --page_num;
                 } else {
