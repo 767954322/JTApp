@@ -31,6 +31,8 @@ public class UrlConstants {
     public static final String DELETE_SHOUCANG = "https://api.idcool.com.cn/collect/single/remove";  // 删除收藏列表
     public static final String DELETE_SHAIJIA = "https://api.idcool.com.cn/single/single/delete";  // 删除晒家列表
     public static final String DELETE_ARTICLE_SHAIJIA = "https://api.idcool.com.cn/article/article/delete";  // 删除晒家文章列表
+    public static final String DELETE_ARTICLE_SHOUCANG = "https://api.idcool.com.cn/collect/article/remove";  // 删除收藏的文章
+    public static final String ADD_ARTICLE_SHOUCANG = "https://api.idcool.com.cn/collect/article/add";  // 添加收藏的文章
     public static final String ISSUE_BACK = "https://api.idcool.com.cn/base/feedback/add";  // 问题反馈
     public static final String MESSAGE_LIST = "https://api.idcool.com.cn/user/account/noticeList";  // 通知列表
     public static final String HOT_WORDS = "https://api.idcool.com.cn/search/search/hotWords";  // 搜索热词

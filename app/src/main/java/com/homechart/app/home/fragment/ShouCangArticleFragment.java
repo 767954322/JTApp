@@ -239,7 +239,7 @@ public class ShouCangArticleFragment
                             }
                         }
                     };
-                    MyHttpManager.getInstance().deleteShaiJiaArticle(delete_items, callBack);
+                    MyHttpManager.getInstance().deleteShouCangArticle(delete_items, callBack);
                 } else {
                     ToastUtils.showCenter(activity, "请选择删除项");
                 }
