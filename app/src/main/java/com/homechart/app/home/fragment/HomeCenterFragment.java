@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -363,8 +364,10 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
         if (null != userCenterInfoBean && null != userCenterInfoBean.getCounter()) {
             tv_fensi_num.setText(userCenterInfoBean.getCounter().getFans_num() + "");
             tv_guanzhu_num.setText(userCenterInfoBean.getCounter().getFollow_num() + "");
-            tv_shoucang_num.setText(userCenterInfoBean.getCounter().getCollect_num() + "");
-            tv_shaijia_num.setText(userCenterInfoBean.getCounter().getSingle_num() + "");
+            tv_shoucang_num.setText((userCenterInfoBean.getCounter().getCollect_article_num() + userCenterInfoBean.getCounter().getCollect_single_num()) + "");
+            tv_shaijia_num.setText((userCenterInfoBean.getCounter().getSingle_num() + userCenterInfoBean.getCounter().getArticle_num()) + "");
+
+            Log.d("test", (userCenterInfoBean.getCounter().getSingle_num() + userCenterInfoBean.getCounter().getCollect_article_num()) + "");
         }
 
     }
@@ -416,12 +419,14 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
 //        }
 
     }
+
     @Override
     public void onPause() {
         super.onPause();
 
         MobclickAgent.onPause(activity);
     }
+
     //任务
     private TimerTask task = new TimerTask() {
         public void run() {

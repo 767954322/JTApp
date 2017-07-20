@@ -10,14 +10,18 @@ public class CounterBean implements Serializable{
 
     private int fans_num;
     private int follow_num;
-    private int collect_num;
+    private int collect_single_num;
+    private int collect_article_num;
     private int single_num;
+    private int article_num;
 
-    public CounterBean(int fans_num, int follow_num, int collect_num, int single_num) {
+    public CounterBean(int fans_num, int follow_num, int collect_single_num, int collect_article_num, int single_num, int article_num) {
         this.fans_num = fans_num;
         this.follow_num = follow_num;
-        this.collect_num = collect_num;
+        this.collect_single_num = collect_single_num;
+        this.collect_article_num = collect_article_num;
         this.single_num = single_num;
+        this.article_num = article_num;
     }
 
     public int getFans_num() {
@@ -36,12 +40,20 @@ public class CounterBean implements Serializable{
         this.follow_num = follow_num;
     }
 
-    public int getCollect_num() {
-        return collect_num;
+    public int getCollect_single_num() {
+        return collect_single_num;
     }
 
-    public void setCollect_num(int collect_num) {
-        this.collect_num = collect_num;
+    public void setCollect_single_num(int collect_single_num) {
+        this.collect_single_num = collect_single_num;
+    }
+
+    public int getCollect_article_num() {
+        return collect_article_num;
+    }
+
+    public void setCollect_article_num(int collect_article_num) {
+        this.collect_article_num = collect_article_num;
     }
 
     public int getSingle_num() {
@@ -52,13 +64,23 @@ public class CounterBean implements Serializable{
         this.single_num = single_num;
     }
 
+    public int getArticle_num() {
+        return article_num;
+    }
+
+    public void setArticle_num(int article_num) {
+        this.article_num = article_num;
+    }
+
     @Override
     public String toString() {
         return "CounterBean{" +
                 "fans_num=" + fans_num +
                 ", follow_num=" + follow_num +
-                ", collect_num=" + collect_num +
+                ", collect_single_num=" + collect_single_num +
+                ", collect_article_num=" + collect_article_num +
                 ", single_num=" + single_num +
+                ", article_num=" + article_num +
                 '}';
     }
 }

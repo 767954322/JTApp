@@ -60,6 +60,7 @@ public class ArticleDetailsActivity
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                ToastUtils.showCenter(ArticleDetailsActivity.this, "收藏失败");
             }
 
             @Override
