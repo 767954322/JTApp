@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/size_49">
+
+
+    <RadioGroup
+        android:id="@+id/rg_home_radio_group"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/size_49"
+        android:background="@color/bg_f2ffffff"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <!--图片-->
+        <RadioButton
+            android:id="@+id/radio_btn_pic"
+            style="@style/main_tab_bottom"
+            android:layout_marginTop="@dimen/size_6"
+            android:checked="true"
+            android:drawableTop="@drawable/pic_radio_select"
+            android:text="图片"
+            android:textSize="@dimen/size_11" />
+
+        <!--设计师-->
+        <RadioButton
+            android:id="@+id/radio_btn_designer"
+            style="@style/main_tab_bottom"
+            android:layout_marginTop="@dimen/size_6"
+            android:checked="true"
+            android:text=""
+            android:textSize="@dimen/size_11" />
+
+        <RadioButton
+            android:id="@+id/radio_btn_center"
+            style="@style/main_tab_bottom"
+            android:layout_marginTop="@dimen/size_6"
+            android:checked="true"
+            android:drawableTop="@drawable/center_radio_select"
+            android:text="我的"
+            android:textSize="@dimen/size_11" />
+
+    </RadioGroup>
+
+    <ImageView
+        android:id="@+id/iv_add_icon"
+        android:layout_width="@dimen/font_34"
+        android:layout_height="@dimen/font_34"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/font_7"
+        android:clickable="false"
+        android:src="@drawable/fabu" />
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_1"
+        android:layout_above="@+id/rg_home_radio_group"
+        android:background="@color/view_line" />
+</RelativeLayout>

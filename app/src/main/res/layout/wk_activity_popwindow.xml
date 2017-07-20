@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/view_up"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/sv_content" />
+
+
+    <ScrollView
+        android:id="@+id/sv_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_330"
+        android:layout_centerInParent="true">
+
+        <RelativeLayout
+            android:id="@+id/rl_content"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/font_330"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/iv_activity_image"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/font_175"
+                android:layout_marginBottom="@dimen/font_15"
+                android:layout_marginLeft="@dimen/font_15"
+                android:layout_marginRight="@dimen/font_15"
+                android:layout_marginTop="@dimen/font_15"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/tv_activity_image_tital"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/font_15"
+                android:layout_marginRight="@dimen/font_15"
+                android:layout_marginBottom="@dimen/font_15"
+                android:layout_below="@+id/iv_activity_image"
+                android:text="dnjskndsd"
+                android:textColor="@color/bg_262626"
+                android:textSize="@dimen/size_17" />
+
+            <RelativeLayout
+                android:id="@+id/rl_data_last"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/font_15"
+                android:layout_below="@+id/tv_activity_image_tital">
+
+                <ImageView
+                    android:id="@+id/iv_data_last_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/font_15"
+                    android:src="@drawable/shijian" />
+
+                <TextView
+                    android:id="@+id/tv_data_last"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/font_3"
+                    android:layout_toRightOf="@+id/iv_data_last_icon"
+                    android:textColor="@color/bg_e79056"
+                    android:textSize="@dimen/size_12" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_activity_detail_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_data_last"
+                android:layout_marginLeft="@dimen/font_15"
+                android:layout_marginRight="@dimen/font_15"
+                android:lineSpacingExtra="@dimen/font_9"
+                android:layout_marginBottom="@dimen/font_15"
+                android:textColor="@color/bg_8f8f8f" />
+        </RelativeLayout>
+    </ScrollView>
+
+
+    <View
+        android:id="@+id/view_below"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/sv_content" />
+
+</RelativeLayout>

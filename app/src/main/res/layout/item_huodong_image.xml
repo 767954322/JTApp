@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_marginTop="@dimen/font_15"
+        android:id="@+id/iv_imageview_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/font_4"
+        android:layout_marginRight="@dimen/font_4" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_imageview_one"
+        android:layout_alignLeft="@+id/iv_imageview_one"
+        android:layout_marginTop="@dimen/font_10">
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/iv_header_pic"
+            android:layout_width="@dimen/font_25"
+            android:layout_height="@dimen/font_25"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/tv_name_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_5"
+            android:layout_toRightOf="@+id/iv_header_pic"
+            android:text="小明"
+            android:textSize="@dimen/font_11" />
+
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/iv_color_right"
+            android:layout_width="@dimen/font_9"
+            android:layout_height="@dimen/font_9"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_10"/>
+
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/iv_color_center"
+            android:layout_width="@dimen/font_9"
+            android:layout_height="@dimen/font_9"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_color_right" />
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/iv_color_left"
+            android:layout_width="@dimen/font_9"
+            android:layout_height="@dimen/font_9"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_color_center" />
+    </RelativeLayout>
+
+</RelativeLayout>

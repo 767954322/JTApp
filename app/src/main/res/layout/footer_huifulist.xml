@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_none"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/font_5"
+        android:layout_marginTop="@dimen/font_35">
+
+        <TextView
+            android:id="@+id/tv_none"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="已经到底啦" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_20"
+            android:layout_marginRight="@dimen/font_18"
+            android:layout_toLeftOf="@+id/tv_none"
+            android:background="@color/bg_eeeeee" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_18"
+            android:layout_marginRight="@dimen/font_20"
+            android:layout_toRightOf="@+id/tv_none"
+            android:background="@color/bg_eeeeee" />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

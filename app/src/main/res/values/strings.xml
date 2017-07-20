@@ -1,0 +1,109 @@
+<resources>
+    <string name="app_name">家图</string>
+
+    <!--UIUtils-->
+    <string name="tip">提示</string>
+    <string name="sure">确定</string>
+
+
+    <!-- RegisterActivity -->
+    <string name="phonenum_error">请输入手机号</string>
+    <string name="yanzhengma_error">验证码输入错误</string>
+    <string name="nikename_error">请输入长度2-15个字的昵称</string>
+    <string name="password_error">请输入长度6-20个字的密码</string>
+    <string name="yanzhengma_hint">获取验证码</string>
+    <string name="yanzhengma_end">秒</string>
+    <string name="register_tital">注册</string>
+
+    <!-- 极验 -->
+    <string name="jiazaiing">加载中...</string>
+    <string name="error_judgemobile">手机号码验证失败，请重新验证！</string>
+    <string name="error_sendmessage">发送失败</string>
+    <string name="succes_sendmessage">发送成功</string>
+
+    <!-- LoginActivity -->
+    <string name="addpromiss">需开启权限后才能正常使用</string>
+    <string name="okpromiss">知道了</string>
+    <string name="setpromiss">去设置</string>
+    <string name="login_tital">登录</string>
+    <string name="login_name_hint">邮箱/手机/昵称</string>
+    <string name="login_pass_hint">请输入密码</string>
+    <string name="login_error">登陆失败，请重新登陆</string>
+
+    <!-- UMAuthListener -->
+    <string name="um_auth_error">授权失败，请重新尝试</string>
+    <string name="um_auth_cancel">授权取消</string>
+    <string name="um_login_error">第三方登陆失败，请重新登陆</string>
+    <string name="um_login_nikename_hased">昵称已存在，请修改昵称</string>
+    <string name="um_login_nikename_error">登陆失败，请重新登陆</string>
+    <string name="um_nikename_tital">新账号</string>
+
+    <!-- ResetPasswordActivity -->
+    <string name="reset_pass_tital">重置密码</string>
+    <string name="resetpwd_error">提交失败，请重新提交！</string>
+    <string name="resetpwd_succes">重置密码成功</string>
+    <!-- BundleMobileActivity -->
+    <string name="bundle_tital">手机号绑定</string>
+    <string name="bundle_error">绑定失败，请重新提交！</string>
+    <string name="bundle_succes">手机号码绑定成功</string>
+
+    <!-- HomeCenterFragment -->
+    <string name="frg_center_tital">我的</string>
+    <string name="frag_center_wodeanli">个人资料</string>
+    <string name="frag_center_set">系统设置</string>
+    <string name="userinfo_get_error">用户信息获取失败</string>
+    <string name="unreader_msg_get_error">未读消息数获取失败</string>
+    <!-- HomePicFragment -->
+    <string name="recommend_get_error">数据加载失败</string>
+    <string name="filter_get_error">筛选信息获取失败</string>
+    <!--  ShaiXuanResultActivity  -->
+    <string name="shaixuan_get_error">筛选信息获取失败</string>
+    <string name="color_get_error">筛选颜色信息获取失败</string>
+    <!-- SearchResultActivity -->
+    <string name="search_result_error">搜索失败</string>
+    <!-- FenSiListActivity -->
+    <string name="error_fensi">粉丝数据加载失败，请重新刷新加载</string>
+    <string name="fensi_tital">粉丝</string>
+    <string name="setactivity_tital">设置</string>
+    <string name="setactivity_baocun">保存</string>
+
+    <!-- MyInfoActivity -->
+    <string name="citydata_error">城市信息获取失败</string>
+    <string name="myinfoactivity_tital">个人资料</string>
+    <string name="putheader_error">头像上传失败</string>
+
+    <!-- ShouCangListActivity -->
+    <string name="error_shoucang">收藏数据加载失败，请重新刷新加载</string>
+    <string name="error_delete_shoucang">删除失败，请重新删除</string>
+    <string name="succes_delete_shoucang">删除成功</string>
+
+    <!-- ShaiJiaListActivity -->
+    <string name="error_shaijia">晒家数据加载失败，请重新刷新加载</string>
+    <string name="error_delete_shaijia">删除失败，请重新删除</string>
+    <string name="succes_delete_shaijia">删除成功</string>
+
+    <!-- SetActivity -->
+    <string name="clear_cath_toast">清除</string>
+    <string name="cancel">取消</string>
+    <string name="clear_cath_sure">清理</string>
+    <string name="no_cath">暂无缓冲</string>
+
+    <!-- SearchActivity -->
+    <string name="searchtag_get_error">用户信息获取失败</string>
+    <!-- MessagesListActivity -->
+    <string name="error_message">消息数据加载失败，请重新刷新加载</string>
+    <!-- FaBuActivity -->
+    <string name="activitylist_get_error">活动列表信息获取失败</string>
+    <string name="fabu_back_sure">确定</string>
+    <string name="fabu_back_cancle">取消</string>
+    <!-- FaBuTagsActivity -->
+    <string name="fabutags_get_error">标签获取失败</string>
+    <!-- HuoDongDetailsActivity -->
+
+    <string name="huodong_get_error">数据加载失败</string>
+    <string name="info_get_error">活动信息获取失败</string>
+    <string name="info_get_no">暂无更多数据</string>
+
+
+    <string name="color_end">&#160;&#038; 家图AI实验室</string>
+</resources>

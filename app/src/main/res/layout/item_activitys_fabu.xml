@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/font_18">
+
+        <CheckBox
+            android:id="@+id/cb_check_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:checked="false"
+            android:layout_marginLeft="@dimen/font_15"
+            android:button="@drawable/check_status" />
+
+        <TextView
+            android:id="@+id/tv_activity_tital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_5"
+            android:layout_toRightOf="@+id/cb_check_add"
+            android:textColor="@color/bg_e79056"
+            android:textSize="@dimen/size_14" />
+
+        <TextView
+            android:id="@+id/tv_activity_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_15"
+            android:layout_toRightOf="@+id/tv_activity_tital"
+            android:text="了解活动 >"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_12" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

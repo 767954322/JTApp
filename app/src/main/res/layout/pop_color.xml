@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_pop_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:id="@+id/rl_pop_center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@color/white"
+        android:gravity="center_horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rl_pop_color_top"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/font_44"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/iv_pop_color_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/font_15"
+                android:src="@drawable/scshaixuan" />
+
+            <TextView
+                android:id="@+id/tv_pop_color_tital"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/size_6"
+                android:layout_toRightOf="@+id/iv_pop_color_icon"
+                android:text="色彩筛选"
+                android:textColor="@color/bg_e79056"
+                android:textSize="@dimen/size_12" />
+
+            <TextView
+                android:id="@+id/tv_pop_color_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/size_6"
+                android:layout_toRightOf="@+id/tv_pop_color_tital"
+                android:text="(您最多可以选择三种色彩搭配)"
+                android:textColor="@color/bg_8f8f8f"
+                android:textSize="@dimen/size_12" />
+
+
+            <TextView
+                android:id="@+id/tv_makesure_color"
+                android:layout_width="@dimen/font_55"
+                android:layout_height="@dimen/font_25"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/font_10"
+                android:background="@drawable/tv_pop_color_sure"
+                android:gravity="center"
+                android:text="确认"
+                android:textColor="@color/bg_e79056"
+                android:textSize="@dimen/size_13" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/view_pop_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/font_1"
+            android:layout_below="@+id/rl_pop_color_top"
+            android:background="@color/view_line" />
+
+        <GridView
+            android:id="@+id/gv_color_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view_pop_line"
+            android:layout_marginBottom="@dimen/font_30"
+            android:layout_marginTop="@dimen/font_25"
+            android:verticalSpacing="@dimen/font_35"
+            android:numColumns="4" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_pop_top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/rl_pop_center" />
+
+    <View
+        android:id="@+id/view_pop_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_pop_center" />
+
+</RelativeLayout>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/common_navbar"
+        layout="@layout/view_navigation_header" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/common_navbar"
+        android:paddingLeft="@dimen/font_25"
+        android:paddingRight="@dimen/font_25">
+
+
+        <ImageView
+            android:id="@+id/iv_user_header"
+            android:layout_width="@dimen/font_85"
+            android:layout_height="@dimen/font_85"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/font_30"
+            android:src="@drawable/ic_default_head" />
+
+
+        <com.homechart.app.myview.ProEditText
+            android:id="@+id/et_login_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_user_header"
+            android:layout_marginTop="@dimen/font_40"
+            android:background="@null"
+            android:drawableRight="@drawable/ic_delete"
+            android:lines="1"
+            android:textColorHint="@color/case_text_tital_detail"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/font_14" />
+
+        <View
+            android:id="@+id/view_line_name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_0.5"
+            android:layout_below="@+id/et_login_name"
+            android:layout_marginTop="@dimen/size_13"
+            android:background="@color/bg_b2b2b2" />
+
+        <Button
+            android:id="@+id/btn_login_demand"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/font_40"
+            android:layout_below="@+id/view_line_name"
+            android:layout_marginTop="@dimen/font_40"
+            android:background="@drawable/bt_login"
+            android:text="登录"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_17"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/rl_jumpto_mast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_login_demand"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/font_20">
+
+            <TextView
+                android:id="@+id/tv_yonghuxieyi_tital"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="登录即同意"
+                android:textSize="@dimen/font_13" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/font_3"
+                android:layout_toRightOf="@+id/tv_yonghuxieyi_tital"
+                android:text="《用户使用协议》"
+                android:textColor="@color/bg_e79056"
+                android:textSize="@dimen/font_13" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

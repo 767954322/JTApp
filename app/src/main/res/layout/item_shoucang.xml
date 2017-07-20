@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_f7f7f7">
+
+    <ImageView
+        android:id="@+id/iv_shoucang_image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_130"
+        android:layout_marginRight="@dimen/font_4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/font_10" />
+
+    <CheckBox
+        android:id="@+id/cb_check"
+        style="@style/ShouCangRadioButtonStyles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/font_10"
+        android:layout_marginTop="@dimen/font_20"
+        android:visibility="gone"/>
+
+
+</RelativeLayout>

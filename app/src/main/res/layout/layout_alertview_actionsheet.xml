@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/loAlertHeader"
+        android:background="@drawable/bg_actionsheet_header"
+        android:layout_weight="1.0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvAlertTitle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_15" />
+
+        <TextView
+            android:id="@+id/tvAlertMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/marginBottom_actionsheet_msg"
+            android:gravity="center"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_14" />
+        <ListView
+            android:id="@+id/alertButtonListView"
+            android:layout_weight="1.0"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:listSelector="@drawable/bg_alertbutton_none"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@null"
+            android:scrollbars="none"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvAlertCancel"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/margin_actionsheet_left_right"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_48"
+        android:gravity="center"
+        android:clickable="true"
+        android:background="@drawable/bg_actionsheet_cancel"
+        android:textColor="@color/bg_007aff"
+        android:textStyle="bold"
+        android:textSize="@dimen/size_18" />
+</LinearLayout>

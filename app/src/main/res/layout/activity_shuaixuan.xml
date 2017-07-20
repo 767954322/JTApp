@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/shaixuan_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/common_navbar"
+        layout="@layout/view_navigation_header" />
+
+    <com.homechart.app.myview.FlowLayoutShaiXuan
+        android:id="@+id/his_flowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_below="@+id/common_navbar"
+        android:visibility="gone" />
+
+    <View
+        android:id="@+id/view_flowlayout"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/his_flowLayout"
+        android:background="@color/navbar_bottom_border_color"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/rl_pic_change"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_44"
+        android:layout_below="@+id/view_flowlayout"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_color_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_15"
+            android:src="@drawable/scshaixuan" />
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/riv_round_one"
+            android:layout_width="@dimen/font_18"
+            android:layout_height="@dimen/font_18"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_7"
+            android:layout_toRightOf="@+id/iv_color_icon"
+            android:background="@color/bank_bg01"
+            android:visibility="gone"/>
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/riv_round_two"
+            android:layout_width="@dimen/font_18"
+            android:layout_height="@dimen/font_18"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/riv_round_one"
+            android:background="@color/bank_bg01"
+            android:visibility="gone"/>
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/riv_round_three"
+            android:layout_width="@dimen/font_18"
+            android:layout_height="@dimen/font_18"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/riv_round_two"
+            android:background="@color/bank_bg01"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/iv_color_tital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_6"
+            android:layout_toRightOf="@+id/iv_color_icon"
+            android:text="色彩筛选"
+            android:textColor="@color/bg_e79056"
+            android:textSize="@dimen/size_12" />
+
+        <ImageView
+            android:id="@+id/iv_change_frag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="@dimen/font_5"
+            android:paddingLeft="@dimen/font_100"
+            android:paddingRight="@dimen/font_12"
+            android:paddingTop="@dimen/font_5"
+            android:src="@drawable/pubuliu" />
+    </RelativeLayout>
+
+
+    <com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView
+        android:id="@+id/rcy_recyclerview_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_pic_change"
+        android:background="@color/white"
+        app:loadMoreEnabled="true"
+        app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer"
+        app:refreshEnabled="true"
+        app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
+
+</RelativeLayout>

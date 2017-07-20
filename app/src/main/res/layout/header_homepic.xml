@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_pic_choose"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_90"
+        android:background="@color/bg_f7f7f7"
+        android:orientation="horizontal">
+
+
+        <RelativeLayout
+            android:id="@+id/rl_kongjian"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_weight="1">
+
+            <com.homechart.app.myview.RoundImageView
+                android:id="@+id/iv_kongjian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/kongjian1" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_jubu"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_weight="1">
+
+            <com.homechart.app.myview.RoundImageView
+                android:id="@+id/iv_jubu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/jubu1" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_zhuangshi"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_weight="1">
+
+            <com.homechart.app.myview.RoundImageView
+                android:id="@+id/iv_zhuangshi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/zhuangshi1" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_shouna"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_weight="1">
+
+            <com.homechart.app.myview.RoundImageView
+                android:id="@+id/iv_shouna"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/shouna1" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_pic_change"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_44"
+        android:layout_below="@+id/ll_pic_choose"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_change_frag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="@dimen/font_100"
+            android:paddingRight="@dimen/font_12"
+            android:paddingTop="@dimen/font_5"
+            android:paddingBottom="@dimen/font_5"
+            android:src="@drawable/pubuliu" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

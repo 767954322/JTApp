@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <include
+        android:id="@+id/common_navbar"
+        layout="@layout/view_navigation_header" />
+
+
+    <com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView
+        android:id="@+id/rcy_recyclerview_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/common_navbar"
+        app:loadMoreEnabled="true"
+        app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer_huodong"
+        app:refreshEnabled="false"
+        app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
+    
+    <TextView
+        android:id="@+id/tv_add_activity"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_40"
+        android:textSize="@dimen/font_14"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/font_10"
+        android:layout_marginLeft="@dimen/font_15"
+        android:layout_marginRight="@dimen/font_15"
+        android:background="@drawable/bt_add_activity"
+        android:text="我要参与"/>
+
+</RelativeLayout>

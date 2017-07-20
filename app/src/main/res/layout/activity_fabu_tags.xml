@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <include
+        android:id="@+id/common_navbar"
+        layout="@layout/view_navigation_header" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/common_navbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_kongjian_tital"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/font_15"
+                android:layout_marginTop="@dimen/font_20"
+                android:text="空间"
+                android:textColor="@color/bg_262626"
+                android:textSize="@dimen/size_12" />
+
+            <com.homechart.app.myview.FlowLayoutFaBuTags
+                android:id="@+id/fl_tags_kongjian"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_kongjian_tital"
+                android:background="@color/white"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_jubu_tital"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fl_tags_kongjian"
+                android:layout_marginLeft="@dimen/font_15"
+                android:text="局部"
+                android:textColor="@color/bg_262626"
+                android:textSize="@dimen/size_12" />
+
+            <com.homechart.app.myview.FlowLayoutFaBuTags
+                android:id="@+id/fl_tags_jubu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_jubu_tital"
+                android:background="@color/white"
+                android:visibility="visible" />
+
+
+            <TextView
+                android:id="@+id/tv_shouna_tital"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fl_tags_jubu"
+                android:layout_marginLeft="@dimen/font_15"
+                android:text="收纳"
+                android:textColor="@color/bg_262626"
+                android:textSize="@dimen/size_12" />
+
+            <com.homechart.app.myview.FlowLayoutFaBuTags
+                android:id="@+id/fl_tags_shouna"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_shouna_tital"
+                android:background="@color/white"
+                android:visibility="visible" />
+
+
+            <TextView
+                android:id="@+id/tv_zhuangshi_tital"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fl_tags_shouna"
+                android:layout_marginLeft="@dimen/font_15"
+                android:text="装饰"
+                android:textColor="@color/bg_262626"
+                android:textSize="@dimen/size_12" />
+
+            <com.homechart.app.myview.FlowLayoutFaBuTags
+                android:id="@+id/fl_tags_zhuangshi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_zhuangshi_tital"
+                android:background="@color/white"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_zidingyi_tital"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fl_tags_zhuangshi"
+                android:layout_marginLeft="@dimen/font_15"
+                android:layout_marginTop="@dimen/font_10"
+                android:text="自定义标签"
+                android:layout_marginBottom="@dimen/font_15"
+                android:textColor="@color/bg_262626"
+                android:textSize="@dimen/size_14" />
+
+            <com.homechart.app.myview.FlowLayoutFaBuTagsDing
+                android:id="@+id/fl_tags_zidingyi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_zidingyi_tital"
+                android:background="@color/white"
+                android:visibility="visible" />
+
+
+            <EditText
+                android:id="@+id/et_tag_text"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/font_40"
+                android:layout_below="@+id/fl_tags_zidingyi"
+                android:layout_marginLeft="@dimen/font_15"
+                android:layout_marginRight="@dimen/font_15"
+                android:background="@drawable/et_add_tag"
+                android:hint="没有合适的标签？您可以输入自定义标签"
+                android:imeOptions="actionSend"
+                android:inputType="text"
+                android:paddingLeft="@dimen/font_5"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:maxLength="6"
+                android:textColor="@color/bg_8f8f8f"
+                android:textSize="@dimen/size_14" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/font_50"
+                android:layout_below="@+id/et_tag_text"
+                android:background="@color/white"/>
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <ImageView
+        android:id="@+id/iv_huodong_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/font_15"
+        android:layout_marginRight="@dimen/font_15"
+        android:layout_marginTop="@dimen/font_15" />
+
+
+    <TextView
+        android:id="@+id/tv_tital_huodong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_huodong_image"
+        android:layout_marginLeft="@dimen/font_15"
+        android:layout_marginTop="@dimen/font_20"
+        android:includeFontPadding="false"
+        android:textColor="@color/bg_262626"
+        android:textSize="@dimen/size_18" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_data_last"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_tital_huodong"
+        android:layout_marginTop="@dimen/font_15">
+
+        <ImageView
+            android:id="@+id/iv_data_last_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_15"
+            android:src="@drawable/shijian" />
+
+        <TextView
+            android:id="@+id/tv_data_last"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_3"
+            android:layout_toRightOf="@+id/iv_data_last_icon"
+            android:textColor="@color/bg_e79056"
+            android:textSize="@dimen/size_12" />
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tv_huodong_miaoshu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_data_last"
+        android:layout_marginLeft="@dimen/font_15"
+        android:layout_marginRight="@dimen/font_15"
+        android:layout_marginTop="@dimen/font_15"
+        android:includeFontPadding="false"
+        android:lineSpacingExtra="@dimen/font_9"
+        android:textColor="@color/bg_707070"
+        android:textSize="@dimen/size_12" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_center_perple"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tv_huodong_miaoshu"
+        android:layout_marginTop="22dp">
+
+        <RelativeLayout
+            android:id="@+id/rl_people_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/font_15">
+
+
+            <RelativeLayout
+                android:id="@+id/rl_five"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="-6dp"
+                android:layout_toRightOf="@+id/rl_four"
+                android:gravity="center">
+
+                <com.homechart.app.myview.RoundImageView
+                    android:layout_width="@dimen/font_25"
+                    android:layout_height="@dimen/font_25"
+                    android:background="@drawable/red" />
+
+                <com.homechart.app.myview.RoundImageView
+                    android:id="@+id/riv_five"
+                    android:layout_width="@dimen/font_23"
+                    android:layout_height="@dimen/font_23"
+                    android:layout_centerInParent="true" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_four"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="-6dp"
+                android:layout_toRightOf="@+id/rl_three">
+
+                <com.homechart.app.myview.RoundImageView
+                    android:layout_width="@dimen/font_25"
+                    android:layout_height="@dimen/font_25"
+                    android:background="@drawable/red" />
+
+                <com.homechart.app.myview.RoundImageView
+                    android:id="@+id/riv_four"
+                    android:layout_width="@dimen/font_23"
+                    android:layout_height="@dimen/font_23"
+                    android:layout_centerInParent="true" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="-6dp"
+                android:layout_toRightOf="@+id/rl_two">
+
+                <com.homechart.app.myview.RoundImageView
+                    android:layout_width="@dimen/font_25"
+                    android:layout_height="@dimen/font_25"
+                    android:background="@drawable/red" />
+
+                <com.homechart.app.myview.RoundImageView
+                    android:id="@+id/riv_three"
+                    android:layout_width="@dimen/font_23"
+                    android:layout_height="@dimen/font_23"
+                    android:layout_centerInParent="true" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="-6dp"
+                android:layout_toRightOf="@+id/rl_one">
+
+                <com.homechart.app.myview.RoundImageView
+                    android:layout_width="@dimen/font_25"
+                    android:layout_height="@dimen/font_25"
+                    android:background="@drawable/red" />
+
+                <com.homechart.app.myview.RoundImageView
+                    android:id="@+id/riv_two"
+                    android:layout_width="@dimen/font_23"
+                    android:layout_height="@dimen/font_23"
+                    android:layout_centerInParent="true" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true">
+
+                <com.homechart.app.myview.RoundImageView
+                    android:layout_width="@dimen/font_25"
+                    android:layout_height="@dimen/font_25"
+                    android:background="@drawable/red" />
+
+                <com.homechart.app.myview.RoundImageView
+                    android:id="@+id/riv_one"
+                    android:layout_width="@dimen/font_23"
+                    android:layout_height="@dimen/font_23"
+                    android:layout_centerInParent="true" />
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/view_num_perple"
+                android:layout_width="@dimen/font_1"
+                android:layout_height="@dimen/font_12"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/font_10"
+                android:layout_marginRight="@dimen/font_10"
+                android:layout_toRightOf="@+id/rl_five"
+                android:background="@color/bg_8f8f8f" />
+
+            <TextView
+                android:id="@+id/tv_show_num_people"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/view_num_perple"
+                android:text="0人参与晒图"
+                android:textColor="@color/bg_8f8f8f"
+                android:textSize="@dimen/size_12" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_no_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/font_15"
+            android:text="等你来参与"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_12"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+
+    <View
+        android:id="@+id/view_up_hot_new"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/rl_center_perple"
+        android:layout_marginTop="@dimen/font_30"
+        android:background="@color/view_line" />
+
+    <RelativeLayout
+        android:id="@+id/rly_slidingtablayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_49"
+        android:layout_below="@+id/view_up_hot_new">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tl_tab"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/font_49"
+            app:tabTextColor="@color/bg_8f8f8f"
+            app:tabSelectedTextColor="@color/bg_262626"
+            app:tabTextAppearance="@style/TabLayOutTextSize"
+            android:background="@color/white" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_bellow_hot_new"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_10"
+        android:layout_below="@+id/rly_slidingtablayout"
+        android:background="@color/bg_f2f2f2" />
+</RelativeLayout>

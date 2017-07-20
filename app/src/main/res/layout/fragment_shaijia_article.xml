@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView
+        android:id="@+id/rcy_recyclerview_shoucang"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_f7f7f7"
+        android:layout_above="@+id/rl_below"
+        app:loadMoreEnabled="true"
+        app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer"
+        app:refreshEnabled="true"
+        app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
+
+    <RelativeLayout
+        android:id="@+id/rl_below"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_44"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_shoucang_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_15"
+            android:text="已选择"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_14" />
+
+        <TextView
+            android:id="@+id/tv_shoucang_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_2"
+            android:layout_toRightOf="@+id/tv_shoucang_one"
+            android:text="0"
+            android:textColor="@color/case_text_tital_name"
+            android:textSize="@dimen/size_18" />
+
+        <TextView
+            android:id="@+id/tv_shoucang_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_2"
+            android:layout_toRightOf="@+id/tv_shoucang_two"
+            android:text="篇文章"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_14" />
+
+        <ImageView
+            android:id="@+id/iv_delete_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="@dimen/font_15"
+            android:paddingLeft="@dimen/font_15"
+            android:src="@drawable/litter" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_no_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/empty" />
+
+        <TextView
+            android:id="@+id/tv_none"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_empty"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/font_20"
+            android:text="去发布一张晒家图片分享给朋友吧！"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/font_14" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

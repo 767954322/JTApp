@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/rl_color_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/iv_color_pic_line"
+            android:layout_width="@dimen/font_55"
+            android:layout_height="@dimen/font_55"
+            android:layout_centerInParent="true"
+            android:background="@drawable/color_line"
+            android:visibility="invisible" />
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/iv_color_pic"
+            android:layout_width="@dimen/font_50"
+            android:layout_height="@dimen/font_50"
+            android:layout_centerInParent="true"
+            android:background="@color/bank_bg02" />
+
+        <ImageView
+            android:id="@+id/iv_color_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/xuancaise"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/iv_color_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_color_pic"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/font_10"
+        android:text="黑色" />
+
+</RelativeLayout>

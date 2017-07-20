@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rl_tab_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <GridView
+            android:id="@+id/gv_pager_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:numColumns="3"
+            android:paddingBottom="@dimen/font_20"
+            android:paddingLeft="@dimen/font_20"
+            android:paddingRight="@dimen/font_20" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_tab_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_tab_top" />
+
+</RelativeLayout>

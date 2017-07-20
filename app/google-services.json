@@ -1,0 +1,43 @@
+{
+  "project_info": {
+    "project_number": "599901422181",
+    "project_id": "android-idcool"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599901422181:android:dc00fa86f4ee14d4",
+        "android_client_info": {
+          "package_name": "com.homechart.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599901422181-1nee8tv8usk1kd395irqnbv5tm4aaoov.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiICO_L7NSG4C1HL2TwEhh7QKkSElmun4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-59620051-11"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

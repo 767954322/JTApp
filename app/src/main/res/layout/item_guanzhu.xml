@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/font_90">
+
+    <com.homechart.app.myview.RoundImageView
+        android:id="@+id/iv_fensi_header"
+        android:layout_width="@dimen/font_60"
+        android:layout_height="@dimen/font_60"
+        android:layout_marginLeft="@dimen/font_15"
+        android:layout_marginTop="@dimen/font_15"
+        android:src="@drawable/bt_login" />
+
+    <RelativeLayout
+        android:id="@+id/rl_fensi_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/font_10"
+        android:layout_marginTop="@dimen/font_25"
+        android:layout_toRightOf="@+id/iv_fensi_header">
+
+        <TextView
+            android:id="@+id/tv_fensi_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="dfsdfs"
+            android:textColor="@color/bg_262626"
+            android:textSize="@dimen/size_15"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/iv_fensi_zhuanye"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/font_10"
+            android:layout_toRightOf="@+id/tv_fensi_name"
+            android:src="@drawable/fensi"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tv_guanzu_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_fensi_name"
+        android:layout_marginLeft="@dimen/font_10"
+        android:layout_marginTop="@dimen/font_12"
+        android:layout_toRightOf="@+id/iv_fensi_header"
+        android:text=""
+        android:textColor="@color/case_text_tital_detail"
+        android:textSize="@dimen/size_12" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/tv_guanzu_detail"
+        android:layout_marginTop="@dimen/font_27"
+        android:background="@color/view_line"/>
+
+</RelativeLayout>

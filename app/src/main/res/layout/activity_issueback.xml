@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/common_navbar"
+        layout="@layout/view_navigation_header" />
+
+    <EditText
+        android:id="@+id/rt_content_issue"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_below="@+id/common_navbar"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bg_edittext"
+        android:gravity="top"
+        android:maxLength="500"
+        android:imeOptions="actionSearch"
+        android:hint="您遇到的问题或建议..."
+        android:paddingLeft="@dimen/font_15"
+        android:paddingRight="@dimen/font_15"
+        android:paddingTop="@dimen/font_15"
+        android:textColor="@color/case_text_tital_detail"
+        android:textColorHint="@color/case_text_tital_detail"
+        android:textCursorDrawable="@null"
+        android:textSize="@dimen/size_14" />
+
+    <RelativeLayout
+        android:id="@+id/rl_shengxia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_below="@+id/rt_content_issue">
+
+        <TextView
+            android:id="@+id/tv_last_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="字"
+            android:textSize="@dimen/size_12"
+            android:textColor="@color/bg_8f8f8f"
+            android:layout_alignParentRight="true"/>
+
+        <TextView
+            android:id="@+id/tv_last_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="500"
+            android:textSize="@dimen/size_12"
+            android:layout_toLeftOf="@+id/tv_last_end"
+            android:textColor="@color/bg_e79056"/>
+
+        <TextView
+            android:id="@+id/tv_last_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="剩余"
+            android:textSize="@dimen/size_12"
+            android:layout_toLeftOf="@+id/tv_last_num"
+            android:textColor="@color/bg_8f8f8f"/>
+    </RelativeLayout>
+
+    <GridView
+        android:id="@+id/gv_addissue_image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_75"
+        android:layout_below="@+id/rl_shengxia"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:numColumns="4" />
+
+    <TextView
+        android:id="@+id/tv_phone_tital"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gv_addissue_image"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="25dp"
+        android:textSize="@dimen/size_14"
+        android:textColor="@color/bg_464646"
+        android:text="如需反馈，请留下您的联系方式（选填）" />
+
+    <EditText
+        android:id="@+id/rt_phone_issue"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/tv_phone_tital"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bg_edittext"
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:inputType="numberSigned"
+        android:imeOptions="actionSearch"
+        android:paddingLeft="@dimen/font_15"
+        android:paddingRight="@dimen/font_15"
+        android:textColor="@color/case_text_tital_detail"
+        android:textColorHint="@color/case_text_tital_detail"
+        android:textCursorDrawable="@null"
+        android:textSize="@dimen/size_14" />
+
+    <Button
+        android:id="@+id/btn_send_issue"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_40"
+        android:layout_below="@+id/rt_phone_issue"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="@dimen/font_45"
+        android:background="@drawable/bt_issue"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_17"
+        android:textStyle="bold" />
+</RelativeLayout>

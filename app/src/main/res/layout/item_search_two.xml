@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_imageview_search_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/font_10"
+        android:layout_marginRight="@dimen/font_10" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_imageview_search_one"
+        android:layout_marginBottom="@dimen/font_15"
+        android:layout_marginTop="@dimen/font_10">
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/iv_header_search"
+            android:layout_width="@dimen/font_25"
+            android:layout_height="@dimen/font_25"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_10" />
+
+        <TextView
+            android:id="@+id/tv_nikename_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_5"
+            android:layout_toRightOf="@+id/iv_header_search"
+            android:text="小明" />
+
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/iv_color_right"
+            android:layout_width="@dimen/font_10"
+            android:layout_height="@dimen/font_10"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_10"/>
+
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/iv_color_center"
+            android:layout_width="@dimen/font_10"
+            android:layout_height="@dimen/font_10"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_color_right" />
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/iv_color_left"
+            android:layout_width="@dimen/font_10"
+            android:layout_height="@dimen/font_10"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_color_center" />
+    </RelativeLayout>
+
+</RelativeLayout>

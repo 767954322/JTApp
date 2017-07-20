@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/font_21">
+
+        <View
+            android:id="@+id/view_color"
+            android:layout_width="@dimen/font_12"
+            android:layout_height="@dimen/font_12"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_10"
+            android:background="@color/red" />
+
+        <TextView
+            android:id="@+id/tv_color_item_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_8"
+            android:layout_toRightOf="@+id/view_color"
+            android:text="#FF7920"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_11" />
+
+        <TextView
+            android:id="@+id/tv_color_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_8"
+            android:layout_toRightOf="@+id/tv_color_item_value"
+            android:text="灰色火速到"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_11" />
+
+        <TextView
+            android:id="@+id/tv_color_per"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_8"
+            android:layout_toRightOf="@+id/tv_color_name"
+            android:text="54%"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_11" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
