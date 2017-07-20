@@ -10,94 +10,129 @@
         android:id="@+id/common_navbar"
         layout="@layout/view_navigation_header" />
 
-    <com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView
-        android:id="@+id/rcy_recyclerview_shoucang"
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/tly_slidingtablayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="@dimen/font_10"
-        android:paddingRight="@dimen/font_10"
-        android:background="@color/bg_f7f7f7"
+        android:layout_height="48dp"
+        android:background="#ffffff"
+        app:tl_divider_color="@color/white"
+        app:tl_divider_padding="13dp"
+        app:tl_divider_width="1dp"
+        app:tl_indicator_color="@color/bg_e79056"
+        app:tl_indicator_height="1.5dp"
         android:layout_below="@+id/common_navbar"
-        android:layout_above="@+id/rl_below"
-        app:loadMoreEnabled="true"
-        app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer"
-        app:refreshEnabled="true"
-        app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
+        app:tl_indicator_width_equal_title="true"
+        app:tl_tab_padding="22dp"
+        app:tl_tab_space_equal="true"
+        app:tl_textSelectColor="@color/black"
+        app:tl_textUnselectColor="@color/bg_8f8f8f"
+        app:tl_textBold="BOTH"
+        app:tl_underline_color="#1A000000"
+        app:tl_underline_height="0dp" />
+
 
     <RelativeLayout
-        android:id="@+id/rl_below"
+        android:id="@+id/rl_search_tital"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/font_44"
-        android:background="@color/white"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone">
+        android:layout_height="@dimen/font_10"
+        android:layout_below="@+id/tly_slidingtablayout"
+        android:background="@color/bg_eeeeee"/>
 
-        <TextView
-            android:id="@+id/tv_shoucang_one"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/font_15"
-            android:text="已选择"
-            android:textColor="@color/bg_8f8f8f"
-            android:textSize="@dimen/size_14" />
 
-        <TextView
-            android:id="@+id/tv_shoucang_two"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/font_2"
-            android:layout_toRightOf="@+id/tv_shoucang_one"
-            android:text="0"
-            android:textColor="@color/case_text_tital_name"
-            android:textSize="@dimen/size_18" />
+    <com.flyco.tablayout.CustomViewPagerTab
+        android:id="@+id/vp_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_search_tital" />
 
-        <TextView
-            android:id="@+id/tv_shoucang_three"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/font_2"
-            android:layout_toRightOf="@+id/tv_shoucang_two"
-            android:text="张图片"
-            android:textColor="@color/bg_8f8f8f"
-            android:textSize="@dimen/size_14" />
+    <!--<com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView-->
+    <!--android:id="@+id/rcy_recyclerview_shoucang"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:paddingLeft="@dimen/font_10"-->
+    <!--android:paddingRight="@dimen/font_10"-->
+    <!--android:background="@color/bg_f7f7f7"-->
+    <!--android:layout_below="@+id/common_navbar"-->
+    <!--android:layout_above="@+id/rl_below"-->
+    <!--app:loadMoreEnabled="true"-->
+    <!--app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer"-->
+    <!--app:refreshEnabled="true"-->
+    <!--app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />-->
 
-        <ImageView
-            android:id="@+id/iv_delete_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:paddingRight="@dimen/font_15"
-            android:paddingLeft="@dimen/font_15"
-            android:src="@drawable/litter" />
-    </RelativeLayout> <RelativeLayout
-    android:id="@+id/rl_no_data"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:visibility="gone">
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/rl_below"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/font_44"-->
+    <!--android:background="@color/white"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:visibility="gone">-->
 
-    <ImageView
-        android:id="@+id/iv_empty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@drawable/empty" />
+    <!--<TextView-->
+    <!--android:id="@+id/tv_shoucang_one"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_marginLeft="@dimen/font_15"-->
+    <!--android:text="已选择"-->
+    <!--android:textColor="@color/bg_8f8f8f"-->
+    <!--android:textSize="@dimen/size_14" />-->
 
-    <TextView
-        android:id="@+id/tv_none"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/iv_empty"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/font_20"
-        android:text="快去收藏你喜欢的图片呀！"
-        android:textColor="@color/bg_8f8f8f"
-        android:textSize="@dimen/font_14" />
+    <!--<TextView-->
+    <!--android:id="@+id/tv_shoucang_two"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_marginLeft="@dimen/font_2"-->
+    <!--android:layout_toRightOf="@+id/tv_shoucang_one"-->
+    <!--android:text="0"-->
+    <!--android:textColor="@color/case_text_tital_name"-->
+    <!--android:textSize="@dimen/size_18" />-->
 
-</RelativeLayout>
+    <!--<TextView-->
+    <!--android:id="@+id/tv_shoucang_three"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_marginLeft="@dimen/font_2"-->
+    <!--android:layout_toRightOf="@+id/tv_shoucang_two"-->
+    <!--android:text="张图片"-->
+    <!--android:textColor="@color/bg_8f8f8f"-->
+    <!--android:textSize="@dimen/size_14" />-->
 
+    <!--<ImageView-->
+    <!--android:id="@+id/iv_delete_icon"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:paddingRight="@dimen/font_15"-->
+    <!--android:paddingLeft="@dimen/font_15"-->
+    <!--android:src="@drawable/litter" />-->
+    <!--</RelativeLayout>-->
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/rl_no_data"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:visibility="gone">-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/iv_empty"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:src="@drawable/empty" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tv_none"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/iv_empty"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_marginTop="@dimen/font_20"-->
+    <!--android:text="去发布一张晒家图片分享给朋友吧！"-->
+    <!--android:textColor="@color/bg_8f8f8f"-->
+    <!--android:textSize="@dimen/font_14" />-->
+
+    <!--</RelativeLayout>-->
 </RelativeLayout>

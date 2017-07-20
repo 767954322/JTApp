@@ -182,7 +182,7 @@ public class ShaiJiaListActivity extends BaseActivity
                     }
                 } else if (mViewPager.getCurrentItem() == 1) {
                     if (ifAllowScroll) {
-                        if (shaiJiaPicFragment.ifHasData()) {
+                        if (shaiJiaArticleFragment.ifHasData()) {
                             mViewPager.setScanScroll(false);
                             mTabLayout.setCanScrool(false);
                             ifAllowScroll = false;
