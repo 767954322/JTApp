@@ -28,6 +28,7 @@ import com.homechart.app.home.fragment.HomeCenterFragment;
 import com.homechart.app.home.fragment.HomePicFragment;
 import com.homechart.app.myview.SelectPicPopupWindow;
 import com.homechart.app.utils.ToastUtils;
+import com.homechart.app.utils.UIUtils;
 import com.jaeger.library.StatusBarUtil;
 import com.umeng.analytics.MobclickAgent;
 
@@ -78,7 +79,6 @@ public class HomeActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
         if (findViewById(R.id.main_content) != null) {
 
             if (null == mHomePicFragment) {

@@ -19,6 +19,7 @@ import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.widget.SwipeViewPager;
+import com.jaeger.library.StatusBarUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -53,6 +54,7 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     protected void initData(Bundle savedInstanceState) {
+        StatusBarUtil.setTranslucentForImageView(this, 0, null);
         if (getNextActivityToLaunch()) {
             //跳转到广告页
             Intent intent = new Intent(this, AdvertisementActivity.class);

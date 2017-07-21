@@ -6,7 +6,9 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import com.homechart.app.R;
 import com.homechart.app.commont.ActivityManager;
+import com.homechart.app.utils.UIUtils;
 import com.jaeger.library.StatusBarUtil;
 
 
@@ -19,11 +21,13 @@ public abstract class BaseActivity extends FragmentActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(getLayoutResId());
         ActivityManager.getInstance().addActivity(this);
+        StatusBarUtil.setColor(this, UIUtils.getColor(R.color.bg_eeeeee));
         initExtraBundle();
         initView();
         initData(savedInstanceState);
         initListener();
-//        StatusBarUtil.setTranslucentForImageView(this, 50, null);
+//        StatusBarUtil.setTranslucentForImageView(this, 0, null);
+
     }
     /**
      * 获取布局的Id

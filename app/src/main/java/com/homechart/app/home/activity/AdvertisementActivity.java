@@ -24,6 +24,7 @@ import com.homechart.app.commont.KeyConstans;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.utils.ToastUtils;
+import com.jaeger.library.StatusBarUtil;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -85,6 +86,7 @@ public class AdvertisementActivity extends BaseActivity implements View.OnClickL
 //        settings.setJavaScriptEnabled(true);
 //        wv_webView.addJavascriptInterface(new AndroidJs(AdvertisementActivity.this), "AndroidJs");
 //        wv_webView.loadUrl(KeyConstans.ADVERTISEMENT_WEB);
+//        StatusBarUtil.setTranslucentForImageView(this, 0, null);
         handler.postDelayed(runnable, 1500);
     }
 

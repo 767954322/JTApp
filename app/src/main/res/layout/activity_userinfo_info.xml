@@ -16,11 +16,17 @@
         app:refreshEnabled="false"
         app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
 
+    <View
+        android:id="@+id/view_tiop"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
     <RelativeLayout
         android:id="@+id/common_navbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white1"
+        android:layout_below="@+id/view_tiop"
         android:gravity="center_vertical">
 
         <RelativeLayout

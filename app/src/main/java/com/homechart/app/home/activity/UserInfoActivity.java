@@ -1,5 +1,6 @@
 package com.homechart.app.home.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,11 +35,13 @@ import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
+import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.jaeger.library.StatusBarUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
@@ -84,6 +87,7 @@ public class UserInfoActivity
     private View headerView;
     private boolean first = true;
     private TextView tv_info_pic_tital;
+    private View view_tiop;
 
     @Override
     protected int getLayoutResId() {
@@ -97,6 +101,7 @@ public class UserInfoActivity
         mIBBack = (ImageButton) findViewById(R.id.nav_left_imageButton);
         mTVTital = (TextView) findViewById(R.id.tv_tital_comment);
         mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview_info);
+        view_tiop = (View) findViewById(R.id.view_tiop);
 
         tv_userinfo_nikename = (TextView) headerView.findViewById(R.id.tv_userinfo_nikename);
         tv_info_pic_tital = (TextView) headerView.findViewById(R.id.tv_info_pic_tital);
@@ -130,9 +135,27 @@ public class UserInfoActivity
         rl_info_shaijia.setOnClickListener(this);
         rl_info_fensi.setOnClickListener(this);
     }
-
+    /**
+     * 获取状态栏高度
+     * ！！这个方法来自StatusBarUtil,因为作者将之设为private，所以直接copy出来
+     *
+     * @param context context
+     * @return 状态栏高度
+     */
+    private int getStatusBarHeight(Context context) {
+        // 获得状态栏高度
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        return context.getResources().getDimensionPixelSize(resourceId);
+    }
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+        StatusBarUtil.setTranslucentForImageView(this, 0, null);
+        int statusBarHeight = getStatusBarHeight(this);
+        ViewGroup.LayoutParams layoutParams = view_tiop.getLayoutParams();
+        layoutParams.width = PublicUtils.getScreenWidth(this);
+        layoutParams.height = statusBarHeight;
+        view_tiop.setLayoutParams(layoutParams);
 
         mTVTital.setText("");
         width_Pic = PublicUtils.getScreenWidth(UserInfoActivity.this) / 2 - UIUtils.getDimens(R.dimen.font_14);
