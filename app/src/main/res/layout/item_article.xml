@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_item_click"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/font_100">
+    android:layout_height="@dimen/font_110">
 
 
     <CheckBox
@@ -18,7 +18,7 @@
         android:id="@+id/iv_article_image"
         android:layout_width="@dimen/font_105"
         android:layout_height="@dimen/font_80"
-        android:layout_marginTop="@dimen/font_10"
+        android:layout_marginTop="@dimen/font_15"
         android:layout_marginLeft="@dimen/font_15"
         android:layout_toRightOf="@+id/cb_check"
         android:scaleType="centerCrop" />
@@ -40,7 +40,23 @@
         android:layout_toRightOf="@+id/iv_article_image"
         android:ellipsize="end"
         android:lineSpacingExtra="@dimen/font_3"
-        android:maxLines="2"
+        android:maxLines="1"
+        android:text="dsdsds"
+        android:textColor="@color/bg_262626"
+        android:textSize="@dimen/font_14" />
+
+    <TextView
+        android:id="@+id/tv_article_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/font_15"
+        android:layout_marginRight="@dimen/font_15"
+        android:layout_marginTop="@dimen/font_10"
+        android:layout_below="@+id/tv_article_name"
+        android:layout_toRightOf="@+id/iv_article_image"
+        android:ellipsize="end"
+        android:lineSpacingExtra="@dimen/font_3"
+        android:maxLines="1"
         android:text="dsdsds"
         android:textColor="@color/bg_262626"
         android:textSize="@dimen/font_14" />

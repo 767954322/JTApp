@@ -23,7 +23,23 @@
         android:layout_toRightOf="@+id/iv_article_image"
         android:ellipsize="end"
         android:lineSpacingExtra="@dimen/font_3"
-        android:maxLines="2"
+        android:maxLines="1"
+        android:textColor="@color/bg_262626"
+        android:textSize="@dimen/font_14" />
+
+    <TextView
+        android:id="@+id/tv_article_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/font_15"
+        android:layout_marginRight="@dimen/font_15"
+        android:layout_marginTop="@dimen/font_10"
+        android:layout_below="@+id/tv_article_name"
+        android:layout_toRightOf="@+id/iv_article_image"
+        android:ellipsize="end"
+        android:lineSpacingExtra="@dimen/font_3"
+        android:maxLines="1"
+        android:text="dsdsds"
         android:textColor="@color/bg_262626"
         android:textSize="@dimen/font_14" />
 
