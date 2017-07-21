@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.homechart.app.commont.ActivityManager;
+import com.jaeger.library.StatusBarUtil;
 
 
 public abstract class BaseActivity extends FragmentActivity {
@@ -22,7 +23,7 @@ public abstract class BaseActivity extends FragmentActivity {
         initView();
         initData(savedInstanceState);
         initListener();
-
+//        StatusBarUtil.setTranslucentForImageView(this, 50, null);
     }
     /**
      * 获取布局的Id

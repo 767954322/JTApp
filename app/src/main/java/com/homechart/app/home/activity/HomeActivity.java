@@ -28,6 +28,7 @@ import com.homechart.app.home.fragment.HomeCenterFragment;
 import com.homechart.app.home.fragment.HomePicFragment;
 import com.homechart.app.myview.SelectPicPopupWindow;
 import com.homechart.app.utils.ToastUtils;
+import com.jaeger.library.StatusBarUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
@@ -89,6 +90,7 @@ public class HomeActivity
         mRadioGroup.check(R.id.radio_btn_pic);
         mRadioGroup.setAlpha(0.96f);
         menuWindow = new SelectPicPopupWindow(HomeActivity.this, HomeActivity.this);
+
     }
 
     @Override
