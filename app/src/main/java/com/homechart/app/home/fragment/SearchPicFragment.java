@@ -99,7 +99,8 @@ public class SearchPicFragment
     private String search_info;
     private String search_tag;
     private int position;
-
+    public SearchPicFragment() {
+    }
     public SearchPicFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }

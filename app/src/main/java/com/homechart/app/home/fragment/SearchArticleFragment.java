@@ -67,6 +67,8 @@ public class SearchArticleFragment
     private String search_tag;
     private int position;
 
+    public SearchArticleFragment() {
+    }
     public SearchArticleFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }

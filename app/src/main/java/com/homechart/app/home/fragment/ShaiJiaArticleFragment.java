@@ -83,7 +83,8 @@ public class ShaiJiaArticleFragment
     private int guanli_tag = 0;//0:未打开管理   1:打开管理
     private int num_checked = 0; //选择的个数
     private LoadMoreFooterView mLoadMoreFooterView;
-
+    public ShaiJiaArticleFragment() {
+    }
     public ShaiJiaArticleFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
