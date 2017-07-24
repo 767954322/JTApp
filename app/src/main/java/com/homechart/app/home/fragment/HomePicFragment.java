@@ -829,7 +829,13 @@ public class HomePicFragment
 
         if (item_list.size() > 0) {
             for (int i = 0; i < item_list.size(); i++) {
-                mLListDataHeight.add(Math.round(width_Pic_List / 1.333333f));
+
+                if(item_list.get(i).getObject_info().getType().equals("活动")){
+                    mLListDataHeight.add(Math.round(width_Pic_List / 1.333333f));
+                }else {
+                    mLListDataHeight.add(Math.round(width_Pic_List / 1.54347826086957f));
+                }
+//                mLListDataHeight.add(Math.round(width_Pic_List / 1.333333f));
                 mSListDataHeight.add(Math.round(width_Pic_Staggered / item_list.get(i).getObject_info().getImage().getRatio()));
             }
         }
