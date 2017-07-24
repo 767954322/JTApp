@@ -675,8 +675,8 @@ public class UserInfoActivity
             mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
             mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
         } else {
-//            mAdapter.notifyData(mListData);
-            mAdapter.notifyItem(position, mListData, item_list);
+            mAdapter.notifyData(mListData);
+//            mAdapter.notifyItem(position, mListData, item_list);
             mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
             if (item_list == null || item_list.size() == 0) {
                 mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
@@ -691,7 +691,8 @@ public class UserInfoActivity
         if (null != listData) {
             position = mListDataArticle.size();
             mListDataArticle.addAll(listData);
-            mAdapterArticle.notifyItem(position, mListDataArticle, listData);
+            mAdapterArticle.notifyData(mListDataArticle);
+//            mAdapterArticle.notifyItem(position, mListDataArticle, listData);
             mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
         } else {
             --page_num;
