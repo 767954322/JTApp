@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.TabLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -23,11 +27,14 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.home.bean.searchartile.ArticleBean;
+import com.homechart.app.home.bean.searchartile.ArticleListBean;
 import com.homechart.app.home.bean.shaijia.ShaiJiaBean;
 import com.homechart.app.home.bean.shaijia.ShaiJiaItemBean;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.myview.RoundImageView;
+import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
@@ -61,6 +68,7 @@ public class UserInfoActivity
         OnLoadMoreListener {
 
     private List<ShaiJiaItemBean> mListData = new ArrayList<>();
+    private List<ArticleBean> mListDataArticle = new ArrayList<>();
     private List<Integer> mListDataHeight = new ArrayList<>();
     private UserCenterInfoBean userCenterInfoBean;
     private ImageButton mIBBack;
@@ -86,8 +94,11 @@ public class UserInfoActivity
     private int TYPE_RIGHT = 2;
     private View headerView;
     private boolean first = true;
-    private TextView tv_info_pic_tital;
     private View view_tiop;
+    private TabLayout tl_tab;
+    private LinearLayoutManager linearLayoutManager;
+    private String sort = "pic";
+    private CommonAdapter<ArticleBean> mAdapterArticle;
 
     @Override
     protected int getLayoutResId() {
@@ -104,7 +115,6 @@ public class UserInfoActivity
         view_tiop = (View) findViewById(R.id.view_tiop);
 
         tv_userinfo_nikename = (TextView) headerView.findViewById(R.id.tv_userinfo_nikename);
-        tv_info_pic_tital = (TextView) headerView.findViewById(R.id.tv_info_pic_tital);
         tv_info_guanzhu_num = (TextView) headerView.findViewById(R.id.tv_info_guanzhu_num);
         tv_info_shaijia_num = (TextView) headerView.findViewById(R.id.tv_info_shaijia_num);
         tv_info_fensi_num = (TextView) headerView.findViewById(R.id.tv_info_fensi_num);
@@ -115,6 +125,7 @@ public class UserInfoActivity
         rl_info_fensi = (RelativeLayout) headerView.findViewById(R.id.rl_info_fensi);
         iv_info_renzheng = (ImageView) headerView.findViewById(R.id.iv_info_renzheng);
         iv_header_desiner_center = (RoundImageView) headerView.findViewById(R.id.iv_header_desiner_center);
+        tl_tab = (TabLayout) headerView.findViewById(R.id.tl_tab);
     }
 
     @Override
@@ -134,7 +145,42 @@ public class UserInfoActivity
         rl_info_guanzhu.setOnClickListener(this);
         rl_info_shaijia.setOnClickListener(this);
         rl_info_fensi.setOnClickListener(this);
+
+        tl_tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                page_num = 0;
+                mListData.clear();
+                mListDataHeight.clear();
+//                mAdapter.notifyDataSetChanged();
+                if (tab.getText().equals("图片")) {
+                    sort = "pic";
+                    mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+                    mRecyclerView.setAdapter(mAdapter);
+                    getListData(sort);
+                } else if (tab.getText().equals("文章")) {
+                    sort = "artical";
+                    mRecyclerView.setLayoutManager(linearLayoutManager);
+                    mRecyclerView.setAdapter(mAdapterArticle);
+                    getListDataArticle(sort);
+                }
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
     }
+
+
     /**
      * 获取状态栏高度
      * ！！这个方法来自StatusBarUtil,因为作者将之设为private，所以直接copy出来
@@ -147,9 +193,12 @@ public class UserInfoActivity
         int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
         return context.getResources().getDimensionPixelSize(resourceId);
     }
+
     @Override
     protected void initData(Bundle savedInstanceState) {
 
+        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        linearLayoutManager = new LinearLayoutManager(this);
         StatusBarUtil.setTranslucentForImageView(this, 0, null);
         int statusBarHeight = getStatusBarHeight(this);
         ViewGroup.LayoutParams layoutParams = view_tiop.getLayoutParams();
@@ -158,8 +207,46 @@ public class UserInfoActivity
         view_tiop.setLayoutParams(layoutParams);
 
         mTVTital.setText("");
+        tl_tab.setTabMode(TabLayout.MODE_FIXED);
+        tl_tab.setSelectedTabIndicatorHeight(UIUtils.getDimens(R.dimen.font_3));
+        tl_tab.setSelectedTabIndicatorColor(UIUtils.getColor(R.color.bg_e79056));
+        tl_tab.addTab(tl_tab.newTab().setText("图片"));
+        tl_tab.addTab(tl_tab.newTab().setText("文章"));
+        PublicUtils.setIndicator(tl_tab, UIUtils.getDimens(R.dimen.font_15), UIUtils.getDimens(R.dimen.font_15));
+
         width_Pic = PublicUtils.getScreenWidth(UserInfoActivity.this) / 2 - UIUtils.getDimens(R.dimen.font_14);
         getUserInfo();
+
+        MultiItemTypeSupport<ArticleBean> supportArticle = new MultiItemTypeSupport<ArticleBean>() {
+            @Override
+            public int getLayoutId(int itemType) {
+                return R.layout.item_search_article;
+            }
+
+            @Override
+            public int getItemViewType(int position, ArticleBean s) {
+                return 0;
+            }
+        };
+        mAdapterArticle = new MultiItemCommonAdapter<ArticleBean>(UserInfoActivity.this, mListDataArticle, supportArticle) {
+            @Override
+            public void convert(BaseViewHolder holder, final int position) {
+
+                ((TextView) holder.getView(R.id.tv_article_name)).setText(mListDataArticle.get(position).getArticle_info().getTitle());
+                ((TextView) holder.getView(R.id.tv_youlan_num)).setText(mListDataArticle.get(position).getArticle_info().getView_num());
+                ImageUtils.disRectangleImage(mListDataArticle.get(position).getArticle_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_article_image));
+                holder.getView(R.id.rl_item_click).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(UserInfoActivity.this, ArticleDetailsActivity.class);
+                        intent.putExtra("article_id", mListDataArticle.get(position).getArticle_info().getArticle_id());
+                        startActivity(intent);
+                    }
+                });
+            }
+        };
+
+
         MultiItemTypeSupport<ShaiJiaItemBean> support = new MultiItemTypeSupport<ShaiJiaItemBean>() {
             @Override
             public int getLayoutId(int itemType) {
@@ -214,19 +301,15 @@ public class UserInfoActivity
             }
         };
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
-        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        //解决item之间互换位置的bug
-//        staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
         mRecyclerView.setItemAnimator(null);
-//        ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(mAdapter);
-//        scaleAdapter.setFirstOnly(false);
-//        scaleAdapter.setDuration(500);
         mRecyclerView.setOnLoadMoreListener(this);
         mRecyclerView.addHeaderView(headerView);
         mRecyclerView.setAdapter(mAdapter);
-        getListData();
+
+        getListData(sort);
     }
+
 
     @Override
     public void onClick(View v) {
@@ -490,10 +573,17 @@ public class UserInfoActivity
 
     @Override
     public void onLoadMore() {
-        getListData();
+
+        if(sort.equals("pic")){
+            getListData(sort);
+        }else if(sort.equals("artical")){
+            getListDataArticle(sort);
+        }
+
+
     }
 
-    private void getListData() {
+    private void getListData(String tag) {
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
         ++page_num;
         OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
@@ -537,6 +627,49 @@ public class UserInfoActivity
 
     }
 
+
+    private void getListDataArticle(final String state) {
+        mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
+        ++page_num;
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+                mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                --page_num;
+                ToastUtils.showCenter(UserInfoActivity.this, "文章数据加载失败！");
+
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        ArticleListBean articleListBean = GsonUtil.jsonToBean(data_msg, ArticleListBean.class);
+                        if (null != articleListBean.getArticle_list() && 0 != articleListBean.getArticle_list().size()) {
+                            updateViewFromDataArticle(articleListBean.getArticle_list(), state);
+                        } else {
+                            updateViewFromDataArticle(null, state);
+                        }
+                    } else {
+                        --page_num;
+                        //没有更多数据
+                        mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+                        ToastUtils.showCenter(UserInfoActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+
+        MyHttpManager.getInstance().getShaiJiaArticleList(user_id, (page_num - 1) * 20, "20", callBack);
+
+    }
+
     private void getHeight(List<ShaiJiaItemBean> item_list) {
 
         if (item_list.size() > 0) {
@@ -555,7 +688,8 @@ public class UserInfoActivity
             mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
             mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
         } else {
-            mAdapter.notifyItem(position, mListData, item_list);
+            mAdapter.notifyData(mListData);
+//            mAdapter.notifyItem(position, mListData, item_list);
             mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
             if (item_list == null || item_list.size() == 0) {
                 mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
@@ -563,6 +697,20 @@ public class UserInfoActivity
         }
 
 
+    }
+
+    private void updateViewFromDataArticle(List<ArticleBean> listData, String state) {
+
+        if (null != listData) {
+            position = mListDataArticle.size();
+            mListDataArticle.addAll(listData);
+            mAdapterArticle.notifyItem(position, mListDataArticle, listData);
+            mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+        } else {
+            --page_num;
+            //没有更多数据
+            mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+        }
     }
 
     @Override
@@ -579,4 +727,6 @@ public class UserInfoActivity
 
     private int width_Pic;
     private int position;
+
+
 }

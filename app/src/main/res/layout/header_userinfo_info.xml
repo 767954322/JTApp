@@ -212,25 +212,37 @@
                 android:src="@drawable/next" />
         </RelativeLayout>
 
+
         <View
-            android:id="@+id/view_info_top"
+            android:id="@+id/view_up_hot_new"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/rl_info_zhunaye"
+            android:layout_marginTop="@dimen/font_30"
+            android:background="@color/view_line" />
+
+        <RelativeLayout
+            android:id="@+id/rly_slidingtablayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/font_49"
+            android:layout_below="@+id/view_up_hot_new">
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tl_tab"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/font_49"
+                app:tabTextColor="@color/bg_8f8f8f"
+                app:tabSelectedTextColor="@color/bg_262626"
+                app:tabTextAppearance="@style/TabLayOutTextSize"
+                android:background="@color/white" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/view_bellow_hot_new"
             android:layout_width="match_parent"
             android:layout_height="@dimen/font_10"
-            android:layout_below="@+id/rl_info_zhunaye"
-            android:layout_marginTop="@dimen/font_15"
+            android:layout_below="@+id/rly_slidingtablayout"
             android:background="@color/bg_f2f2f2" />
-
-        <TextView
-            android:id="@+id/tv_info_pic_tital"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/view_info_top"
-            android:paddingLeft="@dimen/font_10"
-            android:paddingTop="@dimen/font_25"
-            android:background="@color/white"
-            android:text="晒家图片"
-            android:textColor="@color/bg_262626"
-            android:textSize="@dimen/font_17" />
-
     </RelativeLayout>
 </RelativeLayout>
