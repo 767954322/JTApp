@@ -9,7 +9,6 @@
         android:id="@+id/rcy_recyclerview_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tv_info_pic_tital"
         android:background="@color/white"
         app:loadMoreEnabled="true"
         app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer"

@@ -5,7 +5,7 @@
 
 
 
-    <com.homechart.app.myview.MyScrollView
+    <ScrollView
         android:id="@+id/sv_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -429,12 +429,18 @@
                 android:layout_below="@+id/rl_six" />
 
         </RelativeLayout>
-    </com.homechart.app.myview.MyScrollView>
+    </ScrollView>
+
+    <View
+        android:id="@+id/view_tiop"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
 
     <RelativeLayout
         android:id="@+id/common_navbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_below="@+id/view_tiop"
         android:gravity="center_vertical">
 
         <RelativeLayout

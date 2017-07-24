@@ -2,6 +2,7 @@ package com.homechart.app.home.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -9,11 +10,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.homechart.app.R;
+import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
 import com.homechart.app.myview.MyScrollView;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.utils.imageloader.ImageUtils;
+import com.jaeger.library.StatusBarUtil;
 
 /**
  * Created by gumenghao on 17/6/9.
@@ -37,9 +40,10 @@ public class DesinerInfoHeaderActivity extends BaseActivity implements View.OnCl
     private RoundImageView iv_header_desiner_center;
     private ImageView iv_info_renzheng;
     private TextView tv_userinfo_nikename;
-    private MyScrollView sv_scrollview;
+    private ScrollView sv_scrollview;
     private ImageButton nav_secondary_imageButton;
     private RelativeLayout common_navbar;
+    private View view_tiop;
 
     @Override
     protected int getLayoutResId() {
@@ -70,8 +74,9 @@ public class DesinerInfoHeaderActivity extends BaseActivity implements View.OnCl
         tv_lianxi_four = (TextView) findViewById(R.id.tv_lianxi_four);
         tv_lianxi_five = (TextView) findViewById(R.id.tv_lianxi_five);
         tv_lianxi_six = (TextView) findViewById(R.id.tv_lianxi_six);
-        sv_scrollview = (MyScrollView) findViewById(R.id.sv_scrollview);
+        sv_scrollview = (ScrollView) findViewById(R.id.sv_scrollview);
         common_navbar = (RelativeLayout) findViewById(R.id.common_navbar);
+        view_tiop =  findViewById(R.id.view_tiop);
 
 
         iv_header_desiner_center = (RoundImageView) findViewById(R.id.iv_header_desiner_center);
@@ -83,6 +88,12 @@ public class DesinerInfoHeaderActivity extends BaseActivity implements View.OnCl
     @Override
     protected void initData(Bundle savedInstanceState) {
 
+        StatusBarUtil.setTranslucentForImageView(this, 0, null);
+        int statusBarHeight = PublicUtils.getStatusBarHeight(this);
+        ViewGroup.LayoutParams layoutParams = view_tiop.getLayoutParams();
+        layoutParams.width = PublicUtils.getScreenWidth(this);
+        layoutParams.height = statusBarHeight;
+        view_tiop.setLayoutParams(layoutParams);
         ImageUtils.displayRoundImage(userCenterInfoBean.getUser_info().getAvatar().getBig(), iv_header_desiner_center);
         if (!userCenterInfoBean.getUser_info().getProfession().trim().equals("0")) {//专业用户
             iv_info_renzheng.setVisibility(View.VISIBLE);
@@ -109,21 +120,21 @@ public class DesinerInfoHeaderActivity extends BaseActivity implements View.OnCl
         super.initListener();
         mIBBack.setOnClickListener(this);
 
-        sv_scrollview.setMyOnScrollChangedListener(new MyScrollView.MyOnScrollChangedListener() {
-            @Override
-            public void myOnScrollChanged(int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY < 300) {
-                    mIBBack.setImageResource(R.drawable.tital_back_wight);
-                    float alpha = (float) (300 - scrollY) / 300;
-                    common_navbar.setBackgroundResource(R.color.white);
-                    common_navbar.getBackground().setAlpha((int) ((1 - alpha) * 255));
-                } else {
-                    common_navbar.setBackgroundResource(R.color.white);
-                    mIBBack.setImageResource(R.drawable.tital_back);
-                    common_navbar.getBackground().setAlpha(255);
-                }
-            }
-        });
+//        sv_scrollview.setMyOnScrollChangedListener(new MyScrollView.MyOnScrollChangedListener() {
+//            @Override
+//            public void myOnScrollChanged(int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                if (scrollY < 300) {
+//                    mIBBack.setImageResource(R.drawable.tital_back_wight);
+//                    float alpha = (float) (300 - scrollY) / 300;
+//                    common_navbar.setBackgroundResource(R.color.white);
+//                    common_navbar.getBackground().setAlpha((int) ((1 - alpha) * 255));
+//                } else {
+//                    common_navbar.setBackgroundResource(R.color.white);
+//                    mIBBack.setImageResource(R.drawable.tital_back);
+//                    common_navbar.getBackground().setAlpha(255);
+//                }
+//            }
+//        });
 
     }
 

@@ -546,4 +546,17 @@ public class PublicUtils {
         }
     }
 
+    /**
+     * 获取状态栏高度
+     * ！！这个方法来自StatusBarUtil,因为作者将之设为private，所以直接copy出来
+     *
+     * @param context context
+     * @return 状态栏高度
+     */
+    public static int getStatusBarHeight(Context context) {
+        // 获得状态栏高度
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        return context.getResources().getDimensionPixelSize(resourceId);
+    }
+
 }

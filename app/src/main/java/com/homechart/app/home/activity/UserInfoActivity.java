@@ -181,26 +181,13 @@ public class UserInfoActivity
     }
 
 
-    /**
-     * 获取状态栏高度
-     * ！！这个方法来自StatusBarUtil,因为作者将之设为private，所以直接copy出来
-     *
-     * @param context context
-     * @return 状态栏高度
-     */
-    private int getStatusBarHeight(Context context) {
-        // 获得状态栏高度
-        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        return context.getResources().getDimensionPixelSize(resourceId);
-    }
-
     @Override
     protected void initData(Bundle savedInstanceState) {
 
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         linearLayoutManager = new LinearLayoutManager(this);
         StatusBarUtil.setTranslucentForImageView(this, 0, null);
-        int statusBarHeight = getStatusBarHeight(this);
+        int statusBarHeight = PublicUtils.getStatusBarHeight(this);
         ViewGroup.LayoutParams layoutParams = view_tiop.getLayoutParams();
         layoutParams.width = PublicUtils.getScreenWidth(this);
         layoutParams.height = statusBarHeight;
@@ -688,8 +675,8 @@ public class UserInfoActivity
             mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
             mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
         } else {
-            mAdapter.notifyData(mListData);
-//            mAdapter.notifyItem(position, mListData, item_list);
+//            mAdapter.notifyData(mListData);
+            mAdapter.notifyItem(position, mListData, item_list);
             mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
             if (item_list == null || item_list.size() == 0) {
                 mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
