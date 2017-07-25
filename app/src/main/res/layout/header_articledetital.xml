@@ -83,6 +83,39 @@
 
    </RelativeLayout>
 
+    <TextView
+        android:id="@+id/tv_article_tital"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/font_20"
+        android:layout_marginRight="@dimen/font_20"
+        android:layout_marginTop="@dimen/font_40"
+        android:textSize="@dimen/size_27"
+        android:textColor="@color/bg_262626"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/rl_user_top"
+        android:text="sdsdsdsd"
+        android:lineSpacingExtra="@dimen/font_9"/>
 
+    <TextView
+        android:id="@+id/tv_readnum_tital"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/font_20"
+        android:layout_marginTop="@dimen/font_20"
+        android:textSize="@dimen/size_12"
+        android:text="阅读数"
+        android:textColor="@color/bg_8f8f8f"
+        android:layout_below="@+id/tv_article_tital"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/font_5"
+        android:textSize="@dimen/size_12"
+        android:text="1234"
+        android:textColor="@color/bg_262626"
+        android:layout_toRightOf="@+id/tv_readnum_tital"
+        android:layout_alignBottom="@+id/tv_readnum_tital"/>
 
 </RelativeLayout>
