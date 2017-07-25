@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,75 +8,14 @@
         android:id="@+id/common_navbar"
         layout="@layout/view_navigation_header" />
 
-    <RelativeLayout
+    <com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView
+        android:id="@+id/rcy_recyclerview_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/common_navbar">
-
-        <com.homechart.app.myview.RoundImageView
-            android:id="@+id/riv_people_header"
-            android:layout_width="@dimen/font_32"
-            android:layout_height="@dimen/font_32"
-            android:layout_marginLeft="@dimen/font_15"
-            android:layout_marginTop="@dimen/font_15" />
-
-        <RelativeLayout
-            android:id="@+id/rl_people_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/font_8"
-            android:layout_marginTop="@dimen/font_15"
-            android:layout_toRightOf="@+id/riv_people_header">
-
-            <TextView
-                android:id="@+id/tv_people_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:gravity="top"
-                android:textColor="@color/bg_262626"
-                android:textSize="@dimen/size_14" />
-
-
-            <ImageView
-                android:id="@+id/iv_people_tag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/font_10"
-                android:layout_toRightOf="@+id/tv_people_name"
-                android:src="@drawable/fensi"
-                android:visibility="gone" />
-
-        </RelativeLayout>
-
-
-        <TextView
-            android:id="@+id/tv_people_details"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/rl_people_name"
-            android:layout_below="@+id/rl_people_name"
-            android:layout_marginTop="@dimen/font_5"
-            android:gravity="top"
-            android:textColor="@color/bg_8f8f8f"
-            android:textSize="@dimen/size_11" />
-
-        <TextView
-            android:id="@+id/tv_people_guanzhu"
-            android:layout_width="@dimen/font_65"
-            android:layout_height="@dimen/font_25"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/font_10"
-            android:layout_marginTop="@dimen/font_18"
-            android:gravity="center"
-            android:visibility="gone"
-            android:textColor="@color/bg_e79056"
-            android:textSize="@dimen/font_12" />
-
-    </RelativeLayout>
-
-
-
+        android:layout_height="match_parent"
+        android:layout_below="@+id/common_navbar"
+        app:loadMoreEnabled="true"
+        app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer_huodong"
+        app:refreshEnabled="false"
+        app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
 
 </RelativeLayout>

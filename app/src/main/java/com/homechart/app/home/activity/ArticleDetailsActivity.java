@@ -1,10 +1,15 @@
 package com.homechart.app.home.activity;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,10 +20,18 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.home.bean.cailike.ColorInfoBean;
+import com.homechart.app.home.bean.cailike.ImageLikeItemBean;
 import com.homechart.app.home.bean.searchartile.ArticleBean;
 import com.homechart.app.home.bean.userinfo.ProInfo;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
+import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.myview.RoundImageView;
+import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
+import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
+import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
+import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
+import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
@@ -31,7 +44,9 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by gumenghao on 17/7/18.
@@ -40,7 +55,9 @@ import java.util.HashMap;
 
 public class ArticleDetailsActivity
         extends BaseActivity
-        implements View.OnClickListener {
+        implements View.OnClickListener ,
+        OnLoadMoreListener{
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_article_details;
@@ -54,18 +71,23 @@ public class ArticleDetailsActivity
 
     @Override
     protected void initView() {
+        header = LayoutInflater.from(this).inflate(R.layout.header_articledetital, null);
         nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
+        mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview_info);
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
-        tv_people_name = (TextView) findViewById(R.id.tv_people_name);
-        iv_people_tag = (ImageView) findViewById(R.id.iv_people_tag);
-        riv_people_header = (RoundImageView) findViewById(R.id.riv_people_header);
-        tv_people_details = (TextView) findViewById(R.id.tv_people_details);
-        tv_people_guanzhu = (TextView) findViewById(R.id.tv_people_guanzhu);
+
+        tv_people_name = (TextView) header.findViewById(R.id.tv_people_name);
+        iv_people_tag = (ImageView) header.findViewById(R.id.iv_people_tag);
+        riv_people_header = (RoundImageView) header.findViewById(R.id.riv_people_header);
+        tv_people_details = (TextView) header.findViewById(R.id.tv_people_details);
+        tv_people_guanzhu = (TextView) header.findViewById(R.id.tv_people_guanzhu);
+
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         tv_tital_comment.setText("文章详情");
+        buildRecycler();
         getArticleDetails();
     }
 
@@ -75,7 +97,6 @@ public class ArticleDetailsActivity
         nav_left_imageButton.setOnClickListener(this);
         tv_people_guanzhu.setOnClickListener(this);
     }
-
 
     @Override
     public void onClick(View v) {
@@ -105,6 +126,35 @@ public class ArticleDetailsActivity
         }
     }
 
+    @Override
+    public void onLoadMore() {
+
+    }
+
+    private void buildRecycler() {
+        MultiItemTypeSupport<ImageLikeItemBean> support = new MultiItemTypeSupport<ImageLikeItemBean>() {
+            @Override
+            public int getLayoutId(int itemType) {
+                return R.layout.item_like_pic;
+            }
+
+            @Override
+            public int getItemViewType(int position, ImageLikeItemBean s) {
+                return 0;
+            }
+        };
+        mAdapter = new MultiItemCommonAdapter<ImageLikeItemBean>(ArticleDetailsActivity.this, mListData, support) {
+            @Override
+            public void convert(BaseViewHolder holder, final int position) {
+            }
+        };
+        mRecyclerView.addHeaderView(header);
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerView.setItemAnimator(null);
+        mRecyclerView.setOnLoadMoreListener(this);
+        mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
+        mRecyclerView.setAdapter(mAdapter);
+    }
 
     //1.文章详情
     private void getArticleDetails() {
@@ -312,6 +362,7 @@ public class ArticleDetailsActivity
         MyHttpManager.getInstance().addShouCangArticle(article_id, callBack);
     }
 
+    private View header;
     private ImageButton nav_left_imageButton;
     private TextView tv_tital_comment;
     private String article_id;
@@ -323,5 +374,10 @@ public class ArticleDetailsActivity
     private TextView tv_people_details;
     private TextView tv_people_guanzhu;
     private int guanzhuTag;
+    private HRecyclerView mRecyclerView;
+    private MultiItemCommonAdapter<ImageLikeItemBean> mAdapter;
+    private List<ImageLikeItemBean> mListData = new ArrayList<>();
+    private LoadMoreFooterView mLoadMoreFooterView;
+
 
 }
