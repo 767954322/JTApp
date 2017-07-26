@@ -1,13 +1,17 @@
 package com.homechart.app.home.activity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -23,6 +27,7 @@ import com.homechart.app.home.bean.articledetails.ArticleBean;
 import com.homechart.app.home.bean.cailike.ImageLikeItemBean;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.myview.MyListView;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
@@ -90,10 +95,15 @@ public class ArticleDetailsActivity
                     ifShouCang = false;
                     getArticleDetails();
                     break;
+                case 5://评论文章
+                    ToastUtils.showCenter(ArticleDetailsActivity.this, "评论成功");
+                    getArticleDetails();
+                    break;
             }
 
         }
     };
+
 
     @Override
     protected int getLayoutResId() {
@@ -135,6 +145,11 @@ public class ArticleDetailsActivity
         iv_xing = (ImageView) findViewById(R.id.iv_xing);
         tv_bang = (TextView) findViewById(R.id.tv_bang);
         tv_xing = (TextView) findViewById(R.id.tv_xing);
+        tv_ping = (TextView) findViewById(R.id.tv_ping);
+        iv_ping = (ImageView) findViewById(R.id.iv_ping);
+        //底部评论
+        rl_edit = (RelativeLayout) findViewById(R.id.rl_edit);
+        cet_clearedit = (ClearEditText) findViewById(R.id.cet_clearedit);
 
     }
 
@@ -155,6 +170,35 @@ public class ArticleDetailsActivity
         tv_xing.setOnClickListener(this);
         tv_bang.setOnClickListener(this);
         iv_bang.setOnClickListener(this);
+        iv_ping.setOnClickListener(this);
+        tv_ping.setOnClickListener(this);
+        cet_clearedit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    String searchContext = cet_clearedit.getText().toString().trim();
+                    if (TextUtils.isEmpty(searchContext.trim())) {
+                        ToastUtils.showCenter(ArticleDetailsActivity.this, "请添加回复内容");
+                    } else {
+                        cet_clearedit.setText("");
+                        // 先隐藏键盘
+                        ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+                                .hideSoftInputFromWindow(ArticleDetailsActivity.this.getCurrentFocus()
+                                        .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                        //隐藏评论输入框布局
+                        rl_edit.setVisibility(View.GONE);
+                        //去评论
+                        goPingAll(searchContext);
+
+                    }
+                    return true;
+                }
+
+                return false;
+            }
+        });
     }
 
     @Override
@@ -199,6 +243,13 @@ public class ArticleDetailsActivity
                     removeShouCang();
                     ifShouCang = true;
                 }
+                break;
+            case R.id.iv_ping:
+            case R.id.tv_ping:
+                rl_edit.setVisibility(View.VISIBLE);
+                cet_clearedit.requestFocus();
+                InputMethodManager inputMethodManager = (InputMethodManager) cet_clearedit.getContext().getSystemService(ArticleDetailsActivity.this.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
                 break;
         }
     }
@@ -311,6 +362,7 @@ public class ArticleDetailsActivity
                 ifShouCang = true;
             }
             tv_xing.setText(articleBean.getArticle_info().getCollect_num());
+            tv_ping.setText(articleBean.getArticle_info().getComment_num());
         }
     }
 
@@ -613,6 +665,44 @@ public class ArticleDetailsActivity
         }
     }
 
+    //7.对文章发表评论
+    private void goPingAll(String searchContext) {
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtils.showCenter(ArticleDetailsActivity.this, "评论失败");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        Message msg = new Message();
+                        msg.what = 5;
+                        mHandler.sendMessage(msg);
+                    } else {
+                        ToastUtils.showCenter(ArticleDetailsActivity.this, "评论失败");
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(ArticleDetailsActivity.this, "评论失败");
+                }
+            }
+        };
+        if (!TextUtils.isEmpty(article_id)) {
+            MyHttpManager.getInstance().pingArticleAll(article_id, searchContext, callBack);
+        }
+    }
+
+    //7.回复对文章发表的评论
+    private void goPingSingle(String searchContext) {
+
+    }
+
     private View header;
     private ImageButton nav_left_imageButton;
     private TextView tv_tital_comment;
@@ -653,5 +743,9 @@ public class ArticleDetailsActivity
     private TextView tv_bang;
     private TextView tv_xing;
     private ImageView iv_xing;
+    private TextView tv_ping;
+    private ImageView iv_ping;
 
+    private RelativeLayout rl_edit;
+    private ClearEditText cet_clearedit;
 }

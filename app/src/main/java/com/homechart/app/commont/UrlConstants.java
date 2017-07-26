@@ -65,5 +65,7 @@ public class UrlConstants {
     public static final String SEARCH_ARTICLE = "https://api.idcool.com.cn/search/search/article";  //搜索文章列表
     public static final String DETAILS_ARTICLE = "https://api.idcool.com.cn/article/article/getInfo";  //获取文章详情
     public static final String PINGLIST_ARTICLE = "https://api.idcool.com.cn/comment/article/slist";  //获取文章的评论列表
+    public static final String PING_ARTICLE_ALL = "https://api.idcool.com.cn/comment/article/add";  //对文章发表评论
+    public static final String PING_ARTICLE_SINGLE = "https://api.idcool.com.cn/comment/article/reply";  //回复对文章发表的评论
 
 }
