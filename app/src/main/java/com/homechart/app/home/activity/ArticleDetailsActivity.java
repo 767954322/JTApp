@@ -1,6 +1,8 @@
 package com.homechart.app.home.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,7 +21,6 @@ import com.homechart.app.home.adapter.MyArticlePicAdapter;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.articledetails.ArticleBean;
 import com.homechart.app.home.bean.cailike.ImageLikeItemBean;
-import com.homechart.app.home.bean.userinfo.ProInfo;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.myview.MyListView;
@@ -29,6 +30,7 @@ import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
+import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
@@ -40,7 +42,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -53,6 +54,46 @@ public class ArticleDetailsActivity
         implements View.OnClickListener,
         OnLoadMoreListener {
 
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            int tag = msg.what;
+            switch (tag) {
+                case 1://点赞
+                    ToastUtils.showCenter(ArticleDetailsActivity.this, "你很棒棒哦");
+                    iv_bang.setImageResource(R.drawable.bang1);
+                    tv_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                    ifZan = false;
+                    getArticleDetails();
+                    break;
+                case 2://取消点赞
+                    ToastUtils.showCenter(ArticleDetailsActivity.this, "还是收回我的家图棒吧");
+                    iv_bang.setImageResource(R.drawable.bang);
+                    tv_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                    ifZan = true;
+                    getArticleDetails();
+                    break;
+                case 3://收藏
+                    ToastUtils.showCenter(ArticleDetailsActivity.this, "收藏成功");
+                    iv_xing.setImageResource(R.drawable.xing1);
+                    tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                    ifShouCang = false;
+                    getArticleDetails();
+                    break;
+                case 4://取消收藏
+                    ToastUtils.showCenter(ArticleDetailsActivity.this, "取消收藏成功");
+                    iv_xing.setImageResource(R.drawable.xing);
+                    tv_xing.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                    ifShouCang = false;
+                    getArticleDetails();
+                    break;
+            }
+
+        }
+    };
 
     @Override
     protected int getLayoutResId() {
@@ -88,6 +129,12 @@ public class ArticleDetailsActivity
         tv_ping_tital = (TextView) header.findViewById(R.id.tv_ping_tital);
         tv_look_more_ping = (TextView) header.findViewById(R.id.tv_look_more_ping);
         mlv_article_pinglun = (MyListView) header.findViewById(R.id.mlv_article_pinglun);
+        //底部评论点赞
+        rl_article_below = (RelativeLayout) findViewById(R.id.rl_article_below);
+        iv_bang = (ImageView) findViewById(R.id.iv_bang);
+        iv_xing = (ImageView) findViewById(R.id.iv_xing);
+        tv_bang = (TextView) findViewById(R.id.tv_bang);
+        tv_xing = (TextView) findViewById(R.id.tv_xing);
 
     }
 
@@ -104,6 +151,10 @@ public class ArticleDetailsActivity
         super.initListener();
         nav_left_imageButton.setOnClickListener(this);
         tv_people_guanzhu.setOnClickListener(this);
+        iv_xing.setOnClickListener(this);
+        tv_xing.setOnClickListener(this);
+        tv_bang.setOnClickListener(this);
+        iv_bang.setOnClickListener(this);
     }
 
     @Override
@@ -113,9 +164,7 @@ public class ArticleDetailsActivity
                 ArticleDetailsActivity.this.finish();
                 break;
             case R.id.tv_people_guanzhu:
-
                 if (userCenterInfoBean != null) {
-
                     switch (guanzhuTag) {
                         case 1:
                             getGuanZhu();
@@ -127,9 +176,29 @@ public class ArticleDetailsActivity
                             getQuXiao();
                             break;
                     }
-
                 }
+                break;
+            case R.id.iv_bang:
+            case R.id.tv_bang:
 
+                if (ifZan) {
+                    addZan();
+                    ifZan = false;
+                } else {
+                    removeZan();
+                    ifZan = true;
+                }
+                break;
+            case R.id.iv_xing:
+            case R.id.tv_xing:
+
+                if (ifShouCang) {
+                    addShouCang();
+                    ifShouCang = false;
+                } else {
+                    removeShouCang();
+                    ifShouCang = true;
+                }
                 break;
         }
     }
@@ -218,6 +287,30 @@ public class ArticleDetailsActivity
                 mlv_article_pic_content.setAdapter(articlePicAdapter);
             }
 
+            //显示评论点赞分享布局
+            rl_article_below.setVisibility(View.VISIBLE);
+            //点赞样式
+            if (articleBean.getArticle_info().getIs_liked() == 1) {//已赞
+                iv_bang.setImageResource(R.drawable.bang1);
+                tv_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                ifZan = false;
+            } else {//未赞
+                iv_bang.setImageResource(R.drawable.bang);
+                tv_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                ifZan = true;
+            }
+            tv_bang.setText(articleBean.getArticle_info().getLike_num());
+            //收藏样式
+            if (articleBean.getArticle_info().getIs_collected() == 1) {//已收藏
+                iv_xing.setImageResource(R.drawable.xing1);
+                tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                ifShouCang = false;
+            } else {//未收藏
+                iv_xing.setImageResource(R.drawable.xing);
+                tv_xing.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                ifShouCang = true;
+            }
+            tv_xing.setText(articleBean.getArticle_info().getCollect_num());
         }
     }
 
@@ -377,7 +470,7 @@ public class ArticleDetailsActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
-                        Log.d("test",data_msg);
+                        Log.d("test", data_msg);
                     } else {
                         ToastUtils.showCenter(ArticleDetailsActivity.this, error_msg);
                     }
@@ -389,8 +482,75 @@ public class ArticleDetailsActivity
 
     }
 
-    //＊收藏文章
-    private void shoucang() {
+    //5.点赞
+    private void addZan() {
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                CustomProgress.cancelDialog();
+                ToastUtils.showCenter(ArticleDetailsActivity.this, "点赞失败");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        Message msg = new Message();
+                        msg.what = 1;
+                        mHandler.sendMessage(msg);
+                    } else {
+                        ToastUtils.showCenter(ArticleDetailsActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(ArticleDetailsActivity.this, "点赞失败");
+                }
+            }
+        };
+        if (!TextUtils.isEmpty(article_id)) {
+            MyHttpManager.getInstance().addZanArticle(article_id, callBack);
+        }
+    }
+
+    //5.取消点赞
+    private void removeZan() {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                CustomProgress.cancelDialog();
+                ToastUtils.showCenter(ArticleDetailsActivity.this, "取消点赞失败");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        Message msg = new Message();
+                        msg.what = 2;
+                        mHandler.sendMessage(msg);
+                    } else {
+                        ToastUtils.showCenter(ArticleDetailsActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(ArticleDetailsActivity.this, "取消点赞失败");
+                }
+            }
+        };
+        if (!TextUtils.isEmpty(article_id)) {
+            MyHttpManager.getInstance().removeZanArticle(article_id, callBack);
+        }
+    }
+
+    //6.收藏文章
+    private void addShouCang() {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
@@ -405,7 +565,9 @@ public class ArticleDetailsActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
-                        ToastUtils.showCenter(ArticleDetailsActivity.this, "收藏成功");
+                        Message msg = new Message();
+                        msg.what = 3;
+                        mHandler.sendMessage(msg);
                     } else {
                         ToastUtils.showCenter(ArticleDetailsActivity.this, "收藏失败");
                     }
@@ -414,7 +576,41 @@ public class ArticleDetailsActivity
                 }
             }
         };
-        MyHttpManager.getInstance().addShouCangArticle(article_id, callBack);
+        if (!TextUtils.isEmpty(article_id)) {
+            MyHttpManager.getInstance().addShouCangArticle(article_id, callBack);
+        }
+    }
+
+    //6.取消收藏文章
+    private void removeShouCang() {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtils.showCenter(ArticleDetailsActivity.this, "收藏失败");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        Message msg = new Message();
+                        msg.what = 4;
+                        mHandler.sendMessage(msg);
+                    } else {
+                        ToastUtils.showCenter(ArticleDetailsActivity.this, "收藏失败");
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(ArticleDetailsActivity.this, "收藏失败");
+                }
+            }
+        };
+        if (!TextUtils.isEmpty(article_id)) {
+            MyHttpManager.getInstance().removeShouCangArticle(article_id, callBack);
+        }
     }
 
     private View header;
@@ -448,5 +644,14 @@ public class ArticleDetailsActivity
     private MyListView mlv_article_pinglun;
     private TextView tv_look_more_ping;
     private int pingpage_num = 1;
+
+    //底部点赞等信息
+    private boolean ifZan = false;
+    private boolean ifShouCang = false;
+    private RelativeLayout rl_article_below;
+    private ImageView iv_bang;
+    private TextView tv_bang;
+    private TextView tv_xing;
+    private ImageView iv_xing;
 
 }

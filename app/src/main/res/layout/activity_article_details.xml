@@ -12,10 +12,118 @@
         android:id="@+id/rcy_recyclerview_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/rl_article_below"
         android:layout_below="@+id/common_navbar"
         app:loadMoreEnabled="true"
         app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer_huodong"
         app:refreshEnabled="false"
         app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
+
+    <RelativeLayout
+        android:id="@+id/rl_article_below"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="@dimen/font_45"
+        android:layout_alignParentBottom="true">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/view_line" />
+
+        <ImageView
+            android:id="@+id/iv_bang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_29"
+            android:src="@drawable/bang" />
+
+        <TextView
+            android:id="@+id/tv_bang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/font_4"
+            android:layout_toRightOf="@+id/iv_bang"
+            android:gravity="top"
+            android:includeFontPadding="true"
+            android:paddingTop="@dimen/font_10"
+            android:text="0"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_11" />
+
+        <ImageView
+            android:id="@+id/iv_xing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/font_75"
+            android:layout_toRightOf="@+id/tv_bang"
+            android:layout_centerVertical="true"
+            android:src="@drawable/xing" />
+
+
+        <TextView
+            android:id="@+id/tv_xing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/iv_xing"
+            android:layout_marginLeft="@dimen/font_4"
+            android:paddingTop="@dimen/font_10"
+            android:text="0"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_11" />
+
+
+        <TextView
+            android:id="@+id/tv_shared"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/font_29"
+            android:paddingTop="@dimen/font_10"
+            android:text="0"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_11" />
+
+
+        <ImageView
+            android:id="@+id/iv_shared"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/tv_shared"
+            android:layout_marginRight="@dimen/font_4"
+            android:src="@drawable/zhuan" />
+
+
+
+
+        <TextView
+            android:id="@+id/tv_ping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/iv_shared"
+            android:layout_marginRight="@dimen/font_75"
+            android:paddingTop="@dimen/font_10"
+            android:text="0"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_11" />
+
+
+        <ImageView
+            android:id="@+id/iv_ping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/tv_ping"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_4"
+            android:src="@drawable/ping" />
+
+
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

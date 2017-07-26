@@ -33,6 +33,7 @@ public class UrlConstants {
     public static final String DELETE_ARTICLE_SHAIJIA = "https://api.idcool.com.cn/article/article/delete";  // 删除晒家文章列表
     public static final String DELETE_ARTICLE_SHOUCANG = "https://api.idcool.com.cn/collect/article/remove";  // 删除收藏的文章
     public static final String ADD_ARTICLE_SHOUCANG = "https://api.idcool.com.cn/collect/article/add";  // 添加收藏的文章
+    public static final String REMOVE_ARTICLE_SHOUCANG = "https://api.idcool.com.cn/collect/article/remove";  // 删除收藏的文章
     public static final String ISSUE_BACK = "https://api.idcool.com.cn/base/feedback/add";  // 问题反馈
     public static final String MESSAGE_LIST = "https://api.idcool.com.cn/user/account/noticeList";  // 通知列表
     public static final String HOT_WORDS = "https://api.idcool.com.cn/search/search/hotWords";  // 搜索热词
@@ -47,8 +48,10 @@ public class UrlConstants {
     public static final String DOING_ACTIVITY = "https://api.idcool.com.cn/activity/activity/getDoingList";  //进行中的活动列表
     public static final String FABU = "https://api.idcool.com.cn/single/single/publish";  //用户发布晒家图片
     public static final String ITEM_FABU = "https://api.idcool.com.cn/single/single/getItemInfo";  //发布详情
-    public static final String ADD_ZAN = "https://api.idcool.com.cn/like/single/add";  //对单张图片点赞
-    public static final String REMOVE_ZAN = "https://api.idcool.com.cn/like/single/cancel";  //取消对单张图片点赞
+    public static final String ADD_ZAN_PIC = "https://api.idcool.com.cn/like/single/add";  //对单张图片点赞
+    public static final String ADD_ZAN_ARTICLE = " https://api.idcool.com.cn/like/article/add";  //对单张图片点赞
+    public static final String REMOVE_ZAN_PIC = "https://api.idcool.com.cn/like/single/cancel";  //取消对单张图片点赞
+    public static final String REMOVE_ZAN_ARTICLE = "https://api.idcool.com.cn/like/article/cancel";  //取消对文章点赞
     public static final String ADD_SHOUCANG = "https://api.idcool.com.cn/collect/single/add";  //收藏单张图片
     public static final String REMOVE_SHOUCANG = "https://api.idcool.com.cn/collect/single/remove";  //删除收藏的单图
     public static final String IMAGE_EDIT = "https://api.idcool.com.cn/single/single/modify";  //编辑晒家图片

@@ -19,8 +19,10 @@ public class ArticleInfoBean implements Serializable{
     private String share_num;
     private String add_time;
     private int is_liked;
+    private int is_collected;
 
-    public ArticleInfoBean(String article_id, String user_id, String title, String summary, String view_num, String collect_num, String comment_num, String like_num, String share_num, String add_time, int is_liked) {
+
+    public ArticleInfoBean(String article_id, String user_id, String title, String summary, String view_num, String collect_num, String comment_num, String like_num, String share_num, String add_time, int is_liked, int is_collected) {
         this.article_id = article_id;
         this.user_id = user_id;
         this.title = title;
@@ -32,8 +34,8 @@ public class ArticleInfoBean implements Serializable{
         this.share_num = share_num;
         this.add_time = add_time;
         this.is_liked = is_liked;
+        this.is_collected = is_collected;
     }
-
 
     public String getArticle_id() {
         return article_id;
@@ -123,6 +125,14 @@ public class ArticleInfoBean implements Serializable{
         this.is_liked = is_liked;
     }
 
+    public int getIs_collected() {
+        return is_collected;
+    }
+
+    public void setIs_collected(int is_collected) {
+        this.is_collected = is_collected;
+    }
+
     @Override
     public String toString() {
         return "ArticleInfoBean{" +
@@ -137,6 +147,7 @@ public class ArticleInfoBean implements Serializable{
                 ", share_num='" + share_num + '\'' +
                 ", add_time='" + add_time + '\'' +
                 ", is_liked=" + is_liked +
+                ", is_collected=" + is_collected +
                 '}';
     }
 }
