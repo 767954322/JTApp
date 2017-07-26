@@ -11,12 +11,14 @@ public class ArticleInfoBean implements Serializable {
     private String article_id;
     private String title;
     private String view_num;
+    private String summary;
     private ArticleInfoImageBean image;
 
-    public ArticleInfoBean(String article_id, String title, String view_num, ArticleInfoImageBean image) {
+    public ArticleInfoBean(String article_id, String title, String view_num, String summary, ArticleInfoImageBean image) {
         this.article_id = article_id;
         this.title = title;
         this.view_num = view_num;
+        this.summary = summary;
         this.image = image;
     }
 
@@ -44,6 +46,14 @@ public class ArticleInfoBean implements Serializable {
         this.view_num = view_num;
     }
 
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
     public ArticleInfoImageBean getImage() {
         return image;
     }
@@ -58,6 +68,7 @@ public class ArticleInfoBean implements Serializable {
                 "article_id='" + article_id + '\'' +
                 ", title='" + title + '\'' +
                 ", view_num='" + view_num + '\'' +
+                ", summary='" + summary + '\'' +
                 ", image=" + image +
                 '}';
     }

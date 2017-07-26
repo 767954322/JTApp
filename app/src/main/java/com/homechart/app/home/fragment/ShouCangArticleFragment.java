@@ -120,7 +120,8 @@ public class ShouCangArticleFragment
             public void convert(final BaseViewHolder holder, final int position) {
 
                 ((TextView)holder.getView(R.id.tv_article_name)).setText(mListData.get(position).getArticle_info().getTitle());
-
+                ((TextView)holder.getView(R.id.tv_article_details)).setText(mListData.get(position).getArticle_info().getSummary());
+                ((TextView)holder.getView(R.id.tv_youlan_num)).setText(mListData.get(position).getArticle_info().getView_num());
                 final String item_id = mListData.get(position).getArticle_info().getArticle_id();
                 if (guanli_tag == 0) {
                     holder.getView(R.id.cb_check).setVisibility(View.GONE);

@@ -1,18 +1,22 @@
 package com.homechart.app.home.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -26,6 +30,8 @@ import com.homechart.app.home.adapter.MyArticlePicAdapter;
 import com.homechart.app.home.adapter.MyArticlePingAdapter;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.articledetails.ArticleBean;
+import com.homechart.app.home.bean.articlelike.ArticleLikeBean;
+import com.homechart.app.home.bean.articlelike.ArticleLikeItemBean;
 import com.homechart.app.home.bean.articleping.PingBean;
 import com.homechart.app.home.bean.articleping.PingCommentListItemBean;
 import com.homechart.app.home.bean.cailike.ImageLikeItemBean;
@@ -62,6 +68,8 @@ public class ArticleDetailsActivity
         extends BaseActivity
         implements View.OnClickListener,
         OnLoadMoreListener {
+
+
 
 
     @Override
@@ -134,28 +142,6 @@ public class ArticleDetailsActivity
         iv_ping.setOnClickListener(this);
         tv_ping.setOnClickListener(this);
         tv_look_more_ping.setOnClickListener(this);
-//        cet_clearedit.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//                if (TextUtils.isEmpty(s.toString())) {
-//                    tv_quxiao.setText("取消");
-//                } else {
-//                    tv_quxiao.setText("发送");
-//                }
-//
-//            }
-//        });
         cet_clearedit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
@@ -238,55 +224,94 @@ public class ArticleDetailsActivity
             case R.id.tv_look_more_ping:
                 getArticlePingList(article_id);
                 break;
-//            case R.id.tv_quxiao:
-//                String pingContent = cet_clearedit.getText().toString();
-//                cet_clearedit.setText("");
-//                nav_left_imageButton.requestFocus();
-//                // 先隐藏键盘
-//                ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
-//                        .hideSoftInputFromWindow(ArticleDetailsActivity.this.getCurrentFocus()
-//                                .getWindowToken(), 0);
-//                if (TextUtils.isEmpty(pingContent)) {
-//                    //隐藏评论输入框布局
-//                    rl_edit.setVisibility(View.INVISIBLE);
-//                } else {
-//                    //隐藏评论输入框布局
-//                    rl_edit.setVisibility(View.INVISIBLE);
-//                    //去评论
-//                    goPingAll(pingContent.trim());
-//                }
-//                break;
         }
     }
 
     @Override
     public void onLoadMore() {
 
+        ++likepage_num;
+        mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
+        getLikeArticle();
+
     }
 
     private void buildRecycler() {
-        MultiItemTypeSupport<ImageLikeItemBean> support = new MultiItemTypeSupport<ImageLikeItemBean>() {
+        MultiItemTypeSupport<ArticleLikeItemBean> support = new MultiItemTypeSupport<ArticleLikeItemBean>() {
             @Override
             public int getLayoutId(int itemType) {
-                return R.layout.item_like_pic;
+                return R.layout.item_article;
             }
 
             @Override
-            public int getItemViewType(int position, ImageLikeItemBean s) {
+            public int getItemViewType(int position, ArticleLikeItemBean s) {
                 return 0;
             }
         };
-        mAdapter = new MultiItemCommonAdapter<ImageLikeItemBean>(ArticleDetailsActivity.this, mListData, support) {
+        mAdapter = new MultiItemCommonAdapter<ArticleLikeItemBean>(ArticleDetailsActivity.this, mListData, support) {
             @Override
             public void convert(BaseViewHolder holder, final int position) {
+
+                ((TextView)holder.getView(R.id.tv_article_name)).setText(mListData.get(position).getArticle_info().getTitle());
+                ((TextView)holder.getView(R.id.tv_article_details)).setText(mListData.get(position).getArticle_info().getSummary());
+                ((TextView)holder.getView(R.id.tv_youlan_num)).setText(mListData.get(position).getArticle_info().getView_num());
+                ImageUtils.displayFilletImage(mListData.get(position).getArticle_info().getImage().getImg0(),
+                        (ImageView) holder.getView(R.id.iv_article_image));
+                holder.getView(R.id.rl_item_click).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(ArticleDetailsActivity.this, ArticleDetailsActivity.class);
+                        intent.putExtra("article_id", mListData.get(position).getArticle_info().getArticle_id());
+                        startActivity(intent);
+                    }
+                });
             }
         };
         mRecyclerView.addHeaderView(header);
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(ArticleDetailsActivity.this));
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setOnLoadMoreListener(this);
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
         mRecyclerView.setAdapter(mAdapter);
+        onLoadMore();
+    }
+
+    //0文章详情-猜你喜欢
+    private void getLikeArticle() {
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                ToastUtils.showCenter(ArticleDetailsActivity.this, "你可能喜欢的文章加载失败");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        ArticleLikeBean articleLikeBean = GsonUtil.jsonToBean(data_msg, ArticleLikeBean.class);
+                        List<ArticleLikeItemBean> list = articleLikeBean.getArticle_list();
+
+                        if (list != null && list.size() > 0) {
+                            updateViewFromData(list);
+                        } else {
+                            updateViewFromData(null);
+                        }
+
+
+                    } else {
+                        ToastUtils.showCenter(ArticleDetailsActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().getLikeArticleList(article_id, (likepage_num - 1) * 5, 10, callBack);
     }
 
     //1.文章详情
@@ -752,6 +777,21 @@ public class ArticleDetailsActivity
     }
 
 
+    private void updateViewFromData(List<ArticleLikeItemBean> listData) {
+
+        if (null != listData) {
+            position = mListData.size();
+            mListData.addAll(listData);
+            mAdapter.notifyItem(position, mListData, listData);
+            mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+        } else {
+            --likepage_num;
+            //没有更多数据
+            mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+        }
+    }
+
+
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -802,8 +842,8 @@ public class ArticleDetailsActivity
                     getArticleDetails();
                     break;
                 case 7://刷新评论列表
-                        myArticlePingAdapter = new MyArticlePingAdapter(ArticleDetailsActivity.this, mListPing, pingBean.getArticle_info().getUser_id());
-                        mlv_article_pinglun.setAdapter(myArticlePingAdapter);
+                    myArticlePingAdapter = new MyArticlePingAdapter(ArticleDetailsActivity.this, mListPing, pingBean.getArticle_info().getUser_id());
+                    mlv_article_pinglun.setAdapter(myArticlePingAdapter);
                     break;
             }
 
@@ -822,9 +862,10 @@ public class ArticleDetailsActivity
     private TextView tv_people_details;
     private TextView tv_people_guanzhu;
     private int guanzhuTag;
+    private int position;
     private HRecyclerView mRecyclerView;
-    private MultiItemCommonAdapter<ImageLikeItemBean> mAdapter;
-    private List<ImageLikeItemBean> mListData = new ArrayList<>();
+    private MultiItemCommonAdapter<ArticleLikeItemBean> mAdapter;
+    private List<ArticleLikeItemBean> mListData = new ArrayList<>();
     private LoadMoreFooterView mLoadMoreFooterView;
 
     //header（文章内容部分）
@@ -841,6 +882,7 @@ public class ArticleDetailsActivity
     private MyListView mlv_article_pinglun;
     private TextView tv_look_more_ping;
     private int pingpage_num = 1;
+    private int likepage_num = 0;
 
     //底部点赞等信息
     private boolean ifZan = false;
@@ -852,7 +894,6 @@ public class ArticleDetailsActivity
     private ImageView iv_xing;
     private TextView tv_ping;
     private ImageView iv_ping;
-
     private RelativeLayout rl_edit;
     private ClearEditText cet_clearedit;
     private PingBean pingBean;
