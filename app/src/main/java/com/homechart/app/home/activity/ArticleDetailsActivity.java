@@ -1,15 +1,16 @@
 package com.homechart.app.home.activity;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.Editable;
 import android.text.TextUtils;
-import android.util.Log;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
@@ -62,6 +63,7 @@ public class ArticleDetailsActivity
         implements View.OnClickListener,
         OnLoadMoreListener {
 
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_article_details;
@@ -97,13 +99,13 @@ public class ArticleDetailsActivity
         tv_look_more_ping = (TextView) header.findViewById(R.id.tv_look_more_ping);
         mlv_article_pinglun = (MyListView) header.findViewById(R.id.mlv_article_pinglun);
         //底部评论点赞
-        rl_article_below = (RelativeLayout) findViewById(R.id.rl_article_below);
-        iv_bang = (ImageView) findViewById(R.id.iv_bang);
-        iv_xing = (ImageView) findViewById(R.id.iv_xing);
-        tv_bang = (TextView) findViewById(R.id.tv_bang);
-        tv_xing = (TextView) findViewById(R.id.tv_xing);
-        tv_ping = (TextView) findViewById(R.id.tv_ping);
-        iv_ping = (ImageView) findViewById(R.id.iv_ping);
+        rl_article_below = (RelativeLayout) header.findViewById(R.id.rl_article_below);
+        iv_bang = (ImageView) header.findViewById(R.id.iv_bang);
+        iv_xing = (ImageView) header.findViewById(R.id.iv_xing);
+        tv_bang = (TextView) header.findViewById(R.id.tv_bang);
+        tv_xing = (TextView) header.findViewById(R.id.tv_xing);
+        tv_ping = (TextView) header.findViewById(R.id.tv_ping);
+        iv_ping = (ImageView) header.findViewById(R.id.iv_ping);
         //底部评论
         rl_edit = (RelativeLayout) findViewById(R.id.rl_edit);
         cet_clearedit = (ClearEditText) findViewById(R.id.cet_clearedit);
@@ -116,6 +118,8 @@ public class ArticleDetailsActivity
         wid_screen = PublicUtils.getScreenWidth(this);
         buildRecycler();
         getArticleDetails();
+        //获取文章评论信息
+        getArticlePingList(article_id);
     }
 
     @Override
@@ -129,6 +133,29 @@ public class ArticleDetailsActivity
         iv_bang.setOnClickListener(this);
         iv_ping.setOnClickListener(this);
         tv_ping.setOnClickListener(this);
+        tv_look_more_ping.setOnClickListener(this);
+//        cet_clearedit.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//                if (TextUtils.isEmpty(s.toString())) {
+//                    tv_quxiao.setText("取消");
+//                } else {
+//                    tv_quxiao.setText("发送");
+//                }
+//
+//            }
+//        });
         cet_clearedit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
@@ -145,7 +172,7 @@ public class ArticleDetailsActivity
                                 .hideSoftInputFromWindow(ArticleDetailsActivity.this.getCurrentFocus()
                                         .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                         //隐藏评论输入框布局
-                        rl_edit.setVisibility(View.GONE);
+//                        rl_edit.setVisibility(View.GONE);
                         //去评论
                         goPingAll(searchContext);
 
@@ -208,6 +235,27 @@ public class ArticleDetailsActivity
                 InputMethodManager inputMethodManager = (InputMethodManager) cet_clearedit.getContext().getSystemService(ArticleDetailsActivity.this.INPUT_METHOD_SERVICE);
                 inputMethodManager.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
                 break;
+            case R.id.tv_look_more_ping:
+                getArticlePingList(article_id);
+                break;
+//            case R.id.tv_quxiao:
+//                String pingContent = cet_clearedit.getText().toString();
+//                cet_clearedit.setText("");
+//                nav_left_imageButton.requestFocus();
+//                // 先隐藏键盘
+//                ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+//                        .hideSoftInputFromWindow(ArticleDetailsActivity.this.getCurrentFocus()
+//                                .getWindowToken(), 0);
+//                if (TextUtils.isEmpty(pingContent)) {
+//                    //隐藏评论输入框布局
+//                    rl_edit.setVisibility(View.INVISIBLE);
+//                } else {
+//                    //隐藏评论输入框布局
+//                    rl_edit.setVisibility(View.INVISIBLE);
+//                    //去评论
+//                    goPingAll(pingContent.trim());
+//                }
+//                break;
         }
     }
 
@@ -278,8 +326,6 @@ public class ArticleDetailsActivity
                 articleBean.getArticle_info().getArticle_id() != null) {
             //获取作者信息
             getUserInfo(articleBean.getArticle_info().getUser_id());
-            //获取文章评论信息
-            getArticlePingList(articleBean.getArticle_info().getArticle_id());
             //标题，阅读数，引言
             tv_article_tital.setText(articleBean.getArticle_info().getTitle());
             tv_readnum_num.setText(articleBean.getArticle_info().getView_num());
@@ -705,6 +751,7 @@ public class ArticleDetailsActivity
         MyHttpManager.getInstance().pingArticleSingle(reply_id, searchContext, callBack);
     }
 
+
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -742,17 +789,21 @@ public class ArticleDetailsActivity
                     break;
                 case 5://评论文章
                     ToastUtils.showCenter(ArticleDetailsActivity.this, "评论成功");
+                    pingpage_num = 1;
+                    mListPing.clear();
+                    getArticlePingList(article_id);
                     getArticleDetails();
                     break;
                 case 6://回复文章评论
                     ToastUtils.showCenter(ArticleDetailsActivity.this, "回复成功");
+                    pingpage_num = 1;
+                    mListPing.clear();
+                    getArticlePingList(article_id);
                     getArticleDetails();
                     break;
                 case 7://刷新评论列表
-                    if(pingBean != null) {
-                        MyArticlePingAdapter myArticlePingAdapter = new MyArticlePingAdapter(ArticleDetailsActivity.this, mListPing,pingBean.getArticle_info().getUser_id());
+                        myArticlePingAdapter = new MyArticlePingAdapter(ArticleDetailsActivity.this, mListPing, pingBean.getArticle_info().getUser_id());
                         mlv_article_pinglun.setAdapter(myArticlePingAdapter);
-                    }
                     break;
             }
 
@@ -805,5 +856,6 @@ public class ArticleDetailsActivity
     private RelativeLayout rl_edit;
     private ClearEditText cet_clearedit;
     private PingBean pingBean;
+    private MyArticlePingAdapter myArticlePingAdapter;
     private List<PingCommentListItemBean> mListPing = new ArrayList<>();
 }

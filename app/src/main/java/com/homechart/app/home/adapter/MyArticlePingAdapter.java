@@ -97,6 +97,11 @@ public class MyArticlePingAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public void setDataChange(List<PingCommentListItemBean> mListPing) {
+        this.mListPing = mListPing;
+        notifyDataSetChanged();
+    }
+
     class MyHolder {
         private RoundImageView riv_one;
         private RelativeLayout rl_name_one;
