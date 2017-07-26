@@ -341,4 +341,22 @@
         android:textColor="@color/bg_8f8f8f"
         android:textSize="@dimen/size_14" />
 
+
+    <View
+        android:id="@+id/view_top_like"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_10"
+        android:layout_below="@+id/tv_look_more_ping"
+        android:background="@color/bg_eeeeee" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/size_14"
+        android:textColor="@color/bg_262626"
+        android:layout_below="@+id/view_top_like"
+        android:layout_marginLeft="@dimen/size_10"
+        android:layout_marginTop="@dimen/size_15"
+        android:text="你可能还喜欢"/>
+
 </RelativeLayout>

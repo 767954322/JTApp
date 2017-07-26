@@ -240,7 +240,7 @@ public class ArticleDetailsActivity
         MultiItemTypeSupport<ArticleLikeItemBean> support = new MultiItemTypeSupport<ArticleLikeItemBean>() {
             @Override
             public int getLayoutId(int itemType) {
-                return R.layout.item_article;
+                return R.layout.item_article_like;
             }
 
             @Override
