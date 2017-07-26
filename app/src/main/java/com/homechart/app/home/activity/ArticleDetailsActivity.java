@@ -22,8 +22,11 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.adapter.MyArticlePicAdapter;
+import com.homechart.app.home.adapter.MyArticlePingAdapter;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.articledetails.ArticleBean;
+import com.homechart.app.home.bean.articleping.PingBean;
+import com.homechart.app.home.bean.articleping.PingCommentListItemBean;
 import com.homechart.app.home.bean.cailike.ImageLikeItemBean;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
@@ -58,52 +61,6 @@ public class ArticleDetailsActivity
         extends BaseActivity
         implements View.OnClickListener,
         OnLoadMoreListener {
-
-
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            int tag = msg.what;
-            switch (tag) {
-                case 1://点赞
-                    ToastUtils.showCenter(ArticleDetailsActivity.this, "你很棒棒哦");
-                    iv_bang.setImageResource(R.drawable.bang1);
-                    tv_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
-                    ifZan = false;
-                    getArticleDetails();
-                    break;
-                case 2://取消点赞
-                    ToastUtils.showCenter(ArticleDetailsActivity.this, "还是收回我的家图棒吧");
-                    iv_bang.setImageResource(R.drawable.bang);
-                    tv_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-                    ifZan = true;
-                    getArticleDetails();
-                    break;
-                case 3://收藏
-                    ToastUtils.showCenter(ArticleDetailsActivity.this, "收藏成功");
-                    iv_xing.setImageResource(R.drawable.xing1);
-                    tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
-                    ifShouCang = false;
-                    getArticleDetails();
-                    break;
-                case 4://取消收藏
-                    ToastUtils.showCenter(ArticleDetailsActivity.this, "取消收藏成功");
-                    iv_xing.setImageResource(R.drawable.xing);
-                    tv_xing.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-                    ifShouCang = false;
-                    getArticleDetails();
-                    break;
-                case 5://评论文章
-                    ToastUtils.showCenter(ArticleDetailsActivity.this, "评论成功");
-                    getArticleDetails();
-                    break;
-            }
-
-        }
-    };
-
 
     @Override
     protected int getLayoutResId() {
@@ -337,7 +294,6 @@ public class ArticleDetailsActivity
                 MyArticlePicAdapter articlePicAdapter = new MyArticlePicAdapter(ArticleDetailsActivity.this, articleBean, wid_screen);
                 mlv_article_pic_content.setAdapter(articlePicAdapter);
             }
-
             //显示评论点赞分享布局
             rl_article_below.setVisibility(View.VISIBLE);
             //点赞样式
@@ -506,7 +462,6 @@ public class ArticleDetailsActivity
 
     //4.获取文章评论列表
     private void getArticlePingList(String article_id) {
-
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
@@ -522,7 +477,28 @@ public class ArticleDetailsActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
-                        Log.d("test", data_msg);
+                        pingBean = GsonUtil.jsonToBean(data_msg, PingBean.class);
+                        List<PingCommentListItemBean> list = pingBean.getComment_list();
+                        if (list != null && list.size() > 0) {
+                            mListPing.addAll(list);
+                            Message msg = new Message();
+                            msg.what = 7;
+                            mHandler.sendMessage(msg);
+                        }
+                        if (mListPing.size() > 0) {
+                            //显示评论列表
+                            view_top_pingtital.setVisibility(View.VISIBLE);
+                            tv_ping_tital.setVisibility(View.VISIBLE);
+                            view_below_pingtital.setVisibility(View.VISIBLE);
+                            mlv_article_pinglun.setVisibility(View.VISIBLE);
+                            tv_look_more_ping.setVisibility(View.VISIBLE);
+                            if (list.size() < 5) {
+                                //隐藏评论加载更多
+                                tv_look_more_ping.setVisibility(View.GONE);
+                            }
+                        }
+
+
                     } else {
                         ToastUtils.showCenter(ArticleDetailsActivity.this, error_msg);
                     }
@@ -699,9 +675,89 @@ public class ArticleDetailsActivity
     }
 
     //7.回复对文章发表的评论
-    private void goPingSingle(String searchContext) {
+    private void goPingSingle(String reply_id, String searchContext) {
 
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtils.showCenter(ArticleDetailsActivity.this, "回复失败");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        Message msg = new Message();
+                        msg.what = 6;
+                        mHandler.sendMessage(msg);
+                    } else {
+                        ToastUtils.showCenter(ArticleDetailsActivity.this, "回复失败");
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(ArticleDetailsActivity.this, "回复失败");
+                }
+            }
+        };
+        MyHttpManager.getInstance().pingArticleSingle(reply_id, searchContext, callBack);
     }
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            int tag = msg.what;
+            switch (tag) {
+                case 1://点赞
+                    ToastUtils.showCenter(ArticleDetailsActivity.this, "你很棒棒哦");
+                    iv_bang.setImageResource(R.drawable.bang1);
+                    tv_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                    ifZan = false;
+                    getArticleDetails();
+                    break;
+                case 2://取消点赞
+                    ToastUtils.showCenter(ArticleDetailsActivity.this, "还是收回我的家图棒吧");
+                    iv_bang.setImageResource(R.drawable.bang);
+                    tv_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                    ifZan = true;
+                    getArticleDetails();
+                    break;
+                case 3://收藏
+                    ToastUtils.showCenter(ArticleDetailsActivity.this, "收藏成功");
+                    iv_xing.setImageResource(R.drawable.xing1);
+                    tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                    ifShouCang = false;
+                    getArticleDetails();
+                    break;
+                case 4://取消收藏
+                    ToastUtils.showCenter(ArticleDetailsActivity.this, "取消收藏成功");
+                    iv_xing.setImageResource(R.drawable.xing);
+                    tv_xing.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                    ifShouCang = false;
+                    getArticleDetails();
+                    break;
+                case 5://评论文章
+                    ToastUtils.showCenter(ArticleDetailsActivity.this, "评论成功");
+                    getArticleDetails();
+                    break;
+                case 6://回复文章评论
+                    ToastUtils.showCenter(ArticleDetailsActivity.this, "回复成功");
+                    getArticleDetails();
+                    break;
+                case 7://刷新评论列表
+                    if(pingBean != null) {
+                        MyArticlePingAdapter myArticlePingAdapter = new MyArticlePingAdapter(ArticleDetailsActivity.this, mListPing,pingBean.getArticle_info().getUser_id());
+                        mlv_article_pinglun.setAdapter(myArticlePingAdapter);
+                    }
+                    break;
+            }
+
+        }
+    };
 
     private View header;
     private ImageButton nav_left_imageButton;
@@ -748,4 +804,6 @@ public class ArticleDetailsActivity
 
     private RelativeLayout rl_edit;
     private ClearEditText cet_clearedit;
+    private PingBean pingBean;
+    private List<PingCommentListItemBean> mListPing = new ArrayList<>();
 }

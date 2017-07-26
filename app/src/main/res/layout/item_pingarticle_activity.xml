@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_ping_one"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.homechart.app.myview.RoundImageView
+        android:id="@+id/riv_one"
+        android:layout_width="@dimen/font_32"
+        android:layout_height="@dimen/font_32"
+        android:layout_marginLeft="@dimen/font_15"
+        android:layout_marginTop="@dimen/font_15" />
+
+    <RelativeLayout
+        android:id="@+id/rl_name_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/font_15"
+        android:layout_marginTop="@dimen/font_20"
+        android:layout_toRightOf="@+id/riv_one">
+
+        <TextView
+            android:id="@+id/tv_name_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:includeFontPadding="false"
+            android:textColor="@color/bg_707070"
+            android:textSize="@dimen/font_14" />
+
+        <TextView
+            android:id="@+id/tv_if_zuozhe"
+            android:layout_width="@dimen/font_29"
+            android:layout_height="@dimen/font_13"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_9"
+            android:layout_toRightOf="@+id/tv_name_one"
+            android:background="@drawable/text_zuozhe"
+            android:gravity="center"
+            android:text="作者"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_10" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_huifu_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/font_10"
+        android:layout_marginTop="@dimen/font_20"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tv_huifu_one"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_4"
+            android:src="@drawable/huifu" />
+
+        <TextView
+            android:id="@+id/tv_huifu_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:text="回复"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_12" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_time_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/rl_name_one"
+        android:layout_below="@+id/rl_name_one"
+        android:layout_marginTop="@dimen/font_5"
+        android:includeFontPadding="false"
+        android:textColor="@color/bg_8f8f8f"
+        android:textSize="@dimen/font_12" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_huifu_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_38"
+        android:layout_alignLeft="@+id/tv_time_one"
+        android:layout_below="@+id/tv_time_one"
+        android:layout_marginRight="@dimen/font_10"
+        android:background="@color/bg_f7f7f7">
+
+        <TextView
+            android:id="@+id/tv_huifu_content_one1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_10"
+            android:includeFontPadding="false"
+            android:text="回复"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_14" />
+
+        <TextView
+            android:id="@+id/tv_huifu_content_two1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_5"
+            android:layout_toRightOf="@+id/tv_huifu_content_one1"
+            android:textColor="@color/bg_e79056"
+            android:textSize="@dimen/font_14" />
+
+        <TextView
+            android:id="@+id/tv_huifu_content_three1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/tv_huifu_content_two1"
+            android:includeFontPadding="false"
+            android:text=":"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_14" />
+
+        <TextView
+            android:id="@+id/tv_huifu_content_four1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_10"
+            android:layout_toRightOf="@+id/tv_huifu_content_two1"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:lines="1"
+            android:maxLines="1"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_14" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_content_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/rl_huifu_content"
+        android:layout_below="@+id/rl_huifu_content"
+        android:layout_marginBottom="@dimen/font_15"
+        android:layout_marginRight="@dimen/font_20"
+        android:layout_marginTop="@dimen/font_15"
+        android:includeFontPadding="false" />
+
+
+    <View
+        android:id="@+id/view_one"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/tv_content_one"
+        android:layout_marginLeft="@dimen/font_10"
+        android:layout_marginRight="@dimen/font_10"
+        android:background="@color/view_line" />
+
+</RelativeLayout>
+
+
