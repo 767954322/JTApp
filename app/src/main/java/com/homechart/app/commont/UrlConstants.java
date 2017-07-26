@@ -61,5 +61,6 @@ public class UrlConstants {
     public static final String ADD_SHARED = "https://api.idcool.com.cn/base/share/updateShareNum";  //增加分享数
     public static final String SEARCH_ARTICLE = "https://api.idcool.com.cn/search/search/article";  //搜索文章列表
     public static final String DETAILS_ARTICLE = "https://api.idcool.com.cn/article/article/getInfo";  //获取文章详情
+    public static final String PINGLIST_ARTICLE = "https://api.idcool.com.cn/comment/article/slist";  //获取文章的评论列表
 
 }

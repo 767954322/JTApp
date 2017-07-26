@@ -128,8 +128,8 @@
         android:layout_marginLeft="@dimen/font_20"
         android:layout_marginRight="@dimen/font_20"
         android:layout_marginTop="@dimen/font_35"
-        android:visibility="gone"
-        android:background="@color/bg_f7f7f7">
+        android:background="@color/bg_f7f7f7"
+        android:visibility="gone">
 
         <RelativeLayout
             android:id="@+id/rl_yinyan_tital_nei"
@@ -180,7 +180,61 @@
         android:layout_below="@+id/rl_yinyan_tital_wai"
         android:layout_marginLeft="@dimen/font_20"
         android:layout_marginRight="@dimen/font_20"
-        android:divider="@null"/>
+        android:divider="@null" />
 
+    <View
+        android:id="@+id/view_top_pingtital"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_10"
+        android:layout_below="@+id/mlv_article_pic_content"
+        android:layout_marginTop="@dimen/font_50"
+        android:visibility="gone"
+        android:background="@color/bg_eeeeee" />
+
+    <TextView
+        android:id="@+id/tv_ping_tital"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_top_pingtital"
+        android:layout_marginBottom="@dimen/font_15"
+        android:layout_marginLeft="@dimen/font_15"
+        android:layout_marginTop="@dimen/font_15"
+        android:text="评论"
+        android:visibility="gone"
+        android:textColor="@color/bg_262626"
+        android:textSize="@dimen/font_14" />
+
+    <View
+        android:id="@+id/view_below_pingtital"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:visibility="gone"
+        android:layout_below="@+id/tv_ping_tital"
+        android:layout_marginLeft="@dimen/font_10"
+        android:layout_marginRight="@dimen/font_10"
+        android:background="@color/view_line" />
+
+    <com.homechart.app.myview.MyListView
+        android:id="@+id/mlv_article_pinglun"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_below="@+id/view_below_pingtital"
+        android:layout_marginLeft="@dimen/font_20"
+        android:layout_marginRight="@dimen/font_20"
+        android:divider="@null" />
+
+    <TextView
+        android:id="@+id/tv_look_more_ping"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mlv_article_pinglun"
+        android:gravity="center_horizontal"
+        android:paddingBottom="@dimen/font_15"
+        android:paddingTop="@dimen/font_15"
+        android:text="查看更多评论"
+        android:visibility="gone"
+        android:textColor="@color/bg_8f8f8f"
+        android:textSize="@dimen/size_14" />
 
 </RelativeLayout>

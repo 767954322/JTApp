@@ -481,6 +481,7 @@ public class MyHttpManager {
         };
         queue.add(okStringRequest);
     }
+
     /**
      * 获取收藏列表
      *
@@ -536,6 +537,7 @@ public class MyHttpManager {
         };
         queue.add(okStringRequest);
     }
+
     /**
      * 获取晒家列表
      *
@@ -716,6 +718,7 @@ public class MyHttpManager {
         };
         queue.add(okStringRequest);
     }
+
     /**
      * 删除收藏的文章
      *
@@ -744,6 +747,7 @@ public class MyHttpManager {
         };
         queue.add(okStringRequest);
     }
+
     /**
      * 添加收藏的文章
      *
@@ -1534,10 +1538,11 @@ public class MyHttpManager {
 
     /**
      * 获取文章详情
+     *
      * @param article_id
      * @param callback
      */
-    public void getArticleDetails( final String article_id, OkStringRequest.OKResponseCallback callback) {
+    public void getArticleDetails(final String article_id, OkStringRequest.OKResponseCallback callback) {
         OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.DETAILS_ARTICLE, callback) {
 
             @Override
@@ -1558,4 +1563,37 @@ public class MyHttpManager {
         };
         queue.add(okStringRequest);
     }
+
+    /**
+     * 获取文章详情评论列表
+     *
+     * @param article_id
+     * @param s
+     * @param n
+     * @param callback
+     */
+    public void getArticlePingList(final String article_id, final int s, final int n, OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.PINGLIST_ARTICLE, callback) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                map.put("article_id", article_id);
+                map.put("s", s + "");
+                map.put("n", n + "");
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+
+        };
+        queue.add(okStringRequest);
+    }
+
 }

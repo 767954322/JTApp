@@ -3,6 +3,7 @@ package com.homechart.app.home.activity;
 import android.os.Bundle;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
@@ -18,6 +19,7 @@ import com.homechart.app.home.adapter.MyArticlePicAdapter;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.articledetails.ArticleBean;
 import com.homechart.app.home.bean.cailike.ImageLikeItemBean;
+import com.homechart.app.home.bean.userinfo.ProInfo;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.myview.MyListView;
@@ -80,6 +82,12 @@ public class ArticleDetailsActivity
         tv_yinyan_content = (TextView) header.findViewById(R.id.tv_yinyan_content);
         rl_yinyan_tital_wai = (RelativeLayout) header.findViewById(R.id.rl_yinyan_tital_wai);
         mlv_article_pic_content = (MyListView) header.findViewById(R.id.mlv_article_pic_content);
+        //文章评论
+        view_top_pingtital = header.findViewById(R.id.view_top_pingtital);
+        view_below_pingtital = header.findViewById(R.id.view_below_pingtital);
+        tv_ping_tital = (TextView) header.findViewById(R.id.tv_ping_tital);
+        tv_look_more_ping = (TextView) header.findViewById(R.id.tv_look_more_ping);
+        mlv_article_pinglun = (MyListView) header.findViewById(R.id.mlv_article_pinglun);
 
     }
 
@@ -191,7 +199,10 @@ public class ArticleDetailsActivity
         if (articleBean != null &&
                 articleBean.getArticle_info() != null &&
                 articleBean.getArticle_info().getArticle_id() != null) {
+            //获取作者信息
             getUserInfo(articleBean.getArticle_info().getUser_id());
+            //获取文章评论信息
+            getArticlePingList(articleBean.getArticle_info().getArticle_id());
             //标题，阅读数，引言
             tv_article_tital.setText(articleBean.getArticle_info().getTitle());
             tv_readnum_num.setText(articleBean.getArticle_info().getView_num());
@@ -203,7 +214,7 @@ public class ArticleDetailsActivity
             }
             //文章的图文
             if (articleBean.getItem_list() != null && articleBean.getItem_list().size() > 0) {
-                MyArticlePicAdapter articlePicAdapter = new MyArticlePicAdapter(ArticleDetailsActivity.this, articleBean,wid_screen);
+                MyArticlePicAdapter articlePicAdapter = new MyArticlePicAdapter(ArticleDetailsActivity.this, articleBean, wid_screen);
                 mlv_article_pic_content.setAdapter(articlePicAdapter);
             }
 
@@ -348,6 +359,36 @@ public class ArticleDetailsActivity
 
     }
 
+    //4.获取文章评论列表
+    private void getArticlePingList(String article_id) {
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtils.showCenter(ArticleDetailsActivity.this, "文章评论数据获取失败");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    ++pingpage_num;
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        Log.d("test",data_msg);
+                    } else {
+                        ToastUtils.showCenter(ArticleDetailsActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().getArticlePingList(article_id, (pingpage_num - 1) * 5, 5, callBack);
+
+    }
+
     //＊收藏文章
     private void shoucang() {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
@@ -393,12 +434,19 @@ public class ArticleDetailsActivity
     private List<ImageLikeItemBean> mListData = new ArrayList<>();
     private LoadMoreFooterView mLoadMoreFooterView;
 
-    //header
+    //header（文章内容部分）
     private MyListView mlv_article_pic_content;
     private TextView tv_article_tital;
     private TextView tv_readnum_num;
     private TextView tv_yinyan_content;
     private RelativeLayout rl_yinyan_tital_wai;
     private int wid_screen;
+    //header（文章评论部分）
+    private View view_top_pingtital;
+    private TextView tv_ping_tital;
+    private View view_below_pingtital;
+    private MyListView mlv_article_pinglun;
+    private TextView tv_look_more_ping;
+    private int pingpage_num = 1;
 
 }
