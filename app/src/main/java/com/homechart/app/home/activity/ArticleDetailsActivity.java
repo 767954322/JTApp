@@ -1,45 +1,38 @@
 package com.homechart.app.home.activity;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.google.android.gms.analytics.HitBuilders;
-import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.commont.PublicUtils;
+import com.homechart.app.home.adapter.MyArticlePicAdapter;
 import com.homechart.app.home.base.BaseActivity;
-import com.homechart.app.home.bean.cailike.ColorInfoBean;
+import com.homechart.app.home.bean.articledetails.ArticleBean;
 import com.homechart.app.home.bean.cailike.ImageLikeItemBean;
-import com.homechart.app.home.bean.searchartile.ArticleBean;
-import com.homechart.app.home.bean.userinfo.ProInfo;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.myview.MyListView;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
-import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,8 +48,9 @@ import java.util.List;
 
 public class ArticleDetailsActivity
         extends BaseActivity
-        implements View.OnClickListener ,
-        OnLoadMoreListener{
+        implements View.OnClickListener,
+        OnLoadMoreListener {
+
 
     @Override
     protected int getLayoutResId() {
@@ -81,12 +75,18 @@ public class ArticleDetailsActivity
         riv_people_header = (RoundImageView) header.findViewById(R.id.riv_people_header);
         tv_people_details = (TextView) header.findViewById(R.id.tv_people_details);
         tv_people_guanzhu = (TextView) header.findViewById(R.id.tv_people_guanzhu);
+        tv_article_tital = (TextView) header.findViewById(R.id.tv_article_tital);
+        tv_readnum_num = (TextView) header.findViewById(R.id.tv_readnum_num);
+        tv_yinyan_content = (TextView) header.findViewById(R.id.tv_yinyan_content);
+        rl_yinyan_tital_wai = (RelativeLayout) header.findViewById(R.id.rl_yinyan_tital_wai);
+        mlv_article_pic_content = (MyListView) header.findViewById(R.id.mlv_article_pic_content);
 
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         tv_tital_comment.setText("文章详情");
+        wid_screen = PublicUtils.getScreenWidth(this);
         buildRecycler();
         getArticleDetails();
     }
@@ -191,9 +191,23 @@ public class ArticleDetailsActivity
         if (articleBean != null &&
                 articleBean.getArticle_info() != null &&
                 articleBean.getArticle_info().getArticle_id() != null) {
-            getUserInfo(articleBean.getArticle_info().getArticle_id());
-        }
+            getUserInfo(articleBean.getArticle_info().getUser_id());
+            //标题，阅读数，引言
+            tv_article_tital.setText(articleBean.getArticle_info().getTitle());
+            tv_readnum_num.setText(articleBean.getArticle_info().getView_num());
+            if (TextUtils.isEmpty(articleBean.getArticle_info().getSummary())) {
+                rl_yinyan_tital_wai.setVisibility(View.GONE);
+            } else {
+                rl_yinyan_tital_wai.setVisibility(View.VISIBLE);
+                tv_yinyan_content.setText(articleBean.getArticle_info().getTitle());
+            }
+            //文章的图文
+            if (articleBean.getItem_list() != null && articleBean.getItem_list().size() > 0) {
+                MyArticlePicAdapter articlePicAdapter = new MyArticlePicAdapter(ArticleDetailsActivity.this, articleBean,wid_screen);
+                mlv_article_pic_content.setAdapter(articlePicAdapter);
+            }
 
+        }
     }
 
     //2.用户详情
@@ -379,5 +393,12 @@ public class ArticleDetailsActivity
     private List<ImageLikeItemBean> mListData = new ArrayList<>();
     private LoadMoreFooterView mLoadMoreFooterView;
 
+    //header
+    private MyListView mlv_article_pic_content;
+    private TextView tv_article_tital;
+    private TextView tv_readnum_num;
+    private TextView tv_yinyan_content;
+    private RelativeLayout rl_yinyan_tital_wai;
+    private int wid_screen;
 
 }

@@ -9,9 +9,11 @@ import java.io.Serializable;
 public class ItemImageBean implements Serializable{
 
     private String img0;
+    private float ratio;
 
-    public ItemImageBean(String img0) {
+    public ItemImageBean(String img0, float ratio) {
         this.img0 = img0;
+        this.ratio = ratio;
     }
 
     public String getImg0() {
@@ -22,10 +24,19 @@ public class ItemImageBean implements Serializable{
         this.img0 = img0;
     }
 
+    public float getRatio() {
+        return ratio;
+    }
+
+    public void setRatio(float ratio) {
+        this.ratio = ratio;
+    }
+
     @Override
     public String toString() {
         return "ItemImageBean{" +
                 "img0='" + img0 + '\'' +
+                ", ratio=" + ratio +
                 '}';
     }
 }
