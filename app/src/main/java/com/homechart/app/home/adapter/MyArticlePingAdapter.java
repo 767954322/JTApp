@@ -51,7 +51,7 @@ public class MyArticlePingAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         MyHolder myHolder;
         if (convertView == null) {
@@ -95,7 +95,7 @@ public class MyArticlePingAdapter extends BaseAdapter {
         myHolder.ll_huifu_one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                huiFu.clickHuiFu();
+                huiFu.clickHuiFu(mListPing.get(position));
             }
         });
 
@@ -122,6 +122,6 @@ public class MyArticlePingAdapter extends BaseAdapter {
     }
 
    public interface HuiFu{
-       void clickHuiFu();
+       void clickHuiFu(PingCommentListItemBean pingCommentListItemBean);
     }
 }

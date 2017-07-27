@@ -163,7 +163,7 @@ public class ArticleDetailsActivity
             @Override
             public void keyBoardHide(int height) {
                 Log.d("test", "隐藏");
-
+                reply_id = "";
                 rl_more_add.setVisibility(View.VISIBLE);
             }
         });
@@ -185,8 +185,15 @@ public class ArticleDetailsActivity
                                         .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                         //隐藏评论输入框布局
 //                        rl_edit.setVisibility(View.GONE);
-                        //去评论
-                        goPingAll(searchContext);
+
+                        if (TextUtils.isEmpty(reply_id.trim())) {
+                            //评论文章
+                            goPingAll(searchContext);
+                        } else {
+                            //回复评论
+                            goPingSingle(reply_id, searchContext);
+                        }
+
 
                     }
                     return true;
@@ -833,9 +840,12 @@ public class ArticleDetailsActivity
 
     //＊＊点击回复单单条评论的回调
     @Override
-    public void clickHuiFu() {
-
-
+    public void clickHuiFu(PingCommentListItemBean pingCommentListItemBean) {
+        reply_id = pingCommentListItemBean.getComment_info().getComment_id();
+        rl_edit.setVisibility(View.VISIBLE);
+        cet_clearedit.requestFocus();
+        InputMethodManager inputMethodManager = (InputMethodManager) cet_clearedit.getContext().getSystemService(ArticleDetailsActivity.this.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
     }
 
 
@@ -960,4 +970,5 @@ public class ArticleDetailsActivity
     private List<PingCommentListItemBean> mListPing = new ArrayList<>();
 
 
+    private String reply_id = "";
 }
