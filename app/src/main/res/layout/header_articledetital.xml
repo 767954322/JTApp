@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <RelativeLayout
         android:id="@+id/rl_user_top"
         android:layout_width="match_parent"
@@ -180,6 +179,7 @@
         android:layout_below="@+id/rl_yinyan_tital_wai"
         android:layout_marginLeft="@dimen/font_20"
         android:layout_marginRight="@dimen/font_20"
+        android:layout_marginBottom="@dimen/font_50"
         android:divider="@null" />
 
     <RelativeLayout
@@ -187,7 +187,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_45"
         android:background="@color/white"
-        android:layout_marginTop="@dimen/font_50"
         android:layout_below="@+id/mlv_article_pic_content"
         android:visibility="gone">
 
@@ -340,7 +339,6 @@
         android:visibility="gone"
         android:textColor="@color/bg_8f8f8f"
         android:textSize="@dimen/size_14" />
-
 
     <View
         android:id="@+id/view_top_like"

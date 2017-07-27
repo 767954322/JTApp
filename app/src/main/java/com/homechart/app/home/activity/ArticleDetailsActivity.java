@@ -193,8 +193,6 @@ public class ArticleDetailsActivity
                             //回复评论
                             goPingSingle(reply_id, searchContext);
                         }
-
-
                     }
                     return true;
                 }
@@ -403,7 +401,7 @@ public class ArticleDetailsActivity
                 mlv_article_pic_content.setAdapter(articlePicAdapter);
             }
             //显示评论点赞分享布局
-            rl_article_below.setVisibility(View.VISIBLE);
+            rl_article_below.setVisibility(View.GONE);
             //点赞样式
             if (articleBean.getArticle_info().getIs_liked() == 1) {//已赞
                 iv_bang.setImageResource(R.drawable.bang1);

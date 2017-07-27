@@ -24,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:clickable="true"
         android:background="@color/white">
 
         <View
@@ -67,14 +68,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/font_20"
+                android:paddingLeft="@dimen/font_20"
                 android:src="@drawable/bang" />
 
             <TextView
                 android:id="@+id/tv_wai_bang"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/font_4"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/font_4"
+                android:paddingRight="@dimen/font_7"
                 android:layout_toRightOf="@+id/iv_wai_bang"
                 android:gravity="top"
                 android:includeFontPadding="true"
@@ -88,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/font_15"
+                android:layout_marginLeft="@dimen/font_8"
                 android:layout_toRightOf="@+id/tv_wai_bang"
                 android:src="@drawable/xing" />
 
@@ -96,10 +98,10 @@
             <TextView
                 android:id="@+id/tv_wai_xing"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="@dimen/font_4"
-                android:layout_marginRight="@dimen/size_20"
+                android:paddingLeft="@dimen/font_4"
+                android:paddingRight="@dimen/size_20"
                 android:layout_toRightOf="@+id/iv_wai_xing"
                 android:paddingTop="@dimen/font_10"
                 android:text="0"
