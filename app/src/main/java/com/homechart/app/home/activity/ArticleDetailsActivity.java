@@ -40,6 +40,7 @@ import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.myview.MyListView;
 import com.homechart.app.myview.RoundImageView;
+import com.homechart.app.myview.SoftKeyBoardListener;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
@@ -67,9 +68,8 @@ import java.util.List;
 public class ArticleDetailsActivity
         extends BaseActivity
         implements View.OnClickListener,
-        OnLoadMoreListener {
-
-
+        OnLoadMoreListener,
+        MyArticlePingAdapter.HuiFu {
 
 
     @Override
@@ -116,7 +116,13 @@ public class ArticleDetailsActivity
         iv_ping = (ImageView) header.findViewById(R.id.iv_ping);
         //底部评论
         rl_edit = (RelativeLayout) findViewById(R.id.rl_edit);
+        rl_more_add = (RelativeLayout) findViewById(R.id.rl_more_add);
         cet_clearedit = (ClearEditText) findViewById(R.id.cet_clearedit);
+        //外部的点赞，收藏
+        iv_wai_bang = (ImageView) findViewById(R.id.iv_wai_bang);
+        tv_wai_bang = (TextView) findViewById(R.id.tv_wai_bang);
+        iv_wai_xing = (ImageView) findViewById(R.id.iv_wai_xing);
+        tv_wai_xing = (TextView) findViewById(R.id.tv_wai_xing);
 
     }
 
@@ -136,12 +142,32 @@ public class ArticleDetailsActivity
         nav_left_imageButton.setOnClickListener(this);
         tv_people_guanzhu.setOnClickListener(this);
         iv_xing.setOnClickListener(this);
+        iv_wai_xing.setOnClickListener(this);
         tv_xing.setOnClickListener(this);
+        tv_wai_xing.setOnClickListener(this);
         tv_bang.setOnClickListener(this);
+        tv_wai_bang.setOnClickListener(this);
         iv_bang.setOnClickListener(this);
+        iv_wai_bang.setOnClickListener(this);
         iv_ping.setOnClickListener(this);
         tv_ping.setOnClickListener(this);
         tv_look_more_ping.setOnClickListener(this);
+
+        SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
+            @Override
+            public void keyBoardShow(int height) {
+                Log.d("test", "显示");
+                rl_more_add.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void keyBoardHide(int height) {
+                Log.d("test", "隐藏");
+
+                rl_more_add.setVisibility(View.VISIBLE);
+            }
+        });
+
         cet_clearedit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
@@ -193,7 +219,9 @@ public class ArticleDetailsActivity
                 }
                 break;
             case R.id.iv_bang:
+            case R.id.iv_wai_bang:
             case R.id.tv_bang:
+            case R.id.tv_wai_bang:
 
                 if (ifZan) {
                     addZan();
@@ -204,6 +232,8 @@ public class ArticleDetailsActivity
                 }
                 break;
             case R.id.iv_xing:
+            case R.id.iv_wai_xing:
+            case R.id.tv_wai_xing:
             case R.id.tv_xing:
 
                 if (ifShouCang) {
@@ -252,9 +282,9 @@ public class ArticleDetailsActivity
             @Override
             public void convert(BaseViewHolder holder, final int position) {
 
-                ((TextView)holder.getView(R.id.tv_article_name)).setText(mListData.get(position).getArticle_info().getTitle());
-                ((TextView)holder.getView(R.id.tv_article_details)).setText(mListData.get(position).getArticle_info().getSummary());
-                ((TextView)holder.getView(R.id.tv_youlan_num)).setText(mListData.get(position).getArticle_info().getView_num());
+                ((TextView) holder.getView(R.id.tv_article_name)).setText(mListData.get(position).getArticle_info().getTitle());
+                ((TextView) holder.getView(R.id.tv_article_details)).setText(mListData.get(position).getArticle_info().getSummary());
+                ((TextView) holder.getView(R.id.tv_youlan_num)).setText(mListData.get(position).getArticle_info().getView_num());
                 ImageUtils.displayFilletImage(mListData.get(position).getArticle_info().getImage().getImg0(),
                         (ImageView) holder.getView(R.id.iv_article_image));
                 holder.getView(R.id.rl_item_click).setOnClickListener(new View.OnClickListener() {
@@ -371,24 +401,34 @@ public class ArticleDetailsActivity
             if (articleBean.getArticle_info().getIs_liked() == 1) {//已赞
                 iv_bang.setImageResource(R.drawable.bang1);
                 tv_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                iv_wai_bang.setImageResource(R.drawable.bang1);
+                tv_wai_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
                 ifZan = false;
             } else {//未赞
                 iv_bang.setImageResource(R.drawable.bang);
                 tv_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                iv_wai_bang.setImageResource(R.drawable.bang);
+                tv_wai_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                 ifZan = true;
             }
             tv_bang.setText(articleBean.getArticle_info().getLike_num());
+            tv_wai_bang.setText(articleBean.getArticle_info().getLike_num());
             //收藏样式
             if (articleBean.getArticle_info().getIs_collected() == 1) {//已收藏
                 iv_xing.setImageResource(R.drawable.xing1);
                 tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                iv_wai_xing.setImageResource(R.drawable.xing1);
+                tv_wai_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
                 ifShouCang = false;
             } else {//未收藏
                 iv_xing.setImageResource(R.drawable.xing);
                 tv_xing.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                iv_wai_xing.setImageResource(R.drawable.xing);
+                tv_wai_xing.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                 ifShouCang = true;
             }
             tv_xing.setText(articleBean.getArticle_info().getCollect_num());
+            tv_wai_xing.setText(articleBean.getArticle_info().getCollect_num());
             tv_ping.setText(articleBean.getArticle_info().getComment_num());
         }
     }
@@ -791,6 +831,13 @@ public class ArticleDetailsActivity
         }
     }
 
+    //＊＊点击回复单单条评论的回调
+    @Override
+    public void clickHuiFu() {
+
+
+    }
+
 
     Handler mHandler = new Handler() {
         @Override
@@ -803,6 +850,8 @@ public class ArticleDetailsActivity
                     ToastUtils.showCenter(ArticleDetailsActivity.this, "你很棒棒哦");
                     iv_bang.setImageResource(R.drawable.bang1);
                     tv_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                    iv_wai_bang.setImageResource(R.drawable.bang1);
+                    tv_wai_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
                     ifZan = false;
                     getArticleDetails();
                     break;
@@ -810,6 +859,8 @@ public class ArticleDetailsActivity
                     ToastUtils.showCenter(ArticleDetailsActivity.this, "还是收回我的家图棒吧");
                     iv_bang.setImageResource(R.drawable.bang);
                     tv_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                    iv_wai_bang.setImageResource(R.drawable.bang);
+                    tv_wai_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                     ifZan = true;
                     getArticleDetails();
                     break;
@@ -817,6 +868,8 @@ public class ArticleDetailsActivity
                     ToastUtils.showCenter(ArticleDetailsActivity.this, "收藏成功");
                     iv_xing.setImageResource(R.drawable.xing1);
                     tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                    iv_wai_xing.setImageResource(R.drawable.xing1);
+                    tv_wai_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
                     ifShouCang = false;
                     getArticleDetails();
                     break;
@@ -824,6 +877,8 @@ public class ArticleDetailsActivity
                     ToastUtils.showCenter(ArticleDetailsActivity.this, "取消收藏成功");
                     iv_xing.setImageResource(R.drawable.xing);
                     tv_xing.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                    iv_wai_xing.setImageResource(R.drawable.xing);
+                    tv_wai_xing.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                     ifShouCang = false;
                     getArticleDetails();
                     break;
@@ -842,14 +897,14 @@ public class ArticleDetailsActivity
                     getArticleDetails();
                     break;
                 case 7://刷新评论列表
-                    myArticlePingAdapter = new MyArticlePingAdapter(ArticleDetailsActivity.this, mListPing, pingBean.getArticle_info().getUser_id());
+                    myArticlePingAdapter = new MyArticlePingAdapter(ArticleDetailsActivity.this, mListPing, pingBean.getArticle_info().getUser_id(), ArticleDetailsActivity.this);
                     mlv_article_pinglun.setAdapter(myArticlePingAdapter);
                     break;
             }
 
         }
     };
-
+    private RelativeLayout rl_more_add;
     private View header;
     private ImageButton nav_left_imageButton;
     private TextView tv_tital_comment;
@@ -894,9 +949,15 @@ public class ArticleDetailsActivity
     private ImageView iv_xing;
     private TextView tv_ping;
     private ImageView iv_ping;
+    private ImageView iv_wai_bang;
+    private TextView tv_wai_bang;
+    private ImageView iv_wai_xing;
+    private TextView tv_wai_xing;
     private RelativeLayout rl_edit;
     private ClearEditText cet_clearedit;
     private PingBean pingBean;
     private MyArticlePingAdapter myArticlePingAdapter;
     private List<PingCommentListItemBean> mListPing = new ArrayList<>();
+
+
 }

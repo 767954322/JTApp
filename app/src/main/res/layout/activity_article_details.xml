@@ -19,7 +19,6 @@
         app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
 
 
-
     <RelativeLayout
         android:id="@+id/rl_edit"
         android:layout_width="match_parent"
@@ -32,28 +31,83 @@
             android:layout_height="0.5dp"
             android:layout_alignParentTop="true"
             android:background="@color/view_line" />
+
         <com.homechart.app.myview.ClearEditText
             android:id="@+id/cet_clearedit"
             android:layout_width="match_parent"
             android:layout_height="@dimen/font_35"
+            android:layout_marginBottom="@dimen/font_8"
             android:layout_marginLeft="@dimen/font_10"
             android:layout_marginRight="@dimen/font_10"
-            android:layout_toLeftOf="@+id/tv_quxiao"
-            android:layout_marginBottom="@dimen/font_8"
             android:layout_marginTop="@dimen/font_8"
+            android:layout_toLeftOf="@+id/rl_more_add"
             android:background="@drawable/bg_huifu"
             android:drawableLeft="@drawable/xie"
             android:drawablePadding="@dimen/font_10"
             android:gravity="center_vertical"
             android:hint="评论"
-            android:textColorHint="@color/bg_8f8f8f"
-            android:maxLength="300"
             android:imeOptions="actionSend"
+            android:maxLength="300"
             android:paddingLeft="@dimen/font_10"
             android:singleLine="true"
+            android:textColorHint="@color/bg_8f8f8f"
             android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="@dimen/size_14" />
 
+
+        <RelativeLayout
+            android:id="@+id/rl_more_add"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/font_35"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/iv_wai_bang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/font_20"
+                android:src="@drawable/bang" />
+
+            <TextView
+                android:id="@+id/tv_wai_bang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/font_4"
+                android:layout_toRightOf="@+id/iv_wai_bang"
+                android:gravity="top"
+                android:includeFontPadding="true"
+                android:paddingTop="@dimen/font_10"
+                android:text="0"
+                android:textColor="@color/bg_8f8f8f"
+                android:textSize="@dimen/size_11" />
+
+            <ImageView
+                android:id="@+id/iv_wai_xing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/font_15"
+                android:layout_toRightOf="@+id/tv_wai_bang"
+                android:src="@drawable/xing" />
+
+
+            <TextView
+                android:id="@+id/tv_wai_xing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/font_4"
+                android:layout_marginRight="@dimen/size_20"
+                android:layout_toRightOf="@+id/iv_wai_xing"
+                android:paddingTop="@dimen/font_10"
+                android:text="0"
+                android:textColor="@color/bg_8f8f8f"
+                android:textSize="@dimen/size_11" />
+
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

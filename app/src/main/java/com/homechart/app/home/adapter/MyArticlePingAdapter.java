@@ -1,23 +1,18 @@
 package com.homechart.app.home.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.homechart.app.R;
-import com.homechart.app.home.bean.articledetails.ArticleBean;
-import com.homechart.app.home.bean.articledetails.ItemDetailsBean;
 import com.homechart.app.home.bean.articleping.PingCommentInfoBean;
 import com.homechart.app.home.bean.articleping.PingCommentListItemBean;
 import com.homechart.app.myview.RoundImageView;
-import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 
 import java.util.List;
@@ -30,12 +25,14 @@ public class MyArticlePingAdapter extends BaseAdapter {
 
     private Context context;
     private String user_id;//作者的user_id
+    private HuiFu huiFu;
     private List<PingCommentListItemBean> mListPing;
 
-    public MyArticlePingAdapter(Context context, List<PingCommentListItemBean> mListPing, String user_id) {
+    public MyArticlePingAdapter(Context context, List<PingCommentListItemBean> mListPing, String user_id ,HuiFu huiFu) {
         this.context = context;
         this.mListPing = mListPing;
         this.user_id = user_id;
+        this.huiFu = huiFu;
     }
 
     @Override
@@ -94,6 +91,14 @@ public class MyArticlePingAdapter extends BaseAdapter {
         } else {
             myHolder.tv_if_zuozhe.setVisibility(View.GONE);
         }
+
+        myHolder.ll_huifu_one.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                huiFu.clickHuiFu();
+            }
+        });
+
         return convertView;
     }
 
@@ -114,5 +119,9 @@ public class MyArticlePingAdapter extends BaseAdapter {
         private TextView tv_huifu_content_two1;
         private TextView tv_huifu_content_four1;
         private View view_one;
+    }
+
+   public interface HuiFu{
+       void clickHuiFu();
     }
 }
