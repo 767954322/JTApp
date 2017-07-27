@@ -842,13 +842,9 @@ public class ArticleDetailsActivity
 
         if (pingCommentListItemBean.getComment_info().getIs_liked() == 1) {//已经点赞
             removeZanPing(pingCommentListItemBean, position);
-//            mListPing.get(position).getComment_info().setIs_liked(0);
         } else {//未点赞
             addZanPing(pingCommentListItemBean, position);
-//            mListPing.get(position).getComment_info().setIs_liked(1);
         }
-        myArticlePingAdapter.notifyDataSetChanged();
-
     }
 
     //8点赞
@@ -869,7 +865,7 @@ public class ArticleDetailsActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
-                        reflushPingList(true,position);
+                        reflushPingList(true, position);
                     } else {
                         ToastUtils.showCenter(ArticleDetailsActivity.this, error_msg);
                     }
@@ -899,7 +895,7 @@ public class ArticleDetailsActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
-                        reflushPingList(false,position);
+                        reflushPingList(false, position);
                     } else {
                         ToastUtils.showCenter(ArticleDetailsActivity.this, error_msg);
                     }
@@ -912,13 +908,21 @@ public class ArticleDetailsActivity
 
     }
 
+    //8刷新点赞数
     private void reflushPingList(boolean ifZan, int position) {
-        if(ifZan){//被点赞
-            mListPing.get(position).getComment_info().setIs_liked(1);
-        }else {//被取消点赞
-            mListPing.get(position).getComment_info().setIs_liked(0);
+        if (mListPing != null && mListPing.size() > position) {
+
+            int like_num = Integer.parseInt(mListPing.get(position).getComment_info().getLike_num().trim());
+
+            if (ifZan) {//被点赞
+                mListPing.get(position).getComment_info().setIs_liked(1);
+                mListPing.get(position).getComment_info().setLike_num("" + (like_num + 1));
+            } else {//被取消点赞
+                mListPing.get(position).getComment_info().setIs_liked(0);
+                mListPing.get(position).getComment_info().setLike_num("" + (like_num - 1));
+            }
+            myArticlePingAdapter.notifyDataSetChanged();
         }
-        myArticlePingAdapter.notifyDataSetChanged();
     }
 
     Handler mHandler = new Handler() {

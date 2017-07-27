@@ -111,7 +111,7 @@ public class MyArticlePingAdapter extends BaseAdapter {
             myHolder.iv_image_zan.setImageResource(R.drawable.zan1);
             myHolder.tv_zan_one.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
         }
-
+        myHolder.tv_zan_one.setText(mListPing.get(position).getComment_info().getLike_num());
         myHolder.ll_zan_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

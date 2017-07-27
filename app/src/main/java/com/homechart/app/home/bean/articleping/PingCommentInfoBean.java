@@ -11,14 +11,17 @@ public class PingCommentInfoBean implements Serializable {
     private String comment_id;
     private String content;
     private String add_time;
+    private String like_num;
     private int is_liked;
     private PingUserInfoBean user_info;
     private PingReplyCommentBean reply_comment;
 
-    public PingCommentInfoBean(String comment_id, String content, String add_time, int is_liked, PingUserInfoBean user_info, PingReplyCommentBean reply_comment) {
+
+    public PingCommentInfoBean(String comment_id, String content, String add_time, String like_num, int is_liked, PingUserInfoBean user_info, PingReplyCommentBean reply_comment) {
         this.comment_id = comment_id;
         this.content = content;
         this.add_time = add_time;
+        this.like_num = like_num;
         this.is_liked = is_liked;
         this.user_info = user_info;
         this.reply_comment = reply_comment;
@@ -46,6 +49,14 @@ public class PingCommentInfoBean implements Serializable {
 
     public void setAdd_time(String add_time) {
         this.add_time = add_time;
+    }
+
+    public String getLike_num() {
+        return like_num;
+    }
+
+    public void setLike_num(String like_num) {
+        this.like_num = like_num;
     }
 
     public int getIs_liked() {
@@ -78,6 +89,7 @@ public class PingCommentInfoBean implements Serializable {
                 "comment_id='" + comment_id + '\'' +
                 ", content='" + content + '\'' +
                 ", add_time='" + add_time + '\'' +
+                ", like_num='" + like_num + '\'' +
                 ", is_liked=" + is_liked +
                 ", user_info=" + user_info +
                 ", reply_comment=" + reply_comment +
