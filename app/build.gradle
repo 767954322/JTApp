@@ -66,6 +66,7 @@ dependencies {
     compile 'com.jaeger.statusbarutil:library:1.4.0'
     compile files('libs/glide-3.6.1.jar')
     compile project(':FlycoTabLayout_Lib')
+    compile files('libs/jcore-android-1.1.6.jar')
 }
 
 apply plugin: 'com.google.gms.google-services'

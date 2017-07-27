@@ -23,6 +23,7 @@ import cn.finalteam.galleryfinal.FunctionConfig;
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.ImageLoader;
 import cn.finalteam.galleryfinal.ThemeConfig;
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by gumenghao on 17/5/17.
@@ -43,11 +44,22 @@ public class MyApplication extends Application {
         }
         myApplication = this;
         queue = Volley.newRequestQueue(this);
+        initJPush();
         initImageLoader();
         initPike();
         initYouMeng();
         //禁止默认的页面统计方式，这样将不会再自动统计Activity
         MobclickAgent.openActivityDurationTrack(false);
+    }
+
+    private void initJPush() {
+        Config.DEBUG = true;
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
+
+        //取消极光服务
+        //推出登陆状态，关闭推送
+//        JPushInterface.stopPush(MyApplication.this);
     }
 
     private void initPike() {
