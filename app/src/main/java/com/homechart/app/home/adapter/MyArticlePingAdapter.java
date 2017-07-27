@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import com.homechart.app.R;
 import com.homechart.app.home.bean.articleping.PingCommentInfoBean;
 import com.homechart.app.home.bean.articleping.PingCommentListItemBean;
 import com.homechart.app.myview.RoundImageView;
+import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 
 import java.util.List;
@@ -64,10 +66,13 @@ public class MyArticlePingAdapter extends BaseAdapter {
             myHolder.tv_if_zuozhe = (TextView) convertView.findViewById(R.id.tv_if_zuozhe);
             myHolder.tv_content_one = (TextView) convertView.findViewById(R.id.tv_content_one);
             myHolder.ll_huifu_one = (LinearLayout) convertView.findViewById(R.id.ll_huifu_one);
+            myHolder.ll_zan_add = (LinearLayout) convertView.findViewById(R.id.ll_zan_add);
             myHolder.tv_time_one = (TextView) convertView.findViewById(R.id.tv_time_one);
+            myHolder.tv_zan_one = (TextView) convertView.findViewById(R.id.tv_zan_one);
             myHolder.tv_huifu_content_two1 = (TextView) convertView.findViewById(R.id.tv_huifu_content_two1);
             myHolder.tv_huifu_content_four1 = (TextView) convertView.findViewById(R.id.tv_huifu_content_four1);
             myHolder.view_one = convertView.findViewById(R.id.view_one);
+            myHolder.iv_image_zan = (ImageView) convertView.findViewById(R.id.iv_image_zan);
             convertView.setTag(myHolder);
         } else {
             myHolder = (MyHolder) convertView.getTag();
@@ -99,6 +104,21 @@ public class MyArticlePingAdapter extends BaseAdapter {
             }
         });
 
+        if(mListPing.get(position).getComment_info().getIs_liked() == 1){//已经点赞了
+            myHolder.iv_image_zan.setImageResource(R.drawable.zan);
+            myHolder.tv_zan_one.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+        }else {//未赞
+            myHolder.iv_image_zan.setImageResource(R.drawable.zan1);
+            myHolder.tv_zan_one.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+        }
+
+        myHolder.ll_zan_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                huiFu.clickAddZan(mListPing.get(position),position);
+            }
+        });
+
         return convertView;
     }
 
@@ -115,13 +135,17 @@ public class MyArticlePingAdapter extends BaseAdapter {
         private TextView tv_if_zuozhe;
         private TextView tv_content_one;
         private LinearLayout ll_huifu_one;
+        private LinearLayout ll_zan_add;
         private TextView tv_time_one;
         private TextView tv_huifu_content_two1;
         private TextView tv_huifu_content_four1;
+        private TextView tv_zan_one;
         private View view_one;
+        private ImageView iv_image_zan;
     }
 
    public interface HuiFu{
        void clickHuiFu(PingCommentListItemBean pingCommentListItemBean);
+       void clickAddZan(PingCommentListItemBean pingCommentListItemBean,int position);
     }
 }

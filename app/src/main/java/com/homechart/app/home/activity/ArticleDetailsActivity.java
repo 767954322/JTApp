@@ -5,18 +5,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -34,7 +29,6 @@ import com.homechart.app.home.bean.articlelike.ArticleLikeBean;
 import com.homechart.app.home.bean.articlelike.ArticleLikeItemBean;
 import com.homechart.app.home.bean.articleping.PingBean;
 import com.homechart.app.home.bean.articleping.PingCommentListItemBean;
-import com.homechart.app.home.bean.cailike.ImageLikeItemBean;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.myview.ClearEditText;
@@ -64,13 +58,11 @@ import java.util.List;
  * Created by gumenghao on 17/7/18.
  * 文章详情页
  */
-
 public class ArticleDetailsActivity
         extends BaseActivity
         implements View.OnClickListener,
         OnLoadMoreListener,
         MyArticlePingAdapter.HuiFu {
-
 
     @Override
     protected int getLayoutResId() {
@@ -331,7 +323,6 @@ public class ArticleDetailsActivity
                     if (error_code == 0) {
                         ArticleLikeBean articleLikeBean = GsonUtil.jsonToBean(data_msg, ArticleLikeBean.class);
                         List<ArticleLikeItemBean> list = articleLikeBean.getArticle_list();
-
                         if (list != null && list.size() > 0) {
                             updateViewFromData(list);
                         } else {
@@ -821,7 +812,6 @@ public class ArticleDetailsActivity
         MyHttpManager.getInstance().pingArticleSingle(reply_id, searchContext, callBack);
     }
 
-
     private void updateViewFromData(List<ArticleLikeItemBean> listData) {
 
         if (null != listData) {
@@ -836,7 +826,7 @@ public class ArticleDetailsActivity
         }
     }
 
-    //＊＊点击回复单单条评论的回调
+    //7点击回复单单条评论的回调
     @Override
     public void clickHuiFu(PingCommentListItemBean pingCommentListItemBean) {
         reply_id = pingCommentListItemBean.getComment_info().getComment_id();
@@ -846,6 +836,90 @@ public class ArticleDetailsActivity
         inputMethodManager.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
     }
 
+    //8点击评论里面的赞
+    @Override
+    public void clickAddZan(PingCommentListItemBean pingCommentListItemBean, int position) {
+
+        if (pingCommentListItemBean.getComment_info().getIs_liked() == 1) {//已经点赞
+            removeZanPing(pingCommentListItemBean, position);
+//            mListPing.get(position).getComment_info().setIs_liked(0);
+        } else {//未点赞
+            addZanPing(pingCommentListItemBean, position);
+//            mListPing.get(position).getComment_info().setIs_liked(1);
+        }
+        myArticlePingAdapter.notifyDataSetChanged();
+
+    }
+
+    //8点赞
+    public void addZanPing(PingCommentListItemBean pingCommentListItemBean, final int position) {
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                CustomProgress.cancelDialog();
+                ToastUtils.showCenter(ArticleDetailsActivity.this, "点赞失败");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        reflushPingList(true,position);
+                    } else {
+                        ToastUtils.showCenter(ArticleDetailsActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(ArticleDetailsActivity.this, "点赞失败");
+                }
+            }
+        };
+        MyHttpManager.getInstance().addPingZan(pingCommentListItemBean.getComment_info().getComment_id(), callBack);
+    }
+
+    //8取消点赞
+    public void removeZanPing(PingCommentListItemBean pingCommentListItemBean, final int position) {
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                CustomProgress.cancelDialog();
+                ToastUtils.showCenter(ArticleDetailsActivity.this, "点赞失败");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        reflushPingList(false,position);
+                    } else {
+                        ToastUtils.showCenter(ArticleDetailsActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(ArticleDetailsActivity.this, "点赞失败");
+                }
+            }
+        };
+        MyHttpManager.getInstance().removePingZan(pingCommentListItemBean.getComment_info().getComment_id(), callBack);
+
+    }
+
+    private void reflushPingList(boolean ifZan, int position) {
+        if(ifZan){//被点赞
+            mListPing.get(position).getComment_info().setIs_liked(1);
+        }else {//被取消点赞
+            mListPing.get(position).getComment_info().setIs_liked(0);
+        }
+        myArticlePingAdapter.notifyDataSetChanged();
+    }
 
     Handler mHandler = new Handler() {
         @Override
@@ -909,7 +983,6 @@ public class ArticleDetailsActivity
                     mlv_article_pinglun.setAdapter(myArticlePingAdapter);
                     break;
             }
-
         }
     };
     private RelativeLayout rl_more_add;

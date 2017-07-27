@@ -1769,4 +1769,63 @@ public class MyHttpManager {
         queue.add(okStringRequest);
     }
 
+
+    /**
+     * 对评论点赞
+     *
+     * @param comment_id
+     * @param callback
+     */
+    public void addPingZan(final String comment_id, OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.PING_ADDZAN, callback) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                map.put("comment_id", comment_id);
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+
+        };
+        queue.add(okStringRequest);
+    }
+
+    /**
+     * 取消对评论点赞
+     *
+     * @param comment_id
+     * @param callback
+     */
+    public void removePingZan(final String comment_id, OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.PING_REMOVEZAN, callback) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                map.put("comment_id", comment_id);
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+
+        };
+        queue.add(okStringRequest);
+    }
+
+
+
 }

@@ -68,5 +68,7 @@ public class UrlConstants {
     public static final String PING_ARTICLE_ALL = "https://api.idcool.com.cn/comment/article/add";  //对文章发表评论
     public static final String PING_ARTICLE_SINGLE = "https://api.idcool.com.cn/comment/article/reply";  //回复对文章发表的评论
     public static final String LIKE_ARTICLE = "https://api.idcool.com.cn/article/article/recommend";  //猜你喜欢
+    public static final String PING_ADDZAN = "https://api.idcool.com.cn/like/comment/add";  //赞评论
+    public static final String PING_REMOVEZAN = "https://api.idcool.com.cn/like/comment/cancel";  //取消评论的点赞
 
 }

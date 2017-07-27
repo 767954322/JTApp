@@ -43,13 +43,43 @@
             android:textSize="@dimen/font_10" />
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_zan_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/font_10"
+        android:layout_marginTop="@dimen/font_20"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_image_zan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tv_huifu_one"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_4"
+            android:src="@drawable/zan1" />
+
+        <TextView
+            android:id="@+id/tv_zan_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:text="0"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_12" />
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_huifu_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/font_10"
+        android:layout_toLeftOf="@+id/ll_zan_add"
+        android:layout_marginRight="@dimen/font_15"
         android:layout_marginTop="@dimen/font_20"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -73,7 +103,6 @@
 
 
     </LinearLayout>
-
     <TextView
         android:id="@+id/tv_time_one"
         android:layout_width="wrap_content"
