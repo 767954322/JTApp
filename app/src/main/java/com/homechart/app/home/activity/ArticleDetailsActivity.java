@@ -153,6 +153,7 @@ public class ArticleDetailsActivity
         tv_look_more_ping.setOnClickListener(this);
         rl_xing.setOnClickListener(this);
         rl_bang.setOnClickListener(this);
+        riv_people_header.setOnClickListener(this);
 
         SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
             @Override
@@ -261,6 +262,15 @@ public class ArticleDetailsActivity
                 break;
             case R.id.tv_look_more_ping:
                 getArticlePingList(article_id);
+                break;
+            case R.id.riv_people_header:
+
+                if(articleBean != null){
+                    Intent intent = new Intent(ArticleDetailsActivity.this, UserInfoActivity.class);
+                    intent.putExtra(ClassConstant.LoginSucces.USER_ID, articleBean.getArticle_info().getUser_id());
+                    startActivity(intent);
+                }
+
                 break;
         }
     }
