@@ -116,7 +116,7 @@ public class ImageDetailsActivity extends BaseActivity implements View.OnClickLi
         @Override
         public View instantiateItem(ViewGroup container, final int position) {
             PhotoView photoView = new PhotoView(container.getContext());
-            ImageUtils.disRectangleImage(mImageUrl1.get(position), photoView);
+            ImageUtils.disBlackImage(mImageUrl1.get(position), photoView);
             container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
             photoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {

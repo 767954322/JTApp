@@ -86,7 +86,7 @@ public class MyArticlePicAdapter extends BaseAdapter {
             layoutParams.height = (int) ((wid_screen - UIUtils.getDimens(R.dimen.font_40)) / ratio);
             layoutParams.width = wid_screen - UIUtils.getDimens(R.dimen.font_40);
             myHolder.iv_item_article_pic.setLayoutParams(layoutParams);
-            ImageUtils.disRectangleImage(pic_image, myHolder.iv_item_article_pic);
+            ImageUtils.disBlackImage(pic_image, myHolder.iv_item_article_pic);
         }
 
         myHolder.iv_item_article_pic.setOnClickListener(new View.OnClickListener() {
