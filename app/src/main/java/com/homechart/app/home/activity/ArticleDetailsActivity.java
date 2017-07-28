@@ -25,12 +25,14 @@ import com.homechart.app.home.adapter.MyArticlePicAdapter;
 import com.homechart.app.home.adapter.MyArticlePingAdapter;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.articledetails.ArticleBean;
+import com.homechart.app.home.bean.articledetails.ItemDetailsBean;
 import com.homechart.app.home.bean.articlelike.ArticleLikeBean;
 import com.homechart.app.home.bean.articlelike.ArticleLikeItemBean;
 import com.homechart.app.home.bean.articleping.PingBean;
 import com.homechart.app.home.bean.articleping.PingCommentListItemBean;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.imagedetail.ImageDetailsActivity;
 import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.myview.MyListView;
 import com.homechart.app.myview.RoundImageView;
@@ -51,6 +53,7 @@ import com.homechart.app.utils.volley.OkStringRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +65,8 @@ public class ArticleDetailsActivity
         extends BaseActivity
         implements View.OnClickListener,
         OnLoadMoreListener,
-        MyArticlePingAdapter.HuiFu {
+        MyArticlePingAdapter.HuiFu ,
+        MyArticlePicAdapter.PicDetails{
 
 
     @Override
@@ -397,7 +401,12 @@ public class ArticleDetailsActivity
             }
             //文章的图文
             if (articleBean.getItem_list() != null && articleBean.getItem_list().size() > 0) {
-                MyArticlePicAdapter articlePicAdapter = new MyArticlePicAdapter(ArticleDetailsActivity.this, articleBean, wid_screen);
+                listUrl.clear();
+                List<ItemDetailsBean> listU = articleBean.getItem_list();
+                for (int i = 0; i<listU.size();i++){
+                    listUrl.add(listU.get(i).getItem_info().getImage().getImg0());
+                }
+                MyArticlePicAdapter articlePicAdapter = new MyArticlePicAdapter(ArticleDetailsActivity.this, articleBean, wid_screen,this);
                 mlv_article_pic_content.setAdapter(articlePicAdapter);
             }
             //显示评论点赞分享布局
@@ -972,6 +981,20 @@ public class ArticleDetailsActivity
         }
     }
 
+    //9查看大图
+    @Override
+    public void clickPic(int position) {
+
+        Intent intent = new Intent(ArticleDetailsActivity.this, ImageDetailsActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("pic_url_list", (Serializable) listUrl);
+        bundle.putInt("click_position", position );
+        intent.putExtras(bundle);
+        startActivity(intent);
+
+
+    }
+
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -1115,4 +1138,6 @@ public class ArticleDetailsActivity
     private List<PingCommentListItemBean> list_ping_my = new ArrayList<>();
 
     private String reply_id = "";
+    private List<String> listUrl = new ArrayList<>();
+
 }

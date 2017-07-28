@@ -27,12 +27,14 @@ public class MyArticlePicAdapter extends BaseAdapter {
     private Context mContext;
     private List<ItemDetailsBean> mList;
     private int wid_screen;
+    private PicDetails picDetails;
 
 
-    public MyArticlePicAdapter(Context context, ArticleBean articleBean, int wid_screen) {
+    public MyArticlePicAdapter(Context context, ArticleBean articleBean, int wid_screen,PicDetails picDetails) {
         this.mArticleBean = articleBean;
         this.mContext = context;
         this.wid_screen = wid_screen;
+        this.picDetails = picDetails;
         mList = mArticleBean.getItem_list();
     }
 
@@ -52,7 +54,7 @@ public class MyArticlePicAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         MyHolder myHolder;
 
@@ -86,6 +88,13 @@ public class MyArticlePicAdapter extends BaseAdapter {
             myHolder.iv_item_article_pic.setLayoutParams(layoutParams);
             ImageUtils.disRectangleImage(pic_image, myHolder.iv_item_article_pic);
         }
+
+        myHolder.iv_item_article_pic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                picDetails.clickPic(position);
+            }
+        });
         return convertView;
     }
 
@@ -95,4 +104,8 @@ public class MyArticlePicAdapter extends BaseAdapter {
         private TextView tv_item_article_content;
 
     }
+    public interface PicDetails{
+         void clickPic(int position);
+    }
+
 }
