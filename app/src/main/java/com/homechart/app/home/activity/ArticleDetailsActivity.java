@@ -776,9 +776,22 @@ public class ArticleDetailsActivity
                     if (error_code == 0) {
                         PingCommentListItemBean pingCommentListItemBean =
                                 GsonUtil.jsonToBean(data_msg, PingCommentListItemBean.class);
-                        list_ping.add(pingCommentListItemBean.getComment_info().getComment_id());
+
+                        List<String> list1 = new ArrayList<>();
+                        list1.add(pingCommentListItemBean.getComment_info().getComment_id());
+                        list1.addAll(list_ping);
+                        list_ping.clear();
+                        list_ping.addAll(list1);
+
+                        List<PingCommentListItemBean> list = new ArrayList<>();
+                        list.add(pingCommentListItemBean);
+                        list.addAll(list_ping_my);
+                        list_ping_my.clear();
+                        list_ping_my.addAll(list);
+
+
                         mListPing.clear();
-                        mListPing.add(pingCommentListItemBean);
+                        mListPing.addAll(list_ping_my);
                         Message msg = new Message();
                         msg.what = 5;
                         mHandler.sendMessage(msg);
@@ -812,13 +825,26 @@ public class ArticleDetailsActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
-                        list_ping.clear();
+
                         PingCommentListItemBean pingCommentListItemBean =
                                 GsonUtil.jsonToBean(data_msg, PingCommentListItemBean.class);
 
+                        List<String> list1 = new ArrayList<>();
+                        list1.add(pingCommentListItemBean.getComment_info().getComment_id());
+                        list1.addAll(list_ping);
+                        list_ping.clear();
+                        list_ping.addAll(list1);
+
+                        List<PingCommentListItemBean> list = new ArrayList<>();
+                        list.add(pingCommentListItemBean);
+                        list.addAll(list_ping_my);
+                        list_ping_my.clear();
+                        list_ping_my.addAll(list);
+
+
                         mListPing.clear();
-                        list_ping.add(pingCommentListItemBean.getComment_info().getComment_id());
-                        mListPing.add(pingCommentListItemBean);
+                        mListPing.addAll(list_ping_my);
+
                         Message msg = new Message();
                         msg.what = 6;
                         mHandler.sendMessage(msg);
@@ -1010,15 +1036,18 @@ public class ArticleDetailsActivity
                     getArticleDetails();
                     break;
                 case 7://刷新评论列表
-
-                    if (list_ping.size() > 0 && mListPing.size() > 1) {
-                        for (int i = 1; i < mListPing.size(); i++) {
-                            if(mListPing.get(i).getComment_info().getComment_id().equals(list_ping.get(0))){
-                                mListPing.remove(i);
+                    try {
+                        if (list_ping.size() > 0 && mListPing.size()>list_ping.size()) {
+                            for (int i = 0; i < list_ping.size(); i++) {
+                                for (int j = list_ping.size() ; j < mListPing.size(); j++) {
+                                    if (mListPing.get(j).getComment_info().getComment_id().equals(list_ping.get(i))) {
+                                        mListPing.remove(j);
+                                    }
+                                }
                             }
                         }
+                    }catch (Exception e){
                     }
-
                     myArticlePingAdapter = new MyArticlePingAdapter(ArticleDetailsActivity.this, mListPing, pingBean.getArticle_info().getUser_id(), ArticleDetailsActivity.this);
                     mlv_article_pinglun.setAdapter(myArticlePingAdapter);
                     break;
@@ -1083,6 +1112,7 @@ public class ArticleDetailsActivity
     private MyArticlePingAdapter myArticlePingAdapter;
     private List<PingCommentListItemBean> mListPing = new ArrayList<>();
     private List<String> list_ping = new ArrayList<>();
+    private List<PingCommentListItemBean> list_ping_my = new ArrayList<>();
 
     private String reply_id = "";
 }
