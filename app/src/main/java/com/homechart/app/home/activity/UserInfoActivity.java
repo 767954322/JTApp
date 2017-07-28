@@ -70,6 +70,7 @@ public class UserInfoActivity
     private List<ShaiJiaItemBean> mListData = new ArrayList<>();
     private List<ArticleBean> mListDataArticle = new ArrayList<>();
     private List<Integer> mListDataHeight = new ArrayList<>();
+    private List<Integer> mListSeeNumArticle = new ArrayList<>();
     private UserCenterInfoBean userCenterInfoBean;
     private ImageButton mIBBack;
     private TextView mTVTital;
@@ -221,11 +222,12 @@ public class UserInfoActivity
             public void convert(BaseViewHolder holder, final int position) {
 
                 ((TextView) holder.getView(R.id.tv_article_name)).setText(mListDataArticle.get(position).getArticle_info().getTitle());
-                ((TextView) holder.getView(R.id.tv_youlan_num)).setText(mListDataArticle.get(position).getArticle_info().getView_num());
+                ((TextView) holder.getView(R.id.tv_youlan_num)).setText(mListSeeNumArticle.get(position)+"");
                 ImageUtils.disRectangleImage(mListDataArticle.get(position).getArticle_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_article_image));
                 holder.getView(R.id.rl_item_click).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        mListSeeNumArticle.add(position, mListSeeNumArticle.get(position) + 1);
                         Intent intent = new Intent(UserInfoActivity.this, ArticleDetailsActivity.class);
                         intent.putExtra("article_id", mListDataArticle.get(position).getArticle_info().getArticle_id());
                         startActivity(intent);
@@ -724,6 +726,8 @@ public class UserInfoActivity
                     if (error_code == 0) {
                         ArticleListBean articleListBean = GsonUtil.jsonToBean(data_msg, ArticleListBean.class);
                         if (null != articleListBean.getArticle_list() && 0 != articleListBean.getArticle_list().size()) {
+
+                            setYLNum(articleListBean.getArticle_list(), state);
                             updateViewFromDataArticle(articleListBean.getArticle_list(), state);
                         } else {
                             updateViewFromDataArticle(null, state);
@@ -772,6 +776,14 @@ public class UserInfoActivity
 
     }
 
+    private void setYLNum(List<ArticleBean> listData, String state) {
+        if (null != listData) {
+            for (int i = 0; i < listData.size(); i++) {
+                mListSeeNumArticle.add(Integer.parseInt(listData.get(i).getArticle_info().getView_num().trim()));
+            }
+        }
+    }
+
     private void updateViewFromDataArticle(List<ArticleBean> listData, String state) {
 
         if (null != listData) {
@@ -791,6 +803,7 @@ public class UserInfoActivity
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+        mAdapterArticle.notifyDataSetChanged();
     }
 
     @Override
