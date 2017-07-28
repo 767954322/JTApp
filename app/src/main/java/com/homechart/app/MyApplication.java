@@ -53,7 +53,7 @@ public class MyApplication extends Application {
     }
 
     private void initJPush() {
-        Config.DEBUG = true;
+//        Config.DEBUG = true;
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
 
