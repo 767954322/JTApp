@@ -9,6 +9,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -222,7 +223,13 @@ public class UserInfoActivity
             public void convert(BaseViewHolder holder, final int position) {
 
                 ((TextView) holder.getView(R.id.tv_article_name)).setText(mListDataArticle.get(position).getArticle_info().getTitle());
-                ((TextView) holder.getView(R.id.tv_youlan_num)).setText(mListSeeNumArticle.get(position)+"");
+
+                try {
+                    ((TextView) holder.getView(R.id.tv_youlan_num)).setText(mListSeeNumArticle.get(position) + "");
+                } catch (Exception e) {
+                    ((TextView) holder.getView(R.id.tv_youlan_num)).setText(0 + "");
+                }
+
                 ImageUtils.disRectangleImage(mListDataArticle.get(position).getArticle_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_article_image));
                 holder.getView(R.id.rl_item_click).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -777,10 +784,15 @@ public class UserInfoActivity
     }
 
     private void setYLNum(List<ArticleBean> listData, String state) {
-        if (null != listData) {
-            for (int i = 0; i < listData.size(); i++) {
-                mListSeeNumArticle.add(Integer.parseInt(listData.get(i).getArticle_info().getView_num().trim()));
+
+        try {
+            if (null != listData) {
+                for (int i = 0; i < listData.size(); i++) {
+                    mListSeeNumArticle.add(Integer.parseInt(listData.get(i).getArticle_info().getView_num().trim()));
+                }
             }
+        } catch (Exception e) {
+            Log.d("test", "检查下是不是本地代理掉线啦");
         }
     }
 

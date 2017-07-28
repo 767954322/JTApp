@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -121,8 +122,14 @@ public class ShouCangArticleFragment
 
                 ((TextView)holder.getView(R.id.tv_article_name)).setText(mListData.get(position).getArticle_info().getTitle());
                 ((TextView)holder.getView(R.id.tv_article_details)).setText(mListData.get(position).getArticle_info().getSummary());
-                ((TextView)holder.getView(R.id.tv_youlan_num)).setText(mListData.get(position).getArticle_info().getView_num());
-                final String item_id = mListData.get(position).getArticle_info().getArticle_id();
+                try {
+                    ((TextView)holder.getView(R.id.tv_youlan_num)).setText(mListSeeNumArticle.get(position)+"");
+
+                }catch (Exception e){
+                    ((TextView)holder.getView(R.id.tv_youlan_num)).setText(0+"");
+
+                }
+               final String item_id = mListData.get(position).getArticle_info().getArticle_id();
                 if (guanli_tag == 0) {
                     holder.getView(R.id.cb_check).setVisibility(View.GONE);
                 } else {
@@ -158,7 +165,7 @@ public class ShouCangArticleFragment
                     public void onClick(View v) {
 
                         if (guanli_tag == 0) {//未打开管理
-                            jumpImageDetail(mListData.get(position).getArticle_info().getArticle_id());
+                            jumpImageDetail(mListData.get(position).getArticle_info().getArticle_id(),position);
                         } else {
                             if (((CheckBox) holder.getView(R.id.cb_check)).isChecked()) {
                                 ((CheckBox) holder.getView(R.id.cb_check)).setChecked(false);
@@ -259,7 +266,9 @@ public class ShouCangArticleFragment
 
 
     //查看图片详情
-    private void jumpImageDetail(String item_id) {
+    private void jumpImageDetail(String item_id,int position) {
+
+        mListSeeNumArticle.add(position, mListSeeNumArticle.get(position) + 1);
         Intent intent = new Intent(activity, ArticleDetailsActivity.class);
         intent.putExtra("article_id", item_id);
         startActivity(intent);
@@ -361,6 +370,7 @@ public class ShouCangArticleFragment
                             ArticleListBean articleListBean = GsonUtil.jsonToBean(data_msg, ArticleListBean.class);
                             if (null != articleListBean.getArticle_list() && 0 != articleListBean.getArticle_list().size()) {
                                 changeNone(0);
+                                getSeeNum(articleListBean.getArticle_list(), state);
                                 updateViewFromData(articleListBean.getArticle_list(), state);
                             } else {
                                 changeNone(1);
@@ -387,6 +397,32 @@ public class ShouCangArticleFragment
         MyHttpManager.getInstance().getShouCangArticleList(user_id, (page_num - 1) * 20, "20", callback);
     }
 
+    private List<Integer> mListSeeNumArticle = new ArrayList<>();
+    private void getSeeNum(List<ArticleBean> listData, String state) {
+        try {
+            switch (state) {
+                case REFRESH_STATUS:
+                    if (null != listData) {
+                        mListSeeNumArticle.clear();
+                        for (int i = 0; i < listData.size(); i++) {
+                            mListSeeNumArticle.add(Integer.parseInt(listData.get(i).getArticle_info().getView_num().trim()));
+                        }
+                    }
+                    break;
+
+                case LOADMORE_STATUS:
+                    if (null != listData) {
+                        for (int i = 0; i < listData.size(); i++) {
+                            mListSeeNumArticle.add(Integer.parseInt(listData.get(i).getArticle_info().getView_num().trim()));
+                        }
+                    }
+                    break;
+            }
+        }catch (Exception e){
+            Log.d("test","检查下是不是本地代理掉线啦");
+        }
+
+    }
     private void updateViewFromData(List<ArticleBean> listData, String state) {
 
         switch (state) {
@@ -433,4 +469,10 @@ public class ShouCangArticleFragment
 
         }
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAdapter.notifyDataSetChanged();
+    }
+
 }
