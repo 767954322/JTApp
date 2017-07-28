@@ -64,6 +64,7 @@ public class ArticleDetailsActivity
         OnLoadMoreListener,
         MyArticlePingAdapter.HuiFu {
 
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_article_details;
@@ -115,6 +116,8 @@ public class ArticleDetailsActivity
         tv_wai_bang = (TextView) findViewById(R.id.tv_wai_bang);
         iv_wai_xing = (ImageView) findViewById(R.id.iv_wai_xing);
         tv_wai_xing = (TextView) findViewById(R.id.tv_wai_xing);
+        rl_xing = (RelativeLayout) findViewById(R.id.rl_xing);
+        rl_bang = (RelativeLayout) findViewById(R.id.rl_bang);
 
     }
 
@@ -144,6 +147,8 @@ public class ArticleDetailsActivity
         iv_ping.setOnClickListener(this);
         tv_ping.setOnClickListener(this);
         tv_look_more_ping.setOnClickListener(this);
+        rl_xing.setOnClickListener(this);
+        rl_bang.setOnClickListener(this);
 
         SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
             @Override
@@ -218,6 +223,7 @@ public class ArticleDetailsActivity
             case R.id.iv_bang:
             case R.id.iv_wai_bang:
             case R.id.tv_bang:
+            case R.id.rl_bang:
             case R.id.tv_wai_bang:
 
                 if (ifZan) {
@@ -232,6 +238,7 @@ public class ArticleDetailsActivity
             case R.id.iv_wai_xing:
             case R.id.tv_wai_xing:
             case R.id.tv_xing:
+            case R.id.rl_xing:
 
                 if (ifShouCang) {
                     addShouCang();
@@ -938,6 +945,8 @@ public class ArticleDetailsActivity
                     tv_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
                     iv_wai_bang.setImageResource(R.drawable.bang1);
                     tv_wai_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                    int num = Integer.parseInt(tv_wai_bang.getText().toString().trim());
+                    tv_wai_bang.setText(++num + "");
                     ifZan = false;
                     getArticleDetails();
                     break;
@@ -947,6 +956,8 @@ public class ArticleDetailsActivity
                     tv_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                     iv_wai_bang.setImageResource(R.drawable.bang);
                     tv_wai_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                    int num1 = Integer.parseInt(tv_wai_bang.getText().toString().trim());
+                    tv_wai_bang.setText(--num1 + "");
                     ifZan = true;
                     getArticleDetails();
                     break;
@@ -956,6 +967,8 @@ public class ArticleDetailsActivity
                     tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
                     iv_wai_xing.setImageResource(R.drawable.xing1);
                     tv_wai_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                    int num3 = Integer.parseInt(tv_wai_xing.getText().toString().trim());
+                    tv_wai_xing.setText(++num3 + "");
                     ifShouCang = false;
                     getArticleDetails();
                     break;
@@ -965,6 +978,8 @@ public class ArticleDetailsActivity
                     tv_xing.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                     iv_wai_xing.setImageResource(R.drawable.xing);
                     tv_wai_xing.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                    int num4 = Integer.parseInt(tv_wai_xing.getText().toString().trim());
+                    tv_wai_xing.setText(--num4 + "");
                     ifShouCang = false;
                     getArticleDetails();
                     break;
@@ -1028,6 +1043,9 @@ public class ArticleDetailsActivity
     private boolean ifZan = false;
     private boolean ifShouCang = false;
     private RelativeLayout rl_article_below;
+
+    private RelativeLayout rl_xing;
+    private RelativeLayout rl_bang;
     private ImageView iv_bang;
     private TextView tv_bang;
     private TextView tv_xing;

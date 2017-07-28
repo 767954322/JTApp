@@ -22,10 +22,10 @@
     <RelativeLayout
         android:id="@+id/rl_edit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/font_51"
         android:layout_alignParentBottom="true"
-        android:clickable="true"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:clickable="true">
 
         <View
             android:layout_width="match_parent"
@@ -59,55 +59,62 @@
         <RelativeLayout
             android:id="@+id/rl_more_add"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/font_35"
+            android:layout_height="@dimen/font_51"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true">
 
-            <ImageView
-                android:id="@+id/iv_wai_bang"
+            <RelativeLayout
+                android:id="@+id/rl_bang"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:paddingLeft="@dimen/font_20"
-                android:src="@drawable/bang" />
+                android:paddingLeft="@dimen/font_10"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/iv_wai_bang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/bang" />
 
-            <TextView
-                android:id="@+id/tv_wai_bang"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:paddingLeft="@dimen/font_4"
-                android:paddingRight="@dimen/font_7"
-                android:layout_toRightOf="@+id/iv_wai_bang"
-                android:gravity="top"
-                android:includeFontPadding="true"
-                android:paddingTop="@dimen/font_10"
-                android:text="0"
-                android:textColor="@color/bg_8f8f8f"
-                android:textSize="@dimen/size_11" />
+                <TextView
+                    android:id="@+id/tv_wai_bang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="@dimen/font_4"
+                    android:paddingRight="@dimen/size_15"
+                    android:layout_toRightOf="@+id/iv_wai_bang"
+                    android:paddingTop="@dimen/font_15"
+                    android:text="0"
+                    android:textColor="@color/bg_8f8f8f"
+                    android:textSize="@dimen/size_11" />
 
-            <ImageView
-                android:id="@+id/iv_wai_xing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/font_8"
-                android:layout_toRightOf="@+id/tv_wai_bang"
-                android:src="@drawable/xing" />
+            </RelativeLayout>
 
 
-            <TextView
-                android:id="@+id/tv_wai_xing"
+            <RelativeLayout
+                android:id="@+id/rl_xing"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:paddingLeft="@dimen/font_4"
-                android:paddingRight="@dimen/size_20"
-                android:layout_toRightOf="@+id/iv_wai_xing"
-                android:paddingTop="@dimen/font_10"
-                android:text="0"
-                android:textColor="@color/bg_8f8f8f"
-                android:textSize="@dimen/size_11" />
+                android:layout_toRightOf="@+id/rl_bang">
+                <ImageView
+                    android:id="@+id/iv_wai_xing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/xing" />
 
+                <TextView
+                    android:id="@+id/tv_wai_xing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="@dimen/font_4"
+                    android:paddingRight="@dimen/size_15"
+                    android:layout_toRightOf="@+id/iv_wai_xing"
+                    android:paddingTop="@dimen/font_15"
+                    android:text="0"
+                    android:textColor="@color/bg_8f8f8f"
+                    android:textSize="@dimen/size_11" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
