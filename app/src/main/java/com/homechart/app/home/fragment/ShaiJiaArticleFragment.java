@@ -279,8 +279,11 @@ public class ShaiJiaArticleFragment
 
     //查看图片详情
     private void jumpImageDetail(String item_id, int position) {
+        try {
+            mListSeeNumArticle.add(position, mListSeeNumArticle.get(position) + 1);
+        }catch (Exception e){
+        }
 
-        mListSeeNumArticle.add(position, mListSeeNumArticle.get(position) + 1);
         Intent intent = new Intent(activity, ArticleDetailsActivity.class);
         intent.putExtra("article_id", item_id);
         startActivity(intent);

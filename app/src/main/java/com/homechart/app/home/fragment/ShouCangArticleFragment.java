@@ -268,7 +268,10 @@ public class ShouCangArticleFragment
     //查看图片详情
     private void jumpImageDetail(String item_id,int position) {
 
-        mListSeeNumArticle.add(position, mListSeeNumArticle.get(position) + 1);
+        try {
+            mListSeeNumArticle.add(position, mListSeeNumArticle.get(position) + 1);
+        }catch (Exception e){
+        }
         Intent intent = new Intent(activity, ArticleDetailsActivity.class);
         intent.putExtra("article_id", item_id);
         startActivity(intent);

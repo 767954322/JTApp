@@ -234,7 +234,10 @@ public class UserInfoActivity
                 holder.getView(R.id.rl_item_click).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mListSeeNumArticle.add(position, mListSeeNumArticle.get(position) + 1);
+                        try {
+                            mListSeeNumArticle.add(position, mListSeeNumArticle.get(position) + 1);
+                        }catch (Exception e){
+                        }
                         Intent intent = new Intent(UserInfoActivity.this, ArticleDetailsActivity.class);
                         intent.putExtra("article_id", mListDataArticle.get(position).getArticle_info().getArticle_id());
                         startActivity(intent);
