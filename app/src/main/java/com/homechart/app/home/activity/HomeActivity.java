@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -58,10 +59,19 @@ public class HomeActivity
     private Fragment mTagFragment;
     private ImageView iv_add_icon;
     private SelectPicPopupWindow menuWindow;
+    private String type;
+    private String object_id;
 
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_home;
+    }
+
+    @Override
+    protected void initExtraBundle() {
+        super.initExtraBundle();
+        type = getIntent().getStringExtra("type");
+        object_id = getIntent().getStringExtra("object_id");
     }
 
     @Override
@@ -90,6 +100,12 @@ public class HomeActivity
         mRadioGroup.check(R.id.radio_btn_pic);
         mRadioGroup.setAlpha(0.96f);
         menuWindow = new SelectPicPopupWindow(HomeActivity.this, HomeActivity.this);
+
+        if(!TextUtils.isEmpty(object_id)){
+            Intent intent = new Intent(HomeActivity.this,ArticleDetailsActivity.class);
+            intent.putExtra("article_id",object_id);
+            startActivity(intent);
+        }
 
     }
 
@@ -255,6 +271,7 @@ public class HomeActivity
 
     //退出时的时间
     private long mExitTime;
+
     //对返回键进行监听
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -269,7 +286,7 @@ public class HomeActivity
 
     public void exit() {
         if ((System.currentTimeMillis() - mExitTime) > 3000) {
-            ToastUtils.showCenter(HomeActivity.this,"再次点击返回键退出");
+            ToastUtils.showCenter(HomeActivity.this, "再次点击返回键退出");
             mExitTime = System.currentTimeMillis();
         } else {
             HomeActivity.this.finish();

@@ -74,7 +74,6 @@
             android:name=".home.activity.LoginActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".home.activity.RegisterActivity"

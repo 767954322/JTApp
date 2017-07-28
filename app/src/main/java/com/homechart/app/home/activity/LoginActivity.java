@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -49,11 +50,21 @@ import java.util.HashMap;
 public class LoginActivity extends BaseActivity
         implements View.OnClickListener,
         PublicUtils.ILoginUmeng {
-
+    private String type;
+    private String object_id;
 
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_login;
+    }
+
+    @Override
+    protected void initExtraBundle() {
+        super.initExtraBundle();
+
+        type = getIntent().getStringExtra("type");
+        object_id = getIntent().getStringExtra("object_id");
+
     }
 
     @Override
@@ -94,6 +105,11 @@ public class LoginActivity extends BaseActivity
         boolean login_status = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
         if (login_status) {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+
+            if (!TextUtils.isEmpty(object_id)) {
+                intent.putExtra("type", type);
+                intent.putExtra("object_id", object_id);
+            }
             startActivity(intent);
             LoginActivity.this.finish();
         } else {
@@ -229,6 +245,10 @@ public class LoginActivity extends BaseActivity
                                 .setAction("登陆成功提示")      //事件操作
                                 .build());
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        if (!TextUtils.isEmpty(object_id)) {
+                            intent.putExtra("type", type);
+                            intent.putExtra("object_id", object_id);
+                        }
                         startActivity(intent);
                         LoginActivity.this.finish();
                     } else {

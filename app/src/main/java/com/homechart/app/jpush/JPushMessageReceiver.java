@@ -6,105 +6,104 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.home.activity.ArticleDetailsActivity;
+import com.homechart.app.home.activity.HomeActivity;
+import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.SetActivity;
+import com.homechart.app.utils.SharedPreferencesUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.Iterator;
+
 import cn.jpush.android.api.JPushInterface;
 
-public class JPushMessageReceiver extends BroadcastReceiver
-{
-    public JPushMessageReceiver()
-    {
+public class JPushMessageReceiver extends BroadcastReceiver {
+    public JPushMessageReceiver() {
 
     }
 
     @Override
-    public void onReceive(Context context, Intent intent)
-    {
+    public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
         Log.d(TAG, "[JPushMessageReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
 
-        if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction()))
-        {
+        if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
             Log.d(TAG, "[JPushMessageReceiver] Registration Id : " + regId);
 //            registerJPushRegId(regId);
-        }
-        else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction()))
-        {
+        } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
             Log.d(TAG, "[JPushMessageReceiver] custom message received: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
 //            processCustomMessage(context, bundle);
-        }
-        else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction()))//收到通知
+        } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction()))//收到通知
         {
             Log.d(TAG, "[JPushMessageReceiver] Push down notice received");
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
             Log.d(TAG, "[JPushMessageReceiver] notification ID: " + notifactionId);
-        }
-        else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction()))//打开通知
+        } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction()))//打开通知
         {
-            Log.d(TAG, "[JPushMessageReceiver] Notification Opened event");
-            //打开自定义的Activity
-            Intent i = new Intent(context, SetActivity.class);
-            i.putExtras(bundle);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            context.startActivity(i);
 
-        }
-        else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction()))
-        {
+            String str_push = bundle.getString("cn.jpush.android.EXTRA");
+            try {
+                JSONObject jsonObject = new JSONObject(str_push);
+                String type = jsonObject.getString("type");
+                String object_id = jsonObject.getString("object_id");
+
+                boolean login_status = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                if(login_status){
+                    Intent intent1 = new Intent(context,ArticleDetailsActivity.class);
+                    intent1.putExtra("article_id",object_id);
+                    intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    context.startActivity(intent1);
+                }else {
+                    //打开自定义的Activity
+                    Intent i = new Intent(context, LoginActivity.class);
+                    i.putExtra("type", type);
+                    i.putExtra("object_id", object_id);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    context.startActivity(i);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
             boolean connected = intent.getBooleanExtra(JPushInterface.EXTRA_CONNECTION_CHANGE, false);
             Log.w(TAG, "[JPushMessageReceiver]" + intent.getAction() + " connected state change to " + connected);
-        }
-        else
-        {
+        } else {
             Log.d(TAG, "[JPushMessageReceiver] Unhandled intent - " + intent.getAction());
         }
     }
 
 
-    private String printBundle(Bundle bundle)
-    {
+    private String printBundle(Bundle bundle) {
         StringBuilder sb = new StringBuilder();
-        for (String key : bundle.keySet())
-        {
-            if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID))
-            {
+        for (String key : bundle.keySet()) {
+            if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID)) {
                 sb.append("\nkey:" + key + ", value:" + bundle.getInt(key));
-            }
-            else if (key.equals(JPushInterface.EXTRA_CONNECTION_CHANGE))
-            {
+            } else if (key.equals(JPushInterface.EXTRA_CONNECTION_CHANGE)) {
                 sb.append("\nkey:" + key + ", value:" + bundle.getBoolean(key));
-            }
-            else if (key.equals(JPushInterface.EXTRA_EXTRA))
-            {
-                if (bundle.getString(JPushInterface.EXTRA_EXTRA).isEmpty())
-                {
+            } else if (key.equals(JPushInterface.EXTRA_EXTRA)) {
+                if (bundle.getString(JPushInterface.EXTRA_EXTRA).isEmpty()) {
                     Log.i(TAG, "This message has no Extra data");
                     continue;
                 }
 
-                try
-                {
+                try {
                     JSONObject json = new JSONObject(bundle.getString(JPushInterface.EXTRA_EXTRA));
                     Iterator<String> it = json.keys();
 
-                    while (it.hasNext())
-                    {
+                    while (it.hasNext()) {
                         String myKey = it.next().toString();
                         sb.append("\nkey:" + key + ", value: [" +
                                 myKey + " - " + json.optString(myKey) + "]");
                     }
-                } catch (JSONException e)
-                {
+                } catch (JSONException e) {
                     Log.e(TAG, "Get message extra JSON error!");
                 }
 
-            }
-            else
-            {
+            } else {
                 sb.append("\nkey:" + key + ", value:" + bundle.getString(key));
             }
         }
