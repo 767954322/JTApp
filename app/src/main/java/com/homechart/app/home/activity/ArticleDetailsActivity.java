@@ -1021,7 +1021,7 @@ public class ArticleDetailsActivity
                     int num = Integer.parseInt(tv_wai_bang.getText().toString().trim());
                     tv_wai_bang.setText(++num + "");
                     ifZan = false;
-                    getArticleDetails();
+//                    getArticleDetails();
                     break;
                 case 2://取消点赞
                     ToastUtils.showCenter(ArticleDetailsActivity.this, "还是收回我的家图棒吧");
@@ -1032,7 +1032,7 @@ public class ArticleDetailsActivity
                     int num1 = Integer.parseInt(tv_wai_bang.getText().toString().trim());
                     tv_wai_bang.setText(--num1 + "");
                     ifZan = true;
-                    getArticleDetails();
+//                    getArticleDetails();
                     break;
                 case 3://收藏
                     ToastUtils.showCenter(ArticleDetailsActivity.this, "收藏成功");
@@ -1043,7 +1043,7 @@ public class ArticleDetailsActivity
                     int num3 = Integer.parseInt(tv_wai_xing.getText().toString().trim());
                     tv_wai_xing.setText(++num3 + "");
                     ifShouCang = false;
-                    getArticleDetails();
+//                    getArticleDetails();
                     break;
                 case 4://取消收藏
                     ToastUtils.showCenter(ArticleDetailsActivity.this, "取消收藏成功");
@@ -1054,19 +1054,19 @@ public class ArticleDetailsActivity
                     int num4 = Integer.parseInt(tv_wai_xing.getText().toString().trim());
                     tv_wai_xing.setText(--num4 + "");
                     ifShouCang = false;
-                    getArticleDetails();
+//                    getArticleDetails();
                     break;
                 case 5://评论文章
                     ToastUtils.showCenter(ArticleDetailsActivity.this, "评论成功");
                     pingpage_num = 1;
                     getArticlePingList(article_id);
-                    getArticleDetails();
+//                    getArticleDetails();
                     break;
                 case 6://回复文章评论
                     ToastUtils.showCenter(ArticleDetailsActivity.this, "回复成功");
                     pingpage_num = 1;
                     getArticlePingList(article_id);
-                    getArticleDetails();
+//                    getArticleDetails();
                     break;
                 case 7://刷新评论列表
                     try {
