@@ -300,6 +300,8 @@ public class ArticleDetailsActivity
                     }
                 });
             }
+
+
         };
         mRecyclerView.addHeaderView(header);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(ArticleDetailsActivity.this));
@@ -772,6 +774,11 @@ public class ArticleDetailsActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
+                        PingCommentListItemBean pingCommentListItemBean =
+                                GsonUtil.jsonToBean(data_msg, PingCommentListItemBean.class);
+                        list_ping.add(pingCommentListItemBean.getComment_info().getComment_id());
+                        mListPing.clear();
+                        mListPing.add(pingCommentListItemBean);
                         Message msg = new Message();
                         msg.what = 5;
                         mHandler.sendMessage(msg);
@@ -805,6 +812,13 @@ public class ArticleDetailsActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
+                        list_ping.clear();
+                        PingCommentListItemBean pingCommentListItemBean =
+                                GsonUtil.jsonToBean(data_msg, PingCommentListItemBean.class);
+
+                        mListPing.clear();
+                        list_ping.add(pingCommentListItemBean.getComment_info().getComment_id());
+                        mListPing.add(pingCommentListItemBean);
                         Message msg = new Message();
                         msg.what = 6;
                         mHandler.sendMessage(msg);
@@ -986,18 +1000,25 @@ public class ArticleDetailsActivity
                 case 5://评论文章
                     ToastUtils.showCenter(ArticleDetailsActivity.this, "评论成功");
                     pingpage_num = 1;
-                    mListPing.clear();
                     getArticlePingList(article_id);
                     getArticleDetails();
                     break;
                 case 6://回复文章评论
                     ToastUtils.showCenter(ArticleDetailsActivity.this, "回复成功");
                     pingpage_num = 1;
-                    mListPing.clear();
                     getArticlePingList(article_id);
                     getArticleDetails();
                     break;
                 case 7://刷新评论列表
+
+                    if (list_ping.size() > 0 && mListPing.size() > 1) {
+                        for (int i = 1; i < mListPing.size(); i++) {
+                            if(mListPing.get(i).getComment_info().getComment_id().equals(list_ping.get(0))){
+                                mListPing.remove(i);
+                            }
+                        }
+                    }
+
                     myArticlePingAdapter = new MyArticlePingAdapter(ArticleDetailsActivity.this, mListPing, pingBean.getArticle_info().getUser_id(), ArticleDetailsActivity.this);
                     mlv_article_pinglun.setAdapter(myArticlePingAdapter);
                     break;
@@ -1061,7 +1082,7 @@ public class ArticleDetailsActivity
     private PingBean pingBean;
     private MyArticlePingAdapter myArticlePingAdapter;
     private List<PingCommentListItemBean> mListPing = new ArrayList<>();
-
+    private List<String> list_ping = new ArrayList<>();
 
     private String reply_id = "";
 }
