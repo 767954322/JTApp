@@ -323,8 +323,6 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:layout_below="@+id/view_below_pingtital"
-        android:layout_marginLeft="@dimen/font_20"
-        android:layout_marginRight="@dimen/font_20"
         android:divider="@null" />
 
     <TextView
