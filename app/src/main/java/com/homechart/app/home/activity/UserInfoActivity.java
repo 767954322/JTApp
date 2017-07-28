@@ -103,6 +103,7 @@ public class UserInfoActivity
     private LinearLayoutManager linearLayoutManager;
     private String sort = "pic";
     private CommonAdapter<ArticleBean> mAdapterArticle;
+    private TextView tv_jieshao;
 
     @Override
     protected int getLayoutResId() {
@@ -118,6 +119,7 @@ public class UserInfoActivity
         mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview_info);
         view_tiop = (View) findViewById(R.id.view_tiop);
 
+        tv_jieshao = (TextView) headerView.findViewById(R.id.tv_jieshao);
         tv_userinfo_nikename = (TextView) headerView.findViewById(R.id.tv_userinfo_nikename);
         tv_info_guanzhu_num = (TextView) headerView.findViewById(R.id.tv_info_guanzhu_num);
         tv_info_shaijia_num = (TextView) headerView.findViewById(R.id.tv_info_shaijia_num);
@@ -607,6 +609,7 @@ public class UserInfoActivity
             ImageUtils.displayRoundImage(userCenterInfoBean.getUser_info().getAvatar().getBig(), iv_header_desiner_center);
             tv_userinfo_nikename.setText(userCenterInfoBean.getUser_info().getNickname());
             tv_info_guanzhu_num.setText(userCenterInfoBean.getCounter().getFollow_num() + "");
+            tv_jieshao.setText(userCenterInfoBean.getUser_info().getSlogan());
             int num1 = userCenterInfoBean.getCounter().getSingle_num();
             int num2 = userCenterInfoBean.getCounter().getArticle_num();
             tv_info_shaijia_num.setText((num1 + num2) + "");

@@ -53,13 +53,13 @@
                 android:layout_below="@+id/iv_header_desiner_center_white"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/font_20"
-                android:text="nikename"
                 android:textColor="@color/bg_262626"
                 android:textSize="@dimen/font_17"
                 android:textStyle="bold" />
 
 
             <TextView
+                android:id="@+id/tv_jieshao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_userinfo_nikename"
