@@ -258,7 +258,7 @@
                     android:layout_below="@+id/tv_shaijia_num"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/font_13"
-                    android:text="晒家" />
+                    android:text="作品" />
 
             </RelativeLayout>
         </LinearLayout>

@@ -45,7 +45,7 @@
             android:drawableLeft="@drawable/fdj"
             android:drawablePadding="@dimen/font_6"
             android:gravity="center_vertical"
-            android:hint="搜索你感兴趣的图片"
+            android:hint="搜索你感兴趣的图片/文章"
             android:textColorHint="@color/bg_8f8f8f"
             android:paddingLeft="@dimen/font_10"
             android:textSize="@dimen/size_14" />
