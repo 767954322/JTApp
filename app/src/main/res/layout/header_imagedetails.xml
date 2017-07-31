@@ -50,7 +50,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/rl_people_name"
         android:layout_below="@+id/rl_people_name"
-        android:layout_marginTop="@dimen/font_5"
+        android:layout_marginTop="@dimen/font_2"
+        android:text="dsdsdsd"
         android:gravity="top"
         android:textColor="@color/bg_8f8f8f"
         android:textSize="@dimen/size_11" />

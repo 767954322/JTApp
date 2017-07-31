@@ -9,13 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/font_20" />
+        android:layout_marginTop="@dimen/font_25" />
 
     <TextView
         android:id="@+id/tv_item_article_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/font_25"
+        android:layout_marginTop="@dimen/font_20"
         android:lineSpacingExtra="@dimen/font_11"
         android:textColor="@color/bg_262626"
         android:layout_below="@+id/iv_item_article_pic"
