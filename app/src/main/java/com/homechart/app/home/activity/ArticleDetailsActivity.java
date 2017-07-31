@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.google.android.gms.analytics.HitBuilders;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
@@ -34,6 +37,7 @@ import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.imagedetail.ImageDetailsActivity;
 import com.homechart.app.myview.ClearEditText;
+import com.homechart.app.myview.HomeSharedPopWinPublic;
 import com.homechart.app.myview.MyListView;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.myview.SoftKeyBoardListener;
@@ -49,12 +53,19 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -65,8 +76,9 @@ public class ArticleDetailsActivity
         extends BaseActivity
         implements View.OnClickListener,
         OnLoadMoreListener,
-        MyArticlePingAdapter.HuiFu ,
-        MyArticlePicAdapter.PicDetails{
+        MyArticlePingAdapter.HuiFu,
+        MyArticlePicAdapter.PicDetails,
+        HomeSharedPopWinPublic.ClickInter {
 
 
     @Override
@@ -86,7 +98,8 @@ public class ArticleDetailsActivity
         nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
         mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview_info);
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
-
+        nav_secondary_imageButton = (ImageButton) findViewById(R.id.nav_secondary_imageButton);
+//        shared_icon
         tv_people_name = (TextView) header.findViewById(R.id.tv_people_name);
         iv_people_tag = (ImageView) header.findViewById(R.id.iv_people_tag);
         riv_people_header = (RoundImageView) header.findViewById(R.id.riv_people_header);
@@ -128,6 +141,9 @@ public class ArticleDetailsActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
         tv_tital_comment.setText("文章详情");
+        nav_secondary_imageButton.setImageResource(R.drawable.shared_icon);
+        homeSharedPopWinPublic = new HomeSharedPopWinPublic(ArticleDetailsActivity.this, ArticleDetailsActivity.this);
+
         wid_screen = PublicUtils.getScreenWidth(this);
         buildRecycler();
         getArticleDetails();
@@ -154,6 +170,7 @@ public class ArticleDetailsActivity
         rl_xing.setOnClickListener(this);
         rl_bang.setOnClickListener(this);
         riv_people_header.setOnClickListener(this);
+        nav_secondary_imageButton.setOnClickListener(this);
 
         SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
             @Override
@@ -265,10 +282,20 @@ public class ArticleDetailsActivity
                 break;
             case R.id.riv_people_header:
 
-                if(articleBean != null){
+                if (articleBean != null) {
                     Intent intent = new Intent(ArticleDetailsActivity.this, UserInfoActivity.class);
                     intent.putExtra(ClassConstant.LoginSucces.USER_ID, articleBean.getArticle_info().getUser_id());
                     startActivity(intent);
+                }
+
+                break;
+            case R.id.nav_secondary_imageButton:
+
+                if (mArticleBean != null) {
+                    homeSharedPopWinPublic.showAtLocation(ArticleDetailsActivity.this.findViewById(R.id.menu_layout),
+                            Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
+                            0,
+                            0); //设置layout在PopupWindow中显示的位置
                 }
 
                 break;
@@ -398,6 +425,7 @@ public class ArticleDetailsActivity
         if (articleBean != null &&
                 articleBean.getArticle_info() != null &&
                 articleBean.getArticle_info().getArticle_id() != null) {
+            this.mArticleBean = articleBean;
             //获取作者信息
             getUserInfo(articleBean.getArticle_info().getUser_id());
             //标题，阅读数，引言
@@ -407,16 +435,16 @@ public class ArticleDetailsActivity
                 rl_yinyan_tital_wai.setVisibility(View.GONE);
             } else {
                 rl_yinyan_tital_wai.setVisibility(View.VISIBLE);
-                tv_yinyan_content.setText(articleBean.getArticle_info().getTitle());
+                tv_yinyan_content.setText(articleBean.getArticle_info().getSummary());
             }
             //文章的图文
             if (articleBean.getItem_list() != null && articleBean.getItem_list().size() > 0) {
                 listUrl.clear();
                 List<ItemDetailsBean> listU = articleBean.getItem_list();
-                for (int i = 0; i<listU.size();i++){
+                for (int i = 0; i < listU.size(); i++) {
                     listUrl.add(listU.get(i).getItem_info().getImage().getImg0());
                 }
-                MyArticlePicAdapter articlePicAdapter = new MyArticlePicAdapter(ArticleDetailsActivity.this, articleBean, wid_screen,this);
+                MyArticlePicAdapter articlePicAdapter = new MyArticlePicAdapter(ArticleDetailsActivity.this, articleBean, wid_screen, this);
                 mlv_article_pic_content.setAdapter(articlePicAdapter);
             }
             //显示评论点赞分享布局
@@ -998,7 +1026,6 @@ public class ArticleDetailsActivity
             myArticlePingAdapter.notifyDataSetChanged();
         }
     }
-
     //9查看大图
     @Override
     public void clickPic(int position) {
@@ -1006,12 +1033,99 @@ public class ArticleDetailsActivity
         Intent intent = new Intent(ArticleDetailsActivity.this, ImageDetailsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("pic_url_list", (Serializable) listUrl);
-        bundle.putInt("click_position", position );
+        bundle.putInt("click_position", position);
         intent.putExtras(bundle);
         startActivity(intent);
 
 
     }
+
+    //10.分享微信
+    @Override
+    public void onClickWeiXin() {
+        sharedItemOpen(SHARE_MEDIA.WEIXIN);
+    }
+
+    //10.分享朋友圈
+    @Override
+    public void onClickPYQ() {
+        sharedItemOpen(SHARE_MEDIA.WEIXIN_CIRCLE);
+    }
+
+    //10.分享微博
+    @Override
+    public void onClickWeiBo() {
+        sharedItemOpen(SHARE_MEDIA.SINA);
+    }
+
+    //10分享
+    private void sharedItemOpen(SHARE_MEDIA share_media) {
+
+        if (null != mArticleBean) {
+
+            List<ItemDetailsBean> list = mArticleBean.getItem_list();
+            if (list.size() > 0) {
+                UMImage image = new UMImage(ArticleDetailsActivity.this, list.get(0).getItem_info().getImage().getImg0());
+                image.compressStyle = UMImage.CompressStyle.SCALE;//大小压缩，默认为大小压缩，适合普通很大的图
+                UMWeb web = new UMWeb("https://h5.idcool.com.cn/article/" + mArticleBean.getArticle_info().getArticle_id());
+                web.setTitle("「" + articleBean.getArticle_info().getTitle() + "」在晒家｜家图APP");//标题
+                web.setThumb(image);  //缩略图
+                String desi = "";
+                if(share_media == SHARE_MEDIA.SINA ){
+                    //描述是文章标题
+                    desi = "「" + articleBean.getArticle_info().getTitle() + "」在晒家｜家图APP";
+                }else if(share_media == SHARE_MEDIA.WEIXIN_CIRCLE ){
+                    //描述是文章引言
+                     desi = articleBean.getArticle_info().getSummary();
+                }else if(share_media == SHARE_MEDIA.WEIXIN ){
+                    //描述是文章引言
+                    desi = articleBean.getArticle_info().getSummary();
+                }else {
+                    //描述是文章引言
+                    desi = articleBean.getArticle_info().getSummary();
+                }
+
+                if (desi.length() > 160) {
+                    desi = desi.substring(0, 160) + "...";
+                }
+                web.setDescription(desi);//描述
+                new ShareAction(ArticleDetailsActivity.this).
+                        setPlatform(share_media).
+                        withMedia(web).
+                        setCallback(umShareListener).share();
+            }
+        }
+
+    }
+    //10分享
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            //分享开始的回调
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            if(platform == SHARE_MEDIA.WEIXIN   ){
+                ToastUtils.showCenter(ArticleDetailsActivity.this, "微信好友分享成功啦");
+            }else if(platform == SHARE_MEDIA.WEIXIN_CIRCLE){
+                ToastUtils.showCenter(ArticleDetailsActivity.this, "微信朋友圈分享成功啦");
+            }else if (platform == SHARE_MEDIA.SINA){
+                ToastUtils.showCenter(ArticleDetailsActivity.this, "新浪微博分享成功啦");
+            }
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            ToastUtils.showCenter(ArticleDetailsActivity.this, "分享失败啦");
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            ToastUtils.showCenter(ArticleDetailsActivity.this, "分享取消了");
+        }
+    };
 
     Handler mHandler = new Handler() {
         @Override
@@ -1078,16 +1192,16 @@ public class ArticleDetailsActivity
                     break;
                 case 7://刷新评论列表
                     try {
-                        if (list_ping.size() > 0 && mListPing.size()>list_ping.size()) {
+                        if (list_ping.size() > 0 && mListPing.size() > list_ping.size()) {
                             for (int i = 0; i < list_ping.size(); i++) {
-                                for (int j = list_ping.size() ; j < mListPing.size(); j++) {
+                                for (int j = list_ping.size(); j < mListPing.size(); j++) {
                                     if (mListPing.get(j).getComment_info().getComment_id().equals(list_ping.get(i))) {
                                         mListPing.remove(j);
                                     }
                                 }
                             }
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                     }
                     myArticlePingAdapter = new MyArticlePingAdapter(ArticleDetailsActivity.this, mListPing, pingBean.getArticle_info().getUser_id(), ArticleDetailsActivity.this);
                     mlv_article_pinglun.setAdapter(myArticlePingAdapter);
@@ -1141,6 +1255,7 @@ public class ArticleDetailsActivity
     private TextView tv_bang;
     private TextView tv_xing;
     private ImageView iv_xing;
+    private ImageButton nav_secondary_imageButton;
     private TextView tv_ping;
     private ImageView iv_ping;
     private ImageView iv_wai_bang;
@@ -1157,5 +1272,9 @@ public class ArticleDetailsActivity
 
     private String reply_id = "";
     private List<String> listUrl = new ArrayList<>();
+
+    //分享
+    private HomeSharedPopWinPublic homeSharedPopWinPublic;
+    private ArticleBean mArticleBean;
 
 }
