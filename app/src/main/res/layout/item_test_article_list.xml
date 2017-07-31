@@ -43,11 +43,11 @@
             android:layout_marginTop="@dimen/font_10"
             android:gravity="center"
             android:layout_marginRight="@dimen/font_10"
-            android:paddingTop="@dimen/font_7"
+            android:paddingTop="@dimen/font_6"
             android:paddingBottom="@dimen/font_7"
             android:paddingRight="@dimen/font_4"
             android:paddingLeft="@dimen/font_4"
-            android:textColor="@color/white"
+            android:textColor="@color/bg_e2e2e2"
             android:textSize="@dimen/size_11"
             android:background="@drawable/wenzhang"/>
 
