@@ -347,11 +347,11 @@ public class HomeActivity
                         String current_code = PublicUtils.getVersionName(HomeActivity.this);
                         Log.d("test", "last_version : " + last_version + ";current_code : " + current_code);
                         if (!current_code.trim().equals(last_version.trim())) {
-                            //TODO 区服务器下载
-                            Intent downloadIntent = new Intent(HomeActivity.this, DownloadService.class);
-                            downloadIntent.putExtra("downloadUrl", download_url);
-                            downloadIntent.putExtra("fileName", "JTApp");
-                            startService(downloadIntent);
+//                            //TODO 区服务器下载
+//                            Intent downloadIntent = new Intent(HomeActivity.this, DownloadService.class);
+//                            downloadIntent.putExtra("downloadUrl", download_url);
+//                            downloadIntent.putExtra("fileName", "JTApp");
+//                            startService(downloadIntent);
                         }
                     }
                 } catch (JSONException e) {

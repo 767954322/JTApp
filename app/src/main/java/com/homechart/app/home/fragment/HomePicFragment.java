@@ -930,7 +930,7 @@ public class HomePicFragment
                 homeTabPopWin.setPagePosition(position);
                 last_id = id;
                 if (Build.VERSION.SDK_INT < 24) {
-                    homeTabPopWin.showAsDropDown(ll_pic_choose);
+                    homeTabPopWin.showAsDropDown(view_line_back);
                 } else {
                     // 获取控件的位置，安卓系统>7.0
                     int[] location = new int[2];
