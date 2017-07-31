@@ -137,14 +137,15 @@ public class SearchArticleFragment
 
                 ((TextView) holder.getView(R.id.tv_article_name)).setText(mListData.get(position).getArticle_info().getTitle());
                 ((TextView) holder.getView(R.id.tv_youlan_num)).setText(mListData.get(position).getArticle_info().getView_num());
-                ((TextView) holder.getView(R.id.tv_article_details)).setText(mListData.get(position).getArticle_info().getSummary());
+                ((TextView) holder.getView(R.id.tv_article_details)).setText(mListData.get(position).getArticle_info().getSummary().trim());
                 ImageUtils.disRectangleImage(mListData.get(position).getArticle_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_article_image));
                 holder.getView(R.id.rl_item_click).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        clickPosition = position;
                         Intent intent = new Intent(activity, ArticleDetailsActivity.class);
                         intent.putExtra("article_id",mListData.get(position).getArticle_info().getArticle_id());
-                        startActivity(intent);
+                        startActivityForResult(intent,1);
                     }
                 });
             }
@@ -301,4 +302,20 @@ public class SearchArticleFragment
 
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && clickPosition >= 0&&mListData.size()>position) {
+            int seeNum = Integer.parseInt(mListData.get(clickPosition).getArticle_info().getView_num());
+            mListData.get(clickPosition).getArticle_info().setView_num(++seeNum + "");
+            mAdapter.notifyItemChanged(clickPosition);
+        }
+
+    }
+
+
+    //设置你可能喜欢地阅览数字加1
+    private int clickPosition = -1;
 }
