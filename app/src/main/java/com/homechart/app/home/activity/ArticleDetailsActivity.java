@@ -1068,12 +1068,12 @@ public class ArticleDetailsActivity
                 UMImage image = new UMImage(ArticleDetailsActivity.this, list.get(0).getItem_info().getImage().getImg0());
                 image.compressStyle = UMImage.CompressStyle.SCALE;//大小压缩，默认为大小压缩，适合普通很大的图
                 UMWeb web = new UMWeb("https://h5.idcool.com.cn/article/" + mArticleBean.getArticle_info().getArticle_id());
-                web.setTitle("「" + articleBean.getArticle_info().getTitle() + "」在晒家｜家图APP");//标题
+                web.setTitle("「" + articleBean.getArticle_info().getTitle() + "」｜家图APP");//标题
                 web.setThumb(image);  //缩略图
                 String desi = "";
                 if(share_media == SHARE_MEDIA.SINA ){
                     //描述是文章标题
-                    desi = "「" + articleBean.getArticle_info().getTitle() + "」在晒家｜家图APP";
+                    desi = "「" + articleBean.getArticle_info().getTitle() + "」｜家图APP";
                 }else if(share_media == SHARE_MEDIA.WEIXIN_CIRCLE ){
                     //描述是文章引言
                      desi = articleBean.getArticle_info().getSummary();
