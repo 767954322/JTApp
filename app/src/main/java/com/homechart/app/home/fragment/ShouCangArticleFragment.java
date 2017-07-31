@@ -269,7 +269,7 @@ public class ShouCangArticleFragment
     private void jumpImageDetail(String item_id,int position) {
 
         try {
-            mListSeeNumArticle.add(position, mListSeeNumArticle.get(position) + 1);
+            mListSeeNumArticle.set(position, mListSeeNumArticle.get(position) + 1);
         }catch (Exception e){
         }
         Intent intent = new Intent(activity, ArticleDetailsActivity.class);
