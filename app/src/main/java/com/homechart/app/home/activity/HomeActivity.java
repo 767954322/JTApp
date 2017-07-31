@@ -26,6 +26,7 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.fragment.HomeCenterFragment;
 import com.homechart.app.home.fragment.HomePicFragment;
@@ -112,9 +113,9 @@ public class HomeActivity
         mRadioGroup.setAlpha(0.96f);
         menuWindow = new SelectPicPopupWindow(HomeActivity.this, HomeActivity.this);
 
-        if(!TextUtils.isEmpty(object_id)){
-            Intent intent = new Intent(HomeActivity.this,ArticleDetailsActivity.class);
-            intent.putExtra("article_id",object_id);
+        if (!TextUtils.isEmpty(object_id)) {
+            Intent intent = new Intent(HomeActivity.this, ArticleDetailsActivity.class);
+            intent.putExtra("article_id", object_id);
             startActivity(intent);
         }
 
@@ -318,7 +319,7 @@ public class HomeActivity
     }
 
 
-    private void checkNewAPK(){
+    private void checkNewAPK() {
 
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
@@ -333,10 +334,15 @@ public class HomeActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
+                        JSONObject jsonObject1 = new JSONObject(data_msg);
+                        String download_url = jsonObject1.getString("download_url");
+                        String last_version = jsonObject1.getString("last_version");
+                        String current_code = PublicUtils.getVersionName(HomeActivity.this);
+                        Log.d("test", "last_version : " + last_version + ";current_code : " + current_code);
+                        if (!current_code.trim().equals(last_version.trim())) {
+                            //TODO 区服务器下载
 
-
-                        Log.d("test",data_msg);
-
+                        }
                     }
                 } catch (JSONException e) {
                 }
