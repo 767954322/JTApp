@@ -334,6 +334,7 @@ public class HomeActivity
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
 
+
                         Log.d("test",data_msg);
 
                     }
