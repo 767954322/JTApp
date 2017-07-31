@@ -39,7 +39,6 @@
         android:ellipsize="end"
         android:lineSpacingExtra="@dimen/font_3"
         android:maxLines="1"
-        android:text="dsdsds"
         android:textColor="@color/bg_262626"
         android:textSize="@dimen/font_14" />
 

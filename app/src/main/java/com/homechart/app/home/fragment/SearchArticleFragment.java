@@ -137,6 +137,7 @@ public class SearchArticleFragment
 
                 ((TextView) holder.getView(R.id.tv_article_name)).setText(mListData.get(position).getArticle_info().getTitle());
                 ((TextView) holder.getView(R.id.tv_youlan_num)).setText(mListData.get(position).getArticle_info().getView_num());
+                ((TextView) holder.getView(R.id.tv_article_details)).setText(mListData.get(position).getArticle_info().getSummary());
                 ImageUtils.disRectangleImage(mListData.get(position).getArticle_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_article_image));
                 holder.getView(R.id.rl_item_click).setOnClickListener(new View.OnClickListener() {
                     @Override
