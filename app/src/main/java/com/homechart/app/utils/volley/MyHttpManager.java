@@ -776,6 +776,7 @@ public class MyHttpManager {
         };
         queue.add(okStringRequest);
     }
+
     /**
      * 删除收藏文章
      *
@@ -1682,6 +1683,7 @@ public class MyHttpManager {
 
     /**
      * 对文章发表评论
+     *
      * @param article_id
      * @param content
      * @param callback
@@ -1693,7 +1695,7 @@ public class MyHttpManager {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
                 map.put("article_id", article_id);
-                map.put("content",content);
+                map.put("content", content);
                 String signString = PublicUtils.getSinaString(map);
                 String tabMd5String = Md5Util.getMD5twoTimes(signString);
                 map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
@@ -1711,6 +1713,7 @@ public class MyHttpManager {
 
     /**
      * 回复对文章发表的评论
+     *
      * @param reply_id
      * @param content
      * @param callback
@@ -1722,7 +1725,7 @@ public class MyHttpManager {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
                 map.put("reply_id", reply_id);
-                map.put("content",content);
+                map.put("content", content);
                 String signString = PublicUtils.getSinaString(map);
                 String tabMd5String = Md5Util.getMD5twoTimes(signString);
                 map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
@@ -1737,6 +1740,7 @@ public class MyHttpManager {
         };
         queue.add(okStringRequest);
     }
+
     /**
      * 文章详情-猜你喜欢
      *
@@ -1827,7 +1831,34 @@ public class MyHttpManager {
     }
 
     /**
+     * 获取最新版本号
+     *
+     * @param callback
+     */
+    public void checkLastVersion(OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.LAST_VERSION, callback) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+
+        };
+        queue.add(okStringRequest);
+    }
+
+
+    /**
      * 下载apk
+     *
      * @param url
      * @param callback
      */
@@ -1851,7 +1882,6 @@ public class MyHttpManager {
         };
         queue.add(okStringRequest);
     }
-
 
 
 }
