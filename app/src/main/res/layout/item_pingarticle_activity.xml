@@ -121,7 +121,7 @@
         android:layout_height="@dimen/font_38"
         android:layout_alignLeft="@+id/tv_time_one"
         android:layout_below="@+id/tv_time_one"
-        android:layout_marginRight="@dimen/font_10"
+        android:layout_marginRight="@dimen/font_15"
         android:background="@color/bg_f7f7f7">
 
         <TextView
@@ -188,8 +188,8 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_below="@+id/tv_content_one"
-        android:layout_marginLeft="@dimen/font_10"
-        android:layout_marginRight="@dimen/font_10"
+        android:layout_marginLeft="@dimen/font_15"
+        android:layout_marginRight="@dimen/font_15"
         android:background="@color/view_line" />
 
 </RelativeLayout>
