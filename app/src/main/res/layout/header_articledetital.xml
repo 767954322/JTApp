@@ -92,7 +92,6 @@
         android:layout_marginLeft="@dimen/font_20"
         android:layout_marginRight="@dimen/font_20"
         android:layout_marginTop="@dimen/font_40"
-        android:gravity="center_horizontal"
         android:lineSpacingExtra="@dimen/font_9"
         android:textColor="@color/bg_262626"
         android:textSize="@dimen/size_27" />
@@ -162,7 +161,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rl_yinyan_tital_nei"
-            android:layout_marginBottom="@dimen/font_20"
+            android:layout_marginBottom="@dimen/font_18"
             android:layout_marginLeft="@dimen/font_20"
             android:layout_marginRight="@dimen/font_20"
             android:layout_marginTop="@dimen/font_20"
