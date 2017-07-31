@@ -68,71 +68,53 @@ public class DownloadService extends IntentService {
             final String filePath =
                     FILE_PATH + "/" + String.valueOf(downloadUrl.hashCode()) + ".apk";
             boolean isFileExists = FileUtils.isFileExists(filePath);
-            if (!isFileExists) {
+            if(isFileExists){
+                FileUtils.deleteFile(filePath);
+            }
+            boolean isFileExists1 = FileUtils.isFileExists(filePath);
+            if (!isFileExists1) {
                 final File file = FileUtils.getFileByPath(downloadPath);
-                //TODO  更改为volley了
-                OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+
+                OkHttpClient okHttpClient = new OkHttpClient();
+                final Request request = new Request.Builder().url(downloadUrl).build();
+                okHttpClient.newCall(request).enqueue(new Callback() {
                     @Override
-                    public void onErrorResponse(VolleyError volleyError) {
+                    public void onFailure(Call call, IOException e) {
                     }
 
                     @Override
-                    public void onResponse(String s) {
+                    public void onResponse(Call call, Response response) throws IOException {
+                        InputStream inputStream = null;
+                        byte[] bytes = new byte[2048];
+                        int length;
+                        int progress = 0;
+                        mIntent.putExtra("progress", progress);
+                        BroadcastUtil.send(mContext, mIntent, DOWNLOAD_ACTION);
+                        FileOutputStream fileOutputStream = null;
                         try {
-                            JSONObject jsonObject = new JSONObject(s);
-                            int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                            String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                            String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                            if (error_code == 0) {
-
+                            mTotalNum = response.body().contentLength();
+                            inputStream = response.body().byteStream();
+                            fileOutputStream = new FileOutputStream(file);
+                            while ((length = inputStream.read(bytes)) != -1) {
+                                mWrittenNum += length;
+                                fileOutputStream.write(bytes, 0, length);
+                                progress = (int) (mWrittenNum * 1.0f / mTotalNum * 100);
+                                mIntent.putExtra("progress", progress == 100 ? 99 : progress);
+                                BroadcastUtil.send(mContext, mIntent, DOWNLOAD_ACTION);
                             }
-                        } catch (JSONException e) {
+                            fileOutputStream.flush();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } finally {
+                            CloseIOUtils.closeIO(inputStream, fileOutputStream);
+                            boolean isRename = FileUtils.rename(file, String.valueOf(downloadUrl.hashCode()) + ".apk");
+                            mIntent.putExtra("path", filePath);
+                            mIntent.putExtra("rename", isRename);
+                            mIntent.putExtra("progress", 100);
+                            BroadcastUtil.send(mContext, mIntent, DOWNLOAD_ACTION);
                         }
                     }
-                };
-                MyHttpManager.getInstance().downLoadApk(downloadUrl, callBack);
-
-
-//                OkHttpClient okHttpClient = new OkHttpClient();
-//                final Request request = new Request.Builder().url(downloadUrl).build();
-//                okHttpClient.newCall(request).enqueue(new Callback() {
-//                    @Override
-//                    public void onFailure(Call call, IOException e) {
-//                    }
-//
-//                    @Override
-//                    public void onResponse(Call call, Response response) throws IOException {
-//                        InputStream inputStream = null;
-//                        byte[] bytes = new byte[2048];
-//                        int length;
-//                        int progress = 0;
-//                        mIntent.putExtra("progress", progress);
-//                        BroadcastUtil.send(mContext, mIntent, DOWNLOAD_ACTION);
-//                        FileOutputStream fileOutputStream = null;
-//                        try {
-//                            mTotalNum = response.body().contentLength();
-//                            inputStream = response.body().byteStream();
-//                            fileOutputStream = new FileOutputStream(file);
-//                            while ((length = inputStream.read(bytes)) != -1) {
-//                                mWrittenNum += length;
-//                                fileOutputStream.write(bytes, 0, length);
-//                                progress = (int) (mWrittenNum * 1.0f / mTotalNum * 100);
-//                                mIntent.putExtra("progress", progress == 100 ? 99 : progress);
-//                                BroadcastUtil.send(mContext, mIntent, DOWNLOAD_ACTION);
-//                            }
-//                            fileOutputStream.flush();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        } finally {
-//                            CloseIOUtils.closeIO(inputStream, fileOutputStream);
-//                            boolean isRename = FileUtils.rename(file, String.valueOf(downloadUrl.hashCode()) + ".apk");
-//                            mIntent.putExtra("path", filePath);
-//                            mIntent.putExtra("rename", isRename);
-//                            mIntent.putExtra("progress", 100);
-//                            BroadcastUtil.send(mContext, mIntent, DOWNLOAD_ACTION);
-//                        }
-//                    }
-//                });
+                });
             } else {
                 mIntent.putExtra("progress", 100);
                 mIntent.putExtra("path", filePath);

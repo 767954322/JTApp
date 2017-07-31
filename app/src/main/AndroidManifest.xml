@@ -271,7 +271,11 @@
             android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
-
+        <service android:name=".upapk.DownloadService">
+            <intent-filter >
+                <action android:name="com.test.intentservice"/>
+            </intent-filter>
+        </service>
         <!-- 友盟 -->
         <activity
             android:name=".wxapi.WXEntryActivity"

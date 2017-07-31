@@ -3,11 +3,13 @@ package com.homechart.app.commont;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -20,6 +22,7 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,6 +32,7 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.bean.login.LoginBean;
+import com.homechart.app.upapk.FileUtils;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.DataCleanManager;
 import com.homechart.app.utils.MPFileUtility;
@@ -41,6 +45,7 @@ import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -557,6 +562,56 @@ public class PublicUtils {
         // 获得状态栏高度
         int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
         return context.getResources().getDimensionPixelSize(resourceId);
+    }
+
+    /**
+     * 安装App(支持6.0)
+     *
+     * @param context  上下文
+     * @param filePath 文件路径
+     */
+    public static void installApp(Context context, String filePath) {
+        installApp(context, FileUtils.getFileByPath(filePath));
+    }
+
+    /**
+     * 安装App（支持6.0）
+     *
+     * @param context 上下文
+     * @param file    文件
+     */
+    public static void installApp(Context context, File file) {
+        if (!FileUtils.isFileExists(file)) return;
+        context.startActivity(getInstallAppIntent(file));
+    }
+
+    /**
+     * 获取安装App（支持6.0）的意图
+     *
+     * @param filePath 文件路径
+     * @return intent
+     */
+    public static Intent getInstallAppIntent(String filePath) {
+        return getInstallAppIntent(FileUtils.getFileByPath(filePath));
+    }
+
+    /**
+     * 获取安装App(支持6.0)的意图
+     *
+     * @param file 文件
+     * @return intent
+     */
+    public static Intent getInstallAppIntent(File file) {
+        if (file == null) return null;
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        String type;
+        if (Build.VERSION.SDK_INT < 23) {
+            type = "application/vnd.android.package-archive";
+        } else {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(FileUtils.getFileExtension(file));
+        }
+        intent.setDataAndType(Uri.fromFile(file), type);
+        return intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
 }

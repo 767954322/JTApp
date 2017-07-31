@@ -1,4 +1,4 @@
-<resources>
+<resources  xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">家图</string>
 
     <!--UIUtils-->
@@ -106,4 +106,6 @@
 
 
     <string name="color_end">&#160;&#038; 家图AI实验室</string>
+
+    <string name="download_size">"已下载 <xliff:g id="num">%s</xliff:g>"</string>
 </resources>

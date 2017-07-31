@@ -1,6 +1,8 @@
 package com.homechart.app.home.activity;
 
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -20,6 +22,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
@@ -31,6 +34,10 @@ import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.fragment.HomeCenterFragment;
 import com.homechart.app.home.fragment.HomePicFragment;
 import com.homechart.app.myview.SelectPicPopupWindow;
+import com.homechart.app.upapk.BroadcastUtil;
+import com.homechart.app.upapk.DialogUtils;
+import com.homechart.app.upapk.DownloadService;
+import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
@@ -54,7 +61,7 @@ import cn.finalteam.galleryfinal.model.PhotoInfo;
 public class HomeActivity
         extends BaseActivity
         implements RadioGroup.OnCheckedChangeListener,
-        View.OnClickListener {
+        View.OnClickListener, BroadcastUtil.IReceiver {
 
     private RadioButton radio_btn_center;
     private RadioGroup mRadioGroup;
@@ -97,7 +104,7 @@ public class HomeActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
+        BroadcastUtil.registerReceiver(this, this, "DITing.action.download");
         //检测是否有新版本
         checkNewAPK();
 
@@ -341,7 +348,10 @@ public class HomeActivity
                         Log.d("test", "last_version : " + last_version + ";current_code : " + current_code);
                         if (!current_code.trim().equals(last_version.trim())) {
                             //TODO 区服务器下载
-
+                            Intent downloadIntent = new Intent(HomeActivity.this, DownloadService.class);
+                            downloadIntent.putExtra("downloadUrl", download_url);
+                            downloadIntent.putExtra("fileName", "JTApp");
+                            startService(downloadIntent);
                         }
                     }
                 } catch (JSONException e) {
@@ -351,5 +361,33 @@ public class HomeActivity
         MyHttpManager.getInstance().checkLastVersion(callBack);
 
     }
+
+    @Override
+    public void onReceive(Context ctx, Intent intent) {
+        int progress = intent.getIntExtra("progress", -1);
+        String path = intent.getStringExtra("path");
+        boolean rename = intent.getBooleanExtra("rename", false);
+        if (progress == 500 || progress == -1) {
+            return;
+        }
+        if (progress == 100) {
+            if (!TextUtils.isEmpty(path) && rename) {
+                PublicUtils.installApp(this, path);
+                finish();
+            } else {
+                mHandle.sendEmptyMessage(0);
+            }
+        } else {
+            Log.d("test",getString(R.string.download_size, progress + " %"));
+        }
+    }
+
+    Handler mHandle = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            ToastUtils.showCenter(HomeActivity.this,"版本更新失败！");
+        }
+    };
 }
 
