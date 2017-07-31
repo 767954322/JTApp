@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -81,6 +82,8 @@ public class ArticleDetailsActivity
         HomeSharedPopWinPublic.ClickInter {
 
 
+    private RelativeLayout rl_user_top;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_article_details;
@@ -98,13 +101,14 @@ public class ArticleDetailsActivity
         nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
         mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview_info);
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
+        rl_user_top = (RelativeLayout) findViewById(R.id.rl_user_top);
         nav_secondary_imageButton = (ImageButton) findViewById(R.id.nav_secondary_imageButton);
 //        shared_icon
-        tv_people_name = (TextView) header.findViewById(R.id.tv_people_name);
-        iv_people_tag = (ImageView) header.findViewById(R.id.iv_people_tag);
-        riv_people_header = (RoundImageView) header.findViewById(R.id.riv_people_header);
-        tv_people_details = (TextView) header.findViewById(R.id.tv_people_details);
-        tv_people_guanzhu = (TextView) header.findViewById(R.id.tv_people_guanzhu);
+        tv_people_name = (TextView) findViewById(R.id.tv_people_name);
+        iv_people_tag = (ImageView) findViewById(R.id.iv_people_tag);
+        riv_people_header = (RoundImageView) findViewById(R.id.riv_people_header);
+        tv_people_details = (TextView) findViewById(R.id.tv_people_details);
+        tv_people_guanzhu = (TextView) findViewById(R.id.tv_people_guanzhu);
         tv_article_tital = (TextView) header.findViewById(R.id.tv_article_tital);
         tv_readnum_num = (TextView) header.findViewById(R.id.tv_readnum_num);
         tv_yinyan_content = (TextView) header.findViewById(R.id.tv_yinyan_content);
@@ -150,7 +154,9 @@ public class ArticleDetailsActivity
         //获取文章评论信息
         getArticlePingList(article_id);
     }
-
+    private float mDownY;
+    private float mMoveY;
+    private boolean move_tag = true;
     @Override
     protected void initListener() {
         super.initListener();
@@ -171,7 +177,36 @@ public class ArticleDetailsActivity
         rl_bang.setOnClickListener(this);
         riv_people_header.setOnClickListener(this);
         nav_secondary_imageButton.setOnClickListener(this);
-
+        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if (move_tag) {
+                            mDownY = event.getY();
+                            move_tag = false;
+                        }
+                        mMoveY = event.getY();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        move_tag = true;
+                        mMoveY = event.getY();
+                        Log.e("UP", "Y" + mMoveY);
+                        if (Math.abs((mMoveY - mDownY)) > 20) {
+                            if (mMoveY > mDownY) {
+                                rl_user_top.setVisibility(View.VISIBLE);
+                            } else {
+                                rl_user_top.setVisibility(View.GONE);
+                            }
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
         SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
             @Override
             public void keyBoardShow(int height) {
