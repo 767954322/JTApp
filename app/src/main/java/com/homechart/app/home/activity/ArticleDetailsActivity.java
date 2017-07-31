@@ -335,9 +335,10 @@ public class ArticleDetailsActivity
                 holder.getView(R.id.rl_item_click).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        clickPosition = position;
                         Intent intent = new Intent(ArticleDetailsActivity.this, ArticleDetailsActivity.class);
                         intent.putExtra("article_id", mListData.get(position).getArticle_info().getArticle_id());
-                        startActivity(intent);
+                        ArticleDetailsActivity.this.startActivityForResult(intent, 1);
                     }
                 });
             }
@@ -1026,6 +1027,7 @@ public class ArticleDetailsActivity
             myArticlePingAdapter.notifyDataSetChanged();
         }
     }
+
     //9查看大图
     @Override
     public void clickPic(int position) {
@@ -1071,16 +1073,16 @@ public class ArticleDetailsActivity
                 web.setTitle("「" + articleBean.getArticle_info().getTitle() + "」｜家图APP");//标题
                 web.setThumb(image);  //缩略图
                 String desi = "";
-                if(share_media == SHARE_MEDIA.SINA ){
+                if (share_media == SHARE_MEDIA.SINA) {
                     //描述是文章标题
                     desi = "「" + articleBean.getArticle_info().getTitle() + "」｜家图APP";
-                }else if(share_media == SHARE_MEDIA.WEIXIN_CIRCLE ){
-                    //描述是文章引言
-                     desi = articleBean.getArticle_info().getSummary();
-                }else if(share_media == SHARE_MEDIA.WEIXIN ){
+                } else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
                     //描述是文章引言
                     desi = articleBean.getArticle_info().getSummary();
-                }else {
+                } else if (share_media == SHARE_MEDIA.WEIXIN) {
+                    //描述是文章引言
+                    desi = articleBean.getArticle_info().getSummary();
+                } else {
                     //描述是文章引言
                     desi = articleBean.getArticle_info().getSummary();
                 }
@@ -1097,6 +1099,7 @@ public class ArticleDetailsActivity
         }
 
     }
+
     //10分享
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
@@ -1106,11 +1109,11 @@ public class ArticleDetailsActivity
 
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            if(platform == SHARE_MEDIA.WEIXIN   ){
+            if (platform == SHARE_MEDIA.WEIXIN) {
                 ToastUtils.showCenter(ArticleDetailsActivity.this, "微信好友分享成功啦");
-            }else if(platform == SHARE_MEDIA.WEIXIN_CIRCLE){
+            } else if (platform == SHARE_MEDIA.WEIXIN_CIRCLE) {
                 ToastUtils.showCenter(ArticleDetailsActivity.this, "微信朋友圈分享成功啦");
-            }else if (platform == SHARE_MEDIA.SINA){
+            } else if (platform == SHARE_MEDIA.SINA) {
                 ToastUtils.showCenter(ArticleDetailsActivity.this, "新浪微博分享成功啦");
             }
 
@@ -1126,6 +1129,18 @@ public class ArticleDetailsActivity
             ToastUtils.showCenter(ArticleDetailsActivity.this, "分享取消了");
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && clickPosition >= 0&&mListData.size()>position) {
+            int seeNum = Integer.parseInt(mListData.get(clickPosition).getArticle_info().getView_num());
+            mListData.get(clickPosition).getArticle_info().setView_num(++seeNum + "");
+            mAdapter.notifyItemChanged(clickPosition);
+        }
+
+    }
 
     Handler mHandler = new Handler() {
         @Override
@@ -1277,4 +1292,6 @@ public class ArticleDetailsActivity
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
     private ArticleBean mArticleBean;
 
+    //设置你可能喜欢地阅览数字加1
+    private int clickPosition = -1;
 }
