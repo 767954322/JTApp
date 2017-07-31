@@ -22,6 +22,7 @@
         android:layout_below="@+id/iv_huodong_image"
         android:layout_marginLeft="@dimen/font_15"
         android:layout_marginTop="@dimen/font_20"
+        android:layout_marginRight="@dimen/font_15"
         android:includeFontPadding="false"
         android:textColor="@color/bg_262626"
         android:textSize="@dimen/size_18" />
