@@ -21,17 +21,24 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
+import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.fragment.HomeCenterFragment;
 import com.homechart.app.home.fragment.HomePicFragment;
 import com.homechart.app.myview.SelectPicPopupWindow;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
+import com.homechart.app.utils.volley.MyHttpManager;
+import com.homechart.app.utils.volley.OkStringRequest;
 import com.jaeger.library.StatusBarUtil;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.HashMap;
@@ -89,6 +96,10 @@ public class HomeActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+        //检测是否有新版本
+        checkNewAPK();
+
         if (findViewById(R.id.main_content) != null) {
 
             if (null == mHomePicFragment) {
@@ -306,5 +317,32 @@ public class HomeActivity
         MobclickAgent.onPause(this);
     }
 
+
+    private void checkNewAPK(){
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+
+                        Log.d("test",data_msg);
+
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().checkLastVersion(callBack);
+
+    }
 }
 
