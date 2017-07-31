@@ -118,7 +118,12 @@ public class MyArticlePingAdapter extends BaseAdapter {
                 huiFu.clickAddZan(mListPing.get(position),position);
             }
         });
-
+        myHolder.riv_one.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                huiFu.clickHeader(mListPing.get(position),position);
+            }
+        });
         return convertView;
     }
 
@@ -147,5 +152,6 @@ public class MyArticlePingAdapter extends BaseAdapter {
    public interface HuiFu{
        void clickHuiFu(PingCommentListItemBean pingCommentListItemBean);
        void clickAddZan(PingCommentListItemBean pingCommentListItemBean,int position);
+       void clickHeader(PingCommentListItemBean pingCommentListItemBean,int position);
     }
 }

@@ -913,6 +913,14 @@ public class ArticleDetailsActivity
         }
     }
 
+    //8.点击评论列表的头像
+    @Override
+    public void clickHeader(PingCommentListItemBean pingCommentListItemBean, int position) {
+        Intent intent = new Intent(ArticleDetailsActivity.this, UserInfoActivity.class);
+        intent.putExtra(ClassConstant.LoginSucces.USER_ID, pingCommentListItemBean.getComment_info().getUser_info().getUser_id());
+        startActivity(intent);
+    }
+
     //8点赞
     public void addZanPing(PingCommentListItemBean pingCommentListItemBean, final int position) {
 
