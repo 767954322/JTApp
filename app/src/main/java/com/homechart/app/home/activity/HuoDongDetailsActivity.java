@@ -233,7 +233,7 @@ public class HuoDongDetailsActivity
         tl_tab.setSelectedTabIndicatorColor(UIUtils.getColor(R.color.bg_e79056));
         tl_tab.addTab(tl_tab.newTab().setText("最热"));
         tl_tab.addTab(tl_tab.newTab().setText("最新"));
-        PublicUtils.setIndicator(tl_tab, UIUtils.getDimens(R.dimen.font_15), UIUtils.getDimens(R.dimen.font_15));
+        PublicUtils.setIndicator(tl_tab, UIUtils.getDimens(R.dimen.font_20), UIUtils.getDimens(R.dimen.font_20));
     }
 
     @Override
