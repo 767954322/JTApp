@@ -15,12 +15,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/common_navbar">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_alignParentTop="true"
-            android:background="@color/view_line" />
-
         <com.homechart.app.myview.RoundImageView
             android:id="@+id/riv_people_header"
             android:layout_width="@dimen/font_32"
