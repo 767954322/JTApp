@@ -968,6 +968,7 @@ public class ArticleDetailsActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
+                        ToastUtils.showCenter(ArticleDetailsActivity.this,"你说的很赞");
                         reflushPingList(true, position);
                     } else {
                         ToastUtils.showCenter(ArticleDetailsActivity.this, error_msg);
@@ -998,6 +999,8 @@ public class ArticleDetailsActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
+
+                        ToastUtils.showCenter(ArticleDetailsActivity.this,"可能没那么赞");
                         reflushPingList(false, position);
                     } else {
                         ToastUtils.showCenter(ArticleDetailsActivity.this, error_msg);
