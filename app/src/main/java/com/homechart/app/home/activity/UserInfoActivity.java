@@ -227,7 +227,7 @@ public class UserInfoActivity
             public void convert(BaseViewHolder holder, final int position) {
 
                 ((TextView) holder.getView(R.id.tv_article_name)).setText(mListDataArticle.get(position).getArticle_info().getTitle());
-
+                ((TextView) holder.getView(R.id.tv_article_details)).setText(mListDataArticle.get(position).getArticle_info().getSummary());
                 try {
                     ((TextView) holder.getView(R.id.tv_youlan_num)).setText(mListSeeNumArticle.get(position) + "");
                 } catch (Exception e) {
