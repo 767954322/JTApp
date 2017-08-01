@@ -74,7 +74,25 @@
             android:name=".home.activity.LoginActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="photo"
+
+                    android:scheme="cn.com.idcool" />
+                <data
+                    android:host="activity"
+                    android:scheme="cn.com.idcool" />
+                <data
+                    android:host="article"
+                    android:scheme="cn.com.idcool" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".home.activity.RegisterActivity"
             android:alwaysRetainTaskState="true"
@@ -87,7 +105,8 @@
             android:alwaysRetainTaskState="true"
             android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
+
 
         <activity
             android:name=".home.activity.UserMastActivity"
@@ -271,9 +290,10 @@
             android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+
         <service android:name=".upapk.DownloadService">
-            <intent-filter >
-                <action android:name="com.test.intentservice"/>
+            <intent-filter>
+                <action android:name="com.test.intentservice" />
             </intent-filter>
         </service>
         <!-- 友盟 -->
@@ -343,7 +363,7 @@
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
@@ -358,18 +378,18 @@
             android:name="cn.jpush.android.service.DaemonService"
             android:enabled="true"
             android:exported="true">
-            <intent-filter >
+            <intent-filter>
                 <action android:name="cn.jpush.android.intent.DaemonService" />
-                <category android:name="com.homechart.app"/>
+                <category android:name="com.homechart.app" />
             </intent-filter>
         </service>
         <!-- Required SDK核心功能-->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
-            android:enabled="true" >
+            android:enabled="true">
             <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
-                <category android:name="com.homechart.app"/>
+                <category android:name="com.homechart.app" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -379,6 +399,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
@@ -386,10 +407,11 @@
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:exported="false" >
+            android:exported="false"
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.homechart.app" />
             </intent-filter>
@@ -410,8 +432,7 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
         <!-- Required SDK核心功能-->
         <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
         <!-- Required since 3.0.7 -->

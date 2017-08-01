@@ -100,6 +100,15 @@ public class LoginActivity extends BaseActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+
+        String data = getIntent().getDataString();
+        String scheme = getIntent().getScheme();
+        Uri uri = getIntent().getData();
+        ToastUtils.showCenter(LoginActivity.this,"分享获得的：  " + data+scheme+uri);
+
+
+
         //设置权限
         PublicUtils.verifyStoragePermissions(LoginActivity.this);
         boolean login_status = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
