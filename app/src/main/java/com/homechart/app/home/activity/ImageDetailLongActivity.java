@@ -1296,11 +1296,18 @@ public class ImageDetailLongActivity
                 String time1 = commentListBean.getComment_info().getAdd_time();
                 String shi1 = "";
                 String yue1 = "";
+                String nian1 = "";
                 if (!TextUtils.isEmpty(time1)) {
                     shi1 = time1.substring(time1.length() - 8, time1.length() - 3);
                     yue1 = time1.substring(5, 7) + "月" + time1.substring(8, 10) + "日";
+                    nian1 = time1.substring(0, 4);
                 }
-                tv_time_one.setText(yue1 + " " + shi1);
+                if (nian1.equals("2017")) {
+                    tv_time_one.setText(yue1 + "  " + shi1);
+                } else {
+                    tv_time_one.setText(nian1 + "年" + yue1 + "  " + shi1);
+                }
+
                 ImageUtils.displayRoundImage(commentListBean.getComment_info().getUser_info().getAvatar().getThumb(), riv_one);
                 //........
                 CommentListBean commentListBean1 = pingBean.getData().getComment_list().get(1);
@@ -1321,11 +1328,19 @@ public class ImageDetailLongActivity
                 String time2 = commentListBean1.getComment_info().getAdd_time();
                 String shi2 = "";
                 String yue2 = "";
+                String nian2 = "";
                 if (!TextUtils.isEmpty(time1)) {
                     shi2 = time2.substring(time1.length() - 8, time2.length() - 3);
                     yue2 = time2.substring(5, 7) + "月" + time2.substring(8, 10) + "日";
+                    nian2 = time2.substring(0, 4);
                 }
-                tv_time_two.setText(yue2 + " " + shi2);
+                if (nian2.equals("2017")) {
+                    tv_time_two.setText(yue2 + "  " + shi2);
+                } else {
+                    tv_time_two.setText(nian2 + "年" + yue2 + "  " + shi2);
+                }
+
+
                 ImageUtils.displayRoundImage(commentListBean1.getComment_info().getUser_info().getAvatar().getThumb(), riv_two);
                 //........
                 CommentListBean commentListBean2 = pingBean.getData().getComment_list().get(2);
@@ -1346,11 +1361,17 @@ public class ImageDetailLongActivity
                 String time3 = commentListBean2.getComment_info().getAdd_time();
                 String shi3 = "";
                 String yue3 = "";
+                String nian3 = "";
                 if (!TextUtils.isEmpty(time1)) {
                     shi3 = time3.substring(time1.length() - 8, time3.length() - 3);
                     yue3 = time3.substring(5, 7) + "月" + time3.substring(8, 10) + "日";
+                    nian3 = time3.substring(0, 4);
                 }
-                tv_time_three.setText(yue3 + " " + shi3);
+                if (nian3.equals("2017")) {
+                    tv_time_three.setText(yue3 + "  " + shi3);
+                } else {
+                    tv_time_three.setText(nian3 + "年" + yue3 + "  " + shi3);
+                }
                 ImageUtils.displayRoundImage(commentListBean2.getComment_info().getUser_info().getAvatar().getThumb(), riv_three);
 
             } else if (pingBean.getData().getComment_list().size() == 2) {
@@ -1380,11 +1401,17 @@ public class ImageDetailLongActivity
                 String time1 = commentListBean.getComment_info().getAdd_time();
                 String shi1 = "";
                 String yue1 = "";
+                String nian1 = "";
                 if (!TextUtils.isEmpty(time1)) {
                     shi1 = time1.substring(time1.length() - 8, time1.length() - 3);
                     yue1 = time1.substring(5, 7) + "月" + time1.substring(8, 10) + "日";
+                    nian1 = time1.substring(0, 4);
                 }
-                tv_time_one.setText(yue1 + " " + shi1);
+                if (nian1.equals("2017")) {
+                    tv_time_one.setText(yue1 + "  " + shi1);
+                } else {
+                    tv_time_one.setText(nian1 + "年" + yue1 + "  " + shi1);
+                }
                 ImageUtils.displayRoundImage(commentListBean.getComment_info().getUser_info().getAvatar().getThumb(), riv_one);
                 //........
                 CommentListBean commentListBean1 = pingBean.getData().getComment_list().get(1);
@@ -1406,11 +1433,17 @@ public class ImageDetailLongActivity
                 String time2 = commentListBean1.getComment_info().getAdd_time();
                 String shi2 = "";
                 String yue2 = "";
+                String nian2 = "";
                 if (!TextUtils.isEmpty(time1)) {
                     shi2 = time2.substring(time1.length() - 8, time2.length() - 3);
                     yue2 = time2.substring(5, 7) + "月" + time2.substring(8, 10) + "日";
+                    nian2 = time2.substring(0, 4);
                 }
-                tv_time_two.setText(yue2 + " " + shi2);
+                if (nian2.equals("2017")) {
+                    tv_time_two.setText(yue2 + "  " + shi2);
+                } else {
+                    tv_time_two.setText(nian2 + "年" + yue2 + "  " + shi2);
+                }
                 ImageUtils.displayRoundImage(commentListBean1.getComment_info().getUser_info().getAvatar().getThumb(), riv_two);
 
 
@@ -1438,11 +1471,17 @@ public class ImageDetailLongActivity
                 String time1 = commentListBean.getComment_info().getAdd_time();
                 String shi1 = "";
                 String yue1 = "";
+                String nian1 = "";
                 if (!TextUtils.isEmpty(time1)) {
                     shi1 = time1.substring(time1.length() - 8, time1.length() - 3);
                     yue1 = time1.substring(5, 7) + "月" + time1.substring(8, 10) + "日";
+                    nian1 = time1.substring(0, 4);
                 }
-                tv_time_one.setText(yue1 + " " + shi1);
+                if (nian1.equals("2017")) {
+                    tv_time_one.setText(yue1 + "  " + shi1);
+                } else {
+                    tv_time_one.setText(nian1 + "年" + yue1 + "  " + shi1);
+                }
                 tv_content_one.setText(commentListBean.getComment_info().getContent());
                 ImageUtils.displayRoundImage(commentListBean.getComment_info().getUser_info().getAvatar().getThumb(), riv_one);
             }
