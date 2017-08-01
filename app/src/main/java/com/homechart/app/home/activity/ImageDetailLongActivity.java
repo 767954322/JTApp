@@ -1051,7 +1051,6 @@ public class ImageDetailLongActivity
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 CustomProgress.cancelDialog();
-                ToastUtils.showCenter(ImageDetailLongActivity.this, "图片信息获取失败");
             }
 
             @Override

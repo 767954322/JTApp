@@ -24,14 +24,18 @@
 
         <TextView
             android:id="@+id/tv_name_pic"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/font_40"
+            android:layout_marginRight="@dimen/font_40"
             android:layout_centerInParent="true"
             android:lineSpacingExtra="@dimen/font_8"
             android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:lines="2"
+            android:ellipsize="end"
             android:textColor="@color/white"
-            android:textSize="@dimen/size_20"
-            android:maxLength="12"/>
+            android:textSize="@dimen/size_20"/>
 
         <TextView
             android:layout_width="wrap_content"

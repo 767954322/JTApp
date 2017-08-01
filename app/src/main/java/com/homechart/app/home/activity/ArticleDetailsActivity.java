@@ -82,7 +82,6 @@ public class ArticleDetailsActivity
         HomeSharedPopWinPublic.ClickInter {
 
 
-    private RelativeLayout rl_user_top;
 
     @Override
     protected int getLayoutResId() {
@@ -154,9 +153,7 @@ public class ArticleDetailsActivity
         //获取文章评论信息
         getArticlePingList(article_id);
     }
-    private float mDownY;
-    private float mMoveY;
-    private boolean move_tag = true;
+
     @Override
     protected void initListener() {
         super.initListener();
@@ -1366,4 +1363,8 @@ public class ArticleDetailsActivity
     //设置你可能喜欢地阅览数字加1
     private int clickPosition = -1;
     private boolean ifMore = false;
+    private float mDownY;
+    private float mMoveY;
+    private boolean move_tag = true;
+    private RelativeLayout rl_user_top;
 }
