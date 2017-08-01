@@ -1084,18 +1084,46 @@ public class ArticleDetailsActivity
     @Override
     public void onClickWeiXin() {
         sharedItemOpen(SHARE_MEDIA.WEIXIN);
+        addSharedTime();
     }
 
     //10.分享朋友圈
     @Override
     public void onClickPYQ() {
         sharedItemOpen(SHARE_MEDIA.WEIXIN_CIRCLE);
+        addSharedTime();
     }
 
     //10.分享微博
     @Override
     public void onClickWeiBo() {
         sharedItemOpen(SHARE_MEDIA.SINA);
+        addSharedTime();
+    }
+
+    //10.add分享次数
+    public void addSharedTime(){
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                    } else {
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().addShared(mArticleBean.getArticle_info().getArticle_id(),"article", callBack);
+
     }
 
     //10分享
