@@ -52,6 +52,7 @@ public class LoginActivity extends BaseActivity
         PublicUtils.ILoginUmeng {
     private String type;
     private String object_id;
+    private String photo_id = "";
 
     @Override
     protected int getLayoutResId() {
@@ -64,6 +65,15 @@ public class LoginActivity extends BaseActivity
 
         type = getIntent().getStringExtra("type");
         object_id = getIntent().getStringExtra("object_id");
+        String data = getIntent().getDataString();
+        if (!TextUtils.isEmpty(data) && data.contains("photo")) {
+            String[] str = data.split("photo");
+            if (str.length > 1) {
+                photo_id = str[1].substring(1, str[1].length());
+            }
+        } else if (!TextUtils.isEmpty(data) && data.contains("activity")) {
+        } else if (!TextUtils.isEmpty(data) && data.contains("article")) {
+        }
 
     }
 
@@ -100,21 +110,12 @@ public class LoginActivity extends BaseActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
-
-        String data = getIntent().getDataString();
-        String scheme = getIntent().getScheme();
-        Uri uri = getIntent().getData();
-        ToastUtils.showCenter(LoginActivity.this,"分享获得的：  " + data+scheme+uri);
-
-
-
         //设置权限
         PublicUtils.verifyStoragePermissions(LoginActivity.this);
         boolean login_status = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
         if (login_status) {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-
+            intent.putExtra("photo_id", photo_id);
             if (!TextUtils.isEmpty(object_id)) {
                 intent.putExtra("type", type);
                 intent.putExtra("object_id", object_id);
@@ -254,6 +255,7 @@ public class LoginActivity extends BaseActivity
                                 .setAction("登陆成功提示")      //事件操作
                                 .build());
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        intent.putExtra("photo_id", photo_id);
                         if (!TextUtils.isEmpty(object_id)) {
                             intent.putExtra("type", type);
                             intent.putExtra("object_id", object_id);
@@ -338,6 +340,7 @@ public class LoginActivity extends BaseActivity
                         LoginBean loginBean = GsonUtil.jsonToBean(data_msg, LoginBean.class);
                         PublicUtils.loginSucces(loginBean);
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        intent.putExtra("photo_id", photo_id);
                         startActivity(intent);
                         LoginActivity.this.finish();
                     } else {
@@ -393,6 +396,7 @@ public class LoginActivity extends BaseActivity
         //注册成功后的跳转
         if (requestCode == 0 && resultCode == 1) {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            intent.putExtra("photo_id", photo_id);
             startActivity(intent);
             LoginActivity.this.finish();
         }

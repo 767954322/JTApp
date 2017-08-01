@@ -79,6 +79,7 @@ public class HomeActivity
     private String download_url;
     private String object_id;
     private UpApkPopupWindow upApkPopupWindow;
+    private String photo_id;
 
     @Override
     protected int getLayoutResId() {
@@ -88,6 +89,9 @@ public class HomeActivity
     @Override
     protected void initExtraBundle() {
         super.initExtraBundle();
+
+        photo_id = getIntent().getStringExtra("photo_id");
+
         type = getIntent().getStringExtra("type");
         object_id = getIntent().getStringExtra("object_id");
     }
@@ -126,7 +130,6 @@ public class HomeActivity
             intent.putExtra("article_id", object_id);
             startActivity(intent);
         }
-
     }
 
     @Override
@@ -341,6 +344,12 @@ public class HomeActivity
                             //2.点击更新，去下载apk
                             Log.d("test","有新版本");
                             shouPop(download_url);
+                        }else {
+                            if(!TextUtils.isEmpty(photo_id)){
+                                Intent intent = new Intent(HomeActivity.this,ImageDetailLongActivity.class);
+                                intent.putExtra("item_id", photo_id);
+                                startActivity(intent);
+                            }
                         }
                     }
                 } catch (JSONException e) {
