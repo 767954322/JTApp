@@ -85,8 +85,8 @@ import java.util.List;
 public class ImageDetailLongActivity
         extends BaseActivity
         implements View.OnClickListener,
-        OnLoadMoreListener ,
-        HomeSharedPopWinPublic.ClickInter{
+        OnLoadMoreListener,
+        HomeSharedPopWinPublic.ClickInter {
     private ImageView iv_details_image;
     private TextView tv_details_tital;
     private TextView tv_details_time;
@@ -187,6 +187,7 @@ public class ImageDetailLongActivity
     private RelativeLayout rl_imagedetails_next;
     private LinearLayout ll_color_lines;
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_image_detail_long;
@@ -785,44 +786,44 @@ public class ImageDetailLongActivity
                     holder.getView(R.id.iv_color_right).setVisibility(View.VISIBLE);
                     holder.getView(R.id.iv_color_left).setVisibility(View.GONE);
                     holder.getView(R.id.iv_color_center).setVisibility(View.GONE);
-                    if(list_color1.get(0).getColor_value().trim().equalsIgnoreCase("ffffff")){
+                    if (list_color1.get(0).getColor_value().trim().equalsIgnoreCase("ffffff")) {
                         holder.getView(R.id.iv_color_right).setBackgroundResource(R.drawable.color_line_white);
-                    }else {
+                    } else {
                         holder.getView(R.id.iv_color_right).setBackgroundColor(Color.parseColor("#" + list_color1.get(0).getColor_value()));
                     }
 
-               } else if (null != list_color1 && list_color1.size() == 2) {
+                } else if (null != list_color1 && list_color1.size() == 2) {
 
                     holder.getView(R.id.iv_color_right).setVisibility(View.VISIBLE);
                     holder.getView(R.id.iv_color_left).setVisibility(View.GONE);
                     holder.getView(R.id.iv_color_center).setVisibility(View.VISIBLE);
-                    if(list_color1.get(1).getColor_value().trim().equalsIgnoreCase("ffffff")){
+                    if (list_color1.get(1).getColor_value().trim().equalsIgnoreCase("ffffff")) {
                         holder.getView(R.id.iv_color_right).setBackgroundResource(R.drawable.color_line_white);
-                    }else {
+                    } else {
                         holder.getView(R.id.iv_color_right).setBackgroundColor(Color.parseColor("#" + list_color1.get(1).getColor_value()));
                     }
-                    if(list_color1.get(0).getColor_value().trim().equalsIgnoreCase("ffffff")){
+                    if (list_color1.get(0).getColor_value().trim().equalsIgnoreCase("ffffff")) {
                         holder.getView(R.id.iv_color_center).setBackgroundResource(R.drawable.color_line_white);
-                    }else {
+                    } else {
                         holder.getView(R.id.iv_color_center).setBackgroundColor(Color.parseColor("#" + list_color1.get(0).getColor_value()));
                     }
                 } else if (null != list_color1 && list_color1.size() == 3) {
                     holder.getView(R.id.iv_color_right).setVisibility(View.VISIBLE);
                     holder.getView(R.id.iv_color_left).setVisibility(View.VISIBLE);
                     holder.getView(R.id.iv_color_center).setVisibility(View.VISIBLE);
-                    if(list_color1.get(2).getColor_value().trim().equalsIgnoreCase("ffffff")){
+                    if (list_color1.get(2).getColor_value().trim().equalsIgnoreCase("ffffff")) {
                         holder.getView(R.id.iv_color_right).setBackgroundResource(R.drawable.color_line_white);
-                    }else {
+                    } else {
                         holder.getView(R.id.iv_color_right).setBackgroundColor(Color.parseColor("#" + list_color1.get(2).getColor_value()));
                     }
-                    if(list_color1.get(1).getColor_value().trim().equalsIgnoreCase("ffffff")){
+                    if (list_color1.get(1).getColor_value().trim().equalsIgnoreCase("ffffff")) {
                         holder.getView(R.id.iv_color_center).setBackgroundResource(R.drawable.color_line_white);
-                    }else {
+                    } else {
                         holder.getView(R.id.iv_color_center).setBackgroundColor(Color.parseColor("#" + list_color1.get(1).getColor_value()));
                     }
-                    if(list_color1.get(0).getColor_value().trim().equalsIgnoreCase("ffffff")){
+                    if (list_color1.get(0).getColor_value().trim().equalsIgnoreCase("ffffff")) {
                         holder.getView(R.id.iv_color_left).setBackgroundResource(R.drawable.color_line_white);
-                    }else {
+                    } else {
                         holder.getView(R.id.iv_color_left).setBackgroundColor(Color.parseColor("#" + list_color1.get(0).getColor_value()));
                     }
                 } else {
@@ -1146,9 +1147,9 @@ public class ImageDetailLongActivity
                     float wid = Float.parseFloat(listColor.get(i).getColor_percent().trim());
                     float per = wid / float_talte;
 
-                    if(i == listColor.size()-1){
+                    if (i == listColor.size() - 1) {
                         textView.setWidth(width);
-                    }else {
+                    } else {
                         textView.setWidth((int) (width * per));
                     }
                     textView.setHeight(UIUtils.getDimens(R.dimen.font_30));
@@ -1292,7 +1293,14 @@ public class ImageDetailLongActivity
                 }
                 tv_content_one.setText(commentListBean.getComment_info().getContent());
                 tv_name_one.setText(commentListBean.getComment_info().getUser_info().getNickname());
-                tv_time_one.setText(commentListBean.getComment_info().getAdd_time());
+                String time1 = commentListBean.getComment_info().getAdd_time();
+                String shi1 = "";
+                String yue1 = "";
+                if (!TextUtils.isEmpty(time1)) {
+                    shi1 = time1.substring(time1.length() - 8, time1.length() - 3);
+                    yue1 = time1.substring(5, 7) + "月" + time1.substring(8, 10) + "日";
+                }
+                tv_time_one.setText(yue1 + " " + shi1);
                 ImageUtils.displayRoundImage(commentListBean.getComment_info().getUser_info().getAvatar().getThumb(), riv_one);
                 //........
                 CommentListBean commentListBean1 = pingBean.getData().getComment_list().get(1);
@@ -1310,7 +1318,14 @@ public class ImageDetailLongActivity
                 }
                 tv_content_two.setText(commentListBean1.getComment_info().getContent());
                 tv_name_two.setText(commentListBean1.getComment_info().getUser_info().getNickname());
-                tv_time_two.setText(commentListBean1.getComment_info().getAdd_time());
+                String time2 = commentListBean1.getComment_info().getAdd_time();
+                String shi2 = "";
+                String yue2 = "";
+                if (!TextUtils.isEmpty(time1)) {
+                    shi2 = time2.substring(time1.length() - 8, time2.length() - 3);
+                    yue2 = time2.substring(5, 7) + "月" + time2.substring(8, 10) + "日";
+                }
+                tv_time_two.setText(yue2 + " " + shi2);
                 ImageUtils.displayRoundImage(commentListBean1.getComment_info().getUser_info().getAvatar().getThumb(), riv_two);
                 //........
                 CommentListBean commentListBean2 = pingBean.getData().getComment_list().get(2);
@@ -1328,7 +1343,14 @@ public class ImageDetailLongActivity
                 }
                 tv_content_three.setText(commentListBean2.getComment_info().getContent());
                 tv_name_three.setText(commentListBean2.getComment_info().getUser_info().getNickname());
-                tv_time_three.setText(commentListBean2.getComment_info().getAdd_time());
+                String time3 = commentListBean2.getComment_info().getAdd_time();
+                String shi3 = "";
+                String yue3 = "";
+                if (!TextUtils.isEmpty(time1)) {
+                    shi3 = time3.substring(time1.length() - 8, time3.length() - 3);
+                    yue3 = time3.substring(5, 7) + "月" + time3.substring(8, 10) + "日";
+                }
+                tv_time_three.setText(yue3 + " " + shi3);
                 ImageUtils.displayRoundImage(commentListBean2.getComment_info().getUser_info().getAvatar().getThumb(), riv_three);
 
             } else if (pingBean.getData().getComment_list().size() == 2) {
@@ -1354,7 +1376,15 @@ public class ImageDetailLongActivity
                 }
                 tv_content_one.setText(commentListBean.getComment_info().getContent());
                 tv_name_one.setText(commentListBean.getComment_info().getUser_info().getNickname());
-                tv_time_one.setText(commentListBean.getComment_info().getAdd_time());
+
+                String time1 = commentListBean.getComment_info().getAdd_time();
+                String shi1 = "";
+                String yue1 = "";
+                if (!TextUtils.isEmpty(time1)) {
+                    shi1 = time1.substring(time1.length() - 8, time1.length() - 3);
+                    yue1 = time1.substring(5, 7) + "月" + time1.substring(8, 10) + "日";
+                }
+                tv_time_one.setText(yue1 + " " + shi1);
                 ImageUtils.displayRoundImage(commentListBean.getComment_info().getUser_info().getAvatar().getThumb(), riv_one);
                 //........
                 CommentListBean commentListBean1 = pingBean.getData().getComment_list().get(1);
@@ -1372,7 +1402,15 @@ public class ImageDetailLongActivity
                 }
                 tv_content_two.setText(commentListBean1.getComment_info().getContent());
                 tv_name_two.setText(commentListBean1.getComment_info().getUser_info().getNickname());
-                tv_time_two.setText(commentListBean1.getComment_info().getAdd_time());
+
+                String time2 = commentListBean1.getComment_info().getAdd_time();
+                String shi2 = "";
+                String yue2 = "";
+                if (!TextUtils.isEmpty(time1)) {
+                    shi2 = time2.substring(time1.length() - 8, time2.length() - 3);
+                    yue2 = time2.substring(5, 7) + "月" + time2.substring(8, 10) + "日";
+                }
+                tv_time_two.setText(yue2 + " " + shi2);
                 ImageUtils.displayRoundImage(commentListBean1.getComment_info().getUser_info().getAvatar().getThumb(), riv_two);
 
 
@@ -1397,7 +1435,14 @@ public class ImageDetailLongActivity
                     tv_if_zuozhe_one.setVisibility(View.GONE);
                 }
                 tv_name_one.setText(commentListBean.getComment_info().getUser_info().getNickname());
-                tv_time_one.setText(commentListBean.getComment_info().getAdd_time());
+                String time1 = commentListBean.getComment_info().getAdd_time();
+                String shi1 = "";
+                String yue1 = "";
+                if (!TextUtils.isEmpty(time1)) {
+                    shi1 = time1.substring(time1.length() - 8, time1.length() - 3);
+                    yue1 = time1.substring(5, 7) + "月" + time1.substring(8, 10) + "日";
+                }
+                tv_time_one.setText(yue1 + " " + shi1);
                 tv_content_one.setText(commentListBean.getComment_info().getContent());
                 ImageUtils.displayRoundImage(commentListBean.getComment_info().getUser_info().getAvatar().getThumb(), riv_one);
             }
@@ -1505,7 +1550,7 @@ public class ImageDetailLongActivity
         public void onResult(SHARE_MEDIA platform) {
             addShared();
 
-            if(platform == SHARE_MEDIA.WEIXIN   ){
+            if (platform == SHARE_MEDIA.WEIXIN) {
                 //友盟统计
                 HashMap<String, String> map_weibo = new HashMap<String, String>();
                 map_weibo.put("evenname", "详情weixin分享");
@@ -1517,7 +1562,7 @@ public class ImageDetailLongActivity
                         .setAction("详情weixin分享")      //事件操作
                         .build());
                 ToastUtils.showCenter(ImageDetailLongActivity.this, "微信好友分享成功啦");
-            }else if(platform == SHARE_MEDIA.WEIXIN_CIRCLE){
+            } else if (platform == SHARE_MEDIA.WEIXIN_CIRCLE) {
                 //友盟统计
                 HashMap<String, String> map_weibo = new HashMap<String, String>();
                 map_weibo.put("evenname", "详情weinxinfriends分享");
@@ -1529,7 +1574,7 @@ public class ImageDetailLongActivity
                         .setAction("详情weinxinfriends分享")      //事件操作
                         .build());
                 ToastUtils.showCenter(ImageDetailLongActivity.this, "微信朋友圈分享成功啦");
-            }else if (platform == SHARE_MEDIA.SINA){
+            } else if (platform == SHARE_MEDIA.SINA) {
                 //友盟统计
                 HashMap<String, String> map_weibo = new HashMap<String, String>();
                 map_weibo.put("evenname", "详情weibo分享");
@@ -1581,6 +1626,7 @@ public class ImageDetailLongActivity
     }
 
     private boolean ifShowColorList = true;
+
     @Override
     protected void onResume() {
         super.onResume();
