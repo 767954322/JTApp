@@ -46,7 +46,7 @@
             android:gravity="center"
             android:layout_marginRight="@dimen/font_10"
             android:paddingTop="@dimen/font_6"
-            android:paddingBottom="@dimen/font_7"
+            android:paddingBottom="@dimen/font_8"
             android:paddingRight="@dimen/font_4"
             android:paddingLeft="@dimen/font_4"
             android:textColor="@color/bg_e2e2e2"
