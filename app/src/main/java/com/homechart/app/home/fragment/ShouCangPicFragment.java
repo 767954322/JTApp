@@ -404,7 +404,7 @@ public class ShouCangPicFragment
                     page_num = 1;
                     mListData.clear();
                     mRecyclerView.setRefreshing(false);//刷新完毕
-                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
                 }
                 break;
 
@@ -417,7 +417,7 @@ public class ShouCangPicFragment
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
                 } else {
                     --page_num;
-                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
                 }
                 break;
         }
