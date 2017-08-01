@@ -107,10 +107,7 @@ public class HomeActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
-
         if (findViewById(R.id.main_content) != null) {
-
             if (null == mHomePicFragment) {
                 mHomePicFragment = new HomePicFragment(getSupportFragmentManager());
             }
@@ -281,30 +278,6 @@ public class HomeActivity
         return super.dispatchTouchEvent(ev);
     }
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            //友盟统计
-            HashMap<String, String> map6 = new HashMap<String, String>();
-            map6.put("evenname", "完成选择图片");
-            map6.put("even", "完成选择图片");
-            MobclickAgent.onEvent(HomeActivity.this, "action76", map6);
-            //ga统计
-            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                    .setCategory("完成选择图片")  //事件类别
-                    .setAction("完成选择图片")      //事件操作
-                    .build());
-            String url_Imag = (String) msg.obj;
-            Intent intent = new Intent(HomeActivity.this, FaBuActvity.class);
-            intent.putExtra("image_path", url_Imag);
-            startActivity(intent);
-
-        }
-    };
-
-
     //退出时的时间
     private long mExitTime;
 
@@ -364,9 +337,10 @@ public class HomeActivity
                         String current_code = PublicUtils.getVersionName(HomeActivity.this);
                         Log.d("test", "last_version : " + last_version + ";current_code : " + current_code);
                         if (!current_code.trim().equals(last_version.trim())) {
-                            shouPop(download_url);
                             //1.谈框是否更新
                             //2.点击更新，去下载apk
+                            Log.d("test","有新版本");
+                            shouPop(download_url);
                         }
                     }
                 } catch (JSONException e) {
@@ -413,10 +387,33 @@ public class HomeActivity
         }
     }
 
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            //友盟统计
+            HashMap<String, String> map6 = new HashMap<String, String>();
+            map6.put("evenname", "完成选择图片");
+            map6.put("even", "完成选择图片");
+            MobclickAgent.onEvent(HomeActivity.this, "action76", map6);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("完成选择图片")  //事件类别
+                    .setAction("完成选择图片")      //事件操作
+                    .build());
+            String url_Imag = (String) msg.obj;
+            Intent intent = new Intent(HomeActivity.this, FaBuActvity.class);
+            intent.putExtra("image_path", url_Imag);
+            startActivity(intent);
+
+        }
+    };
     Handler mHandle = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            upApkPopupWindow.dismiss();
             ToastUtils.showCenter(HomeActivity.this, "版本更新失败！");
         }
     };

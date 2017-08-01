@@ -74,6 +74,7 @@ public class DownloadService extends IntentService {
             }
             boolean isFileExists1 = FileUtils.isFileExists(filePath);
             if (!isFileExists1) {
+                Log.d("test","正在请求服务器下载");
                 final File file = FileUtils.getFileByPath(downloadPath);
 
                 OkHttpClient okHttpClient = new OkHttpClient();
@@ -81,11 +82,14 @@ public class DownloadService extends IntentService {
                 okHttpClient.newCall(request).enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
-                        Log.d("test","dssd");
+
+                        Log.d("test","请求服务器下载失败");
                     }
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
+
+                        Log.d("test","请求服务器下载成功");
                         InputStream inputStream = null;
                         byte[] bytes = new byte[2048];
                         int length;
@@ -118,6 +122,7 @@ public class DownloadService extends IntentService {
                     }
                 });
             } else {
+                Log.d("test","文件存在");
                 mIntent.putExtra("progress", 100);
                 mIntent.putExtra("path", filePath);
                 mIntent.putExtra("rename", true);
