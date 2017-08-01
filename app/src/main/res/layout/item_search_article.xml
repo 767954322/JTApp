@@ -45,15 +45,14 @@
         android:ellipsize="end"
         android:lineSpacingExtra="@dimen/font_3"
         android:maxLines="1"
-        android:textColor="@color/bg_262626"
+        android:textColor="@color/bg_8f8f8f"
         android:textSize="@dimen/font_14" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/font_19"
+        android:layout_alignBottom="@+id/iv_article_image"
         android:layout_marginRight="@dimen/font_15"
         android:orientation="horizontal">
 
