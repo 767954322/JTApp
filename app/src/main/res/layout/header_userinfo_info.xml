@@ -130,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_info_shaijia_num"
                     android:layout_marginTop="@dimen/font_10"
-                    android:text="晒家"
+                    android:text="作品"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/bg_8f8f8f"
                     android:textSize="@dimen/size_11"
