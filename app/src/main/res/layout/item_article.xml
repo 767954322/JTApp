@@ -64,9 +64,8 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/font_19"
+        android:layout_alignBottom="@+id/iv_article_image"
         android:layout_marginRight="@dimen/font_15"
         android:orientation="horizontal">
 

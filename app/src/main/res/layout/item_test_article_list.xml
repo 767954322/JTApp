@@ -32,7 +32,6 @@
             android:lineSpacingExtra="@dimen/font_8"
             android:textStyle="bold"
             android:gravity="center_horizontal"
-            android:lines="2"
             android:ellipsize="end"
             android:textColor="@color/white"
             android:textSize="@dimen/size_20"/>
