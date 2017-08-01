@@ -10,6 +10,7 @@
         android:layout_height="@dimen/font_80"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/font_15"
+        android:paddingBottom="@dimen/font_2"
         android:scaleType="centerCrop" />
     <View
         android:layout_width="match_parent"

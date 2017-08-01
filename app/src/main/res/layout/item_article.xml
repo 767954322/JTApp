@@ -20,6 +20,7 @@
         android:layout_height="@dimen/font_80"
         android:layout_marginTop="@dimen/font_15"
         android:layout_marginLeft="@dimen/font_15"
+        android:paddingBottom="@dimen/font_2"
         android:layout_toRightOf="@+id/cb_check"
         android:scaleType="centerCrop" />
 
