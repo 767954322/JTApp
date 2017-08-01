@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_up_apk"
+        android:layout_width="@dimen/font_305"
+        android:layout_height="@dimen/font_298"
+        android:layout_centerInParent="true"
+        android:background="@drawable/xinbanbg">
+
+
+        <TextView
+            android:id="@+id/tv_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/font_140"
+            android:text="热门文章，帮您解惑家居疑难"
+            android:textColor="@color/bg_464646"
+            android:textSize="@dimen/size_14" />
+
+        <TextView
+            android:id="@+id/tv_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_one"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/font_11"
+            android:text="评论点赞，争做最有价值发言"
+            android:textColor="@color/bg_464646"
+            android:textSize="@dimen/size_14" />
+
+        <TextView
+            android:id="@+id/tv_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_two"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/font_11"
+            android:text="最新发现，美图好文推送眼前"
+            android:textColor="@color/bg_464646"
+            android:textSize="@dimen/size_14" />
+
+        <TextView
+            android:id="@+id/tv_go_up"
+            android:layout_width="@dimen/font_185"
+            android:layout_height="@dimen/font_33"
+            android:layout_below="@+id/tv_three"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/font_28"
+            android:background="@drawable/bt_up_apk"
+            android:gravity="center"
+            android:text="立即更新"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_18" />
+
+        <ProgressBar
+            android:id="@+id/pb_go_up"
+            android:layout_width="@dimen/font_185"
+            android:layout_height="@dimen/font_33"
+            android:layout_below="@+id/tv_three"
+            android:visibility="gone"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_marginTop="@dimen/font_28"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bt_up_apk" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_close_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_up_apk"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/font_20"
+        android:src="@drawable/guanbi_up" />
+
+
+</RelativeLayout>

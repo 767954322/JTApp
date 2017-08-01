@@ -34,6 +34,7 @@ import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.fragment.HomeCenterFragment;
 import com.homechart.app.home.fragment.HomePicFragment;
 import com.homechart.app.myview.SelectPicPopupWindow;
+import com.homechart.app.myview.UpApkPopupWindow;
 import com.homechart.app.upapk.BroadcastUtil;
 import com.homechart.app.upapk.DialogUtils;
 import com.homechart.app.upapk.DownloadService;
@@ -75,7 +76,9 @@ public class HomeActivity
     private ImageView iv_add_icon;
     private SelectPicPopupWindow menuWindow;
     private String type;
+    private String download_url;
     private String object_id;
+    private UpApkPopupWindow upApkPopupWindow;
 
     @Override
     protected int getLayoutResId() {
@@ -104,9 +107,7 @@ public class HomeActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        BroadcastUtil.registerReceiver(this, this, "DITing.action.download");
-        //检测是否有新版本
-        checkNewAPK();
+
 
         if (findViewById(R.id.main_content) != null) {
 
@@ -119,7 +120,10 @@ public class HomeActivity
         mRadioGroup.check(R.id.radio_btn_pic);
         mRadioGroup.setAlpha(0.96f);
         menuWindow = new SelectPicPopupWindow(HomeActivity.this, HomeActivity.this);
-
+        upApkPopupWindow = new UpApkPopupWindow(this, this);
+        BroadcastUtil.registerReceiver(this, this, "DITing.action.download");
+        //检测是否有新版本
+        checkNewAPK();
         if (!TextUtils.isEmpty(object_id)) {
             Intent intent = new Intent(HomeActivity.this, ArticleDetailsActivity.class);
             intent.putExtra("article_id", object_id);
@@ -250,6 +254,19 @@ public class HomeActivity
             case R.id.iv_bufabu:
                 menuWindow.dismiss();
                 break;
+            case R.id.tv_go_up:
+                //TODO 区服务器下载
+                Intent downloadIntent = new Intent(HomeActivity.this, DownloadService.class);
+                downloadIntent.putExtra("downloadUrl", download_url);
+                downloadIntent.putExtra("fileName", "JTApp");
+                startService(downloadIntent);
+                break;
+            case R.id.iv_close_up:
+                if (upApkPopupWindow.isShowing()) {
+                    upApkPopupWindow.dismiss();
+                }
+
+                break;
         }
     }
 
@@ -347,11 +364,9 @@ public class HomeActivity
                         String current_code = PublicUtils.getVersionName(HomeActivity.this);
                         Log.d("test", "last_version : " + last_version + ";current_code : " + current_code);
                         if (!current_code.trim().equals(last_version.trim())) {
-//                            //TODO 区服务器下载
-//                            Intent downloadIntent = new Intent(HomeActivity.this, DownloadService.class);
-//                            downloadIntent.putExtra("downloadUrl", download_url);
-//                            downloadIntent.putExtra("fileName", "JTApp");
-//                            startService(downloadIntent);
+                            shouPop(download_url);
+                            //1.谈框是否更新
+                            //2.点击更新，去下载apk
                         }
                     }
                 } catch (JSONException e) {
@@ -359,6 +374,20 @@ public class HomeActivity
             }
         };
         MyHttpManager.getInstance().checkLastVersion(callBack);
+
+    }
+
+    private void shouPop(String download_url) {
+        this.download_url = download_url;
+        HomeActivity.this.findViewById(R.id.main).post(new Runnable() {
+            @Override
+            public void run() {
+                upApkPopupWindow.showAtLocation(HomeActivity.this.findViewById(R.id.main),
+                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
+                        0,
+                        0); //设置layout在PopupWindow中显示的位置
+            }
+        });
 
     }
 
@@ -372,21 +401,23 @@ public class HomeActivity
         }
         if (progress == 100) {
             if (!TextUtils.isEmpty(path) && rename) {
+                upApkPopupWindow.dismiss();
                 PublicUtils.installApp(this, path);
                 finish();
             } else {
                 mHandle.sendEmptyMessage(0);
             }
         } else {
-            Log.d("test",getString(R.string.download_size, progress + " %"));
+            upApkPopupWindow.changUi(progress);
+            Log.d("test", getString(R.string.download_size, progress + " %"));
         }
     }
 
-    Handler mHandle = new Handler(){
+    Handler mHandle = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            ToastUtils.showCenter(HomeActivity.this,"版本更新失败！");
+            ToastUtils.showCenter(HomeActivity.this, "版本更新失败！");
         }
     };
 }

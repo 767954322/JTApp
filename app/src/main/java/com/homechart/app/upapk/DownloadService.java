@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.homechart.app.commont.ClassConstant;
@@ -80,6 +81,7 @@ public class DownloadService extends IntentService {
                 okHttpClient.newCall(request).enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
+                        Log.d("test","dssd");
                     }
 
                     @Override
