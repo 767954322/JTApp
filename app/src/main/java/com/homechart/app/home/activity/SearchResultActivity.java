@@ -102,7 +102,7 @@ public class SearchResultActivity
         mTabLayout = (SlidingTabLayout) findViewById(R.id.tly_slidingtablayout);
         //设置下划线的高度
         mTabLayout.setIndicatorHeight(4f);
-        mTabLayout.setIndicatorWidth(100f);
+        mTabLayout.setIndicatorWidth(70f);
         //设置tab的字体大小
         mTabLayout.setTextsize(14f);
         initFragment();
