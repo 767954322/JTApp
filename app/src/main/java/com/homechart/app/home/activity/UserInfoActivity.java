@@ -161,11 +161,13 @@ public class UserInfoActivity
 //                mAdapter.notifyDataSetChanged();
                 if (tab.getText().equals("图片")) {
                     sort = "pic";
+                    mListData.clear();
                     mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
                     mRecyclerView.setAdapter(mAdapter);
                     getListData(sort);
                 } else if (tab.getText().equals("文章")) {
                     sort = "artical";
+                    mListDataArticle.clear();
                     mRecyclerView.setLayoutManager(linearLayoutManager);
                     mRecyclerView.setAdapter(mAdapterArticle);
                     getListDataArticle(sort);
