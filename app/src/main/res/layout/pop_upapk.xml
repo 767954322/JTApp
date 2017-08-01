@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_one"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/font_11"
+            android:layout_marginTop="@dimen/font_9"
             android:text="评论点赞，争做最有价值发言"
             android:textColor="@color/bg_464646"
             android:textSize="@dimen/size_14" />
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_two"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/font_11"
+            android:layout_marginTop="@dimen/font_9"
             android:text="最新发现，美图好文推送眼前"
             android:textColor="@color/bg_464646"
             android:textSize="@dimen/size_14" />
@@ -59,11 +59,11 @@
         <ProgressBar
             android:id="@+id/pb_go_up"
             android:layout_width="@dimen/font_185"
-            android:layout_height="@dimen/font_33"
+            android:layout_height="@dimen/font_12"
             android:layout_below="@+id/tv_three"
             android:visibility="gone"
             style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_marginTop="@dimen/font_28"
+            android:layout_marginTop="@dimen/font_30"
             android:layout_centerHorizontal="true"
             android:background="@drawable/bt_up_apk" />
 

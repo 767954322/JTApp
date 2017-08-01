@@ -56,6 +56,7 @@ public class UpApkPopupWindow extends PopupWindow {
 
     public void changUi(int progress){
         tv_go_up.setVisibility(View.GONE);
+        iv_close_up.setVisibility(View.GONE);
         pb_go_up.setVisibility(View.VISIBLE);
         pb_go_up.setProgress(progress);
     }
