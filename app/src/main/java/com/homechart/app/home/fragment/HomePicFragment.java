@@ -377,8 +377,10 @@ public class HomePicFragment
 
                         layoutParams.height = (curentListTag ? (int) (width_Pic_List / 2.36) : (int) (width_Pic_Staggered / mListData.get(position).getObject_info().getImage().getRatio()));
 
-                    } else {
-                        layoutParams.height = (curentListTag ? mLListDataHeight.get(position) : mSListDataHeight.get(position));
+                    } else if (mListData.get(position).getObject_info().getType().equals("article")){
+                        layoutParams.height = (curentListTag ? (int) (width_Pic_List /2.36666 )  : mSListDataHeight.get(position));
+                    }else {
+                        layoutParams.height = (curentListTag ? (int) (width_Pic_List /1.5 )  : mSListDataHeight.get(position));
                     }
                     holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
                     String nikeName = "";
