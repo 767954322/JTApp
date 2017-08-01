@@ -53,12 +53,12 @@ public class MyApplication extends Application {
     }
 
     private void initJPush() {
-//        Config.DEBUG = true;
+
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+//        JPushInterface.setAlias(MyApplication.this,0,"测试");
 
-        //取消极光服务
-        //推出登陆状态，关闭推送
+        //取消极光服务，推出登陆状态，关闭推送
 //        JPushInterface.stopPush(MyApplication.this);
     }
 
