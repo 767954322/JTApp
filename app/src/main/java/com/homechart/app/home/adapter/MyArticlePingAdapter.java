@@ -28,13 +28,15 @@ public class MyArticlePingAdapter extends BaseAdapter {
     private Context context;
     private String user_id;//作者的user_id
     private HuiFu huiFu;
+    private boolean ifMore;
     private List<PingCommentListItemBean> mListPing;
 
-    public MyArticlePingAdapter(Context context, List<PingCommentListItemBean> mListPing, String user_id ,HuiFu huiFu) {
+    public MyArticlePingAdapter(Context context, List<PingCommentListItemBean> mListPing, String user_id ,HuiFu huiFu,boolean ifMore) {
         this.context = context;
         this.mListPing = mListPing;
         this.user_id = user_id;
         this.huiFu = huiFu;
+        this.ifMore = ifMore;
     }
 
     @Override
@@ -124,13 +126,20 @@ public class MyArticlePingAdapter extends BaseAdapter {
                 huiFu.clickHeader(mListPing.get(position),position);
             }
         });
+
+        if(!ifMore && position == mListPing.size()-1){
+            myHolder.view_one.setVisibility(View.GONE);
+        }else {
+            myHolder.view_one.setVisibility(View.VISIBLE);
+        }
+
         return convertView;
     }
 
-    public void setDataChange(List<PingCommentListItemBean> mListPing) {
-        this.mListPing = mListPing;
-        notifyDataSetChanged();
+    public void changeLine(boolean ifMore) {
+        this.ifMore = ifMore;
     }
+
 
     class MyHolder {
         private RoundImageView riv_one;

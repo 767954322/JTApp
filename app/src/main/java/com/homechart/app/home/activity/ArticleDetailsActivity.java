@@ -691,10 +691,15 @@ public class ArticleDetailsActivity
                             view_below_pingtital.setVisibility(View.VISIBLE);
                             mlv_article_pinglun.setVisibility(View.VISIBLE);
                             tv_look_more_ping.setVisibility(View.VISIBLE);
+                            ifMore = true;
                             if (list.size() < 5) {
                                 //隐藏评论加载更多
                                 tv_look_more_ping.setVisibility(View.GONE);
+                                ifMore = false;
                             }
+                        }else {
+//                            myArticlePingAdapter.changeLine(false);
+//                            myArticlePingAdapter.notifyDataSetChanged();
                         }
 
 
@@ -1284,7 +1289,7 @@ public class ArticleDetailsActivity
                         }
                     } catch (Exception e) {
                     }
-                    myArticlePingAdapter = new MyArticlePingAdapter(ArticleDetailsActivity.this, mListPing, pingBean.getArticle_info().getUser_id(), ArticleDetailsActivity.this);
+                    myArticlePingAdapter = new MyArticlePingAdapter(ArticleDetailsActivity.this, mListPing, pingBean.getArticle_info().getUser_id(), ArticleDetailsActivity.this,ifMore);
                     mlv_article_pinglun.setAdapter(myArticlePingAdapter);
                     break;
             }
@@ -1360,4 +1365,5 @@ public class ArticleDetailsActivity
 
     //设置你可能喜欢地阅览数字加1
     private int clickPosition = -1;
+    private boolean ifMore = false;
 }
