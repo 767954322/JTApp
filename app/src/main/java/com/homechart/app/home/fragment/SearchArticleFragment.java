@@ -162,16 +162,6 @@ public class SearchArticleFragment
 
     @Override
     public void onRefresh() {
-        //友盟统计
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("evenname", "搜索刷新数据");
-        map.put("even", "搜索向上滑动");
-        MobclickAgent.onEvent(activity, "action5", map);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("搜索向上滑动")  //事件类别
-                .setAction("搜索刷新数据")      //事件操作
-                .build());
         page_num = 1;
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
         getListData(REFRESH_STATUS);
@@ -179,17 +169,6 @@ public class SearchArticleFragment
 
     @Override
     public void onLoadMore() {
-
-        //友盟统计
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("evenname", "搜索加载更多");
-        map.put("even", "搜索向下滑动");
-        MobclickAgent.onEvent(activity, "action4", map);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("搜索向下滑动")  //事件类别
-                .setAction("搜索加载更多")      //事件操作
-                .build());
 
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
         ++page_num;

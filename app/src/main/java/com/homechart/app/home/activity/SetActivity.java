@@ -123,33 +123,12 @@ public class SetActivity
                 SetActivity.this.finish();
                 break;
             case R.id.rl_set_guanyu:
-
-                //友盟统计
-                HashMap<String, String> map4 = new HashMap<String, String>();
-                map4.put("evenname", "关于家图");
-                map4.put("even", "点击关于家图");
-                MobclickAgent.onEvent(SetActivity.this, "action54", map4);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击关于家图")  //事件类别
-                        .setAction("关于家图")      //事件操作
-                        .build());
                 Intent intent_guanyu = new Intent(SetActivity.this, GuanYuActivity.class);
                 startActivity(intent_guanyu);
 
                 break;
             case R.id.rl_set_clear:
                 if (!ifClear) {
-                    //友盟统计
-                    HashMap<String, String> map = new HashMap<String, String>();
-                    map.put("evenname", "清除缓存");
-                    map.put("even", "点击清除缓存");
-                    MobclickAgent.onEvent(SetActivity.this, "action55", map);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("点击清除缓存")  //事件类别
-                            .setAction("清除缓存")      //事件操作
-                            .build());
                     if (!tv_clear_num.getText().equals("0.0B")) {
                         PublicUtils.clearAppCache(this);
                         tv_clear_num.setText("0.0B");
@@ -163,49 +142,18 @@ public class SetActivity
 
                 break;
             case R.id.rl_set_fankui:
-                //友盟统计
-                HashMap<String, String> map1 = new HashMap<String, String>();
-                map1.put("evenname", "使用反馈");
-                map1.put("even", "点击使用反馈");
-                MobclickAgent.onEvent(SetActivity.this, "action56", map1);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击使用反馈")  //事件类别
-                        .setAction("使用反馈")      //事件操作
-                        .build());
                 PublicUtils.clearAppCache(SetActivity.this);
                 Intent intent = new Intent(this, IssueBackActivity.class);
                 startActivity(intent);
 
                 break;
             case R.id.rl_set_tuijian:
-                //友盟统计
-                HashMap<String, String> map2 = new HashMap<String, String>();
-                map2.put("evenname", "推荐家图");
-                map2.put("even", "点击推荐家图");
-                MobclickAgent.onEvent(SetActivity.this, "action58", map2);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击推荐家图")  //事件类别
-                        .setAction("推荐家图")      //事件操作
-                        .build());
-
                 homeSharedPopWinPublic.showAtLocation(SetActivity.this.findViewById(R.id.main),
                         Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
                         0,
                         0); //设置layout在PopupWindow中显示的位置
                 break;
             case R.id.btn_outlogin:
-                //友盟统计
-                HashMap<String, String> map3 = new HashMap<String, String>();
-                map3.put("evenname", "退出登录");
-                map3.put("even", "点击退出登陆");
-                MobclickAgent.onEvent(SetActivity.this, "action60", map3);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击退出登陆")  //事件类别
-                        .setAction("退出登录")      //事件操作
-                        .build());
                 //清除登陆数据
                 PublicUtils.clearShared(SetActivity.this);
                 //清除所有显示Activity
@@ -372,48 +320,16 @@ public class SetActivity
 
     @Override
     public void onClickWeiXin() {
-        //友盟统计
-        HashMap<String, String> map2 = new HashMap<String, String>();
-        map2.put("evenname", "推荐家图详情weixin");
-        map2.put("even", "点击推荐家图出的第三方weixin分享");
-        MobclickAgent.onEvent(SetActivity.this, "action59", map2);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("点击推荐家图出的第三方weixin分享")  //事件类别
-                .setAction("推荐家图详情weixin")      //事件操作
-                .build());
-
         sharedItemOpen(SHARE_MEDIA.WEIXIN);
     }
 
     @Override
     public void onClickPYQ() {
-        //友盟统计
-        HashMap<String, String> map2 = new HashMap<String, String>();
-        map2.put("evenname", "推荐家图详情weixinfriends");
-        map2.put("even", "点击推荐家图出的第三方weixinfriends分享");
-        MobclickAgent.onEvent(SetActivity.this, "action84", map2);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("点击推荐家图出的第三方weixinfriends分享")  //事件类别
-                .setAction("推荐家图详情weixinfriends")      //事件操作
-                .build());
-
         sharedItemOpen(SHARE_MEDIA.WEIXIN_CIRCLE);
     }
 
     @Override
     public void onClickWeiBo() {
-        //友盟统计
-        HashMap<String, String> map2 = new HashMap<String, String>();
-        map2.put("evenname", "推荐家图详情sina");
-        map2.put("even", "点击推荐家图出的第三方sina分享");
-        MobclickAgent.onEvent(SetActivity.this, "action85", map2);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("点击推荐家图出的第三方sina分享")  //事件类别
-                .setAction("推荐家图详情sina")      //事件操作
-                .build());
 
         sharedItemOpen(SHARE_MEDIA.SINA);
     }

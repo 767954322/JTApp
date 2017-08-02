@@ -173,33 +173,12 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
 
                 break;
             case R.id.rl_fensi:
-
-                //友盟统计
-                HashMap<String, String> map1 = new HashMap<String, String>();
-                map1.put("evenname", "点击粉丝");
-                map1.put("even", "点击粉丝进入粉丝列表");
-                MobclickAgent.onEvent(activity, "action41", map1);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击粉丝进入粉丝列表")  //事件类别
-                        .setAction("点击粉丝")      //事件操作
-                        .build());
                 Intent intent_fensi = new Intent(activity, FenSiListActivity.class);
                 intent_fensi.putExtra(ClassConstant.LoginSucces.USER_ID, mUserId);
                 startActivity(intent_fensi);
 
                 break;
             case R.id.rl_guanzu:
-                //友盟统计
-                HashMap<String, String> map2 = new HashMap<String, String>();
-                map2.put("evenname", "点击关注");
-                map2.put("even", "点击关注进入关注列表页");
-                MobclickAgent.onEvent(activity, "action43", map2);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击关注进入关注列表页")  //事件类别
-                        .setAction("点击关注")      //事件操作
-                        .build());
                 Intent intent_guanzu = new Intent(activity, GuanZuListActivity.class);
                 intent_guanzu.putExtra(ClassConstant.LoginSucces.USER_ID, mUserId);
                 startActivity(intent_guanzu);
@@ -207,63 +186,22 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.rl_shoucang:
 
-                //友盟统计
-                HashMap<String, String> map4 = new HashMap<String, String>();
-                map4.put("evenname", "点击收藏");
-                map4.put("even", "点击收藏进入收藏列表");
-                MobclickAgent.onEvent(activity, "action45", map4);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击收藏进入收藏列表")  //事件类别
-                        .setAction("点击收藏")      //事件操作
-                        .build());
                 Intent intent_shoucang = new Intent(activity, ShouCangListActivity.class);
                 startActivity(intent_shoucang);
 
                 break;
             case R.id.rl_shaijia:
-
-                //友盟统计
-                HashMap<String, String> map5 = new HashMap<String, String>();
-                map5.put("evenname", "点击晒家");
-                map5.put("even", "点击晒家进入已发布晒家图片列表页");
-                MobclickAgent.onEvent(activity, "action49", map5);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击晒家进入已发布晒家图片列表页")  //事件类别
-                        .setAction("点击晒家")      //事件操作
-                        .build());
                 Intent intent_shaijia = new Intent(activity, ShaiJiaListActivity.class);
                 intent_shaijia.putExtra(ClassConstant.LoginSucces.USER_ID, mUserId);
                 startActivity(intent_shaijia);
 
                 break;
             case R.id.iv_center_header:
-                //友盟统计
-                HashMap<String, String> map3 = new HashMap<String, String>();
-                map3.put("evenname", "点击头像");
-                map3.put("even", "点击头像进入个人资料页");
-                MobclickAgent.onEvent(activity, "action40", map3);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击头像进入个人资料页")  //事件类别
-                        .setAction("点击头像")      //事件操作
-                        .build());
                 Intent intent_wodeanli = new Intent(activity, MyInfoActivity.class);
                 intent_wodeanli.putExtra("info", userCenterInfoBean);
                 startActivityForResult(intent_wodeanli, 0);
                 break;
             case R.id.rl_wodeanli:
-                //友盟统计
-                HashMap<String, String> map6 = new HashMap<String, String>();
-                map6.put("evenname", "点击个人资料");
-                map6.put("even", "点击个人资料");
-                MobclickAgent.onEvent(activity, "action61", map6);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击个人资料")  //事件类别
-                        .setAction("点击个人资料")      //事件操作
-                        .build());
                 Intent intent_wodeanli1 = new Intent(activity, MyInfoActivity.class);
                 intent_wodeanli1.putExtra("info", userCenterInfoBean);
                 startActivityForResult(intent_wodeanli1, 0);

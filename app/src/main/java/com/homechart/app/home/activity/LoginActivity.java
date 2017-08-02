@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
@@ -110,6 +111,18 @@ public class LoginActivity extends BaseActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+        //友盟统计
+        HashMap<String, String> map5 = new HashMap<String, String>();
+        map5.put("evenname", "登录页面");
+        map5.put("even", "登录页面");
+        MobclickAgent.onEvent(LoginActivity.this, "newaction3", map5);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("登录页面")  //事件类别
+                .setAction("登录页面")  //事件操作
+                .build());
+
         //设置权限
         PublicUtils.verifyStoragePermissions(LoginActivity.this);
         boolean login_status = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
@@ -137,73 +150,22 @@ public class LoginActivity extends BaseActivity
 
         switch (v.getId()) {
             case R.id.tv_login_qq:
-                //友盟统计
-                HashMap<String, String> map_qq = new HashMap<String, String>();
-                map_qq.put("evenname", "qq第三方登录");
-                map_qq.put("even", "点击使用QQ作为第三方登录按钮");
-                MobclickAgent.onEvent(LoginActivity.this, "action31", map_qq);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击使用QQ作为第三方登录按钮")  //事件类别
-                        .setAction("qq第三方登录")      //事件操作
-                        .build());
                 UMShareAPI.get(LoginActivity.this).getPlatformInfo(LoginActivity.this, SHARE_MEDIA.QQ, umAuthListener);
 
                 break;
             case R.id.tv_login_weixin:
-                //友盟统计
-                HashMap<String, String> map_weixin = new HashMap<String, String>();
-                map_weixin.put("evenname", "wechat第三方登录");
-                map_weixin.put("even", "点击使用微信作为第三方登录按钮");
-                MobclickAgent.onEvent(LoginActivity.this, "action29", map_weixin);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击使用微信作为第三方登录按钮")  //事件类别
-                        .setAction("wechat第三方登录")      //事件操作
-                        .build());
                 UMShareAPI.get(LoginActivity.this).getPlatformInfo(LoginActivity.this, SHARE_MEDIA.WEIXIN, umAuthListener);
                 break;
             case R.id.tv_login_sina:
-                //友盟统计
-                HashMap<String, String> map_sina = new HashMap<String, String>();
-                map_sina.put("evenname", "weibo第三方登录");
-                map_sina.put("even", "点击使用微博作为第三方登录按钮");
-                MobclickAgent.onEvent(LoginActivity.this, "action27", map_sina);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击使用微博作为第三方登录按钮")  //事件类别
-                        .setAction("weibo第三方登录")      //事件操作
-                        .build());
                 UMShareAPI.get(LoginActivity.this).getPlatformInfo(LoginActivity.this, SHARE_MEDIA.SINA, umAuthListener);
 
                 break;
 
             case R.id.btn_send_demand:
-
-                //友盟统计
-                HashMap<String, String> map1 = new HashMap<String, String>();
-                map1.put("evenname", "登录");
-                map1.put("even", "点击登录");
-                MobclickAgent.onEvent(LoginActivity.this, "action26", map1);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击登录")  //事件类别
-                        .setAction("登录")      //事件操作
-                        .build());
                 clickLoginUser();
 
                 break;
             case R.id.tv_gorget_pass:
-                //友盟统计
-                HashMap<String, String> map_forget = new HashMap<String, String>();
-                map_forget.put("evenname", "忘记密码");
-                map_forget.put("even", "点击忘记密码进入密码重置流程");
-                MobclickAgent.onEvent(LoginActivity.this, "action83", map_forget);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击忘记密码进入密码重置流程")  //事件类别
-                        .setAction("忘记密码")      //事件操作
-                        .build());
                 clickGorgetPass();
 
                 break;
@@ -244,16 +206,6 @@ public class LoginActivity extends BaseActivity
                         String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                         LoginBean loginBean = GsonUtil.jsonToBean(data_msg, LoginBean.class);
                         PublicUtils.loginSucces(loginBean);
-                        //友盟统计
-                        HashMap<String, String> map_forget = new HashMap<String, String>();
-                        map_forget.put("evenname", "登陆成功提示");
-                        map_forget.put("even", "登陆成功后的提示");
-                        MobclickAgent.onEvent(LoginActivity.this, "action33", map_forget);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("登陆成功后的提示")  //事件类别
-                                .setAction("登陆成功提示")      //事件操作
-                                .build());
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         intent.putExtra("photo_id", photo_id);
                         if (!TextUtils.isEmpty(object_id)) {
@@ -437,6 +389,14 @@ public class LoginActivity extends BaseActivity
     public void onResume() {
         super.onResume();
         CustomProgress.cancelDialog();
+
+        // Get tracker.
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("登录页面");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+        MobclickAgent.onPageStart("LoginActivity");
         MobclickAgent.onResume(LoginActivity.this);
     }
 
@@ -444,7 +404,7 @@ public class LoginActivity extends BaseActivity
     @Override
     public void onPause() {
         super.onPause();
-
+        MobclickAgent.onPageEnd("LoginActivity");
         MobclickAgent.onPause(LoginActivity.this);
     }
 

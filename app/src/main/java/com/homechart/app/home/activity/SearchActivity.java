@@ -93,16 +93,6 @@ public class SearchActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_quxiao:
-                //友盟统计
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("evenname", "取消搜索框搜索");
-                map.put("even", "点击搜索框右上方的取消");
-                MobclickAgent.onEvent(SearchActivity.this, "action3", map);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击搜索框右上方的取消")  //事件类别
-                        .setAction("取消搜索框搜索")      //事件操作
-                        .build());
                 SearchActivity.this.finish();
                 break;
         }
@@ -175,18 +165,6 @@ public class SearchActivity
             his_flowLayout.setOnTagClickListener(new FlowLayoutSearch.OnTagClickListener() {
                 @Override
                 public void TagClick(String text) {
-
-                    //友盟统计
-                    HashMap<String, String> map = new HashMap<String, String>();
-                    map.put("evenname", "搜索热点词");
-                    map.put("even", "单击搜索框下方提供的热点词");
-                    MobclickAgent.onEvent(SearchActivity.this, "action2", map);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("单击搜索框下方提供的热点词")  //事件类别
-                            .setAction("搜索热点词")      //事件操作
-                            .build());
-
                     // 跳转搜索结果页
                     Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
                     intent.putExtra("search_tag", text);

@@ -283,16 +283,6 @@ public class ImageEditActvity
 
     @Override
     public void DeleteTag(String text, int position) {
-        //友盟统计
-        HashMap<String, String> map4 = new HashMap<String, String>();
-        map4.put("evenname", "点击作品里的删除标签");
-        map4.put("even", "删除标签");
-        MobclickAgent.onEvent(ImageEditActvity.this, "action52", map4);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("删除标签")  //事件类别
-                .setAction("点击作品里的删除标签")      //事件操作
-                .build());
         fl_tag_flowLayout.cleanTag();
         listTag.remove(position);
         fl_tag_flowLayout.setListData(listTag);
@@ -311,18 +301,6 @@ public class ImageEditActvity
 
     @Override
     public void AddTag(String text, int position) {
-
-        //友盟统计
-        HashMap<String, String> map4 = new HashMap<String, String>();
-        map4.put("evenname", "点击作品里的添加标签");
-        map4.put("even", "添加新标签");
-        MobclickAgent.onEvent(ImageEditActvity.this, "action53", map4);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("添加新标签")  //事件类别
-                .setAction("点击作品里的添加标签")      //事件操作
-                .build());
-
         Intent intent = new Intent(ImageEditActvity.this, EditTagsActivity.class);
         SerializableHashMap myMap = new SerializableHashMap();
         myMap.setMap(selectTags);

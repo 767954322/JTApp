@@ -257,43 +257,13 @@ public class PublicUtils {
             switch (platform.toString()) {
                 case "SINA":
                     plat = "weibo";
-                    //友盟统计
-                    HashMap<String, String> map_weibo = new HashMap<String, String>();
-                    map_weibo.put("evenname", "weibo登陆成功次数");
-                    map_weibo.put("even", "登陆成功后+1");
-                    MobclickAgent.onEvent(mActivity, "action28", map_weibo);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("登陆成功后+1")  //事件类别
-                            .setAction("weibo登陆成功次数")      //事件操作
-                            .build());
 //                    PublicUtils.clearUMengOauth(mActivity);
                     break;
                 case "QQ":
-                    //友盟统计
-                    HashMap<String, String> map_qq = new HashMap<String, String>();
-                    map_qq.put("evenname", "qq登陆成功次数");
-                    map_qq.put("even", "登陆成功后+1");
-                    MobclickAgent.onEvent(mActivity, "action32", map_qq);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("登陆成功后+1")  //事件类别
-                            .setAction("qq登陆成功次数")      //事件操作
-                            .build());
                     plat = "qq";
                     PublicUtils.clearUMengOauth(mActivity);
                     break;
                 case "WEIXIN":
-                    //友盟统计
-                    HashMap<String, String> map_weixin = new HashMap<String, String>();
-                    map_weixin.put("evenname", "wechat登陆成功次数");
-                    map_weixin.put("even", "登陆成功后+1");
-                    MobclickAgent.onEvent(mActivity, "action30", map_weixin);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("登陆成功后+1")  //事件类别
-                            .setAction("wechat登陆成功次数")      //事件操作
-                            .build());
                     plat = "weixin";
                     PublicUtils.clearUMengOauth(mActivity);
                     break;

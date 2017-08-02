@@ -180,28 +180,8 @@ public class HuoDongDetailsActivity
                 mListData.clear();
                 mListDataHeight.clear();
                 if (tab.getText().equals("最新")) {
-                    //友盟统计
-                    HashMap<String, String> map1 = new HashMap<String, String>();
-                    map1.put("evenname", "点击活动最新排序");
-                    map1.put("even", "点击最新排序");
-                    MobclickAgent.onEvent(HuoDongDetailsActivity.this, "action36", map1);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("点击最新排序")  //事件类别
-                            .setAction("点击活动最新排序")      //事件操作
-                            .build());
                     sort = "new";
                 } else if (tab.getText().equals("最热")) {
-                    //友盟统计
-                    HashMap<String, String> map1 = new HashMap<String, String>();
-                    map1.put("evenname", "点击活动热度排序");
-                    map1.put("even", "点击热度排序");
-                    MobclickAgent.onEvent(HuoDongDetailsActivity.this, "action35", map1);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("点击热度排序")  //事件类别
-                            .setAction("点击活动热度排序")      //事件操作
-                            .build());
                     sort = "hot";
                 }
                 getListData();
@@ -244,16 +224,6 @@ public class HuoDongDetailsActivity
                 HuoDongDetailsActivity.this.finish();
                 break;
             case R.id.tv_add_activity:
-                //友盟统计
-                HashMap<String, String> map1 = new HashMap<String, String>();
-                map1.put("evenname", "活动详情参与活动");
-                map1.put("even", "点击参与活动入口进入发布图片页");
-                MobclickAgent.onEvent(HuoDongDetailsActivity.this, "action78", map1);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击参与活动入口进入发布图片页")  //事件类别
-                        .setAction("活动详情参与活动")      //事件操作
-                        .build());
                 //参与
                 menuWindow.showAtLocation(HuoDongDetailsActivity.this.findViewById(R.id.main),
                         Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
@@ -303,16 +273,6 @@ public class HuoDongDetailsActivity
                 menuWindow.dismiss();
                 break;
             case R.id.iv_bufabu:
-                //友盟统计
-                HashMap<String, String> map_no = new HashMap<String, String>();
-                map_no.put("evenname", "退出活动");
-                map_no.put("even", "点击返回活动页");
-                MobclickAgent.onEvent(HuoDongDetailsActivity.this, "action39", map_no);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击返回活动页")  //事件类别
-                        .setAction("退出活动")      //事件操作
-                        .build());
                 menuWindow.dismiss();
                 break;
             case R.id.nav_secondary_imageButton:
@@ -576,16 +536,6 @@ public class HuoDongDetailsActivity
 
     @Override
     public void onLoadMore() {
-        //友盟统计
-        HashMap<String, String> map1 = new HashMap<String, String>();
-        map1.put("evenname", "加载更多参与活动图片");
-        map1.put("even", "上拉加载更多参与活动图片");
-        MobclickAgent.onEvent(HuoDongDetailsActivity.this, "action37", map1);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("上拉加载更多参与活动图片")  //事件类别
-                .setAction("加载更多参与活动图片")      //事件操作
-                .build());
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
         getListData();
     }

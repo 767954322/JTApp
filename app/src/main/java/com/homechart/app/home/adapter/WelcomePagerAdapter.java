@@ -27,11 +27,12 @@ public class WelcomePagerAdapter extends PagerAdapter {
     public List<Integer> comm_data_ls;
     private final Activity context;
     private View itemView;
-    public static final String ISFIRST = "isfirst";
+    public OnClickJump onClickJump;
 
-    public WelcomePagerAdapter(Activity context, List<Integer> comm_data_ls) {
+    public WelcomePagerAdapter(Activity context, List<Integer> comm_data_ls, OnClickJump onClickJump) {
         this.context = context;
         this.comm_data_ls = comm_data_ls;
+        this.onClickJump = onClickJump;
     }
 
     @Override
@@ -48,14 +49,7 @@ public class WelcomePagerAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 if (position == 2) {
-//                    HashMap<String, String> map = new HashMap<String, String>();
-//                    map.put("evenname", "离开启动页");
-//                    map.put("even", "离开启动页");
-//                    MobclickAgent.onEvent(context, "test", map);
-                    SharedPreferencesUtils.writeBoolean(ISFIRST, true);
-                    Intent intent = new Intent(context, LoginActivity.class);
-                    context.startActivity(intent);
-                    context.finish();
+                    onClickJump.onClickJump();
                 }
             }
         });
@@ -71,5 +65,9 @@ public class WelcomePagerAdapter extends PagerAdapter {
 
     public boolean isViewFromObject(View arg0, Object arg1) {
         return arg0 == (arg1);
+    }
+
+    public interface OnClickJump {
+        public void onClickJump();
     }
 }

@@ -341,17 +341,6 @@ public class UserInfoActivity
                 UserInfoActivity.this.finish();
                 break;
             case R.id.rl_info_zhunaye:
-
-                //友盟统计
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("evenname", "专业用户资料");
-                map.put("even", "点击专业用户资料查看");
-                MobclickAgent.onEvent(UserInfoActivity.this, "action81", map);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击专业用户资料查看")  //事件类别
-                        .setAction("专业用户资料")      //事件操作
-                        .build());
                 //TODO 跳转专业用户资料页
                 Intent intent = new Intent(UserInfoActivity.this, DesinerInfoHeaderActivity.class);
                 intent.putExtra("info", userCenterInfoBean);
@@ -374,16 +363,7 @@ public class UserInfoActivity
 
                 break;
             case R.id.iv_header_desiner_center:
-                //友盟统计
-                HashMap<String, String> map1 = new HashMap<String, String>();
-                map1.put("evenname", "主页头像");
-                map1.put("even", "点击个人主页头像");
-                MobclickAgent.onEvent(UserInfoActivity.this, "action80", map1);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击个人主页头像")  //事件类别
-                        .setAction("主页头像")      //事件操作
-                        .build());
+
                 break;
             case R.id.rl_info_guanzhu:
                 if (!TextUtils.isEmpty(user_id)) {
@@ -494,17 +474,6 @@ public class UserInfoActivity
 
     //关注用户
     private void getGuanZhu() {
-
-        //友盟统计
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("evenname", "主页关注");
-        map.put("even", "点击个人主页的关注按钮");
-        MobclickAgent.onEvent(UserInfoActivity.this, "action82", map);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("点击个人主页的关注按钮")  //事件类别
-                .setAction("主页关注")      //事件操作
-                .build());
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {

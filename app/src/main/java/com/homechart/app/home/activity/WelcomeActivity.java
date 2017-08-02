@@ -12,6 +12,9 @@ import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.adapter.WelcomePagerAdapter;
@@ -23,6 +26,7 @@ import com.jaeger.library.StatusBarUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 //import com.google.android.gms.analytics.HitBuilders;
@@ -35,7 +39,7 @@ import java.util.List;
  * @file WelcomeActivity.java .
  * @brief 首次进入滑动页 .
  */
-public class WelcomeActivity extends BaseActivity {
+public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter.OnClickJump {
 
     private SwipeViewPager mWelcomeViewPager;
 
@@ -61,7 +65,17 @@ public class WelcomeActivity extends BaseActivity {
             startActivity(intent);
             finish();
         } else {
-            WelcomePagerAdapter adapter = new WelcomePagerAdapter(WelcomeActivity.this, getAdData());
+            //友盟统计
+            HashMap<String, String> map5 = new HashMap<String, String>();
+            map5.put("evenname", "第一次打开app展示启动页");
+            map5.put("even", "第一次打开app展示启动页");
+            MobclickAgent.onEvent(WelcomeActivity.this, "newaction1", map5);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("第一次打开app展示启动页")  //事件类别
+                    .setAction("第一次打开app展示启动页")  //事件操作
+                    .build());
+            WelcomePagerAdapter adapter = new WelcomePagerAdapter(WelcomeActivity.this, getAdData(), this);
 //            //初始化轮播图下面小点
 //            mWelcomeViewPager.updateIndicatorView(getAdData().size());
             mWelcomeViewPager.setAdapter(adapter);
@@ -79,7 +93,7 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     private boolean getNextActivityToLaunch() {
-        Boolean isfirst = SharedPreferencesUtils.readBoolean(WelcomePagerAdapter.ISFIRST);
+        Boolean isfirst = SharedPreferencesUtils.readBoolean(ISFIRST);
         return isfirst;
     }
 
@@ -136,6 +150,16 @@ public class WelcomeActivity extends BaseActivity {
         super.onResume();
         MobclickAgent.onPageStart("引导页");
         MobclickAgent.onResume(this);
+        if (!getNextActivityToLaunch()) {
+            // Get tracker.
+            Tracker t = MyApplication.getInstance().getDefaultTracker();
+            // Set screen name.
+            t.setScreenName("第一次打开app展示启动页");
+            // Send a screen view.
+            t.send(new HitBuilders.ScreenViewBuilder().build());
+            MobclickAgent.onPageStart("WelcomeActivity");
+            MobclickAgent.onResume(this);
+        }
     }
 
     @Override
@@ -143,5 +167,29 @@ public class WelcomeActivity extends BaseActivity {
         super.onPause();
         MobclickAgent.onPageEnd("引导页");
         MobclickAgent.onPause(this);
+        if (!getNextActivityToLaunch()) {
+            MobclickAgent.onPageEnd("WelcomeActivity");
+            MobclickAgent.onPause(this);
+        }
     }
+
+    @Override
+    public void onClickJump() {
+        //友盟统计
+        HashMap<String, String> map5 = new HashMap<String, String>();
+        map5.put("evenname", "点击启动页跳转到登陆页");
+        map5.put("even", "点击启动页跳转到登陆页");
+        MobclickAgent.onEvent(WelcomeActivity.this, "newaction2", map5);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("点击启动页跳转到登陆页")  //事件类别
+                .setAction("点击启动页跳转到登陆页")  //事件操作
+                .build());
+        SharedPreferencesUtils.writeBoolean(ISFIRST, true);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public final String ISFIRST = "isfirst";
 }

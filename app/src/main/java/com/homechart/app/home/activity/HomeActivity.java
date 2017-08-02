@@ -189,16 +189,6 @@ public class HomeActivity
         switch (v.getId()) {
             case R.id.tv_takephoto:
                 menuWindow.dismiss();
-                //友盟统计
-                HashMap<String, String> map5 = new HashMap<String, String>();
-                map5.put("evenname", "照相");
-                map5.put("even", "打开相机");
-                MobclickAgent.onEvent(HomeActivity.this, "action74", map5);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("打开相机")  //事件类别
-                        .setAction("照相")      //事件操作
-                        .build());
                 GalleryFinal.openCamera(0, new GalleryFinal.OnHanlderResultCallback() {
                     @Override
                     public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
@@ -221,16 +211,6 @@ public class HomeActivity
                 break;
             case R.id.tv_pic:
                 menuWindow.dismiss();
-                //友盟统计
-                HashMap<String, String> map6 = new HashMap<String, String>();
-                map6.put("evenname", "本地相册");
-                map6.put("even", "本地相册选择图片");
-                MobclickAgent.onEvent(HomeActivity.this, "action75", map6);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("本地相册选择图片")  //事件类别
-                        .setAction("本地相册")      //事件操作
-                        .build());
                 GalleryFinal.openGallerySingle(0, new GalleryFinal.OnHanlderResultCallback() {
                     @Override
                     public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
@@ -400,17 +380,6 @@ public class HomeActivity
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
-            //友盟统计
-            HashMap<String, String> map6 = new HashMap<String, String>();
-            map6.put("evenname", "完成选择图片");
-            map6.put("even", "完成选择图片");
-            MobclickAgent.onEvent(HomeActivity.this, "action76", map6);
-            //ga统计
-            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                    .setCategory("完成选择图片")  //事件类别
-                    .setAction("完成选择图片")      //事件操作
-                    .build());
             String url_Imag = (String) msg.obj;
             Intent intent = new Intent(HomeActivity.this, FaBuActvity.class);
             intent.putExtra("image_path", url_Imag);

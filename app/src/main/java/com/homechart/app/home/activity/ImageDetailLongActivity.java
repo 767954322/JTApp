@@ -380,16 +380,6 @@ public class ImageDetailLongActivity
 
         switch (v.getId()) {
             case R.id.riv_people_header:
-                //友盟统计
-                HashMap<String, String> map_weibo = new HashMap<String, String>();
-                map_weibo.put("evenname", "详情点击作者头像");
-                map_weibo.put("even", "详情点击作者头像进入作者主页");
-                MobclickAgent.onEvent(ImageDetailLongActivity.this, "action67", map_weibo);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("详情点击作者头像进入作者主页")  //事件类别
-                        .setAction("详情点击作者头像")      //事件操作
-                        .build());
                 if (imageDetailBean != null) {
                     Intent intent_info = new Intent(ImageDetailLongActivity.this, UserInfoActivity.class);
                     intent_info.putExtra(ClassConstant.LoginSucces.USER_ID, imageDetailBean.getUser_info().getUser_id());
@@ -410,16 +400,6 @@ public class ImageDetailLongActivity
             case R.id.iv_bang:
             case R.id.tv_bang:
                 if (ifZan) {
-                    //友盟统计
-                    HashMap<String, String> map_next = new HashMap<String, String>();
-                    map_next.put("evenname", "详情点赞");
-                    map_next.put("even", "详情点赞");
-                    MobclickAgent.onEvent(ImageDetailLongActivity.this, "action71", map_next);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("详情点赞")  //事件类别
-                            .setAction("详情点赞")      //事件操作
-                            .build());
                     addZan();
                     ifZan = false;
                 } else {
@@ -442,17 +422,6 @@ public class ImageDetailLongActivity
                 if (null != imageDetailBean) {
                     switch (guanzhuTag) {
                         case 1:
-
-                            //友盟统计
-                            HashMap<String, String> map5 = new HashMap<String, String>();
-                            map5.put("evenname", "详情关注作者");
-                            map5.put("even", "点击关注作者");
-                            MobclickAgent.onEvent(ImageDetailLongActivity.this, "action63", map5);
-                            //ga统计
-                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("点击关注作者")  //事件类别
-                                    .setAction("详情关注作者")      //事件操作
-                                    .build());
                             getGuanZhu();
                             break;
                         case 2:
@@ -467,18 +436,6 @@ public class ImageDetailLongActivity
                 break;
             case R.id.tv_imagedetails_next:
             case R.id.iv_imagedetails_next:
-
-                //友盟统计
-                HashMap<String, String> map_next = new HashMap<String, String>();
-                map_next.put("evenname", "相似色彩搭配");
-                map_next.put("even", "点击相似色彩搭配");
-                MobclickAgent.onEvent(ImageDetailLongActivity.this, "action68", map_next);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击相似色彩搭配")  //事件类别
-                        .setAction("相似色彩搭配")      //事件操作
-                        .build());
-
                 if (list.size() > 0 && listColor != null && listColor.size() > 0) {
                     Intent intent = new Intent(ImageDetailLongActivity.this, ShaiXuanResultActicity.class);
                     intent.putExtra("shaixuan_tag", list.get(0));
@@ -586,16 +543,6 @@ public class ImageDetailLongActivity
     }
 
     private void pingImage(String content) {
-        //友盟统计
-        HashMap<String, String> map_next = new HashMap<String, String>();
-        map_next.put("evenname", "详情评论");
-        map_next.put("even", "详情评论");
-        MobclickAgent.onEvent(ImageDetailLongActivity.this, "action72", map_next);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("详情评论")  //事件类别
-                .setAction("详情评论")      //事件操作
-                .build());
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
@@ -625,16 +572,6 @@ public class ImageDetailLongActivity
     }
 
     private void pingHuiFu(String content) {
-        //友盟统计
-        HashMap<String, String> map_next = new HashMap<String, String>();
-        map_next.put("evenname", "详情评论");
-        map_next.put("even", "详情评论");
-        MobclickAgent.onEvent(ImageDetailLongActivity.this, "action72", map_next);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("详情评论")  //事件类别
-                .setAction("详情评论")      //事件操作
-                .build());
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
@@ -835,16 +772,6 @@ public class ImageDetailLongActivity
                     @Override
                     public void onClick(View v) {
 
-                        //友盟统计
-                        HashMap<String, String> map_next = new HashMap<String, String>();
-                        map_next.put("evenname", "点击可能还喜欢单个图片");
-                        map_next.put("even", "点击可能还喜欢图片进入详情");
-                        MobclickAgent.onEvent(ImageDetailLongActivity.this, "action70", map_next);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("点击可能还喜欢图片进入详情")  //事件类别
-                                .setAction("点击可能还喜欢单个图片")      //事件操作
-                                .build());
                         //查看单图详情
                         Intent intent = new Intent(ImageDetailLongActivity.this, ImageDetailLongActivity.class);
                         intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
@@ -939,16 +866,6 @@ public class ImageDetailLongActivity
 
     //收藏
     private void addShouCang() {
-        //友盟统计
-        HashMap<String, String> map_weibo = new HashMap<String, String>();
-        map_weibo.put("evenname", "详情收藏");
-        map_weibo.put("even", "详情收藏");
-        MobclickAgent.onEvent(ImageDetailLongActivity.this, "action73", map_weibo);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("详情收藏")  //事件类别
-                .setAction("详情收藏")      //事件操作
-                .build());
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
@@ -1185,16 +1102,6 @@ public class ImageDetailLongActivity
         fl_tags_jubu.setOnTagClickListener(new FlowLayoutBiaoQian.OnTagClickListener() {
             @Override
             public void TagClick(String text) {
-                //友盟统计
-                HashMap<String, String> map_next = new HashMap<String, String>();
-                map_next.put("evenname", "图片详情点击标签");
-                map_next.put("even", "图片详情点击标签进入更多页面");
-                MobclickAgent.onEvent(ImageDetailLongActivity.this, "action69", map_next);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("图片详情点击标签进入更多页面")  //事件类别
-                        .setAction("图片详情点击标签")      //事件操作
-                        .build());
                 // 跳转搜索结果页
                 Intent intent = new Intent(ImageDetailLongActivity.this, ShaiXuanResultActicity.class);
                 String tag = text.replace("#", "");
@@ -1590,40 +1497,10 @@ public class ImageDetailLongActivity
             addShared();
 
             if (platform == SHARE_MEDIA.WEIXIN) {
-                //友盟统计
-                HashMap<String, String> map_weibo = new HashMap<String, String>();
-                map_weibo.put("evenname", "详情weixin分享");
-                map_weibo.put("even", "详情weixin分享");
-                MobclickAgent.onEvent(ImageDetailLongActivity.this, "action65", map_weibo);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("详情weixin分享")  //事件类别
-                        .setAction("详情weixin分享")      //事件操作
-                        .build());
                 ToastUtils.showCenter(ImageDetailLongActivity.this, "微信好友分享成功啦");
             } else if (platform == SHARE_MEDIA.WEIXIN_CIRCLE) {
-                //友盟统计
-                HashMap<String, String> map_weibo = new HashMap<String, String>();
-                map_weibo.put("evenname", "详情weinxinfriends分享");
-                map_weibo.put("even", "详情weinxinfriends分享");
-                MobclickAgent.onEvent(ImageDetailLongActivity.this, "action64", map_weibo);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("详情weinxinfriends分享")  //事件类别
-                        .setAction("详情weinxinfriends分享")      //事件操作
-                        .build());
                 ToastUtils.showCenter(ImageDetailLongActivity.this, "微信朋友圈分享成功啦");
             } else if (platform == SHARE_MEDIA.SINA) {
-                //友盟统计
-                HashMap<String, String> map_weibo = new HashMap<String, String>();
-                map_weibo.put("evenname", "详情weibo分享");
-                map_weibo.put("even", "详情weibo分享");
-                MobclickAgent.onEvent(ImageDetailLongActivity.this, "action66", map_weibo);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("详情weibo分享")  //事件类别
-                        .setAction("详情weibo分享")      //事件操作
-                        .build());
                 ToastUtils.showCenter(ImageDetailLongActivity.this, "新浪微博分享成功啦");
             }
 

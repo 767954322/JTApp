@@ -153,16 +153,6 @@ public class FaBuActvity
                 if ((selectTags != null && selectTags.size() > 0) || !TextUtils.isEmpty(miaosu1)) {
                     mAlertView.show();
                 } else {
-                    //友盟统计
-                    HashMap<String, String> map5 = new HashMap<String, String>();
-                    map5.put("evenname", "取消发布");
-                    map5.put("even", "取消发布");
-                    MobclickAgent.onEvent(FaBuActvity.this, "action77", map5);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("取消发布")  //事件类别
-                            .setAction("取消发布")      //事件操作
-                            .build());
                     FaBuActvity.this.finish();
                 }
                 break;
@@ -306,18 +296,6 @@ public class FaBuActvity
 
     @Override
     public void checkChange(int position, boolean status, String activityId) {
-
-
-        //友盟统计
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("evenname", "发布参与活动");
-        map.put("even", "发布点击选择参与某活动");
-        MobclickAgent.onEvent(FaBuActvity.this, "action38", map);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("发布点击选择参与某活动")  //事件类别
-                .setAction("发布参与活动")      //事件操作
-                .build());
 
         if (status) {
             activityMap.clear();
@@ -472,16 +450,7 @@ public class FaBuActvity
                 fl_tag_flowLayout.cleanTag();
                 fl_tag_flowLayout.setListData(listTag);
             } else if (code == 3) {
-                //友盟统计
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("evenname", "发布成功");
-                map.put("even", "发布成功统计");
-                MobclickAgent.onEvent(FaBuActvity.this, "action79", map);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("发布成功统计")  //事件类别
-                        .setAction("发布成功")      //事件操作
-                        .build());
+
                 String info = (String) msg.obj;
                 try {
                     JSONObject jsonObject = new JSONObject(info);

@@ -212,28 +212,7 @@ public class ShaiXuanResultActicity
                     iv_change_frag.setImageResource(R.drawable.changtu);
                     mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
                     curentListTag = false;
-                    //友盟统计
-                    HashMap<String, String> map1 = new HashMap<String, String>();
-                    map1.put("evenname", "筛选结果双列查看");
-                    map1.put("even", "选择双列查看图片列表");
-                    MobclickAgent.onEvent(ShaiXuanResultActicity.this, "action20", map1);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("选择双列查看图片列表")  //事件类别
-                            .setAction("筛选结果双列查看")      //事件操作
-                            .build());
                 } else {
-                    //友盟统计
-                    HashMap<String, String> map1 = new HashMap<String, String>();
-                    map1.put("evenname", "筛选结果单列查看");
-                    map1.put("even", "选择单列查看图片列表");
-                    MobclickAgent.onEvent(ShaiXuanResultActicity.this, "action21", map1);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("选择单列查看图片列表")  //事件类别
-                            .setAction("筛选结果单列查看")      //事件操作
-                            .build());
-
                     mRecyclerView.setPadding(0, 0, 0, 0);
                     iv_change_frag.setImageResource(R.drawable.pubuliu);
                     mRecyclerView.setLayoutManager(new LinearLayoutManager(ShaiXuanResultActicity.this));
@@ -251,18 +230,6 @@ public class ShaiXuanResultActicity
                     getColorData();
                     ToastUtils.showCenter(ShaiXuanResultActicity.this, "色彩信息获取失败");
                 } else {
-
-                    //友盟统计
-                    HashMap<String, String> map1 = new HashMap<String, String>();
-                    map1.put("evenname", "筛选结果色彩");
-                    map1.put("even", "点击筛选结果色彩属性按钮");
-                    MobclickAgent.onEvent(ShaiXuanResultActicity.this, "action18", map1);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("点击筛选结果色彩属性按钮")  //事件类别
-                            .setAction("筛选结果色彩")      //事件操作
-                            .build());
-
                     if (selectColorPopupWindow == null) {
                         selectColorPopupWindow = new SelectColorPopupWindow(this, this, colorBean, this);
                     }
@@ -289,18 +256,6 @@ public class ShaiXuanResultActicity
 
     @Override
     public void onLoadMore() {
-        //友盟统计
-        HashMap<String, String> map1 = new HashMap<String, String>();
-        map1.put("evenname", "筛选结果下拉翻页");
-        map1.put("pagenum", page_num + "");
-        map1.put("even", "筛选结果列表页下拉查看更多图片缩略图");
-        MobclickAgent.onEvent(ShaiXuanResultActicity.this, "action22", map1);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory(page_num + "")  //事件类别
-                .setAction("筛选结果下拉翻页")      //事件操作
-                .build());
-
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
         ++page_num;
         getListData(LOADMORE_STATUS);
@@ -404,17 +359,6 @@ public class ShaiXuanResultActicity
             his_flowLayout.setOnTagClickListener(new FlowLayoutShaiXuan.OnTagClickListener() {
                 @Override
                 public void TagClick(String text) {
-
-                    //友盟统计
-                    HashMap<String, String> map1 = new HashMap<String, String>();
-                    map1.put("evenname", "推荐标签");
-                    map1.put("even", "点击推荐标签，进入新列表页面");
-                    MobclickAgent.onEvent(ShaiXuanResultActicity.this, "action17", map1);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("点击推荐标签，进入新列表页面")  //事件类别
-                            .setAction("推荐标签")      //事件操作
-                            .build());
 
                     // 跳转搜索结果页
                     Intent intent = new Intent(ShaiXuanResultActicity.this, ShaiXuanResultActicity.class);
@@ -554,16 +498,6 @@ public class ShaiXuanResultActicity
                 holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //友盟统计
-                        HashMap<String, String> map1 = new HashMap<String, String>();
-                        map1.put("evenname", "筛选结果点击列表页图片进入详情页面");
-                        map1.put("even", "筛选结果点击列表页图片进入详情页面");
-                        MobclickAgent.onEvent(ShaiXuanResultActicity.this, "action23", map1);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("筛选结果点击列表页图片进入详情页面")  //事件类别
-                                .setAction("筛选结果点击列表页图片进入详情页面")      //事件操作
-                                .build());
                         //查看单图详情
                         Intent intent = new Intent(ShaiXuanResultActicity.this, ImageDetailLongActivity.class);
                         intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
@@ -699,17 +633,6 @@ public class ShaiXuanResultActicity
             riv_round_two.setVisibility(View.GONE);
             riv_round_three.setVisibility(View.GONE);
             selectColorPopupWindow.dismiss();
-
-            //友盟统计
-            HashMap<String, String> map1 = new HashMap<String, String>();
-            map1.put("evenname", "消失色彩筛选弹框");
-            map1.put("even", "消失色彩筛选弹框");
-            MobclickAgent.onEvent(ShaiXuanResultActicity.this, "action19", map1);
-            //ga统计
-            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                    .setCategory("消失色彩筛选弹框")  //事件类别
-                    .setAction("消失色彩筛选弹框")      //事件操作
-                    .build());
         } else {
             changeColorRound();
         }

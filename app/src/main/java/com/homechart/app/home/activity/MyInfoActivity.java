@@ -285,18 +285,6 @@ public class MyInfoActivity
 
                 break;
             case R.id.tv_content_right:
-
-
-                //友盟统计
-                HashMap<String, String> map5 = new HashMap<String, String>();
-                map5.put("evenname", "个人资料保存");
-                map5.put("even", "个人资料点击保存");
-                MobclickAgent.onEvent(MyInfoActivity.this, "action62", map5);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("个人资料点击保存")  //事件类别
-                        .setAction("个人资料保存")      //事件操作
-                        .build());
                 String nikename1 = et_myinfo_nikename.getText().toString();
                 if (nikename1.length() < 2) {
                     ToastUtils.showCenter(MyInfoActivity.this, "请输入长度2-15个字的昵称");
