@@ -240,7 +240,7 @@ public class UserInfoActivity
                     public void onClick(View v) {
                         try {
                             mListSeeNumArticle.add(position, mListSeeNumArticle.get(position) + 1);
-                        }catch (Exception e){
+                        } catch (Exception e) {
                         }
                         Intent intent = new Intent(UserInfoActivity.this, ArticleDetailsActivity.class);
                         intent.putExtra("article_id", mListDataArticle.get(position).getArticle_info().getArticle_id());
@@ -393,11 +393,15 @@ public class UserInfoActivity
                 }
                 break;
             case R.id.rl_info_shaijia:
-                if (!TextUtils.isEmpty(user_id)) {
-                    Intent intent_shaijia = new Intent(UserInfoActivity.this, ShaiJiaListActivity.class);
-                    intent_shaijia.putExtra(ClassConstant.LoginSucces.USER_ID, user_id);
-                    startActivity(intent_shaijia);
-                }
+//                tl_tab.setScrollPosition(0,1f,true);
+//                page_num = 0;
+//                mListData.clear();
+//                mListDataHeight.clear();
+//                sort = "pic";
+//                mListData.clear();
+//                mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+//                mRecyclerView.setAdapter(mAdapter);
+//                getListData(sort);
                 break;
             case R.id.rl_info_fensi:
                 if (!TextUtils.isEmpty(user_id)) {
