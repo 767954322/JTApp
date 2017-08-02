@@ -461,6 +461,9 @@ public class FaBuActvity
                     intent.putExtra("item_id", item_id);
                     startActivity(intent);
                     FaBuActvity.this.finish();
+                    //TODO(统计依据activity_id，为空是+号跳转的，不为空为活动跳进来了)
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
