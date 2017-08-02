@@ -16,7 +16,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_150"
-        android:background="@color/bg_4d000000"
+        android:background="@drawable/text_view_border"
         android:layout_alignTop="@+id/iv_imageview_one"
         android:layout_alignLeft="@+id/iv_imageview_one"
         android:layout_alignRight="@+id/iv_imageview_one"
