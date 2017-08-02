@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.flyco.tablayout.CustomViewPagerTab;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
@@ -148,6 +149,17 @@ public class SearchResultActivity
                         search_tag = "";
                         searchPicFragment.setSearchInfo(search_info);
                         searchArticleFragment.setSearchInfo(search_info);
+
+                        //友盟统计
+                        HashMap<String, String> map = new HashMap<String, String>();
+                        map.put("evenname", "搜索词");
+                        map.put("even", search_info);
+                        MobclickAgent.onEvent(SearchResultActivity.this, "jtaction22", map);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory(search_info)  //事件类别
+                                .setAction("搜索词")      //事件操作
+                                .build());
                     }
 
                     return true;
@@ -200,4 +212,22 @@ public class SearchResultActivity
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart("搜索列表页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("搜索列表页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("搜索列表页");
+        MobclickAgent.onPause(this);
+    }
 }

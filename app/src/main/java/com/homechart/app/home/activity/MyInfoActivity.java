@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
@@ -799,7 +800,13 @@ public class MyInfoActivity
     protected void onResume() {
         super.onResume();
 
-        MobclickAgent.onResume(MyInfoActivity.this);
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart("修改个人信息页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("修改个人信息页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
         if (null == userCenterInfoBean) {
             getUserInfo();
         }
@@ -829,8 +836,8 @@ public class MyInfoActivity
     @Override
     public void onPause() {
         super.onPause();
-
-        MobclickAgent.onPause(MyInfoActivity.this);
+        MobclickAgent.onPageEnd("修改个人信息页");
+        MobclickAgent.onPause(this);
     }
 
 }

@@ -9,6 +9,9 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
@@ -17,6 +20,7 @@ import com.homechart.app.myview.MyScrollView;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.jaeger.library.StatusBarUtil;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by gumenghao on 17/6/9.
@@ -148,5 +152,25 @@ public class DesinerInfoHeaderActivity extends BaseActivity implements View.OnCl
         }
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Get tracker.
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("专业用户资料页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+        MobclickAgent.onPageStart("专业用户资料页");
+        MobclickAgent.onResume(DesinerInfoHeaderActivity.this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("专业用户资料页");
+        MobclickAgent.onPause(DesinerInfoHeaderActivity.this);
     }
 }

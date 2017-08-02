@@ -252,6 +252,24 @@ public class SearchPicFragment
                     holder.getView(R.id.iv_color_center).setVisibility(View.GONE);
                 }
 
+                holder.getView(R.id.iv_color_right).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clickColorQiu();
+                    }
+                });
+                 holder.getView(R.id.iv_color_left).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clickColorQiu();
+                    }
+                });
+                 holder.getView(R.id.iv_color_center).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clickColorQiu();
+                    }
+                });
             }
         };
 
@@ -263,6 +281,21 @@ public class SearchPicFragment
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
         mRecyclerView.setAdapter(mAdapter);
         onRefresh();
+    }
+
+    public void clickColorQiu(){
+
+        //友盟统计
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("evenname", "三个色彩点");
+        map.put("even", "搜索列表");
+        MobclickAgent.onEvent(activity, "jtaction3", map);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("搜索列表")  //事件类别
+                .setAction("三个色彩点")      //事件操作
+                .build());
+
     }
 
     @Override

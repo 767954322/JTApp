@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
@@ -463,6 +464,30 @@ public class FaBuActvity
                     FaBuActvity.this.finish();
                     //TODO(统计依据activity_id，为空是+号跳转的，不为空为活动跳进来了)
 
+                    if(TextUtils.isEmpty(activity_id)){//首页
+                        //友盟统计
+                        HashMap<String, String> map = new HashMap<String, String>();
+                        map.put("evenname", "发布成功");
+                        map.put("even", "首页");
+                        MobclickAgent.onEvent(FaBuActvity.this, "jtaction2", map);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("首页")  //事件类别
+                                .setAction("发布成功")      //事件操作
+                                .build());
+                    }else {//活动
+                        //友盟统计
+                        HashMap<String, String> map = new HashMap<String, String>();
+                        map.put("evenname", "发布成功");
+                        map.put("even", "活动页");
+                        MobclickAgent.onEvent(FaBuActvity.this, "jtaction2", map);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("活动页")  //事件类别
+                                .setAction("发布成功")      //事件操作
+                                .build());
+                    }
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -519,11 +544,18 @@ public class FaBuActvity
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart("发布图片页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("发布图片页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        MobclickAgent.onPageEnd("发布图片页");
         MobclickAgent.onPause(this);
     }
 }

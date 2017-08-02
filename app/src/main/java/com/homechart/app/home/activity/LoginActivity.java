@@ -393,10 +393,10 @@ public class LoginActivity extends BaseActivity
         // Get tracker.
         Tracker t = MyApplication.getInstance().getDefaultTracker();
         // Set screen name.
-        t.setScreenName("登录页面");
+        t.setScreenName("登录页");
         // Send a screen view.
         t.send(new HitBuilders.ScreenViewBuilder().build());
-        MobclickAgent.onPageStart("LoginActivity");
+        MobclickAgent.onPageStart("登录页");
         MobclickAgent.onResume(LoginActivity.this);
     }
 
@@ -404,7 +404,7 @@ public class LoginActivity extends BaseActivity
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("LoginActivity");
+        MobclickAgent.onPageEnd("登录页");
         MobclickAgent.onPause(LoginActivity.this);
     }
 

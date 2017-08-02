@@ -155,6 +155,18 @@ public class HomeActivity
 //                    replaceFragment(mHomeDesignerFragment);
 //                }
 //                jumpPosition = 1;
+
+                //友盟统计
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("evenname", "发布入口");
+                map.put("even", "首页");
+                MobclickAgent.onEvent(HomeActivity.this, "jtaction1", map);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("首页")  //事件类别
+                        .setAction("发布入口")      //事件操作
+                        .build());
+
                 if (jumpPosition == 0) {
                     mRadioGroup.check(R.id.radio_btn_pic);
                 } else if (jumpPosition == 2) {

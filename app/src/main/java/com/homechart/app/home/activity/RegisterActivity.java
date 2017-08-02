@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
@@ -448,7 +449,13 @@ public class RegisterActivity extends BaseActivity
     public void onResume() {
         super.onResume();
         CustomProgress.cancelDialog();
-        MobclickAgent.onResume(RegisterActivity.this);
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart("注册页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("注册页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
 
@@ -456,7 +463,8 @@ public class RegisterActivity extends BaseActivity
     public void onPause() {
         super.onPause();
 
-        MobclickAgent.onPause(RegisterActivity.this);
+        MobclickAgent.onPageEnd("注册页");
+        MobclickAgent.onPause(this);
     }
     private RelativeLayout mRLJumpMast;
     private ImageView mIVIfShowPass;

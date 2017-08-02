@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
@@ -243,6 +244,19 @@ public class ShaiXuanResultActicity
             case R.id.view_pop_top:
             case R.id.view_pop_bottom:
                 selectColorPopupWindow.dismiss();
+
+                //友盟统计
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("evenname", "色彩筛选返回");
+                map.put("even", "色彩筛选返回");
+                MobclickAgent.onEvent(ShaiXuanResultActicity.this, "jtaction19", map);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("色彩筛选返回")  //事件类别
+                        .setAction("色彩筛选返回")      //事件操作
+                        .build());
+
+
                 break;
         }
     }
@@ -505,6 +519,25 @@ public class ShaiXuanResultActicity
                     }
                 });
 
+                holder.getView(R.id.iv_color_right).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clickColorQiu();
+                    }
+                });
+                holder.getView(R.id.iv_color_center).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clickColorQiu();
+                    }
+                });
+                holder.getView(R.id.iv_color_left).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clickColorQiu();
+                    }
+                });
+
             }
         };
 
@@ -517,6 +550,19 @@ public class ShaiXuanResultActicity
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
         mRecyclerView.setAdapter(mAdapter);
         onRefresh();
+    }
+
+   private void clickColorQiu(){
+       //友盟统计
+       HashMap<String, String> map = new HashMap<String, String>();
+       map.put("evenname", "三个色彩点");
+       map.put("even", "标签页");
+       MobclickAgent.onEvent(ShaiXuanResultActicity.this, "jtaction3", map);
+       //ga统计
+       MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+               .setCategory("标签页")  //事件类别
+               .setAction("三个色彩点")      //事件操作
+               .build());
     }
 
     private void getListData(final String state) {
@@ -626,6 +672,17 @@ public class ShaiXuanResultActicity
     @Override
     public void clickSureColor(Map<Integer, ColorItemBean> selectListData) {
 
+        //友盟统计
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("evenname", "色彩筛选确定");
+        map.put("even", "色彩筛选确定");
+        MobclickAgent.onEvent(ShaiXuanResultActicity.this, "jtaction21", map);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("色彩筛选确定")  //事件类别
+                .setAction("色彩筛选确定")      //事件操作
+                .build());
+
         this.mSelectListData = selectListData;
         if (mSelectListData == null) {
             iv_color_tital.setVisibility(View.VISIBLE);
@@ -638,6 +695,20 @@ public class ShaiXuanResultActicity
         }
 
         getListData(REFRESH_STATUS);
+    }
+
+    @Override
+    public void qingkong() {
+        //友盟统计
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("evenname", "色彩筛选清空");
+        map.put("even", "色彩筛选清空");
+        MobclickAgent.onEvent(ShaiXuanResultActicity.this, "jtaction20", map);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("色彩筛选清空")  //事件类别
+                .setAction("色彩筛选清空")      //事件操作
+                .build());
     }
 
     List<String> colorList;
@@ -703,15 +774,20 @@ public class ShaiXuanResultActicity
     @Override
     public void onResume() {
         super.onResume();
-
         MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart("标签页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("标签页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
 
     @Override
     public void onPause() {
         super.onPause();
-
+        MobclickAgent.onPageEnd("标签页");
         MobclickAgent.onPause(this);
     }
 

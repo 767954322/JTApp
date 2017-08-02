@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
@@ -216,6 +217,19 @@ public class HuoDongDetailsActivity
         PublicUtils.setIndicator(tl_tab, UIUtils.getDimens(R.dimen.font_20), UIUtils.getDimens(R.dimen.font_20));
     }
 
+    private void fabu() {
+        //友盟统计
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("evenname", "发布入口");
+        map.put("even", "活动页");
+        MobclickAgent.onEvent(HuoDongDetailsActivity.this, "jtaction1", map);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("活动页")  //事件类别
+                .setAction("发布入口")      //事件操作
+                .build());
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -236,6 +250,7 @@ public class HuoDongDetailsActivity
                     @Override
                     public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
                         if (resultList != null && resultList.size() > 0) {
+                            fabu();
                             Message message = new Message();
                             message.obj = resultList.get(0).getPhotoPath().toString();
                             handler.sendMessage(message);
@@ -366,6 +381,24 @@ public class HuoDongDetailsActivity
                     holder.getView(R.id.iv_color_left).setVisibility(View.GONE);
                     holder.getView(R.id.iv_color_center).setVisibility(View.GONE);
                 }
+                holder.getView(R.id.iv_color_right).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clickColorQiu();
+                    }
+                });
+                holder.getView(R.id.iv_color_left).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clickColorQiu();
+                    }
+                });
+                holder.getView(R.id.iv_color_center).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clickColorQiu();
+                    }
+                });
             }
         };
 
@@ -378,7 +411,20 @@ public class HuoDongDetailsActivity
         mRecyclerView.setAdapter(mAdapter);
         getListData();
     }
+    public void clickColorQiu(){
 
+        //友盟统计
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("evenname", "三个色彩点");
+        map.put("even", "活动页");
+        MobclickAgent.onEvent(HuoDongDetailsActivity.this, "jtaction3", map);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("活动页")  //事件类别
+                .setAction("三个色彩点")      //事件操作
+                .build());
+
+    }
     //获取活动详情信息
     private void getHuoDongData() {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
@@ -639,15 +685,21 @@ public class HuoDongDetailsActivity
     public void onResume() {
         super.onResume();
 
-        MobclickAgent.onResume(HuoDongDetailsActivity.this);
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart("活动页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("活动页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
 
     @Override
     public void onPause() {
         super.onPause();
-
-        MobclickAgent.onPause(HuoDongDetailsActivity.this);
+        MobclickAgent.onPageEnd("活动页");
+        MobclickAgent.onPause(this);
     }
 
     @Override

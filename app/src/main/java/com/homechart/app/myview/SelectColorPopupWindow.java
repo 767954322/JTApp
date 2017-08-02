@@ -69,6 +69,7 @@ public class SelectColorPopupWindow extends PopupWindow {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 if(position == mListData.size()){
+                    mSureColor.qingkong();
                     mSelectListData.clear();
                     colorAdapter.changeData(mListData, mSelectListData);
                 }else {
@@ -128,5 +129,6 @@ public class SelectColorPopupWindow extends PopupWindow {
 
     public interface SureColor {
         void clickSureColor(Map<Integer, ColorItemBean> selectListData);
+        void qingkong();
     }
 }

@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
@@ -311,6 +312,16 @@ public class UserInfoActivity
                         //收藏
                         onShouCang(mListData.get(position).getItem_info().getIs_collected().equals("0"), position, mListData.get(position));
 
+                        //友盟统计
+                        HashMap<String, String> map = new HashMap<String, String>();
+                        map.put("evenname", "收藏图片");
+                        map.put("even", "个人主页");
+                        MobclickAgent.onEvent(UserInfoActivity.this, "jtaction5", map);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("个人主页")  //事件类别
+                                .setAction("收藏图片")      //事件操作
+                                .build());
                     }
                 });
                 holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
@@ -318,6 +329,16 @@ public class UserInfoActivity
                     public void onClick(View v) {
                         //取消收藏
                         onShouCang(mListData.get(position).getItem_info().getIs_collected().equals("0"), position, mListData.get(position));
+                        //友盟统计
+                        HashMap<String, String> map = new HashMap<String, String>();
+                        map.put("evenname", "取消收藏图片");
+                        map.put("even", "个人主页");
+                        MobclickAgent.onEvent(UserInfoActivity.this, "jtaction6", map);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("个人主页")  //事件类别
+                                .setAction("取消收藏图片")      //事件操作
+                                .build());
                     }
                 });
 
@@ -796,12 +817,19 @@ public class UserInfoActivity
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart("个人主页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("个人主页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
         mAdapterArticle.notifyDataSetChanged();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        MobclickAgent.onPageEnd("个人主页");
         MobclickAgent.onPause(this);
     }
 

@@ -55,6 +55,7 @@ public class JPushMessageReceiver extends BroadcastReceiver {
                 if(login_status){
                     Intent intent1 = new Intent(context,ArticleDetailsActivity.class);
                     intent1.putExtra("article_id",object_id);
+                    intent1.putExtra("type", type);
                     intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(intent1);
                 }else {

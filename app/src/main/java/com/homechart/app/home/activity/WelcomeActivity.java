@@ -148,16 +148,14 @@ public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("引导页");
-        MobclickAgent.onResume(this);
         if (!getNextActivityToLaunch()) {
             // Get tracker.
             Tracker t = MyApplication.getInstance().getDefaultTracker();
             // Set screen name.
-            t.setScreenName("第一次打开app展示启动页");
+            t.setScreenName("引导页");
             // Send a screen view.
             t.send(new HitBuilders.ScreenViewBuilder().build());
-            MobclickAgent.onPageStart("WelcomeActivity");
+            MobclickAgent.onPageStart("引导页");
             MobclickAgent.onResume(this);
         }
     }
@@ -168,7 +166,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter
         MobclickAgent.onPageEnd("引导页");
         MobclickAgent.onPause(this);
         if (!getNextActivityToLaunch()) {
-            MobclickAgent.onPageEnd("WelcomeActivity");
+            MobclickAgent.onPageEnd("引导页");
             MobclickAgent.onPause(this);
         }
     }

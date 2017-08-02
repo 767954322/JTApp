@@ -25,11 +25,13 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.ArticleDetailsActivity;
+import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.activity.HuoDongDetailsActivity;
 import com.homechart.app.home.activity.ImageDetailLongActivity;
 import com.homechart.app.home.activity.MessagesListActivity;
@@ -288,6 +290,19 @@ public class HomePicFragment
 
     }
 
+    private void tongjiYuan(){
+        //友盟统计
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("evenname", "三个色彩点");
+        map.put("even", "首页");
+        MobclickAgent.onEvent(activity, "jtaction3", map);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("首页")  //事件类别
+                .setAction("三个色彩点")      //事件操作
+                .build());
+    }
+
     private void buildRecyclerView() {
 
         MultiItemTypeSupport<SYDataBean> support = new MultiItemTypeSupport<SYDataBean>() {
@@ -339,6 +354,28 @@ public class HomePicFragment
 
                 if (mListData.get(position).getObject_info().getType().equals("活动")
                         || mListData.get(position).getObject_info().getType().equals("single")) {
+
+
+                    if(mListData.get(position).getObject_info().getType().equals("single")){
+                        holder.getView(R.id.iv_color_right).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                tongjiYuan();
+                            }
+                        });
+                        holder.getView(R.id.iv_color_center).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                tongjiYuan();
+                            }
+                        });
+                        holder.getView(R.id.iv_color_left).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                tongjiYuan();
+                            }
+                        });
+                    }
 
                     ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
                     layoutParams.width = width_Pic_List;
@@ -934,8 +971,6 @@ public class HomePicFragment
         intent.putExtra("shaixuan_tag", tagStr);
         startActivity(intent);
     }
-
-
     /**
      * HashMap<String, String> map = new HashMap<String, String>();
      * map.put("evenname", "离开启动页");
@@ -945,16 +980,19 @@ public class HomePicFragment
     @Override
     public void onResume() {
         super.onResume();
-
-        MobclickAgent.onResume(activity);
+        MobclickAgent.onPageStart("首页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("首页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
 
     @Override
     public void onPause() {
         super.onPause();
-
-        MobclickAgent.onPause(activity);
+        MobclickAgent.onPageEnd("首页");
     }
 
     //任务
