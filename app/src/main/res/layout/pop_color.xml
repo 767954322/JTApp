@@ -45,7 +45,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/size_6"
                 android:layout_toRightOf="@+id/tv_pop_color_tital"
-                android:text="(您最多可以选择三种色彩搭配)"
+                android:text="(单选)"
                 android:textColor="@color/bg_8f8f8f"
                 android:textSize="@dimen/size_12" />
 
