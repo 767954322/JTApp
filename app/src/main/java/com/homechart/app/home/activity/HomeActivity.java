@@ -415,6 +415,13 @@ public class HomeActivity
         }
     };
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        BroadcastUtil.unRegisterReceiver(this);
+    }
+
     private List<String> list_up_toast = new ArrayList<>();
 }
 
