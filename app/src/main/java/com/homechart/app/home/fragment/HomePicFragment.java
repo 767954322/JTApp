@@ -259,17 +259,57 @@ public class HomePicFragment
                 break;
 
             case R.id.rl_kongjian:
+                //友盟统计
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("evenname", "首页筛选");
+                map.put("even", "空间");
+                MobclickAgent.onEvent(activity, "jtaction34", map);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("空间")  //事件类别
+                        .setAction("首页筛选")      //事件操作
+                        .build());
                 showPopwindow(R.id.rl_kongjian, 0);
                 break;
             case R.id.rl_jubu:
+                //友盟统计
+                HashMap<String, String> map1 = new HashMap<String, String>();
+                map1.put("evenname", "首页筛选");
+                map1.put("even", "局部");
+                MobclickAgent.onEvent(activity, "jtaction34", map1);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("局部")  //事件类别
+                        .setAction("首页筛选")      //事件操作
+                        .build());
                 showPopwindow(R.id.rl_jubu, 1);
 
                 break;
             case R.id.rl_zhuangshi:
+                //友盟统计
+                HashMap<String, String> map2 = new HashMap<String, String>();
+                map2.put("evenname", "首页筛选");
+                map2.put("even", "装饰");
+                MobclickAgent.onEvent(activity, "jtaction34", map2);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("装饰")  //事件类别
+                        .setAction("首页筛选")      //事件操作
+                        .build());
                 showPopwindow(R.id.rl_zhuangshi, 2);
 
                 break;
             case R.id.rl_shouna:
+                //友盟统计
+                HashMap<String, String> map3 = new HashMap<String, String>();
+                map3.put("evenname", "首页筛选");
+                map3.put("even", "收纳");
+                MobclickAgent.onEvent(activity, "jtaction34", map3);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("收纳")  //事件类别
+                        .setAction("首页筛选")      //事件操作
+                        .build());
                 showPopwindow(R.id.rl_shouna, 3);
                 break;
             case R.id.iv_center_msgicon:
