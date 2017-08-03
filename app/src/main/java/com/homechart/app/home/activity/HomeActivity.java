@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.gson.JsonArray;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
@@ -46,10 +47,12 @@ import com.homechart.app.utils.volley.OkStringRequest;
 import com.jaeger.library.StatusBarUtil;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -329,16 +332,19 @@ public class HomeActivity
                         JSONObject jsonObject1 = new JSONObject(data_msg);
                         String download_url = jsonObject1.getString("download_url");
                         String last_version = jsonObject1.getString("last_version");
+                        JSONArray jsonArray = jsonObject1.getJSONArray("text_content");
                         String current_code = PublicUtils.getVersionName(HomeActivity.this);
-                        Log.d("test", "last_version : " + last_version + ";current_code : " + current_code);
                         if (!current_code.trim().equals(last_version.trim())) {
                             //1.谈框是否更新
                             //2.点击更新，去下载apk
-                            Log.d("test","有新版本");
+                            if (jsonArray != null && jsonArray.length() > 0) {
+                                for (int i = 0; i < jsonArray.length(); i++)
+                                    list_up_toast.add((String) jsonArray.get(i));
+                            }
                             shouPop(download_url);
-                        }else {
-                            if(!TextUtils.isEmpty(photo_id)){
-                                Intent intent = new Intent(HomeActivity.this,ImageDetailLongActivity.class);
+                        } else {
+                            if (!TextUtils.isEmpty(photo_id)) {
+                                Intent intent = new Intent(HomeActivity.this, ImageDetailLongActivity.class);
                                 intent.putExtra("item_id", photo_id);
                                 startActivity(intent);
                             }
@@ -357,6 +363,7 @@ public class HomeActivity
         HomeActivity.this.findViewById(R.id.main).post(new Runnable() {
             @Override
             public void run() {
+                upApkPopupWindow.setData(list_up_toast);
                 upApkPopupWindow.showAtLocation(HomeActivity.this.findViewById(R.id.main),
                         Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
                         0,
@@ -407,5 +414,7 @@ public class HomeActivity
             ToastUtils.showCenter(HomeActivity.this, "版本更新失败！");
         }
     };
+
+    private List<String> list_up_toast = new ArrayList<>();
 }
 

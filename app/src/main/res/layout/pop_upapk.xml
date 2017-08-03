@@ -17,7 +17,6 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/font_140"
-            android:text="热门文章，帮您解惑家居疑难"
             android:textColor="@color/bg_464646"
             android:textSize="@dimen/size_14" />
 
@@ -28,7 +27,6 @@
             android:layout_below="@+id/tv_one"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/font_9"
-            android:text="评论点赞，争做最有价值发言"
             android:textColor="@color/bg_464646"
             android:textSize="@dimen/size_14" />
 
@@ -39,7 +37,6 @@
             android:layout_below="@+id/tv_two"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/font_9"
-            android:text="最新发现，美图好文推送眼前"
             android:textColor="@color/bg_464646"
             android:textSize="@dimen/size_14" />
 
