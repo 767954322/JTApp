@@ -161,7 +161,6 @@
                     android:paddingRight="@dimen/size_15"
                     android:layout_toRightOf="@+id/iv_wai_bang"
                     android:paddingTop="@dimen/font_15"
-                    android:text="0"
                     android:textColor="@color/bg_8f8f8f"
                     android:textSize="@dimen/size_11" />
 
@@ -188,7 +187,6 @@
                     android:paddingRight="@dimen/size_15"
                     android:layout_toRightOf="@+id/iv_wai_xing"
                     android:paddingTop="@dimen/font_15"
-                    android:text="0"
                     android:textColor="@color/bg_8f8f8f"
                     android:textSize="@dimen/size_11" />
 

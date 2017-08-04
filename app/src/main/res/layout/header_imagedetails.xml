@@ -266,7 +266,6 @@
             android:layout_toRightOf="@+id/iv_bang"
             android:paddingTop="@dimen/font_13"
             android:paddingLeft="@dimen/font_4"
-            android:text="0"
             android:textColor="@color/bg_8f8f8f"
             android:textSize="@dimen/size_11" />
 
@@ -290,7 +289,6 @@
             android:layout_toRightOf="@+id/iv_xing"
             android:paddingBottom="@dimen/font_15"
             android:paddingLeft="@dimen/font_4"
-            android:text="0"
             android:textColor="@color/bg_8f8f8f"
             android:textSize="@dimen/size_11" />
 
@@ -315,7 +313,6 @@
             android:paddingBottom="@dimen/font_15"
             android:paddingLeft="@dimen/font_4"
             android:paddingTop="@dimen/font_13"
-            android:text="0"
             android:textColor="@color/bg_8f8f8f"
             android:textSize="@dimen/size_11" />
 
@@ -331,7 +328,6 @@
             android:layout_marginRight="@dimen/font_10"
             android:paddingBottom="@dimen/font_15"
             android:paddingTop="@dimen/font_13"
-            android:text="0"
             android:textColor="@color/bg_8f8f8f"
             android:textSize="@dimen/size_11" />
 
