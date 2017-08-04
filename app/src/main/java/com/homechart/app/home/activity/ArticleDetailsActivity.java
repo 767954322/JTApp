@@ -1479,7 +1479,7 @@ public class ArticleDetailsActivity
                         }
 
                     }
-                    ifShouCang = false;
+                    ifShouCang = true;
 //                    getArticleDetails();
                     break;
                 case 5://评论文章
