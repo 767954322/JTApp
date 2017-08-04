@@ -965,17 +965,17 @@ public class ImageDetailLongActivity
         getImageListData();
     }
 
-   private void tongjiQiu(){
-       //友盟统计
-       HashMap<String, String> map = new HashMap<String, String>();
-       map.put("evenname", "三个色彩点");
-       map.put("even", "图片详情-推荐列表");
-       MobclickAgent.onEvent(ImageDetailLongActivity.this, "jtaction3", map);
-       //ga统计
-       MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-               .setCategory("图片详情-推荐列表")  //事件类别
-               .setAction("三个色彩点")      //事件操作
-               .build());
+    private void tongjiQiu() {
+        //友盟统计
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("evenname", "三个色彩点");
+        map.put("even", "图片详情-推荐列表");
+        MobclickAgent.onEvent(ImageDetailLongActivity.this, "jtaction3", map);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("图片详情-推荐列表")  //事件类别
+                .setAction("三个色彩点")      //事件操作
+                .build());
     }
 
     private void getImageListData() {
@@ -1302,11 +1302,11 @@ public class ImageDetailLongActivity
                 //友盟统计
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("evenname", "图片标签");
-                map.put("even", "图片详情+"+tag.trim());
+                map.put("even", "图片详情+" + tag.trim());
                 MobclickAgent.onEvent(ImageDetailLongActivity.this, "jtaction13", map);
                 //ga统计
                 MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("图片详情+"+tag.trim())  //事件类别
+                        .setCategory("图片详情+" + tag.trim())  //事件类别
                         .setAction("图片标签")      //事件操作
                         .build());
 
@@ -1330,7 +1330,12 @@ public class ImageDetailLongActivity
         comment_num = imageDetailBean.getCounter().getComment_num();
         share_num = imageDetailBean.getCounter().getShare_num();
 
-        tv_bang.setText(like_num + "");
+        if (like_num == 0) {
+            tv_bang.setText("");
+        } else {
+            tv_bang.setText(like_num + "");
+        }
+
         if (imageDetailBean.getItem_info().getIs_liked().equals("1")) {//已赞
             iv_bang.setImageResource(R.drawable.bang1);
             tv_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
@@ -1341,18 +1346,30 @@ public class ImageDetailLongActivity
             tv_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
             ifZan = true;
         }
-        tv_xing.setText(collect_num + "");
+        if (collect_num == 0) {
+            tv_xing.setText("");
+        } else {
+            tv_xing.setText(collect_num + "");
+        }
+
         if (imageDetailBean.getItem_info().getIs_collected().equals("1")) {//已收藏
             iv_xing.setImageResource(R.drawable.xing1);
             tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
             ifShouCang = false;
         } else {//未收藏
-
             ifShouCang = true;
         }
+        if (comment_num == 0) {
+            tv_ping.setText("");
+        } else {
+            tv_ping.setText(comment_num + "");
+        }
+        if (share_num == 0) {
+            tv_shared.setText("");
+        } else {
+            tv_shared.setText(share_num + "");
+        }
 
-        tv_ping.setText(comment_num + "");
-        tv_shared.setText(share_num + "");
     }
 
     @Override
@@ -1655,28 +1672,45 @@ public class ImageDetailLongActivity
                     ToastUtils.showCenter(ImageDetailLongActivity.this, "你很棒棒哦");
                     iv_bang.setImageResource(R.drawable.bang1);
                     like_num++;
-                    tv_bang.setText(like_num + "");
+                    if (like_num == 0) {
+                        tv_bang.setText("");
+                    } else {
+                        tv_bang.setText(like_num + "");
+                    }
                     tv_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
                     break;
                 case 3:
                     ToastUtils.showCenter(ImageDetailLongActivity.this, "还是收回我的家图棒吧");
                     iv_bang.setImageResource(R.drawable.bang);
                     like_num--;
-                    tv_bang.setText(like_num + "");
+                    if (like_num == 0) {
+                        tv_bang.setText("");
+                    } else {
+                        tv_bang.setText(like_num + "");
+                    }
+
                     tv_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                     break;
                 case 4:
                     ToastUtils.showCenter(ImageDetailLongActivity.this, "收藏成功");
                     iv_xing.setImageResource(R.drawable.xing1);
                     collect_num++;
-                    tv_xing.setText(collect_num + "");
+                    if (collect_num == 0) {
+                        tv_xing.setText("");
+                    } else {
+                        tv_xing.setText(collect_num + "");
+                    }
                     tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
                     break;
                 case 5:
                     ToastUtils.showCenter(ImageDetailLongActivity.this, "取消收藏");
                     iv_xing.setImageResource(R.drawable.xing);
                     collect_num--;
-                    tv_xing.setText(collect_num + "");
+                    if (collect_num == 0) {
+                        tv_xing.setText("");
+                    } else {
+                        tv_xing.setText(collect_num + "");
+                    }
                     tv_xing.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                     break;
                 case 6:

@@ -96,7 +96,7 @@ public class ArticleDetailsActivity
         article_id = getIntent().getStringExtra("article_id");
         type = getIntent().getStringExtra("type");
 
-        if(!TextUtils.isEmpty(type)){
+        if (!TextUtils.isEmpty(type)) {
             //友盟统计
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("evenname", "推送消息点击");
@@ -627,8 +627,13 @@ public class ArticleDetailsActivity
                 tv_wai_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                 ifZan = true;
             }
-            tv_bang.setText(articleBean.getArticle_info().getLike_num());
-            tv_wai_bang.setText(articleBean.getArticle_info().getLike_num());
+            int bang_num = Integer.parseInt(articleBean.getArticle_info().getLike_num().trim());
+            if (bang_num == 0) {
+                tv_wai_bang.setText(" ");
+            } else {
+                tv_wai_bang.setText("" + bang_num);
+            }
+
             //收藏样式
             if (articleBean.getArticle_info().getIs_collected() == 1) {//已收藏
                 iv_xing.setImageResource(R.drawable.xing1);
@@ -643,9 +648,13 @@ public class ArticleDetailsActivity
                 tv_wai_xing.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                 ifShouCang = true;
             }
-            tv_xing.setText(articleBean.getArticle_info().getCollect_num());
-            tv_wai_xing.setText(articleBean.getArticle_info().getCollect_num());
-            tv_ping.setText(articleBean.getArticle_info().getComment_num());
+            int xing_num = Integer.parseInt(articleBean.getArticle_info().getCollect_num().trim());
+            if (xing_num == 0) {
+                tv_wai_xing.setText(" ");
+            } else {
+
+                tv_wai_xing.setText("" + xing_num);
+            }
         }
     }
 
@@ -825,7 +834,7 @@ public class ArticleDetailsActivity
                                 tv_look_more_ping.setVisibility(View.GONE);
                                 ifMore = false;
                             }
-                        }else {
+                        } else {
 //                            myArticlePingAdapter.changeLine(false);
 //                            myArticlePingAdapter.notifyDataSetChanged();
                         }
@@ -1145,7 +1154,7 @@ public class ArticleDetailsActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
-                        ToastUtils.showCenter(ArticleDetailsActivity.this,"你说的很赞");
+                        ToastUtils.showCenter(ArticleDetailsActivity.this, "你说的很赞");
                         reflushPingList(true, position);
                     } else {
                         ToastUtils.showCenter(ArticleDetailsActivity.this, error_msg);
@@ -1188,7 +1197,7 @@ public class ArticleDetailsActivity
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
 
-                        ToastUtils.showCenter(ArticleDetailsActivity.this,"可能没那么赞");
+                        ToastUtils.showCenter(ArticleDetailsActivity.this, "可能没那么赞");
                         reflushPingList(false, position);
                     } else {
                         ToastUtils.showCenter(ArticleDetailsActivity.this, error_msg);
@@ -1286,7 +1295,7 @@ public class ArticleDetailsActivity
     }
 
     //10.add分享次数
-    public void addSharedTime(){
+    public void addSharedTime() {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
@@ -1306,7 +1315,7 @@ public class ArticleDetailsActivity
                 }
             }
         };
-        MyHttpManager.getInstance().addShared(mArticleBean.getArticle_info().getArticle_id(),"article", callBack);
+        MyHttpManager.getInstance().addShared(mArticleBean.getArticle_info().getArticle_id(), "article", callBack);
 
     }
 
@@ -1384,7 +1393,7 @@ public class ArticleDetailsActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1 && clickPosition >= 0&&mListData.size()>position) {
+        if (requestCode == 1 && clickPosition >= 0 && mListData.size() > position) {
             int seeNum = Integer.parseInt(mListData.get(clickPosition).getArticle_info().getView_num());
             mListData.get(clickPosition).getArticle_info().setView_num(++seeNum + "");
             mAdapter.notifyItemChanged(clickPosition);
@@ -1405,7 +1414,12 @@ public class ArticleDetailsActivity
                     tv_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
                     iv_wai_bang.setImageResource(R.drawable.bang1);
                     tv_wai_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
-                    int num = Integer.parseInt(tv_wai_bang.getText().toString().trim());
+                    int num = 0;
+                    if (tv_wai_bang.getText().toString().trim().equals("")) {
+                        num = 0;
+                    } else {
+                        num = Integer.parseInt(tv_wai_bang.getText().toString().trim());
+                    }
                     tv_wai_bang.setText(++num + "");
                     ifZan = false;
 //                    getArticleDetails();
@@ -1416,8 +1430,17 @@ public class ArticleDetailsActivity
                     tv_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                     iv_wai_bang.setImageResource(R.drawable.bang);
                     tv_wai_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-                    int num1 = Integer.parseInt(tv_wai_bang.getText().toString().trim());
-                    tv_wai_bang.setText(--num1 + "");
+
+                    if (tv_wai_bang.getText().toString().trim().equals("")) {
+                        tv_wai_bang.setText("");
+                    } else {
+                        int num1 = Integer.parseInt(tv_wai_bang.getText().toString().trim());
+                        if (num1 == 1) {
+                            tv_wai_bang.setText(" ");
+                        } else {
+                            tv_wai_bang.setText(--num1 + "");
+                        }
+                    }
                     ifZan = true;
 //                    getArticleDetails();
                     break;
@@ -1427,7 +1450,12 @@ public class ArticleDetailsActivity
                     tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
                     iv_wai_xing.setImageResource(R.drawable.xing1);
                     tv_wai_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
-                    int num3 = Integer.parseInt(tv_wai_xing.getText().toString().trim());
+                    int num3 = 0;
+                    if (tv_wai_xing.getText().toString().trim().equals("")) {
+                        num3 = 0;
+                    } else {
+                        num3 = Integer.parseInt(tv_wai_xing.getText().toString().trim());
+                    }
                     tv_wai_xing.setText(++num3 + "");
                     ifShouCang = false;
 //                    getArticleDetails();
@@ -1438,8 +1466,19 @@ public class ArticleDetailsActivity
                     tv_xing.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                     iv_wai_xing.setImageResource(R.drawable.xing);
                     tv_wai_xing.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-                    int num4 = Integer.parseInt(tv_wai_xing.getText().toString().trim());
-                    tv_wai_xing.setText(--num4 + "");
+
+                    int num4 = 0;
+                    if (tv_wai_xing.getText().toString().trim().equals("")) {
+                        tv_wai_xing.setText("");
+                    } else {
+                        num4 = Integer.parseInt(tv_wai_xing.getText().toString().trim());
+                        if (num4 == 1) {
+                            tv_wai_xing.setText(" ");
+                        } else {
+                            tv_wai_xing.setText(--num4 + "");
+                        }
+
+                    }
                     ifShouCang = false;
 //                    getArticleDetails();
                     break;
@@ -1468,7 +1507,7 @@ public class ArticleDetailsActivity
                         }
                     } catch (Exception e) {
                     }
-                    myArticlePingAdapter = new MyArticlePingAdapter(ArticleDetailsActivity.this, mListPing, pingBean.getArticle_info().getUser_id(), ArticleDetailsActivity.this,ifMore);
+                    myArticlePingAdapter = new MyArticlePingAdapter(ArticleDetailsActivity.this, mListPing, pingBean.getArticle_info().getUser_id(), ArticleDetailsActivity.this, ifMore);
                     mlv_article_pinglun.setAdapter(myArticlePingAdapter);
                     break;
             }
