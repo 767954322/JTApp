@@ -83,6 +83,8 @@ public class HomeActivity
     private String object_id;
     private UpApkPopupWindow upApkPopupWindow;
     private String photo_id;
+    private String activity_id;
+    private String article_id;
 
     @Override
     protected int getLayoutResId() {
@@ -94,6 +96,8 @@ public class HomeActivity
         super.initExtraBundle();
 
         photo_id = getIntent().getStringExtra("photo_id");
+        activity_id = getIntent().getStringExtra("activity_id");
+        article_id = getIntent().getStringExtra("article_id");
 
         type = getIntent().getStringExtra("type");
         object_id = getIntent().getStringExtra("object_id");
@@ -346,6 +350,14 @@ public class HomeActivity
                             if (!TextUtils.isEmpty(photo_id)) {
                                 Intent intent = new Intent(HomeActivity.this, ImageDetailLongActivity.class);
                                 intent.putExtra("item_id", photo_id);
+                                startActivity(intent);
+                            }else if(!TextUtils.isEmpty(activity_id)){
+                                Intent intent = new Intent(HomeActivity.this, HuoDongDetailsActivity.class);
+                                intent.putExtra("activity_id", activity_id);
+                                startActivity(intent);
+                            }else if(!TextUtils.isEmpty(article_id)){
+                                Intent intent = new Intent(HomeActivity.this, ArticleDetailsActivity.class);
+                                intent.putExtra("article_id", article_id);
                                 startActivity(intent);
                             }
                         }

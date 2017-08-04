@@ -54,6 +54,8 @@ public class LoginActivity extends BaseActivity
     private String type;
     private String object_id;
     private String photo_id = "";
+    private String activity_id = "";
+    private String article_id = "";
 
     @Override
     protected int getLayoutResId() {
@@ -73,7 +75,15 @@ public class LoginActivity extends BaseActivity
                 photo_id = str[1].substring(1, str[1].length());
             }
         } else if (!TextUtils.isEmpty(data) && data.contains("activity")) {
+            String[] str = data.split("activity");
+            if (str.length > 1) {
+                activity_id = str[1].substring(1, str[1].length());
+            }
         } else if (!TextUtils.isEmpty(data) && data.contains("article")) {
+            String[] str = data.split("article");
+            if (str.length > 1) {
+                article_id = str[1].substring(1, str[1].length());
+            }
         }
 
     }
@@ -129,6 +139,8 @@ public class LoginActivity extends BaseActivity
         if (login_status) {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             intent.putExtra("photo_id", photo_id);
+            intent.putExtra("activity_id", activity_id);
+            intent.putExtra("article_id", article_id);
             if (!TextUtils.isEmpty(object_id)) {
                 intent.putExtra("type", type);
                 intent.putExtra("object_id", object_id);
@@ -208,6 +220,8 @@ public class LoginActivity extends BaseActivity
                         PublicUtils.loginSucces(loginBean);
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         intent.putExtra("photo_id", photo_id);
+                        intent.putExtra("activity_id", activity_id);
+                        intent.putExtra("article_id", article_id);
                         if (!TextUtils.isEmpty(object_id)) {
                             intent.putExtra("type", type);
                             intent.putExtra("object_id", object_id);
@@ -293,6 +307,8 @@ public class LoginActivity extends BaseActivity
                         PublicUtils.loginSucces(loginBean);
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         intent.putExtra("photo_id", photo_id);
+                        intent.putExtra("activity_id", activity_id);
+                        intent.putExtra("article_id", article_id);
                         startActivity(intent);
                         LoginActivity.this.finish();
                     } else {
@@ -349,6 +365,8 @@ public class LoginActivity extends BaseActivity
         if (requestCode == 0 && resultCode == 1) {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             intent.putExtra("photo_id", photo_id);
+            intent.putExtra("activity_id", activity_id);
+            intent.putExtra("article_id", article_id);
             startActivity(intent);
             LoginActivity.this.finish();
         }
