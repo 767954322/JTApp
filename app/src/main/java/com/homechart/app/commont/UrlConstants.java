@@ -71,5 +71,6 @@ public class UrlConstants {
     public static final String PING_ADDZAN = "https://api.idcool.com.cn/like/comment/add";  //赞评论
     public static final String PING_REMOVEZAN = "https://api.idcool.com.cn/like/comment/cancel";  //取消评论的点赞
     public static final String LAST_VERSION = "https://api.idcool.com.cn/base/version/lastVersion";  //获取最新版本号
+    public static final String HUODONG_LIST = "https://api.idcool.com.cn/activity/activity/getList";  //获取最新版本号
 
 }
