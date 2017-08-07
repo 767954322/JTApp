@@ -411,7 +411,8 @@ public class HuoDongDetailsActivity
         mRecyclerView.setAdapter(mAdapter);
         getListData();
     }
-    public void clickColorQiu(){
+
+    public void clickColorQiu() {
 
         //友盟统计
         HashMap<String, String> map = new HashMap<String, String>();
@@ -425,6 +426,7 @@ public class HuoDongDetailsActivity
                 .build());
 
     }
+
     //获取活动详情信息
     private void getHuoDongData() {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
@@ -475,6 +477,10 @@ public class HuoDongDetailsActivity
             long data = PublicUtils.diffDay(activityInfoBean.getEnd_time(), str, "yyyy-MM-dd HH:mm:ss");
 
             tv_data_last.setText("还剩" + data + "天");
+        } else if (activityInfoBean.getState_id().equals("2")) {
+            tv_data_last.setText("敬请期待");
+        } else if (activityInfoBean.getState_id().equals("1")) {
+            tv_data_last.setText("活动已结束");
         }
         tv_huodong_miaoshu.setText(activityInfoBean.getDescription());
         List<ItemUserBean> list_user = hdDetailsBean.getData().getUser_list();
