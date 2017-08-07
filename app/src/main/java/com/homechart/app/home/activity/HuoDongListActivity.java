@@ -1,5 +1,6 @@
 package com.homechart.app.home.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -78,7 +79,7 @@ public class HuoDongListActivity
         tv_tital_comment.setText("活动列表");
         mAdapter = new CommonAdapter<HDItemBean>(this, R.layout.item_huodong_list, mListData) {
             @Override
-            public void convert(BaseViewHolder holder, int position) {
+            public void convert(BaseViewHolder holder, final int position) {
                 ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
                 layoutParams.width = width_Pic_List;
                 layoutParams.height = (int) (width_Pic_List / 2.36);
@@ -87,6 +88,14 @@ public class HuoDongListActivity
                         (ImageView) holder.getView(R.id.iv_imageview_one));
                 ((TextView) holder.getView(R.id.tv_name_pic)).setText(mListData.get(position).getActivity_info().getTitle());
 
+                holder.getView(R.id.rl_huodong_item).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(HuoDongListActivity.this, HuoDongDetailsActivity.class);
+                        intent.putExtra("activity_id", mListData.get(position).getActivity_info().getActivity_id());
+                        startActivity(intent);
+                    }
+                });
             }
         };
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
@@ -179,10 +188,10 @@ public class HuoDongListActivity
                     page_num = 1;
                 }
                 mAdapter.notifyDataSetChanged();
-                if(listData.size()<20){
+                if (listData.size() < 20) {
                     mRecyclerView.setRefreshing(false);//刷新完毕
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
-                }else {
+                } else {
                     mRecyclerView.setRefreshing(false);//刷新完毕
                 }
                 break;
