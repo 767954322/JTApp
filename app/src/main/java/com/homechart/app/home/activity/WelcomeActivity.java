@@ -89,6 +89,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter
         adList.add(R.drawable.a1);
         adList.add(R.drawable.a2);
         adList.add(R.drawable.a3);
+
         return adList;
     }
 
