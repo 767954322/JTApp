@@ -210,9 +210,7 @@ public class ImageDetailFragment
     }
 
     private void initExtraBundle() {
-
         mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
-
     }
 
     private void initView() {
