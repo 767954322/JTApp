@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.homechart.app.myview.ResizeRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/menu_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView
+        android:id="@+id/rcy_recyclerview_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/common_navbar"
+        android:layout_above="@+id/et_edit"
+        app:loadMoreEnabled="true"
+        app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer_huodong"
+        app:refreshEnabled="false"
+        app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
+
+    <RelativeLayout
+        android:id="@+id/et_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/view_line" />
+        <com.homechart.app.myview.ClearEditText
+            android:id="@+id/cet_clearedit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/font_35"
+            android:layout_marginLeft="@dimen/font_10"
+            android:layout_marginRight="@dimen/font_10"
+            android:layout_toLeftOf="@+id/tv_quxiao"
+            android:layout_marginBottom="@dimen/font_8"
+            android:layout_marginTop="@dimen/font_8"
+            android:background="@drawable/bg_huifu"
+            android:drawableLeft="@drawable/xie"
+            android:drawablePadding="@dimen/font_10"
+            android:gravity="center_vertical"
+            android:hint="评论"
+            android:textColorHint="@color/bg_8f8f8f"
+            android:maxLength="300"
+            android:imeOptions="actionSend"
+            android:paddingLeft="@dimen/font_10"
+            android:singleLine="true"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="@dimen/size_14" />
+
+
+    </RelativeLayout>
+
+
+</com.homechart.app.myview.ResizeRelativeLayout>

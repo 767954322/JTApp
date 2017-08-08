@@ -296,6 +296,12 @@
             android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity
+            android:name=".home.activity.ImageDetailScrollActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
 
         <service android:name=".upapk.DownloadService">
             <intent-filter>

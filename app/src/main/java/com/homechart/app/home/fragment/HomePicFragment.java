@@ -34,6 +34,7 @@ import com.homechart.app.home.activity.ArticleDetailsActivity;
 import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.activity.HuoDongDetailsActivity;
 import com.homechart.app.home.activity.ImageDetailLongActivity;
+import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.MessagesListActivity;
 import com.homechart.app.home.activity.SearchActivity;
 import com.homechart.app.home.activity.ShaiXuanResultActicity;
@@ -69,6 +70,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -133,6 +135,8 @@ public class HomePicFragment
     private boolean move_tag = true;
     private RelativeLayout id_main;
     private View view_line_back;
+
+    private List<String> mItemIdList = new ArrayList<>();
 
     public HomePicFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -330,7 +334,7 @@ public class HomePicFragment
 
     }
 
-    private void tongjiYuan(){
+    private void tongjiYuan() {
         //友盟统计
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("evenname", "三个色彩点");
@@ -396,7 +400,7 @@ public class HomePicFragment
                         || mListData.get(position).getObject_info().getType().equals("single")) {
 
 
-                    if(mListData.get(position).getObject_info().getType().equals("single")){
+                    if (mListData.get(position).getObject_info().getType().equals("single")) {
                         holder.getView(R.id.iv_color_right).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -423,10 +427,10 @@ public class HomePicFragment
 
                         layoutParams.height = (curentListTag ? (int) (width_Pic_List / 2.36) : (int) (width_Pic_Staggered / mListData.get(position).getObject_info().getImage().getRatio()));
 
-                    } else if (mListData.get(position).getObject_info().getType().equals("article")){
-                        layoutParams.height = (curentListTag ? (int) (width_Pic_List /2.36666 )  : mSListDataHeight.get(position));
-                    }else {
-                        layoutParams.height = (curentListTag ? (int) (width_Pic_List /1.5 )  : mSListDataHeight.get(position));
+                    } else if (mListData.get(position).getObject_info().getType().equals("article")) {
+                        layoutParams.height = (curentListTag ? (int) (width_Pic_List / 2.36666) : mSListDataHeight.get(position));
+                    } else {
+                        layoutParams.height = (curentListTag ? (int) (width_Pic_List / 1.5) : mSListDataHeight.get(position));
                     }
                     holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
                     String nikeName = "";
@@ -526,9 +530,19 @@ public class HomePicFragment
                             public void onClick(View v) {
 
                                 if (mListData.get(position).getObject_info().getType().equals("single")) {
+
+                                    int imgPosition = -1;
+                                    for (int i = 0; i < mItemIdList.size(); i++) {
+                                        if (mListData.get(position).getObject_info().getObject_id().equals(mItemIdList.get(i))) {
+                                            imgPosition = i;
+                                        }
+                                    }
+
                                     //查看单图详情
-                                    Intent intent = new Intent(activity, ImageDetailLongActivity.class);
+                                    Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
                                     intent.putExtra("item_id", mListData.get(position).getObject_info().getObject_id());
+                                    intent.putExtra("position", imgPosition);
+                                    intent.putExtra("item_id_list", (Serializable) mItemIdList);
                                     startActivity(intent);
                                 }
 
@@ -536,7 +550,7 @@ public class HomePicFragment
                         });
                     }
 
-                }else if(mListData.get(position).getObject_info().getType().equals("article")){
+                } else if (mListData.get(position).getObject_info().getType().equals("article")) {
 
 //                    ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
 //                    layoutParams.width = width_Pic_List;
@@ -545,12 +559,12 @@ public class HomePicFragment
 
                     ImageUtils.displayFilletImage(mListData.get(position).getObject_info().getImage().getImg0(),
                             ((ImageView) holder.getView(R.id.iv_imageview_one)));
-                    ((TextView)holder.getView(R.id.tv_name_pic)).setText(mListData.get(position).getObject_info().getTitle().toString());
+                    ((TextView) holder.getView(R.id.tv_name_pic)).setText(mListData.get(position).getObject_info().getTitle().toString());
                     holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(activity,ArticleDetailsActivity.class);
-                            intent.putExtra("article_id",mListData.get(position).getObject_info().getObject_id());
+                            Intent intent = new Intent(activity, ArticleDetailsActivity.class);
+                            intent.putExtra("article_id", mListData.get(position).getObject_info().getObject_id());
 
                             startActivity(intent);
                         }
@@ -751,7 +765,7 @@ public class HomePicFragment
                             if (list_activity != null && list_activity.size() > 0) {
                                 SYActivityInfoBean syActivityInfoBean = list_activity.get(0).getActivity_info();
                                 SYDataBean syDataBean = new SYDataBean(new SYDataObjectBean
-                                        (syActivityInfoBean.getId(), "活动", syActivityInfoBean.getTitle(),"",
+                                        (syActivityInfoBean.getId(), "活动", syActivityInfoBean.getTitle(), "",
                                                 new SYDataObjectImgBean(syActivityInfoBean.getImage().getImg1_ratio(),
                                                         syActivityInfoBean.getImage().getImg0(), syActivityInfoBean.getImage().getImg1())
                                         ), null, null);
@@ -794,11 +808,18 @@ public class HomePicFragment
     private void updateViewFromData(List<SYDataBean> listData, String state) {
 
         switch (state) {
-
             case REFRESH_STATUS:
                 mListData.clear();
-                if (null != listData) {
+                mItemIdList.clear();
+                if (null != listData && listData.size() > 0) {
                     mListData.addAll(listData);
+                    for (int i = 0; i < listData.size(); i++) {
+                        String type = listData.get(i).getObject_info().getType();
+                        if (type.trim().equals("single")) {
+                            mItemIdList.add(listData.get(i).getObject_info().getObject_id());
+                        }
+                    }
+
                 } else {
                     page_num = 1;
                     mListData.clear();
@@ -808,11 +829,17 @@ public class HomePicFragment
                 break;
 
             case LOADMORE_STATUS:
-                if (null != listData) {
+                if (null != listData && listData.size() > 0) {
                     position = mListData.size();
                     mListData.addAll(listData);
                     mAdapter.notifyItem(position, mListData, listData);
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+
+                    for (int i = 0; i < listData.size(); i++) {
+                        if (listData.get(i).getObject_info().getType().equals("single"))
+                            mItemIdList.add(listData.get(i).getObject_info().getObject_id());
+                    }
+
                 } else {
                     --page_num;
                     //没有更多数据
@@ -832,9 +859,9 @@ public class HomePicFragment
         if (item_list.size() > 0) {
             for (int i = 0; i < item_list.size(); i++) {
 
-                if(item_list.get(i).getObject_info().getType().equals("活动")){
+                if (item_list.get(i).getObject_info().getType().equals("活动")) {
                     mLListDataHeight.add(Math.round(width_Pic_List / 1.333333f));
-                }else {
+                } else {
                     mLListDataHeight.add(Math.round(width_Pic_List / 2.366666666f));
                 }
 //                mLListDataHeight.add(Math.round(width_Pic_List / 1.333333f));
@@ -1011,6 +1038,7 @@ public class HomePicFragment
         intent.putExtra("shaixuan_tag", tagStr);
         startActivity(intent);
     }
+
     /**
      * HashMap<String, String> map = new HashMap<String, String>();
      * map.put("evenname", "离开启动页");
