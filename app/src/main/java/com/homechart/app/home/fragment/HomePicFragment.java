@@ -1132,7 +1132,6 @@ public class HomePicFragment
                             int collect_num = Integer.parseInt(mListData.get(position).getObject_info().getCollect_num().trim());
                             mListData.get(position).getObject_info().setCollect_num(++collect_num + "");
                         } catch (Exception e) {
-                            ToastUtils.showCenter(activity, "查看代理是否掉了");
                         }
                         mAdapter.notifyItemChanged(position);
                     } else {
@@ -1170,7 +1169,6 @@ public class HomePicFragment
                             int collect_num = Integer.parseInt(mListData.get(position).getObject_info().getCollect_num().trim());
                             mListData.get(position).getObject_info().setCollect_num(--collect_num + "");
                         } catch (Exception e) {
-                            ToastUtils.showCenter(activity, "查看代理是否掉了");
                         }
                         mAdapter.notifyItemChanged(position);
                     } else {
