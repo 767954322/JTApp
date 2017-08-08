@@ -42,6 +42,7 @@ import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.adapter.HomeTagAdapter;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.pictag.TagDataBean;
+import com.homechart.app.home.bean.shaijia.ShaiJiaItemBean;
 import com.homechart.app.home.bean.shouye.DataBean;
 import com.homechart.app.home.bean.shouye.SYActivityBean;
 import com.homechart.app.home.bean.shouye.SYActivityInfoBean;
@@ -59,6 +60,7 @@ import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
+import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
@@ -137,6 +139,7 @@ public class HomePicFragment
     private View view_line_back;
 
     private List<String> mItemIdList = new ArrayList<>();
+    boolean ifShouCang = true;
 
     public HomePicFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -419,6 +422,28 @@ public class HomePicFragment
                                 tongjiYuan();
                             }
                         });
+
+                        ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getObject_info().getCollect_num());
+
+                        if (mListData.get(position).getObject_info().getIs_collected() != 1) {//未收藏
+                            ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang);
+                        } else {//收藏
+                            ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang1);
+                        }
+                        holder.getView(R.id.tv_shoucang_num).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                onShouCang(mListData.get(position).getObject_info().getIs_collected() != 1, position, mListData.get(position));
+                            }
+                        });
+                        holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                onShouCang(mListData.get(position).getObject_info().getIs_collected() != 1, position, mListData.get(position));
+                            }
+                        });
+
+
                     }
 
                     ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
@@ -549,7 +574,6 @@ public class HomePicFragment
                             }
                         });
                     }
-
                 } else if (mListData.get(position).getObject_info().getType().equals("article")) {
 
 //                    ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
@@ -768,7 +792,7 @@ public class HomePicFragment
                                         (syActivityInfoBean.getId(), "活动", syActivityInfoBean.getTitle(), "",
                                                 new SYDataObjectImgBean(syActivityInfoBean.getImage().getImg1_ratio(),
                                                         syActivityInfoBean.getImage().getImg0(), syActivityInfoBean.getImage().getImg1())
-                                        ), null, null);
+                                                , "", "", 0), null, null);
                                 if (state.equals(REFRESH_STATUS)) {
                                     list_newdata.add(syDataBean);
                                     list_newdata.addAll(list_data);
@@ -1070,5 +1094,95 @@ public class HomePicFragment
         }
     };
     private int last_id = 0;
+
+
+    //收藏或者取消收藏，图片
+    public void onShouCang(boolean ifShouCang, int position, SYDataBean syDataBean) {
+
+        if (ifShouCang) {
+            //未被收藏，去收藏
+            addShouCang(position, syDataBean.getObject_info().getObject_id());
+        } else {
+            //被收藏，去取消收藏
+            removeShouCang(position, syDataBean.getObject_info().getObject_id());
+        }
+
+    }
+
+    //收藏
+    private void addShouCang(final int position, String item_id) {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                CustomProgress.cancelDialog();
+                ToastUtils.showCenter(activity, "收藏成功");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        ToastUtils.showCenter(activity, "收藏成功");
+                        mListData.get(position).getObject_info().setIs_collected(1);
+                        try {
+                            int collect_num = Integer.parseInt(mListData.get(position).getObject_info().getCollect_num().trim());
+                            mListData.get(position).getObject_info().setCollect_num(++collect_num + "");
+                        } catch (Exception e) {
+                            ToastUtils.showCenter(activity, "查看代理是否掉了");
+                        }
+                        mAdapter.notifyItemChanged(position);
+                    } else {
+                        ToastUtils.showCenter(activity, error_msg);
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(activity, "收藏失败");
+                }
+            }
+        };
+        MyHttpManager.getInstance().addShouCang(item_id, callBack);
+    }
+
+    //取消收藏
+    private void removeShouCang(final int position, String item_id) {
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                CustomProgress.cancelDialog();
+                ToastUtils.showCenter(activity, "取消收藏失败");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        ToastUtils.showCenter(activity, "取消收藏成功");
+                        mListData.get(position).getObject_info().setIs_collected(0);
+                        try {
+                            int collect_num = Integer.parseInt(mListData.get(position).getObject_info().getCollect_num().trim());
+                            mListData.get(position).getObject_info().setCollect_num(--collect_num + "");
+                        } catch (Exception e) {
+                            ToastUtils.showCenter(activity, "查看代理是否掉了");
+                        }
+                        mAdapter.notifyItemChanged(position);
+                    } else {
+                        ToastUtils.showCenter(activity, error_msg);
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(activity, "取消收藏失败");
+                }
+            }
+        };
+        MyHttpManager.getInstance().removeShouCang(item_id, callBack);
+    }
+
 
 }
