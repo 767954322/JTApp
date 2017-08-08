@@ -118,7 +118,7 @@ public class ImageDetailFragment
     private TextView tv_people_details;
     private TextView tv_people_guanzhu;
     private String mUserId;
-//    private ImageButton nav_secondary_imageButton;
+    //    private ImageButton nav_secondary_imageButton;
     private int guanzhuTag = 0;//1:未关注  2:关注   3:相互关注
     private boolean imageFirstTag = true;
     private FlowLayoutBiaoQian fl_tags_jubu;
@@ -183,6 +183,7 @@ public class ImageDetailFragment
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
 
     private boolean ifShowColorList = true;
+    private boolean ifHasHeader = false;
     private int wei = 0;
 
 
@@ -215,71 +216,74 @@ public class ImageDetailFragment
     }
 
     private void initView() {
-        view = LayoutInflater.from(activity).inflate(R.layout.header_imagedetails, null);
+
         homeSharedPopWinPublic = new HomeSharedPopWinPublic(activity, this);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_info);
         cet_clearedit = (ClearEditText) rootView.findViewById(R.id.cet_clearedit);
         menu_layout = (ResizeRelativeLayout) rootView.findViewById(R.id.menu_layout);
 
-        riv_people_header = (RoundImageView) view.findViewById(R.id.riv_people_header);
-        tv_ping_tital = (TextView) view.findViewById(R.id.tv_ping_tital);
-        view_more_like = view.findViewById(R.id.view_more_like);
-        tv_people_guanzhu = (TextView) view.findViewById(R.id.tv_people_guanzhu);
-        tv_people_name = (TextView) view.findViewById(R.id.tv_people_name);
-        iv_people_tag = (ImageView) view.findViewById(R.id.iv_people_tag);
-        tv_people_details = (TextView) view.findViewById(R.id.tv_people_details);
-        fl_tags_jubu = (FlowLayoutBiaoQian) view.findViewById(R.id.fl_tags_jubu);
-        dgv_colorlist = (MyListView) view.findViewById(R.id.dgv_colorlist);
-        tv_color_tips = (TextView) view.findViewById(R.id.tv_color_tips);
-        iv_ifshow_color = (ImageView) view.findViewById(R.id.iv_ifshow_color);
-        rl_imagedetails_next = (RelativeLayout) view.findViewById(R.id.rl_imagedetails_next);
-        rl_color_location = (RelativeLayout) view.findViewById(R.id.rl_color_location);
-        iv_imagedetails_next = (ImageView) view.findViewById(R.id.iv_imagedetails_next);
-        tv_imagedetails_next = (TextView) view.findViewById(R.id.tv_imagedetails_next);
-        rl_ping_one = (RelativeLayout) view.findViewById(R.id.rl_ping_one);
-        rl_ping_two = (RelativeLayout) view.findViewById(R.id.rl_ping_two);
-        rl_ping_three = (RelativeLayout) view.findViewById(R.id.rl_ping_three);
-        rl_ping_four = (RelativeLayout) view.findViewById(R.id.rl_ping_four);
-        rl_huifu_content = (RelativeLayout) view.findViewById(R.id.rl_huifu_content);
-        rl_huifu_content_two = (RelativeLayout) view.findViewById(R.id.rl_huifu_content_two);
-        rl_huifu_content_three = (RelativeLayout) view.findViewById(R.id.rl_huifu_content_three);
-        tv_huifu_content_two1 = (TextView) view.findViewById(R.id.tv_huifu_content_two1);
-        tv_huifu_content_two2 = (TextView) view.findViewById(R.id.tv_huifu_content_two2);
-        tv_huifu_content_two3 = (TextView) view.findViewById(R.id.tv_huifu_content_two3);
-        tv_huifu_content_four1 = (TextView) view.findViewById(R.id.tv_huifu_content_four1);
-        tv_huifu_content_four2 = (TextView) view.findViewById(R.id.tv_huifu_content_four2);
-        tv_huifu_content_four3 = (TextView) view.findViewById(R.id.tv_huifu_content_four3);
-        riv_one = (RoundImageView) view.findViewById(R.id.riv_one);
-        riv_two = (RoundImageView) view.findViewById(R.id.riv_two);
-        riv_three = (RoundImageView) view.findViewById(R.id.riv_three);
-        tv_name_one = (TextView) view.findViewById(R.id.tv_name_one);
-        tv_name_two = (TextView) view.findViewById(R.id.tv_name_two);
-        tv_name_three = (TextView) view.findViewById(R.id.tv_name_three);
-        tv_time_one = (TextView) view.findViewById(R.id.tv_time_one);
-        tv_time_two = (TextView) view.findViewById(R.id.tv_time_two);
-        tv_time_three = (TextView) view.findViewById(R.id.tv_time_three);
-        tv_content_three = (TextView) view.findViewById(R.id.tv_content_three);
-        tv_content_two = (TextView) view.findViewById(R.id.tv_content_two);
-        tv_content_one = (TextView) view.findViewById(R.id.tv_content_one);
-        ll_huifu_one = (LinearLayout) view.findViewById(R.id.ll_huifu_one);
-        ll_huifu_two = (LinearLayout) view.findViewById(R.id.ll_huifu_two);
-        ll_huifu_three = (LinearLayout) view.findViewById(R.id.ll_huifu_three);
-        tv_if_zuozhe_one = (TextView) view.findViewById(R.id.tv_if_zuozhe_one);
-        tv_if_zuozhe_two = (TextView) view.findViewById(R.id.tv_if_zuozhe_two);
-        tv_if_zuozhe_three = (TextView) view.findViewById(R.id.tv_if_zuozhe_three);
+        if(!ifHasHeader){
+            view = LayoutInflater.from(activity).inflate(R.layout.header_imagedetails_scroll, null);
+            riv_people_header = (RoundImageView) view.findViewById(R.id.riv_people_header);
+            tv_ping_tital = (TextView) view.findViewById(R.id.tv_ping_tital);
+            view_more_like = view.findViewById(R.id.view_more_like);
+            tv_people_guanzhu = (TextView) view.findViewById(R.id.tv_people_guanzhu);
+            tv_people_name = (TextView) view.findViewById(R.id.tv_people_name);
+            iv_people_tag = (ImageView) view.findViewById(R.id.iv_people_tag);
+            tv_people_details = (TextView) view.findViewById(R.id.tv_people_details);
+            fl_tags_jubu = (FlowLayoutBiaoQian) view.findViewById(R.id.fl_tags_jubu);
+            dgv_colorlist = (MyListView) view.findViewById(R.id.dgv_colorlist);
+            tv_color_tips = (TextView) view.findViewById(R.id.tv_color_tips);
+            iv_ifshow_color = (ImageView) view.findViewById(R.id.iv_ifshow_color);
+            rl_imagedetails_next = (RelativeLayout) view.findViewById(R.id.rl_imagedetails_next);
+            rl_color_location = (RelativeLayout) view.findViewById(R.id.rl_color_location);
+            iv_imagedetails_next = (ImageView) view.findViewById(R.id.iv_imagedetails_next);
+            tv_imagedetails_next = (TextView) view.findViewById(R.id.tv_imagedetails_next);
+            rl_ping_one = (RelativeLayout) view.findViewById(R.id.rl_ping_one);
+            rl_ping_two = (RelativeLayout) view.findViewById(R.id.rl_ping_two);
+            rl_ping_three = (RelativeLayout) view.findViewById(R.id.rl_ping_three);
+            rl_ping_four = (RelativeLayout) view.findViewById(R.id.rl_ping_four);
+            rl_huifu_content = (RelativeLayout) view.findViewById(R.id.rl_huifu_content);
+            rl_huifu_content_two = (RelativeLayout) view.findViewById(R.id.rl_huifu_content_two);
+            rl_huifu_content_three = (RelativeLayout) view.findViewById(R.id.rl_huifu_content_three);
+            tv_huifu_content_two1 = (TextView) view.findViewById(R.id.tv_huifu_content_two1);
+            tv_huifu_content_two2 = (TextView) view.findViewById(R.id.tv_huifu_content_two2);
+            tv_huifu_content_two3 = (TextView) view.findViewById(R.id.tv_huifu_content_two3);
+            tv_huifu_content_four1 = (TextView) view.findViewById(R.id.tv_huifu_content_four1);
+            tv_huifu_content_four2 = (TextView) view.findViewById(R.id.tv_huifu_content_four2);
+            tv_huifu_content_four3 = (TextView) view.findViewById(R.id.tv_huifu_content_four3);
+            riv_one = (RoundImageView) view.findViewById(R.id.riv_one);
+            riv_two = (RoundImageView) view.findViewById(R.id.riv_two);
+            riv_three = (RoundImageView) view.findViewById(R.id.riv_three);
+            tv_name_one = (TextView) view.findViewById(R.id.tv_name_one);
+            tv_name_two = (TextView) view.findViewById(R.id.tv_name_two);
+            tv_name_three = (TextView) view.findViewById(R.id.tv_name_three);
+            tv_time_one = (TextView) view.findViewById(R.id.tv_time_one);
+            tv_time_two = (TextView) view.findViewById(R.id.tv_time_two);
+            tv_time_three = (TextView) view.findViewById(R.id.tv_time_three);
+            tv_content_three = (TextView) view.findViewById(R.id.tv_content_three);
+            tv_content_two = (TextView) view.findViewById(R.id.tv_content_two);
+            tv_content_one = (TextView) view.findViewById(R.id.tv_content_one);
+            ll_huifu_one = (LinearLayout) view.findViewById(R.id.ll_huifu_one);
+            ll_huifu_two = (LinearLayout) view.findViewById(R.id.ll_huifu_two);
+            ll_huifu_three = (LinearLayout) view.findViewById(R.id.ll_huifu_three);
+            tv_if_zuozhe_one = (TextView) view.findViewById(R.id.tv_if_zuozhe_one);
+            tv_if_zuozhe_two = (TextView) view.findViewById(R.id.tv_if_zuozhe_two);
+            tv_if_zuozhe_three = (TextView) view.findViewById(R.id.tv_if_zuozhe_three);
 
-        iv_details_image = (ImageView) view.findViewById(R.id.iv_details_image);
-        tv_details_tital = (TextView) view.findViewById(R.id.tv_details_tital);
-        tv_details_time = (TextView) view.findViewById(R.id.tv_details_time);
-        iv_bang = (ImageView) view.findViewById(R.id.iv_bang);
-        iv_xing = (ImageView) view.findViewById(R.id.iv_xing);
-        iv_ping = (ImageView) view.findViewById(R.id.iv_ping);
-        iv_shared = (ImageView) view.findViewById(R.id.iv_shared);
-        tv_bang = (TextView) view.findViewById(R.id.tv_bang);
-        tv_xing = (TextView) view.findViewById(R.id.tv_xing);
-        tv_ping = (TextView) view.findViewById(R.id.tv_ping);
-        tv_shared = (TextView) view.findViewById(R.id.tv_shared);
-        ll_color_lines = (LinearLayout) view.findViewById(R.id.ll_color_lines);
+            iv_details_image = (ImageView) view.findViewById(R.id.iv_details_image);
+            tv_details_tital = (TextView) view.findViewById(R.id.tv_details_tital);
+            tv_details_time = (TextView) view.findViewById(R.id.tv_details_time);
+            iv_bang = (ImageView) view.findViewById(R.id.iv_bang);
+            iv_xing = (ImageView) view.findViewById(R.id.iv_xing);
+            iv_ping = (ImageView) view.findViewById(R.id.iv_ping);
+            iv_shared = (ImageView) view.findViewById(R.id.iv_shared);
+            tv_bang = (TextView) view.findViewById(R.id.tv_bang);
+            tv_xing = (TextView) view.findViewById(R.id.tv_xing);
+            tv_ping = (TextView) view.findViewById(R.id.tv_ping);
+            tv_shared = (TextView) view.findViewById(R.id.tv_shared);
+            ll_color_lines = (LinearLayout) view.findViewById(R.id.ll_color_lines);
+        }
     }
 
     private void initData() {
@@ -750,7 +754,10 @@ public class ImageDetailFragment
 
             }
         };
-        mRecyclerView.addHeaderView(view);
+        if (!ifHasHeader) {
+            mRecyclerView.addHeaderView(view);
+            ifHasHeader = true;
+        }
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setOnLoadMoreListener(this);
