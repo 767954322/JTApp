@@ -96,7 +96,7 @@ public class ImageDetailScrollActivity
         mAdapter = new MyImagePageAdater(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(mPosition);
-        mViewPager.setOffscreenPageLimit(-1);
+        mViewPager.setOffscreenPageLimit(3);
     }
 
     @Override
