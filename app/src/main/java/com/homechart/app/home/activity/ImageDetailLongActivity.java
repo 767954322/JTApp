@@ -955,6 +955,7 @@ public class ImageDetailLongActivity
                         intent.putExtra("position", position);
                         intent.putExtra("like_id", item_id);
                         intent.putExtra("type", "你可能喜欢");
+                        intent.putExtra("page_num", page);
                         intent.putExtra("item_id_list", (Serializable) mItemIdList);
                         startActivity(intent);
 
@@ -1016,6 +1017,7 @@ public class ImageDetailLongActivity
         intent.putExtra("position", position);
         intent.putExtra("like_id", item_id);
         intent.putExtra("type", "你可能喜欢");
+        intent.putExtra("page_num", page);
         intent.putExtra("item_id_list", (Serializable) mItemIdList);
         startActivity(intent);
     }

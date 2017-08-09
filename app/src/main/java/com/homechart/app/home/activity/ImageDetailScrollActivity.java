@@ -125,7 +125,7 @@ public class ImageDetailScrollActivity
 
             @Override
             public void onPageSelected(int position) {
-                if (mItemIdList.size() >= position && (mItemIdList.size() - position) < 7 && !more_loding) {
+                if (mItemIdList.size() >= position && (mItemIdList.size() - position) < 3 && !more_loding) {
                     if (!TextUtils.isEmpty(type) && type.equals("筛选")) {
                         getMoreShaiXuan();
                     } else if (!TextUtils.isEmpty(type) && type.equals("你可能喜欢")) {
@@ -154,12 +154,14 @@ public class ImageDetailScrollActivity
             if (type.equals("筛选")) {
                 mSelectListData = (Map<Integer, ColorItemBean>) getIntent().getSerializableExtra("mSelectListData");
                 shaixuan_tag = getIntent().getStringExtra("shaixuan_tag");
-                if (mItemIdList.size() == 20) {
+                shuaixuan_page_num = getIntent().getIntExtra("page_num", 2);
+                if (mItemIdList.size() == 20* (shuaixuan_page_num - 1)) {
                     getMoreShaiXuan();
                 }
             } else if (type.equals("你可能喜欢")) {
                 like_maybe_id = getIntent().getStringExtra("like_id");
-                if (mItemIdList.size() == 20) {
+                like_maybe_page_num = getIntent().getIntExtra("page_num", 2);
+                if (mItemIdList.size() == 20 * (like_maybe_page_num - 1)) {
                     getMoreLikeMayBe();
                 }
             }
