@@ -188,6 +188,7 @@ public class ImageDetailFragment
     private boolean ifShowColorList = true;
     private boolean ifHasHeader = false;
     private int wei = 0;
+    private UserInfo userInfo;
 
     private List<String> mItemIdList = new ArrayList<>();
 
@@ -196,8 +197,9 @@ public class ImageDetailFragment
     }
 
     @SuppressLint("ValidFragment")
-    public ImageDetailFragment(String item_id) {
+    public ImageDetailFragment(String item_id, UserInfo userInfo) {
         this.item_id = item_id;
+        this.userInfo = userInfo;
     }
 
     @Override
@@ -207,6 +209,7 @@ public class ImageDetailFragment
 
     @Override
     protected void lazyLoad() {
+        userInfo.getUserInfo(imageDetailBean);
         initExtraBundle();
         initView();
         initData();
@@ -224,7 +227,7 @@ public class ImageDetailFragment
         cet_clearedit = (ClearEditText) rootView.findViewById(R.id.cet_clearedit);
         menu_layout = (ResizeRelativeLayout) rootView.findViewById(R.id.menu_layout);
 
-        if(!ifHasHeader){
+        if (!ifHasHeader) {
             view = LayoutInflater.from(activity).inflate(R.layout.header_imagedetails_scroll, null);
             riv_people_header = (RoundImageView) view.findViewById(R.id.riv_people_header);
             tv_ping_tital = (TextView) view.findViewById(R.id.tv_ping_tital);
@@ -963,7 +966,7 @@ public class ImageDetailFragment
     }
 
 
-    private void tongjiQiu(int  position) {
+    private void tongjiQiu(int position) {
         //友盟统计
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("evenname", "三个色彩点");
@@ -1676,6 +1679,7 @@ public class ImageDetailFragment
                     String data = (String) msg.obj;
                     imageDetailBean = GsonUtil.jsonToBean(data, ImageDetailBean.class);
                     changeUI(imageDetailBean);
+                    userInfo.getUserInfo(imageDetailBean);
                     break;
                 case 2:
                     ToastUtils.showCenter(activity, "你很棒棒哦");
@@ -1976,5 +1980,9 @@ public class ImageDetailFragment
         MyHttpManager.getInstance().removeShouCang(item_id, callBack);
     }
 
+
+    public interface UserInfo {
+        void getUserInfo(ImageDetailBean imageDetailBean);
+    }
 
 }
