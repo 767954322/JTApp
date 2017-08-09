@@ -28,6 +28,7 @@ import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.HuoDongDetailsActivity;
 import com.homechart.app.home.activity.ImageDetailLongActivity;
+import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.PingListActivity;
 import com.homechart.app.home.activity.ShaiXuanResultActicity;
 import com.homechart.app.home.activity.UserInfoActivity;
@@ -188,6 +189,7 @@ public class ImageDetailFragment
     private boolean ifHasHeader = false;
     private int wei = 0;
 
+    private List<String> mItemIdList = new ArrayList<>();
 
     public ImageDetailFragment() {
 
@@ -738,8 +740,10 @@ public class ImageDetailFragment
                     public void onClick(View v) {
 
                         //查看单图详情
-                        Intent intent = new Intent(activity, ImageDetailLongActivity.class);
+                        Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
                         intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+                        intent.putExtra("position", position);
+                        intent.putExtra("item_id_list", (Serializable) mItemIdList);
                         startActivity(intent);
 
                     }
@@ -756,19 +760,19 @@ public class ImageDetailFragment
                 holder.getView(R.id.iv_color_right).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        tongjiQiu(mListData.get(position).getItem_info().getItem_id());
+                        tongjiQiu(position);
                     }
                 });
                 holder.getView(R.id.iv_color_left).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        tongjiQiu(mListData.get(position).getItem_info().getItem_id());
+                        tongjiQiu(position);
                     }
                 });
                 holder.getView(R.id.iv_color_center).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        tongjiQiu(mListData.get(position).getItem_info().getItem_id());
+                        tongjiQiu(position);
                     }
                 });
 
@@ -959,7 +963,7 @@ public class ImageDetailFragment
     }
 
 
-    private void tongjiQiu(String item_id) {
+    private void tongjiQiu(int  position) {
         //友盟统计
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("evenname", "三个色彩点");
@@ -970,9 +974,11 @@ public class ImageDetailFragment
                 .setCategory("图片详情-推荐列表")  //事件类别
                 .setAction("三个色彩点")      //事件操作
                 .build());
-        Intent intent = new Intent(activity, ImageDetailLongActivity.class);
-        intent.putExtra("item_id", item_id);
-        intent.putExtra("if_click_color", true);
+        //查看单图详情
+        Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
+        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+        intent.putExtra("position", position);
+        intent.putExtra("item_id_list", (Serializable) mItemIdList);
         startActivity(intent);
     }
 
@@ -1635,6 +1641,9 @@ public class ImageDetailFragment
             mListData.addAll(item_list);
             mAdapter.notifyItem(position, mListData, item_list);
             mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+            for (int i = 0; i < item_list.size(); i++) {
+                mItemIdList.add(item_list.get(i).getItem_info().getItem_id());
+            }
         }
     }
 
