@@ -26,6 +26,7 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
+import com.homechart.app.home.activity.HuoDongDetailsActivity;
 import com.homechart.app.home.activity.ImageDetailLongActivity;
 import com.homechart.app.home.activity.PingListActivity;
 import com.homechart.app.home.activity.ShaiXuanResultActicity;
@@ -734,19 +735,19 @@ public class ImageDetailFragment
                 holder.getView(R.id.iv_color_right).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        tongjiQiu();
+                        tongjiQiu(mListData.get(position).getItem_info().getItem_id());
                     }
                 });
                 holder.getView(R.id.iv_color_left).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        tongjiQiu();
+                        tongjiQiu(mListData.get(position).getItem_info().getItem_id());
                     }
                 });
                 holder.getView(R.id.iv_color_center).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        tongjiQiu();
+                        tongjiQiu(mListData.get(position).getItem_info().getItem_id());
                     }
                 });
 
@@ -937,7 +938,7 @@ public class ImageDetailFragment
     }
 
 
-    private void tongjiQiu() {
+    private void tongjiQiu(String item_id) {
         //友盟统计
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("evenname", "三个色彩点");
@@ -948,6 +949,9 @@ public class ImageDetailFragment
                 .setCategory("图片详情-推荐列表")  //事件类别
                 .setAction("三个色彩点")      //事件操作
                 .build());
+        Intent intent = new Intent(activity, ImageDetailLongActivity.class);
+        intent.putExtra("item_id", item_id);
+        startActivity(intent);
     }
 
     private void getImageListData() {

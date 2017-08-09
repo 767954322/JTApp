@@ -406,19 +406,21 @@ public class HuoDongDetailsActivity
                 holder.getView(R.id.iv_color_right).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        clickColorQiu();
+                        clickColorQiu(mListData.get(position).getItem_info().getItem_id());
                     }
                 });
                 holder.getView(R.id.iv_color_left).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        clickColorQiu();
+
+                        clickColorQiu(mListData.get(position).getItem_info().getItem_id());
                     }
                 });
                 holder.getView(R.id.iv_color_center).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        clickColorQiu();
+
+                        clickColorQiu(mListData.get(position).getItem_info().getItem_id());
                     }
                 });
             }
@@ -434,8 +436,7 @@ public class HuoDongDetailsActivity
         getListData();
     }
 
-    public void clickColorQiu() {
-
+    public void clickColorQiu(String item_id) {
         //友盟统计
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("evenname", "三个色彩点");
@@ -446,7 +447,9 @@ public class HuoDongDetailsActivity
                 .setCategory("活动页")  //事件类别
                 .setAction("三个色彩点")      //事件操作
                 .build());
-
+        Intent intent = new Intent(HuoDongDetailsActivity.this, ImageDetailLongActivity.class);
+        intent.putExtra("item_id", item_id);
+        startActivity(intent);
     }
 
     //获取活动详情信息

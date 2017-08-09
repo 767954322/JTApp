@@ -938,19 +938,19 @@ public class ImageDetailLongActivity
                 holder.getView(R.id.iv_color_right).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        tongjiQiu();
+                        tongjiQiu(mListData.get(position).getItem_info().getItem_id());
                     }
                 });
                 holder.getView(R.id.iv_color_left).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        tongjiQiu();
+                        tongjiQiu(mListData.get(position).getItem_info().getItem_id());
                     }
                 });
                 holder.getView(R.id.iv_color_center).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        tongjiQiu();
+                        tongjiQiu(mListData.get(position).getItem_info().getItem_id());
                     }
                 });
 
@@ -965,7 +965,7 @@ public class ImageDetailLongActivity
         getImageListData();
     }
 
-    private void tongjiQiu() {
+    private void tongjiQiu(String item_id) {
         //友盟统计
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("evenname", "三个色彩点");
@@ -976,6 +976,9 @@ public class ImageDetailLongActivity
                 .setCategory("图片详情-推荐列表")  //事件类别
                 .setAction("三个色彩点")      //事件操作
                 .build());
+        Intent intent = new Intent(ImageDetailLongActivity.this, ImageDetailLongActivity.class);
+        intent.putExtra("item_id", item_id);
+        startActivity(intent);
     }
 
     private void getImageListData() {

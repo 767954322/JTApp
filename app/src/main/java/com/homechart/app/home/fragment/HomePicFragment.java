@@ -337,7 +337,7 @@ public class HomePicFragment
 
     }
 
-    private void tongjiYuan() {
+    private void tongjiYuan(String item_id) {
         //友盟统计
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("evenname", "三个色彩点");
@@ -348,6 +348,19 @@ public class HomePicFragment
                 .setCategory("首页")  //事件类别
                 .setAction("三个色彩点")      //事件操作
                 .build());
+
+        int imgPosition = -1;
+        for (int i = 0; i < mItemIdList.size(); i++) {
+            if (mListData.get(position).getObject_info().getObject_id().equals(mItemIdList.get(i))) {
+                imgPosition = i;
+            }
+        }
+        //查看单图详情
+        Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
+        intent.putExtra("item_id", item_id);
+        intent.putExtra("position", imgPosition);
+        intent.putExtra("item_id_list", (Serializable) mItemIdList);
+        startActivity(intent);
     }
 
     private void buildRecyclerView() {
@@ -407,19 +420,25 @@ public class HomePicFragment
                         holder.getView(R.id.iv_color_right).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                tongjiYuan();
+                                tongjiYuan(mListData.get(position).getObject_info().getObject_id());
                             }
                         });
                         holder.getView(R.id.iv_color_center).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                tongjiYuan();
+                                tongjiYuan(mListData.get(position).getObject_info().getObject_id());
                             }
                         });
                         holder.getView(R.id.iv_color_left).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                tongjiYuan();
+                                tongjiYuan(mListData.get(position).getObject_info().getObject_id());
+                            }
+                        });
+                        holder.getView(R.id.tv_color_tital).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                tongjiYuan(mListData.get(position).getObject_info().getObject_id());
                             }
                         });
 
