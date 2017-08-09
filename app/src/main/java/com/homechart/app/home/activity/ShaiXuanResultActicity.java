@@ -55,6 +55,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -99,6 +100,8 @@ public class ShaiXuanResultActicity
     private float mMoveY;
     private boolean move_tag = true;
     private List<ColorInfoBean> listcolor;
+
+    private List<String> mItemIdList = new ArrayList<>();
 
     @Override
     protected int getLayoutResId() {
@@ -515,8 +518,10 @@ public class ShaiXuanResultActicity
                     @Override
                     public void onClick(View v) {
                         //查看单图详情
-                        Intent intent = new Intent(ShaiXuanResultActicity.this, ImageDetailLongActivity.class);
+                        Intent intent = new Intent(ShaiXuanResultActicity.this, ImageDetailScrollActivity.class);
                         intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+                        intent.putExtra("position", position);
+                        intent.putExtra("item_id_list", (Serializable) mItemIdList);
                         startActivity(intent);
                     }
                 });
@@ -524,19 +529,19 @@ public class ShaiXuanResultActicity
                 holder.getView(R.id.iv_color_right).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        clickColorQiu(mListData.get(position).getItem_info().getItem_id());
+                        clickColorQiu(position);
                     }
                 });
                 holder.getView(R.id.iv_color_center).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        clickColorQiu(mListData.get(position).getItem_info().getItem_id());
+                        clickColorQiu(position);
                     }
                 });
                 holder.getView(R.id.iv_color_left).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        clickColorQiu(mListData.get(position).getItem_info().getItem_id());
+                        clickColorQiu(position);
                     }
                 });
 
@@ -573,7 +578,7 @@ public class ShaiXuanResultActicity
         onRefresh();
     }
 
-    private void clickColorQiu(String item_id) {
+    private void clickColorQiu( int position) {
         //友盟统计
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("evenname", "三个色彩点");
@@ -584,9 +589,11 @@ public class ShaiXuanResultActicity
                 .setCategory("标签页")  //事件类别
                 .setAction("三个色彩点")      //事件操作
                 .build());
-        Intent intent = new Intent(ShaiXuanResultActicity.this, ImageDetailLongActivity.class);
-        intent.putExtra("item_id", item_id);
-        intent.putExtra("if_click_color", true);
+        //查看单图详情
+        Intent intent = new Intent(ShaiXuanResultActicity.this, ImageDetailScrollActivity.class);
+        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+        intent.putExtra("position", position);
+        intent.putExtra("item_id_list", (Serializable) mItemIdList);
         startActivity(intent);
     }
 
@@ -666,8 +673,12 @@ public class ShaiXuanResultActicity
 
             case REFRESH_STATUS:
                 mListData.clear();
-                if (null != listData) {
+                mItemIdList.clear();
+                if (null != listData && listData.size() > 0) {
                     mListData.addAll(listData);
+                    for (int i = 0; i < listData.size(); i++) {
+                        mItemIdList.add(listData.get(i).getItem_info().getItem_id());
+                    }
                 } else {
                     //没有更多数据
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
@@ -679,11 +690,14 @@ public class ShaiXuanResultActicity
                 break;
 
             case LOADMORE_STATUS:
-                if (null != listData) {
+                if (null != listData && listData.size() > 0) {
                     position = mListData.size();
                     mListData.addAll(listData);
                     mAdapter.notifyItem(position, mListData, listData);
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                    for (int i = 0; i < listData.size(); i++) {
+                        mItemIdList.add(listData.get(i).getItem_info().getItem_id());
+                    }
                 } else {
                     --page_num;
                     //没有更多数据
