@@ -21,12 +21,15 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.home.bean.cailike.ImageLikeItemBean;
+import com.homechart.app.home.bean.cailike.LikeDataBean;
 import com.homechart.app.home.bean.color.ColorItemBean;
 import com.homechart.app.home.bean.imagedetail.ImageDetailBean;
 import com.homechart.app.home.bean.search.SearchDataBean;
 import com.homechart.app.home.fragment.ImageDetailFragment;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.myview.HomeSharedPopWinPublic;
+import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
@@ -69,13 +72,17 @@ public class ImageDetailScrollActivity
     private ImageDetailBean mImageDetailBean;
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
     private String type;
-    private Map<Integer, ColorItemBean> mSelectListData;
-    private String shaixuan_tag;
     private int wei = 0;
 
     //筛选
+    private Map<Integer, ColorItemBean> mSelectListData;
+    private String shaixuan_tag;
     private int shuaixuan_page_num = 2;
-    private boolean shuaixuan_loding = false;
+    private boolean more_loding = false;
+    //你可能喜欢
+    private String like_maybe_id = "";
+    private int like_maybe_page_num = 2;
+    private boolean like_maybe_loding = false;
 
     @Override
     protected int getLayoutResId() {
@@ -118,9 +125,11 @@ public class ImageDetailScrollActivity
 
             @Override
             public void onPageSelected(int position) {
-                if (mItemIdList.size() >= position && (mItemIdList.size() - position) < 7 && !shuaixuan_loding) {
+                if (mItemIdList.size() >= position && (mItemIdList.size() - position) < 7 && !more_loding) {
                     if (!TextUtils.isEmpty(type) && type.equals("筛选")) {
                         getMoreShaiXuan();
+                    } else if (!TextUtils.isEmpty(type) && type.equals("你可能喜欢")) {
+                        getMoreLikeMayBe();
                     }
                 }
             }
@@ -149,7 +158,10 @@ public class ImageDetailScrollActivity
                     getMoreShaiXuan();
                 }
             } else if (type.equals("你可能喜欢")) {
-
+                like_maybe_id = getIntent().getStringExtra("like_id");
+                if (mItemIdList.size() == 20) {
+                    getMoreLikeMayBe();
+                }
             }
         }
     }
@@ -205,18 +217,21 @@ public class ImageDetailScrollActivity
 
         sharedItemOpen(SHARE_MEDIA.WEIXIN);
     }
+
     //分享
     @Override
     public void onClickPYQ() {
 
         sharedItemOpen(SHARE_MEDIA.WEIXIN_CIRCLE);
     }
+
     //分享
     @Override
     public void onClickWeiBo() {
 
         sharedItemOpen(SHARE_MEDIA.SINA);
     }
+
     //分享
     private void sharedItemOpen(SHARE_MEDIA share_media) {
 
@@ -304,6 +319,7 @@ public class ImageDetailScrollActivity
                 withMedia(web).
                 setCallback(umShareListener).share();
     }
+
     //分享
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
@@ -355,11 +371,12 @@ public class ImageDetailScrollActivity
 
     //获取更多筛选图片
     private void getMoreShaiXuan() {
-        shuaixuan_loding = true;
+        more_loding = true;
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
             }
+
             @Override
             public void onResponse(String s) {
                 try {
@@ -375,7 +392,7 @@ public class ImageDetailScrollActivity
                                 mItemIdList.add(searchDataBean.getItem_list().get(i).getItem_info().getItem_id());
                             }
                             mAdapter.notifyDataSetChanged();
-                            shuaixuan_loding = false;
+                            more_loding = false;
 //                            mViewPager.setCurrentItem(mViewPager.getCurrentItem());
                         }
                     }
@@ -388,6 +405,42 @@ public class ImageDetailScrollActivity
 
     }
 
+    //获取更多你可能喜欢
+    private void getMoreLikeMayBe() {
+        more_loding = true;
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        ++like_maybe_page_num;
+                        String data = "{\"data\": " + data_msg + "}";
+                        LikeDataBean likeDataBean = GsonUtil.jsonToBean(data, LikeDataBean.class);
+
+                        if (null != likeDataBean.getData().getItem_list() && likeDataBean.getData().getItem_list().size() != 0) {
+                            List<ImageLikeItemBean> list = likeDataBean.getData().getItem_list();
+                            for (int i = 0; i < list.size(); i++) {
+                                mItemIdList.add(list.get(i).getItem_info().getItem_id());
+                            }
+                            mAdapter.notifyDataSetChanged();
+                            more_loding = false;
+                        }
+                    } else {
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().caiLikeImage(like_maybe_id, (like_maybe_page_num - 1) * 20 + "", 20 + "", callBack);
+    }
 
     public class MyImagePageAdater extends FragmentStatePagerAdapter {
 
