@@ -540,29 +540,25 @@ public class ShaiXuanResultActicity
                     }
                 });
 
-
-                if(curentListTag){
-                    holder.getView(R.id.tv_shoucang_num).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
-                        }
-                    });
-                    holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
-                        }
-                    });
-
-                    ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
-                    if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
-                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang);
-                    } else {//收藏
-                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang1);
+                holder.getView(R.id.tv_shoucang_num).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
                     }
-                }
+                });
+                holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
+                    }
+                });
 
+                ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
+                if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
+                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang);
+                } else {//收藏
+                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang1);
+                }
             }
         };
 
@@ -577,17 +573,17 @@ public class ShaiXuanResultActicity
         onRefresh();
     }
 
-   private void clickColorQiu(){
-       //友盟统计
-       HashMap<String, String> map = new HashMap<String, String>();
-       map.put("evenname", "三个色彩点");
-       map.put("even", "标签页");
-       MobclickAgent.onEvent(ShaiXuanResultActicity.this, "jtaction3", map);
-       //ga统计
-       MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-               .setCategory("标签页")  //事件类别
-               .setAction("三个色彩点")      //事件操作
-               .build());
+    private void clickColorQiu() {
+        //友盟统计
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("evenname", "三个色彩点");
+        map.put("even", "标签页");
+        MobclickAgent.onEvent(ShaiXuanResultActicity.this, "jtaction3", map);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("标签页")  //事件类别
+                .setAction("三个色彩点")      //事件操作
+                .build());
     }
 
     private void getListData(final String state) {
@@ -815,7 +811,6 @@ public class ShaiXuanResultActicity
         MobclickAgent.onPageEnd("标签页");
         MobclickAgent.onPause(this);
     }
-
 
 
     //收藏或者取消收藏，图片
