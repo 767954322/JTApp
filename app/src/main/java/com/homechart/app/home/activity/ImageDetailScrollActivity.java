@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -94,7 +96,7 @@ public class ImageDetailScrollActivity
         mAdapter = new MyImagePageAdater(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(mPosition);
-        mViewPager.setOffscreenPageLimit(4);
+        mViewPager.setOffscreenPageLimit(-1);
     }
 
     @Override
@@ -126,7 +128,7 @@ public class ImageDetailScrollActivity
         MobclickAgent.onPause(this);
     }
 
-    public class MyImagePageAdater extends FragmentPagerAdapter {
+    public class MyImagePageAdater extends FragmentStatePagerAdapter {
 
         public MyImagePageAdater(FragmentManager fm) {
             super(fm);
@@ -135,6 +137,11 @@ public class ImageDetailScrollActivity
         @Override
         public Fragment getItem(int position) {
             return new ImageDetailFragment(mItemIdList.get(position));
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            super.destroyItem(container, position, object);
         }
 
         @Override
