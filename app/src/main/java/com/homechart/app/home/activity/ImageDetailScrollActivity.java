@@ -74,15 +74,16 @@ public class ImageDetailScrollActivity
     private String type;
     private int wei = 0;
 
+
+    //公用的判断是否正在加载中
+    private boolean more_loding = false;
     //筛选
     private Map<Integer, ColorItemBean> mSelectListData;
     private String shaixuan_tag;
     private int shuaixuan_page_num = 2;
-    private boolean more_loding = false;
     //你可能喜欢
     private String like_maybe_id = "";
     private int like_maybe_page_num = 2;
-    private boolean like_maybe_loding = false;
 
     @Override
     protected int getLayoutResId() {
