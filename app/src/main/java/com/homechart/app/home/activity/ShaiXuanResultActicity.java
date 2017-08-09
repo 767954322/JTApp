@@ -521,6 +521,9 @@ public class ShaiXuanResultActicity
                         Intent intent = new Intent(ShaiXuanResultActicity.this, ImageDetailScrollActivity.class);
                         intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
                         intent.putExtra("position", position);
+                        intent.putExtra("type", "筛选");
+                        intent.putExtra("mSelectListData", (Serializable) mSelectListData);
+                        intent.putExtra("shaixuan_tag", shaixuan_tag);
                         intent.putExtra("item_id_list", (Serializable) mItemIdList);
                         startActivity(intent);
                     }
@@ -578,7 +581,7 @@ public class ShaiXuanResultActicity
         onRefresh();
     }
 
-    private void clickColorQiu( int position) {
+    private void clickColorQiu(int position) {
         //友盟统计
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("evenname", "三个色彩点");
@@ -593,6 +596,9 @@ public class ShaiXuanResultActicity
         Intent intent = new Intent(ShaiXuanResultActicity.this, ImageDetailScrollActivity.class);
         intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
         intent.putExtra("position", position);
+        intent.putExtra("type", "筛选");
+        intent.putExtra("mSelectListData", (Serializable) mSelectListData);
+        intent.putExtra("shaixuan_tag", shaixuan_tag);
         intent.putExtra("item_id_list", (Serializable) mItemIdList);
         startActivity(intent);
     }
