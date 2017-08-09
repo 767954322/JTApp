@@ -59,6 +59,7 @@ import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
+import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
@@ -167,6 +168,28 @@ public class SearchPicFragment
         mAdapter = new MultiItemCommonAdapter<SearchItemDataBean>(activity, mListData, support) {
             @Override
             public void convert(BaseViewHolder holder, final int position) {
+
+
+                ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
+
+                if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
+                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang);
+                } else {//收藏
+                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang1);
+                }
+                holder.getView(R.id.tv_shoucang_num).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onShouCang(!mListData.get(position).getItem_info().getIs_collected().equals("1"), position, mListData.get(position));
+                    }
+                });
+                holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onShouCang(!mListData.get(position).getItem_info().getIs_collected().equals("1"), position, mListData.get(position));
+                    }
+                });
+
 
 
                 ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_search_one).getLayoutParams();
@@ -427,6 +450,94 @@ public class SearchPicFragment
             }
 
         }
+    }
+
+
+
+    //收藏或者取消收藏，图片
+    public void onShouCang(boolean ifShouCang, int position, SearchItemDataBean searchItemDataBean) {
+
+        if (ifShouCang) {
+            //未被收藏，去收藏
+            addShouCang(position, searchItemDataBean.getItem_info().getItem_id());
+        } else {
+            //被收藏，去取消收藏
+            removeShouCang(position, searchItemDataBean.getItem_info().getItem_id());
+        }
+
+    }
+
+    //收藏
+    private void addShouCang(final int position, String item_id) {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                CustomProgress.cancelDialog();
+                ToastUtils.showCenter(activity, "收藏成功");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        ToastUtils.showCenter(activity, "收藏成功");
+                        mListData.get(position).getItem_info().setIs_collected("1");
+                        try {
+                            int collect_num = Integer.parseInt(mListData.get(position).getItem_info().getCollect_num().trim());
+                            mListData.get(position).getItem_info().setCollect_num(++collect_num + "");
+                        } catch (Exception e) {
+                        }
+                        mAdapter.notifyItemChanged(position);
+                    } else {
+                        ToastUtils.showCenter(activity, error_msg);
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(activity, "收藏失败");
+                }
+            }
+        };
+        MyHttpManager.getInstance().addShouCang(item_id, callBack);
+    }
+
+    //取消收藏
+    private void removeShouCang(final int position, String item_id) {
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                CustomProgress.cancelDialog();
+                ToastUtils.showCenter(activity, "取消收藏失败");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        ToastUtils.showCenter(activity, "取消收藏成功");
+                        mListData.get(position).getItem_info().setIs_collected("0");
+                        try {
+                            int collect_num = Integer.parseInt(mListData.get(position).getItem_info().getCollect_num().trim());
+                            mListData.get(position).getItem_info().setCollect_num(--collect_num + "");
+                        } catch (Exception e) {
+                        }
+                        mAdapter.notifyItemChanged(position);
+                    } else {
+                        ToastUtils.showCenter(activity, error_msg);
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(activity, "取消收藏失败");
+                }
+            }
+        };
+        MyHttpManager.getInstance().removeShouCang(item_id, callBack);
     }
 
 }
