@@ -137,10 +137,7 @@ public class HomePicFragment
     private boolean move_tag = true;
     private RelativeLayout id_main;
     private View view_line_back;
-
-    private List<String> mItemIdList = new ArrayList<>();
     boolean ifShouCang = true;
-
     public HomePicFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
@@ -348,18 +345,10 @@ public class HomePicFragment
                 .setCategory("首页")  //事件类别
                 .setAction("三个色彩点")      //事件操作
                 .build());
-
-        int imgPosition = -1;
-        for (int i = 0; i < mItemIdList.size(); i++) {
-            if (mListData.get(position).getObject_info().getObject_id().equals(mItemIdList.get(i))) {
-                imgPosition = i;
-            }
-        }
         //查看单图详情
-        Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
+        Intent intent = new Intent(activity, ImageDetailLongActivity.class);
         intent.putExtra("item_id", item_id);
-        intent.putExtra("position", imgPosition);
-        intent.putExtra("item_id_list", (Serializable) mItemIdList);
+        intent.putExtra("if_click_color", true);
         startActivity(intent);
     }
 
@@ -575,18 +564,9 @@ public class HomePicFragment
 
                                 if (mListData.get(position).getObject_info().getType().equals("single")) {
 
-                                    int imgPosition = -1;
-                                    for (int i = 0; i < mItemIdList.size(); i++) {
-                                        if (mListData.get(position).getObject_info().getObject_id().equals(mItemIdList.get(i))) {
-                                            imgPosition = i;
-                                        }
-                                    }
-
                                     //查看单图详情
-                                    Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
+                                    Intent intent = new Intent(activity, ImageDetailLongActivity.class);
                                     intent.putExtra("item_id", mListData.get(position).getObject_info().getObject_id());
-                                    intent.putExtra("position", imgPosition);
-                                    intent.putExtra("item_id_list", (Serializable) mItemIdList);
                                     startActivity(intent);
                                 }
 
@@ -853,16 +833,8 @@ public class HomePicFragment
         switch (state) {
             case REFRESH_STATUS:
                 mListData.clear();
-                mItemIdList.clear();
                 if (null != listData && listData.size() > 0) {
                     mListData.addAll(listData);
-                    for (int i = 0; i < listData.size(); i++) {
-                        String type = listData.get(i).getObject_info().getType();
-                        if (type.trim().equals("single")) {
-                            mItemIdList.add(listData.get(i).getObject_info().getObject_id());
-                        }
-                    }
-
                 } else {
                     page_num = 1;
                     mListData.clear();
@@ -877,11 +849,6 @@ public class HomePicFragment
                     mListData.addAll(listData);
                     mAdapter.notifyItem(position, mListData, listData);
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-
-                    for (int i = 0; i < listData.size(); i++) {
-                        if (listData.get(i).getObject_info().getType().equals("single"))
-                            mItemIdList.add(listData.get(i).getObject_info().getObject_id());
-                    }
 
                 } else {
                     --page_num;
