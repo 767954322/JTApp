@@ -449,6 +449,7 @@ public class HuoDongDetailsActivity
                 .build());
         Intent intent = new Intent(HuoDongDetailsActivity.this, ImageDetailLongActivity.class);
         intent.putExtra("item_id", item_id);
+        intent.putExtra("if_click_color", true);
         startActivity(intent);
     }
 

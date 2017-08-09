@@ -188,6 +188,7 @@ public class ImageDetailLongActivity
     private RelativeLayout rl_imagedetails_next;
     private LinearLayout ll_color_lines;
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
+    private boolean if_click_color;
 
     @Override
     protected int getLayoutResId() {
@@ -198,7 +199,14 @@ public class ImageDetailLongActivity
     protected void initExtraBundle() {
         super.initExtraBundle();
         item_id = getIntent().getStringExtra("item_id");
+        if_click_color = getIntent().getBooleanExtra("if_click_color",false);
         mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
+
+        if(if_click_color){
+            ifShowColorList = true;
+        }else {
+            ifShowColorList = false;
+        }
     }
 
     @Override
@@ -978,6 +986,7 @@ public class ImageDetailLongActivity
                 .build());
         Intent intent = new Intent(ImageDetailLongActivity.this, ImageDetailLongActivity.class);
         intent.putExtra("item_id", item_id);
+        intent.putExtra("if_click_color", true);
         startActivity(intent);
     }
 
@@ -1267,12 +1276,21 @@ public class ImageDetailLongActivity
                     textView.setBackgroundColor(Color.parseColor("#" + listColor.get(i).getColor_value()));
                     ll_color_lines.addView(textView);
                 }
-                rl_imagedetails_next.setVisibility(View.VISIBLE);
-                iv_ifshow_color.setVisibility(View.VISIBLE);
-                dgv_colorlist.setVisibility(View.VISIBLE);
-                tv_color_tips.setVisibility(View.VISIBLE);
-                rl_color_location.setVisibility(View.VISIBLE);
                 dgv_colorlist.setAdapter(new MyColorGridAdapter(listColor, ImageDetailLongActivity.this));
+
+                iv_ifshow_color.setVisibility(View.VISIBLE);
+                rl_imagedetails_next.setVisibility(View.VISIBLE);
+                if(ifShowColorList){
+                    dgv_colorlist.setVisibility(View.VISIBLE);
+                    tv_color_tips.setVisibility(View.VISIBLE);
+                    rl_color_location.setVisibility(View.VISIBLE);
+                    iv_ifshow_color.setImageResource(R.drawable.shouqi);
+                }else {
+                    dgv_colorlist.setVisibility(View.GONE);
+                    iv_ifshow_color.setImageResource(R.drawable.zhankai);
+                    tv_color_tips.setVisibility(View.GONE);
+                    rl_color_location.setVisibility(View.GONE);
+                }
             } else {
                 rl_imagedetails_next.setVisibility(View.GONE);
                 iv_ifshow_color.setVisibility(View.GONE);

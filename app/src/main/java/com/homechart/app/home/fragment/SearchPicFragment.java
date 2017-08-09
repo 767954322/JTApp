@@ -320,6 +320,7 @@ public class SearchPicFragment
                 .build());
         Intent intent = new Intent(activity, ImageDetailLongActivity.class);
         intent.putExtra("item_id", item_id);
+        intent.putExtra("if_click_color", true);
         startActivity(intent);
     }
 
