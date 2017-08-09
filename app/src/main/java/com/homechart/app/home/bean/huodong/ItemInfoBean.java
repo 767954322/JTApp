@@ -15,14 +15,21 @@ public class ItemInfoBean implements Serializable {
     private String add_time;
     private ItemInfoImageBean image;
 
-    public ItemInfoBean(String item_id, String tag, String collect_num, String comment_num, String add_time, ItemInfoImageBean image) {
+
+    private String is_collected;
+    private String like_num;
+
+    public ItemInfoBean(String item_id, String tag, String collect_num, String comment_num, String add_time, ItemInfoImageBean image, String is_collected, String like_num) {
         this.item_id = item_id;
         this.tag = tag;
         this.collect_num = collect_num;
         this.comment_num = comment_num;
         this.add_time = add_time;
         this.image = image;
+        this.is_collected = is_collected;
+        this.like_num = like_num;
     }
+
 
     public String getItem_id() {
         return item_id;
@@ -72,6 +79,22 @@ public class ItemInfoBean implements Serializable {
         this.image = image;
     }
 
+    public String getIs_collected() {
+        return is_collected;
+    }
+
+    public void setIs_collected(String is_collected) {
+        this.is_collected = is_collected;
+    }
+
+    public String getLike_num() {
+        return like_num;
+    }
+
+    public void setLike_num(String like_num) {
+        this.like_num = like_num;
+    }
+
     @Override
     public String toString() {
         return "ItemInfoBean{" +
@@ -81,6 +104,8 @@ public class ItemInfoBean implements Serializable {
                 ", comment_num='" + comment_num + '\'' +
                 ", add_time='" + add_time + '\'' +
                 ", image=" + image +
+                ", is_collected='" + is_collected + '\'' +
+                ", like_num='" + like_num + '\'' +
                 '}';
     }
 }
