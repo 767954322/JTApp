@@ -16,10 +16,9 @@ public class SYDataObjectBean implements Serializable{
 
     private String like_num;
     private String collect_num;
-    private int is_collected;
+    private String is_collected;
 
-
-    public SYDataObjectBean(String object_id, String type, String tag, String title, SYDataObjectImgBean image, String like_num, String collect_num, int is_collected) {
+    public SYDataObjectBean(String object_id, String type, String tag, String title, SYDataObjectImgBean image, String like_num, String collect_num, String is_collected) {
         this.object_id = object_id;
         this.type = type;
         this.tag = tag;
@@ -86,11 +85,11 @@ public class SYDataObjectBean implements Serializable{
         this.collect_num = collect_num;
     }
 
-    public int getIs_collected() {
+    public String getIs_collected() {
         return is_collected;
     }
 
-    public void setIs_collected(int is_collected) {
+    public void setIs_collected(String is_collected) {
         this.is_collected = is_collected;
     }
 
@@ -104,7 +103,7 @@ public class SYDataObjectBean implements Serializable{
                 ", image=" + image +
                 ", like_num='" + like_num + '\'' +
                 ", collect_num='" + collect_num + '\'' +
-                ", is_collected=" + is_collected +
+                ", is_collected='" + is_collected + '\'' +
                 '}';
     }
 }

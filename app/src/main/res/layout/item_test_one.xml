@@ -29,7 +29,6 @@
             android:layout_alignParentRight="true"
             android:paddingRight="@dimen/font_10"
             android:paddingLeft="@dimen/font_5"
-            android:text="321"
             android:textColor="@color/white"
             android:textSize="@dimen/size_12" />
 

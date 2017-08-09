@@ -425,7 +425,7 @@ public class HomePicFragment
 
                         ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getObject_info().getCollect_num());
 
-                        if (mListData.get(position).getObject_info().getIs_collected() != 1) {//未收藏
+                        if (!mListData.get(position).getObject_info().getIs_collected().equals("1")) {//未收藏
                             ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang);
                         } else {//收藏
                             ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang1);
@@ -433,13 +433,13 @@ public class HomePicFragment
                         holder.getView(R.id.tv_shoucang_num).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                onShouCang(mListData.get(position).getObject_info().getIs_collected() != 1, position, mListData.get(position));
+                                onShouCang(!mListData.get(position).getObject_info().getIs_collected().equals("1"), position, mListData.get(position));
                             }
                         });
                         holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                onShouCang(mListData.get(position).getObject_info().getIs_collected() != 1, position, mListData.get(position));
+                                onShouCang(!mListData.get(position).getObject_info().getIs_collected().equals("1"), position, mListData.get(position));
                             }
                         });
 
@@ -792,7 +792,7 @@ public class HomePicFragment
                                         (syActivityInfoBean.getId(), "活动", syActivityInfoBean.getTitle(), "",
                                                 new SYDataObjectImgBean(syActivityInfoBean.getImage().getImg1_ratio(),
                                                         syActivityInfoBean.getImage().getImg0(), syActivityInfoBean.getImage().getImg1())
-                                                , "", "", 0), null, null);
+                                                , "", "", ""), null, null);
                                 if (state.equals(REFRESH_STATUS)) {
                                     list_newdata.add(syDataBean);
                                     list_newdata.addAll(list_data);
@@ -1127,7 +1127,7 @@ public class HomePicFragment
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
                         ToastUtils.showCenter(activity, "收藏成功");
-                        mListData.get(position).getObject_info().setIs_collected(1);
+                        mListData.get(position).getObject_info().setIs_collected("1");
                         try {
                             int collect_num = Integer.parseInt(mListData.get(position).getObject_info().getCollect_num().trim());
                             mListData.get(position).getObject_info().setCollect_num(++collect_num + "");
@@ -1164,7 +1164,7 @@ public class HomePicFragment
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
                         ToastUtils.showCenter(activity, "取消收藏成功");
-                        mListData.get(position).getObject_info().setIs_collected(0);
+                        mListData.get(position).getObject_info().setIs_collected("0");
                         try {
                             int collect_num = Integer.parseInt(mListData.get(position).getObject_info().getCollect_num().trim());
                             mListData.get(position).getObject_info().setCollect_num(--collect_num + "");

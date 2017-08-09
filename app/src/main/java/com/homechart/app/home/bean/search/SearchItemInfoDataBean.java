@@ -14,11 +14,19 @@ public class SearchItemInfoDataBean implements Serializable{
     private String item_id;
     private String tag;
     private SearchDataObjectImgBean image;
+    private String like_num;
+    private String collect_num;
+    private String comment_num;
+    private String is_collected;
 
-    public SearchItemInfoDataBean(String item_id, String tag, SearchDataObjectImgBean image) {
+    public SearchItemInfoDataBean(String item_id, String tag, SearchDataObjectImgBean image, String like_num, String collect_num, String comment_num, String is_collected) {
         this.item_id = item_id;
         this.tag = tag;
         this.image = image;
+        this.like_num = like_num;
+        this.collect_num = collect_num;
+        this.comment_num = comment_num;
+        this.is_collected = is_collected;
     }
 
     public String getItem_id() {
@@ -45,12 +53,48 @@ public class SearchItemInfoDataBean implements Serializable{
         this.image = image;
     }
 
+    public String getLike_num() {
+        return like_num;
+    }
+
+    public void setLike_num(String like_num) {
+        this.like_num = like_num;
+    }
+
+    public String getCollect_num() {
+        return collect_num;
+    }
+
+    public void setCollect_num(String collect_num) {
+        this.collect_num = collect_num;
+    }
+
+    public String getComment_num() {
+        return comment_num;
+    }
+
+    public void setComment_num(String comment_num) {
+        this.comment_num = comment_num;
+    }
+
+    public String getIs_collected() {
+        return is_collected;
+    }
+
+    public void setIs_collected(String is_collected) {
+        this.is_collected = is_collected;
+    }
+
     @Override
     public String toString() {
         return "SearchItemInfoDataBean{" +
                 "item_id='" + item_id + '\'' +
                 ", tag='" + tag + '\'' +
                 ", image=" + image +
+                ", like_num='" + like_num + '\'' +
+                ", collect_num='" + collect_num + '\'' +
+                ", comment_num='" + comment_num + '\'' +
+                ", is_collected='" + is_collected + '\'' +
                 '}';
     }
 }
