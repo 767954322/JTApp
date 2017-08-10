@@ -49,11 +49,22 @@
                 android:src="@drawable/shijian" />
 
             <TextView
-                android:id="@+id/tv_data_last"
+                android:id="@+id/tv_data_last_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/font_3"
+                android:textColor="@color/bg_b2b2b2"
+                android:layout_toRightOf="@+id/iv_data_last_icon"
+                android:textSize="@dimen/size_12" />
+
+            <TextView
+                android:id="@+id/tv_data_last_ing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/font_3"
+                android:visibility="gone"
                 android:textColor="@color/bg_e79056"
                 android:layout_toRightOf="@+id/iv_data_last_icon"
                 android:textSize="@dimen/size_12" />

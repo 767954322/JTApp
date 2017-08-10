@@ -103,16 +103,19 @@ public class HuoDongListActivity
                     String str = formatter.format(curDate);
                     long data = PublicUtils.diffDay(mListData.get(position).getActivity_info().getEnd_time(), str, "yyyy-MM-dd HH:mm:ss");
                     ((ImageView) holder.getView(R.id.iv_data_last_icon)).setImageResource(R.drawable.shijian);
-                    ((TextView) holder.getView(R.id.tv_data_last)).setText("还剩" + data + "天");
-                    ((TextView) holder.getView(R.id.tv_data_last)).setTextColor(R.color.bg_e79056);
+                    holder.getView(R.id.tv_data_last_ing).setVisibility(View.VISIBLE);
+                    holder.getView(R.id.tv_data_last_end).setVisibility(View.GONE);
+                    ((TextView) holder.getView(R.id.tv_data_last_ing)).setText("还剩" + data + "天");
                 } else if (mListData.get(position).getActivity_info().getState_id().equals("2")) {
                     ((ImageView) holder.getView(R.id.iv_data_last_icon)).setImageResource(R.drawable.shijian);
-                    ((TextView) holder.getView(R.id.tv_data_last)).setText("敬请期待");
-                    ((TextView) holder.getView(R.id.tv_data_last)).setTextColor(R.color.bg_e79056);
+                    holder.getView(R.id.tv_data_last_ing).setVisibility(View.VISIBLE);
+                    holder.getView(R.id.tv_data_last_end).setVisibility(View.GONE);
+                    ((TextView) holder.getView(R.id.tv_data_last_ing)).setText("敬请期待");
                 } else if (mListData.get(position).getActivity_info().getState_id().equals("1")) {
                     ((ImageView) holder.getView(R.id.iv_data_last_icon)).setImageResource(R.drawable.shijian1);
-                    ((TextView) holder.getView(R.id.tv_data_last)).setTextColor(R.color.bg_d7d7db);
-                    ((TextView) holder.getView(R.id.tv_data_last)).setText("已结束");
+                    holder.getView(R.id.tv_data_last_ing).setVisibility(View.GONE);
+                    holder.getView(R.id.tv_data_last_end).setVisibility(View.VISIBLE);
+                    ((TextView) holder.getView(R.id.tv_data_last_end)).setText("已结束");
                 }
 
                 holder.getView(R.id.rl_huodong_item).setOnClickListener(new View.OnClickListener() {
