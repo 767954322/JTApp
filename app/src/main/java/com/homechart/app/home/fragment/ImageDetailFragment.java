@@ -193,6 +193,7 @@ public class ImageDetailFragment
 
     private List<String> mItemIdList = new ArrayList<>();
     private TextView tv_content_right;
+    private ImageButton nav_secondary_imageButton;
 
     public ImageDetailFragment() {
 
@@ -225,6 +226,7 @@ public class ImageDetailFragment
     private void initView() {
 
         tv_content_right = (TextView)activity.findViewById(R.id.tv_content_right);
+        nav_secondary_imageButton = (ImageButton)activity.findViewById(R.id.nav_secondary_imageButton);
         homeSharedPopWinPublic = new HomeSharedPopWinPublic(activity, this);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_info);
         cet_clearedit = (ClearEditText) rootView.findViewById(R.id.cet_clearedit);
@@ -305,6 +307,7 @@ public class ImageDetailFragment
 
     private void initListener() {
         tv_content_right.setOnClickListener(this);
+        nav_secondary_imageButton.setOnClickListener(this);
         tv_bang.setOnClickListener(this);
         iv_bang.setOnClickListener(this);
         iv_xing.setOnClickListener(this);
@@ -580,6 +583,15 @@ public class ImageDetailFragment
             case R.id.iv_shared:
             case R.id.tv_shared:
                 wei = 1;
+                if (imageDetailBean != null) {
+                    homeSharedPopWinPublic.showAtLocation(activity.findViewById(R.id.menu_layout),
+                            Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
+                            0,
+                            0); //设置layout在PopupWindow中显示的位置
+                }
+                break;
+            case R.id.nav_secondary_imageButton:
+                wei = 0;
                 if (imageDetailBean != null) {
                     homeSharedPopWinPublic.showAtLocation(activity.findViewById(R.id.menu_layout),
                             Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,

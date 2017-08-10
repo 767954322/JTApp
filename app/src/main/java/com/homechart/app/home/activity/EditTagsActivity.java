@@ -60,6 +60,7 @@ public class EditTagsActivity
     private Map<String, String> mSelectMap;
     private EditText et_tag_text;
     private FlowLayoutFaBuTagsDing fl_tags_zidingyi;
+    private List<TagItemDataChildBean> list;
 
     @Override
     protected int getLayoutResId() {
@@ -77,6 +78,14 @@ public class EditTagsActivity
         fl_tags_zhuangshi = (FlowLayoutFaBuTags) findViewById(R.id.fl_tags_zhuangshi);
         fl_tags_zidingyi = (FlowLayoutFaBuTagsDing) findViewById(R.id.fl_tags_zidingyi);
         et_tag_text = (EditText) findViewById(R.id.et_tag_text);
+        if (list != null && list.size() > 0) {
+            listZiDing.addAll(list);
+            listZiDingSelect.addAll(list);
+            fl_tags_zidingyi.setVisibility(View.VISIBLE);
+        } else {
+
+            fl_tags_zidingyi.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -86,18 +95,10 @@ public class EditTagsActivity
         Bundle bundle = getIntent().getExtras();
         SerializableHashMap serializableHashMap = (SerializableHashMap) bundle.get("tags_select");
         mSelectMap = serializableHashMap.getMap();
-        List<TagItemDataChildBean> list = (List<TagItemDataChildBean>) getIntent().getSerializableExtra("zidingyi");
+        list = (List<TagItemDataChildBean>) getIntent().getSerializableExtra("zidingyi");
         tagDataBean = (TagDataBean) getIntent().getSerializableExtra("tagdata");
         listZiDing.clear();
         listZiDingSelect.clear();
-        if (list != null && list.size() > 0) {
-            listZiDing.addAll(list);
-            listZiDingSelect.addAll(list);
-            fl_tags_zidingyi.setVisibility(View.VISIBLE);
-        } else {
-
-            fl_tags_zidingyi.setVisibility(View.GONE);
-        }
     }
 
     @Override

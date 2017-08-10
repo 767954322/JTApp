@@ -116,7 +116,6 @@ public class ImageDetailScrollActivity
     protected void initListener() {
         super.initListener();
         nav_left_imageButton.setOnClickListener(this);
-        nav_secondary_imageButton.setOnClickListener(this);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -173,15 +172,6 @@ public class ImageDetailScrollActivity
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
                 ImageDetailScrollActivity.this.finish();
-                break;
-            case R.id.nav_secondary_imageButton:
-                wei = 0;
-                if (mImageDetailBean != null) {
-                    homeSharedPopWinPublic.showAtLocation(ImageDetailScrollActivity.this.findViewById(R.id.menu_layout),
-                            Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
-                            0,
-                            0); //设置layout在PopupWindow中显示的位置
-                }
                 break;
         }
 
