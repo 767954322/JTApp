@@ -29,6 +29,7 @@ import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.HuoDongDetailsActivity;
 import com.homechart.app.home.activity.ImageDetailLongActivity;
 import com.homechart.app.home.activity.ImageDetailScrollActivity;
+import com.homechart.app.home.activity.ImageEditActvity;
 import com.homechart.app.home.activity.PingListActivity;
 import com.homechart.app.home.activity.ShaiXuanResultActicity;
 import com.homechart.app.home.activity.UserInfoActivity;
@@ -191,6 +192,7 @@ public class ImageDetailFragment
     private UserInfo userInfo;
 
     private List<String> mItemIdList = new ArrayList<>();
+    private TextView tv_content_right;
 
     public ImageDetailFragment() {
 
@@ -222,6 +224,7 @@ public class ImageDetailFragment
 
     private void initView() {
 
+        tv_content_right = (TextView)activity.findViewById(R.id.tv_content_right);
         homeSharedPopWinPublic = new HomeSharedPopWinPublic(activity, this);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_info);
         cet_clearedit = (ClearEditText) rootView.findViewById(R.id.cet_clearedit);
@@ -301,6 +304,7 @@ public class ImageDetailFragment
 
 
     private void initListener() {
+        tv_content_right.setOnClickListener(this);
         tv_bang.setOnClickListener(this);
         iv_bang.setOnClickListener(this);
         iv_xing.setOnClickListener(this);
@@ -628,6 +632,13 @@ public class ImageDetailFragment
 
                 }
 
+                break;
+            case R.id.tv_content_right:
+                if (imageDetailBean != null) {
+                    Intent intent1 = new Intent(activity, ImageEditActvity.class);
+                    intent1.putExtra("image_value", imageDetailBean);
+                    startActivityForResult(intent1, 1);
+                }
                 break;
         }
     }

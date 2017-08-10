@@ -134,7 +134,15 @@ public class ImageEditActvity
             view_center.setVisibility(View.VISIBLE);
             tv_zhuti_tital.setVisibility(View.VISIBLE);
             rl_activity.setVisibility(View.VISIBLE);
-            tv_activity_tital.setText(imageDetailBean.getActivity_info().getTitle());
+
+            String tital = "";
+            if (imageDetailBean.getActivity_info().getTitle().length() > 12) {
+                tital = imageDetailBean.getActivity_info().getTitle().substring(0, 12) + "...";
+            } else {
+                tital = imageDetailBean.getActivity_info().getTitle();
+            }
+
+            tv_activity_tital.setText(tital);
         } else {
             view_center.setVisibility(View.GONE);
             tv_zhuti_tital.setVisibility(View.GONE);
@@ -397,11 +405,11 @@ public class ImageEditActvity
 
             } else if (code == 4) {
 
-                Intent intent = new Intent(ImageEditActvity.this,ImageDetailActivity.class);
-                setResult(1,intent);
+                Intent intent = new Intent(ImageEditActvity.this, ImageDetailActivity.class);
+                setResult(1, intent);
                 CustomProgress.cancelDialog();
                 ImageEditActvity.this.finish();
-            }else if(code == 5){
+            } else if (code == 5) {
 
                 String info = (String) msg.obj;
                 tagDataBean = GsonUtil.jsonToBean(info, TagDataBean.class);

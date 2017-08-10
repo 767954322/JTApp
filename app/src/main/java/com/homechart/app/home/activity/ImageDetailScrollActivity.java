@@ -117,7 +117,6 @@ public class ImageDetailScrollActivity
         super.initListener();
         nav_left_imageButton.setOnClickListener(this);
         nav_secondary_imageButton.setOnClickListener(this);
-        tv_content_right.setOnClickListener(this);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -174,13 +173,6 @@ public class ImageDetailScrollActivity
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
                 ImageDetailScrollActivity.this.finish();
-                break;
-            case R.id.tv_content_right:
-                if (mImageDetailBean != null) {
-                    Intent intent = new Intent(ImageDetailScrollActivity.this, ImageEditActvity.class);
-                    intent.putExtra("image_value", mImageDetailBean);
-                    startActivityForResult(intent, 1);
-                }
                 break;
             case R.id.nav_secondary_imageButton:
                 wei = 0;
