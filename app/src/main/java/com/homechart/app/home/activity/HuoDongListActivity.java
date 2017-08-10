@@ -36,7 +36,9 @@ import com.homechart.app.utils.volley.OkStringRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -86,7 +88,32 @@ public class HuoDongListActivity
                 holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
                 ImageUtils.displayFilletImage(mListData.get(position).getActivity_info().getImage().getImg0(),
                         (ImageView) holder.getView(R.id.iv_imageview_one));
-                ((TextView) holder.getView(R.id.tv_name_pic)).setText(mListData.get(position).getActivity_info().getTitle());
+                String tital = "";
+                if(mListData.get(position).getActivity_info().getTitle().length() > 12){
+                    tital =  mListData.get(position).getActivity_info().getTitle().substring(0,12)+"...";
+                }else {
+                    tital =  mListData.get(position).getActivity_info().getTitle();
+                }
+                ((TextView) holder.getView(R.id.tv_name_pic)).setText(tital);
+
+                if (mListData.get(position).getActivity_info().getState_id().equals("3")) {
+                    //计算时间
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date curDate = new Date(System.currentTimeMillis());
+                    String str = formatter.format(curDate);
+                    long data = PublicUtils.diffDay(mListData.get(position).getActivity_info().getEnd_time(), str, "yyyy-MM-dd HH:mm:ss");
+                    ((ImageView) holder.getView(R.id.iv_data_last_icon)).setImageResource(R.drawable.shijian);
+                    ((TextView) holder.getView(R.id.tv_data_last)).setText("还剩" + data + "天");
+                    ((TextView) holder.getView(R.id.tv_data_last)).setTextColor(R.color.bg_e79056);
+                } else if (mListData.get(position).getActivity_info().getState_id().equals("2")) {
+                    ((ImageView) holder.getView(R.id.iv_data_last_icon)).setImageResource(R.drawable.shijian);
+                    ((TextView) holder.getView(R.id.tv_data_last)).setText("敬请期待");
+                    ((TextView) holder.getView(R.id.tv_data_last)).setTextColor(R.color.bg_e79056);
+                } else if (mListData.get(position).getActivity_info().getState_id().equals("1")) {
+                    ((ImageView) holder.getView(R.id.iv_data_last_icon)).setImageResource(R.drawable.shijian1);
+                    ((TextView) holder.getView(R.id.tv_data_last)).setTextColor(R.color.bg_d7d7db);
+                    ((TextView) holder.getView(R.id.tv_data_last)).setText("已结束");
+                }
 
                 holder.getView(R.id.rl_huodong_item).setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -9,61 +9,63 @@
         android:id="@+id/iv_imageview_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/font_10"
-        android:layout_marginLeft="@dimen/font_10"
-        android:layout_marginRight="@dimen/font_10" />
+        android:layout_marginLeft="@dimen/font_15"
+        android:layout_marginRight="@dimen/font_15"
+        android:layout_marginTop="@dimen/font_10" />
 
 
     <RelativeLayout
+        android:id="@+id/rl_tital"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/text_view_border1"
-        android:layout_alignLeft="@+id/iv_imageview_one"
-        android:layout_alignRight="@+id/iv_imageview_one"
-        android:layout_alignBottom="@+id/iv_imageview_one">
+        android:layout_below="@+id/iv_imageview_one"
+        android:layout_marginTop="@dimen/font_20">
 
         <TextView
             android:id="@+id/tv_name_pic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginTop="@dimen/font_10"
-            android:layout_marginBottom="@dimen/font_10"
-            android:layout_marginRight="@dimen/font_10"
-            android:layout_marginLeft="@dimen/font_10"
+            android:layout_marginLeft="@dimen/font_15"
             android:text="小明"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_16" />
-
-    </RelativeLayout>
+            android:textColor="@color/bg_262626"
+            android:textSize="@dimen/size_18" />
 
 
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/iv_imageview_one"
-        android:layout_alignTop="@+id/iv_imageview_one">
-
-        <ImageView
+        <RelativeLayout
+            android:id="@+id/rl_data_last"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/huodong" />
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_15">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:includeFontPadding="false"
-            android:text="本周活动"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_14" />
+            <ImageView
+                android:id="@+id/iv_data_last_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/font_15"
+                android:src="@drawable/shijian" />
+
+            <TextView
+                android:id="@+id/tv_data_last"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/font_3"
+                android:textColor="@color/bg_e79056"
+                android:layout_toRightOf="@+id/iv_data_last_icon"
+                android:textSize="@dimen/size_12" />
+
+        </RelativeLayout>
     </RelativeLayout>
+
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_10"
-        android:layout_below="@+id/iv_imageview_one"
+        android:layout_below="@+id/rl_tital"
         android:layout_marginBottom="@dimen/font_10"
         android:layout_marginTop="@dimen/font_15"
         android:background="@color/bg_f2f2f2" />
