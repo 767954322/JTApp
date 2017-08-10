@@ -550,6 +550,15 @@ public class ShaiXuanResultActicity
                     }
                 });
 
+                if(curentListTag){
+                    holder.getView(R.id.tv_color_tital).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            clickColorQiu(position);
+                        }
+                    });
+                }
+
                 holder.getView(R.id.tv_shoucang_num).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
