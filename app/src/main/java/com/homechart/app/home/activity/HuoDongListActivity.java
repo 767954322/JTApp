@@ -95,6 +95,7 @@ public class HuoDongListActivity
                     tital =  mListData.get(position).getActivity_info().getTitle();
                 }
                 ((TextView) holder.getView(R.id.tv_name_pic)).setText(tital);
+                ((TextView) holder.getView(R.id.tv_num_canyu)).setText(mListData.get(position).getActivity_info().getJoin_user_num());
 
                 if (mListData.get(position).getActivity_info().getState_id().equals("3")) {
                     //计算时间

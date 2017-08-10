@@ -54,8 +54,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/font_3"
-                android:textColor="@color/bg_b2b2b2"
                 android:layout_toRightOf="@+id/iv_data_last_icon"
+                android:textColor="@color/bg_b2b2b2"
                 android:textSize="@dimen/size_12" />
 
             <TextView
@@ -64,19 +64,39 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/font_3"
-                android:visibility="gone"
-                android:textColor="@color/bg_e79056"
                 android:layout_toRightOf="@+id/iv_data_last_icon"
-                android:textSize="@dimen/size_12" />
+                android:textColor="@color/bg_e79056"
+                android:textSize="@dimen/size_12"
+                android:visibility="gone" />
 
         </RelativeLayout>
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/tv_num_canyu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_tital"
+        android:layout_marginLeft="@dimen/font_15"
+        android:layout_marginTop="@dimen/font_10"
+        android:textColor="@color/bg_262626"
+        android:textSize="@dimen/size_11" />
+
+    <TextView
+        android:id="@+id/tv_canyu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_tital"
+        android:layout_marginTop="@dimen/font_10"
+        android:layout_toRightOf="@+id/tv_num_canyu"
+        android:text="人参与"
+        android:textColor="@color/bg_8f8f8f"
+        android:textSize="@dimen/size_11" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_10"
-        android:layout_below="@+id/rl_tital"
+        android:layout_below="@+id/tv_num_canyu"
         android:layout_marginBottom="@dimen/font_10"
         android:layout_marginTop="@dimen/font_15"
         android:background="@color/bg_f2f2f2" />
