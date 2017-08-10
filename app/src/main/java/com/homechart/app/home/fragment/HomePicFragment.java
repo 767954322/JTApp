@@ -33,6 +33,7 @@ import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.ArticleDetailsActivity;
 import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.activity.HuoDongDetailsActivity;
+import com.homechart.app.home.activity.HuoDongListActivity;
 import com.homechart.app.home.activity.ImageDetailLongActivity;
 import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.MessagesListActivity;
@@ -138,6 +139,7 @@ public class HomePicFragment
     private RelativeLayout id_main;
     private View view_line_back;
     boolean ifShouCang = true;
+
     public HomePicFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
@@ -242,8 +244,11 @@ public class HomePicFragment
         switch (v.getId()) {
             case R.id.cet_clearedit:
 
-                onDismiss();
-                Intent intent = new Intent(activity, SearchActivity.class);
+//                onDismiss();
+//                Intent intent = new Intent(activity, SearchActivity.class);
+//                startActivity(intent);
+
+                Intent intent = new Intent(activity, HuoDongListActivity.class);
                 startActivity(intent);
 
                 break;
@@ -653,8 +658,8 @@ public class HomePicFragment
                 String info = (String) msg.obj;
                 try {
                     JSONObject jsonObject = new JSONObject(info);
-                    String num = jsonObject.getString("notice_num");
-                    changeUnReaderMsg(num);
+                    int notice_num = jsonObject.getInt("notice_num");
+                    changeUnReaderMsg(notice_num + "");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
