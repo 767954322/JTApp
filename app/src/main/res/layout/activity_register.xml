@@ -3,14 +3,85 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/common_navbar"
-        layout="@layout/view_navigation_header" />
+    <RelativeLayout
+        android:id="@+id/rl_navr_header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/bg_f9"
+        android:gravity="center_vertical">
+
+        <RelativeLayout
+            android:id="@+id/backButton_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/nav_left_imageButton"
+                android:layout_width="@dimen/size_40"
+                android:layout_height="@dimen/size_40"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/size_10"
+                android:background="@drawable/transparent"
+                android:padding="@dimen/size_8"
+                android:scaleType="centerInside"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/nav_left_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:textSize="@dimen/font_17"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+
+        <ImageButton
+            android:id="@+id/nav_secondary_imageButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/transparent"
+            android:padding="@dimen/size_8"
+            android:scaleType="centerInside"/>
+
+        <TextView
+            android:id="@+id/tv_tital_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/case_text_tital_name"
+            android:textSize="@dimen/font_18" />
+
+        <View
+            android:id="@+id/view_navigation_header_view"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/navbar_bottom_border_color" />
+
+        <TextView
+            android:id="@+id/tv_content_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="@dimen/font_15"
+            android:paddingRight="@dimen/font_15"
+            android:paddingTop="@dimen/font_15"
+            android:paddingBottom="@dimen/font_15"
+            android:textColor="@color/case_text_tital_name"
+            android:textSize="@dimen/font_14" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/common_navbar"
+        android:layout_below="@+id/rl_navr_header"
         android:layout_marginTop="@dimen/font_20"
         android:paddingLeft="@dimen/font_25"
         android:paddingRight="@dimen/font_25">
@@ -174,6 +245,34 @@
                 android:textSize="@dimen/font_13" />
 
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_jumpto_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_jumpto_mast"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/font_1"
+            android:layout_marginTop="@dimen/font_20">
+
+            <TextView
+                android:id="@+id/tv_jumpto_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="账号登录"
+                android:textColor="@color/bg_464646"
+                android:layout_marginRight="@dimen/font_8"
+                android:textSize="@dimen/font_14" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv_jumpto_login"
+                android:src="@drawable/next"/>
+
+        </RelativeLayout>
+
 
         <RelativeLayout
             android:id="@+id/rl_shared"

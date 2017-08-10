@@ -185,6 +185,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter
                 .build());
         SharedPreferencesUtils.writeBoolean(ISFIRST, true);
         Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra("if_first",true);
         startActivity(intent);
         finish();
     }

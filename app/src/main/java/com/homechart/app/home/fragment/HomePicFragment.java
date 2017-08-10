@@ -244,12 +244,10 @@ public class HomePicFragment
         switch (v.getId()) {
             case R.id.cet_clearedit:
 
-//                onDismiss();
-//                Intent intent = new Intent(activity, SearchActivity.class);
-//                startActivity(intent);
-
-                Intent intent = new Intent(activity, HuoDongListActivity.class);
+                onDismiss();
+                Intent intent = new Intent(activity, SearchActivity.class);
                 startActivity(intent);
+
 
                 break;
             case R.id.iv_change_frag:

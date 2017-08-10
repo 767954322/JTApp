@@ -56,6 +56,7 @@ public class LoginActivity extends BaseActivity
     private String photo_id = "";
     private String activity_id = "";
     private String article_id = "";
+    private boolean if_first;
 
     @Override
     protected int getLayoutResId() {
@@ -66,6 +67,7 @@ public class LoginActivity extends BaseActivity
     protected void initExtraBundle() {
         super.initExtraBundle();
 
+        if_first =  getIntent().getBooleanExtra("if_first",false);
         type = getIntent().getStringExtra("type");
         object_id = getIntent().getStringExtra("object_id");
         String data = getIntent().getDataString();
@@ -153,6 +155,10 @@ public class LoginActivity extends BaseActivity
             umAuthListener = new PublicUtils.UmAuthListener(LoginActivity.this, this);
             mTVTital.setText(R.string.login_tital);
             mIBBack.setVisibility(View.GONE);
+        }
+
+        if(if_first){
+            startActivityForResult(new Intent(LoginActivity.this, RegisterActivity.class), 0);
         }
 
     }

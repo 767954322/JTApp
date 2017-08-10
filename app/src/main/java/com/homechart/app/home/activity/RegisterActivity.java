@@ -72,6 +72,7 @@ public class RegisterActivity extends BaseActivity
             mTVSendJiYan.setText(R.string.yanzhengma_hint);
         }
     };
+    private RelativeLayout rl_jumpto_login;
 
 
     @Override
@@ -83,7 +84,7 @@ public class RegisterActivity extends BaseActivity
     protected void initView() {
 
         mRLJumpMast = (RelativeLayout) findViewById(R.id.rl_jumpto_mast);
-        mIBBack = (ImageButton) findViewById(R.id.nav_left_imageButton);
+//        mIBBack = (ImageButton) findViewById(R.id.nav_left_imageButton);
         mTVTital = (TextView) findViewById(tv_tital_comment);
         mTVLoginQQ = (TextView) findViewById(R.id.tv_login_qq);
         mTVLoginSina = (TextView) findViewById(R.id.tv_login_sina);
@@ -95,6 +96,7 @@ public class RegisterActivity extends BaseActivity
         mETNikeName = (EditText) findViewById(R.id.et_regiter_name);
         mETPassWord = (EditText) findViewById(R.id.et_register_password);
         mETYanZheng = (EditText) findViewById(R.id.et_regiter_yanzhengma);
+        rl_jumpto_login = (RelativeLayout) findViewById(R.id.rl_jumpto_login);
 
     }
 
@@ -102,7 +104,7 @@ public class RegisterActivity extends BaseActivity
     protected void initListener() {
         super.initListener();
 
-        mIBBack.setOnClickListener(this);
+//        mIBBack.setOnClickListener(this);
         mTVLoginQQ.setOnClickListener(this);
         mTVLoginWeiXin.setOnClickListener(this);
         mTVLoginSina.setOnClickListener(this);
@@ -110,6 +112,7 @@ public class RegisterActivity extends BaseActivity
         mTVSendJiYan.setOnClickListener(this);
         mBTRegister.setOnClickListener(this);
         mRLJumpMast.setOnClickListener(this);
+        rl_jumpto_login.setOnClickListener(this);
 
     }
 
@@ -123,7 +126,7 @@ public class RegisterActivity extends BaseActivity
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.nav_left_imageButton:
+            case R.id.rl_jumpto_login:
 
                 RegisterActivity.this.finish();
 
@@ -468,7 +471,7 @@ public class RegisterActivity extends BaseActivity
     }
     private RelativeLayout mRLJumpMast;
     private ImageView mIVIfShowPass;
-    private ImageButton mIBBack;
+//    private ImageButton mIBBack;
     private Button mBTRegister;
 
     private TextView mTVTital;
