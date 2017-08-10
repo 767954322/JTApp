@@ -522,6 +522,7 @@ public class ShaiXuanResultActicity
                         intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
                         intent.putExtra("position", position);
                         intent.putExtra("type", "筛选");
+                        intent.putExtra("if_click_color", false);
                         intent.putExtra("mSelectListData", (Serializable) mSelectListData);
                         intent.putExtra("shaixuan_tag", shaixuan_tag);
                         intent.putExtra("page_num", page_num);
@@ -598,6 +599,7 @@ public class ShaiXuanResultActicity
         intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
         intent.putExtra("position", position);
         intent.putExtra("type", "筛选");
+        intent.putExtra("if_click_color", true);
         intent.putExtra("mSelectListData", (Serializable) mSelectListData);
         intent.putExtra("shaixuan_tag", shaixuan_tag);
         intent.putExtra("page_num", page_num);

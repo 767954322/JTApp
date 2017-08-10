@@ -186,7 +186,6 @@ public class ImageDetailFragment
     private LinearLayout ll_color_lines;
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
 
-    private boolean ifShowColorList = true;
     private boolean ifHasHeader = false;
     private int wei = 0;
     private UserInfo userInfo;
@@ -194,6 +193,7 @@ public class ImageDetailFragment
     private List<String> mItemIdList = new ArrayList<>();
     private TextView tv_content_right;
     private ImageButton nav_secondary_imageButton;
+    private boolean mifShowColorList;
 
     public ImageDetailFragment() {
 
@@ -212,6 +212,7 @@ public class ImageDetailFragment
 
     @Override
     protected void lazyLoad() {
+        mifShowColorList = ((ImageDetailScrollActivity)activity).ifShowColorList;
         userInfo.getUserInfo(imageDetailBean);
         initExtraBundle();
         initView();
@@ -601,9 +602,9 @@ public class ImageDetailFragment
                 break;
             case R.id.iv_ifshow_color:
 
-                if (ifShowColorList) {
+                if (mifShowColorList) {
                     //隐藏
-                    ifShowColorList = false;
+                    mifShowColorList = false;
 
                     iv_ifshow_color.setVisibility(View.VISIBLE);
                     iv_ifshow_color.setImageResource(R.drawable.zhankai);
@@ -624,8 +625,7 @@ public class ImageDetailFragment
 
                 } else {
                     //显示
-                    ifShowColorList = true;
-
+                    mifShowColorList = true;
                     iv_ifshow_color.setImageResource(R.drawable.shouqi);
                     iv_ifshow_color.setVisibility(View.VISIBLE);
                     dgv_colorlist.setVisibility(View.VISIBLE);
@@ -771,6 +771,7 @@ public class ImageDetailFragment
                         intent.putExtra("position", position);
                         intent.putExtra("like_id", item_id);
                         intent.putExtra("type", "你可能喜欢");
+                        intent.putExtra("if_click_color", false);
                         intent.putExtra("page_num", page);
                         intent.putExtra("item_id_list", (Serializable) mItemIdList);
                         startActivity(intent);
@@ -1010,6 +1011,7 @@ public class ImageDetailFragment
         intent.putExtra("like_id", item_id);
         intent.putExtra("type", "你可能喜欢");
         intent.putExtra("page_num", page);
+        intent.putExtra("if_click_color", true);
         intent.putExtra("item_id_list", (Serializable) mItemIdList);
         startActivity(intent);
     }
@@ -1300,17 +1302,37 @@ public class ImageDetailFragment
                     textView.setBackgroundColor(Color.parseColor("#" + listColor.get(i).getColor_value()));
                     ll_color_lines.addView(textView);
                 }
-                rl_imagedetails_next.setVisibility(View.VISIBLE);
-                iv_ifshow_color.setVisibility(View.VISIBLE);
-                dgv_colorlist.setVisibility(View.VISIBLE);
-                tv_color_tips.setVisibility(View.VISIBLE);
-                rl_color_location.setVisibility(View.VISIBLE);
                 dgv_colorlist.setAdapter(new MyColorGridAdapter(listColor, activity));
+                iv_ifshow_color.setVisibility(View.VISIBLE);
+                rl_imagedetails_next.setVisibility(View.VISIBLE);
+                if(mifShowColorList){
+                    dgv_colorlist.setVisibility(View.VISIBLE);
+                    tv_color_tips.setVisibility(View.VISIBLE);
+                    rl_color_location.setVisibility(View.VISIBLE);
+                    iv_ifshow_color.setImageResource(R.drawable.shouqi);
+                }else {
+                    dgv_colorlist.setVisibility(View.GONE);
+                    iv_ifshow_color.setImageResource(R.drawable.zhankai);
+                    tv_color_tips.setVisibility(View.GONE);
+                    rl_color_location.setVisibility(View.GONE);
+                }
             } else {
                 rl_imagedetails_next.setVisibility(View.GONE);
                 iv_ifshow_color.setVisibility(View.GONE);
             }
             ifFirst = false;
+        }else {
+            if(mifShowColorList){
+                dgv_colorlist.setVisibility(View.VISIBLE);
+                tv_color_tips.setVisibility(View.VISIBLE);
+                rl_color_location.setVisibility(View.VISIBLE);
+                iv_ifshow_color.setImageResource(R.drawable.shouqi);
+            }else {
+                dgv_colorlist.setVisibility(View.GONE);
+                iv_ifshow_color.setImageResource(R.drawable.zhankai);
+                tv_color_tips.setVisibility(View.GONE);
+                rl_color_location.setVisibility(View.GONE);
+            }
         }
 
 

@@ -189,6 +189,7 @@ public class ImageDetailLongActivity
     private LinearLayout ll_color_lines;
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
     private boolean if_click_color;
+    private boolean ifShowColorList = true;
 
     private List<String> mItemIdList = new ArrayList<>();
     @Override
@@ -955,6 +956,7 @@ public class ImageDetailLongActivity
                         intent.putExtra("position", position);
                         intent.putExtra("like_id", item_id);
                         intent.putExtra("type", "你可能喜欢");
+                        intent.putExtra("if_click_color", false);
                         intent.putExtra("page_num", page);
                         intent.putExtra("item_id_list", (Serializable) mItemIdList);
                         startActivity(intent);
@@ -1018,6 +1020,7 @@ public class ImageDetailLongActivity
         intent.putExtra("like_id", item_id);
         intent.putExtra("type", "你可能喜欢");
         intent.putExtra("page_num", page);
+        intent.putExtra("if_click_color", true);
         intent.putExtra("item_id_list", (Serializable) mItemIdList);
         startActivity(intent);
     }
@@ -1834,8 +1837,6 @@ public class ImageDetailLongActivity
         };
         MyHttpManager.getInstance().addShared(imageDetailBean.getItem_info().getItem_id(), "item", callBack);
     }
-
-    private boolean ifShowColorList = true;
 
     @Override
     protected void onResume() {

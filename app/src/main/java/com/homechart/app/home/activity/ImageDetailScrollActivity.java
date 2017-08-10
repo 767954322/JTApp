@@ -84,6 +84,8 @@ public class ImageDetailScrollActivity
     //你可能喜欢
     private String like_maybe_id = "";
     private int like_maybe_page_num = 2;
+    private boolean if_click_color;
+    public boolean ifShowColorList = true;
 
     @Override
     protected int getLayoutResId() {
@@ -98,6 +100,13 @@ public class ImageDetailScrollActivity
         mPosition = getIntent().getIntExtra("position", -1);
         mItemIdList = (List<String>) getIntent().getSerializableExtra("item_id_list");
         mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
+        if_click_color = getIntent().getBooleanExtra("if_click_color", false);
+
+        if (if_click_color) {
+            ifShowColorList = true;
+        } else {
+            ifShowColorList = false;
+        }
     }
 
     @Override
@@ -124,6 +133,7 @@ public class ImageDetailScrollActivity
 
             @Override
             public void onPageSelected(int position) {
+                ifShowColorList = false;
                 if (mItemIdList.size() >= position && (mItemIdList.size() - position) < 3 && !more_loding) {
                     if (!TextUtils.isEmpty(type) && type.equals("筛选")) {
                         getMoreShaiXuan();
@@ -154,7 +164,7 @@ public class ImageDetailScrollActivity
                 mSelectListData = (Map<Integer, ColorItemBean>) getIntent().getSerializableExtra("mSelectListData");
                 shaixuan_tag = getIntent().getStringExtra("shaixuan_tag");
                 shuaixuan_page_num = getIntent().getIntExtra("page_num", 2);
-                if (mItemIdList.size() == 20* (shuaixuan_page_num - 1)) {
+                if (mItemIdList.size() == 20 * (shuaixuan_page_num - 1)) {
                     getMoreShaiXuan();
                 }
             } else if (type.equals("你可能喜欢")) {
