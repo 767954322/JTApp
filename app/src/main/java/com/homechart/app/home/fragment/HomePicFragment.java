@@ -922,7 +922,7 @@ public class HomePicFragment
                     iv_jubu.setImageResource(R.drawable.jubu1);
                     iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
                     iv_shouna.setImageResource(R.drawable.shouna1);
-                    iv_secai.setImageResource(R.drawable.shouna1);
+                    iv_secai.setImageResource(R.drawable.secai1);
                 } else {
                     last_id = id;
 
@@ -933,35 +933,35 @@ public class HomePicFragment
                             iv_jubu.setImageResource(R.drawable.jubu1);
                             iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
                             iv_shouna.setImageResource(R.drawable.shouna1);
-                            iv_secai.setImageResource(R.drawable.shouna1);
+                            iv_secai.setImageResource(R.drawable.secai1);
                             break;
                         case 1:
                             iv_kongjian.setImageResource(R.drawable.kongjian1);
                             iv_jubu.setImageResource(R.drawable.jubu);
                             iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
                             iv_shouna.setImageResource(R.drawable.shouna1);
-                            iv_secai.setImageResource(R.drawable.shouna1);
+                            iv_secai.setImageResource(R.drawable.secai1);
                             break;
                         case 2:
                             iv_kongjian.setImageResource(R.drawable.kongjian1);
                             iv_jubu.setImageResource(R.drawable.jubu1);
                             iv_zhuangshi.setImageResource(R.drawable.zhuangshi);
                             iv_shouna.setImageResource(R.drawable.shouna1);
-                            iv_secai.setImageResource(R.drawable.shouna1);
+                            iv_secai.setImageResource(R.drawable.secai1);
                             break;
                         case 3:
                             iv_kongjian.setImageResource(R.drawable.kongjian1);
                             iv_jubu.setImageResource(R.drawable.jubu1);
                             iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
                             iv_shouna.setImageResource(R.drawable.shouna);
-                            iv_secai.setImageResource(R.drawable.shouna1);
+                            iv_secai.setImageResource(R.drawable.secai1);
                             break;
                         case 4:
                             iv_kongjian.setImageResource(R.drawable.kongjian1);
                             iv_jubu.setImageResource(R.drawable.jubu1);
                             iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
                             iv_shouna.setImageResource(R.drawable.shouna1);
-                            iv_secai.setImageResource(R.drawable.shouna);
+                            iv_secai.setImageResource(R.drawable.secai);
                             break;
                     }
                 }
@@ -989,7 +989,7 @@ public class HomePicFragment
                         iv_jubu.setImageResource(R.drawable.jubu1);
                         iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
                         iv_shouna.setImageResource(R.drawable.shouna1);
-                        iv_secai.setImageResource(R.drawable.shouna1);
+                        iv_secai.setImageResource(R.drawable.secai1);
                         break;
                     case R.id.rl_jubu:
                         openTagTongJi("局部");
@@ -997,7 +997,7 @@ public class HomePicFragment
                         iv_jubu.setImageResource(R.drawable.jubu);
                         iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
                         iv_shouna.setImageResource(R.drawable.shouna1);
-                        iv_secai.setImageResource(R.drawable.shouna1);
+                        iv_secai.setImageResource(R.drawable.secai1);
                         break;
                     case R.id.rl_zhuangshi:
                         openTagTongJi("装饰");
@@ -1005,7 +1005,7 @@ public class HomePicFragment
                         iv_jubu.setImageResource(R.drawable.jubu1);
                         iv_zhuangshi.setImageResource(R.drawable.zhuangshi);
                         iv_shouna.setImageResource(R.drawable.shouna1);
-                        iv_secai.setImageResource(R.drawable.shouna1);
+                        iv_secai.setImageResource(R.drawable.secai1);
                         break;
                     case R.id.rl_shouna:
                         openTagTongJi("收纳");
@@ -1013,7 +1013,7 @@ public class HomePicFragment
                         iv_jubu.setImageResource(R.drawable.jubu1);
                         iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
                         iv_shouna.setImageResource(R.drawable.shouna);
-                        iv_secai.setImageResource(R.drawable.shouna1);
+                        iv_secai.setImageResource(R.drawable.secai1);
                         break;
                     case R.id.rl_secai:
                         openTagTongJi("色彩");
@@ -1021,7 +1021,7 @@ public class HomePicFragment
                         iv_jubu.setImageResource(R.drawable.jubu1);
                         iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
                         iv_shouna.setImageResource(R.drawable.shouna1);
-                        iv_secai.setImageResource(R.drawable.shouna);
+                        iv_secai.setImageResource(R.drawable.secai);
                         break;
                 }
             }
@@ -1082,7 +1082,7 @@ public class HomePicFragment
             iv_jubu.setImageResource(R.drawable.jubu1);
             iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
             iv_shouna.setImageResource(R.drawable.shouna1);
-            iv_secai.setImageResource(R.drawable.shouna1);
+            iv_secai.setImageResource(R.drawable.secai1);
         }
     }
 
