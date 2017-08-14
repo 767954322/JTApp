@@ -119,10 +119,10 @@
         android:id="@+id/rl_tos_choose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_below="@+id/view_line_top"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view_line_top"
+        android:background="@color/white">
 
         <LinearLayout
             android:id="@+id/ll_pic_choose"
@@ -142,23 +142,31 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/font_73"
-                    android:layout_centerInParent="true">
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal">
 
-                    <com.homechart.app.myview.RoundImageView
-                        android:id="@+id/iv_kongjian"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:src="@drawable/kongjian1" />
+                    <RelativeLayout
+                        android:layout_width="@dimen/font_56"
+                        android:layout_height="@dimen/font_56"
+                        android:layout_alignParentTop="true">
+
+                        <com.homechart.app.myview.RoundImageView
+                            android:id="@+id/iv_kongjian"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/kongjian1" />
+                    </RelativeLayout>
+
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
                         android:text="空间"
                         android:textColor="@color/bg_262626"
-                        android:textSize="@dimen/size_12"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true" />
+                        android:textSize="@dimen/size_12" />
 
                 </RelativeLayout>
             </RelativeLayout>
@@ -173,24 +181,31 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/font_73"
-                    android:layout_centerInParent="true">
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal">
 
-                    <com.homechart.app.myview.RoundImageView
-                        android:id="@+id/iv_jubu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:src="@drawable/jubu1" />
+                    <RelativeLayout
+                        android:layout_width="@dimen/font_56"
+                        android:layout_height="@dimen/font_56"
+                        android:layout_alignParentTop="true">
+
+                        <com.homechart.app.myview.RoundImageView
+                            android:id="@+id/iv_jubu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/jubu1" />
+                    </RelativeLayout>
 
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
                         android:text="局部"
                         android:textColor="@color/bg_262626"
-                        android:textSize="@dimen/size_12"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true" />
+                        android:textSize="@dimen/size_12" />
 
                 </RelativeLayout>
 
@@ -206,23 +221,32 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/font_73"
-                    android:layout_centerInParent="true">
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal">
 
-                    <com.homechart.app.myview.RoundImageView
-                        android:id="@+id/iv_zhuangshi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:src="@drawable/zhuangshi1" />
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/font_56"
+                        android:layout_height="@dimen/font_56"
+                        android:layout_alignParentTop="true">
+
+                        <com.homechart.app.myview.RoundImageView
+                            android:id="@+id/iv_zhuangshi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/zhuangshi1" />
+
+                    </RelativeLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
                         android:text="装饰"
                         android:textColor="@color/bg_262626"
-                        android:textSize="@dimen/size_12"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true" />
+                        android:textSize="@dimen/size_12" />
 
                 </RelativeLayout>
 
@@ -238,23 +262,31 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/font_73"
-                    android:layout_centerInParent="true">
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal">
 
-                    <com.homechart.app.myview.RoundImageView
-                        android:id="@+id/iv_shouna"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:src="@drawable/shouna1" />
+                    <RelativeLayout
+                        android:layout_width="@dimen/font_56"
+                        android:layout_height="@dimen/font_56"
+                        android:layout_alignParentTop="true">
+
+                        <com.homechart.app.myview.RoundImageView
+                            android:id="@+id/iv_shouna"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/shouna1" />
+                    </RelativeLayout>
+
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
                         android:text="收纳"
                         android:textColor="@color/bg_262626"
-                        android:textSize="@dimen/size_12"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true" />
+                        android:textSize="@dimen/size_12" />
 
                 </RelativeLayout>
             </RelativeLayout>
@@ -276,23 +308,30 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/font_73"
-                    android:layout_centerInParent="true">
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal">
 
-                    <com.homechart.app.myview.RoundImageView
-                        android:id="@+id/iv_secai"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:src="@drawable/secai1" />
+                    <RelativeLayout
+                        android:layout_width="@dimen/font_56"
+                        android:layout_height="@dimen/font_56"
+                        android:layout_alignParentTop="true">
+
+                        <com.homechart.app.myview.RoundImageView
+                            android:id="@+id/iv_secai"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/secai1" />
+                    </RelativeLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
                         android:text="色彩"
                         android:textColor="@color/bg_262626"
-                        android:textSize="@dimen/size_12"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true" />
+                        android:textSize="@dimen/size_12" />
 
                 </RelativeLayout>
             </RelativeLayout>
