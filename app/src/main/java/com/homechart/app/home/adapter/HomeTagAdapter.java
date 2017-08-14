@@ -19,6 +19,7 @@ import com.homechart.app.home.bean.color.ColorItemBean;
 import com.homechart.app.home.bean.pictag.TagItemDataBean;
 import com.homechart.app.home.bean.pictag.TagItemDataChildBean;
 import com.homechart.app.myview.NoScrollGridView;
+import com.homechart.app.utils.ToastUtils;
 
 import java.util.List;
 
@@ -92,6 +93,12 @@ public class HomeTagAdapter extends PagerAdapter {
                 List<ColorItemBean> mListData = mColorBean.getColor_list();
                 MyHomeColorAdapter colorAdapter = new MyHomeColorAdapter(mContext, mListData, null);
                 gv_color_gridview.setAdapter(colorAdapter);
+                gv_color_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        mPopupWindowCallBack.onItemColorClick(mColorBean.getColor_list().get(position));
+                    }
+                });
             }
             return itemView;
         }
@@ -154,6 +161,8 @@ public class HomeTagAdapter extends PagerAdapter {
         void onDismiss();
 
         void onItemClick(String tagStr);
+
+        void onItemColorClick(ColorItemBean colorItemBean);
     }
 
 }

@@ -43,6 +43,7 @@ import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.adapter.HomeTagAdapter;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.color.ColorBean;
+import com.homechart.app.home.bean.color.ColorItemBean;
 import com.homechart.app.home.bean.pictag.TagDataBean;
 import com.homechart.app.home.bean.shaijia.ShaiJiaItemBean;
 import com.homechart.app.home.bean.shouye.DataBean;
@@ -684,7 +685,7 @@ public class HomePicFragment
             } else if (msg.what == 2) {
                 String info = (String) msg.obj;
                 tagDataBean = GsonUtil.jsonToBean(info, TagDataBean.class);
-            }else if (msg.what == 3) {
+            } else if (msg.what == 3) {
 
                 String info = (String) msg.obj;
                 colorBean = GsonUtil.jsonToBean(info, ColorBean.class);
@@ -949,7 +950,7 @@ public class HomePicFragment
     private void showPopwindow(int id, int position) {
         if (tagDataBean != null && colorBean != null) {
             if (null == homeTabPopWin) {
-                homeTabPopWin = new HomeTabPopWin(activity, this, tagDataBean, this,colorBean);
+                homeTabPopWin = new HomeTabPopWin(activity, this, tagDataBean, this, colorBean);
             }
             if (homeTabPopWin.isShowing()) {
                 if (last_id != 0 && last_id == id) {
@@ -1142,6 +1143,20 @@ public class HomePicFragment
         Intent intent = new Intent(activity, ShaiXuanResultActicity.class);
         intent.putExtra("shaixuan_tag", tagStr);
         startActivity(intent);
+    }
+
+    @Override
+    public void onItemColorClick(ColorItemBean colorItemBean) {
+        if (homeTabPopWin != null) {
+            closeTagTongJi();
+            homeTabPopWin.dismiss();
+            iv_kongjian.setImageResource(R.drawable.kongjian1);
+            iv_jubu.setImageResource(R.drawable.jubu1);
+            iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
+            iv_shouna.setImageResource(R.drawable.shouna1);
+            iv_secai.setImageResource(R.drawable.secai1);
+        }
+        ToastUtils.showCenter(activity, "跳转颜色页");
     }
 
     /**
