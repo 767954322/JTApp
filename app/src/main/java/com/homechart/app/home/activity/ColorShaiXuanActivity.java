@@ -425,6 +425,7 @@ public class ColorShaiXuanActivity
     public void onItemColorClick(ColorItemBean colorItemBean) {
         if (homeTabPopWin != null) {
             homeTabPopWin.dismiss();
+            this.mColorClick = colorItemBean;
             iv_kongjian.setImageResource(R.drawable.kongjian1);
             iv_jubu.setImageResource(R.drawable.jubu1);
             iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
