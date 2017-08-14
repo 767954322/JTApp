@@ -46,8 +46,8 @@
             android:drawablePadding="@dimen/font_6"
             android:gravity="center_vertical"
             android:hint="搜索你感兴趣的图片/文章"
-            android:textColorHint="@color/bg_8f8f8f"
             android:paddingLeft="@dimen/font_10"
+            android:textColorHint="@color/bg_8f8f8f"
             android:textSize="@dimen/size_14" />
 
     </RelativeLayout>
@@ -119,13 +119,13 @@
         android:id="@+id/rl_tos_choose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_below="@+id/view_line_top">
+        android:layout_below="@+id/view_line_top"
+        android:background="@color/white">
 
         <LinearLayout
             android:id="@+id/ll_pic_choose"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/font_90"
+            android:layout_height="@dimen/font_110"
             android:background="@color/white"
             android:orientation="horizontal">
 
@@ -137,12 +137,28 @@
                 android:layout_centerVertical="true"
                 android:layout_weight="1">
 
-                <com.homechart.app.myview.RoundImageView
-                    android:id="@+id/iv_kongjian"
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/kongjian1" />
+                    android:layout_height="@dimen/font_73"
+                    android:layout_centerInParent="true">
+
+                    <com.homechart.app.myview.RoundImageView
+                        android:id="@+id/iv_kongjian"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:src="@drawable/kongjian1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="空间"
+                        android:textColor="@color/bg_262626"
+                        android:textSize="@dimen/size_12"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true" />
+
+                </RelativeLayout>
             </RelativeLayout>
 
             <RelativeLayout
@@ -152,12 +168,30 @@
                 android:layout_centerVertical="true"
                 android:layout_weight="1">
 
-                <com.homechart.app.myview.RoundImageView
-                    android:id="@+id/iv_jubu"
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/jubu1" />
+                    android:layout_height="@dimen/font_73"
+                    android:layout_centerInParent="true">
+
+                    <com.homechart.app.myview.RoundImageView
+                        android:id="@+id/iv_jubu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:src="@drawable/jubu1" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="局部"
+                        android:textColor="@color/bg_262626"
+                        android:textSize="@dimen/size_12"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true" />
+
+                </RelativeLayout>
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -167,12 +201,29 @@
                 android:layout_centerVertical="true"
                 android:layout_weight="1">
 
-                <com.homechart.app.myview.RoundImageView
-                    android:id="@+id/iv_zhuangshi"
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/zhuangshi1" />
+                    android:layout_height="@dimen/font_73"
+                    android:layout_centerInParent="true">
+
+                    <com.homechart.app.myview.RoundImageView
+                        android:id="@+id/iv_zhuangshi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:src="@drawable/zhuangshi1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="装饰"
+                        android:textColor="@color/bg_262626"
+                        android:textSize="@dimen/size_12"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true" />
+
+                </RelativeLayout>
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -182,12 +233,28 @@
                 android:layout_centerVertical="true"
                 android:layout_weight="1">
 
-                <com.homechart.app.myview.RoundImageView
-                    android:id="@+id/iv_shouna"
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/shouna1" />
+                    android:layout_height="@dimen/font_73"
+                    android:layout_centerInParent="true">
+
+                    <com.homechart.app.myview.RoundImageView
+                        android:id="@+id/iv_shouna"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:src="@drawable/shouna1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="收纳"
+                        android:textColor="@color/bg_262626"
+                        android:textSize="@dimen/size_12"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true" />
+
+                </RelativeLayout>
             </RelativeLayout>
 
             <RelativeLayout
@@ -200,23 +267,42 @@
                 <View
                     android:layout_width="@dimen/font_1"
                     android:layout_height="@dimen/font_40"
-                    android:background="@color/view_line"
-                    android:layout_centerVertical="true" />
+                    android:layout_centerVertical="true"
+                    android:background="@color/view_line" />
 
-                <com.homechart.app.myview.RoundImageView
-                    android:id="@+id/iv_secai"
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/shouna1" />
+                    android:layout_height="@dimen/font_73"
+                    android:layout_centerInParent="true">
+
+                    <com.homechart.app.myview.RoundImageView
+                        android:id="@+id/iv_secai"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:src="@drawable/shouna1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="色彩"
+                        android:textColor="@color/bg_262626"
+                        android:textSize="@dimen/size_12"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true" />
+
+                </RelativeLayout>
             </RelativeLayout>
 
         </LinearLayout>
+
         <View
             android:id="@+id/view_line_back"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_below="@+id/ll_pic_choose" />
+
         <View
             android:id="@+id/view_line_bommon"
             android:layout_width="match_parent"
@@ -229,8 +315,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/font_44"
             android:layout_below="@+id/view_line_bommon"
-            android:visibility="gone"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_change_frag"
