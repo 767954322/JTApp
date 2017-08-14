@@ -765,7 +765,6 @@ public class HomePicFragment
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                ToastUtils.showCenter(activity, getString(R.string.unreader_msg_get_error));
             }
 
             @Override
