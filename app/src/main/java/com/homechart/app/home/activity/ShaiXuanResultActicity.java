@@ -550,7 +550,7 @@ public class ShaiXuanResultActicity
                     }
                 });
 
-                if(curentListTag){
+                if (curentListTag) {
                     holder.getView(R.id.tv_color_tital).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

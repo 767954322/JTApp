@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 
 import com.homechart.app.R;
 import com.homechart.app.home.adapter.HomeTagAdapter;
+import com.homechart.app.home.bean.color.ColorBean;
 import com.homechart.app.home.bean.pictag.TagDataBean;
 import com.homechart.app.home.bean.pictag.TagItemDataBean;
 
@@ -22,11 +23,13 @@ public class HomeTabPopWin extends PopupWindow {
     private final HomeTagAdapter pageAdapter;
     private View view;
     private Context mContext;
+    private ColorBean mColorBean;
     private List<TagItemDataBean> mTagList;
 
-    public HomeTabPopWin(Context context, ViewPager.OnPageChangeListener onPageChangeListener, TagDataBean tagDataBean, HomeTagAdapter.PopupWindowCallBack popupWindowCallBack) {
+    public HomeTabPopWin(Context context, ViewPager.OnPageChangeListener onPageChangeListener, TagDataBean tagDataBean, HomeTagAdapter.PopupWindowCallBack popupWindowCallBack, ColorBean colorBean) {
 
         this.mContext = context;
+        this.mColorBean = colorBean;
         mTagList = tagDataBean.getTag_id();
         this.view = LayoutInflater.from(context).inflate(R.layout.wk_flow_popwindow, null);
 
@@ -52,7 +55,7 @@ public class HomeTabPopWin extends PopupWindow {
         this.setBackgroundDrawable(dw);
 //        vp_home_tag.setPageTransformer(true, new ZoomOutPageTransformer());
         vp_home_tag.setPageTransformer(true, new DepthPageTransformer());
-        pageAdapter = new HomeTagAdapter(mContext, mTagList, popupWindowCallBack);
+        pageAdapter = new HomeTagAdapter(mContext, mTagList, popupWindowCallBack,mColorBean);
         vp_home_tag.setAdapter(pageAdapter);
     }
 

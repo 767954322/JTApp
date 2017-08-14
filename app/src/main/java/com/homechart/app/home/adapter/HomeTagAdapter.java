@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.homechart.app.R;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.home.bean.color.ColorBean;
 import com.homechart.app.home.bean.pictag.TagItemDataBean;
 import com.homechart.app.home.bean.pictag.TagItemDataChildBean;
 import com.homechart.app.myview.NoScrollGridView;
@@ -28,13 +29,15 @@ public class HomeTagAdapter extends PagerAdapter {
 
     private View itemView;
     private Context mContext;
+    private ColorBean mColorBean;
     private List<TagItemDataBean> mTagList;
     private PopupWindowCallBack mPopupWindowCallBack;
     private MyTagGridAdapter mAdapter;
 
-    public HomeTagAdapter(Context mContext, List<TagItemDataBean> mTagList, PopupWindowCallBack popupWindowCallBack) {
+    public HomeTagAdapter(Context mContext, List<TagItemDataBean> mTagList, PopupWindowCallBack popupWindowCallBack, ColorBean colorBean) {
         this.mContext = mContext;
         this.mTagList = mTagList;
+        this.mColorBean = colorBean;
         this.mPopupWindowCallBack = popupWindowCallBack;
     }
 
@@ -74,7 +77,6 @@ public class HomeTagAdapter extends PagerAdapter {
             itemView = View.inflate(mContext, R.layout.viewpager_tag_color_page, null);
             container.removeView(itemView);
             container.addView(itemView);
-
             View view_tab_bottom = itemView.findViewById(R.id.view_tab_bottom);
             view_tab_bottom.setOnClickListener(new View.OnClickListener() {
                 @Override

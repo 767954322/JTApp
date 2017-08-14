@@ -42,6 +42,7 @@ import com.homechart.app.home.activity.ShaiXuanResultActicity;
 import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.adapter.HomeTagAdapter;
 import com.homechart.app.home.base.BaseFragment;
+import com.homechart.app.home.bean.color.ColorBean;
 import com.homechart.app.home.bean.pictag.TagDataBean;
 import com.homechart.app.home.bean.shaijia.ShaiJiaItemBean;
 import com.homechart.app.home.bean.shouye.DataBean;
@@ -129,6 +130,7 @@ public class HomePicFragment
     private RelativeLayout rl_shouna;
     private RelativeLayout rl_secai;
     public TagDataBean tagDataBean;
+    public ColorBean colorBean;
     private View view;
     private Timer timer = new Timer(true);
     private ImageView iv_center_msgicon;
@@ -239,6 +241,7 @@ public class HomePicFragment
         width_Pic_List = PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_14);
         buildRecyclerView();
         getTagData();
+        getColorData();
         getUnReaderMsg();
         timer.schedule(task, 0, 1 * 60 * 1000);
     }
@@ -666,7 +669,6 @@ public class HomePicFragment
 
     private Handler mHandler = new Handler() {
 
-
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -682,6 +684,11 @@ public class HomePicFragment
             } else if (msg.what == 2) {
                 String info = (String) msg.obj;
                 tagDataBean = GsonUtil.jsonToBean(info, TagDataBean.class);
+            }else if (msg.what == 3) {
+
+                String info = (String) msg.obj;
+                colorBean = GsonUtil.jsonToBean(info, ColorBean.class);
+                Log.d("test", colorBean.toString());
             }
         }
     };
@@ -717,6 +724,37 @@ public class HomePicFragment
             }
         };
         MyHttpManager.getInstance().getPicTagData(callBack);
+    }
+
+    private void getColorData() {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtils.showCenter(activity, getString(R.string.color_get_error));
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        Message msg = new Message();
+                        msg.obj = data_msg;
+                        msg.what = 3;
+                        mHandler.sendMessage(msg);
+                    } else {
+                        ToastUtils.showCenter(activity, error_msg);
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(activity, getString(R.string.color_get_error));
+                }
+            }
+        };
+        MyHttpManager.getInstance().getColorListData(callBack);
+
     }
 
     //获取未读消息数
@@ -909,9 +947,9 @@ public class HomePicFragment
     }
 
     private void showPopwindow(int id, int position) {
-        if (tagDataBean != null) {
+        if (tagDataBean != null && colorBean != null) {
             if (null == homeTabPopWin) {
-                homeTabPopWin = new HomeTabPopWin(activity, this, tagDataBean, this);
+                homeTabPopWin = new HomeTabPopWin(activity, this, tagDataBean, this,colorBean);
             }
             if (homeTabPopWin.isShowing()) {
                 if (last_id != 0 && last_id == id) {
