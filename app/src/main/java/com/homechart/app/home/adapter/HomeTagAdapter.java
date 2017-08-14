@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.homechart.app.R;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.color.ColorBean;
+import com.homechart.app.home.bean.color.ColorItemBean;
 import com.homechart.app.home.bean.pictag.TagItemDataBean;
 import com.homechart.app.home.bean.pictag.TagItemDataChildBean;
 import com.homechart.app.myview.NoScrollGridView;
@@ -77,6 +78,8 @@ public class HomeTagAdapter extends PagerAdapter {
             itemView = View.inflate(mContext, R.layout.viewpager_tag_color_page, null);
             container.removeView(itemView);
             container.addView(itemView);
+
+            GridView gv_color_gridview = (GridView) itemView.findViewById(R.id.gv_color_gridview);
             View view_tab_bottom = itemView.findViewById(R.id.view_tab_bottom);
             view_tab_bottom.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -84,6 +87,12 @@ public class HomeTagAdapter extends PagerAdapter {
                     mPopupWindowCallBack.onDismiss();
                 }
             });
+
+            if (mColorBean != null) {
+                List<ColorItemBean> mListData = mColorBean.getColor_list();
+                MyHomeColorAdapter colorAdapter = new MyHomeColorAdapter(mContext, mListData, null);
+                gv_color_gridview.setAdapter(colorAdapter);
+            }
             return itemView;
         }
 

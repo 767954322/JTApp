@@ -10,14 +10,15 @@
         android:background="@color/white">
 
         <GridView
-            android:id="@+id/gv_pager_gridview"
+            android:id="@+id/gv_color_gridview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:numColumns="3"
-            android:paddingBottom="@dimen/font_20"
-            android:paddingLeft="@dimen/font_20"
-            android:paddingRight="@dimen/font_20" />
+            android:layout_below="@+id/view_pop_line"
+            android:layout_marginBottom="@dimen/font_30"
+            android:layout_marginTop="@dimen/font_20"
+            android:verticalSpacing="@dimen/font_35"
+            android:numColumns="4" />
+
     </RelativeLayout>
 
     <View
