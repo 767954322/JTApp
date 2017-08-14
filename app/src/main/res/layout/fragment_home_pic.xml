@@ -190,6 +190,27 @@
                     android:src="@drawable/shouna1" />
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/rl_secai"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_weight="1">
+
+                <View
+                    android:layout_width="@dimen/font_1"
+                    android:layout_height="@dimen/font_40"
+                    android:background="@color/view_line"
+                    android:layout_centerVertical="true" />
+
+                <com.homechart.app.myview.RoundImageView
+                    android:id="@+id/iv_secai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/shouna1" />
+            </RelativeLayout>
+
         </LinearLayout>
         <View
             android:id="@+id/view_line_back"

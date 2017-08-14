@@ -44,7 +44,7 @@ public class HomeTagAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return mTagList.size();
+        return mTagList.size()+1;
     }
 
     @Override
@@ -54,20 +54,37 @@ public class HomeTagAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        itemView = View.inflate(mContext, R.layout.viewpager_tag_page, null);
-        container.removeView(itemView);
-        container.addView(itemView);
-        GridView gv_pager_gridview = (GridView) itemView.findViewById(R.id.gv_pager_gridview);
-        View view_tab_bottom = itemView.findViewById(R.id.view_tab_bottom);
-        view_tab_bottom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPopupWindowCallBack.onDismiss();
-            }
-        });
-        mAdapter = new MyTagGridAdapter(mTagList.get(position).getChildren());
-        gv_pager_gridview.setAdapter(mAdapter);
-        return itemView;
+
+        if(position != 4){
+            itemView = View.inflate(mContext, R.layout.viewpager_tag_page, null);
+            container.removeView(itemView);
+            container.addView(itemView);
+            GridView gv_pager_gridview = (GridView) itemView.findViewById(R.id.gv_pager_gridview);
+            View view_tab_bottom = itemView.findViewById(R.id.view_tab_bottom);
+            view_tab_bottom.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPopupWindowCallBack.onDismiss();
+                }
+            });
+            mAdapter = new MyTagGridAdapter(mTagList.get(position).getChildren());
+            gv_pager_gridview.setAdapter(mAdapter);
+            return itemView;
+        }else {
+            itemView = View.inflate(mContext, R.layout.viewpager_tag_color_page, null);
+            container.removeView(itemView);
+            container.addView(itemView);
+
+            View view_tab_bottom = itemView.findViewById(R.id.view_tab_bottom);
+            view_tab_bottom.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPopupWindowCallBack.onDismiss();
+                }
+            });
+            return itemView;
+        }
+
     }
 
     class MyTagGridAdapter extends BaseAdapter {
