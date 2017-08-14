@@ -145,6 +145,13 @@ public class HomePicFragment
     private View view_line_back;
     boolean ifShouCang = true;
     private RoundImageView iv_secai;
+    //任务
+    private TimerTask task = new TimerTask() {
+        public void run() {
+            getUnReaderMsg();
+        }
+    };
+    private int last_id = 0;
 
     public HomePicFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -152,7 +159,6 @@ public class HomePicFragment
 
     public HomePicFragment() {
     }
-
     public void setDownY(float y) {
         mDownY = y;
     }
@@ -669,32 +675,6 @@ public class HomePicFragment
         getListData(LOADMORE_STATUS);
     }
 
-    private Handler mHandler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == 1) {
-                String info = (String) msg.obj;
-                try {
-                    JSONObject jsonObject = new JSONObject(info);
-                    int notice_num = jsonObject.getInt("notice_num");
-                    changeUnReaderMsg(notice_num + "");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else if (msg.what == 2) {
-                String info = (String) msg.obj;
-                tagDataBean = GsonUtil.jsonToBean(info, TagDataBean.class);
-            } else if (msg.what == 3) {
-
-                String info = (String) msg.obj;
-                colorBean = GsonUtil.jsonToBean(info, ColorBean.class);
-                Log.d("test", colorBean.toString());
-            }
-        }
-    };
-
     //获取tag信息
     private void getTagData() {
 
@@ -1185,15 +1165,6 @@ public class HomePicFragment
         MobclickAgent.onPageEnd("首页");
     }
 
-    //任务
-    private TimerTask task = new TimerTask() {
-        public void run() {
-            getUnReaderMsg();
-        }
-    };
-    private int last_id = 0;
-
-
     //收藏或者取消收藏，图片
     public void onShouCang(boolean ifShouCang, int position, SYDataBean syDataBean) {
 
@@ -1279,6 +1250,33 @@ public class HomePicFragment
         };
         MyHttpManager.getInstance().removeShouCang(item_id, callBack);
     }
+
+
+    private Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 1) {
+                String info = (String) msg.obj;
+                try {
+                    JSONObject jsonObject = new JSONObject(info);
+                    int notice_num = jsonObject.getInt("notice_num");
+                    changeUnReaderMsg(notice_num + "");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else if (msg.what == 2) {
+                String info = (String) msg.obj;
+                tagDataBean = GsonUtil.jsonToBean(info, TagDataBean.class);
+            } else if (msg.what == 3) {
+
+                String info = (String) msg.obj;
+                colorBean = GsonUtil.jsonToBean(info, ColorBean.class);
+                Log.d("test", colorBean.toString());
+            }
+        }
+    };
 
 
 }
