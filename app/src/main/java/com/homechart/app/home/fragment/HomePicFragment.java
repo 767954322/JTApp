@@ -1135,8 +1135,11 @@ public class HomePicFragment
             iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
             iv_shouna.setImageResource(R.drawable.shouna1);
             iv_secai.setImageResource(R.drawable.secai1);
+
             Intent intent = new Intent(activity, ColorShaiXuanActivity.class);
             intent.putExtra("color",colorItemBean);
+            intent.putExtra("tagDataBean",tagDataBean);
+            intent.putExtra("colorBean",colorBean);
             startActivity(intent);
         }
     }
