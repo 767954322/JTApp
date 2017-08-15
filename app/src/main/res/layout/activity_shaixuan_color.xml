@@ -285,15 +285,41 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/iv_color_tital"
+            android:id="@+id/tv_color_tital"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/font_6"
+            android:layout_marginLeft="@dimen/font_8"
             android:layout_toRightOf="@+id/iv_color_icon"
             android:text="色彩筛选"
             android:textColor="@color/bg_e79056"
             android:textSize="@dimen/size_12" />
+
+        <Button
+            android:id="@+id/bt_tag_page_item"
+            android:layout_width="@dimen/font_50"
+            android:layout_height="@dimen/font_24"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/font_8"
+            android:layout_toRightOf="@+id/iv_color_icon"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@drawable/tv_tag_pic"
+            android:textColor="@color/bg_00"
+            android:visibility="gone"
+            android:textSize="@dimen/font_14" />
+
+
+        <ImageView
+            android:id="@+id/iv_chongzhi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_7"
+            android:layout_toRightOf="@+id/bt_tag_page_item"
+            android:gravity="center"
+            android:visibility="gone"
+            android:src="@drawable/chongzhi"/>
 
         <ImageView
             android:id="@+id/iv_change_frag"

@@ -2,6 +2,8 @@ package com.homechart.app.home.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +16,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,8 +24,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.google.android.gms.analytics.HitBuilders;
-import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
@@ -50,7 +51,6 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -95,6 +95,7 @@ public class ColorShaiXuanActivity
     private int last_id = 0;
     private float mDownY;
     private float mMoveY;
+    private TextView tv_color_tital;
     private boolean move_tag = true;
     private HRecyclerView mRecyclerView;
     private RelativeLayout rl_tos_choose;
@@ -118,7 +119,9 @@ public class ColorShaiXuanActivity
     private MultiItemCommonAdapter<SearchItemDataBean> mAdapter;
     private Map<Integer, ColorItemBean> mSelectListData = new HashMap<>();
     private int position;
+    private Button bt_tag_page_item;
 
+    private ImageView iv_chongzhi;
     private Handler mHandler = new Handler() {
 
         @Override
@@ -155,6 +158,8 @@ public class ColorShaiXuanActivity
 
         nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
+        tv_color_tital = (TextView) findViewById(R.id.tv_color_tital);
+        bt_tag_page_item = (Button) findViewById(R.id.bt_tag_page_item);
         view_center = findViewById(R.id.view_center);
         ll_pic_choose = (LinearLayout) findViewById(R.id.ll_pic_choose);
         iv_kongjian = (RoundImageView) findViewById(R.id.iv_kongjian);
@@ -171,6 +176,7 @@ public class ColorShaiXuanActivity
         rl_tos_choose = (RelativeLayout) findViewById(R.id.rl_tos_choose);
         rl_pic_change = (RelativeLayout) findViewById(R.id.rl_pic_change);
         iv_change_frag = (ImageView) findViewById(R.id.iv_change_frag);
+        iv_chongzhi = (ImageView) findViewById(R.id.iv_chongzhi);
 
     }
 
@@ -185,6 +191,7 @@ public class ColorShaiXuanActivity
         rl_shouna.setOnClickListener(this);
         rl_secai.setOnClickListener(this);
         iv_change_frag.setOnClickListener(this);
+        iv_chongzhi.setOnClickListener(this);
 
         mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -223,6 +230,14 @@ public class ColorShaiXuanActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
         tv_tital_comment.setText("色彩");
+        if (mSelectListData != null && mSelectListData.size() > 0) {
+            iv_chongzhi.setVisibility(View.VISIBLE);
+            bt_tag_page_item.setVisibility(View.VISIBLE);
+            tv_color_tital.setVisibility(View.GONE);
+            for (Integer key : mSelectListData.keySet()) {
+                bt_tag_page_item.setText(mSelectListData.get(key).getColor_name());
+            }
+        }
         width_Pic_Staggered = PublicUtils.getScreenWidth(ColorShaiXuanActivity.this) / 2 - UIUtils.getDimens(R.dimen.font_20);
         width_Pic_List = PublicUtils.getScreenWidth(ColorShaiXuanActivity.this) - UIUtils.getDimens(R.dimen.font_14);
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -267,6 +282,20 @@ public class ColorShaiXuanActivity
                     mRecyclerView.setLayoutManager(new LinearLayoutManager(ColorShaiXuanActivity.this));
                     curentListTag = true;
                 }
+                break;
+            case R.id.iv_chongzhi:
+
+                mSelectListData.clear();
+                iv_kongjian.setImageResource(R.drawable.kongjian1);
+                iv_jubu.setImageResource(R.drawable.jubu1);
+                iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
+                iv_shouna.setImageResource(R.drawable.shouna1);
+                iv_secai.setImageResource(R.drawable.secai1);
+                bt_tag_page_item.setVisibility(View.GONE);
+                iv_chongzhi.setVisibility(View.GONE);
+                tv_color_tital.setVisibility(View.VISIBLE);
+                onRefresh();
+
                 break;
         }
     }
@@ -474,7 +503,7 @@ public class ColorShaiXuanActivity
     private void showPopwindow(int id, int position) {
         if (tagDataBean != null && colorBean != null) {
             if (null == homeTabPopWin) {
-                homeTabPopWin = new HomeTabPopWin(this, this, tagDataBean, this, colorBean,mSelectListData);
+                homeTabPopWin = new HomeTabPopWin(this, this, tagDataBean, this, colorBean, mSelectListData);
             }
             homeTabPopWin.changeColor(mSelectListData);
             if (homeTabPopWin.isShowing()) {
@@ -833,13 +862,22 @@ public class ColorShaiXuanActivity
             homeTabPopWin.dismiss();
             this.mColorClick = colorItemBean;
             mSelectListData.clear();
-            mSelectListData.put(mColorClick.getColor_id(),mColorClick);
+            mSelectListData.put(mColorClick.getColor_id(), mColorClick);
             homeTabPopWin.changeColor(mSelectListData);
             iv_kongjian.setImageResource(R.drawable.kongjian1);
             iv_jubu.setImageResource(R.drawable.jubu1);
             iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
             iv_shouna.setImageResource(R.drawable.shouna1);
             iv_secai.setImageResource(R.drawable.secai1);
+
+            if (mSelectListData != null && mSelectListData.size() > 0) {
+                bt_tag_page_item.setVisibility(View.VISIBLE);
+                iv_chongzhi.setVisibility(View.VISIBLE);
+                tv_color_tital.setVisibility(View.GONE);
+                for (Integer key : mSelectListData.keySet()) {
+                    bt_tag_page_item.setText(mSelectListData.get(key).getColor_name());
+                }
+            }
             onRefresh();
         }
     }
@@ -854,6 +892,11 @@ public class ColorShaiXuanActivity
         iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
         iv_shouna.setImageResource(R.drawable.shouna1);
         iv_secai.setImageResource(R.drawable.secai1);
+
+        bt_tag_page_item.setVisibility(View.GONE);
+        iv_chongzhi.setVisibility(View.GONE);
+        tv_color_tital.setVisibility(View.VISIBLE);
+
         onRefresh();
     }
 
