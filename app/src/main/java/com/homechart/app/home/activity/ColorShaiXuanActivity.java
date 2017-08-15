@@ -468,7 +468,7 @@ public class ColorShaiXuanActivity
                         intent.putExtra("if_click_color", false);
                         intent.putExtra("mSelectListData", (Serializable) mSelectListData);
                         intent.putExtra("shaixuan_tag", "");
-                        intent.putExtra("page_num", page_num);
+                        intent.putExtra("page_num", page_num + 1);
                         intent.putExtra("item_id_list", (Serializable) mItemIdList);
                         startActivity(intent);
                     }
@@ -897,7 +897,7 @@ public class ColorShaiXuanActivity
             homeTabPopWin.dismiss();
             this.mColorClick = colorItemBean;
 
-            if(mSelectListData.get(mColorClick.getColor_id()) == null){
+            if (mSelectListData.get(mColorClick.getColor_id()) == null) {
                 mSelectListData.clear();
                 mSelectListData.put(mColorClick.getColor_id(), mColorClick);
                 homeTabPopWin.changeColor(mSelectListData);
@@ -916,7 +916,7 @@ public class ColorShaiXuanActivity
                     }
                 }
                 onRefresh();
-            }else {
+            } else {
                 onClearColor();
             }
 
@@ -925,7 +925,7 @@ public class ColorShaiXuanActivity
 
     @Override
     public void onClearColor() {
-        if(homeTabPopWin != null){
+        if (homeTabPopWin != null) {
             homeTabPopWin.dismiss();
             homeTabPopWin.changeColor(mSelectListData);
         }
@@ -1080,7 +1080,7 @@ public class ColorShaiXuanActivity
             selectColorPopupWindow.dismiss();
             this.mColorClick = colorItemBean;
 
-            if(mSelectListData.get(mColorClick.getColor_id()) == null){
+            if (mSelectListData.get(mColorClick.getColor_id()) == null) {
                 mSelectListData.clear();
                 mSelectListData.put(mColorClick.getColor_id(), mColorClick);
                 iv_kongjian.setImageResource(R.drawable.kongjian1);
@@ -1097,7 +1097,7 @@ public class ColorShaiXuanActivity
                     }
                 }
                 onRefresh();
-            }else {
+            } else {
                 qingkong();
             }
 
