@@ -87,6 +87,7 @@ public class ColorShaiXuanActivity
     private RelativeLayout rl_zhuangshi;
     private RelativeLayout rl_shouna;
     private RelativeLayout rl_secai;
+    private ImageView iv_change_frag;
     private View view_center;
     private TagDataBean tagDataBean;
     private ColorBean colorBean;
@@ -152,12 +153,9 @@ public class ColorShaiXuanActivity
     @Override
     protected void initView() {
 
-
         nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
         view_center = findViewById(R.id.view_center);
-
-
         ll_pic_choose = (LinearLayout) findViewById(R.id.ll_pic_choose);
         iv_kongjian = (RoundImageView) findViewById(R.id.iv_kongjian);
         iv_jubu = (RoundImageView) findViewById(R.id.iv_jubu);
@@ -172,6 +170,7 @@ public class ColorShaiXuanActivity
         mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview_info);
         rl_tos_choose = (RelativeLayout) findViewById(R.id.rl_tos_choose);
         rl_pic_change = (RelativeLayout) findViewById(R.id.rl_pic_change);
+        iv_change_frag = (ImageView) findViewById(R.id.iv_change_frag);
 
     }
 
@@ -185,6 +184,7 @@ public class ColorShaiXuanActivity
         rl_zhuangshi.setOnClickListener(this);
         rl_shouna.setOnClickListener(this);
         rl_secai.setOnClickListener(this);
+        iv_change_frag.setOnClickListener(this);
 
         mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -255,9 +255,21 @@ public class ColorShaiXuanActivity
 
                 showPopwindow(R.id.rl_secai, 4);
                 break;
+            case R.id.iv_change_frag:
+                if (curentListTag) {
+                    mRecyclerView.setPadding(UIUtils.getDimens(R.dimen.font_6), 0, UIUtils.getDimens(R.dimen.font_6), 0);
+                    iv_change_frag.setImageResource(R.drawable.changtu);
+                    mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+                    curentListTag = false;
+                } else {
+                    mRecyclerView.setPadding(0, 0, 0, 0);
+                    iv_change_frag.setImageResource(R.drawable.pubuliu);
+                    mRecyclerView.setLayoutManager(new LinearLayoutManager(ColorShaiXuanActivity.this));
+                    curentListTag = true;
+                }
+                break;
         }
     }
-
 
     private void buildRecyclerView() {
 
@@ -458,8 +470,6 @@ public class ColorShaiXuanActivity
         mRecyclerView.setAdapter(mAdapter);
         onRefresh();
     }
-
-
 
     private void showPopwindow(int id, int position) {
         if (tagDataBean != null && colorBean != null) {
@@ -864,7 +874,6 @@ public class ColorShaiXuanActivity
 
     }
 
-
     private void getListData(final String state) {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
@@ -914,7 +923,6 @@ public class ColorShaiXuanActivity
         };
         MyHttpManager.getInstance().getSearchList(mSelectListData, "", "", (page_num - 1) * 20 + "", "20", callBack);
     }
-
 
     private void getHeight(List<SearchItemDataBean> item_list, String state) {
         if (state.equals(REFRESH_STATUS)) {
@@ -973,6 +981,5 @@ public class ColorShaiXuanActivity
                 break;
         }
     }
-
 
 }
