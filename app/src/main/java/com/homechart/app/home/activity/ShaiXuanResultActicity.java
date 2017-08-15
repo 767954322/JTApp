@@ -190,18 +190,34 @@ public class ShaiXuanResultActicity
         width_Pic_Staggered = PublicUtils.getScreenWidth(ShaiXuanResultActicity.this) / 2 - UIUtils.getDimens(R.dimen.font_20);
         width_Pic_List = PublicUtils.getScreenWidth(ShaiXuanResultActicity.this) - UIUtils.getDimens(R.dimen.font_14);
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        clickSureColor(shaixuan_color);
         getSearchData();
         buildRecyclerView();
         getColorData();
         if (listcolor != null && listcolor.size() > 0) {
             if (mSelectListData == null) {
                 mSelectListData = new HashMap<>();
+                if (shaixuan_color.size() > 0) {
+                    for (Integer key : shaixuan_color.keySet()) {
+                        mSelectListData.put(key, shaixuan_color.get(key));
+                    }
+                }
             }
             for (int i = 0; i < listcolor.size(); i++) {
                 mSelectListData.put(i, new ColorItemBean(listcolor.get(i).getColor_id(),
                         listcolor.get(i).getColor_value(),
                         listcolor.get(i).getColor_value(),
                         listcolor.get(i).getColor_value()));
+            }
+            changeColorRound();
+        } else {
+            if (shaixuan_color.size() > 0) {
+                for (Integer key : shaixuan_color.keySet()) {
+                    if (mSelectListData == null) {
+                        mSelectListData = new HashMap<>();
+                    }
+                    mSelectListData.put(key, shaixuan_color.get(key));
+                }
             }
             changeColorRound();
         }
@@ -239,7 +255,7 @@ public class ShaiXuanResultActicity
                     ToastUtils.showCenter(ShaiXuanResultActicity.this, "色彩信息获取失败");
                 } else {
                     if (selectColorPopupWindow == null) {
-                        selectColorPopupWindow = new SelectColorPopupWindow(this, this, colorBean, this,shaixuan_color);
+                        selectColorPopupWindow = new SelectColorPopupWindow(this, this, colorBean, this, shaixuan_color);
                     }
 //                    selectColorPopupWindow.clearSelect();
                     selectColorPopupWindow.showAtLocation(ShaiXuanResultActicity.this.findViewById(R.id.shaixuan_main),

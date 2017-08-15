@@ -50,7 +50,7 @@ public class SelectColorPopupWindow extends PopupWindow {
         if (colorBean != null) {
             mListData = colorBean.getColor_list();
 
-            if(mSelectListData != null && mSelectListData.size() >0){
+            if(selectListData != null && selectListData.size() >0){
                 mSelectListData = selectListData;
             }else {
                 mSelectListData = new HashMap<>();
