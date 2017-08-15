@@ -45,11 +45,16 @@ public class SelectColorPopupWindow extends PopupWindow {
         colorAdapter.notifyDataSetChanged();
     }
 
-    public SelectColorPopupWindow(final Context context, View.OnClickListener itemsOnClick, ColorBean colorBean, SureColor sureColor) {
+    public SelectColorPopupWindow(final Context context, View.OnClickListener itemsOnClick, ColorBean colorBean, SureColor sureColor,Map<Integer, ColorItemBean> selectListData) {
         super(context);
         if (colorBean != null) {
             mListData = colorBean.getColor_list();
-            mSelectListData = new HashMap<>();
+
+            if(mSelectListData != null && mSelectListData.size() >0){
+                mSelectListData = selectListData;
+            }else {
+                mSelectListData = new HashMap<>();
+            }
         }
         this.mSureColor = sureColor;
         LayoutInflater inflater = (LayoutInflater) context

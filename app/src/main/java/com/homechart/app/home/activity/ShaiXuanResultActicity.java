@@ -102,6 +102,7 @@ public class ShaiXuanResultActicity
     private List<ColorInfoBean> listcolor;
 
     private List<String> mItemIdList = new ArrayList<>();
+    private Map<Integer, ColorItemBean> shaixuan_color;
 
     @Override
     protected int getLayoutResId() {
@@ -113,6 +114,7 @@ public class ShaiXuanResultActicity
         super.initExtraBundle();
         shaixuan_tag = getIntent().getStringExtra("shaixuan_tag");
         listcolor = (List<ColorInfoBean>) getIntent().getSerializableExtra("colorlist");
+        shaixuan_color = (Map<Integer, ColorItemBean>) getIntent().getSerializableExtra("shaixuan_color");
 
     }
 
@@ -237,7 +239,7 @@ public class ShaiXuanResultActicity
                     ToastUtils.showCenter(ShaiXuanResultActicity.this, "色彩信息获取失败");
                 } else {
                     if (selectColorPopupWindow == null) {
-                        selectColorPopupWindow = new SelectColorPopupWindow(this, this, colorBean, this);
+                        selectColorPopupWindow = new SelectColorPopupWindow(this, this, colorBean, this,shaixuan_color);
                     }
 //                    selectColorPopupWindow.clearSelect();
                     selectColorPopupWindow.showAtLocation(ShaiXuanResultActicity.this.findViewById(R.id.shaixuan_main),
