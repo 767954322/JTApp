@@ -18,6 +18,7 @@
         android:layout_marginTop="@dimen/font_20"
         android:lineSpacingExtra="@dimen/font_9"
         android:textColor="@color/bg_262626"
+        android:textIsSelectable="true"
         android:layout_below="@+id/iv_item_article_pic"
         android:textSize="@dimen/size_16" />
 
