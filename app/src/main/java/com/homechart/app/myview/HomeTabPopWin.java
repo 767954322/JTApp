@@ -12,10 +12,12 @@ import android.widget.RelativeLayout;
 import com.homechart.app.R;
 import com.homechart.app.home.adapter.HomeTagAdapter;
 import com.homechart.app.home.bean.color.ColorBean;
+import com.homechart.app.home.bean.color.ColorItemBean;
 import com.homechart.app.home.bean.pictag.TagDataBean;
 import com.homechart.app.home.bean.pictag.TagItemDataBean;
 
 import java.util.List;
+import java.util.Map;
 
 public class HomeTabPopWin extends PopupWindow {
 
@@ -23,12 +25,19 @@ public class HomeTabPopWin extends PopupWindow {
     private final HomeTagAdapter pageAdapter;
     private View view;
     private Context mContext;
+    private Map<Integer, ColorItemBean> mSelectListData;
     private ColorBean mColorBean;
     private List<TagItemDataBean> mTagList;
 
-    public HomeTabPopWin(Context context, ViewPager.OnPageChangeListener onPageChangeListener, TagDataBean tagDataBean, HomeTagAdapter.PopupWindowCallBack popupWindowCallBack, ColorBean colorBean) {
+    public HomeTabPopWin(Context context,
+                         ViewPager.OnPageChangeListener onPageChangeListener,
+                         TagDataBean tagDataBean,
+                         HomeTagAdapter.PopupWindowCallBack popupWindowCallBack,
+                         ColorBean colorBean,
+                         Map<Integer, ColorItemBean> selectListData) {
 
         this.mContext = context;
+        this.mSelectListData = selectListData;
         this.mColorBean = colorBean;
         mTagList = tagDataBean.getTag_id();
         this.view = LayoutInflater.from(context).inflate(R.layout.wk_flow_popwindow, null);
@@ -55,7 +64,7 @@ public class HomeTabPopWin extends PopupWindow {
         this.setBackgroundDrawable(dw);
 //        vp_home_tag.setPageTransformer(true, new ZoomOutPageTransformer());
         vp_home_tag.setPageTransformer(true, new DepthPageTransformer());
-        pageAdapter = new HomeTagAdapter(mContext, mTagList, popupWindowCallBack,mColorBean);
+        pageAdapter = new HomeTagAdapter(mContext, mTagList, popupWindowCallBack,mColorBean,mSelectListData);
         vp_home_tag.setAdapter(pageAdapter);
     }
 
@@ -63,5 +72,9 @@ public class HomeTabPopWin extends PopupWindow {
         vp_home_tag.setCurrentItem(position);
     }
 
+    public void changeColor(Map<Integer, ColorItemBean> selectListData){
+        this.mSelectListData = selectListData;
+        pageAdapter.changeData(selectListData);
+    }
 
 }

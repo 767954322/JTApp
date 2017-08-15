@@ -22,6 +22,7 @@ import com.homechart.app.myview.NoScrollGridView;
 import com.homechart.app.utils.ToastUtils;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by gumenghao on 17/6/15.
@@ -35,9 +36,15 @@ public class HomeTagAdapter extends PagerAdapter {
     private List<TagItemDataBean> mTagList;
     private PopupWindowCallBack mPopupWindowCallBack;
     private MyTagGridAdapter mAdapter;
+    private Map<Integer, ColorItemBean> mSelectListData;
 
-    public HomeTagAdapter(Context mContext, List<TagItemDataBean> mTagList, PopupWindowCallBack popupWindowCallBack, ColorBean colorBean) {
+    public HomeTagAdapter(Context mContext,
+                          List<TagItemDataBean> mTagList,
+                          PopupWindowCallBack popupWindowCallBack,
+                          ColorBean colorBean ,
+                          Map<Integer, ColorItemBean> selectListData) {
         this.mContext = mContext;
+        this.mSelectListData = selectListData;
         this.mTagList = mTagList;
         this.mColorBean = colorBean;
         this.mPopupWindowCallBack = popupWindowCallBack;
@@ -90,19 +97,30 @@ public class HomeTagAdapter extends PagerAdapter {
             });
 
             if (mColorBean != null) {
-                List<ColorItemBean> mListData = mColorBean.getColor_list();
-                MyHomeColorAdapter colorAdapter = new MyHomeColorAdapter(mContext, mListData, null);
+                final List<ColorItemBean> mListData = mColorBean.getColor_list();
+                MyHomeColorAdapter colorAdapter = new MyHomeColorAdapter(mContext, mListData, mSelectListData);
                 gv_color_gridview.setAdapter(colorAdapter);
                 gv_color_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        mPopupWindowCallBack.onItemColorClick(mColorBean.getColor_list().get(position));
-                    }
+
+                        if(position == mListData.size()){
+                            mPopupWindowCallBack.onClearColor();
+                        }else {
+                            mPopupWindowCallBack.onItemColorClick(mColorBean.getColor_list().get(position));
+                        }
+                   }
                 });
             }
             return itemView;
         }
 
+    }
+
+
+   public void changeData(Map<Integer, ColorItemBean> selectListData){
+        this.mSelectListData = selectListData;
+       this.notifyDataSetChanged();
     }
 
     class MyTagGridAdapter extends BaseAdapter {
@@ -163,6 +181,8 @@ public class HomeTagAdapter extends PagerAdapter {
         void onItemClick(String tagStr);
 
         void onItemColorClick(ColorItemBean colorItemBean);
+
+        void onClearColor();
     }
 
 }

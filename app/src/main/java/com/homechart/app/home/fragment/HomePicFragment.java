@@ -159,6 +159,7 @@ public class HomePicFragment
 
     public HomePicFragment() {
     }
+
     public void setDownY(float y) {
         mDownY = y;
     }
@@ -930,7 +931,7 @@ public class HomePicFragment
     private void showPopwindow(int id, int position) {
         if (tagDataBean != null && colorBean != null) {
             if (null == homeTabPopWin) {
-                homeTabPopWin = new HomeTabPopWin(activity, this, tagDataBean, this, colorBean);
+                homeTabPopWin = new HomeTabPopWin(activity, this, tagDataBean, this, colorBean, null);
             }
             if (homeTabPopWin.isShowing()) {
                 if (last_id != 0 && last_id == id) {
@@ -1137,11 +1138,16 @@ public class HomePicFragment
             iv_secai.setImageResource(R.drawable.secai1);
 
             Intent intent = new Intent(activity, ColorShaiXuanActivity.class);
-            intent.putExtra("color",colorItemBean);
-            intent.putExtra("tagDataBean",tagDataBean);
-            intent.putExtra("colorBean",colorBean);
+            intent.putExtra("color", colorItemBean);
+            intent.putExtra("tagDataBean", tagDataBean);
+            intent.putExtra("colorBean", colorBean);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onClearColor() {
+
     }
 
     /**

@@ -33,6 +33,9 @@ import com.homechart.app.utils.volley.OkStringRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by gumenghao on 17/8/14.
  */
@@ -62,6 +65,8 @@ public class ColorShaiXuanActivity
     private HomeTabPopWin homeTabPopWin;
     private int last_id = 0;
 
+    private Map<Integer, ColorItemBean> mSelectListData = new HashMap<>();
+
 
     private Handler mHandler = new Handler() {
 
@@ -83,11 +88,10 @@ public class ColorShaiXuanActivity
     @Override
     protected void initExtraBundle() {
         super.initExtraBundle();
-
         mColorClick = (ColorItemBean) getIntent().getSerializableExtra("color");
         tagDataBean = (TagDataBean) getIntent().getSerializableExtra("tagDataBean");
         colorBean = (ColorBean) getIntent().getSerializableExtra("colorBean");
-
+        mSelectListData.put(mColorClick.getColor_id(), mColorClick);
     }
 
     @Override
@@ -133,8 +137,6 @@ public class ColorShaiXuanActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
         tv_tital_comment.setText("色彩");
-
-
     }
 
     @Override
@@ -169,8 +171,9 @@ public class ColorShaiXuanActivity
     private void showPopwindow(int id, int position) {
         if (tagDataBean != null && colorBean != null) {
             if (null == homeTabPopWin) {
-                homeTabPopWin = new HomeTabPopWin(this, this, tagDataBean, this, colorBean);
+                homeTabPopWin = new HomeTabPopWin(this, this, tagDataBean, this, colorBean,mSelectListData);
             }
+            homeTabPopWin.changeColor(mSelectListData);
             if (homeTabPopWin.isShowing()) {
                 if (last_id != 0 && last_id == id) {
                     last_id = 0;
@@ -426,11 +429,26 @@ public class ColorShaiXuanActivity
         if (homeTabPopWin != null) {
             homeTabPopWin.dismiss();
             this.mColorClick = colorItemBean;
+            mSelectListData.clear();
+            mSelectListData.put(mColorClick.getColor_id(),mColorClick);
+            homeTabPopWin.changeColor(mSelectListData);
             iv_kongjian.setImageResource(R.drawable.kongjian1);
             iv_jubu.setImageResource(R.drawable.jubu1);
             iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
             iv_shouna.setImageResource(R.drawable.shouna1);
             iv_secai.setImageResource(R.drawable.secai1);
         }
+    }
+
+    @Override
+    public void onClearColor() {
+        homeTabPopWin.dismiss();
+        mSelectListData.clear();
+        homeTabPopWin.changeColor(mSelectListData);
+        iv_kongjian.setImageResource(R.drawable.kongjian1);
+        iv_jubu.setImageResource(R.drawable.jubu1);
+        iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
+        iv_shouna.setImageResource(R.drawable.shouna1);
+        iv_secai.setImageResource(R.drawable.secai1);
     }
 }
