@@ -304,7 +304,7 @@
             android:layout_marginLeft="@dimen/font_8"
             android:layout_toRightOf="@+id/iv_color_icon"
             style="?android:attr/borderlessButtonStyle"
-            android:background="@drawable/tv_tag_pic"
+            android:background="@drawable/tv_color_secai"
             android:textColor="@color/bg_00"
             android:visibility="gone"
             android:textSize="@dimen/font_14" />

@@ -38,6 +38,8 @@ import com.homechart.app.home.bean.search.SearchItemDataBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.myview.HomeTabPopWin;
 import com.homechart.app.myview.RoundImageView;
+import com.homechart.app.myview.SelectColorPopupWindow;
+import com.homechart.app.myview.SelectColorSeCaiWindow;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
@@ -71,7 +73,8 @@ public class ColorShaiXuanActivity
         ViewPager.OnPageChangeListener,
         HomeTagAdapter.PopupWindowCallBack,
         OnLoadMoreListener,
-        OnRefreshListener {
+        OnRefreshListener,
+        SelectColorSeCaiWindow.SureColor {
 
     private ImageButton nav_left_imageButton;
     private TextView tv_tital_comment;
@@ -120,8 +123,8 @@ public class ColorShaiXuanActivity
     private Map<Integer, ColorItemBean> mSelectListData = new HashMap<>();
     private int position;
     private Button bt_tag_page_item;
-
     private ImageView iv_chongzhi;
+    private ImageView iv_color_icon;
     private Handler mHandler = new Handler() {
 
         @Override
@@ -138,6 +141,7 @@ public class ColorShaiXuanActivity
             }
         }
     };
+    private SelectColorSeCaiWindow selectColorPopupWindow;
 
     @Override
     protected void initExtraBundle() {
@@ -177,6 +181,7 @@ public class ColorShaiXuanActivity
         rl_pic_change = (RelativeLayout) findViewById(R.id.rl_pic_change);
         iv_change_frag = (ImageView) findViewById(R.id.iv_change_frag);
         iv_chongzhi = (ImageView) findViewById(R.id.iv_chongzhi);
+        iv_color_icon = (ImageView) findViewById(R.id.iv_color_icon);
 
     }
 
@@ -192,6 +197,10 @@ public class ColorShaiXuanActivity
         rl_secai.setOnClickListener(this);
         iv_change_frag.setOnClickListener(this);
         iv_chongzhi.setOnClickListener(this);
+
+        tv_color_tital.setOnClickListener(this);
+        iv_color_icon.setOnClickListener(this);
+        bt_tag_page_item.setOnClickListener(this);
 
         mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -295,8 +304,25 @@ public class ColorShaiXuanActivity
                 iv_chongzhi.setVisibility(View.GONE);
                 tv_color_tital.setVisibility(View.VISIBLE);
                 onRefresh();
-
                 break;
+            case R.id.tv_color_tital:
+            case R.id.iv_color_icon:
+            case R.id.bt_tag_page_item:
+
+                if (null == colorBean) {
+                    getColorData();
+                    ToastUtils.showCenter(ColorShaiXuanActivity.this, "色彩信息获取失败");
+                } else {
+                    if (selectColorPopupWindow == null) {
+                        selectColorPopupWindow = new SelectColorSeCaiWindow(this, this, colorBean, this);
+                    }
+                    selectColorPopupWindow.showAtLocation(ColorShaiXuanActivity.this.findViewById(R.id.main),
+                            Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
+                            0,
+                            0); //设置layout在PopupWindow中显示的位置
+                }
+                break;
+
         }
     }
 
@@ -1025,4 +1051,8 @@ public class ColorShaiXuanActivity
         }
     }
 
+    @Override
+    public void qingkong() {
+        onClearColor();
+    }
 }
