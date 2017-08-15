@@ -24,6 +24,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.google.android.gms.analytics.HitBuilders;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
@@ -53,6 +55,7 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -125,6 +128,7 @@ public class ColorShaiXuanActivity
     private Button bt_tag_page_item;
     private ImageView iv_chongzhi;
     private ImageView iv_color_icon;
+    private SelectColorSeCaiWindow selectColorPopupWindow;
     private Handler mHandler = new Handler() {
 
         @Override
@@ -141,7 +145,6 @@ public class ColorShaiXuanActivity
             }
         }
     };
-    private SelectColorSeCaiWindow selectColorPopupWindow;
 
     @Override
     protected void initExtraBundle() {
@@ -316,11 +319,16 @@ public class ColorShaiXuanActivity
                     if (selectColorPopupWindow == null) {
                         selectColorPopupWindow = new SelectColorSeCaiWindow(this, this, colorBean, this);
                     }
+                    selectColorPopupWindow.setSelectColor(mSelectListData);
                     selectColorPopupWindow.showAtLocation(ColorShaiXuanActivity.this.findViewById(R.id.main),
                             Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
                             0,
                             0); //设置layout在PopupWindow中显示的位置
                 }
+                break;
+            case R.id.view_pop_top:
+            case R.id.view_pop_bottom:
+                selectColorPopupWindow.dismiss();
                 break;
 
         }
@@ -910,9 +918,11 @@ public class ColorShaiXuanActivity
 
     @Override
     public void onClearColor() {
-        homeTabPopWin.dismiss();
+        if(homeTabPopWin != null){
+            homeTabPopWin.dismiss();
+            homeTabPopWin.changeColor(mSelectListData);
+        }
         mSelectListData.clear();
-        homeTabPopWin.changeColor(mSelectListData);
         iv_kongjian.setImageResource(R.drawable.kongjian1);
         iv_jubu.setImageResource(R.drawable.jubu1);
         iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
@@ -1053,6 +1063,33 @@ public class ColorShaiXuanActivity
 
     @Override
     public void qingkong() {
+        selectColorPopupWindow.dismiss();
         onClearColor();
+    }
+
+    @Override
+    public void clickColor(ColorItemBean colorItemBean) {
+        if (selectColorPopupWindow != null) {
+            selectColorPopupWindow.dismiss();
+            this.mColorClick = colorItemBean;
+            mSelectListData.clear();
+            mSelectListData.put(mColorClick.getColor_id(), mColorClick);
+
+            iv_kongjian.setImageResource(R.drawable.kongjian1);
+            iv_jubu.setImageResource(R.drawable.jubu1);
+            iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
+            iv_shouna.setImageResource(R.drawable.shouna1);
+            iv_secai.setImageResource(R.drawable.secai1);
+
+            if (mSelectListData != null && mSelectListData.size() > 0) {
+                bt_tag_page_item.setVisibility(View.VISIBLE);
+                iv_chongzhi.setVisibility(View.VISIBLE);
+                tv_color_tital.setVisibility(View.GONE);
+                for (Integer key : mSelectListData.keySet()) {
+                    bt_tag_page_item.setText(mSelectListData.get(key).getColor_name());
+                }
+            }
+            onRefresh();
+        }
     }
 }

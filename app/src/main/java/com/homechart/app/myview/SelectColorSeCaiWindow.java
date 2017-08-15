@@ -38,9 +38,14 @@ public class SelectColorSeCaiWindow extends PopupWindow {
     private View mMenuView;
     private SureColor mSureColor;
 
-    public void clearSelect(){
+    public void clearSelect() {
         mSelectListData.clear();
         colorAdapter.notifyDataSetChanged();
+    }
+
+    public void setSelectColor(Map<Integer, ColorItemBean> selectListData) {
+        this.mSelectListData = selectListData;
+        colorAdapter.changeData(mListData, mSelectListData);
     }
 
     public SelectColorSeCaiWindow(final Context context, View.OnClickListener itemsOnClick, ColorBean colorBean, SureColor sureColor) {
@@ -65,17 +70,18 @@ public class SelectColorSeCaiWindow extends PopupWindow {
         gv_color_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                if(position == mListData.size()){
-//                    mSureColor.qingkong();
+
+                if (position == mListData.size()) {
+                    mSureColor.qingkong();
+                    SelectColorSeCaiWindow.this.dismiss();
 //                    mSelectListData.clear();
 //                    colorAdapter.changeData(mListData, mSelectListData);
-//                }else {
+                } else {
+                    mSureColor.clickColor(mListData.get(position));
 //                    int colorId = mListData.get(position).getColor_id();
 //                    if (mSelectListData.containsKey(colorId)) {
 //                        mSelectListData.remove(colorId);
 //                    } else {
-//
 //                        if (mSelectListData.size() < 3) {
 //                            mSelectListData.put(colorId, mListData.get(position));
 //                        } else {
@@ -86,7 +92,7 @@ public class SelectColorSeCaiWindow extends PopupWindow {
 //                    if (colorAdapter != null) {
 //                        colorAdapter.changeData(mListData, mSelectListData);
 //                    }
-//                }
+                }
             }
         });
 
@@ -113,5 +119,6 @@ public class SelectColorSeCaiWindow extends PopupWindow {
 
     public interface SureColor {
         void qingkong();
+        void clickColor(ColorItemBean colorItemBean);
     }
 }
