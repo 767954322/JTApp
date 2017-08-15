@@ -895,24 +895,30 @@ public class ColorShaiXuanActivity
         if (homeTabPopWin != null) {
             homeTabPopWin.dismiss();
             this.mColorClick = colorItemBean;
-            mSelectListData.clear();
-            mSelectListData.put(mColorClick.getColor_id(), mColorClick);
-            homeTabPopWin.changeColor(mSelectListData);
-            iv_kongjian.setImageResource(R.drawable.kongjian1);
-            iv_jubu.setImageResource(R.drawable.jubu1);
-            iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
-            iv_shouna.setImageResource(R.drawable.shouna1);
-            iv_secai.setImageResource(R.drawable.secai1);
 
-            if (mSelectListData != null && mSelectListData.size() > 0) {
-                bt_tag_page_item.setVisibility(View.VISIBLE);
-                iv_chongzhi.setVisibility(View.VISIBLE);
-                tv_color_tital.setVisibility(View.GONE);
-                for (Integer key : mSelectListData.keySet()) {
-                    bt_tag_page_item.setText(mSelectListData.get(key).getColor_name());
+            if(mSelectListData.get(mColorClick.getColor_id()) == null){
+                mSelectListData.clear();
+                mSelectListData.put(mColorClick.getColor_id(), mColorClick);
+                homeTabPopWin.changeColor(mSelectListData);
+                iv_kongjian.setImageResource(R.drawable.kongjian1);
+                iv_jubu.setImageResource(R.drawable.jubu1);
+                iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
+                iv_shouna.setImageResource(R.drawable.shouna1);
+                iv_secai.setImageResource(R.drawable.secai1);
+
+                if (mSelectListData != null && mSelectListData.size() > 0) {
+                    bt_tag_page_item.setVisibility(View.VISIBLE);
+                    iv_chongzhi.setVisibility(View.VISIBLE);
+                    tv_color_tital.setVisibility(View.GONE);
+                    for (Integer key : mSelectListData.keySet()) {
+                        bt_tag_page_item.setText(mSelectListData.get(key).getColor_name());
+                    }
                 }
+                onRefresh();
+            }else {
+                onClearColor();
             }
-            onRefresh();
+
         }
     }
 
@@ -1072,24 +1078,28 @@ public class ColorShaiXuanActivity
         if (selectColorPopupWindow != null) {
             selectColorPopupWindow.dismiss();
             this.mColorClick = colorItemBean;
-            mSelectListData.clear();
-            mSelectListData.put(mColorClick.getColor_id(), mColorClick);
 
-            iv_kongjian.setImageResource(R.drawable.kongjian1);
-            iv_jubu.setImageResource(R.drawable.jubu1);
-            iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
-            iv_shouna.setImageResource(R.drawable.shouna1);
-            iv_secai.setImageResource(R.drawable.secai1);
-
-            if (mSelectListData != null && mSelectListData.size() > 0) {
-                bt_tag_page_item.setVisibility(View.VISIBLE);
-                iv_chongzhi.setVisibility(View.VISIBLE);
-                tv_color_tital.setVisibility(View.GONE);
-                for (Integer key : mSelectListData.keySet()) {
-                    bt_tag_page_item.setText(mSelectListData.get(key).getColor_name());
+            if(mSelectListData.get(mColorClick.getColor_id()) == null){
+                mSelectListData.clear();
+                mSelectListData.put(mColorClick.getColor_id(), mColorClick);
+                iv_kongjian.setImageResource(R.drawable.kongjian1);
+                iv_jubu.setImageResource(R.drawable.jubu1);
+                iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
+                iv_shouna.setImageResource(R.drawable.shouna1);
+                iv_secai.setImageResource(R.drawable.secai1);
+                if (mSelectListData != null && mSelectListData.size() > 0) {
+                    bt_tag_page_item.setVisibility(View.VISIBLE);
+                    iv_chongzhi.setVisibility(View.VISIBLE);
+                    tv_color_tital.setVisibility(View.GONE);
+                    for (Integer key : mSelectListData.keySet()) {
+                        bt_tag_page_item.setText(mSelectListData.get(key).getColor_name());
+                    }
                 }
+                onRefresh();
+            }else {
+                qingkong();
             }
-            onRefresh();
+
         }
     }
 }
