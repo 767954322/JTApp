@@ -460,17 +460,17 @@ public class ColorShaiXuanActivity
                 holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        //查看单图详情
-//                        Intent intent = new Intent(ColorShaiXuanActivity.this, ImageDetailScrollActivity.class);
-//                        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-//                        intent.putExtra("position", position);
-//                        intent.putExtra("type", "筛选");
-//                        intent.putExtra("if_click_color", false);
-//                        intent.putExtra("mSelectListData", (Serializable) mSelectListData);
-//                        intent.putExtra("shaixuan_tag", shaixuan_tag);
-//                        intent.putExtra("page_num", page_num);
-//                        intent.putExtra("item_id_list", (Serializable) mItemIdList);
-//                        startActivity(intent);
+                        //查看单图详情
+                        Intent intent = new Intent(ColorShaiXuanActivity.this, ImageDetailScrollActivity.class);
+                        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+                        intent.putExtra("position", position);
+                        intent.putExtra("type", "色彩");
+                        intent.putExtra("if_click_color", false);
+                        intent.putExtra("mSelectListData", (Serializable) mSelectListData);
+                        intent.putExtra("shaixuan_tag", "");
+                        intent.putExtra("page_num", page_num);
+                        intent.putExtra("item_id_list", (Serializable) mItemIdList);
+                        startActivity(intent);
                     }
                 });
 
@@ -719,17 +719,17 @@ public class ColorShaiXuanActivity
 
     private void clickColorQiu(int position) {
 
-//        //查看单图详情
-//        Intent intent = new Intent(ColorShaiXuanActivity.this, ImageDetailScrollActivity.class);
-//        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-//        intent.putExtra("position", position);
-//        intent.putExtra("type", "筛选");
-//        intent.putExtra("if_click_color", true);
-//        intent.putExtra("mSelectListData", (Serializable) mSelectListData);
-//        intent.putExtra("shaixuan_tag", shaixuan_tag);
-//        intent.putExtra("page_num", page_num);
-//        intent.putExtra("item_id_list", (Serializable) mItemIdList);
-//        startActivity(intent);
+        //查看单图详情
+        Intent intent = new Intent(ColorShaiXuanActivity.this, ImageDetailScrollActivity.class);
+        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+        intent.putExtra("position", position);
+        intent.putExtra("type", "筛选");
+        intent.putExtra("if_click_color", true);
+        intent.putExtra("mSelectListData", (Serializable) mSelectListData);
+        intent.putExtra("shaixuan_tag", "");
+        intent.putExtra("page_num", page_num);
+        intent.putExtra("item_id_list", (Serializable) mItemIdList);
+        startActivity(intent);
     }
 
     //收藏或者取消收藏，图片
