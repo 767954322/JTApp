@@ -91,16 +91,35 @@
             android:textSize="@dimen/font_17"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_goto_register"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/btn_send_demand"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/font_30"
-            android:text="没有账号，请注册"
-            android:textColor="@color/bg_e79056"
-            android:textSize="@dimen/font_15" />
+            android:layout_marginTop="@dimen/font_25">
+
+            <ImageView
+                android:id="@+id/iv_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/next"/>
+
+            <TextView
+                android:id="@+id/tv_goto_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="没有账号，请注册"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_next"
+                android:paddingRight="@dimen/font_6"
+                android:textColor="@color/bg_464646"
+                android:textSize="@dimen/font_14" />
+
+
+
+        </RelativeLayout>
+
 
         <RelativeLayout
             android:id="@+id/rl_shared"

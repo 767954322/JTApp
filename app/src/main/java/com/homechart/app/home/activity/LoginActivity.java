@@ -57,6 +57,7 @@ public class LoginActivity extends BaseActivity
     private String activity_id = "";
     private String article_id = "";
     private boolean if_first;
+    private ImageView iv_next;
 
     @Override
     protected int getLayoutResId() {
@@ -100,6 +101,7 @@ public class LoginActivity extends BaseActivity
         mTVLoginSina = (TextView) findViewById(R.id.tv_login_sina);
         mTVLoginQQ = (TextView) findViewById(R.id.tv_login_qq);
         mIVIfShowPass = (ImageView) findViewById(R.id.iv_show_pass);
+        iv_next = (ImageView) findViewById(R.id.iv_next);
         mBTSendDemand = (Button) findViewById(R.id.btn_send_demand);
         mIBBack = (ImageButton) findViewById(R.id.nav_left_imageButton);
         mETLoginPass = (EditText) findViewById(R.id.et_login_password);
@@ -115,6 +117,7 @@ public class LoginActivity extends BaseActivity
         mTVGorgetPass.setOnClickListener(this);
         mIVIfShowPass.setOnClickListener(this);
         mTVToRegister.setOnClickListener(this);
+        iv_next.setOnClickListener(this);
         mTVLoginQQ.setOnClickListener(this);
         mTVLoginWeiXin.setOnClickListener(this);
         mTVLoginSina.setOnClickListener(this);
@@ -193,6 +196,7 @@ public class LoginActivity extends BaseActivity
 
                 break;
             case R.id.tv_goto_register:
+            case R.id.iv_next:
 
                 startActivityForResult(new Intent(LoginActivity.this, RegisterActivity.class), 0);
 
