@@ -125,6 +125,8 @@ public class HuoDongDetailsActivity
     private HDDetailsBean hdDetailsBean;
     private int wid_imag;
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
+    private ImageView iv_shared;
+    private TextView tv_content_right;
 
     @Override
     protected int getLayoutResId() {
@@ -143,6 +145,7 @@ public class HuoDongDetailsActivity
         headerView = LayoutInflater.from(HuoDongDetailsActivity.this).inflate(R.layout.header_huodong_details, null);
 
         homeSharedPopWinPublic = new HomeSharedPopWinPublic(HuoDongDetailsActivity.this, HuoDongDetailsActivity.this);
+        iv_shared = (ImageView) headerView.findViewById(R.id.iv_shared);
         iv_huodong_image = (ImageView) headerView.findViewById(R.id.iv_huodong_image);
         tv_tital_huodong = (TextView) headerView.findViewById(R.id.tv_tital_huodong);
         tv_data_last = (TextView) headerView.findViewById(R.id.tv_data_last);
@@ -165,6 +168,7 @@ public class HuoDongDetailsActivity
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
         tv_add_activity = (TextView) findViewById(R.id.tv_add_activity);
         nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
+        tv_content_right = (TextView) findViewById(R.id.tv_content_right);
         nav_secondary_imageButton = (ImageButton) findViewById(R.id.nav_secondary_imageButton);
         mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview_info);
 
@@ -174,7 +178,8 @@ public class HuoDongDetailsActivity
     protected void initListener() {
         super.initListener();
         nav_left_imageButton.setOnClickListener(this);
-        nav_secondary_imageButton.setOnClickListener(this);
+        tv_content_right.setOnClickListener(this);
+        iv_shared.setOnClickListener(this);
         tv_add_activity.setOnClickListener(this);
         tl_tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -205,7 +210,7 @@ public class HuoDongDetailsActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
         tv_tital_comment.setText("主题活动");
-        nav_secondary_imageButton.setImageResource(R.drawable.shared_icon);
+        tv_content_right.setText("往期活动");
         width_activity = PublicUtils.getScreenWidth(HuoDongDetailsActivity.this) - UIUtils.getDimens(R.dimen.font_30);
         width_Pic = PublicUtils.getScreenWidth(HuoDongDetailsActivity.this) / 2 - UIUtils.getDimens(R.dimen.font_14);
         menuWindow = new SelectPicPopupWindow(HuoDongDetailsActivity.this, HuoDongDetailsActivity.this);
@@ -292,7 +297,7 @@ public class HuoDongDetailsActivity
             case R.id.iv_bufabu:
                 menuWindow.dismiss();
                 break;
-            case R.id.nav_secondary_imageButton:
+            case R.id.iv_shared:
 
                 if (hdDetailsBean != null) {
                     homeSharedPopWinPublic.showAtLocation(HuoDongDetailsActivity.this.findViewById(R.id.main),
@@ -303,6 +308,11 @@ public class HuoDongDetailsActivity
                 }
 
                 break;
+            case R.id.tv_content_right:
+                Intent intent = new Intent(this,HuoDongListActivity.class);
+                startActivity(intent);
+                break;
+
         }
 
     }

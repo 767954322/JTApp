@@ -53,6 +53,15 @@
             android:textColor="@color/bg_e79056"
             android:textSize="@dimen/size_12" />
 
+
+        <ImageView
+            android:id="@+id/iv_shared"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/font_15"
+            android:src="@drawable/shared_icon"/>
     </RelativeLayout>
 
 
