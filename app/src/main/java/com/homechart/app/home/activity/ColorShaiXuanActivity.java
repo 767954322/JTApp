@@ -125,7 +125,7 @@ public class ColorShaiXuanActivity
     private MultiItemCommonAdapter<SearchItemDataBean> mAdapter;
     private Map<Integer, ColorItemBean> mSelectListData = new HashMap<>();
     private int position;
-    private Button bt_tag_page_item;
+    private TextView bt_tag_page_item;
     private ImageView iv_chongzhi;
     private ImageView iv_color_icon;
     private SelectColorSeCaiWindow selectColorPopupWindow;
@@ -166,7 +166,7 @@ public class ColorShaiXuanActivity
         nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
         tv_color_tital = (TextView) findViewById(R.id.tv_color_tital);
-        bt_tag_page_item = (Button) findViewById(R.id.bt_tag_page_item);
+        bt_tag_page_item = (TextView) findViewById(R.id.bt_tag_page_item);
         view_center = findViewById(R.id.view_center);
         ll_pic_choose = (LinearLayout) findViewById(R.id.ll_pic_choose);
         iv_kongjian = (RoundImageView) findViewById(R.id.iv_kongjian);
@@ -247,6 +247,23 @@ public class ColorShaiXuanActivity
             bt_tag_page_item.setVisibility(View.VISIBLE);
             tv_color_tital.setVisibility(View.GONE);
             for (Integer key : mSelectListData.keySet()) {
+
+                if(mSelectListData.get(key).getColor_value().equalsIgnoreCase("ffffff")){
+                    GradientDrawable drawable = new GradientDrawable();
+                    drawable.setCornerRadius(50);
+                    drawable.setColor(Color.parseColor("#"+mSelectListData.get(key).getColor_value()));
+                    drawable.setStroke(1,Color.parseColor("#262626"));
+                    bt_tag_page_item.setBackgroundDrawable(drawable);
+                    bt_tag_page_item.setTextColor(UIUtils.getColor(R.color.bg_262626));
+                }else {
+
+                    GradientDrawable drawable = new GradientDrawable();
+                    drawable.setCornerRadius(50);
+                    drawable.setColor(Color.parseColor("#"+mSelectListData.get(key).getColor_value()));
+                    bt_tag_page_item.setBackgroundDrawable(drawable);
+                    bt_tag_page_item.setTextColor(UIUtils.getColor(R.color.white));
+                }
+
                 bt_tag_page_item.setText(mSelectListData.get(key).getColor_name());
             }
         }
@@ -913,6 +930,22 @@ public class ColorShaiXuanActivity
                     tv_color_tital.setVisibility(View.GONE);
                     for (Integer key : mSelectListData.keySet()) {
                         bt_tag_page_item.setText(mSelectListData.get(key).getColor_name());
+
+                        if(mSelectListData.get(key).getColor_value().equalsIgnoreCase("ffffff")){
+                            GradientDrawable drawable = new GradientDrawable();
+                            drawable.setCornerRadius(50);
+                            drawable.setColor(Color.parseColor("#"+mSelectListData.get(key).getColor_value()));
+                            drawable.setStroke(1,Color.parseColor("#262626"));
+                            bt_tag_page_item.setBackgroundDrawable(drawable);
+                            bt_tag_page_item.setTextColor(UIUtils.getColor(R.color.bg_262626));
+                        }else {
+
+                            GradientDrawable drawable = new GradientDrawable();
+                            drawable.setCornerRadius(50);
+                            drawable.setColor(Color.parseColor("#"+mSelectListData.get(key).getColor_value()));
+                            bt_tag_page_item.setBackgroundDrawable(drawable);
+                            bt_tag_page_item.setTextColor(UIUtils.getColor(R.color.white));
+                        }
                     }
                 }
                 onRefresh();
@@ -1094,6 +1127,21 @@ public class ColorShaiXuanActivity
                     tv_color_tital.setVisibility(View.GONE);
                     for (Integer key : mSelectListData.keySet()) {
                         bt_tag_page_item.setText(mSelectListData.get(key).getColor_name());
+                        if(mSelectListData.get(key).getColor_value().equalsIgnoreCase("ffffff")){
+                            GradientDrawable drawable = new GradientDrawable();
+                            drawable.setCornerRadius(50);
+                            drawable.setColor(Color.parseColor("#"+mSelectListData.get(key).getColor_value()));
+                            drawable.setStroke(1,Color.parseColor("#262626"));
+                            bt_tag_page_item.setBackgroundDrawable(drawable);
+                            bt_tag_page_item.setTextColor(UIUtils.getColor(R.color.bg_262626));
+                        }else {
+
+                            GradientDrawable drawable = new GradientDrawable();
+                            drawable.setCornerRadius(50);
+                            drawable.setColor(Color.parseColor("#"+mSelectListData.get(key).getColor_value()));
+                            bt_tag_page_item.setBackgroundDrawable(drawable);
+                            bt_tag_page_item.setTextColor(UIUtils.getColor(R.color.white));
+                        }
                     }
                 }
                 onRefresh();

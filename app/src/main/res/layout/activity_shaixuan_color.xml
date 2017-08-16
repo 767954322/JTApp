@@ -295,7 +295,7 @@
             android:textColor="@color/bg_e79056"
             android:textSize="@dimen/size_12" />
 
-        <Button
+        <TextView
             android:id="@+id/bt_tag_page_item"
             android:layout_width="@dimen/font_50"
             android:layout_height="@dimen/font_24"
@@ -303,9 +303,9 @@
             android:gravity="center"
             android:layout_marginLeft="@dimen/font_8"
             android:layout_toRightOf="@+id/iv_color_icon"
-            style="?android:attr/borderlessButtonStyle"
             android:background="@drawable/tv_color_secai"
-            android:textColor="@color/bg_00"
+            style="?android:attr/borderlessButtonStyle"
+            android:textColor="@color/white"
             android:visibility="gone"
             android:textSize="@dimen/font_14" />
 
