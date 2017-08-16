@@ -197,7 +197,7 @@ public class ShaiXuanResultActicity
         if (listcolor != null && listcolor.size() > 0) {
             if (mSelectListData == null) {
                 mSelectListData = new HashMap<>();
-                if (shaixuan_color.size() > 0) {
+                if (shaixuan_color != null &&  shaixuan_color.size() > 0) {
                     for (Integer key : shaixuan_color.keySet()) {
                         mSelectListData.put(key, shaixuan_color.get(key));
                     }
@@ -211,7 +211,7 @@ public class ShaiXuanResultActicity
             }
             changeColorRound();
         } else {
-            if (shaixuan_color.size() > 0) {
+            if (shaixuan_color != null && shaixuan_color.size() > 0) {
                 for (Integer key : shaixuan_color.keySet()) {
                     if (mSelectListData == null) {
                         mSelectListData = new HashMap<>();
@@ -266,7 +266,9 @@ public class ShaiXuanResultActicity
                 break;
             case R.id.view_pop_top:
             case R.id.view_pop_bottom:
-                selectColorPopupWindow.dismiss();
+                if(null != selectColorPopupWindow){
+                    selectColorPopupWindow.dismiss();
+                }
 
                 //友盟统计
                 HashMap<String, String> map = new HashMap<String, String>();
@@ -765,7 +767,9 @@ public class ShaiXuanResultActicity
             riv_round_one.setVisibility(View.GONE);
             riv_round_two.setVisibility(View.GONE);
             riv_round_three.setVisibility(View.GONE);
-            selectColorPopupWindow.dismiss();
+            if(null != selectColorPopupWindow){
+                selectColorPopupWindow.dismiss();
+            }
         } else {
             changeColorRound();
         }
@@ -796,8 +800,11 @@ public class ShaiXuanResultActicity
             colorList.clear();
         }
         iv_color_tital.setVisibility(View.GONE);
-        for (Integer key : mSelectListData.keySet()) {
-            colorList.add(mSelectListData.get(key).getColor_value());
+        if(mSelectListData != null && mSelectListData.size() > 0){
+
+            for (Integer key : mSelectListData.keySet()) {
+                colorList.add(mSelectListData.get(key).getColor_value());
+            }
         }
         if (colorList.size() == 1) {
             riv_round_one.setVisibility(View.VISIBLE);
