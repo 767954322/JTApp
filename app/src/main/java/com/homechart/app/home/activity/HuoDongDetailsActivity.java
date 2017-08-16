@@ -261,6 +261,7 @@ public class HuoDongDetailsActivity
                 HuoDongDetailsActivity.this.finish();
                 break;
             case R.id.tv_add_activity:
+                fabu();
                 //参与
                 menuWindow.showAtLocation(HuoDongDetailsActivity.this.findViewById(R.id.main),
                         Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
@@ -273,7 +274,7 @@ public class HuoDongDetailsActivity
                     @Override
                     public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
                         if (resultList != null && resultList.size() > 0) {
-                            fabu();
+
                             Message message = new Message();
                             message.obj = resultList.get(0).getPhotoPath().toString();
                             handler.sendMessage(message);
@@ -281,7 +282,6 @@ public class HuoDongDetailsActivity
                             ToastUtils.showCenter(HuoDongDetailsActivity.this, "拍照资源获取失败");
                         }
                     }
-
                     @Override
                     public void onHanlderFailure(int requestCode, String errorMsg) {
 
