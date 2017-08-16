@@ -22,6 +22,8 @@ import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.adapter.MyColorGridAdapter;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.home.bean.color.ColorBean;
+import com.homechart.app.home.bean.color.ColorItemBean;
 import com.homechart.app.home.bean.imagedetail.ColorInfoBean;
 import com.homechart.app.home.bean.imagedetail.ImageDetailBean;
 import com.homechart.app.myview.FlowLayoutBiaoQian;
@@ -50,7 +52,9 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by gumenghao on 17/6/26.
@@ -166,6 +170,7 @@ public class ImageDetailActivity
 
         tv_tital_comment.setText("图片详情");
         tv_content_right.setText("编辑");
+        getColorData();
         getImageDetail();
 
     }
@@ -254,11 +259,53 @@ public class ImageDetailActivity
                 if (list.size() > 0 && listColor != null && listColor.size() > 0) {
                     Intent intent2 = new Intent(ImageDetailActivity.this, ShaiXuanResultActicity.class);
                     intent2.putExtra("shaixuan_tag", list.get(0));
-                    intent2.putExtra("colorlist", (Serializable) listColor);
+                    if (listColor != null && listColor.size() > 0) {
+                        ColorInfoBean colorInfoBean = listColor.get(0);
+                        if (colorBean != null) {
+                            Map<Integer, ColorItemBean> mSelectListData = new HashMap<>();
+                            List<ColorItemBean> list = colorBean.getColor_list();
+                            for (int i = 0; i < list.size(); i++) {
+                                if (list.get(i).getColor_id() == colorInfoBean.getColor_id()) {
+                                    mSelectListData.put(colorInfoBean.getColor_id(), list.get(i));
+                                }
+                            }
+                            intent2.putExtra("shaixuan_color", (Serializable) mSelectListData);
+                        }
+                    }
                     startActivity(intent2);
                 }
                 break;
         }
+    }
+    private void getColorData() {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtils.showCenter(ImageDetailActivity.this, getString(R.string.color_get_error));
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        Message msg = new Message();
+                        msg.obj = data_msg;
+                        msg.what = 6;
+                        mHandler.sendMessage(msg);
+                    } else {
+                        ToastUtils.showCenter(ImageDetailActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(ImageDetailActivity.this, getString(R.string.color_get_error));
+                }
+            }
+        };
+        MyHttpManager.getInstance().getColorListData(callBack);
+
     }
 
     //取消收藏
@@ -426,8 +473,8 @@ public class ImageDetailActivity
 
     }
 
+    private ColorBean colorBean;
     Handler mHandler = new Handler() {
-
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -466,6 +513,11 @@ public class ImageDetailActivity
                     collect_num--;
                     tv_xing.setText(collect_num + "");
                     tv_xing.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                    break;
+                case 6:
+
+                    String info = (String) msg.obj;
+                    colorBean = GsonUtil.jsonToBean(info, ColorBean.class);
                     break;
             }
         }

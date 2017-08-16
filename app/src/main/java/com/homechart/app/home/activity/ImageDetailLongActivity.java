@@ -34,6 +34,8 @@ import com.homechart.app.home.adapter.MyColorGridAdapter;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.cailike.ImageLikeItemBean;
 import com.homechart.app.home.bean.cailike.LikeDataBean;
+import com.homechart.app.home.bean.color.ColorBean;
+import com.homechart.app.home.bean.color.ColorItemBean;
 import com.homechart.app.home.bean.imagedetail.ColorInfoBean;
 import com.homechart.app.home.bean.imagedetail.ImageDetailBean;
 import com.homechart.app.home.bean.pictag.TagItemDataChildBean;
@@ -78,6 +80,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by gumenghao on 17/6/26.
@@ -192,6 +195,7 @@ public class ImageDetailLongActivity
     private boolean ifShowColorList = true;
 
     private List<String> mItemIdList = new ArrayList<>();
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_image_detail_long;
@@ -201,12 +205,12 @@ public class ImageDetailLongActivity
     protected void initExtraBundle() {
         super.initExtraBundle();
         item_id = getIntent().getStringExtra("item_id");
-        if_click_color = getIntent().getBooleanExtra("if_click_color",false);
+        if_click_color = getIntent().getBooleanExtra("if_click_color", false);
         mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
 
-        if(if_click_color){
+        if (if_click_color) {
             ifShowColorList = true;
-        }else {
+        } else {
             ifShowColorList = false;
         }
     }
@@ -391,7 +395,7 @@ public class ImageDetailLongActivity
 
         tv_tital_comment.setText("图片详情");
         tv_content_right.setText("编辑");
-
+        getColorData();
         width_Pic = PublicUtils.getScreenWidth(ImageDetailLongActivity.this) / 2 - UIUtils.getDimens(R.dimen.font_14);
         getImageDetail();
         getPingList();
@@ -556,7 +560,19 @@ public class ImageDetailLongActivity
 
                     Intent intent = new Intent(ImageDetailLongActivity.this, ShaiXuanResultActicity.class);
                     intent.putExtra("shaixuan_tag", list.get(0));
-                    intent.putExtra("colorlist", (Serializable) listColor);
+                    if (listColor != null && listColor.size() > 0) {
+                        ColorInfoBean colorInfoBean = listColor.get(0);
+                        if (colorBean != null) {
+                            Map<Integer, ColorItemBean> mSelectListData = new HashMap<>();
+                            List<ColorItemBean> list = colorBean.getColor_list();
+                            for (int i = 0; i < list.size(); i++) {
+                                if (list.get(i).getColor_id() == colorInfoBean.getColor_id()) {
+                                    mSelectListData.put(colorInfoBean.getColor_id(), list.get(i));
+                                }
+                            }
+                            intent.putExtra("shaixuan_color", (Serializable) mSelectListData);
+                        }
+                    }
                     startActivity(intent);
                 }
                 break;
@@ -1315,12 +1331,12 @@ public class ImageDetailLongActivity
 
                 iv_ifshow_color.setVisibility(View.VISIBLE);
                 rl_imagedetails_next.setVisibility(View.VISIBLE);
-                if(ifShowColorList){
+                if (ifShowColorList) {
                     dgv_colorlist.setVisibility(View.VISIBLE);
                     tv_color_tips.setVisibility(View.VISIBLE);
                     rl_color_location.setVisibility(View.VISIBLE);
                     iv_ifshow_color.setImageResource(R.drawable.shouqi);
-                }else {
+                } else {
                     dgv_colorlist.setVisibility(View.GONE);
                     iv_ifshow_color.setImageResource(R.drawable.zhankai);
                     tv_color_tips.setVisibility(View.GONE);
@@ -1354,7 +1370,6 @@ public class ImageDetailLongActivity
                 Intent intent = new Intent(ImageDetailLongActivity.this, ShaiXuanResultActicity.class);
                 String tag = text.replace("#", "");
                 intent.putExtra("shaixuan_tag", tag.trim());
-
                 //友盟统计
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("evenname", "图片标签");
@@ -1714,6 +1729,7 @@ public class ImageDetailLongActivity
         }
     };
 
+    private ColorBean colorBean;
     Handler mHandler = new Handler() {
 
         @Override
@@ -1778,6 +1794,10 @@ public class ImageDetailLongActivity
                     changePingUI();
                     break;
                 case 7:
+                    break;
+                case 8:
+                    String info = (String) msg.obj;
+                    colorBean = GsonUtil.jsonToBean(info, ColorBean.class);
                     break;
             }
         }
@@ -2045,6 +2065,36 @@ public class ImageDetailLongActivity
         MyHttpManager.getInstance().removeShouCang(item_id, callBack);
     }
 
+    private void getColorData() {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtils.showCenter(ImageDetailLongActivity.this, getString(R.string.color_get_error));
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        Message msg = new Message();
+                        msg.obj = data_msg;
+                        msg.what = 8;
+                        mHandler.sendMessage(msg);
+                    } else {
+                        ToastUtils.showCenter(ImageDetailLongActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(ImageDetailLongActivity.this, getString(R.string.color_get_error));
+                }
+            }
+        };
+        MyHttpManager.getInstance().getColorListData(callBack);
+
+    }
 
 
     private int wei = 0;

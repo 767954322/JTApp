@@ -255,35 +255,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/font_15"
             android:src="@drawable/cshaixuan" />
-
-        <com.homechart.app.myview.RoundImageView
-            android:id="@+id/riv_round_one"
-            android:layout_width="@dimen/font_18"
-            android:layout_height="@dimen/font_18"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/font_7"
-            android:layout_toRightOf="@+id/iv_color_icon"
-            android:background="@color/bank_bg01"
-            android:visibility="gone" />
-
-        <com.homechart.app.myview.RoundImageView
-            android:id="@+id/riv_round_two"
-            android:layout_width="@dimen/font_18"
-            android:layout_height="@dimen/font_18"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/riv_round_one"
-            android:background="@color/bank_bg01"
-            android:visibility="gone" />
-
-        <com.homechart.app.myview.RoundImageView
-            android:id="@+id/riv_round_three"
-            android:layout_width="@dimen/font_18"
-            android:layout_height="@dimen/font_18"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/riv_round_two"
-            android:background="@color/bank_bg01"
-            android:visibility="gone" />
-
         <TextView
             android:id="@+id/tv_color_tital"
             android:layout_width="wrap_content"
