@@ -13,11 +13,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextPaint;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -127,6 +129,13 @@ public class HuoDongDetailsActivity
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
     private ImageView iv_shared;
     private TextView tv_content_right;
+    private ViewTreeObserver vto;
+    private RelativeLayout rl_zhankai;
+    private TextView tv_zhankai;
+    private ImageView iv_zhankai;
+    private boolean ifFirst = true;
+    private boolean ifZhanKai = false;
+    private ActivityInfoBean activityInfoBean;
 
     @Override
     protected int getLayoutResId() {
@@ -145,6 +154,12 @@ public class HuoDongDetailsActivity
         headerView = LayoutInflater.from(HuoDongDetailsActivity.this).inflate(R.layout.header_huodong_details, null);
 
         homeSharedPopWinPublic = new HomeSharedPopWinPublic(HuoDongDetailsActivity.this, HuoDongDetailsActivity.this);
+
+
+        rl_zhankai = (RelativeLayout) headerView.findViewById(R.id.rl_zhankai);
+        tv_zhankai = (TextView) headerView.findViewById(R.id.tv_zhankai);
+        iv_zhankai = (ImageView) headerView.findViewById(R.id.iv_zhankai);
+
         iv_shared = (ImageView) headerView.findViewById(R.id.iv_shared);
         iv_huodong_image = (ImageView) headerView.findViewById(R.id.iv_huodong_image);
         tv_tital_huodong = (TextView) headerView.findViewById(R.id.tv_tital_huodong);
@@ -172,6 +187,8 @@ public class HuoDongDetailsActivity
         nav_secondary_imageButton = (ImageButton) findViewById(R.id.nav_secondary_imageButton);
         mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview_info);
 
+        vto = tv_huodong_miaoshu.getViewTreeObserver();
+
     }
 
     @Override
@@ -181,6 +198,28 @@ public class HuoDongDetailsActivity
         tv_content_right.setOnClickListener(this);
         iv_shared.setOnClickListener(this);
         tv_add_activity.setOnClickListener(this);
+        rl_zhankai.setOnClickListener(this);
+//        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+//            @Override
+//            public boolean onPreDraw() {
+//                if(ifFirst){
+//                    int lineCount = tv_huodong_miaoshu.getLineCount();
+//                    if (lineCount > 4) {
+//                        rl_zhankai.setVisibility(View.VISIBLE);
+//                        tv_huodong_miaoshu.setMaxLines(4);
+//                        ifFirst = false;
+//                        return true;
+//                    } else {
+//                        rl_zhankai.setVisibility(View.GONE);
+//                        ifFirst = false;
+//                        return true;
+//                    }
+//                }else {
+//                    return true;
+//                }
+//
+//            }
+//        });
         tl_tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -309,10 +348,35 @@ public class HuoDongDetailsActivity
 
                 break;
             case R.id.tv_content_right:
-                Intent intent = new Intent(this,HuoDongListActivity.class);
+                Intent intent = new Intent(this, HuoDongListActivity.class);
                 startActivity(intent);
                 break;
 
+            case R.id.rl_zhankai:
+
+                if (ifZhanKai) {//展开了，点击关闭
+
+                    tv_huodong_miaoshu.setMaxLines(4);
+                    if (activityInfoBean != null) {
+                        tv_zhankai.setText("展开");
+                        iv_zhankai.setImageResource(R.drawable.zhankai1);
+                        tv_huodong_miaoshu.setText(activityInfoBean.getDescription());
+                    }
+                    ifZhanKai = false;
+
+                } else {//关开了，点击展开
+
+                    tv_huodong_miaoshu.setMaxLines(1000);
+
+                    if (activityInfoBean != null) {
+                        tv_zhankai.setText("收起");
+                        iv_zhankai.setImageResource(R.drawable.shouqi1);
+                        tv_huodong_miaoshu.setText(activityInfoBean.getDescription());
+                    }
+                    ifZhanKai = true;
+                }
+
+                break;
         }
 
     }
@@ -496,7 +560,7 @@ public class HuoDongDetailsActivity
     //获得活动详情，更新ui
     private void changeTopUI(HDDetailsBean hdDetailsBean) {
 
-        ActivityInfoBean activityInfoBean = hdDetailsBean.getData().getActivity_info();
+        activityInfoBean = hdDetailsBean.getData().getActivity_info();
         ViewGroup.LayoutParams layoutParams = iv_huodong_image.getLayoutParams();
         layoutParams.width = width_activity;
         layoutParams.height = (int) (width_activity / 2.36);
@@ -518,7 +582,24 @@ public class HuoDongDetailsActivity
         } else if (activityInfoBean.getState_id().equals("1")) {
             tv_data_last.setText("活动已结束");
         }
-        tv_huodong_miaoshu.setText(activityInfoBean.getDescription());
+        TextPaint textPaint = tv_huodong_miaoshu.getPaint();
+        float mTextViewPaint = textPaint.measureText(activityInfoBean.getDescription());
+
+        if (ifFirst) {
+            if (mTextViewPaint - (PublicUtils.getScreenWidth(HuoDongDetailsActivity.this) - UIUtils.getDimens(R.dimen.font_30)) * 4 > 0) {
+                //超过四行
+                rl_zhankai.setVisibility(View.VISIBLE);
+                tv_huodong_miaoshu.setMaxLines(4);
+                tv_huodong_miaoshu.setText(activityInfoBean.getDescription());
+            } else {
+                //未超过四行
+                rl_zhankai.setVisibility(View.GONE);
+                tv_huodong_miaoshu.setMaxLines(4);
+                tv_huodong_miaoshu.setText(activityInfoBean.getDescription());
+            }
+            ifFirst = false;
+        }
+
         List<ItemUserBean> list_user = hdDetailsBean.getData().getUser_list();
         if (list_user == null || list_user.size() == 0) {
             rl_people_list.setVisibility(View.GONE);
@@ -758,7 +839,6 @@ public class HuoDongDetailsActivity
     public void onClickWeiBo() {
         sharedItemOpen(SHARE_MEDIA.SINA);
     }
-
 
 
     //收藏或者取消收藏，图片
