@@ -551,7 +551,7 @@ public class ArticleDetailsActivity
                 }
             }
         };
-        MyHttpManager.getInstance().getLikeArticleList(article_id, (likepage_num - 1) * 5, 10, callBack);
+        MyHttpManager.getInstance().getLikeArticleList(article_id, (likepage_num - 1) * 20, 20, callBack);
     }
 
     //1.文章详情
