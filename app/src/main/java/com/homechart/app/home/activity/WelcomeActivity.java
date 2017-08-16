@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
@@ -41,7 +42,7 @@ import java.util.List;
  */
 public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter.OnClickJump {
 
-    private SwipeViewPager mWelcomeViewPager;
+    private ViewPager mWelcomeViewPager;
 
     protected int getLayoutResId() {
         return R.layout.activity_welcome;
@@ -54,7 +55,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter
             window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
-        mWelcomeViewPager = (SwipeViewPager) findViewById(R.id.welcome_view_pager);
+        mWelcomeViewPager = (ViewPager) findViewById(R.id.welcome_view_pager);
     }
 
     protected void initData(Bundle savedInstanceState) {
@@ -82,6 +83,37 @@ public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter
             //设置权限
             PublicUtils.verifyStoragePermissions(WelcomeActivity.this);
         }
+    }
+
+
+    private boolean isLastPage = false;
+    private boolean isDragPage = false;
+    private boolean canJumpPage = true;
+    @Override
+    protected void initListener() {
+        super.initListener();
+
+        mWelcomeViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (isLastPage && isDragPage && positionOffsetPixels == 0){   //当前页是最后一页，并且是拖动状态，并且像素偏移量为0
+                    if (canJumpPage){
+                        canJumpPage = false;
+                        onClickJump();
+                    }
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                isLastPage = position == 2;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                isDragPage = state == 1;
+            }
+        });
     }
 
     public List<Integer> getAdData() {
@@ -185,7 +217,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter
                 .build());
         SharedPreferencesUtils.writeBoolean(ISFIRST, true);
         Intent intent = new Intent(this, LoginActivity.class);
-        intent.putExtra("if_first",true);
+        intent.putExtra("if_first", true);
         startActivity(intent);
         finish();
     }
