@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/font_15"
-            android:src="@drawable/scshaixuan" />
+            android:src="@drawable/cshaixuan" />
 
         <com.homechart.app.myview.RoundImageView
             android:id="@+id/riv_round_one"

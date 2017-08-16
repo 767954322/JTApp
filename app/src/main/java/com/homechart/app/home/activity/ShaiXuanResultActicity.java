@@ -209,6 +209,8 @@ public class ShaiXuanResultActicity
                         listcolor.get(i).getColor_value(),
                         listcolor.get(i).getColor_value()));
             }
+
+            if(mSelectListData != null && mSelectListData.size() > 0)
             changeColorRound();
         } else {
             if (shaixuan_color != null && shaixuan_color.size() > 0) {
@@ -219,6 +221,7 @@ public class ShaiXuanResultActicity
                     mSelectListData.put(key, shaixuan_color.get(key));
                 }
             }
+            if(mSelectListData != null && mSelectListData.size() > 0)
             changeColorRound();
         }
 
@@ -773,7 +776,6 @@ public class ShaiXuanResultActicity
         } else {
             changeColorRound();
         }
-
         getListData(REFRESH_STATUS);
     }
 

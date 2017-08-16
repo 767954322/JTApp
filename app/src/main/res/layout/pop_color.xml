@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/font_15"
-                android:src="@drawable/scshaixuan" />
+                android:src="@drawable/cshaixuan" />
 
             <TextView
                 android:id="@+id/tv_pop_color_tital"
