@@ -129,7 +129,6 @@ public class HuoDongDetailsActivity
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
     private ImageView iv_shared;
     private TextView tv_content_right;
-    private ViewTreeObserver vto;
     private RelativeLayout rl_zhankai;
     private TextView tv_zhankai;
     private ImageView iv_zhankai;
@@ -187,7 +186,6 @@ public class HuoDongDetailsActivity
         nav_secondary_imageButton = (ImageButton) findViewById(R.id.nav_secondary_imageButton);
         mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview_info);
 
-        vto = tv_huodong_miaoshu.getViewTreeObserver();
 
     }
 
@@ -199,27 +197,6 @@ public class HuoDongDetailsActivity
         iv_shared.setOnClickListener(this);
         tv_add_activity.setOnClickListener(this);
         rl_zhankai.setOnClickListener(this);
-//        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-//            @Override
-//            public boolean onPreDraw() {
-//                if(ifFirst){
-//                    int lineCount = tv_huodong_miaoshu.getLineCount();
-//                    if (lineCount > 4) {
-//                        rl_zhankai.setVisibility(View.VISIBLE);
-//                        tv_huodong_miaoshu.setMaxLines(4);
-//                        ifFirst = false;
-//                        return true;
-//                    } else {
-//                        rl_zhankai.setVisibility(View.GONE);
-//                        ifFirst = false;
-//                        return true;
-//                    }
-//                }else {
-//                    return true;
-//                }
-//
-//            }
-//        });
         tl_tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
