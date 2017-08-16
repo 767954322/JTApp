@@ -3,9 +3,11 @@ package com.homechart.app.home.adapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.widget.TextViewCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.homechart.app.R;
 import com.homechart.app.home.activity.HomeActivity;
@@ -43,6 +45,20 @@ public class WelcomePagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         itemView = View.inflate(context, R.layout.item_viewpage_content, null);
         ImageView imageView = ((ImageView) itemView.findViewById(R.id.image));
+        TextView tv_tiaoguo = ((TextView) itemView.findViewById(R.id.tv_tiaoguo));
+
+        if (position == 0) {
+            tv_tiaoguo.setVisibility(View.VISIBLE);
+            tv_tiaoguo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickJump.onClickJump();
+                }
+            });
+        } else {
+            tv_tiaoguo.setVisibility(View.GONE);
+        }
+
         imageView.setBackgroundResource(comm_data_ls.get(position));
 
         imageView.setOnClickListener(new View.OnClickListener() {
