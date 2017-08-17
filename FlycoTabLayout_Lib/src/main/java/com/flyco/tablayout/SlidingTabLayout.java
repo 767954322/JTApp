@@ -263,7 +263,6 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         if (mTitles != null) {
             mTitles.add(title);
         }
-
         CharSequence pageTitle = mTitles == null ? mViewPager.getAdapter().getPageTitle(mTabCount) : mTitles.get(mTabCount);
         addTab(mTabCount, pageTitle.toString(), tabView);
         this.mTabCount = mTitles == null ? mViewPager.getAdapter().getCount() : mTitles.size();

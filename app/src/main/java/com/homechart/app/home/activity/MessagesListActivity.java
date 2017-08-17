@@ -1,44 +1,26 @@
 package com.homechart.app.home.activity;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
+import com.flyco.tablayout.CustomViewPagerTab;
+import com.flyco.tablayout.SlidingTabLayout;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
-import com.homechart.app.commont.ClassConstant;
-import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
-import com.homechart.app.home.bean.message.ItemMessageBean;
-import com.homechart.app.home.bean.message.MessageBean;
-import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
-import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
-import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
-import com.homechart.app.recyclerlibrary.anims.animators.LandingAnimator;
-import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
-import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
-import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
-import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
-import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
-import com.homechart.app.utils.GsonUtil;
-import com.homechart.app.utils.ToastUtils;
-import com.homechart.app.utils.UIUtils;
-import com.homechart.app.utils.imageloader.ImageUtils;
-import com.homechart.app.utils.volley.MyHttpManager;
-import com.homechart.app.utils.volley.OkStringRequest;
+import com.homechart.app.home.fragment.ShouCangArticleFragment;
+import com.homechart.app.home.fragment.ShouCangPicFragment;
+import com.homechart.app.home.fragment.XXGuanZhuFragment;
 import com.umeng.analytics.MobclickAgent;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,25 +31,21 @@ import java.util.List;
 
 public class MessagesListActivity extends BaseActivity
         implements View.OnClickListener,
-        CommonAdapter.OnItemClickListener,
-        OnLoadMoreListener,
-        OnRefreshListener {
+        OnTabSelectListener {
 
-    private List<ItemMessageBean> mListData = new ArrayList<>();
-    private LoadMoreFooterView mLoadMoreFooterView;
-    private MultiItemCommonAdapter<ItemMessageBean> mAdapter;
-    private HRecyclerView mRecyclerView;
     private ImageButton mIBBack;
     private TextView mTVTital;
-    private final String REFRESH_STATUS = "refresh";
-    private final String LOADMORE_STATUS = "loadmore";
-    private int page_num = 1;
-    private String n = "20";//返回数据条数，默认20
-    private String user_id;
-    private int TYPE_ACTIVITY = 1;
-    private int TYPE_TIPS = 2;
-    private RelativeLayout rl_no_data;
-    private int width_Pic_List;
+    private SlidingTabLayout stl_tab;
+    //页卡标题集合
+    private final String[] mTitles = {"关注", "收藏", "评论", "系统消息"};
+    //页卡视图集合
+    private List<Fragment> mFragmentsList = new ArrayList<>();
+    private CustomViewPagerTab vp_viewpager;
+    private XXGuanZhuFragment xxGuanZhuFragment;
+    private MyPagerAdapter myPagerAdapter;
+    private XXGuanZhuFragment xxGuanZhuFragment1;
+    private XXGuanZhuFragment xxGuanZhuFragment2;
+    private XXGuanZhuFragment xxGuanZhuFragment3;
 
     @Override
     protected int getLayoutResId() {
@@ -78,8 +56,8 @@ public class MessagesListActivity extends BaseActivity
     protected void initView() {
         mIBBack = (ImageButton) findViewById(R.id.nav_left_imageButton);
         mTVTital = (TextView) findViewById(R.id.tv_tital_comment);
-        rl_no_data = (RelativeLayout) findViewById(R.id.rl_no_data);
-        mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview_pic);
+        stl_tab = (SlidingTabLayout) findViewById(R.id.stl_tab);
+        vp_viewpager = (CustomViewPagerTab) findViewById(R.id.vp_viewpager);
     }
 
     @Override
@@ -87,68 +65,27 @@ public class MessagesListActivity extends BaseActivity
         super.initListener();
 
         mIBBack.setOnClickListener(this);
-
+        stl_tab.setOnTabSelectListener(this);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         mTVTital.setText("消息");
-        width_Pic_List = PublicUtils.getScreenWidth(MessagesListActivity.this) - UIUtils.getDimens(R.dimen.font_30);
 
-        MultiItemTypeSupport<ItemMessageBean> support = new MultiItemTypeSupport<ItemMessageBean>() {
-            @Override
-            public int getLayoutId(int itemType) {
-                if (itemType == TYPE_ACTIVITY) {
-                    return R.layout.item_message_activity;
-                } else {
-                    return R.layout.item_message_tips;
-                }
-            }
+        initFragment();
+        //设置下划线的高度
+        stl_tab.setIndicatorHeight(4f);
+        stl_tab.setIndicatorWidth(70f);
+        //设置tab的字体大小
+        stl_tab.setTextsize(14f);
+        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+        vp_viewpager.setAdapter(myPagerAdapter);
+        stl_tab.setViewPager(vp_viewpager);
 
-            @Override
-            public int getItemViewType(int position, ItemMessageBean itemMessageBean) {
-                if (itemMessageBean.getType().equals("activity")) {
-                    return TYPE_ACTIVITY;
-                } else {
-                    return TYPE_TIPS;
-                }
-
-            }
-        };
-
-        mAdapter = new MultiItemCommonAdapter<ItemMessageBean>(this, mListData, support) {
-            @Override
-            public void convert(BaseViewHolder holder, int position) {
-                if (getItemViewType(position) == TYPE_ACTIVITY) {
-                    ((TextView) holder.getView(R.id.tv_activity_tital)).setText(mListData.get(position).getContent());
-                    ((TextView) holder.getView(R.id.tv_activity_time)).setText(mListData.get(position).getAdd_time());
-
-                    ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_activity_image).getLayoutParams();
-                    layoutParams.height = (int)(width_Pic_List/2.03);
-                    holder.getView(R.id.iv_activity_image).setLayoutParams(layoutParams);
-                    ImageUtils.displayFilletImage(mListData.get(position).getImage().getImg0(), (ImageView) holder.getView(R.id.iv_activity_image));
-
-                } else if (getItemViewType(position) == TYPE_TIPS) {
-                    ((TextView) holder.getView(R.id.tv_tips_tital)).setText(mListData.get(position).getContent());
-                    ((TextView) holder.getView(R.id.tv_tips_time)).setText(mListData.get(position).getAdd_time());
-
-                    ImageUtils.displayFilletImage(mListData.get(position).getImage().getImg0(), (ImageView) holder.getView(R.id.iv_activity_image));
-
-                }
-            }
-        };
-        mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(MessagesListActivity.this));
-        mRecyclerView.setItemAnimator(new LandingAnimator());
-
-//        ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(mAdapter);
-//        scaleAdapter.setFirstOnly(false);
-//        scaleAdapter.setDuration(500);
-
-        mRecyclerView.setOnRefreshListener(this);
-        mRecyclerView.setOnLoadMoreListener(this);
-        mRecyclerView.setAdapter(mAdapter);
-        onRefresh();
+//        stl_tab.showMsg(2, 100);
+//        stl_tab.showMsg(0, 2);
+//
+//        stl_tab.hideMsg(0);
     }
 
     @Override
@@ -161,112 +98,15 @@ public class MessagesListActivity extends BaseActivity
         }
     }
 
-    //RecyclerView的Item点击事件
-    @Override
-    public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-
-    }
-
-
-    @Override
-    public void onRefresh() {
-        page_num = 1;
-        mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-        getListData(REFRESH_STATUS);
-    }
-
-    @Override
-    public void onLoadMore() {
-        ++page_num;
-        if (mLoadMoreFooterView.canLoadMore() && mListData.size() > 0) {
-            mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
-            getListData(LOADMORE_STATUS);
-        }
-
-    }
-
-    private void getListData(final String state) {
-
-        OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                --page_num;
-                mRecyclerView.setRefreshing(false);//刷新完毕
-                mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-                ToastUtils.showCenter(MessagesListActivity.this, UIUtils.getString(R.string.error_message));
-            }
-
-            @Override
-            public void onResponse(String response) {
-
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                    if (error_code == 0) {
-                        MessageBean messageBean = GsonUtil.jsonToBean(data_msg, MessageBean.class);
-                        List<ItemMessageBean> list = messageBean.getNotice_list();
-                        if (null != list && 0 != list.size()) {
-                            changeNone(0);
-                            updateViewFromData(list, state);
-                        } else {
-                            changeNone(1);
-                            updateViewFromData(null, state);
-                        }
-                    } else {
-                        --page_num;
-                        ToastUtils.showCenter(MessagesListActivity.this, error_msg);
-                    }
-                } catch (JSONException e) {
-                    --page_num;
-                    ToastUtils.showCenter(MessagesListActivity.this, UIUtils.getString(R.string.error_message));
-                }
-            }
-        };
-        MyHttpManager.getInstance().messageList(page_num, 20, callback);
-
-    }
-
-    private void updateViewFromData(List<ItemMessageBean> listData, String state) {
-
-        switch (state) {
-
-            case REFRESH_STATUS:
-                mListData.clear();
-                if (null != listData) {
-                    mListData.addAll(listData);
-                } else {
-                    mListData.clear();
-                }
-                mAdapter.notifyDataSetChanged();
-                mRecyclerView.setRefreshing(false);//刷新完毕
-                break;
-
-            case LOADMORE_STATUS:
-                if (null != listData) {
-                    mListData.addAll(listData);
-                    mAdapter.notifyData(mListData);
-                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-                } else {
-                    //没有更多数据
-                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
-                }
-                break;
-        }
-    }
-
-    private void changeNone(int i) {
-        if (i == 0) {
-            rl_no_data.setVisibility(View.GONE);
-        } else if (i == 1) {
-            if (mListData.size() > 0) {
-                rl_no_data.setVisibility(View.GONE);
-            } else {
-                rl_no_data.setVisibility(View.VISIBLE);
-            }
-
-        }
+    private void initFragment() {
+        xxGuanZhuFragment = new XXGuanZhuFragment(getSupportFragmentManager());
+        xxGuanZhuFragment1 = new XXGuanZhuFragment(getSupportFragmentManager());
+        xxGuanZhuFragment2 = new XXGuanZhuFragment(getSupportFragmentManager());
+        xxGuanZhuFragment3 = new XXGuanZhuFragment(getSupportFragmentManager());
+        mFragmentsList.add(xxGuanZhuFragment);
+        mFragmentsList.add(xxGuanZhuFragment1);
+        mFragmentsList.add(xxGuanZhuFragment2);
+        mFragmentsList.add(xxGuanZhuFragment3);
     }
 
     @Override
@@ -287,5 +127,38 @@ public class MessagesListActivity extends BaseActivity
 
         MobclickAgent.onPageEnd("系统消息页");
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onTabSelect(int position) {
+
+        stl_tab.hideMsg(position);
+
+    }
+
+    @Override
+    public void onTabReselect(int position) {
+
+    }
+
+    private class MyPagerAdapter extends FragmentPagerAdapter {
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentsList.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mTitles[position];
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentsList.get(position);
+        }
     }
 }
