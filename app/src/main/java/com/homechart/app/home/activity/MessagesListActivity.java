@@ -61,6 +61,7 @@ public class MessagesListActivity extends BaseActivity
         mTVTital = (TextView) findViewById(R.id.tv_tital_comment);
         stl_tab = (SlidingTabLayout) findViewById(R.id.stl_tab);
         vp_viewpager = (CustomViewPagerTab) findViewById(R.id.vp_viewpager);
+        vp_viewpager.setScanScroll(true);
     }
 
     @Override
