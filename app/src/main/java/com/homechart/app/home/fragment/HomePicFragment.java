@@ -702,7 +702,7 @@ public class HomePicFragment
                         ToastUtils.showCenter(activity, error_msg);
                     }
                 } catch (JSONException e) {
-                    ToastUtils.showCenter(activity, getString(R.string.filter_get_error));
+//                    ToastUtils.showCenter(activity, getString(R.string.filter_get_error));
                 }
             }
         };

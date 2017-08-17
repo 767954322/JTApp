@@ -51,8 +51,6 @@ public class XXMessageFragment
     private LoadMoreFooterView mLoadMoreFooterView;
     private MultiItemCommonAdapter<ItemMessageBean> mAdapter;
     private HRecyclerView mRecyclerView;
-    private ImageButton mIBBack;
-    private TextView mTVTital;
     private final String REFRESH_STATUS = "refresh";
     private final String LOADMORE_STATUS = "loadmore";
     private int page_num = 1;
@@ -213,7 +211,7 @@ public class XXMessageFragment
                 }
             }
         };
-        MyHttpManager.getInstance().messageList(page_num, 20, callback);
+        MyHttpManager.getInstance().xitongMSGList(page_num, 20, callback);
 
     }
 

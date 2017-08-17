@@ -847,14 +847,107 @@ public class MyHttpManager {
     }
 
     /**
-     * 通知列表
+     * 系统消息列表
      *
      * @param page_num
      * @param n
      * @param callback
      */
-    public void messageList(final int page_num, final int n, OkStringRequest.OKResponseCallback callback) {
+    public void xitongMSGList(final int page_num, final int n, OkStringRequest.OKResponseCallback callback) {
         OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.MESSAGE_LIST, callback) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                map.put(ClassConstant.MessageList.S, (page_num - 1) * n + "");
+                map.put(ClassConstant.MessageList.N, n + "");
+
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+
+        };
+        queue.add(okStringRequest);
+    }
+
+    /**
+     * 关注消息列表
+     *
+     * @param page_num
+     * @param n
+     * @param callback
+     */
+    public void guanzhuMSGList(final int page_num, final int n, OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.GUANZHU_MSG, callback) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                map.put(ClassConstant.MessageList.S, (page_num - 1) * n + "");
+                map.put(ClassConstant.MessageList.N, n + "");
+
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+
+        };
+        queue.add(okStringRequest);
+    }
+
+    /**
+     * 收藏消息列表
+     *
+     * @param page_num
+     * @param n
+     * @param callback
+     */
+    public void shoucangMSGList(final int page_num, final int n, OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.SHOUCANG_MSG, callback) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                map.put(ClassConstant.MessageList.S, (page_num - 1) * n + "");
+                map.put(ClassConstant.MessageList.N, n + "");
+
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+
+        };
+        queue.add(okStringRequest);
+    }
+
+    /**
+     * 评论消息列表
+     *
+     * @param page_num
+     * @param n
+     * @param callback
+     */
+    public void pinglunMSGList(final int page_num, final int n, OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.PINGLUN_MSG, callback) {
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
