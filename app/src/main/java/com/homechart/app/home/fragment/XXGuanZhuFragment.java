@@ -1,6 +1,7 @@
 package com.homechart.app.home.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.home.activity.FenSiListActivity;
+import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.message.ItemMessageBean;
 import com.homechart.app.home.bean.message.MessageBean;
@@ -83,6 +86,11 @@ public class XXGuanZhuFragment
     }
 
     @Override
+    protected void initListener() {
+        super.initListener();
+    }
+
+    @Override
     protected void initData(Bundle savedInstanceState) {
         buildRecyclerView();
     }
@@ -116,6 +124,7 @@ public class XXGuanZhuFragment
         mRecyclerView.setOnRefreshListener(this);
         mRecyclerView.setOnLoadMoreListener(this);
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(this);
         onRefresh();
 
     }
@@ -138,7 +147,9 @@ public class XXGuanZhuFragment
 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-
+        Intent intent = new Intent(activity, UserInfoActivity.class);
+        intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+        startActivity(intent);
     }
 
     private void getListData(final String state) {
