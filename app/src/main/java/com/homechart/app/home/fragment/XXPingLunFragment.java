@@ -18,6 +18,7 @@ import com.homechart.app.home.activity.ArticleDetailsActivity;
 import com.homechart.app.home.activity.ImageDetailLongActivity;
 import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.base.BaseFragment;
+import com.homechart.app.home.base.LazyLoadFragment;
 import com.homechart.app.home.bean.msgguanzhu.MsgGZBean;
 import com.homechart.app.home.bean.msgguanzhu.MsgNoticeBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
@@ -45,7 +46,7 @@ import java.util.List;
 
 @SuppressLint("ValidFragment")
 public class XXPingLunFragment
-        extends BaseFragment
+        extends LazyLoadFragment
         implements OnLoadMoreListener,
         OnRefreshListener,
         CommonAdapter.OnItemClickListener {
@@ -68,21 +69,23 @@ public class XXPingLunFragment
     public XXPingLunFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
-
     @Override
-    protected int getLayoutResId() {
+    protected int setContentView() {
         return R.layout.fragment_xx_pinglun;
     }
 
     @Override
+    protected void lazyLoad() {
+        initView();
+        initData();
+    }
     protected void initView() {
 
         rl_no_data = (RelativeLayout) rootView.findViewById(R.id.rl_no_data);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_pic);
     }
 
-    @Override
-    protected void initData(Bundle savedInstanceState) {
+    protected void initData() {
         buildRecyclerView();
     }
 

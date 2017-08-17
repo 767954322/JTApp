@@ -71,6 +71,12 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
     private ImageView iv_zhuanye_icon;
     private Timer timer = new Timer(true);
 
+    private int notice_num = 0;
+    private int follow_notice = 0;
+    private int collect_notice = 0;
+    private int comment_notice = 0;
+    private int system_notice = 0;
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -81,10 +87,14 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
                 userCenterInfoBean = GsonUtil.jsonToBean(info, UserCenterInfoBean.class);
                 changeUI();
             } else if (tag == 1) {
-
                 try {
                     JSONObject jsonObject = new JSONObject(info);
                     String num = jsonObject.getString("notice_num");
+                    notice_num = jsonObject.getInt("notice_num");
+                    follow_notice = jsonObject.getInt("follow_notice");
+                    collect_notice = jsonObject.getInt("collect_notice");
+                    comment_notice = jsonObject.getInt("comment_notice");
+                    system_notice = jsonObject.getInt("system_notice");
                     changeUnReaderMsg(num);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -169,7 +179,12 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
             case R.id.iv_center_msgicon:
 
                 Intent intent_messages = new Intent(activity, MessagesListActivity.class);
-                startActivity(intent_messages);
+                intent_messages.putExtra("notice_num",notice_num);
+                intent_messages.putExtra("follow_notice",follow_notice);
+                intent_messages.putExtra("collect_notice",collect_notice);
+                intent_messages.putExtra("comment_notice",comment_notice);
+                intent_messages.putExtra("system_notice",system_notice);
+                startActivityForResult(intent_messages, 2);
 
                 break;
             case R.id.rl_fensi:
@@ -304,7 +319,6 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
             tv_guanzhu_num.setText(userCenterInfoBean.getCounter().getFollow_num() + "");
             tv_shoucang_num.setText((userCenterInfoBean.getCounter().getCollect_article_num() + userCenterInfoBean.getCounter().getCollect_single_num()) + "");
             tv_shaijia_num.setText((userCenterInfoBean.getCounter().getSingle_num() + userCenterInfoBean.getCounter().getArticle_num()) + "");
-
             Log.d("test", (userCenterInfoBean.getCounter().getSingle_num() + userCenterInfoBean.getCounter().getCollect_article_num()) + "");
         }
 
@@ -343,6 +357,8 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
         //修改后的返回
         if (requestCode == 0 && resultCode == 1) {
             getUserInfo();
+        } else if (requestCode == 2) {
+            getUnReaderMsg();
         }
 
     }

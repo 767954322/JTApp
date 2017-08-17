@@ -19,6 +19,7 @@ import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.activity.FenSiListActivity;
 import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.base.BaseFragment;
+import com.homechart.app.home.base.LazyLoadFragment;
 import com.homechart.app.home.bean.message.ItemMessageBean;
 import com.homechart.app.home.bean.message.MessageBean;
 import com.homechart.app.home.bean.msgguanzhu.MsgGZBean;
@@ -48,7 +49,7 @@ import java.util.List;
 
 @SuppressLint("ValidFragment")
 public class XXGuanZhuFragment
-        extends BaseFragment
+        extends LazyLoadFragment
         implements OnLoadMoreListener,
         OnRefreshListener,
         CommonAdapter.OnItemClickListener {
@@ -72,21 +73,23 @@ public class XXGuanZhuFragment
     public XXGuanZhuFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
-
     @Override
-    protected int getLayoutResId() {
+    protected int setContentView() {
         return R.layout.fragment_xx_guanzhu;
     }
 
     @Override
+    protected void lazyLoad() {
+        initView();
+        initData();
+    }
     protected void initView() {
 
         rl_no_data = (RelativeLayout) rootView.findViewById(R.id.rl_no_data);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_pic);
     }
 
-    @Override
-    protected void initData(Bundle savedInstanceState) {
+    protected void initData() {
         buildRecyclerView();
     }
 
@@ -224,6 +227,7 @@ public class XXGuanZhuFragment
 
         }
     }
+
 
 
 }

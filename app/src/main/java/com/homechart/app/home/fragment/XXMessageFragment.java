@@ -17,6 +17,7 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseFragment;
+import com.homechart.app.home.base.LazyLoadFragment;
 import com.homechart.app.home.bean.message.ItemMessageBean;
 import com.homechart.app.home.bean.message.MessageBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
@@ -43,7 +44,7 @@ import java.util.List;
 
 @SuppressLint("ValidFragment")
 public class XXMessageFragment
-        extends BaseFragment implements View.OnClickListener,
+        extends LazyLoadFragment implements View.OnClickListener,
         CommonAdapter.OnItemClickListener,
         OnLoadMoreListener,
         OnRefreshListener {
@@ -68,20 +69,22 @@ public class XXMessageFragment
     public XXMessageFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
-
     @Override
-    protected int getLayoutResId() {
+    protected int setContentView() {
         return R.layout.fragment_xx_message;
     }
 
     @Override
+    protected void lazyLoad() {
+        initView();
+        initData();
+    }
     protected void initView() {
         rl_no_data = (RelativeLayout) rootView.findViewById(R.id.rl_no_data);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_pic);
     }
 
-    @Override
-    protected void initData(Bundle savedInstanceState) {
+    protected void initData() {
         width_Pic_List = PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_30);
 
         buildRecyclerView();

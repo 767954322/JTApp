@@ -49,10 +49,27 @@ public class MessagesListActivity extends BaseActivity
     private XXShouCangFragment xxShouCangFragment;
     private XXPingLunFragment xxPingLunFragment;
     private XXMessageFragment xxMessageFragment;
+    private int notice_num;
+    private int follow_notice;
+    private int collect_notice;
+    private int comment_notice;
+    private int system_notice;
 
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_message_list;
+    }
+
+    @Override
+    protected void initExtraBundle() {
+        super.initExtraBundle();
+
+        notice_num = getIntent().getIntExtra("notice_num", 0);
+        follow_notice = getIntent().getIntExtra("follow_notice", 0);
+        collect_notice = getIntent().getIntExtra("collect_notice", 0);
+        comment_notice = getIntent().getIntExtra("comment_notice", 0);
+        system_notice = getIntent().getIntExtra("system_notice", 0);
+
     }
 
     @Override
@@ -70,6 +87,22 @@ public class MessagesListActivity extends BaseActivity
 
         mIBBack.setOnClickListener(this);
         stl_tab.setOnTabSelectListener(this);
+        vp_viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                stl_tab.hideMsg(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -86,10 +119,17 @@ public class MessagesListActivity extends BaseActivity
         vp_viewpager.setAdapter(myPagerAdapter);
         stl_tab.setViewPager(vp_viewpager);
 
-//        stl_tab.showMsg(2, 100);
-//        stl_tab.showMsg(0, 2);
-//
-//        stl_tab.hideMsg(0);
+        if (notice_num > 0) {
+            if (collect_notice > 0) {
+                stl_tab.showMsg(1, collect_notice);
+            }
+            if (comment_notice > 0) {
+                stl_tab.showMsg(2, comment_notice);
+            }
+            if (system_notice > 0) {
+                stl_tab.showMsg(3, system_notice);
+            }
+        }
     }
 
     @Override
@@ -101,6 +141,7 @@ public class MessagesListActivity extends BaseActivity
                 break;
         }
     }
+
 
     private void initFragment() {
         xxGuanZhuFragment = new XXGuanZhuFragment(getSupportFragmentManager());

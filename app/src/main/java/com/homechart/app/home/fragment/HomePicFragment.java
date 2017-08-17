@@ -352,6 +352,11 @@ public class HomePicFragment
             case R.id.iv_center_msgicon:
                 onDismiss();
                 Intent intent_messages = new Intent(activity, MessagesListActivity.class);
+                intent_messages.putExtra("notice_num", notice_num);
+                intent_messages.putExtra("follow_notice", follow_notice);
+                intent_messages.putExtra("collect_notice", collect_notice);
+                intent_messages.putExtra("comment_notice", comment_notice);
+                intent_messages.putExtra("system_notice", system_notice);
                 startActivityForResult(intent_messages, 11);
                 break;
         }
@@ -361,8 +366,9 @@ public class HomePicFragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 11) {
-            rl_unreader_msg_single.setVisibility(View.GONE);
-            rl_unreader_msg_double.setVisibility(View.GONE);
+//            rl_unreader_msg_single.setVisibility(View.GONE);
+//            rl_unreader_msg_double.setVisibility(View.GONE);
+            getUnReaderMsg();
         }
 
     }
@@ -1260,6 +1266,11 @@ public class HomePicFragment
         MyHttpManager.getInstance().removeShouCang(item_id, callBack);
     }
 
+    private int notice_num = 0;
+    private int follow_notice = 0;
+    private int collect_notice = 0;
+    private int comment_notice = 0;
+    private int system_notice = 0;
 
     private Handler mHandler = new Handler() {
 
@@ -1270,7 +1281,11 @@ public class HomePicFragment
                 String info = (String) msg.obj;
                 try {
                     JSONObject jsonObject = new JSONObject(info);
-                    int notice_num = jsonObject.getInt("notice_num");
+                    notice_num = jsonObject.getInt("notice_num");
+                    follow_notice = jsonObject.getInt("follow_notice");
+                    collect_notice = jsonObject.getInt("collect_notice");
+                    comment_notice = jsonObject.getInt("comment_notice");
+                    system_notice = jsonObject.getInt("system_notice");
                     changeUnReaderMsg(notice_num + "");
                 } catch (JSONException e) {
                     e.printStackTrace();
