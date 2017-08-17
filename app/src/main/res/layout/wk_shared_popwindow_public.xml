@@ -76,6 +76,15 @@
                 android:drawableTop="@drawable/pyq"
                 android:gravity="center_horizontal"
                 android:text="微信朋友圈" />
+            <TextView
+                android:id="@+id/tv_shared_qq_friends"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="@dimen/font_10"
+                android:drawableTop="@drawable/qqshared"
+                android:gravity="center_horizontal"
+                android:text="QQ" />
 
             <TextView
                 android:id="@+id/tv_shared_xinlang"

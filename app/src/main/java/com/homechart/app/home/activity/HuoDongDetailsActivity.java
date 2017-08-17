@@ -817,6 +817,12 @@ public class HuoDongDetailsActivity
         sharedItemOpen(SHARE_MEDIA.SINA);
     }
 
+    @Override
+    public void onClickQQ() {
+
+        sharedItemOpen(SHARE_MEDIA.QQ);
+    }
+
 
     //收藏或者取消收藏，图片
     public void onShouCang(boolean ifShouCang, int position, ItemActivityDataBean itemActivityDataBean) {

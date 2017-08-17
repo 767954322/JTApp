@@ -1819,6 +1819,8 @@ public class ImageDetailLongActivity
                 ToastUtils.showCenter(ImageDetailLongActivity.this, "微信朋友圈分享成功啦");
             } else if (platform == SHARE_MEDIA.SINA) {
                 ToastUtils.showCenter(ImageDetailLongActivity.this, "新浪微博分享成功啦");
+            } else if (platform == SHARE_MEDIA.QQ) {
+                ToastUtils.showCenter(ImageDetailLongActivity.this, "QQ分享成功啦");
             }
 
         }
@@ -1892,6 +1894,12 @@ public class ImageDetailLongActivity
         sharedItemOpen(SHARE_MEDIA.SINA);
     }
 
+    @Override
+    public void onClickQQ() {
+
+        sharedItemOpen(SHARE_MEDIA.QQ);
+    }
+
     private void sharedItemOpen(SHARE_MEDIA share_media) {
 
         if (share_media == SHARE_MEDIA.WEIXIN) {
@@ -1959,6 +1967,28 @@ public class ImageDetailLongActivity
             } else {
                 MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                         .setCategory("图片详情+下+新浪微博")  //事件类别
+                        .setAction("分享图片")      //事件操作
+                        .build());
+            }
+        } else if (share_media == SHARE_MEDIA.QQ) {
+            //友盟统计
+            HashMap<String, String> map1 = new HashMap<String, String>();
+            map1.put("evenname", "分享图片");
+            if (wei == 0) {
+                map1.put("even", "图片详情+上+QQ");
+            } else {
+                map1.put("even", "图片详情+下+QQ");
+            }
+            MobclickAgent.onEvent(ImageDetailLongActivity.this, "jtaction7", map1);
+            //ga统计
+            if (wei == 0) {
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("图片详情+上+QQ")  //事件类别
+                        .setAction("分享图片")      //事件操作
+                        .build());
+            } else {
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("图片详情+下+QQ")  //事件类别
                         .setAction("分享图片")      //事件操作
                         .build());
             }

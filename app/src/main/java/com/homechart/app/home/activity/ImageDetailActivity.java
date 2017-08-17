@@ -534,39 +534,39 @@ public class ImageDetailActivity
 
         listColor = imageDetailBean.getColor_info();
         int width = iv_details_image.getLayoutParams().width;
-            if (listColor != null && listColor.size() > 0) {
-                ll_color_lines.setVisibility(View.VISIBLE);
-                float float_talte = 0;
-                for (int i = 0; i < listColor.size(); i++) {
-                    float wid = Float.parseFloat(listColor.get(i).getColor_percent().trim());
-                    float_talte = float_talte + wid;
-                }
-
-                for (int i = 0; i < listColor.size(); i++) {
-                    TextView textView = new TextView(this);
-                    float wid = Float.parseFloat(listColor.get(i).getColor_percent().trim());
-                    float per = wid / float_talte;
-
-                    if(i == listColor.size()-1){
-                        textView.setHeight(width);
-                    }else {
-                        textView.setWidth((int) (width * per));
-                    }
-
-                    textView.setHeight(UIUtils.getDimens(R.dimen.font_30));
-                    textView.setBackgroundColor(Color.parseColor("#" + listColor.get(i).getColor_value()));
-                    ll_color_lines.addView(textView);
-                }
-                rl_imagedetails_next.setVisibility(View.VISIBLE);
-                iv_ifshow_color.setVisibility(View.VISIBLE);
-                dgv_colorlist.setVisibility(View.VISIBLE);
-                tv_color_tips.setVisibility(View.VISIBLE);
-                rl_color_location.setVisibility(View.VISIBLE);
-                dgv_colorlist.setAdapter(new MyColorGridAdapter(listColor, ImageDetailActivity.this));
-            } else {
-                rl_imagedetails_next.setVisibility(View.GONE);
-                iv_ifshow_color.setVisibility(View.GONE);
+        if (listColor != null && listColor.size() > 0) {
+            ll_color_lines.setVisibility(View.VISIBLE);
+            float float_talte = 0;
+            for (int i = 0; i < listColor.size(); i++) {
+                float wid = Float.parseFloat(listColor.get(i).getColor_percent().trim());
+                float_talte = float_talte + wid;
             }
+
+            for (int i = 0; i < listColor.size(); i++) {
+                TextView textView = new TextView(this);
+                float wid = Float.parseFloat(listColor.get(i).getColor_percent().trim());
+                float per = wid / float_talte;
+
+                if(i == listColor.size()-1){
+                    textView.setHeight(width);
+                }else {
+                    textView.setWidth((int) (width * per));
+                }
+
+                textView.setHeight(UIUtils.getDimens(R.dimen.font_30));
+                textView.setBackgroundColor(Color.parseColor("#" + listColor.get(i).getColor_value()));
+                ll_color_lines.addView(textView);
+            }
+            rl_imagedetails_next.setVisibility(View.VISIBLE);
+            iv_ifshow_color.setVisibility(View.VISIBLE);
+            dgv_colorlist.setVisibility(View.VISIBLE);
+            tv_color_tips.setVisibility(View.VISIBLE);
+            rl_color_location.setVisibility(View.VISIBLE);
+            dgv_colorlist.setAdapter(new MyColorGridAdapter(listColor, ImageDetailActivity.this));
+        } else {
+            rl_imagedetails_next.setVisibility(View.GONE);
+            iv_ifshow_color.setVisibility(View.GONE);
+        }
 
 
         String tag = imageDetailBean.getItem_info().getTag().toString();
@@ -651,6 +651,12 @@ public class ImageDetailActivity
     public void onClickWeiBo() {
 
         sharedItemFaBu(SHARE_MEDIA.SINA);
+    }
+
+    @Override
+    public void onClickQQ() {
+
+        sharedItemFaBu(SHARE_MEDIA.QQ);
     }
 
     @Override

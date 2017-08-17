@@ -23,6 +23,7 @@ public class HomeSharedPopWin extends PopupWindow {
     private final TextView tv_shared_weixin_quan;
     private final TextView tv_shared_xinlang;
     private final RelativeLayout rl_cancle;
+    private final TextView tv_shared_qq_friends;
     private Context mContext;
     private View view;
     private ClickInter mClickInter;
@@ -37,6 +38,7 @@ public class HomeSharedPopWin extends PopupWindow {
         tv_shared_weixin_friends = (TextView) view.findViewById(R.id.tv_shared_weixin_friends);
         tv_shared_weixin_quan = (TextView) view.findViewById(R.id.tv_shared_weixin_quan);
         tv_shared_xinlang = (TextView) view.findViewById(R.id.tv_shared_xinlang);
+        tv_shared_qq_friends = (TextView) view.findViewById(R.id.tv_shared_qq_friends);
         rl_cancle = (RelativeLayout) view.findViewById(R.id.rl_cancle);
 
         view_top.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +66,14 @@ public class HomeSharedPopWin extends PopupWindow {
             public void onClick(View v) {
                 HomeSharedPopWin.this.dismiss();
                 mClickInter.onClickWeiBo();
+            }
+        });
+
+        tv_shared_qq_friends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomeSharedPopWin.this.dismiss();
+                mClickInter.onClickQQ();
             }
         });
         rl_cancle.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +106,7 @@ public class HomeSharedPopWin extends PopupWindow {
        void onClickWeiXin();
        void onClickPYQ();
        void onClickWeiBo();
+       void onClickQQ();
 
     }
 

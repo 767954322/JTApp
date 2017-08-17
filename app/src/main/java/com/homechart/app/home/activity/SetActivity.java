@@ -311,6 +311,8 @@ public class SetActivity
                 ToastUtils.showCenter(SetActivity.this, "微信朋友圈分享成功啦");
             } else if (platform == SHARE_MEDIA.SINA) {
                 ToastUtils.showCenter(SetActivity.this, "新浪微博分享成功啦");
+            }else if (platform == SHARE_MEDIA.QQ) {
+                ToastUtils.showCenter(SetActivity.this, "QQ分享成功啦");
             }
 
         }
@@ -340,6 +342,12 @@ public class SetActivity
     public void onClickWeiBo() {
 
         sharedItemOpen(SHARE_MEDIA.SINA);
+    }
+
+    @Override
+    public void onClickQQ() {
+
+        sharedItemOpen(SHARE_MEDIA.QQ);
     }
 
 

@@ -234,6 +234,12 @@ public class ImageDetailScrollActivity
         sharedItemOpen(SHARE_MEDIA.SINA);
     }
 
+    @Override
+    public void onClickQQ() {
+
+        sharedItemOpen(SHARE_MEDIA.QQ);
+    }
+
     //分享
     private void sharedItemOpen(SHARE_MEDIA share_media) {
 
@@ -305,6 +311,28 @@ public class ImageDetailScrollActivity
                         .setAction("分享图片")      //事件操作
                         .build());
             }
+        }else if (share_media == SHARE_MEDIA.QQ) {
+            //友盟统计
+            HashMap<String, String> map1 = new HashMap<String, String>();
+            map1.put("evenname", "分享图片");
+            if (wei == 0) {
+                map1.put("even", "图片详情+上+QQ");
+            } else {
+                map1.put("even", "图片详情+下+QQ");
+            }
+            MobclickAgent.onEvent(ImageDetailScrollActivity.this, "jtaction7", map1);
+            //ga统计
+            if (wei == 0) {
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("图片详情+上+QQ")  //事件类别
+                        .setAction("分享图片")      //事件操作
+                        .build());
+            } else {
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("图片详情+下+QQ")  //事件类别
+                        .setAction("分享图片")      //事件操作
+                        .build());
+            }
         }
         UMImage image = new UMImage(ImageDetailScrollActivity.this, mImageDetailBean.getItem_info().getImage().getImg0());
         image.compressStyle = UMImage.CompressStyle.SCALE;//大小压缩，默认为大小压缩，适合普通很大的图
@@ -337,6 +365,8 @@ public class ImageDetailScrollActivity
                 ToastUtils.showCenter(ImageDetailScrollActivity.this, "微信朋友圈分享成功啦");
             } else if (platform == SHARE_MEDIA.SINA) {
                 ToastUtils.showCenter(ImageDetailScrollActivity.this, "新浪微博分享成功啦");
+            } else if (platform == SHARE_MEDIA.QQ) {
+                ToastUtils.showCenter(ImageDetailScrollActivity.this, "QQ分享成功啦");
             }
 
         }

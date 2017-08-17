@@ -1294,6 +1294,22 @@ public class ArticleDetailsActivity
         addSharedTime();
     }
 
+    @Override
+    public void onClickQQ() {
+        //友盟统计
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("evenname", "文章分享");
+        map.put("even", "文章详情+QQ");
+        MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction23", map);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("文章详情+QQ")  //事件类别
+                .setAction("文章分享")      //事件操作
+                .build());
+        sharedItemOpen(SHARE_MEDIA.QQ);
+        addSharedTime();
+    }
+
     //10.add分享次数
     public void addSharedTime() {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
@@ -1374,6 +1390,8 @@ public class ArticleDetailsActivity
                 ToastUtils.showCenter(ArticleDetailsActivity.this, "微信朋友圈分享成功啦");
             } else if (platform == SHARE_MEDIA.SINA) {
                 ToastUtils.showCenter(ArticleDetailsActivity.this, "新浪微博分享成功啦");
+            }else if (platform == SHARE_MEDIA.QQ) {
+                ToastUtils.showCenter(ArticleDetailsActivity.this, "QQ分享成功啦");
             }
 
         }
