@@ -20,6 +20,9 @@ import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.fragment.ShouCangArticleFragment;
 import com.homechart.app.home.fragment.ShouCangPicFragment;
 import com.homechart.app.home.fragment.XXGuanZhuFragment;
+import com.homechart.app.home.fragment.XXMessageFragment;
+import com.homechart.app.home.fragment.XXPingLunFragment;
+import com.homechart.app.home.fragment.XXShouCangFragment;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -43,9 +46,9 @@ public class MessagesListActivity extends BaseActivity
     private CustomViewPagerTab vp_viewpager;
     private XXGuanZhuFragment xxGuanZhuFragment;
     private MyPagerAdapter myPagerAdapter;
-    private XXGuanZhuFragment xxGuanZhuFragment1;
-    private XXGuanZhuFragment xxGuanZhuFragment2;
-    private XXGuanZhuFragment xxGuanZhuFragment3;
+    private XXShouCangFragment xxShouCangFragment;
+    private XXPingLunFragment xxPingLunFragment;
+    private XXMessageFragment xxMessageFragment;
 
     @Override
     protected int getLayoutResId() {
@@ -100,13 +103,13 @@ public class MessagesListActivity extends BaseActivity
 
     private void initFragment() {
         xxGuanZhuFragment = new XXGuanZhuFragment(getSupportFragmentManager());
-        xxGuanZhuFragment1 = new XXGuanZhuFragment(getSupportFragmentManager());
-        xxGuanZhuFragment2 = new XXGuanZhuFragment(getSupportFragmentManager());
-        xxGuanZhuFragment3 = new XXGuanZhuFragment(getSupportFragmentManager());
+        xxShouCangFragment = new XXShouCangFragment(getSupportFragmentManager());
+        xxPingLunFragment = new XXPingLunFragment(getSupportFragmentManager());
+        xxMessageFragment = new XXMessageFragment(getSupportFragmentManager());
         mFragmentsList.add(xxGuanZhuFragment);
-        mFragmentsList.add(xxGuanZhuFragment1);
-        mFragmentsList.add(xxGuanZhuFragment2);
-        mFragmentsList.add(xxGuanZhuFragment3);
+        mFragmentsList.add(xxShouCangFragment);
+        mFragmentsList.add(xxPingLunFragment);
+        mFragmentsList.add(xxMessageFragment);
     }
 
     @Override
