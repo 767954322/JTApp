@@ -15,14 +15,16 @@ public class MsgNoticeBean implements Serializable {
     private String object_id;
     private String add_time;
     private MsgUserInfoBean user_info;
+    private MsgImageBean image;
 
-    public MsgNoticeBean(String notice_id, String content, String type, String object_id, String add_time, MsgUserInfoBean user_info) {
+    public MsgNoticeBean(String notice_id, String content, String type, String object_id, String add_time, MsgUserInfoBean user_info, MsgImageBean image) {
         this.notice_id = notice_id;
         this.content = content;
         this.type = type;
         this.object_id = object_id;
         this.add_time = add_time;
         this.user_info = user_info;
+        this.image = image;
     }
 
     public String getNotice_id() {
@@ -73,6 +75,14 @@ public class MsgNoticeBean implements Serializable {
         this.user_info = user_info;
     }
 
+    public MsgImageBean getImage() {
+        return image;
+    }
+
+    public void setImage(MsgImageBean image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "MsgNoticeBean{" +
@@ -82,6 +92,7 @@ public class MsgNoticeBean implements Serializable {
                 ", object_id='" + object_id + '\'' +
                 ", add_time='" + add_time + '\'' +
                 ", user_info=" + user_info +
+                ", image=" + image +
                 '}';
     }
 }

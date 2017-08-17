@@ -86,11 +86,6 @@ public class XXGuanZhuFragment
     }
 
     @Override
-    protected void initListener() {
-        super.initListener();
-    }
-
-    @Override
     protected void initData(Bundle savedInstanceState) {
         buildRecyclerView();
     }
