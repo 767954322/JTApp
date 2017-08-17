@@ -14,25 +14,42 @@
         android:layout_marginRight="@dimen/font_15"
         android:layout_marginTop="@dimen/font_15" />
 
-
-    <TextView
-        android:id="@+id/tv_tital_huodong"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/rl_tital_huodong"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/iv_huodong_image"
-        android:layout_marginLeft="@dimen/font_15"
         android:layout_marginTop="@dimen/font_20"
-        android:layout_marginRight="@dimen/font_15"
-        android:includeFontPadding="false"
-        android:textColor="@color/bg_262626"
-        android:textSize="@dimen/size_18" />
+        android:layout_below="@+id/iv_huodong_image">
 
+        <TextView
+            android:id="@+id/tv_tital_huodong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/font_15"
+            android:layout_marginRight="@dimen/font_30"
+            android:layout_toLeftOf="@+id/iv_shared"
+            android:layout_centerVertical="true"
+            android:includeFontPadding="false"
+            android:textColor="@color/bg_262626"
+            android:textSize="@dimen/size_18" />
+
+
+        <ImageView
+            android:id="@+id/iv_shared"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/font_15"
+            android:src="@drawable/zhuan"/>
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_data_last"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_tital_huodong"
+        android:layout_below="@+id/rl_tital_huodong"
         android:layout_marginTop="@dimen/font_15">
 
         <ImageView
@@ -52,16 +69,6 @@
             android:layout_toRightOf="@+id/iv_data_last_icon"
             android:textColor="@color/bg_e79056"
             android:textSize="@dimen/size_12" />
-
-
-        <ImageView
-            android:id="@+id/iv_shared"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/font_15"
-            android:src="@drawable/shared_icon"/>
     </RelativeLayout>
 
 
