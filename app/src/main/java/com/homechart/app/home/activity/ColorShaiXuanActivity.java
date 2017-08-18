@@ -361,13 +361,13 @@ public class ColorShaiXuanActivity
             case R.id.iv_chongzhi:
                 //友盟统计
                 HashMap<String, String> map7 = new HashMap<String, String>();
-                map7.put("evenname", "色彩筛选清空");
+                map7.put("evenname", "色彩清空");
                 map7.put("even", "色彩页");
-                MobclickAgent.onEvent(ColorShaiXuanActivity.this, "jtaction20", map7);
+                MobclickAgent.onEvent(ColorShaiXuanActivity.this, "jtaction42", map7);
                 //ga统计
                 MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                         .setCategory("色彩页")  //事件类别
-                        .setAction("色彩筛选清空")      //事件操作
+                        .setAction("色彩清空")      //事件操作
                         .build());
                 mSelectListData.clear();
                 iv_kongjian.setImageResource(R.drawable.kongjian1);
@@ -383,7 +383,16 @@ public class ColorShaiXuanActivity
             case R.id.tv_color_tital:
             case R.id.iv_color_icon:
             case R.id.bt_tag_page_item:
-
+                //友盟统计
+                HashMap<String, String> map6 = new HashMap<String, String>();
+                map6.put("evenname", "色彩块的点击");
+                map6.put("even", "色彩页");
+                MobclickAgent.onEvent(ColorShaiXuanActivity.this, "jtaction43", map6);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("色彩页")  //事件类别
+                        .setAction("色彩块的点击")      //事件操作
+                        .build());
                 if (null == colorBean) {
                     getColorData();
                     ToastUtils.showCenter(ColorShaiXuanActivity.this, "色彩信息获取失败");

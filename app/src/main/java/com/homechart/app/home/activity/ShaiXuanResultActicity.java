@@ -290,6 +290,16 @@ public class ShaiXuanResultActicity
                 }
                 break;
             case R.id.iv_chongzhi:
+                //友盟统计
+                HashMap<String, String> map7 = new HashMap<String, String>();
+                map7.put("evenname", "色彩清空");
+                map7.put("even", "标签页");
+                MobclickAgent.onEvent(ShaiXuanResultActicity.this, "jtaction42", map7);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("标签页")  //事件类别
+                        .setAction("色彩清空")      //事件操作
+                        .build());
 
                 mSelectListData.clear();
                 bt_tag_page_item.setVisibility(View.GONE);
@@ -300,6 +310,18 @@ public class ShaiXuanResultActicity
             case R.id.tv_color_tital:
             case R.id.iv_color_icon:
             case R.id.bt_tag_page_item:
+
+                //友盟统计
+                HashMap<String, String> map4 = new HashMap<String, String>();
+                map4.put("evenname", "色彩块的点击");
+                map4.put("even", "标签页");
+                MobclickAgent.onEvent(ShaiXuanResultActicity.this, "jtaction43", map4);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("标签页")  //事件类别
+                        .setAction("色彩块的点击")      //事件操作
+                        .build());
+
                 if (null == colorBean) {
                     getColorData();
                     ToastUtils.showCenter(this, "色彩信息获取失败");
@@ -807,9 +829,29 @@ public class ShaiXuanResultActicity
     public void onShouCang(boolean ifShouCang, int position, SearchItemDataBean searchItemDataBean) {
 
         if (ifShouCang) {
+            //友盟统计
+            HashMap<String, String> map4 = new HashMap<String, String>();
+            map4.put("evenname", "收藏图片");
+            map4.put("even", "标签页");
+            MobclickAgent.onEvent(ShaiXuanResultActicity.this, "jtaction5", map4);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("标签页")  //事件类别
+                    .setAction("收藏图片")      //事件操作
+                    .build());
             //未被收藏，去收藏
             addShouCang(position, searchItemDataBean.getItem_info().getItem_id());
         } else {
+            //友盟统计
+            HashMap<String, String> map4 = new HashMap<String, String>();
+            map4.put("evenname", "取消收藏图片");
+            map4.put("even", "标签页");
+            MobclickAgent.onEvent(ShaiXuanResultActicity.this, "jtaction6", map4);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("标签页")  //事件类别
+                    .setAction("取消收藏图片")      //事件操作
+                    .build());
             //被收藏，去取消收藏
             removeShouCang(position, searchItemDataBean.getItem_info().getItem_id());
         }
@@ -865,6 +907,18 @@ public class ShaiXuanResultActicity
 
     @Override
     public void clickColor(ColorItemBean colorItemBean) {
+
+        //友盟统计
+        HashMap<String, String> map7 = new HashMap<String, String>();
+        map7.put("evenname", "色彩单选");
+        map7.put("even", "标签页"+colorItemBean.getColor_name());
+        MobclickAgent.onEvent(ShaiXuanResultActicity.this, "jtaction35", map7);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("标签页"+colorItemBean.getColor_name())  //事件类别
+                .setAction("色彩单选")      //事件操作
+                .build());
+
         if (selectColorPopupWindow != null) {
             selectColorPopupWindow.dismiss();
 
