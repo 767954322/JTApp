@@ -212,8 +212,10 @@ public class ImageDetailFragment
 
     @Override
     protected void lazyLoad() {
-        mifShowColorList = ((ImageDetailScrollActivity)activity).ifShowColorList;
-        userInfo.getUserInfo(imageDetailBean);
+        mifShowColorList = ((ImageDetailScrollActivity) activity).ifShowColorList;
+        if (userInfo != null) {
+            userInfo.getUserInfo(imageDetailBean);
+        }
         initExtraBundle();
         initView();
         initData();
@@ -226,8 +228,8 @@ public class ImageDetailFragment
 
     private void initView() {
 
-        tv_content_right = (TextView)activity.findViewById(R.id.tv_content_right);
-        nav_secondary_imageButton = (ImageButton)activity.findViewById(R.id.nav_secondary_imageButton);
+        tv_content_right = (TextView) activity.findViewById(R.id.tv_content_right);
+        nav_secondary_imageButton = (ImageButton) activity.findViewById(R.id.nav_secondary_imageButton);
         homeSharedPopWinPublic = new HomeSharedPopWinPublic(activity, this);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_info);
         cet_clearedit = (ClearEditText) rootView.findViewById(R.id.cet_clearedit);
@@ -303,7 +305,7 @@ public class ImageDetailFragment
         getImageDetail();
         getPingList();
         buildRecyclerView();
-        mRecyclerView.scrollTo(0,0);
+        mRecyclerView.scrollTo(0, 0);
     }
 
 
@@ -1306,12 +1308,12 @@ public class ImageDetailFragment
                 dgv_colorlist.setAdapter(new MyColorGridAdapter(listColor, activity));
                 iv_ifshow_color.setVisibility(View.VISIBLE);
                 rl_imagedetails_next.setVisibility(View.VISIBLE);
-                if(mifShowColorList){
+                if (mifShowColorList) {
                     dgv_colorlist.setVisibility(View.VISIBLE);
                     tv_color_tips.setVisibility(View.VISIBLE);
                     rl_color_location.setVisibility(View.VISIBLE);
                     iv_ifshow_color.setImageResource(R.drawable.shouqi);
-                }else {
+                } else {
                     dgv_colorlist.setVisibility(View.GONE);
                     iv_ifshow_color.setImageResource(R.drawable.zhankai);
                     tv_color_tips.setVisibility(View.GONE);
@@ -1322,13 +1324,13 @@ public class ImageDetailFragment
                 iv_ifshow_color.setVisibility(View.GONE);
             }
             ifFirst = false;
-        }else {
-            if(mifShowColorList){
+        } else {
+            if (mifShowColorList) {
                 dgv_colorlist.setVisibility(View.VISIBLE);
                 tv_color_tips.setVisibility(View.VISIBLE);
                 rl_color_location.setVisibility(View.VISIBLE);
                 iv_ifshow_color.setImageResource(R.drawable.shouqi);
-            }else {
+            } else {
                 dgv_colorlist.setVisibility(View.GONE);
                 iv_ifshow_color.setImageResource(R.drawable.zhankai);
                 tv_color_tips.setVisibility(View.GONE);
@@ -1805,7 +1807,7 @@ public class ImageDetailFragment
                 ToastUtils.showCenter(activity, "微信朋友圈分享成功啦");
             } else if (platform == SHARE_MEDIA.SINA) {
                 ToastUtils.showCenter(activity, "新浪微博分享成功啦");
-            }else if (platform == SHARE_MEDIA.QQ) {
+            } else if (platform == SHARE_MEDIA.QQ) {
                 ToastUtils.showCenter(activity, "QQ分享成功啦");
             }
 
