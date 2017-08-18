@@ -26,6 +26,7 @@ import com.homechart.app.home.fragment.XXShouCangFragment;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -179,6 +180,41 @@ public class MessagesListActivity extends BaseActivity
 
     @Override
     public void onTabSelect(int position) {
+
+        if(position == 0){
+            //友盟统计
+            HashMap<String, String> map3 = new HashMap<String, String>();
+            map3.put("evenname", "关注消息");
+            map3.put("even", "消息页");
+            MobclickAgent.onEvent(MessagesListActivity.this, "jtaction48", map3);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("消息页")  //事件类别
+                    .setAction("关注消息")      //事件操作
+                    .build());
+        }else if(position == 1){
+            //友盟统计
+            HashMap<String, String> map3 = new HashMap<String, String>();
+            map3.put("evenname", "收藏消息");
+            map3.put("even", "消息页");
+            MobclickAgent.onEvent(MessagesListActivity.this, "jtaction49", map3);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("消息页")  //事件类别
+                    .setAction("收藏消息")      //事件操作
+                    .build());
+        }else if(position == 2){
+            //友盟统计
+            HashMap<String, String> map3 = new HashMap<String, String>();
+            map3.put("evenname", "评论消息");
+            map3.put("even", "消息页");
+            MobclickAgent.onEvent(MessagesListActivity.this, "jtaction50", map3);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("消息页")  //事件类别
+                    .setAction("评论消息")      //事件操作
+                    .build());
+        }
 
         stl_tab.hideMsg(position);
 
