@@ -96,6 +96,7 @@
             android:id="@+id/dgv_colorlist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
             android:layout_below="@+id/ll_color_lines"
             android:layout_marginTop="@dimen/font_25"
             android:divider="@null"

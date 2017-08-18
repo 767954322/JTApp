@@ -303,6 +303,7 @@ public class ImageDetailFragment
         getImageDetail();
         getPingList();
         buildRecyclerView();
+        mRecyclerView.scrollTo(0,0);
     }
 
 

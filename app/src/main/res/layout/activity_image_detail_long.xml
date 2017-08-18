@@ -17,6 +17,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/common_navbar"
         android:layout_above="@+id/et_edit"
+        android:descendantFocusability="blocksDescendants"
         app:loadMoreEnabled="true"
         app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer_huodong"
         app:refreshEnabled="false"

@@ -12,6 +12,7 @@
         android:layout_below="@+id/common_navbar"
         android:layout_above="@+id/et_edit"
         app:loadMoreEnabled="true"
+        android:descendantFocusability="blocksDescendants"
         app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer_huodong"
         app:refreshEnabled="false"
         app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
