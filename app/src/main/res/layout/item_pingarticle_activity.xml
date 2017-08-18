@@ -26,6 +26,7 @@
             android:layout_centerVertical="true"
             android:includeFontPadding="false"
             android:textColor="@color/bg_707070"
+            android:textIsSelectable="true"
             android:textSize="@dimen/font_14" />
 
         <TextView
@@ -38,9 +39,9 @@
             android:background="@drawable/text_zuozhe"
             android:gravity="center"
             android:text="作者"
-            android:visibility="gone"
             android:textColor="@color/white"
-            android:textSize="@dimen/font_10" />
+            android:textSize="@dimen/font_10"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <LinearLayout
@@ -78,9 +79,9 @@
         android:id="@+id/ll_huifu_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/ll_zan_add"
         android:layout_marginRight="@dimen/font_15"
         android:layout_marginTop="@dimen/font_20"
+        android:layout_toLeftOf="@+id/ll_zan_add"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -103,6 +104,7 @@
 
 
     </LinearLayout>
+
     <TextView
         android:id="@+id/tv_time_one"
         android:layout_width="wrap_content"
@@ -164,6 +166,7 @@
             android:layout_marginLeft="@dimen/font_10"
             android:layout_toRightOf="@+id/tv_huifu_content_two1"
             android:ellipsize="end"
+            android:textIsSelectable="true"
             android:includeFontPadding="false"
             android:lines="1"
             android:maxLines="1"
@@ -180,7 +183,8 @@
         android:layout_marginBottom="@dimen/font_15"
         android:layout_marginRight="@dimen/font_20"
         android:layout_marginTop="@dimen/font_15"
-        android:includeFontPadding="false" />
+        android:includeFontPadding="false"
+        android:textIsSelectable="true" />
 
 
     <View
