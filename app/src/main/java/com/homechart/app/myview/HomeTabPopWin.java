@@ -45,6 +45,7 @@ public class HomeTabPopWin extends PopupWindow {
         //找对象
         vp_home_tag = (MyViewPager) this.view.findViewById(R.id.vp_home_tag);
         vp_home_tag.setOffscreenPageLimit(5);
+        vp_home_tag.setScanScroll(true);
         // 设置按钮监听
         vp_home_tag.addOnPageChangeListener(onPageChangeListener);
 

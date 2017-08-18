@@ -118,17 +118,20 @@ public class MessagesListActivity extends BaseActivity
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         vp_viewpager.setAdapter(myPagerAdapter);
         stl_tab.setViewPager(vp_viewpager);
-
+        stl_tab.setCurrentTab(3);
         if (notice_num > 0) {
+            if(follow_notice > 0){
+                stl_tab.showMsg(0, follow_notice);
+            }
             if (collect_notice > 0) {
                 stl_tab.showMsg(1, collect_notice);
             }
             if (comment_notice > 0) {
                 stl_tab.showMsg(2, comment_notice);
             }
-            if (system_notice > 0) {
-                stl_tab.showMsg(3, system_notice);
-            }
+//            if (system_notice > 0) {
+//                stl_tab.showMsg(3, system_notice);
+//            }
         }
     }
 
