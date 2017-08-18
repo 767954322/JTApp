@@ -17,6 +17,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
@@ -39,6 +42,7 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.ShareContent;
 import com.umeng.socialize.UMShareListener;
@@ -203,9 +207,29 @@ public class ImageDetailActivity
             case R.id.iv_xing:
             case R.id.tv_xing:
                 if (ifShouCang) {
+                    //友盟统计
+                    HashMap<String, String> map4 = new HashMap<String, String>();
+                    map4.put("evenname", "收藏图片");
+                    map4.put("even", "图片发布成功页");
+                    MobclickAgent.onEvent(ImageDetailActivity.this, "jtaction5", map4);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("图片发布成功页")  //事件类别
+                            .setAction("收藏图片")      //事件操作
+                            .build());
                     addShouCang();
                     ifShouCang = false;
                 } else {
+                    //友盟统计
+                    HashMap<String, String> map4 = new HashMap<String, String>();
+                    map4.put("evenname", "取消收藏图片");
+                    map4.put("even", "图片发布成功页");
+                    MobclickAgent.onEvent(ImageDetailActivity.this, "jtaction6", map4);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("图片发布成功页")  //事件类别
+                            .setAction("取消收藏图片")      //事件操作
+                            .build());
                     removeShouCang();
                     ifShouCang = true;
                 }
@@ -768,5 +792,25 @@ public class ImageDetailActivity
     @Override
     public void onClickWeiBoFaBu() {
         sharedItemOpen(SHARE_MEDIA.SINA);
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart("图片发布成功页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("图片发布成功页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageEnd("图片发布成功页");
+        MobclickAgent.onPause(this);
     }
 }

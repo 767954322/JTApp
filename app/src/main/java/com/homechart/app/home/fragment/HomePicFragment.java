@@ -351,6 +351,18 @@ public class HomePicFragment
                 break;
             case R.id.iv_center_msgicon:
                 onDismiss();
+
+                //友盟统计
+                HashMap<String, String> map5 = new HashMap<String, String>();
+                map5.put("evenname", "消息入口");
+                map5.put("even", "首页");
+                MobclickAgent.onEvent(activity, "jtaction37", map5);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("首页")  //事件类别
+                        .setAction("消息入口")      //事件操作
+                        .build());
+
                 Intent intent_messages = new Intent(activity, MessagesListActivity.class);
                 intent_messages.putExtra("notice_num", notice_num);
                 intent_messages.putExtra("follow_notice", follow_notice);
@@ -625,9 +637,20 @@ public class HomePicFragment
                     holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+
+                            //友盟统计
+                            HashMap<String, String> map4 = new HashMap<String, String>();
+                            map4.put("evenname", "文章入口");
+                            map4.put("even", "首页");
+                            MobclickAgent.onEvent(activity, "jtaction36", map4);
+                            //ga统计
+                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                    .setCategory("首页")  //事件类别
+                                    .setAction("文章入口")      //事件操作
+                                    .build());
+
                             Intent intent = new Intent(activity, ArticleDetailsActivity.class);
                             intent.putExtra("article_id", mListData.get(position).getObject_info().getObject_id());
-
                             startActivity(intent);
                         }
                     });
@@ -1143,6 +1166,17 @@ public class HomePicFragment
             iv_shouna.setImageResource(R.drawable.shouna1);
             iv_secai.setImageResource(R.drawable.secai1);
 
+            //友盟统计
+            HashMap<String, String> map4 = new HashMap<String, String>();
+            map4.put("evenname", "色彩单选");
+            map4.put("even", "首页－" + colorItemBean.getColor_name());
+            MobclickAgent.onEvent(activity, "jtaction35", map4);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("首页－" + colorItemBean.getColor_name())  //事件类别
+                    .setAction("色彩单选")      //事件操作
+                    .build());
+
             Intent intent = new Intent(activity, ColorShaiXuanActivity.class);
             intent.putExtra("color", colorItemBean);
             intent.putExtra("tagDataBean", tagDataBean);
@@ -1184,9 +1218,29 @@ public class HomePicFragment
     public void onShouCang(boolean ifShouCang, int position, SYDataBean syDataBean) {
 
         if (ifShouCang) {
+            //友盟统计
+            HashMap<String, String> map4 = new HashMap<String, String>();
+            map4.put("evenname", "收藏图片");
+            map4.put("even", "首页");
+            MobclickAgent.onEvent(activity, "jtaction5", map4);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("首页")  //事件类别
+                    .setAction("收藏图片")      //事件操作
+                    .build());
             //未被收藏，去收藏
             addShouCang(position, syDataBean.getObject_info().getObject_id());
         } else {
+            //友盟统计
+            HashMap<String, String> map4 = new HashMap<String, String>();
+            map4.put("evenname", "取消收藏图片");
+            map4.put("even", "首页");
+            MobclickAgent.onEvent(activity, "jtaction6", map4);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("首页")  //事件类别
+                    .setAction("取消收藏图片")      //事件操作
+                    .build());
             //被收藏，去取消收藏
             removeShouCang(position, syDataBean.getObject_info().getObject_id());
         }

@@ -121,6 +121,8 @@ public class ImageDetailScrollActivity
 
     }
 
+    int before_position = 0;
+    boolean ifFirst = true;
     @Override
     protected void initListener() {
         super.initListener();
@@ -133,6 +135,36 @@ public class ImageDetailScrollActivity
 
             @Override
             public void onPageSelected(int position) {
+                if(ifFirst){
+                    before_position = position;
+                    ifFirst = false;
+                }else {
+                    if(position - before_position > 0){//向右滑动了
+                        //友盟统计
+                        HashMap<String, String> map1 = new HashMap<String, String>();
+                        map1.put("evenname", "右滑动");
+                        map1.put("even", "图片详情页");
+                        MobclickAgent.onEvent(ImageDetailScrollActivity.this, "jtaction38", map1);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("图片详情页")  //事件类别
+                                .setAction("右滑动")      //事件操作
+                                .build());
+                    }else {//向左滑动了
+                        //友盟统计
+                        HashMap<String, String> map1 = new HashMap<String, String>();
+                        map1.put("evenname", "左滑动");
+                        map1.put("even", "图片详情页");
+                        MobclickAgent.onEvent(ImageDetailScrollActivity.this, "jtaction39", map1);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("图片详情页")  //事件类别
+                                .setAction("左滑动")      //事件操作
+                                .build());
+                    }
+                }
+
+
                 ifShowColorList = false;
                 if (mItemIdList.size() >= position && (mItemIdList.size() - position) < 3 && !more_loding) {
                     if (!TextUtils.isEmpty(type) && type.equals("筛选")) {

@@ -2013,9 +2013,29 @@ public class ImageDetailLongActivity
     public void onShouCang(boolean ifShouCang, int position, ImageLikeItemBean imageLikeItemBean) {
 
         if (ifShouCang) {
+            //友盟统计
+            HashMap<String, String> map4 = new HashMap<String, String>();
+            map4.put("evenname", "收藏图片");
+            map4.put("even", "图片详情-你可能喜欢");
+            MobclickAgent.onEvent(ImageDetailLongActivity.this, "jtaction5", map4);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("图片详情-你可能喜欢")  //事件类别
+                    .setAction("收藏图片")      //事件操作
+                    .build());
             //未被收藏，去收藏
             addShouCang(position, imageLikeItemBean.getItem_info().getItem_id());
         } else {
+            //友盟统计
+            HashMap<String, String> map4 = new HashMap<String, String>();
+            map4.put("evenname", "取消收藏图片");
+            map4.put("even", "图片详情-你可能喜欢");
+            MobclickAgent.onEvent(ImageDetailLongActivity.this, "jtaction6", map4);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("图片详情-你可能喜欢")  //事件类别
+                    .setAction("取消收藏图片")      //事件操作
+                    .build());
             //被收藏，去取消收藏
             removeShouCang(position, imageLikeItemBean.getItem_info().getItem_id());
         }
