@@ -92,6 +92,7 @@ public class FaBuActvity
     private AlertView mAlertView;
     public TagDataBean tagDataBean;
     private String activity_id;
+    private String type;
 
 
     @Override
@@ -104,6 +105,7 @@ public class FaBuActvity
         super.initExtraBundle();
         urlImage = getIntent().getStringExtra("image_path");
         activity_id = getIntent().getStringExtra("activity_id");
+        type = getIntent().getStringExtra("type");
         if (!TextUtils.isEmpty(activity_id)) {
             activityMap.put(-1, activity_id);
         }
@@ -454,17 +456,7 @@ public class FaBuActvity
 
                 String info = (String) msg.obj;
                 try {
-                    JSONObject jsonObject = new JSONObject(info);
-                    JSONObject jsonObject1 = jsonObject.getJSONObject("item_info");
-                    String item_id = jsonObject1.getString("item_id");
-                    CustomProgress.cancelDialog();
-                    Intent intent = new Intent(FaBuActvity.this, ImageDetailActivity.class);
-                    intent.putExtra("item_id", item_id);
-                    startActivity(intent);
-                    FaBuActvity.this.finish();
-                    //TODO(统计依据activity_id，为空是+号跳转的，不为空为活动跳进来了)
-
-                    if(TextUtils.isEmpty(activity_id)){//首页
+                    if(type.equals("home")){//首页
                         //友盟统计
                         HashMap<String, String> map = new HashMap<String, String>();
                         map.put("evenname", "发布成功");
@@ -488,6 +480,15 @@ public class FaBuActvity
                                 .build());
                     }
 
+                    JSONObject jsonObject = new JSONObject(info);
+                    JSONObject jsonObject1 = jsonObject.getJSONObject("item_info");
+                    String item_id = jsonObject1.getString("item_id");
+                    CustomProgress.cancelDialog();
+                    Intent intent = new Intent(FaBuActvity.this, ImageDetailActivity.class);
+                    intent.putExtra("item_id", item_id);
+                    startActivity(intent);
+                    FaBuActvity.this.finish();
+                    //TODO(统计依据activity_id，为空是+号跳转的，不为空为活动跳进来了)
 
                 } catch (JSONException e) {
                     e.printStackTrace();

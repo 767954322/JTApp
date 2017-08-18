@@ -712,6 +712,7 @@ public class HuoDongDetailsActivity
             Intent intent = new Intent(HuoDongDetailsActivity.this, FaBuActvity.class);
             intent.putExtra("image_path", url_Imag);
             intent.putExtra("activity_id", activity_id);
+            intent.putExtra("type", "huodong");
             startActivity(intent);
 
         }

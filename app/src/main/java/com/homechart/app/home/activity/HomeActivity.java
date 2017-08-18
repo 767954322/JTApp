@@ -444,6 +444,7 @@ public class HomeActivity
             String url_Imag = (String) msg.obj;
             Intent intent = new Intent(HomeActivity.this, FaBuActvity.class);
             intent.putExtra("image_path", url_Imag);
+            intent.putExtra("type", "home");
             startActivity(intent);
 
         }
