@@ -488,6 +488,16 @@ public class ArticleDetailsActivity
                     @Override
                     public void onClick(View v) {
                         clickPosition = position;
+                        //友盟统计
+                        HashMap<String, String> map4 = new HashMap<String, String>();
+                        map4.put("evenname", "文章入口");
+                        map4.put("even", "文章详情");
+                        MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction36", map4);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("文章详情")  //事件类别
+                                .setAction("文章入口")      //事件操作
+                                .build());
                         Intent intent = new Intent(ArticleDetailsActivity.this, ArticleDetailsActivity.class);
                         intent.putExtra("article_id", mListData.get(position).getArticle_info().getArticle_id());
                         ArticleDetailsActivity.this.startActivityForResult(intent, 1);

@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.google.android.gms.analytics.HitBuilders;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.activity.ArticleDetailsActivity;
@@ -37,11 +39,13 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @SuppressLint("ValidFragment")
@@ -150,6 +154,17 @@ public class XXPingLunFragment
             intent.putExtra("item_id", mListData.get(position).getObject_id());
             startActivity(intent);
         } else if (mListData.get(position).getType().trim().equals("article")) {//文章
+            //友盟统计
+            HashMap<String, String> map4 = new HashMap<String, String>();
+            map4.put("evenname", "文章入口");
+            map4.put("even", "评论消息");
+            MobclickAgent.onEvent(activity, "jtaction36", map4);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("评论消息")  //事件类别
+                    .setAction("文章入口")      //事件操作
+                    .build());
+
             Intent intent = new Intent(activity, ArticleDetailsActivity.class);
             intent.putExtra("article_id", mListData.get(position).getObject_id());
             startActivity(intent);

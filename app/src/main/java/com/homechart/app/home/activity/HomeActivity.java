@@ -356,6 +356,16 @@ public class HomeActivity
                                 intent.putExtra("activity_id", activity_id);
                                 startActivity(intent);
                             }else if(!TextUtils.isEmpty(article_id)){
+                                //友盟统计
+                                HashMap<String, String> map4 = new HashMap<String, String>();
+                                map4.put("evenname", "文章入口");
+                                map4.put("even", " H5页");
+                                MobclickAgent.onEvent(HomeActivity.this, "jtaction36", map4);
+                                //ga统计
+                                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                        .setCategory(" H5页")  //事件类别
+                                        .setAction("文章入口")      //事件操作
+                                        .build());
                                 Intent intent = new Intent(HomeActivity.this, ArticleDetailsActivity.class);
                                 intent.putExtra("article_id", article_id);
                                 startActivity(intent);
