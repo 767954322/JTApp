@@ -52,7 +52,7 @@ public class WelcomePagerAdapter extends PagerAdapter {
             tv_tiaoguo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onClickJump.onClickJump();
+                    onClickJump.onClickButtonJump();
                 }
             });
         } else {
@@ -65,7 +65,7 @@ public class WelcomePagerAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 if (position == 2) {
-                    onClickJump.onClickJump();
+                    onClickJump.onClickThreeJump();
                 }
             }
         });
@@ -84,6 +84,7 @@ public class WelcomePagerAdapter extends PagerAdapter {
     }
 
     public interface OnClickJump {
-        public void onClickJump();
+        public void onClickThreeJump();
+        public void onClickButtonJump();
     }
 }

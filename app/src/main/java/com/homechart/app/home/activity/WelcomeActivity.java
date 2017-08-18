@@ -99,7 +99,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter
                 if (isLastPage && isDragPage && positionOffsetPixels == 0){   //当前页是最后一页，并且是拖动状态，并且像素偏移量为0
                     if (canJumpPage){
                         canJumpPage = false;
-                        onClickJump();
+                        onClickThreeJump();
                     }
                 }
             }
@@ -204,16 +204,35 @@ public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter
     }
 
     @Override
-    public void onClickJump() {
+    public void onClickThreeJump() {
         //友盟统计
         HashMap<String, String> map5 = new HashMap<String, String>();
-        map5.put("evenname", "点击启动页跳转到登陆页");
-        map5.put("even", "点击启动页跳转到登陆页");
-        MobclickAgent.onEvent(WelcomeActivity.this, "newaction2", map5);
+        map5.put("evenname", "点击启动页第三页进入app");
+        map5.put("even", "引导页");
+        MobclickAgent.onEvent(WelcomeActivity.this, "jtaction44", map5);
         //ga统计
         MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("点击启动页跳转到登陆页")  //事件类别
-                .setAction("点击启动页跳转到登陆页")  //事件操作
+                .setCategory("引导页")  //事件类别
+                .setAction("点击启动页第三页进入app")  //事件操作
+                .build());
+        SharedPreferencesUtils.writeBoolean(ISFIRST, true);
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra("if_first", true);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onClickButtonJump() {
+        //友盟统计
+        HashMap<String, String> map5 = new HashMap<String, String>();
+        map5.put("evenname", "点击启动页跳过按钮进入app");
+        map5.put("even", "引导页");
+        MobclickAgent.onEvent(WelcomeActivity.this, "jtaction45", map5);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("引导页")  //事件类别
+                .setAction("点击启动页跳过按钮进入app")  //事件操作
                 .build());
         SharedPreferencesUtils.writeBoolean(ISFIRST, true);
         Intent intent = new Intent(this, LoginActivity.class);
