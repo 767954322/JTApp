@@ -543,6 +543,7 @@ public class ImageDetailFragment
                     Intent intent = new Intent(activity, ShaiXuanResultActicity.class);
                     intent.putExtra("shaixuan_tag", list.get(0));
                     intent.putExtra("colorlist", (Serializable) listColor);
+                    intent.putExtra("islist", true);
                     startActivity(intent);
                 }
                 break;
@@ -1358,6 +1359,7 @@ public class ImageDetailFragment
                 // 跳转搜索结果页
                 Intent intent = new Intent(activity, ShaiXuanResultActicity.class);
                 String tag = text.replace("#", "");
+                intent.putExtra("islist", true);
                 intent.putExtra("shaixuan_tag", tag.trim());
 
                 //友盟统计

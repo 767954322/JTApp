@@ -103,6 +103,7 @@ public class ShaiXuanResultActicity
     private Map<Integer, ColorItemBean> shaixuan_color;
     private ImageView iv_chongzhi;
     private TextView bt_tag_page_item;
+    private boolean islist;
 
     //取消收藏
     private void removeShouCang(final int position, String item_id) {
@@ -163,6 +164,9 @@ public class ShaiXuanResultActicity
     @Override
     protected void initExtraBundle() {
         super.initExtraBundle();
+
+
+        islist = getIntent().getBooleanExtra("islist",true);
         shaixuan_tag = getIntent().getStringExtra("shaixuan_tag");
         listcolor = (List<ColorInfoBean>) getIntent().getSerializableExtra("colorlist");
         mSelectListData = (Map<Integer, ColorItemBean>) getIntent().getSerializableExtra("shaixuan_color");
@@ -462,6 +466,7 @@ public class ShaiXuanResultActicity
                     Intent intent = new Intent(ShaiXuanResultActicity.this, ShaiXuanResultActicity.class);
                     intent.putExtra("shaixuan_tag", text);
                     intent.putExtra("shaixuan_color", (Serializable) mSelectListData);
+                    intent.putExtra("islist", curentListTag);
                     startActivity(intent);
                 }
             });
@@ -661,7 +666,18 @@ public class ShaiXuanResultActicity
             }
         };
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(ShaiXuanResultActicity.this));
+        if(islist){
+            mRecyclerView.setPadding(0, 0, 0, 0);
+            iv_change_frag.setImageResource(R.drawable.pubuliu);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(ShaiXuanResultActicity.this));
+            curentListTag = true;
+        }else {
+            mRecyclerView.setPadding(UIUtils.getDimens(R.dimen.font_6), 0, UIUtils.getDimens(R.dimen.font_6), 0);
+            iv_change_frag.setImageResource(R.drawable.changtu);
+            mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+            curentListTag = false;
+        }
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(ShaiXuanResultActicity.this));
         mRecyclerView.setItemAnimator(null);
 //        mRecyclerView.addHeaderView(view);
 

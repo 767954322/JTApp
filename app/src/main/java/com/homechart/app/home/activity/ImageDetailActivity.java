@@ -296,6 +296,7 @@ public class ImageDetailActivity
                             intent2.putExtra("shaixuan_color", (Serializable) mSelectListData);
                         }
                     }
+                    intent2.putExtra("islist", true);
                     startActivity(intent2);
                 }
                 break;
@@ -611,6 +612,7 @@ public class ImageDetailActivity
                 // 跳转搜索结果页
                 Intent intent = new Intent(ImageDetailActivity.this, ShaiXuanResultActicity.class);
                 String tag = text.replace("#", "");
+                intent.putExtra("islist", true);
                 intent.putExtra("shaixuan_tag", tag.trim());
                 startActivity(intent);
             }

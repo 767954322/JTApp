@@ -1012,6 +1012,7 @@ public class ColorShaiXuanActivity
         //跳转到筛选结果页
         Intent intent = new Intent(this, ShaiXuanResultActicity.class);
         intent.putExtra("shaixuan_tag", tagStr);
+        intent.putExtra("islist", curentListTag);
         intent.putExtra("shaixuan_color", (Serializable) mSelectListData);
         startActivity(intent);
     }

@@ -573,6 +573,7 @@ public class ImageDetailLongActivity
                             intent.putExtra("shaixuan_color", (Serializable) mSelectListData);
                         }
                     }
+                    intent.putExtra("islist", true);
                     startActivity(intent);
                 }
                 break;
@@ -1370,6 +1371,7 @@ public class ImageDetailLongActivity
                 Intent intent = new Intent(ImageDetailLongActivity.this, ShaiXuanResultActicity.class);
                 String tag = text.replace("#", "");
                 intent.putExtra("shaixuan_tag", tag.trim());
+                intent.putExtra("islist", true);
                 //友盟统计
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("evenname", "图片标签");

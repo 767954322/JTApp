@@ -1152,6 +1152,7 @@ public class HomePicFragment
         //跳转到筛选结果页
         Intent intent = new Intent(activity, ShaiXuanResultActicity.class);
         intent.putExtra("shaixuan_tag", tagStr);
+        intent.putExtra("islist", true);
         startActivity(intent);
     }
 
