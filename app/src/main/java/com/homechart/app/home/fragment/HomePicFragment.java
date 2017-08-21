@@ -1214,35 +1214,40 @@ public class HomePicFragment
         MobclickAgent.onPageEnd("首页");
     }
 
+    boolean ifClickShouCang = true;
     //收藏或者取消收藏，图片
     public void onShouCang(boolean ifShouCang, int position, SYDataBean syDataBean) {
 
-        if (ifShouCang) {
-            //友盟统计
-            HashMap<String, String> map4 = new HashMap<String, String>();
-            map4.put("evenname", "收藏图片");
-            map4.put("even", "首页");
-            MobclickAgent.onEvent(activity, "jtaction5", map4);
-            //ga统计
-            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                    .setCategory("首页")  //事件类别
-                    .setAction("收藏图片")      //事件操作
-                    .build());
-            //未被收藏，去收藏
-            addShouCang(position, syDataBean.getObject_info().getObject_id());
-        } else {
-            //友盟统计
-            HashMap<String, String> map4 = new HashMap<String, String>();
-            map4.put("evenname", "取消收藏图片");
-            map4.put("even", "首页");
-            MobclickAgent.onEvent(activity, "jtaction6", map4);
-            //ga统计
-            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                    .setCategory("首页")  //事件类别
-                    .setAction("取消收藏图片")      //事件操作
-                    .build());
-            //被收藏，去取消收藏
-            removeShouCang(position, syDataBean.getObject_info().getObject_id());
+        if(ifClickShouCang){
+            ifClickShouCang = false;
+            if (ifShouCang) {
+                //友盟统计
+                HashMap<String, String> map4 = new HashMap<String, String>();
+                map4.put("evenname", "收藏图片");
+                map4.put("even", "首页");
+                MobclickAgent.onEvent(activity, "jtaction5", map4);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("首页")  //事件类别
+                        .setAction("收藏图片")      //事件操作
+                        .build());
+                //未被收藏，去收藏
+                addShouCang(position, syDataBean.getObject_info().getObject_id());
+            } else {
+                //友盟统计
+                HashMap<String, String> map4 = new HashMap<String, String>();
+                map4.put("evenname", "取消收藏图片");
+                map4.put("even", "首页");
+                MobclickAgent.onEvent(activity, "jtaction6", map4);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("首页")  //事件类别
+                        .setAction("取消收藏图片")      //事件操作
+                        .build());
+                //被收藏，去取消收藏
+                removeShouCang(position, syDataBean.getObject_info().getObject_id());
+            }
+
         }
 
     }
@@ -1254,10 +1259,12 @@ public class HomePicFragment
             public void onErrorResponse(VolleyError volleyError) {
                 CustomProgress.cancelDialog();
                 ToastUtils.showCenter(activity, "收藏成功");
+                ifClickShouCang = true;
             }
 
             @Override
             public void onResponse(String s) {
+                ifClickShouCang = true;
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
@@ -1290,11 +1297,14 @@ public class HomePicFragment
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 CustomProgress.cancelDialog();
+                ifClickShouCang = true;
                 ToastUtils.showCenter(activity, "取消收藏失败");
+
             }
 
             @Override
             public void onResponse(String s) {
+                ifClickShouCang = true;
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
