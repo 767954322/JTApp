@@ -103,11 +103,21 @@ public class HuoDongListActivity
                     Date curDate = new Date(System.currentTimeMillis());
                     String str = formatter.format(curDate);
                     long data = PublicUtils.diffDay(mListData.get(position).getActivity_info().getEnd_time(), str, "yyyy-MM-dd HH:mm:ss");
-                    ((ImageView) holder.getView(R.id.iv_data_last_icon)).setImageResource(R.drawable.shijian);
-                    holder.getView(R.id.tv_data_last_ing).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.tv_data_last_end).setVisibility(View.GONE);
-                    ((TextView) holder.getView(R.id.tv_data_last_end)).setTextColor(UIUtils.getColor(R.color.bg_e79056));
-                    ((TextView) holder.getView(R.id.tv_data_last_ing)).setText("还剩" + Math.abs(data) + "天");
+
+                    if(data < 0){
+                        ((ImageView) holder.getView(R.id.iv_data_last_icon)).setImageResource(R.drawable.shijian1);
+                        holder.getView(R.id.tv_data_last_ing).setVisibility(View.GONE);
+                        holder.getView(R.id.tv_data_last_end).setVisibility(View.VISIBLE);
+                        ((TextView) holder.getView(R.id.tv_data_last_end)).setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                        ((TextView) holder.getView(R.id.tv_data_last_end)).setText("已结束");
+                    }else {
+                        ((ImageView) holder.getView(R.id.iv_data_last_icon)).setImageResource(R.drawable.shijian);
+                        holder.getView(R.id.tv_data_last_ing).setVisibility(View.VISIBLE);
+                        holder.getView(R.id.tv_data_last_end).setVisibility(View.GONE);
+                        ((TextView) holder.getView(R.id.tv_data_last_end)).setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                        ((TextView) holder.getView(R.id.tv_data_last_ing)).setText("还剩" + data + "天");
+                    }
+
                 } else if (mListData.get(position).getActivity_info().getState_id().equals("2")) {
                     ((ImageView) holder.getView(R.id.iv_data_last_icon)).setImageResource(R.drawable.shijian);
                     holder.getView(R.id.tv_data_last_ing).setVisibility(View.VISIBLE);

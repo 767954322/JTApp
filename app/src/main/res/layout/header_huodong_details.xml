@@ -69,6 +69,25 @@
             android:layout_toRightOf="@+id/iv_data_last_icon"
             android:textColor="@color/bg_e79056"
             android:textSize="@dimen/size_12" />
+
+
+        <ImageView
+            android:id="@+id/iv_data_last_icon1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_15"
+            android:src="@drawable/shijian1" />
+
+        <TextView
+            android:id="@+id/tv_data_last1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_3"
+            android:layout_toRightOf="@+id/iv_data_last_icon1"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_12" />
     </RelativeLayout>
 
 

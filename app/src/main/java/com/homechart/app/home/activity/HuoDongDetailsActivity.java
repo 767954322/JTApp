@@ -136,6 +136,9 @@ public class HuoDongDetailsActivity
     private boolean ifFirst = true;
     private boolean ifZhanKai = false;
     private ActivityInfoBean activityInfoBean;
+    private ImageView iv_data_last_icon;
+    private ImageView iv_data_last_icon1;
+    private TextView tv_data_last1;
 
     @Override
     protected int getLayoutResId() {
@@ -156,6 +159,8 @@ public class HuoDongDetailsActivity
         homeSharedPopWinPublic = new HomeSharedPopWinPublic(HuoDongDetailsActivity.this, HuoDongDetailsActivity.this);
 
 
+        iv_data_last_icon = (ImageView) headerView.findViewById(R.id.iv_data_last_icon);
+        iv_data_last_icon1 = (ImageView) headerView.findViewById(R.id.iv_data_last_icon1);
         rl_zhankai = (RelativeLayout) headerView.findViewById(R.id.rl_zhankai);
         tv_zhankai = (TextView) headerView.findViewById(R.id.tv_zhankai);
         iv_zhankai = (ImageView) headerView.findViewById(R.id.iv_zhankai);
@@ -164,6 +169,7 @@ public class HuoDongDetailsActivity
         iv_huodong_image = (ImageView) headerView.findViewById(R.id.iv_huodong_image);
         tv_tital_huodong = (TextView) headerView.findViewById(R.id.tv_tital_huodong);
         tv_data_last = (TextView) headerView.findViewById(R.id.tv_data_last);
+        tv_data_last1 = (TextView) headerView.findViewById(R.id.tv_data_last1);
         tv_huodong_miaoshu = (TextView) headerView.findViewById(R.id.tv_huodong_miaoshu);
         tv_no_people = (TextView) headerView.findViewById(R.id.tv_no_people);
         rl_people_list = (RelativeLayout) headerView.findViewById(R.id.rl_people_list);
@@ -557,14 +563,33 @@ public class HuoDongDetailsActivity
             Date curDate = new Date(System.currentTimeMillis());
             String str = formatter.format(curDate);
             long data = PublicUtils.diffDay(activityInfoBean.getEnd_time(), str, "yyyy-MM-dd HH:mm:ss");
-            tv_data_last.setTextColor(UIUtils.getColor(R.color.bg_e79056));
-            tv_data_last.setText("还剩" + Math.abs(data) + "天");
+
+            if(data < 0 ){
+                iv_data_last_icon.setVisibility(View.GONE);
+                tv_data_last.setVisibility(View.GONE);
+                iv_data_last_icon1.setVisibility(View.VISIBLE);
+                tv_data_last1.setVisibility(View.VISIBLE);
+                tv_data_last1.setText("已结束");
+            }else {
+                iv_data_last_icon.setVisibility(View.VISIBLE);
+                tv_data_last.setVisibility(View.VISIBLE);
+                iv_data_last_icon1.setVisibility(View.GONE);
+                tv_data_last1.setVisibility(View.GONE);
+                tv_data_last.setText("还剩" + Math.abs(data) + "天");
+            }
+
         } else if (activityInfoBean.getState_id().equals("2")) {
-            tv_data_last.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+            iv_data_last_icon.setVisibility(View.VISIBLE);
+            tv_data_last.setVisibility(View.VISIBLE);
+            iv_data_last_icon1.setVisibility(View.GONE);
+            tv_data_last1.setVisibility(View.GONE);
             tv_data_last.setText("敬请期待");
         } else if (activityInfoBean.getState_id().equals("1")) {
-            tv_data_last.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-            tv_data_last.setText("已结束");
+            iv_data_last_icon.setVisibility(View.GONE);
+            tv_data_last.setVisibility(View.GONE);
+            iv_data_last_icon1.setVisibility(View.VISIBLE);
+            tv_data_last1.setVisibility(View.VISIBLE);
+            tv_data_last1.setText("已结束");
         }
         TextPaint textPaint = tv_huodong_miaoshu.getPaint();
         float mTextViewPaint = textPaint.measureText(activityInfoBean.getDescription());

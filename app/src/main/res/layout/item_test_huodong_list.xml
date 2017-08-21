@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:includeFontPadding="false"
-            android:text="本周活动"
+            android:text="本期活动"
             android:textColor="@color/white"
             android:textSize="@dimen/size_14" />
     </RelativeLayout>
