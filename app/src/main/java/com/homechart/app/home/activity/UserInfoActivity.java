@@ -277,6 +277,11 @@ public class UserInfoActivity
             @Override
             public void convert(BaseViewHolder holder, final int position) {
                 String item_id = mListData.get(position).getItem_info().getItem_id();
+                if(mListData.get(position).getItem_info().getCollect_num().trim().equals("0")){
+                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.INVISIBLE);
+                }else {
+                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.VISIBLE);
+                }
                 ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
 
                 if (mListData.get(position).getItem_info().getIs_collected().equals("0")) {//未被收藏

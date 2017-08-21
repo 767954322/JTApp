@@ -380,7 +380,11 @@ public class HuoDongDetailsActivity
         mAdapter = new MultiItemCommonAdapter<ItemActivityDataBean>(this, mListData, support) {
             @Override
             public void convert(BaseViewHolder holder, final int position) {
-
+                if(mListData.get(position).getItem_info().getCollect_num().trim().equals("0")){
+                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.INVISIBLE);
+                }else {
+                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.VISIBLE);
+                }
                 ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
 
                 if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
@@ -885,14 +889,14 @@ public class HuoDongDetailsActivity
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                boolean ifClickShouCang = true;
+                ifClickShouCang = true;
                 CustomProgress.cancelDialog();
                 ToastUtils.showCenter(HuoDongDetailsActivity.this, "取消收藏失败");
             }
 
             @Override
             public void onResponse(String s) {
-                boolean ifClickShouCang = true;
+                ifClickShouCang = true;
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);

@@ -605,6 +605,11 @@ public class ColorShaiXuanActivity
                     }
                 });
 
+                if(mListData.get(position).getItem_info().getCollect_num().trim().equals("0")){
+                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.INVISIBLE);
+                }else {
+                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.VISIBLE);
+                }
                 ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
                 if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
                     ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang);
@@ -913,11 +918,13 @@ public class ColorShaiXuanActivity
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 CustomProgress.cancelDialog();
+                ifClickShouCang = true;
                 ToastUtils.showCenter(ColorShaiXuanActivity.this, "取消收藏失败");
             }
 
             @Override
             public void onResponse(String s) {
+                ifClickShouCang = true;
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);

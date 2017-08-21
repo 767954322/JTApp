@@ -680,7 +680,11 @@ public class ImageDetailFragment
         mAdapter = new MultiItemCommonAdapter<ImageLikeItemBean>(activity, mListData, support) {
             @Override
             public void convert(BaseViewHolder holder, final int position) {
-
+                if(mListData.get(position).getItem_info().getCollect_num().trim().equals("0")){
+                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.INVISIBLE);
+                }else {
+                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.VISIBLE);
+                }
                 ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
 
                 if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
