@@ -83,13 +83,13 @@
         android:includeFontPadding="false"
         android:lineSpacingExtra="@dimen/font_9"
         android:textColor="@color/bg_707070"
-        android:textSize="@dimen/size_12" />
+        android:textSize="@dimen/size_14" />
 
     <RelativeLayout
         android:id="@+id/rl_zhankai"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/font_12"
+        android:layout_marginTop="@dimen/font_8"
         android:visibility="gone"
         android:layout_below="@+id/tv_huodong_miaoshu">
 
