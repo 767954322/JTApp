@@ -1386,7 +1386,7 @@ public class ImageDetailFragment
             tv_details_tital.setVisibility(View.GONE);
         } else {
             tv_details_tital.setVisibility(View.VISIBLE);
-            tv_details_tital.setSpacing(2);
+//            tv_details_tital.setSpacing(2);
             tv_details_tital.setText(imageDetailBean.getItem_info().getDescription().trim());
         }
 

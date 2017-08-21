@@ -619,7 +619,7 @@ public class ImageDetailActivity
                 startActivity(intent);
             }
         });
-        tv_details_tital.setSpacing(2);
+//        tv_details_tital.setSpacing(2);
         tv_details_tital.setText(imageDetailBean.getItem_info().getDescription());
         //处理时间
         String[] str = imageDetailBean.getItem_info().getAdd_time().split(" ");

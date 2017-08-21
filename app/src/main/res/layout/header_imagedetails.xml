@@ -204,7 +204,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_imagedetails_next"
-        android:textIsSelectable="true"
         android:layout_marginLeft="@dimen/font_10"
         android:layout_marginRight="@dimen/font_10"
         android:layout_marginTop="@dimen/font_20"

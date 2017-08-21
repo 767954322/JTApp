@@ -1395,8 +1395,10 @@ public class ImageDetailLongActivity
             tv_details_tital.setVisibility(View.GONE);
         } else {
             tv_details_tital.setVisibility(View.VISIBLE);
-            tv_details_tital.setSpacing(2);
-            tv_details_tital.setText(imageDetailBean.getItem_info().getDescription().trim());
+//            tv_details_tital.setSpacing(2);
+           String detital =  imageDetailBean.getItem_info().getDescription().trim().replace("ن","");
+            tv_details_tital.setText(detital);
+
         }
 
         //处理时间
