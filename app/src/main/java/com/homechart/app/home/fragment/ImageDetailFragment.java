@@ -1978,37 +1978,40 @@ public class ImageDetailFragment
                 setCallback(umShareListener).share();
     }
 
+    boolean ifClickShouCang = true;
     //收藏或者取消收藏，图片
     public void onShouCang(boolean ifShouCang, int position, ImageLikeItemBean imageLikeItemBean) {
+        if(ifClickShouCang) {
+            ifClickShouCang = false;
+            if (ifShouCang) {
+                //友盟统计
+                HashMap<String, String> map4 = new HashMap<String, String>();
+                map4.put("evenname", "收藏图片");
+                map4.put("even", "图片详情-你可能喜欢");
+                MobclickAgent.onEvent(activity, "jtaction5", map4);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("图片详情-你可能喜欢")  //事件类别
+                        .setAction("收藏图片")      //事件操作
+                        .build());
+                //未被收藏，去收藏
+                addShouCang(position, imageLikeItemBean.getItem_info().getItem_id());
+            } else {
+                //友盟统计
+                HashMap<String, String> map4 = new HashMap<String, String>();
+                map4.put("evenname", "取消收藏图片");
+                map4.put("even", "图片详情-你可能喜欢");
+                MobclickAgent.onEvent(activity, "jtaction6", map4);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("图片详情-你可能喜欢")  //事件类别
+                        .setAction("取消收藏图片")      //事件操作
+                        .build());
+                //被收藏，去取消收藏
+                removeShouCang(position, imageLikeItemBean.getItem_info().getItem_id());
+            }
 
-        if (ifShouCang) {
-            //友盟统计
-            HashMap<String, String> map4 = new HashMap<String, String>();
-            map4.put("evenname", "收藏图片");
-            map4.put("even", "图片详情-你可能喜欢");
-            MobclickAgent.onEvent(activity, "jtaction5", map4);
-            //ga统计
-            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                    .setCategory("图片详情-你可能喜欢")  //事件类别
-                    .setAction("收藏图片")      //事件操作
-                    .build());
-            //未被收藏，去收藏
-            addShouCang(position, imageLikeItemBean.getItem_info().getItem_id());
-        } else {
-            //友盟统计
-            HashMap<String, String> map4 = new HashMap<String, String>();
-            map4.put("evenname", "取消收藏图片");
-            map4.put("even", "图片详情-你可能喜欢");
-            MobclickAgent.onEvent(activity, "jtaction6", map4);
-            //ga统计
-            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                    .setCategory("图片详情-你可能喜欢")  //事件类别
-                    .setAction("取消收藏图片")      //事件操作
-                    .build());
-            //被收藏，去取消收藏
-            removeShouCang(position, imageLikeItemBean.getItem_info().getItem_id());
         }
-
     }
 
     //收藏
@@ -2016,12 +2019,14 @@ public class ImageDetailFragment
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                ifClickShouCang = true;
                 CustomProgress.cancelDialog();
                 ToastUtils.showCenter(activity, "收藏成功");
             }
 
             @Override
             public void onResponse(String s) {
+                ifClickShouCang = true;
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
@@ -2053,12 +2058,14 @@ public class ImageDetailFragment
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                ifClickShouCang = true;
                 CustomProgress.cancelDialog();
                 ToastUtils.showCenter(activity, "取消收藏失败");
             }
 
             @Override
             public void onResponse(String s) {
+                ifClickShouCang = true;
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);

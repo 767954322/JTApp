@@ -824,18 +824,21 @@ public class HuoDongDetailsActivity
         sharedItemOpen(SHARE_MEDIA.QQ);
     }
 
+    boolean ifClickShouCang = true;
 
     //收藏或者取消收藏，图片
     public void onShouCang(boolean ifShouCang, int position, ItemActivityDataBean itemActivityDataBean) {
 
-        if (ifShouCang) {
-            //未被收藏，去收藏
-            addShouCang(position, itemActivityDataBean.getItem_info().getItem_id());
-        } else {
-            //被收藏，去取消收藏
-            removeShouCang(position, itemActivityDataBean.getItem_info().getItem_id());
+        if(ifClickShouCang){
+            ifClickShouCang = false;
+            if (ifShouCang) {
+                //未被收藏，去收藏
+                addShouCang(position, itemActivityDataBean.getItem_info().getItem_id());
+            } else {
+                //被收藏，去取消收藏
+                removeShouCang(position, itemActivityDataBean.getItem_info().getItem_id());
+            }
         }
-
     }
 
     //收藏
@@ -844,11 +847,13 @@ public class HuoDongDetailsActivity
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 CustomProgress.cancelDialog();
+                ifClickShouCang = true;
                 ToastUtils.showCenter(HuoDongDetailsActivity.this, "收藏成功");
             }
 
             @Override
             public void onResponse(String s) {
+                ifClickShouCang = true;
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
@@ -880,12 +885,14 @@ public class HuoDongDetailsActivity
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                boolean ifClickShouCang = true;
                 CustomProgress.cancelDialog();
                 ToastUtils.showCenter(HuoDongDetailsActivity.this, "取消收藏失败");
             }
 
             @Override
             public void onResponse(String s) {
+                boolean ifClickShouCang = true;
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);

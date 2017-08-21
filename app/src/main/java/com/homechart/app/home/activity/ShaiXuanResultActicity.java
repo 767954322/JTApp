@@ -111,11 +111,13 @@ public class ShaiXuanResultActicity
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 CustomProgress.cancelDialog();
+                ifClickShouCang = true;
                 ToastUtils.showCenter(ShaiXuanResultActicity.this, "取消收藏失败");
             }
 
             @Override
             public void onResponse(String s) {
+                ifClickShouCang = true;
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
@@ -825,35 +827,39 @@ public class ShaiXuanResultActicity
     }
 
 
+    boolean ifClickShouCang = true;
     //收藏或者取消收藏，图片
     public void onShouCang(boolean ifShouCang, int position, SearchItemDataBean searchItemDataBean) {
 
-        if (ifShouCang) {
-            //友盟统计
-            HashMap<String, String> map4 = new HashMap<String, String>();
-            map4.put("evenname", "收藏图片");
-            map4.put("even", "标签页");
-            MobclickAgent.onEvent(ShaiXuanResultActicity.this, "jtaction5", map4);
-            //ga统计
-            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                    .setCategory("标签页")  //事件类别
-                    .setAction("收藏图片")      //事件操作
-                    .build());
-            //未被收藏，去收藏
-            addShouCang(position, searchItemDataBean.getItem_info().getItem_id());
-        } else {
-            //友盟统计
-            HashMap<String, String> map4 = new HashMap<String, String>();
-            map4.put("evenname", "取消收藏图片");
-            map4.put("even", "标签页");
-            MobclickAgent.onEvent(ShaiXuanResultActicity.this, "jtaction6", map4);
-            //ga统计
-            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                    .setCategory("标签页")  //事件类别
-                    .setAction("取消收藏图片")      //事件操作
-                    .build());
-            //被收藏，去取消收藏
-            removeShouCang(position, searchItemDataBean.getItem_info().getItem_id());
+        if (ifClickShouCang) {
+            ifClickShouCang = false;
+            if (ifShouCang) {
+                //友盟统计
+                HashMap<String, String> map4 = new HashMap<String, String>();
+                map4.put("evenname", "收藏图片");
+                map4.put("even", "标签页");
+                MobclickAgent.onEvent(ShaiXuanResultActicity.this, "jtaction5", map4);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("标签页")  //事件类别
+                        .setAction("收藏图片")      //事件操作
+                        .build());
+                //未被收藏，去收藏
+                addShouCang(position, searchItemDataBean.getItem_info().getItem_id());
+            } else {
+                //友盟统计
+                HashMap<String, String> map4 = new HashMap<String, String>();
+                map4.put("evenname", "取消收藏图片");
+                map4.put("even", "标签页");
+                MobclickAgent.onEvent(ShaiXuanResultActicity.this, "jtaction6", map4);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("标签页")  //事件类别
+                        .setAction("取消收藏图片")      //事件操作
+                        .build());
+                //被收藏，去取消收藏
+                removeShouCang(position, searchItemDataBean.getItem_info().getItem_id());
+            }
         }
 
     }
@@ -864,11 +870,13 @@ public class ShaiXuanResultActicity
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 CustomProgress.cancelDialog();
+                ifClickShouCang = true;
                 ToastUtils.showCenter(ShaiXuanResultActicity.this, "收藏成功");
             }
 
             @Override
             public void onResponse(String s) {
+                ifClickShouCang = true;
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);

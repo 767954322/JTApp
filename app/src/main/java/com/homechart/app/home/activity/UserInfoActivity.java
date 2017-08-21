@@ -415,15 +415,20 @@ public class UserInfoActivity
 
     }
 
+    boolean ifClickShouCang = true;
+
     //收藏或者取消收藏，图片
     public void onShouCang(boolean ifShouCang, int position, ShaiJiaItemBean shaiJiaItemBean) {
 
-        if (ifShouCang) {
-            //未被收藏，去收藏
-            addShouCang(position, shaiJiaItemBean.getItem_info().getItem_id());
-        } else {
-            //被收藏，去取消收藏
-            removeShouCang(position, shaiJiaItemBean.getItem_info().getItem_id());
+        if (ifClickShouCang) {
+            ifClickShouCang = false;
+            if (ifShouCang) {
+                //未被收藏，去收藏
+                addShouCang(position, shaiJiaItemBean.getItem_info().getItem_id());
+            } else {
+                //被收藏，去取消收藏
+                removeShouCang(position, shaiJiaItemBean.getItem_info().getItem_id());
+            }
         }
 
     }
@@ -434,11 +439,13 @@ public class UserInfoActivity
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 CustomProgress.cancelDialog();
+                ifClickShouCang = true;
                 ToastUtils.showCenter(UserInfoActivity.this, "收藏成功");
             }
 
             @Override
             public void onResponse(String s) {
+                ifClickShouCang = true;
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
@@ -466,12 +473,14 @@ public class UserInfoActivity
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                ifClickShouCang = true;
                 CustomProgress.cancelDialog();
                 ToastUtils.showCenter(UserInfoActivity.this, "取消收藏失败");
             }
 
             @Override
             public void onResponse(String s) {
+                ifClickShouCang = true;
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
