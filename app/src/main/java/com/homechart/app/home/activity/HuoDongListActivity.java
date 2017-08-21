@@ -106,16 +106,19 @@ public class HuoDongListActivity
                     ((ImageView) holder.getView(R.id.iv_data_last_icon)).setImageResource(R.drawable.shijian);
                     holder.getView(R.id.tv_data_last_ing).setVisibility(View.VISIBLE);
                     holder.getView(R.id.tv_data_last_end).setVisibility(View.GONE);
-                    ((TextView) holder.getView(R.id.tv_data_last_ing)).setText("还剩" + data + "天");
+                    ((TextView) holder.getView(R.id.tv_data_last_end)).setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                    ((TextView) holder.getView(R.id.tv_data_last_ing)).setText("还剩" + Math.abs(data) + "天");
                 } else if (mListData.get(position).getActivity_info().getState_id().equals("2")) {
                     ((ImageView) holder.getView(R.id.iv_data_last_icon)).setImageResource(R.drawable.shijian);
                     holder.getView(R.id.tv_data_last_ing).setVisibility(View.VISIBLE);
                     holder.getView(R.id.tv_data_last_end).setVisibility(View.GONE);
+                    ((TextView) holder.getView(R.id.tv_data_last_end)).setTextColor(UIUtils.getColor(R.color.bg_e79056));
                     ((TextView) holder.getView(R.id.tv_data_last_ing)).setText("敬请期待");
                 } else if (mListData.get(position).getActivity_info().getState_id().equals("1")) {
                     ((ImageView) holder.getView(R.id.iv_data_last_icon)).setImageResource(R.drawable.shijian1);
                     holder.getView(R.id.tv_data_last_ing).setVisibility(View.GONE);
                     holder.getView(R.id.tv_data_last_end).setVisibility(View.VISIBLE);
+                    ((TextView) holder.getView(R.id.tv_data_last_end)).setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                     ((TextView) holder.getView(R.id.tv_data_last_end)).setText("已结束");
                 }
 

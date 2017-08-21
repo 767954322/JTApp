@@ -556,12 +556,14 @@ public class HuoDongDetailsActivity
             Date curDate = new Date(System.currentTimeMillis());
             String str = formatter.format(curDate);
             long data = PublicUtils.diffDay(activityInfoBean.getEnd_time(), str, "yyyy-MM-dd HH:mm:ss");
-
-            tv_data_last.setText("还剩" + data + "天");
+            tv_data_last.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+            tv_data_last.setText("还剩" + Math.abs(data) + "天");
         } else if (activityInfoBean.getState_id().equals("2")) {
+            tv_data_last.setTextColor(UIUtils.getColor(R.color.bg_e79056));
             tv_data_last.setText("敬请期待");
         } else if (activityInfoBean.getState_id().equals("1")) {
-            tv_data_last.setText("活动已结束");
+            tv_data_last.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+            tv_data_last.setText("已结束");
         }
         TextPaint textPaint = tv_huodong_miaoshu.getPaint();
         float mTextViewPaint = textPaint.measureText(activityInfoBean.getDescription());
