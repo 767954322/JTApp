@@ -210,6 +210,7 @@
         android:layout_marginRight="@dimen/font_10"
         android:layout_marginTop="@dimen/font_20"
         android:background="@color/white"
+        android:lineSpacingExtra="@dimen/font_9"
         android:textColor="@color/bg_262626"
         android:textSize="@dimen/size_14" />
 
