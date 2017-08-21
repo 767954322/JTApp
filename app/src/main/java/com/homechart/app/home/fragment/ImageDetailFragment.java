@@ -1810,12 +1810,19 @@ public class ImageDetailFragment
             addShared();
 
             if (platform == SHARE_MEDIA.WEIXIN) {
+                tv_shared.setText(++share_num + "");
                 ToastUtils.showCenter(activity, "微信好友分享成功啦");
             } else if (platform == SHARE_MEDIA.WEIXIN_CIRCLE) {
+
+                tv_shared.setText(++share_num + "");
                 ToastUtils.showCenter(activity, "微信朋友圈分享成功啦");
             } else if (platform == SHARE_MEDIA.SINA) {
+
+                tv_shared.setText(++share_num + "");
                 ToastUtils.showCenter(activity, "新浪微博分享成功啦");
             } else if (platform == SHARE_MEDIA.QQ) {
+
+                tv_shared.setText(++share_num + "");
                 ToastUtils.showCenter(activity, "QQ分享成功啦");
             }
 
@@ -1846,7 +1853,7 @@ public class ImageDetailFragment
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
-                        getImageDetail();
+//                        getImageDetail();
                     } else {
                     }
                 } catch (JSONException e) {
