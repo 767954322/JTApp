@@ -53,6 +53,7 @@ import com.homechart.app.myview.HomeSharedPopWinPublic;
 import com.homechart.app.myview.MyListView;
 import com.homechart.app.myview.ResizeRelativeLayout;
 import com.homechart.app.myview.RoundImageView;
+import com.homechart.app.myview.ShangshabanChangeTextSpaceView;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
@@ -92,7 +93,7 @@ public class ImageDetailLongActivity
         OnLoadMoreListener,
         HomeSharedPopWinPublic.ClickInter {
     private ImageView iv_details_image;
-    private TextView tv_details_tital;
+    private ShangshabanChangeTextSpaceView tv_details_tital;
     private TextView tv_details_time;
     private ImageView iv_bang;
     private ImageView iv_xing;
@@ -276,7 +277,7 @@ public class ImageDetailLongActivity
         tv_if_zuozhe_three = (TextView) view.findViewById(R.id.tv_if_zuozhe_three);
 
         iv_details_image = (ImageView) view.findViewById(R.id.iv_details_image);
-        tv_details_tital = (TextView) view.findViewById(R.id.tv_details_tital);
+        tv_details_tital = (ShangshabanChangeTextSpaceView) view.findViewById(R.id.tv_details_tital);
         tv_details_time = (TextView) view.findViewById(R.id.tv_details_time);
         iv_bang = (ImageView) view.findViewById(R.id.iv_bang);
         iv_xing = (ImageView) view.findViewById(R.id.iv_xing);
@@ -1393,6 +1394,7 @@ public class ImageDetailLongActivity
             tv_details_tital.setVisibility(View.GONE);
         } else {
             tv_details_tital.setVisibility(View.VISIBLE);
+            tv_details_tital.setSpacing(2);
             tv_details_tital.setText(imageDetailBean.getItem_info().getDescription().trim());
         }
 

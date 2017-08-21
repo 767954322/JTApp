@@ -35,6 +35,7 @@ import com.homechart.app.myview.HomeSharedPopWin;
 import com.homechart.app.myview.HomeSharedPopWinFaBu;
 import com.homechart.app.myview.HomeSharedPopWinPublic;
 import com.homechart.app.myview.MyListView;
+import com.homechart.app.myview.ShangshabanChangeTextSpaceView;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
@@ -70,7 +71,7 @@ public class ImageDetailActivity
         HomeSharedPopWin.ClickInter ,
         HomeSharedPopWinFaBu.ClickInter{
     private ImageView iv_details_image;
-    private TextView tv_details_tital;
+    private ShangshabanChangeTextSpaceView tv_details_tital;
     private TextView tv_details_time;
     private ImageView iv_bang;
     private ImageView iv_xing;
@@ -128,7 +129,7 @@ public class ImageDetailActivity
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
         tv_content_right = (TextView) findViewById(R.id.tv_content_right);
         iv_details_image = (ImageView) findViewById(R.id.iv_details_image);
-        tv_details_tital = (TextView) findViewById(R.id.tv_details_tital);
+        tv_details_tital = (ShangshabanChangeTextSpaceView) findViewById(R.id.tv_details_tital);
         tv_details_time = (TextView) findViewById(R.id.tv_details_time);
         iv_bang = (ImageView) findViewById(R.id.iv_bang);
         iv_xing = (ImageView) findViewById(R.id.iv_xing);
@@ -617,7 +618,7 @@ public class ImageDetailActivity
                 startActivity(intent);
             }
         });
-
+        tv_details_tital.setSpacing(2);
         tv_details_tital.setText(imageDetailBean.getItem_info().getDescription());
         //处理时间
         String[] str = imageDetailBean.getItem_info().getAdd_time().split(" ");

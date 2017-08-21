@@ -200,7 +200,7 @@
 
     </RelativeLayout>
 
-    <TextView
+    <com.homechart.app.myview.ShangshabanChangeTextSpaceView
         android:id="@+id/tv_details_tital"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
