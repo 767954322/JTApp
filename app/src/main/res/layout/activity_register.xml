@@ -259,7 +259,7 @@
                 android:id="@+id/tv_jumpto_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="已有账号，直接登陆"
+                android:text="已有账号，直接登录"
                 android:textColor="@color/bg_464646"
                 android:layout_marginRight="@dimen/font_6"
                 android:textSize="@dimen/font_14" />
