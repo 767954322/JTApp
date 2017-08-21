@@ -160,6 +160,7 @@ public class HomePicFragment
     public HomePicFragment() {
     }
 
+
     public void setDownY(float y) {
         mDownY = y;
     }
@@ -1205,6 +1206,7 @@ public class HomePicFragment
     @Override
     public void onResume() {
         super.onResume();
+        getUnReaderMsg();
         MobclickAgent.onPageStart("首页");
         Tracker t = MyApplication.getInstance().getDefaultTracker();
         // Set screen name.

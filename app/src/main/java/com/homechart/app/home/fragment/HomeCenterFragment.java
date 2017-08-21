@@ -376,6 +376,7 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onResume() {
         super.onResume();
+        getUnReaderMsg();
         getUserInfo();
         MobclickAgent.onResume(activity);
 //        if (null == userCenterInfoBean) {
