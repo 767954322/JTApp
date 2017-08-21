@@ -69,6 +69,7 @@ import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -1452,7 +1453,7 @@ public class ImageDetailLongActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             getImageDetail();
         } else if (requestCode == 2) {
@@ -1812,20 +1813,25 @@ public class ImageDetailLongActivity
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
         public void onStart(SHARE_MEDIA platform) {
-            //分享开始的回调
+//            //分享开始的回调
+//            Log.d("tset","sdsds");
+//            addShared();
         }
 
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            addShared();
 
             if (platform == SHARE_MEDIA.WEIXIN) {
+                tv_shared.setText(++share_num + "");
                 ToastUtils.showCenter(ImageDetailLongActivity.this, "微信好友分享成功啦");
             } else if (platform == SHARE_MEDIA.WEIXIN_CIRCLE) {
+                tv_shared.setText(++share_num + "");
                 ToastUtils.showCenter(ImageDetailLongActivity.this, "微信朋友圈分享成功啦");
             } else if (platform == SHARE_MEDIA.SINA) {
+                tv_shared.setText(++share_num + "");
                 ToastUtils.showCenter(ImageDetailLongActivity.this, "新浪微博分享成功啦");
             } else if (platform == SHARE_MEDIA.QQ) {
+                tv_shared.setText(++share_num + "");
                 ToastUtils.showCenter(ImageDetailLongActivity.this, "QQ分享成功啦");
             }
 

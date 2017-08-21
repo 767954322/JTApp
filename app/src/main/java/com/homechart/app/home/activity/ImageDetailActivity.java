@@ -46,6 +46,7 @@ import com.homechart.app.utils.volley.OkStringRequest;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.ShareContent;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.SinaShareContent;
@@ -689,7 +690,7 @@ public class ImageDetailActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && requestCode == 1) {
             getImageDetail();
         } else if (requestCode == 2) {
