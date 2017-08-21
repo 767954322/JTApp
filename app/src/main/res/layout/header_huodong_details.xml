@@ -38,9 +38,9 @@
             android:id="@+id/iv_shared"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/font_15"
+            android:layout_marginTop="@dimen/font_2"
             android:src="@drawable/zhuan"/>
 
     </RelativeLayout>
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/size_14"
             android:layout_marginLeft="@dimen/font_15"
-            android:textColor="@color/bg_262626"
+            android:textColor="@color/bg_8f8f8f"
             android:layout_centerVertical="true"
             android:text="展开"/>
 
