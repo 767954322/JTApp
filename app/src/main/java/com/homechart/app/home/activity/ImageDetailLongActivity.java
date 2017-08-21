@@ -1820,7 +1820,7 @@ public class ImageDetailLongActivity
 
         @Override
         public void onResult(SHARE_MEDIA platform) {
-
+            addShared();
             if (platform == SHARE_MEDIA.WEIXIN) {
                 tv_shared.setText(++share_num + "");
                 ToastUtils.showCenter(ImageDetailLongActivity.this, "微信好友分享成功啦");
@@ -1862,7 +1862,7 @@ public class ImageDetailLongActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
-                        getImageDetail();
+//                        getImageDetail();
                     } else {
                     }
                 } catch (JSONException e) {
