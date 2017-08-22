@@ -1454,7 +1454,7 @@ public class ArticleDetailsActivity
 //                    getArticleDetails();
                     break;
                 case 2://取消点赞
-                    ToastUtils.showCenter(ArticleDetailsActivity.this, "还是收回我的家图棒吧");
+                    ToastUtils.showCenter(ArticleDetailsActivity.this, "已取消点赞");
                     iv_bang.setImageResource(R.drawable.bang);
                     tv_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                     iv_wai_bang.setImageResource(R.drawable.bang);

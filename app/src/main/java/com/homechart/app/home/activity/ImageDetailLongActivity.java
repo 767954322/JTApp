@@ -1764,7 +1764,7 @@ public class ImageDetailLongActivity
                     tv_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
                     break;
                 case 3:
-                    ToastUtils.showCenter(ImageDetailLongActivity.this, "还是收回我的家图棒吧");
+                    ToastUtils.showCenter(ImageDetailLongActivity.this, "已取消点赞");
                     iv_bang.setImageResource(R.drawable.bang);
                     like_num--;
                     if (like_num == 0) {
