@@ -8,7 +8,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 48
-        versionName "4.1.3"
+        versionName "4.2.0"
         multiDexEnabled true
 
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "default_channel"]
