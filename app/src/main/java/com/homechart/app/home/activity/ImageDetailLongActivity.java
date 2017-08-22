@@ -197,6 +197,7 @@ public class ImageDetailLongActivity
     private boolean ifShowColorList = true;
 
     private List<String> mItemIdList = new ArrayList<>();
+    private RelativeLayout rl_edit;
 
     @Override
     protected int getLayoutResId() {
@@ -227,6 +228,7 @@ public class ImageDetailLongActivity
         nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
         tv_content_right = (TextView) findViewById(R.id.tv_content_right);
+        rl_edit = (RelativeLayout) findViewById(R.id.rl_edit);
         nav_secondary_imageButton = (ImageButton) findViewById(R.id.nav_secondary_imageButton);
         menu_layout = (ResizeRelativeLayout) findViewById(R.id.menu_layout);
 
@@ -878,9 +880,9 @@ public class ImageDetailLongActivity
         mAdapter = new MultiItemCommonAdapter<ImageLikeItemBean>(ImageDetailLongActivity.this, mListData, support) {
             @Override
             public void convert(BaseViewHolder holder, final int position) {
-                if(mListData.get(position).getItem_info().getCollect_num().trim().equals("0")){
+                if (mListData.get(position).getItem_info().getCollect_num().trim().equals("0")) {
                     holder.getView(R.id.tv_shoucang_num).setVisibility(View.INVISIBLE);
-                }else {
+                } else {
                     holder.getView(R.id.tv_shoucang_num).setVisibility(View.VISIBLE);
                 }
                 ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
@@ -1222,6 +1224,8 @@ public class ImageDetailLongActivity
 
     }
 
+    boolean ifDelete = false;
+
     private void getImageDetail() {
 
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
@@ -1242,6 +1246,12 @@ public class ImageDetailLongActivity
                         msg.obj = data_msg;
                         msg.what = 1;
                         mHandler.sendMessage(msg);
+                    } else if (error_code == 1031) {
+                        if (!ifDelete) {
+                            ToastUtils.showCenter(ImageDetailLongActivity.this, error_msg);
+                            hidePage();
+                            ifDelete = true;
+                        }
                     } else {
                         ToastUtils.showCenter(ImageDetailLongActivity.this, error_msg);
                     }
@@ -1252,6 +1262,14 @@ public class ImageDetailLongActivity
         };
 
         MyHttpManager.getInstance().itemDetailsFaBu(item_id, callBack);
+
+    }
+
+    private void hidePage() {
+
+        mRecyclerView.setVisibility(View.GONE);
+        rl_edit.setVisibility(View.GONE);
+        tv_content_right.setVisibility(View.GONE);
 
     }
 
@@ -1396,7 +1414,7 @@ public class ImageDetailLongActivity
         } else {
             tv_details_tital.setVisibility(View.VISIBLE);
 //            tv_details_tital.setSpacing(2);
-           String detital =  imageDetailBean.getItem_info().getDescription().trim().replace("ن","");
+            String detital = imageDetailBean.getItem_info().getDescription().trim().replace("ن", "");
             tv_details_tital.setText(detital);
 
         }

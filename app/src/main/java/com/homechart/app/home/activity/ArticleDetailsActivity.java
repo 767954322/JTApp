@@ -564,7 +564,7 @@ public class ArticleDetailsActivity
         };
         MyHttpManager.getInstance().getLikeArticleList(article_id, (likepage_num - 1) * 20, 20, callBack);
     }
-
+    boolean ifDelete = false;
     //1.文章详情
     private void getArticleDetails() {
 
@@ -584,7 +584,14 @@ public class ArticleDetailsActivity
                     if (error_code == 0) {
                         articleBean = GsonUtil.jsonToBean(data_msg, ArticleBean.class);
                         changeArticleUI(articleBean);
+                    } else if (error_code == 1037) {
+                        if (!ifDelete) {
+                            ToastUtils.showCenter(ArticleDetailsActivity.this, error_msg);
+                            hidePage();
+                            ifDelete = true;
+                        }
                     } else {
+                        ToastUtils.showCenter(ArticleDetailsActivity.this, error_msg);
                     }
                 } catch (JSONException e) {
                 }
@@ -592,6 +599,13 @@ public class ArticleDetailsActivity
         };
         MyHttpManager.getInstance().getArticleDetails(article_id, callBack);
 
+    }
+
+    private void hidePage() {
+        rl_user_top.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.GONE);
+        rl_edit.setVisibility(View.GONE);
+        nav_secondary_imageButton.setVisibility(View.GONE);
     }
 
     //1.更新文章详情

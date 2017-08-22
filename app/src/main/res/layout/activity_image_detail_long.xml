@@ -24,7 +24,7 @@
         app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
 
     <RelativeLayout
-        android:id="@+id/et_edit"
+        android:id="@+id/rl_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
