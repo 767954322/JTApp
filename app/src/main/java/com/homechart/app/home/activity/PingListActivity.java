@@ -387,7 +387,7 @@ public class PingListActivity
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
                         getPingList(REFRESH_STATUS);
-                        ToastUtils.showCenter(PingListActivity.this, "评论单图成功");
+                        ToastUtils.showCenter(PingListActivity.this, "评论成功");
                     } else {
                         ToastUtils.showCenter(PingListActivity.this, error_msg);
 

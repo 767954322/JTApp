@@ -733,7 +733,7 @@ public class ImageDetailLongActivity
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
                         handler.sendEmptyMessage(0);
-                        ToastUtils.showCenter(ImageDetailLongActivity.this, "评论单图成功");
+                        ToastUtils.showCenter(ImageDetailLongActivity.this, "评论成功");
                         getPingList();
                     } else {
                         ToastUtils.showCenter(ImageDetailLongActivity.this, error_msg);
