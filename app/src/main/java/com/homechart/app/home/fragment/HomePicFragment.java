@@ -705,6 +705,16 @@ public class HomePicFragment
 
     @Override
     public void onLoadMore() {
+        //友盟统计
+        HashMap<String, String> map4 = new HashMap<String, String>();
+        map4.put("evenname", "首页加载次数");
+        map4.put("even", "首页");
+        MobclickAgent.onEvent(activity, "jtaction51", map4);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("首页")  //事件类别
+                .setAction("首页加载次数")      //事件操作
+                .build());
         onLoaderTong();
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
         ++page_num;
