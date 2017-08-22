@@ -193,11 +193,28 @@
                 android:layout_centerVertical="true"
                 android:layout_weight="1">
 
-                <View
+                <RelativeLayout
                     android:layout_width="@dimen/font_1"
-                    android:layout_height="@dimen/font_40"
-                    android:layout_centerVertical="true"
-                    android:background="@color/view_line" />
+                    android:layout_height="@dimen/font_73"
+                    android:layout_centerVertical="true">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/font_1"
+                        android:layout_height="@dimen/font_56"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true">
+
+                        <View
+                            android:layout_width="@dimen/font_1"
+                            android:layout_height="@dimen/font_40"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerInParent="true"
+                            android:layout_centerVertical="true"
+                            android:background="@color/view_line" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
 
 
                 <RelativeLayout
