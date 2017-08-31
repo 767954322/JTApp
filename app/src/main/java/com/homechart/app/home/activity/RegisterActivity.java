@@ -10,6 +10,7 @@ import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -514,6 +515,30 @@ public class RegisterActivity extends BaseActivity
 
         MobclickAgent.onPageEnd("注册页");
         MobclickAgent.onPause(this);
+    }
+
+    //退出时的时间
+    private long mExitTime;
+    public void exit() {
+        if ((System.currentTimeMillis() - mExitTime) > 3000) {
+            ToastUtils.showCenter(RegisterActivity.this, "再次点击返回键退出");
+            mExitTime = System.currentTimeMillis();
+        } else {
+            RegisterActivity.this.finish();
+            System.exit(0);
+        }
+    }
+
+    //对返回键进行监听
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+
+            exit();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private RelativeLayout mRLJumpMast;
