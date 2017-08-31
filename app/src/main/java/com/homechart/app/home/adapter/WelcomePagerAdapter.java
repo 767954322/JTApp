@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.homechart.app.R;
 import com.homechart.app.home.activity.HomeActivity;
-import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.umeng.analytics.MobclickAgent;
 

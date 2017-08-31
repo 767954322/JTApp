@@ -216,7 +216,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter
                 .setAction("点击启动页第三页进入app")  //事件操作
                 .build());
         SharedPreferencesUtils.writeBoolean(ISFIRST, true);
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, RegisterActivity.class);
         intent.putExtra("if_first", true);
         startActivity(intent);
         finish();
@@ -235,7 +235,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter
                 .setAction("点击启动页跳过按钮进入app")  //事件操作
                 .build());
         SharedPreferencesUtils.writeBoolean(ISFIRST, true);
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, RegisterActivity.class);
         intent.putExtra("if_first", true);
         startActivity(intent);
         finish();

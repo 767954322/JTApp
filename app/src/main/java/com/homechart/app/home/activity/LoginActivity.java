@@ -56,7 +56,7 @@ public class LoginActivity extends BaseActivity
     private String photo_id = "";
     private String activity_id = "";
     private String article_id = "";
-    private boolean if_first;
+//    private boolean if_first;
     private ImageView iv_next;
 
     @Override
@@ -68,7 +68,7 @@ public class LoginActivity extends BaseActivity
     protected void initExtraBundle() {
         super.initExtraBundle();
 
-        if_first =  getIntent().getBooleanExtra("if_first",false);
+//        if_first =  getIntent().getBooleanExtra("if_first",false);
         type = getIntent().getStringExtra("type");
         object_id = getIntent().getStringExtra("object_id");
         String data = getIntent().getDataString();
@@ -160,10 +160,6 @@ public class LoginActivity extends BaseActivity
             mIBBack.setVisibility(View.GONE);
         }
 
-        if(if_first){
-            startActivityForResult(new Intent(LoginActivity.this, RegisterActivity.class), 0);
-        }
-
     }
 
     @Override
@@ -198,7 +194,16 @@ public class LoginActivity extends BaseActivity
             case R.id.tv_goto_register:
             case R.id.iv_next:
 
-                startActivityForResult(new Intent(LoginActivity.this, RegisterActivity.class), 0);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                intent.putExtra("photo_id", photo_id);
+                intent.putExtra("activity_id", activity_id);
+                intent.putExtra("article_id", article_id);
+                if (!TextUtils.isEmpty(object_id)) {
+                    intent.putExtra("type", type);
+                    intent.putExtra("object_id", object_id);
+                }
+                startActivity(intent);
+                this.finish();
 
                 break;
         }

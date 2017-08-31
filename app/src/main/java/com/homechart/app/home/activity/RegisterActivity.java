@@ -73,7 +73,23 @@ public class RegisterActivity extends BaseActivity
         }
     };
     private RelativeLayout rl_jumpto_login;
+    private String photo_id;
+    private String activity_id;
+    private String article_id;
+    private String type;
+    private String object_id;
 
+
+    @Override
+    protected void initExtraBundle() {
+        super.initExtraBundle();
+        photo_id = getIntent().getStringExtra("photo_id");
+        activity_id = getIntent().getStringExtra("activity_id");
+        article_id = getIntent().getStringExtra("article_id");
+
+        type = getIntent().getStringExtra("type");
+        object_id = getIntent().getStringExtra("object_id");
+    }
 
     @Override
     protected int getLayoutResId() {
@@ -128,7 +144,16 @@ public class RegisterActivity extends BaseActivity
         switch (v.getId()) {
             case R.id.rl_jumpto_login:
 
-                RegisterActivity.this.finish();
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                intent.putExtra("photo_id", photo_id);
+                intent.putExtra("activity_id", activity_id);
+                intent.putExtra("article_id", article_id);
+                if (!TextUtils.isEmpty(object_id)) {
+                    intent.putExtra("type", type);
+                    intent.putExtra("object_id", object_id);
+                }
+                startActivity(intent);
+                this.finish();
 
                 break;
 
@@ -359,8 +384,15 @@ public class RegisterActivity extends BaseActivity
                     if (error_code == 0) {
                         LoginBean loginBean = GsonUtil.jsonToBean(data_msg, LoginBean.class);
                         PublicUtils.loginSucces(loginBean);
-                        Intent intent_result = getIntent();
-                        setResult(1, intent_result);
+                        Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+                        intent.putExtra("photo_id", photo_id);
+                        intent.putExtra("activity_id", activity_id);
+                        intent.putExtra("article_id", article_id);
+                        if (!TextUtils.isEmpty(object_id)) {
+                            intent.putExtra("type", type);
+                            intent.putExtra("object_id", object_id);
+                        }
+                        startActivity(intent);
                         RegisterActivity.this.finish();
                     } else {
                         ToastUtils.showCenter(RegisterActivity.this, error_msg);
@@ -408,8 +440,15 @@ public class RegisterActivity extends BaseActivity
                         String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                         LoginBean loginBean = GsonUtil.jsonToBean(data_msg, LoginBean.class);
                         PublicUtils.loginSucces(loginBean);
-                        Intent intent_result = getIntent();
-                        setResult(1, intent_result);
+                        Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+                        intent.putExtra("photo_id", photo_id);
+                        intent.putExtra("activity_id", activity_id);
+                        intent.putExtra("article_id", article_id);
+                        if (!TextUtils.isEmpty(object_id)) {
+                            intent.putExtra("type", type);
+                            intent.putExtra("object_id", object_id);
+                        }
+                        startActivity(intent);
                         RegisterActivity.this.finish();
                     } else {
                         if (error_code == 1006) {
@@ -441,8 +480,15 @@ public class RegisterActivity extends BaseActivity
 
         //注册成功后的跳转
         if (requestCode == 0 && resultCode == 1) {
-            Intent intent_result = getIntent();
-            setResult(1, intent_result);
+            Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+            intent.putExtra("photo_id", photo_id);
+            intent.putExtra("activity_id", activity_id);
+            intent.putExtra("article_id", article_id);
+            if (!TextUtils.isEmpty(object_id)) {
+                intent.putExtra("type", type);
+                intent.putExtra("object_id", object_id);
+            }
+            startActivity(intent);
             RegisterActivity.this.finish();
         }
 
@@ -469,9 +515,10 @@ public class RegisterActivity extends BaseActivity
         MobclickAgent.onPageEnd("注册页");
         MobclickAgent.onPause(this);
     }
+
     private RelativeLayout mRLJumpMast;
     private ImageView mIVIfShowPass;
-//    private ImageButton mIBBack;
+    //    private ImageButton mIBBack;
     private Button mBTRegister;
 
     private TextView mTVTital;
