@@ -324,6 +324,10 @@ public class LoginActivity extends BaseActivity
                         intent.putExtra("photo_id", photo_id);
                         intent.putExtra("activity_id", activity_id);
                         intent.putExtra("article_id", article_id);
+                        if (!TextUtils.isEmpty(object_id)) {
+                            intent.putExtra("type", type);
+                            intent.putExtra("object_id", object_id);
+                        }
                         startActivity(intent);
                         LoginActivity.this.finish();
                     } else {
@@ -382,6 +386,10 @@ public class LoginActivity extends BaseActivity
             intent.putExtra("photo_id", photo_id);
             intent.putExtra("activity_id", activity_id);
             intent.putExtra("article_id", article_id);
+            if (!TextUtils.isEmpty(object_id)) {
+                intent.putExtra("type", type);
+                intent.putExtra("object_id", object_id);
+            }
             startActivity(intent);
             LoginActivity.this.finish();
         }
