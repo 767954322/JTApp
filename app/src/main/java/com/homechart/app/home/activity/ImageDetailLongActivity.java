@@ -309,6 +309,7 @@ public class ImageDetailLongActivity
         tv_shared.setOnClickListener(this);
         tv_people_guanzhu.setOnClickListener(this);
         ll_huifu_one.setOnClickListener(this);
+        iv_details_image.setOnClickListener(this);
         riv_people_header.setOnClickListener(this);
         ll_huifu_two.setOnClickListener(this);
         ll_huifu_three.setOnClickListener(this);
@@ -681,6 +682,16 @@ public class ImageDetailLongActivity
                             .setAction(" 颜色分析展开")      //事件操作
                             .build());
 
+                }
+
+                break;
+            case R.id.iv_details_image:
+
+                if (imageDetailBean != null) {
+                    Intent intent1 = new Intent(ImageDetailLongActivity.this, ImageVISearchActivity.class);
+                    intent1.putExtra("image_url", imageDetailBean.getItem_info().getImage().getImg0());
+                    intent1.putExtra("imageDetailBean", imageDetailBean);
+                    startActivity(intent1);
                 }
 
                 break;

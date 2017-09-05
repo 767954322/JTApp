@@ -1,0 +1,80 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.0'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'jacoco'
+
+repositories {
+    jcenter()
+}
+
+def versionMajor = 1
+def versionMinor = 2
+def versionPatch = 2
+version = '1.2.2'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion '25.0.0'
+
+    defaultConfig {
+        minSdkVersion 9
+        targetSdkVersion 21
+        versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile ('org.apache.httpcomponents:httpmime:4.3.5') {
+        exclude module: 'httpclient'
+    }
+
+    compile 'org.apache.httpcomponents:httpclient-android:4.3.5'
+    compile 'com.google.android.gms:play-services-analytics:10.0.1'
+    compile(group: 'com.mcxiaoke.volley', name: 'library', version: '1.0.10', ext: 'aar')
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile 'org.robolectric:robolectric:3.0'
+}
+
+ext {
+    bintrayUserOrg = "visenze"
+    bintrayRepo = "maven"
+    bintrayName = "com.visenze:visearch-android"
+    bintrayWebsiteUrl = 'https://github.com/visenze/visearch-sdk-android'
+    bintrayVcsUrl = 'https://github.com/visenze/visearch-sdk-android'
+    bintrayIssueTrackerUrl = 'https://github.com/visenze/visearch-sdk-android/issues'
+    bintrayLabels = ['visenze', 'visearch', 'sdk', 'android']
+
+    publishedGroupId = 'com.visenze'
+    artifact = 'visearch-android'
+
+    libraryName = 'visearch-android'
+    libraryDescription = 'ViSearch Android SDK'
+    libraryVersion = "${versionMajor}.${versionMinor}.${versionPatch}"
+
+    developerId = 'visenze'
+    developerName = 'ViSenze'
+}
+
+apply from: '../tools/bintray.gradle'
+apply from: '../tools/makejar.gradle'
+
+

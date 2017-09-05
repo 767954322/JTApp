@@ -35,12 +35,17 @@ android {
             testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         }
 
+
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
     }
 }
 
@@ -60,7 +65,11 @@ dependencies {
     compile 'com.android.support:design:25.1.0'
     compile 'com.google.firebase:firebase-core:10.0.1'
     compile 'com.google.firebase:firebase-analytics:10.0.1'
-    compile 'com.google.android.gms:play-services-analytics:10.0.1'
+    //noinspection GradleCompatible
+
+
+    compile 'me.littlecheesecake:waterfalllayoutview:1.0.0'
+    compile 'me.littlecheesecake:croplayout:1.0.5'
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'cn.finalteam:galleryfinal:1.4.8.7'
     compile 'com.jaeger.statusbarutil:library:1.4.0'
@@ -69,6 +78,15 @@ dependencies {
     compile project(':FlycoTabLayout_Lib')
     compile files('libs/jcore-android-1.1.6.jar')
     compile files('libs/android-smart-image-view-1.0.0.jar')
+    compile 'in.srain.cube:grid-view-with-header-footer:1.0.8'
+    compile 'it.sephiroth.android.library.horizontallistview:hlistview:1.2.2'
+
+
+    compile 'com.squareup.picasso:picasso:2.4.0'
+    compile 'com.mcxiaoke.volley:library:1.0.10@aar'
+    compile 'com.jakewharton:butterknife:6.0.0'
+    compile 'com.sothree.slidinguppanel:library:3.2.0'
+    compile project(path: ':visearch-android')
 }
 
 apply plugin: 'com.google.gms.google-services'

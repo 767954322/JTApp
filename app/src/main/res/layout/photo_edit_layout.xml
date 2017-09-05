@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/red">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp">
+
+        <me.littlecheesecake.croplayout.EditPhotoView
+            xmlns:crop="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/photoedit_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="30dp"
+            crop:crop_corner_color="@color/green"
+            crop:crop_line_color="@color/white"
+            crop:crop_shadow_color="@color/bg_007aff"/>
+        <TextView
+            android:id="@+id/photoedit_rotate_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:textColor="@color/white"
+            android:layout_margin="4dp"
+            android:text="rotate"/>
+    </FrameLayout>
+
+</RelativeLayout>
