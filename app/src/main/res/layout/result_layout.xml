@@ -75,7 +75,7 @@
                 android:layout_margin="20dp"
                 android:visibility="gone"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/spinner_9"/>
+                android:background="@drawable/dialog_spinner"/>
         </FrameLayout>
     </LinearLayout>
 

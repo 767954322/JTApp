@@ -338,7 +338,8 @@ public class PhotoEditFragment
             waterfallViewLayout.setOnItemClickListener(new WFAdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(WFAdapterView<?> parent, View view, int position, long id) {
-                    startDetailActivity(resultList.getImageList().get(position));
+                    //TODO
+//                    startDetailActivity(resultList.getImageList().get(position));
                 }
             });
             waterfallViewLayout.invalidate();
@@ -357,7 +358,7 @@ public class PhotoEditFragment
             gridViewLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    startDetailActivity(resultList.getImageList().get(position));
+//                    startDetailActivity(resultList.getImageList().get(position));
                 }
             });
             gridViewLayout.invalidate();

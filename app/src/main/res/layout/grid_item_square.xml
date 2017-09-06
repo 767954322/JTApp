@@ -12,7 +12,7 @@
             android:id="@+id/result_image_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/tital_back"
+            android:background="@drawable/spinner_10"
             android:scaleType="centerInside" />
     </RelativeLayout>
     <TextView
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:background="@color/white"
+        android:background="@color/black_trans_40"
         android:maxLines="1"
         android:padding="3dp"
         android:paddingLeft="5dp"

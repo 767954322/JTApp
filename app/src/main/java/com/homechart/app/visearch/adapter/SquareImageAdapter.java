@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.homechart.app.R;
+import com.homechart.app.utils.imageloader.ImageUtils;
 import com.squareup.picasso.Picasso;
 import com.visenze.visearch.android.model.ImageResult;
 
@@ -70,19 +71,21 @@ public class SquareImageAdapter extends ArrayAdapter<ImageResult> {
             viewHolder = (ViewHolder)imageLayout.getTag();
         }
 
-        Picasso.with(mContext)
-                .load(imageList.get(position).getImageUrl())
-                .placeholder(R.drawable.empty)
-                .error(R.drawable.empty)
-                .centerInside()
-                .fit()
-                .tag(mContext)
-                .into(viewHolder.imageView);
+        ImageUtils.displayFilletImage(imageList.get(position).getImageUrl(),viewHolder.imageView);
+
+//        Picasso.with(mContext)
+//                .load(imageList.get(position).getImageUrl())
+//                .placeholder(R.drawable.spinner_10)
+//                .error(R.drawable.spinner_10)
+//                .centerInside()
+//                .fit()
+//                .tag(mContext)
+//                .into(viewHolder.imageView);
         int score = 0;
         if(imageList.get(position).getScore() != null){
             score = (int)(imageList.get(position).getScore() * 100);
         }
-        viewHolder.scoreView.setText("Similarity " + String.valueOf(score) + "%");
+        viewHolder.scoreView.setText("相识度 " + String.valueOf(score) + "%");
 
         return imageLayout;
     }

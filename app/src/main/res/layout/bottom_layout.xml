@@ -26,12 +26,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="edit_query_view"
+            android:text="圆形图片下面的文字"
+            android:visibility="gone"
             android:textColor="@color/white"
             android:textStyle="bold" />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/changtu"/>
     </FrameLayout>
 </RelativeLayout>

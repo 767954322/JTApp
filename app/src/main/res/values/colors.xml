@@ -83,6 +83,7 @@
     <color name="white">#ffffff</color>
     <color name="bg_f2ffffff">#F2ffffff</color>
     <color name="white1">#00ffffff</color>
+    <color name="black_trans_40">#64000000</color>
     <color name="red">#FFC93437</color>
     <color name="yellow">#FFF7D23E</color>
     <color name="green">#FF34A350</color>
