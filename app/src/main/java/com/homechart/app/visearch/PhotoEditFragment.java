@@ -34,11 +34,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.homechart.app.R;
+import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.visearch.adapter.HorizontalProductTypeArrayAdapter;
 import com.homechart.app.visearch.adapter.SquareImageAdapter;
 import com.homechart.app.visearch.adapter.StrechImageAdapter;
@@ -71,7 +73,10 @@ import me.littlecheesecake.waterfalllayoutview.WFAdapterView;
  * <p>
  * PhotoEditFragment
  */
-public class PhotoEditFragment extends Fragment implements ViSearch.ResultListener {
+public class PhotoEditFragment
+        extends BaseFragment
+        implements ViSearch.ResultListener ,
+        View.OnClickListener{
     final static ButterKnife.Action<View> SHOW = new ButterKnife.Action<View>() {
         @Override
         public void apply(View view, int index) {
@@ -94,8 +99,6 @@ public class PhotoEditFragment extends Fragment implements ViSearch.ResultListen
     List<View> photoUIs;
     @InjectView(R.id.photoedit_image_view)
     EditPhotoView editPhotoView;
-    @InjectView(R.id.photoedit_rotate_button)
-    TextView rotateButton;
     @InjectView(R.id.result_grid_view)
     FrameLayout resultGridView;
     @InjectView(R.id.category_list_view)
@@ -121,6 +124,8 @@ public class PhotoEditFragment extends Fragment implements ViSearch.ResultListen
     private EditableImage editableImage;
 
     private static final String APP_KEY = "2317c981400c6b2ca55114cb6bdfb963";
+    private ImageView result_back_button;
+
     /**
      * Constructor: get new instance of PhotoEditFragment
      *
@@ -131,11 +136,24 @@ public class PhotoEditFragment extends Fragment implements ViSearch.ResultListen
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.result_edit_main, container, false);
-        ButterKnife.inject(this, view);
+    protected int getLayoutResId() {
+        return R.layout.result_edit_main;
+    }
 
+    @Override
+    protected void initView() {
+        ButterKnife.inject(this,rootView);
+        result_back_button = (ImageView) rootView.findViewById(R.id.result_back_button);
+    }
+
+    @Override
+    protected void initListener() {
+        super.initListener();
+        result_back_button.setOnClickListener(this);
+    }
+
+    @Override
+    protected void initData(Bundle savedInstanceState) {
         //get viSearch instance
         try {
             SearchAPI.initSearchAPI(getActivity(),APP_KEY);
@@ -208,8 +226,20 @@ public class PhotoEditFragment extends Fragment implements ViSearch.ResultListen
         switchView();
 
         slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-        return view;
     }
+
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+            case R.id.result_back_button:
+                activity.finish();
+                break;
+        }
+
+    }
+
 
     @Override
     public void onSearchResult(ResultList resultList) {
@@ -282,36 +312,11 @@ public class PhotoEditFragment extends Fragment implements ViSearch.ResultListen
             editableImage.getOriginalImage().recycle();
     }
 
-    @OnClick(R.id.photoedit_rotate_button)
-    public void rotateImage() {
-//        editPhotoView.rotateImageView();
-//        editableImage.saveEditedImage(imagePath);
-//        changeUploadUI();
-//
-//        Image image = new Image(imagePath, Config.IMAGE_QUALITY);
-//
-//        //set search parameters
-//        UploadSearchParams uploadSearchParams = new UploadSearchParams(image);
-//        //set detection
-//        DataHelper.setSearchParams(uploadSearchParams, selectedType);
-//
-//        viSearch.cancelSearch();
-//        viSearch.uploadSearch(uploadSearchParams);
-    }
-
-    @OnClick(R.id.result_home_button)
-    public void returnHome() {
-//        Intent intent = new Intent(getActivity(), MainActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        getActivity().startActivity(intent);
-    }
-
     @OnClick(R.id.result_back_button)
     public void closeClicked() {
-//        viSearch.cancelSearch();
-//        getActivity().finish();
-//        Intent intent = new Intent(getActivity(), CameraActivity.class);
-//        getActivity().startActivity(intent);
+
+
+
     }
 
     @OnClick(R.id.result_query_image)
@@ -375,7 +380,6 @@ public class PhotoEditFragment extends Fragment implements ViSearch.ResultListen
     private void changeUploadUI() {
         loadingImage.setVisibility(View.VISIBLE);
         ButterKnife.apply(photoUIs, HIDE);
-        rotateButton.setClickable(false);
 
 //        //start scan
 //        AnimationDrawable anim = (AnimationDrawable) loadingImage.getDrawable();
@@ -386,7 +390,6 @@ public class PhotoEditFragment extends Fragment implements ViSearch.ResultListen
     private void changeUploadUIBack() {
         ButterKnife.apply(photoUIs, SHOW);
         loadingImage.setVisibility(View.GONE);
-        rotateButton.setClickable(true);
     }
 
     private ScalableBox getDetectionBox(Box box) {

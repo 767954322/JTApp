@@ -67,6 +67,7 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.homechart.app.visearch.EditPhotoActivity;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
@@ -688,7 +689,7 @@ public class ImageDetailLongActivity
             case R.id.iv_details_image:
 
                 if (imageDetailBean != null) {
-                    Intent intent1 = new Intent(ImageDetailLongActivity.this, ImageVISearchActivity.class);
+                    Intent intent1 = new Intent(ImageDetailLongActivity.this, EditPhotoActivity.class);
                     intent1.putExtra("image_url", imageDetailBean.getItem_info().getImage().getImg0());
                     intent1.putExtra("imageDetailBean", imageDetailBean);
                     startActivity(intent1);
