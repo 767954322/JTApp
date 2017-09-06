@@ -9,10 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginTop="@dimen/font_5"
+        android:layout_marginLeft="@dimen/font_20"
+        android:layout_marginRight="@dimen/font_20"
+        android:layout_marginBottom="@dimen/font_230">
 
         <me.littlecheesecake.croplayout.EditPhotoView
             xmlns:crop="http://schemas.android.com/apk/res-auto"

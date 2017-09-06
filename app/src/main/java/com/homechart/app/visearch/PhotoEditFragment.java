@@ -41,6 +41,7 @@ import android.widget.Toast;
 
 import com.homechart.app.R;
 import com.homechart.app.home.base.BaseFragment;
+import com.homechart.app.utils.UIUtils;
 import com.homechart.app.visearch.adapter.HorizontalProductTypeArrayAdapter;
 import com.homechart.app.visearch.adapter.SquareImageAdapter;
 import com.homechart.app.visearch.adapter.StrechImageAdapter;
@@ -150,6 +151,39 @@ public class PhotoEditFragment
     protected void initListener() {
         super.initListener();
         result_back_button.setOnClickListener(this);
+        slidingUpPanelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+//            当滑动窗格的位置更改时调用。
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+
+                Log.d("test","当滑动窗格的位置更改时调用");
+            }
+//            当滑动面板完全滑落时被调用。
+            @Override
+            public void onPanelCollapsed(View panel) {
+                result_back_button.setImageResource(R.drawable.tital_back);
+                Log.d("test","当滑动面板完全滑落时被调用");
+            }
+//            当滑动面板滑动完全展开时调用。
+            @Override
+            public void onPanelExpanded(View panel) {
+
+                result_back_button.setImageResource(R.drawable.tital_back_wight);
+                Log.d("test","当滑动面板滑动完全展开时调用");
+            }
+//            当滑动面板固定时调用。
+            @Override
+            public void onPanelAnchored(View panel) {
+
+                Log.d("test","当滑动面板固定时调用");
+            }
+//            当滑动面板完全隐藏时调用。
+            @Override
+            public void onPanelHidden(View panel) {
+
+                Log.d("test","当滑动面板完全隐藏时调用");
+            }
+        });
     }
 
     @Override
@@ -225,8 +259,10 @@ public class PhotoEditFragment
         //set up result view
         switchView();
 
-        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+//        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);//关闭
+        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);//打开
     }
+
 
 
     @Override
@@ -322,6 +358,7 @@ public class PhotoEditFragment
     @OnClick(R.id.result_query_image)
     public void showCrop() {
         slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        result_back_button.setImageResource(R.drawable.tital_back);
     }
 
     @OnClick(R.id.result_switch_button)

@@ -1,37 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <com.sothree.slidinguppanel.SlidingUpPanelLayout
-        xmlns:slide="http://schemas.android.com/apk/res-auto"
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:slide="http://schemas.android.com/apk/res-auto"
         android:id="@+id/sliding_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        slide:umanoPanelHeight="10dp"
-        slide:umanoShadowHeight="3dp"
-        slide:umanoParallaxOffset="100dp"
         slide:umanoDragView="@+id/result_drag_view"
         slide:umanoOverlay="true"
-        slide:umanoScrollableView="@+id/result_scroll_list">
+        slide:umanoPanelHeight="@dimen/font_230"
+        slide:umanoParallaxOffset="@dimen/font_100"
+        slide:umanoScrollableView="@+id/result_scroll_list"
+        slide:umanoShadowHeight="@dimen/font_3">
 
         <include layout="@layout/photo_edit_layout" />
+
         <include layout="@layout/result_layout" />
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
-    <ImageView
-        android:id="@+id/result_back_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:src="@drawable/tital_back"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_50">
+
+        <ImageView
+            android:id="@+id/result_back_button"
+            android:layout_width="@dimen/size_40"
+            android:layout_height="@dimen/size_40"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/size_10"
+            android:background="@drawable/transparent"
+            android:padding="@dimen/size_8"
+            android:scaleType="centerInside"
+            android:src="@drawable/tital_back"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
 
 </FrameLayout>
