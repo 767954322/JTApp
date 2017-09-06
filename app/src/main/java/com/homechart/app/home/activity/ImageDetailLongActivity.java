@@ -691,7 +691,6 @@ public class ImageDetailLongActivity
                 if (imageDetailBean != null) {
                     Intent intent1 = new Intent(ImageDetailLongActivity.this, EditPhotoActivity.class);
                     intent1.putExtra("image_url", imageDetailBean.getItem_info().getImage().getImg0());
-                    intent1.putExtra("imageDetailBean", imageDetailBean);
                     startActivity(intent1);
                 }
 

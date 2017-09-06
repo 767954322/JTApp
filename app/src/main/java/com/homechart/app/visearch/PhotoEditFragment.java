@@ -393,7 +393,7 @@ public class PhotoEditFragment
                 @Override
                 public void onItemClick(WFAdapterView<?> parent, View view, int position, long id) {
                     //TODO
-//                    startDetailActivity(resultList.getImageList().get(position));
+                    startDetailActivity(resultList.getImageList().get(position));
                 }
             });
             waterfallViewLayout.invalidate();
@@ -405,14 +405,14 @@ public class PhotoEditFragment
 
             if (gridViewLayout == null) {
                 gridViewLayout = new ScrollAwareGridView(getActivity());
-                gridViewLayout.setNumColumns(3);
+                gridViewLayout.setNumColumns(2);
             }
 
             gridViewLayout.setAdapter(new SquareImageAdapter(getActivity(), resultList.getImageList()));
             gridViewLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                    startDetailActivity(resultList.getImageList().get(position));
+                    startDetailActivity(resultList.getImageList().get(position));
                 }
             });
             gridViewLayout.invalidate();
@@ -427,8 +427,9 @@ public class PhotoEditFragment
         IntentHelper.addObjectForKey(imageResult.getImageName(), IntentHelper.SEARCH_RESULT_EXTRA);
         IntentHelper.addObjectForKey(imageResult.getImageUrl(), IntentHelper.SEARCH_IMAGE_PATH_EXTRA);
 
-//        Intent intent = new Intent(getActivity(), DetailActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(getActivity(), EditPhotoActivity.class);
+        intent.putExtra("image_url", imageResult.getImageUrl());
+        startActivity(intent);
     }
 
     //change UI when uploading starts

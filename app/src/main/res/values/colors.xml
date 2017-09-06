@@ -79,7 +79,7 @@
 
     <color name="black">#000000</color>
     <color name="tiaoguo_back">#66000000</color>
-    <color name="bg_4d000000">#4D000000</color>//30%透明度
+    <color name="bg_4d000000">#4D000000</color>
     <color name="white">#ffffff</color>
     <color name="bg_f2ffffff">#F2ffffff</color>
     <color name="white1">#00ffffff</color>

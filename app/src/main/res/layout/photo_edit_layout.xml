@@ -21,8 +21,8 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="30dp"
             crop:crop_corner_color="@color/bg_e79056"
-            crop:crop_line_color="@color/white"
-            crop:crop_shadow_color="@color/bg_4d000000"/>
+            crop:crop_line_color="@color/touming"
+            crop:crop_shadow_color="@color/bg_4d000000" />
         <TextView
             android:id="@+id/photoedit_rotate_button"
             android:layout_width="wrap_content"
