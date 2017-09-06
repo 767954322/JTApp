@@ -61,6 +61,7 @@
     <color name="bg_262626">#262626</color>
     <color name="bg_707070">#707070</color>
     <color name="bg_8f8f8f">#8f8f8f</color>
+    <color name="bg_4c4c4c">#4c4c4c</color>
     <color name="bg_f8f8f8">#f8f8f8</color>
     <color name="bg_f2f2f2">#f2f2f2</color>
     <color name="bg_ededed">#ededed</color>
@@ -113,6 +114,7 @@
     <color name="bank_FF6C6C6C">#FF6C6C6C</color>
     <color name="text_color_02">#FF6C6C6C</color>
     <color name="sort_catagory">#FFE0E0E0</color>
+    <color name="gray_type_list">#e3e4e8</color>
 
     <color name="province_line_border">#C7C7C7</color>
     <color name="liji_c_blue">#26A5FF</color>

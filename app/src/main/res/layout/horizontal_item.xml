@@ -12,5 +12,6 @@
         android:layout_gravity="center"
         android:textColor="@color/gray"
         android:textSize="12sp"
+        android:background="@drawable/round_corner_tag_selector"
         android:textAllCaps="true"/>
 </LinearLayout>

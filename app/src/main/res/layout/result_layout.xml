@@ -9,17 +9,17 @@
     <RelativeLayout
         android:id="@+id/result_drag_view"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="@dimen/font_56"
         android:gravity="center_vertical"
-        android:background="@color/bg_8f8f8f">
+        android:background="@color/bg_4c4c4c">
         <TextView
             android:id="@+id/message"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_centerInParent="true"
-            android:textSize="18dp"
-            android:text="Search Results"
+            android:textSize="@dimen/size_18"
+            android:text="搜索结果"
             android:textColor="@color/white"/>
     </RelativeLayout>
 
@@ -27,29 +27,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/font_56"
         android:orientation="vertical">
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:background="@color/bg_8f8f8f">
+            android:layout_height="@dimen/font_40"
+            android:background="@color/gray_type_list">
             <it.sephiroth.android.library.widget.HListView
                 android:id="@+id/category_list_view"
                 android:layout_width="match_parent"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:layout_marginRight="10dp"
+                android:paddingLeft="@dimen/font_5"
+                android:paddingRight="@dimen/font_5"
                 android:layout_height="match_parent"
                 android:overScrollMode="never"
-                android:listSelector="@color/white"
+                android:listSelector="@color/white1"
                 android:drawSelectorOnTop="false"/>
             <ImageView
                 android:id="@+id/result_switch_button"
                 android:layout_width="45dp"
                 android:padding="5dp"
+                android:visibility="gone"
                 android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:src="@drawable/changtu"/>
+                android:layout_gravity="right"/>
         </FrameLayout>
         <FrameLayout
             android:layout_width="match_parent"
@@ -76,7 +75,7 @@
                 android:layout_margin="20dp"
                 android:visibility="gone"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/icon_app"/>
+                android:src="@drawable/spinner_9"/>
         </FrameLayout>
     </LinearLayout>
 
