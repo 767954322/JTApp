@@ -214,6 +214,7 @@ public class PhotoEditFragment
         categoryListView.scrollTo(productList.indexOf(selectedType), 0);
 
         categoryListView.setAdapter(horizontalAdapter);
+
         categoryListView.setOnItemClickListener(new it.sephiroth.android.library.widget.AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(it.sephiroth.android.library.widget.AdapterView<?> adapterView, View view, int i, long l) {
@@ -261,6 +262,21 @@ public class PhotoEditFragment
 
 //        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);//关闭
         slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);//打开
+
+        if(productList.size() >= 1){
+            horizontalAdapter.setSelected(0);
+            ScalableBox b = editableImage.getBox();
+            //set search parameters
+            UploadSearchParams uploadSearchParams = new UploadSearchParams();
+            uploadSearchParams.setImId(imId);
+            uploadSearchParams.setBox(new Box(b.getX1(), b.getY1(), b.getX2(), b.getY2()));
+            //set detection
+            selectedType = productList.get(0);
+            DataHelper.setSearchParams(uploadSearchParams, selectedType);
+            viSearch.cancelSearch();
+            viSearch.uploadSearch(uploadSearchParams);
+            changeUploadUI();
+        }
     }
 
 
