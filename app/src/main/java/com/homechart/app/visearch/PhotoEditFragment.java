@@ -188,33 +188,31 @@ public class PhotoEditFragment
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        //get viSearch instance
+        //初始化VISearch
         try {
             SearchAPI.initSearchAPI(getActivity(),APP_KEY);
             viSearch = SearchAPI.getInstance();
+            viSearch.setListener(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        viSearch.setListener(this);
-
-        //set up data
+        //获取数据
         imagePath = ((EditPhotoActivity) getActivity()).getImagePath();
         resultList = ((EditPhotoActivity) getActivity()).getResultList();
         imId = resultList.getImId();
 
+        //查询数据
         List<ProductType> cachedProductList = DataHelper.copyProductTypeList(resultList.getProductTypes());
         selectedType = DataHelper.getSelectedProductType(cachedProductList).getType();
         productList = DataHelper.getSupportedTypeList(resultList.getSupportedProductTypeList(), selectedType);
-        Box box = cachedProductList.get(0).getBox();
 
-        //set up UI
+        //更新UI
         horizontalAdapter = new HorizontalProductTypeArrayAdapter(getActivity(), productList);
         horizontalAdapter.setSelected(productList.indexOf(selectedType));
         categoryListView.scrollTo(productList.indexOf(selectedType), 0);
-
         categoryListView.setAdapter(horizontalAdapter);
 
+        //TODO 搜索分类的监听
         categoryListView.setOnItemClickListener(new it.sephiroth.android.library.widget.AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(it.sephiroth.android.library.widget.AdapterView<?> adapterView, View view, int i, long l) {
@@ -236,10 +234,13 @@ public class PhotoEditFragment
                 changeUploadUI();
             }
         });
-
+        //TODO 添加搜索框
+        Box box = cachedProductList.get(0).getBox();
         editableImage = new EditableImage(imagePath);
         editableImage.setBox(getDetectionBox(box));
         editPhotoView.initView(getActivity(), editableImage);
+
+        //TODO 搜索框监听
         editPhotoView.setOnBoxChangedListener(new OnBoxChangedListener() {
             @Override
             public void onChanged(int x1, int y1, int x2, int y2) {
