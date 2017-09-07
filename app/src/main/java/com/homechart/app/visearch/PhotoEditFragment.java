@@ -42,6 +42,7 @@ import android.widget.Toast;
 import com.homechart.app.R;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.utils.UIUtils;
+import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.visearch.adapter.HorizontalProductTypeArrayAdapter;
 import com.homechart.app.visearch.adapter.SquareImageAdapter;
 import com.homechart.app.visearch.adapter.StrechImageAdapter;
@@ -76,8 +77,8 @@ import me.littlecheesecake.waterfalllayoutview.WFAdapterView;
  */
 public class PhotoEditFragment
         extends BaseFragment
-        implements ViSearch.ResultListener ,
-        View.OnClickListener{
+        implements ViSearch.ResultListener,
+        View.OnClickListener {
     final static ButterKnife.Action<View> SHOW = new ButterKnife.Action<View>() {
         @Override
         public void apply(View view, int index) {
@@ -143,7 +144,7 @@ public class PhotoEditFragment
 
     @Override
     protected void initView() {
-        ButterKnife.inject(this,rootView);
+        ButterKnife.inject(this, rootView);
         result_back_button = (ImageView) rootView.findViewById(R.id.result_back_button);
     }
 
@@ -152,36 +153,40 @@ public class PhotoEditFragment
         super.initListener();
         result_back_button.setOnClickListener(this);
         slidingUpPanelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
-//            当滑动窗格的位置更改时调用。
+            //            当滑动窗格的位置更改时调用。
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
 
-                Log.d("test","当滑动窗格的位置更改时调用");
+                Log.d("test", "当滑动窗格的位置更改时调用");
             }
-//            当滑动面板完全滑落时被调用。
+
+            //            当滑动面板完全滑落时被调用。
             @Override
             public void onPanelCollapsed(View panel) {
                 result_back_button.setImageResource(R.drawable.tital_back);
-                Log.d("test","当滑动面板完全滑落时被调用");
+                Log.d("test", "当滑动面板完全滑落时被调用");
             }
-//            当滑动面板滑动完全展开时调用。
+
+            //            当滑动面板滑动完全展开时调用。
             @Override
             public void onPanelExpanded(View panel) {
 
                 result_back_button.setImageResource(R.drawable.tital_back_wight);
-                Log.d("test","当滑动面板滑动完全展开时调用");
+                Log.d("test", "当滑动面板滑动完全展开时调用");
             }
-//            当滑动面板固定时调用。
+
+            //            当滑动面板固定时调用。
             @Override
             public void onPanelAnchored(View panel) {
 
-                Log.d("test","当滑动面板固定时调用");
+                Log.d("test", "当滑动面板固定时调用");
             }
-//            当滑动面板完全隐藏时调用。
+
+            //            当滑动面板完全隐藏时调用。
             @Override
             public void onPanelHidden(View panel) {
 
-                Log.d("test","当滑动面板完全隐藏时调用");
+                Log.d("test", "当滑动面板完全隐藏时调用");
             }
         });
     }
@@ -190,7 +195,7 @@ public class PhotoEditFragment
     protected void initData(Bundle savedInstanceState) {
         //初始化VISearch
         try {
-            SearchAPI.initSearchAPI(getActivity(),APP_KEY);
+            SearchAPI.initSearchAPI(getActivity(), APP_KEY);
             viSearch = SearchAPI.getInstance();
             viSearch.setListener(this);
         } catch (Exception e) {
@@ -235,10 +240,12 @@ public class PhotoEditFragment
             }
         });
         //TODO 添加搜索框
-        Box box = cachedProductList.get(0).getBox();
-        editableImage = new EditableImage(imagePath);
-        editableImage.setBox(getDetectionBox(box));
-        editPhotoView.initView(getActivity(), editableImage);
+        if (cachedProductList.size() > 0) {
+            Box box = cachedProductList.get(0).getBox();
+            editableImage = new EditableImage(imagePath);
+            editableImage.setBox(getDetectionBox(box));
+            editPhotoView.initView(getActivity(), editableImage);
+        }
 
         //TODO 搜索框监听
         editPhotoView.setOnBoxChangedListener(new OnBoxChangedListener() {
@@ -264,7 +271,7 @@ public class PhotoEditFragment
 //        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);//关闭
         slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);//打开
 
-        if(productList.size() >= 1){
+        if (productList.size() >= 1) {
             horizontalAdapter.setSelected(0);
             ScalableBox b = editableImage.getBox();
             //set search parameters
@@ -281,11 +288,10 @@ public class PhotoEditFragment
     }
 
 
-
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.result_back_button:
                 activity.finish();
                 break;
@@ -343,8 +349,10 @@ public class PhotoEditFragment
         String thumbnailPath = ((EditPhotoActivity) getActivity()).getThumbnailPath();
 
         if (thumbnailPath != null) {
-            bitmap = ImageHelper.getBitmapFromPath(thumbnailPath);
-            queryImage.setImageBitmap(bitmap);
+//            bitmap = ImageHelper.getBitmapFromPath(thumbnailPath);
+//            queryImage.setImageBitmap(bitmap);
+//            editPhotoView
+            ImageUtils.displayFilletImage("file:///" + imagePath, queryImage);
         }
         viSearch.setListener(this);
     }
@@ -367,7 +375,6 @@ public class PhotoEditFragment
 
     @OnClick(R.id.result_back_button)
     public void closeClicked() {
-
 
 
     }
