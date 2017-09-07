@@ -23,22 +23,31 @@
  */
 package com.homechart.app.visearch;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.homechart.app.R;
 import com.homechart.app.utils.CustomProgress;
 import com.visenze.visearch.android.ResultList;
 import com.visenze.visearch.android.UploadSearchParams;
 import com.visenze.visearch.android.ViSearch;
+import com.visenze.visearch.android.model.Image;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+
+import retrofit2.http.Url;
 
 /**
  * Created by yulu on 12/3/15.
@@ -54,7 +63,7 @@ public class EditPhotoActivity
     private String image_url;
     private static final String APP_KEY = "2317c981400c6b2ca55114cb6bdfb963";
     private ViSearch viSearch;
-
+    private String type;
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -83,24 +92,53 @@ public class EditPhotoActivity
 
         CustomProgress.show(this, "正在识别中...", false, null);
         image_url = getIntent().getStringExtra("image_url");
+        type = getIntent().getStringExtra("type");
         viSearch = new ViSearch.Builder(APP_KEY).build(EditPhotoActivity.this);
         viSearch.setListener(EditPhotoActivity.this);
 
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    byte[] buffer = getImage(image_url);
-                    Message message = new Message();
-                    message.obj = buffer;
-                    message.arg1 = 1;
-                    mHandler.sendMessage(message);
-                } catch (Exception e) {
-                    e.printStackTrace();
+        if (null != type && type.equals("location")) {
+            imagePath = image_url;
+            thumbnailPath = imagePath;
+            BufferedInputStream in;
+            try {
+                in = new BufferedInputStream(new FileInputStream(image_url));
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                int size = 0;
+                byte[] temp = new byte[1024];
+                while((size = in.read(temp))!=-1) {
+                    out.write(temp, 0, size);
                 }
+                in.close();
+                Image image = new Image(out.toByteArray(), Image.ResizeSettings.HIGH);
+                UploadSearchParams uploadSearchParams = new UploadSearchParams(image);
+                DataHelper.setSearchParams(uploadSearchParams, "all");
+                viSearch.uploadSearch(uploadSearchParams);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }.start();
+//
+//            Image image = new Image(image_url);
+//            UploadSearchParams uploadSearchParams = new UploadSearchParams();
+//            uploadSearchParams.setImage(image);
+//            DataHelper.setSearchParams(uploadSearchParams, "all");
+//            viSearch.uploadSearch(uploadSearchParams);
+        } else {
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    try {
+                        byte[] buffer = getImage(image_url);
+                        Message message = new Message();
+                        message.obj = buffer;
+                        message.arg1 = 1;
+                        mHandler.sendMessage(message);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.start();
+        }
     }
 
     public String getImagePath() {
@@ -132,11 +170,12 @@ public class EditPhotoActivity
     @Override
     public void onSearchError(String errorMessage) {
 
+        Log.d("test", errorMessage);
     }
 
     @Override
     public void onSearchCanceled() {
-
+        Log.d("test", "onSearchCanceled");
     }
 
     /**

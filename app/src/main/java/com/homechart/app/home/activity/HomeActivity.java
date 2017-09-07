@@ -1,18 +1,24 @@
 package com.homechart.app.home.activity;
 
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
@@ -44,6 +51,7 @@ import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.homechart.app.visearch.EditPhotoActivity;
 import com.jaeger.library.StatusBarUtil;
 import com.umeng.analytics.MobclickAgent;
 
@@ -203,28 +211,43 @@ public class HomeActivity
         transaction.commitAllowingStateLoss();
     }
 
+    private void takePhoto(){
+        GalleryFinal.openCamera(0, new GalleryFinal.OnHanlderResultCallback() {
+            @Override
+            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+                if (resultList != null && resultList.size() > 0) {
+                    Message message = new Message();
+                    message.obj = resultList.get(0).getPhotoPath().toString();
+                    handler.sendMessage(message);
+                } else {
+                    ToastUtils.showCenter(HomeActivity.this, "拍照资源获取失败");
+                }
+            }
+
+            @Override
+            public void onHanlderFailure(int requestCode, String errorMsg) {
+
+            }
+        });
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_takephoto:
                 menuWindow.dismiss();
-                GalleryFinal.openCamera(0, new GalleryFinal.OnHanlderResultCallback() {
-                    @Override
-                    public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
-                        if (resultList != null && resultList.size() > 0) {
-                            Message message = new Message();
-                            message.obj = resultList.get(0).getPhotoPath().toString();
-                            handler.sendMessage(message);
-                        } else {
-                            ToastUtils.showCenter(HomeActivity.this, "拍照资源获取失败");
-                        }
+                if(Build.VERSION.SDK_INT>=23){
+                    //android 6.0权限问题
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                            ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
+                        ToastUtils.showCenter(this, "执行了权限请求");
+                    } else {
+                        takePhoto();
                     }
-
-                    @Override
-                    public void onHanlderFailure(int requestCode, String errorMsg) {
-
-                    }
-                });
+                }else {
+                    takePhoto();
+                }
 
 
                 break;
@@ -371,11 +394,11 @@ public class HomeActivity
                                 Intent intent = new Intent(HomeActivity.this, ImageDetailLongActivity.class);
                                 intent.putExtra("item_id", photo_id);
                                 startActivity(intent);
-                            }else if(!TextUtils.isEmpty(activity_id)){
+                            } else if (!TextUtils.isEmpty(activity_id)) {
                                 Intent intent = new Intent(HomeActivity.this, HuoDongDetailsActivity.class);
                                 intent.putExtra("activity_id", activity_id);
                                 startActivity(intent);
-                            }else if(!TextUtils.isEmpty(article_id)){
+                            } else if (!TextUtils.isEmpty(article_id)) {
                                 //友盟统计
                                 HashMap<String, String> map4 = new HashMap<String, String>();
                                 map4.put("evenname", "文章入口");
@@ -442,10 +465,16 @@ public class HomeActivity
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String url_Imag = (String) msg.obj;
-            Intent intent = new Intent(HomeActivity.this, FaBuActvity.class);
-            intent.putExtra("image_path", url_Imag);
-            intent.putExtra("type", "home");
-            startActivity(intent);
+
+            Intent intent1 = new Intent(HomeActivity.this, EditPhotoActivity.class);
+            intent1.putExtra("image_url", url_Imag);
+            intent1.putExtra("type", "location");
+            startActivity(intent1);
+
+//             Intent intent = new Intent(HomeActivity.this, FaBuActvity.class);
+//            intent.putExtra("image_path", url_Imag);
+//            intent.putExtra("type", "home");
+//            startActivity(intent);
 
         }
     };
@@ -463,6 +492,23 @@ public class HomeActivity
         super.onDestroy();
 
         BroadcastUtil.unRegisterReceiver(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode){
+            case 3:
+                if (grantResults[0]==PackageManager.PERMISSION_GRANTED&&grantResults[1]==PackageManager.PERMISSION_GRANTED){
+                    //获取到了权限
+                    takePhoto();
+                }else {
+                    ToastUtils.showCenter(HomeActivity.this,"对不起你没有同意该权限");
+                }
+                break;
+        }
+
     }
 
     private List<String> list_up_toast = new ArrayList<>();
