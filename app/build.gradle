@@ -57,7 +57,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
-    compile 'eu.the4thfloor.volley:com.android.volley:2015.05.28'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.google.code.gson:gson:2.8.0'
     compile files('libs/SocialSDK_WeChat_Simplify.jar')
@@ -83,7 +82,6 @@ dependencies {
 
 
     compile 'com.squareup.picasso:picasso:2.4.0'
-    compile 'com.mcxiaoke.volley:library:1.0.10@aar'
     compile 'com.jakewharton:butterknife:6.0.0'
     compile 'com.sothree.slidinguppanel:library:3.2.0'
     compile project(path: ':visearch-android')
