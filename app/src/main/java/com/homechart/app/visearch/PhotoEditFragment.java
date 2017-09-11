@@ -40,7 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.homechart.app.R;
-import com.homechart.app.croplayout.EditPhotoView;
+import com.homechart.app.croplayout.EditPhotoViewMore;
 import com.homechart.app.croplayout.EditableImage;
 import com.homechart.app.croplayout.handler.OnBoxChangedListener;
 import com.homechart.app.croplayout.model.ScalableBox;
@@ -101,7 +101,7 @@ public class PhotoEditFragment
     @InjectViews({R.id.result_grid_view})
     List<View> photoUIs;
     @InjectView(R.id.photoedit_image_view)
-    EditPhotoView editPhotoView;
+    EditPhotoViewMore editPhotoView;
     @InjectView(R.id.result_grid_view)
     FrameLayout resultGridView;
     @InjectView(R.id.category_list_view)
@@ -290,12 +290,30 @@ public class PhotoEditFragment
     }
 
 
+    boolean bol = true;
+
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
             case R.id.result_back_button:
                 activity.finish();
+//                int childCound = editPhotoView.getChildCount();
+//                if (childCound > 1) {
+//                    editPhotoView.removeView();
+//                } else {
+//                    ToastUtils.showCenter(activity, "没覆盖物了！");
+//                }
+//                if (bol) {
+//                    ScalableBox box = getDetectionBox(cachedProductList.get(1).getBox());
+//                    editPhotoView.changeBox(box);
+//                    bol = false;
+//                } else {
+//                    ScalableBox box = getDetectionBox(cachedProductList.get(0).getBox());
+//                    editPhotoView.changeBox(box);
+//                    bol = true;
+//                }
+
                 break;
         }
 
