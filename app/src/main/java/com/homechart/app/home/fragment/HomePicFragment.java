@@ -152,6 +152,7 @@ public class HomePicFragment
         }
     };
     private int last_id = 0;
+    private RelativeLayout rl_shibie;
 
     public HomePicFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -196,6 +197,7 @@ public class HomePicFragment
         rl_tos_choose = (RelativeLayout) rootView.findViewById(R.id.rl_tos_choose);
         id_main = (RelativeLayout) rootView.findViewById(R.id.id_main);
         view_line_back = rootView.findViewById(R.id.view_line_back);
+        rl_shibie = (RelativeLayout)rootView.findViewById(R.id.rl_shibie);
 
     }
 
@@ -212,6 +214,7 @@ public class HomePicFragment
         rl_shouna.setOnClickListener(this);
         rl_secai.setOnClickListener(this);
         iv_center_msgicon.setOnClickListener(this);
+        rl_shibie.setOnClickListener(this);
         mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -371,6 +374,11 @@ public class HomePicFragment
                 intent_messages.putExtra("comment_notice", comment_notice);
                 intent_messages.putExtra("system_notice", system_notice);
                 startActivityForResult(intent_messages, 11);
+                break;
+            case R.id.rl_shibie:
+
+                ToastUtils.showCenter(activity,"图片识别！");
+
                 break;
         }
     }
