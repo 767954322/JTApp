@@ -41,6 +41,7 @@ import com.visenze.visearch.android.model.Image;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -105,7 +106,7 @@ public class EditPhotoActivity
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 int size = 0;
                 byte[] temp = new byte[1024];
-                while((size = in.read(temp))!=-1) {
+                while ((size = in.read(temp)) != -1) {
                     out.write(temp, 0, size);
                 }
                 in.close();
@@ -122,6 +123,27 @@ public class EditPhotoActivity
 //            uploadSearchParams.setImage(image);
 //            DataHelper.setSearchParams(uploadSearchParams, "all");
 //            viSearch.uploadSearch(uploadSearchParams);
+        } else if (null != type && type.equals("uri")) {
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    try {
+                        byte[] bytes = ImageHelper.readBytes(getIntent().getData(), EditPhotoActivity.this, Image.ResizeSettings.HIGH);
+                        imagePath = ImageHelper.saveImageByteTmp(EditPhotoActivity.this, bytes);
+                        thumbnailPath = imagePath;
+                        image_url = imagePath;
+                        Image image = new Image(bytes, Image.ResizeSettings.HIGH);
+                        UploadSearchParams uploadSearchParams = new UploadSearchParams(image);
+                        DataHelper.setSearchParams(uploadSearchParams, "all");
+                        viSearch.uploadSearch(uploadSearchParams);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.start();
         } else {
             new Thread() {
                 @Override
