@@ -1,5 +1,6 @@
 package com.homechart.app.visearch;
 
+import com.homechart.app.croplayout.model.ScalableBox;
 import com.visenze.visearch.android.BaseSearchParams;
 import com.visenze.visearch.android.UploadSearchParams;
 import com.visenze.visearch.android.model.Box;
@@ -10,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import me.littlecheesecake.croplayout.model.ScalableBox;
 
 /**
  * Created by visenze on 16/12/15.

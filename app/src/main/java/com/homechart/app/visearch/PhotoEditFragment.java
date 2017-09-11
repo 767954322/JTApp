@@ -40,7 +40,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.homechart.app.R;
+import com.homechart.app.croplayout.EditPhotoView;
+import com.homechart.app.croplayout.EditableImage;
+import com.homechart.app.croplayout.handler.OnBoxChangedListener;
+import com.homechart.app.croplayout.model.ScalableBox;
 import com.homechart.app.home.base.BaseFragment;
+import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.visearch.adapter.HorizontalProductTypeArrayAdapter;
@@ -63,10 +68,6 @@ import butterknife.InjectView;
 import butterknife.InjectViews;
 import butterknife.OnClick;
 import it.sephiroth.android.library.widget.HListView;
-import me.littlecheesecake.croplayout.EditPhotoView;
-import me.littlecheesecake.croplayout.EditableImage;
-import me.littlecheesecake.croplayout.handler.OnBoxChangedListener;
-import me.littlecheesecake.croplayout.model.ScalableBox;
 import me.littlecheesecake.waterfalllayoutview.MultiColumnListView;
 import me.littlecheesecake.waterfalllayoutview.WFAdapterView;
 
@@ -127,6 +128,7 @@ public class PhotoEditFragment
 
     private static final String APP_KEY = "2317c981400c6b2ca55114cb6bdfb963";
     private ImageView result_back_button;
+    private List<ProductType> cachedProductList;
 
     /**
      * Constructor: get new instance of PhotoEditFragment
@@ -207,7 +209,7 @@ public class PhotoEditFragment
         imId = resultList.getImId();
 
         //查询数据
-        List<ProductType> cachedProductList = DataHelper.copyProductTypeList(resultList.getProductTypes());
+        cachedProductList = DataHelper.copyProductTypeList(resultList.getProductTypes());
         selectedType = DataHelper.getSelectedProductType(cachedProductList).getType();
         productList = DataHelper.getSupportedTypeList(resultList.getSupportedProductTypeList(), selectedType);
 

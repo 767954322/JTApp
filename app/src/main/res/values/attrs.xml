@@ -253,4 +253,23 @@
         <!-- 圆角矩形宽高相等,取较宽高中大值-->
         <attr name="mv_isWidthHeightEqual" format="boolean"/>
     </declare-styleable>
+
+
+
+    <attr name="crop_line_color" format="color" />
+    <attr name="crop_shadow_color" format="color" />
+    <attr name="crop_corner_color" format="color" />
+    <attr name="crop_line_width" format="dimension" />
+    <attr name="crop_corner_length" format="dimension" />
+    <attr name="crop_corner_width" format="dimension" />
+    <attr name="crop_min_length" format="dimension" />
+    <declare-styleable name="CropLayout">
+        <attr name="crop_line_color"/>
+        <attr name="crop_shadow_color"/>
+        <attr name="crop_corner_color"/>
+        <attr name="crop_line_width"/>
+        <attr name="crop_corner_length"/>
+        <attr name="crop_corner_width"/>
+        <attr name="crop_min_length"/>
+    </declare-styleable>
 </resources>

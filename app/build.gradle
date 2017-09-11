@@ -68,7 +68,6 @@ dependencies {
 
 
     compile 'me.littlecheesecake:waterfalllayoutview:1.0.0'
-    compile 'me.littlecheesecake:croplayout:1.0.5'
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'cn.finalteam:galleryfinal:1.4.8.7'
     compile 'com.jaeger.statusbarutil:library:1.4.0'
