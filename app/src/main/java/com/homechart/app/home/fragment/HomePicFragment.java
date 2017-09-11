@@ -71,6 +71,7 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.homechart.app.visearch.PhotoActivity;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
@@ -377,7 +378,8 @@ public class HomePicFragment
                 break;
             case R.id.rl_shibie:
 
-                ToastUtils.showCenter(activity,"图片识别！");
+                Intent intent1 = new Intent(activity, PhotoActivity.class);
+                startActivity(intent1);
 
                 break;
         }
