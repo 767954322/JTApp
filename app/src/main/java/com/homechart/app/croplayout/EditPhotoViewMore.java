@@ -101,7 +101,7 @@ public class EditPhotoViewMore extends FrameLayout {
     }
 
     public void setOnBoxChangedListener(OnBoxChangedListener onBoxChangedListener) {
-        if (null != null) {
+        if (null != selectionView) {
             selectionView.setOnBoxChangedListener(onBoxChangedListener);
         } else {
             ToastUtils.showCenter(context, "无识别数据！");
