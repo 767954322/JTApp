@@ -79,7 +79,7 @@ import me.littlecheesecake.waterfalllayoutview.WFAdapterView;
 public class PhotoEditFragment
         extends BaseFragment
         implements ViSearch.ResultListener,
-        View.OnClickListener {
+        View.OnClickListener ,ScrollAwareGridView.OnDetectScrollListener{
     final static ButterKnife.Action<View> SHOW = new ButterKnife.Action<View>() {
         @Override
         public void apply(View view, int index) {
@@ -225,7 +225,7 @@ public class PhotoEditFragment
             public void onItemClick(it.sephiroth.android.library.widget.AdapterView<?> adapterView, View view, int i, long l) {
                 horizontalAdapter.setSelected(i);
 
-                if(null != editableImage){
+                if (null != editableImage) {
                     ScalableBox b = editableImage.getBox();
                     //set search parameters
                     UploadSearchParams uploadSearchParams = new UploadSearchParams();
@@ -247,10 +247,10 @@ public class PhotoEditFragment
             Box box = cachedProductList.get(0).getBox();
             editableImage = new EditableImage(imagePath);
             editableImage.setBox(getDetectionBox(box));
-            editPhotoView.initView(getActivity(), editableImage,true);
-        }else {
+            editPhotoView.initView(getActivity(), editableImage, true);
+        } else {
             editableImage = new EditableImage(imagePath);
-            editPhotoView.initView(getActivity(), editableImage,false);
+            editPhotoView.initView(getActivity(), editableImage, false);
         }
 
         //TODO 搜索框监听
@@ -293,9 +293,6 @@ public class PhotoEditFragment
             changeUploadUI();
         }
     }
-
-
-    boolean bol = true;
 
     @Override
     public void onClick(View v) {
@@ -437,6 +434,7 @@ public class PhotoEditFragment
 
             if (gridViewLayout == null) {
                 gridViewLayout = new ScrollAwareGridView(getActivity());
+                gridViewLayout.setOnDetectScrollListener(this);
                 gridViewLayout.setNumColumns(2);
             }
 
@@ -492,7 +490,37 @@ public class PhotoEditFragment
         return searchBox;
     }
 
+    @Override
+    public void onUpScrolling() {
+        Log.d("test","onUpScrolling");
+    }
+
+    @Override
+    public void onDownScrolling() {
+
+        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);//打开
+        Log.d("test","onDownScrolling");
+    }
+
+    @Override
+    public void onTopReached() {
+
+//        if(slidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED){
+//
+//        }
+//        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);//打开
+        Log.d("test","onTopReached");
+    }
+
+    @Override
+    public void onBottomReached() {
+
+        Log.d("test","onBottomReached");
+    }
+
     private enum VIEW_LAYOUT {
         GRID, WATERFALL
     }
+
+
 }
