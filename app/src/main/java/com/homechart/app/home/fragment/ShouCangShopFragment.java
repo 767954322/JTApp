@@ -237,7 +237,7 @@ public class ShouCangShopFragment
                             }
                         }
                     };
-                    MyHttpManager.getInstance().deleteShouCangArticle(delete_items, callBack);
+                    MyHttpManager.getInstance().deleteShouCangShop(delete_items, callBack);
                 } else {
                     ToastUtils.showCenter(activity, "请选择删除项");
                 }
