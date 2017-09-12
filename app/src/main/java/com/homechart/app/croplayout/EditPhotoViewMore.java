@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.homechart.app.R;
 import com.homechart.app.croplayout.handler.OnBoxChangedListener;
 import com.homechart.app.croplayout.model.ScalableBox;
+import com.homechart.app.utils.ToastUtils;
 
 /**
  * Created by yulu on 12/3/15.
@@ -74,7 +75,7 @@ public class EditPhotoViewMore extends FrameLayout {
      * @param context       activity
      * @param editableImage image to be edited
      */
-    public void initView(Context context, EditableImage editableImage) {
+    public void initView(Context context, EditableImage editableImage,boolean initSearch) {
         this.editableImage = editableImage;
 
         selectionView = new SelectionView(context,
@@ -86,7 +87,9 @@ public class EditPhotoViewMore extends FrameLayout {
         selectionView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
         addView(imageView, 0);
-        addView(selectionView, 1);
+        if(initSearch){
+            addView(selectionView, 1);
+        }
     }
 
     public void removeView() {
@@ -98,7 +101,11 @@ public class EditPhotoViewMore extends FrameLayout {
     }
 
     public void setOnBoxChangedListener(OnBoxChangedListener onBoxChangedListener) {
-        selectionView.setOnBoxChangedListener(onBoxChangedListener);
+        if (null != null) {
+            selectionView.setOnBoxChangedListener(onBoxChangedListener);
+        } else {
+            ToastUtils.showCenter(context, "无识别数据！");
+        }
     }
 
     /**

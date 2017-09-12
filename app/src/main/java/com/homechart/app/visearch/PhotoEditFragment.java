@@ -225,20 +225,21 @@ public class PhotoEditFragment
             public void onItemClick(it.sephiroth.android.library.widget.AdapterView<?> adapterView, View view, int i, long l) {
                 horizontalAdapter.setSelected(i);
 
-                ScalableBox b = editableImage.getBox();
+                if(null != editableImage){
+                    ScalableBox b = editableImage.getBox();
+                    //set search parameters
+                    UploadSearchParams uploadSearchParams = new UploadSearchParams();
+                    uploadSearchParams.setImId(imId);
+                    uploadSearchParams.setBox(new Box(b.getX1(), b.getY1(), b.getX2(), b.getY2()));
 
-                //set search parameters
-                UploadSearchParams uploadSearchParams = new UploadSearchParams();
-                uploadSearchParams.setImId(imId);
-                uploadSearchParams.setBox(new Box(b.getX1(), b.getY1(), b.getX2(), b.getY2()));
+                    //set detection
+                    selectedType = productList.get(i);
+                    DataHelper.setSearchParams(uploadSearchParams, selectedType);
 
-                //set detection
-                selectedType = productList.get(i);
-                DataHelper.setSearchParams(uploadSearchParams, selectedType);
-
-                viSearch.cancelSearch();
-                viSearch.uploadSearch(uploadSearchParams);
-                changeUploadUI();
+                    viSearch.cancelSearch();
+                    viSearch.uploadSearch(uploadSearchParams);
+                    changeUploadUI();
+                }
             }
         });
         //TODO 添加搜索框
@@ -246,7 +247,10 @@ public class PhotoEditFragment
             Box box = cachedProductList.get(0).getBox();
             editableImage = new EditableImage(imagePath);
             editableImage.setBox(getDetectionBox(box));
-            editPhotoView.initView(getActivity(), editableImage);
+            editPhotoView.initView(getActivity(), editableImage,true);
+        }else {
+            editableImage = new EditableImage(imagePath);
+            editPhotoView.initView(getActivity(), editableImage,false);
         }
 
         //TODO 搜索框监听
@@ -267,13 +271,14 @@ public class PhotoEditFragment
             }
         });
 
+
         //set up result view
         switchView();
 
 //        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);//关闭
         slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);//打开
 
-        if (productList.size() >= 1) {
+        if (cachedProductList.size() > 0 && productList.size() > 0) {
             horizontalAdapter.setSelected(0);
             ScalableBox b = editableImage.getBox();
             //set search parameters
@@ -389,7 +394,7 @@ public class PhotoEditFragment
         super.onDestroy();
         ButterKnife.reset(this);
 
-        if (editableImage.getOriginalImage() != null)
+        if (null != editableImage && editableImage.getOriginalImage() != null)
             editableImage.getOriginalImage().recycle();
     }
 
