@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_8f8f8f">
+    android:layout_marginTop="@dimen/font_90">
 
     <!--action bar-->
     <RelativeLayout
@@ -25,6 +25,7 @@
 
     <!--result-->
     <LinearLayout
+        android:background="@color/bg_8f8f8f"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/font_56"
