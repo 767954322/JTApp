@@ -2,6 +2,7 @@ package com.homechart.app.home.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -78,6 +79,18 @@ public class ShouCangShopFragment
     private int num_checked = 0; //选择的个数
     private LoadMoreFooterView mLoadMoreFooterView;
 
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            //关闭管理
+            rl_no_data.setVisibility(View.VISIBLE);
+            map_delete.clear();
+            rl_below.setVisibility(View.GONE);
+            mChangeUI.ifShowShopDelete(false);
+        }
+    };
+
     public ShouCangShopFragment() {
     }
 
@@ -98,13 +111,11 @@ public class ShouCangShopFragment
 
     @Override
     protected void initView() {
-
         rl_below = (RelativeLayout) rootView.findViewById(R.id.rl_below);
         rl_no_data = (RelativeLayout) rootView.findViewById(R.id.rl_no_data);
         iv_delete_icon = (ImageView) rootView.findViewById(R.id.iv_delete_icon);
         tv_shoucang_two = (TextView) rootView.findViewById(R.id.tv_shoucang_two);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_shoucang);
-
     }
 
     @Override
@@ -114,10 +125,6 @@ public class ShouCangShopFragment
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        buildRecyclerView();
-    }
-
-    private void buildRecyclerView() {
         mAdapter = new CommonAdapter<SCItemShopBean>(activity, R.layout.item_shop_shoucang, mListData) {
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
@@ -155,6 +162,8 @@ public class ShouCangShopFragment
                     @Override
                     public void onClick(View v) {
                         if (guanli_tag == 0) {//未打开管理
+                            //TODO 跳转到商品详情
+
                         } else {
                             if (((CheckBox) holder.getView(R.id.cb_check)).isChecked()) {
                                 ((CheckBox) holder.getView(R.id.cb_check)).setChecked(false);
@@ -180,12 +189,10 @@ public class ShouCangShopFragment
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
         mRecyclerView.setOnRefreshListener(this);
         mRecyclerView.setOnLoadMoreListener(this);
         mRecyclerView.setAdapter(mAdapter);
         onRefresh();
-
     }
 
     @Override
@@ -251,10 +258,10 @@ public class ShouCangShopFragment
         tv_shoucang_two.setText(map_delete.size() + "");
     }
 
-
     //查看图片详情
     private void jumpImageDetail(String item_id, int position) {
-
+        Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(mListData.get(position).getItem_info().getBuy_url()));
+        startActivity(viewIntent);
     }
 
     public void clickRightGuanLi() {
@@ -288,18 +295,6 @@ public class ShouCangShopFragment
             return false;
         }
     }
-
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            //关闭管理
-            rl_no_data.setVisibility(View.VISIBLE);
-            map_delete.clear();
-            rl_below.setVisibility(View.GONE);
-            mChangeUI.ifShowShopDelete(false);
-        }
-    };
 
     @Override
     public void onRefresh() {
