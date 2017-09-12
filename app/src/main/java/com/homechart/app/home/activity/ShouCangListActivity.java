@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -17,16 +16,12 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.base.BaseActivity;
-import com.homechart.app.home.fragment.ShaiJiaArticleFragment;
-import com.homechart.app.home.fragment.ShaiJiaPicFragment;
 import com.homechart.app.home.fragment.ShouCangArticleFragment;
 import com.homechart.app.home.fragment.ShouCangPicFragment;
 import com.homechart.app.home.fragment.ShouCangShopFragment;
-import com.homechart.app.myview.CustomViewPager;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,12 +32,12 @@ import java.util.List;
 public class ShouCangListActivity extends BaseActivity
         implements View.OnClickListener,
         ShouCangPicFragment.ChangeUI,
-        ShouCangArticleFragment.ChangeArticleUI ,
-ShouCangShopFragment.ChangeShopUI{
+        ShouCangArticleFragment.ChangeArticleUI,
+        ShouCangShopFragment.ChangeShopUI {
+
     private ImageButton mIBBack;
     private TextView mTVTital;
-
-    private final String[] mTitles = {"晒家", "文章","商品"};
+    private final String[] mTitles = {"晒家", "文章", "商品"};
     private CustomViewPagerTab mViewPager;
     private SlidingTabLayout mTabLayout;
     private ShouCangPicFragment shouCangPicFragment;
@@ -95,7 +90,6 @@ ShouCangShopFragment.ChangeShopUI{
 
     @Override
     public void ifShowDelete(boolean bool) {
-
         if (bool) {
             //打开管理
             tv_content_right.setText("取消");
@@ -107,7 +101,6 @@ ShouCangShopFragment.ChangeShopUI{
             mViewPager.setScanScroll(true);
             mTabLayout.setCanScrool(true);
         }
-
     }
 
     @Override
@@ -164,7 +157,6 @@ ShouCangShopFragment.ChangeShopUI{
     @Override
     protected void initExtraBundle() {
         super.initExtraBundle();
-
         user_id = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
     }
 
@@ -183,14 +175,11 @@ ShouCangShopFragment.ChangeShopUI{
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
-
                 ShouCangListActivity.this.finish();
                 break;
             case R.id.tv_content_right:
-
                 if (mViewPager.getCurrentItem() == 0) {
                     if (ifAllowScroll) {
                         if (shouCangPicFragment.ifHasData()) {
@@ -223,7 +212,7 @@ ShouCangShopFragment.ChangeShopUI{
                         ifAllowScroll = true;
                         ShouCangArticleFragment.clickRightGuanLi();
                     }
-                }else if(mViewPager.getCurrentItem() == 2){
+                } else if (mViewPager.getCurrentItem() == 2) {
                     if (ifAllowScroll) {
                         if (shouCangShopFragment.ifHasData()) {
                             mViewPager.setScanScroll(false);
@@ -263,4 +252,5 @@ ShouCangShopFragment.ChangeShopUI{
         MobclickAgent.onPageEnd("个人中心收藏列表页");
         MobclickAgent.onPause(this);
     }
+
 }
