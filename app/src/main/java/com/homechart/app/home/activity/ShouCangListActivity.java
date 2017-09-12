@@ -21,6 +21,7 @@ import com.homechart.app.home.fragment.ShaiJiaArticleFragment;
 import com.homechart.app.home.fragment.ShaiJiaPicFragment;
 import com.homechart.app.home.fragment.ShouCangArticleFragment;
 import com.homechart.app.home.fragment.ShouCangPicFragment;
+import com.homechart.app.home.fragment.ShouCangShopFragment;
 import com.homechart.app.myview.CustomViewPager;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
@@ -36,11 +37,12 @@ import java.util.List;
 public class ShouCangListActivity extends BaseActivity
         implements View.OnClickListener,
         ShouCangPicFragment.ChangeUI,
-        ShouCangArticleFragment.ChangeArticleUI {
+        ShouCangArticleFragment.ChangeArticleUI ,
+ShouCangShopFragment.ChangeShopUI{
     private ImageButton mIBBack;
     private TextView mTVTital;
 
-    private final String[] mTitles = {"晒家", "文章"};
+    private final String[] mTitles = {"晒家", "文章","商品"};
     private CustomViewPagerTab mViewPager;
     private SlidingTabLayout mTabLayout;
     private ShouCangPicFragment shouCangPicFragment;
@@ -51,6 +53,7 @@ public class ShouCangListActivity extends BaseActivity
     private String user_id;
     private MyPagerAdapter mViewPagerAdapter;
     private boolean ifAllowScroll = true;
+    private ShouCangShopFragment shouCangShopFragment;
 
     @Override
     protected int getLayoutResId() {
@@ -84,8 +87,10 @@ public class ShouCangListActivity extends BaseActivity
     private void initFragment() {
         shouCangPicFragment = new ShouCangPicFragment(user_id, this);
         ShouCangArticleFragment = new ShouCangArticleFragment(user_id, this);
+        shouCangShopFragment = new ShouCangShopFragment(user_id, this);
         mFragmentsList.add(shouCangPicFragment);
         mFragmentsList.add(ShouCangArticleFragment);
+        mFragmentsList.add(shouCangShopFragment);
     }
 
     @Override
@@ -107,6 +112,21 @@ public class ShouCangListActivity extends BaseActivity
 
     @Override
     public void ifShowArticleDelete(boolean bool) {
+        if (bool) {
+            //打开管理
+            tv_content_right.setText("取消");
+            mViewPager.setScanScroll(false);
+            mTabLayout.setCanScrool(false);
+        } else {
+            //关闭管理
+            tv_content_right.setText("管理");
+            mViewPager.setScanScroll(true);
+            mTabLayout.setCanScrool(true);
+        }
+    }
+
+    @Override
+    public void ifShowShopDelete(boolean bool) {
         if (bool) {
             //打开管理
             tv_content_right.setText("取消");
@@ -202,6 +222,22 @@ public class ShouCangListActivity extends BaseActivity
                         mTabLayout.setCanScrool(true);
                         ifAllowScroll = true;
                         ShouCangArticleFragment.clickRightGuanLi();
+                    }
+                }else if(mViewPager.getCurrentItem() == 2){
+                    if (ifAllowScroll) {
+                        if (shouCangShopFragment.ifHasData()) {
+                            mViewPager.setScanScroll(false);
+                            mTabLayout.setCanScrool(false);
+                            ifAllowScroll = false;
+                            shouCangShopFragment.clickRightGuanLi();
+                        } else {
+                            ToastUtils.showCenter(ShouCangListActivity.this, "先去收藏一些文章吧");
+                        }
+                    } else {
+                        mViewPager.setScanScroll(true);
+                        mTabLayout.setCanScrool(true);
+                        ifAllowScroll = true;
+                        shouCangShopFragment.clickRightGuanLi();
                     }
                 }
 
