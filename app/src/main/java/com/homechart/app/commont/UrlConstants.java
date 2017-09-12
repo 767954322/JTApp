@@ -22,6 +22,7 @@ public class UrlConstants {
     public static final String CITY_LIST = "https://api.idcool.com.cn/base/location/getList";  // 城市列表
     public static final String SHOUCANG_LIST = "https://api.idcool.com.cn/collect/single/list";  // 获取收藏列表
     public static final String SHOUCANG_ARTICLE_LIST = "https://api.idcool.com.cn/collect/article/slist";  // 获取收藏的文章列表
+    public static final String SHOUCANG_SHOP_LIST = "https://api.idcool.com.cn/collect/product/slist";  // 获取用户收藏的商品列表
     public static final String SHAIJIA_LIST = "https://api.idcool.com.cn/single/single/list";  // 获取晒家图片列表
     public static final String SHAIJIA_ARTICLE_LIST = "https://api.idcool.com.cn/article/article/getList";  // 获取晒家文章列表
     public static final String SAVE_INFO = "https://api.idcool.com.cn/user/user/setUserInfo";  // 保存用户个人资料

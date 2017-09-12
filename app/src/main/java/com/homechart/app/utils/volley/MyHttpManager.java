@@ -511,6 +511,35 @@ public class MyHttpManager {
     }
 
     /**
+     * 获取收藏的商品列表
+     * @param user_id
+     * @param s
+     * @param n
+     * @param callback
+     */
+    public void getShouCangShopList(final String user_id, final int s, final String n, OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.SHOUCANG_SHOP_LIST, callback) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                map.put(ClassConstant.ShouCangList.USER_ID, user_id);
+                map.put(ClassConstant.ShouCangList.S, s + "");
+                map.put(ClassConstant.ShouCangList.N, n);
+
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+        };
+        queue.add(okStringRequest);
+    }
+
+    /**
      * 获取晒家列表
      *
      * @param user_id

@@ -26,6 +26,8 @@ import com.homechart.app.home.activity.ArticleDetailsActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.searchartile.ArticleBean;
 import com.homechart.app.home.bean.searchartile.ArticleListBean;
+import com.homechart.app.home.bean.shoucangshop.SCItemShopBean;
+import com.homechart.app.home.bean.shoucangshop.SCShopBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
@@ -63,10 +65,10 @@ public class ShouCangShopFragment
     private TextView tv_shoucang_two;
     private HRecyclerView mRecyclerView;
     private String user_id;
-    private List<ArticleBean> mListData = new ArrayList<>();
-    private Map<String, ArticleBean> map_delete = new HashMap<>();//选择的唯一标示
+    private List<SCItemShopBean> mListData = new ArrayList<>();
+    private Map<String, SCItemShopBean> map_delete = new HashMap<>();//选择的唯一标示
     private ChangeShopUI mChangeUI;
-    private CommonAdapter<ArticleBean> mAdapter;
+    private CommonAdapter<SCItemShopBean> mAdapter;
 
     private final String REFRESH_STATUS = "refresh";
     private final String LOADMORE_STATUS = "loadmore";
@@ -75,8 +77,10 @@ public class ShouCangShopFragment
     private int guanli_tag = 0;//0:未打开管理   1:打开管理
     private int num_checked = 0; //选择的个数
     private LoadMoreFooterView mLoadMoreFooterView;
+
     public ShouCangShopFragment() {
     }
+
     public ShouCangShopFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
@@ -110,38 +114,24 @@ public class ShouCangShopFragment
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
         buildRecyclerView();
-
     }
 
     private void buildRecyclerView() {
-
-        mAdapter = new CommonAdapter<ArticleBean>(activity, R.layout.item_article, mListData) {
+        mAdapter = new CommonAdapter<SCItemShopBean>(activity, R.layout.item_shop_shoucang, mListData) {
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
-
-                ((TextView)holder.getView(R.id.tv_article_name)).setText(mListData.get(position).getArticle_info().getTitle());
-                ((TextView)holder.getView(R.id.tv_article_details)).setText(mListData.get(position).getArticle_info().getSummary());
-                try {
-                    ((TextView)holder.getView(R.id.tv_youlan_num)).setText(mListSeeNumArticle.get(position)+"");
-
-                }catch (Exception e){
-                    ((TextView)holder.getView(R.id.tv_youlan_num)).setText(0+"");
-
-                }
-               final String item_id = mListData.get(position).getArticle_info().getArticle_id();
+                ((TextView) holder.getView(R.id.tv_article_name)).setText(mListData.get(position).getItem_info().getSource());
+                final String spu_id = mListData.get(position).getItem_info().getSpu_id();
                 if (guanli_tag == 0) {
                     holder.getView(R.id.cb_check).setVisibility(View.GONE);
                 } else {
                     holder.getView(R.id.cb_check).setVisibility(View.VISIBLE);
-
                 }
-                if (mListData.get(position).getArticle_info().getArticle_id().equals(holder.getView(R.id.iv_article_image).getTag())) {
-
+                if (mListData.get(position).getItem_info().getBuy_url().equals(holder.getView(R.id.iv_article_image).getTag())) {
                 } else {
-                    holder.getView(R.id.iv_article_image).setTag(mListData.get(position).getArticle_info().getArticle_id());
-                    ImageUtils.displayFilletImage(mListData.get(position).getArticle_info().getImage().getImg0(),
+                    holder.getView(R.id.iv_article_image).setTag(mListData.get(position).getItem_info().getBuy_url());
+                    ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(),
                             (ImageView) holder.getView(R.id.iv_article_image));
                 }
                 ((CheckBox) holder.getView(R.id.cb_check)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -149,12 +139,12 @@ public class ShouCangShopFragment
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked) {
                             ++num_checked;
-                            if (!map_delete.containsKey(item_id)) {
-                                map_delete.put(item_id, mListData.get(position));
+                            if (!map_delete.containsKey(spu_id)) {
+                                map_delete.put(spu_id, mListData.get(position));
                             }
                         } else {
-                            if (map_delete.containsKey(item_id)) {
-                                map_delete.remove(item_id);
+                            if (map_delete.containsKey(spu_id)) {
+                                map_delete.remove(spu_id);
                             }
                             --num_checked;
                         }
@@ -164,9 +154,7 @@ public class ShouCangShopFragment
                 holder.getView(R.id.rl_item_click).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         if (guanli_tag == 0) {//未打开管理
-                            jumpImageDetail(mListData.get(position).getArticle_info().getArticle_id(),position);
                         } else {
                             if (((CheckBox) holder.getView(R.id.cb_check)).isChecked()) {
                                 ((CheckBox) holder.getView(R.id.cb_check)).setChecked(false);
@@ -174,31 +162,29 @@ public class ShouCangShopFragment
                                 ((CheckBox) holder.getView(R.id.cb_check)).setChecked(true);
                             }
                         }
-
                     }
                 });
-
-                if (map_delete.containsKey(item_id)) {
+                holder.getView(R.id.bt_buy).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        jumpImageDetail(mListData.get(position).getItem_info().getBuy_url(), position);
+                    }
+                });
+                if (map_delete.containsKey(spu_id)) {
                     ((CheckBox) holder.getView(R.id.cb_check)).setChecked(true);
                 } else {
                     ((CheckBox) holder.getView(R.id.cb_check)).setChecked(false);
                 }
-
             }
         };
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-//        ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(mAdapter);
-//        scaleAdapter.setFirstOnly(false);
-//        scaleAdapter.setDuration(500);
-
         mRecyclerView.setOnRefreshListener(this);
         mRecyclerView.setOnLoadMoreListener(this);
         mRecyclerView.setAdapter(mAdapter);
         onRefresh();
-
 
     }
 
@@ -267,25 +253,7 @@ public class ShouCangShopFragment
 
 
     //查看图片详情
-    private void jumpImageDetail(String item_id,int position) {
-
-        try {
-            mListSeeNumArticle.set(position, mListSeeNumArticle.get(position) + 1);
-        }catch (Exception e){
-        }
-        //友盟统计
-        HashMap<String, String> map4 = new HashMap<String, String>();
-        map4.put("evenname", "文章入口");
-        map4.put("even", "个人中心收藏");
-        MobclickAgent.onEvent(activity, "jtaction36", map4);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("个人中心收藏")  //事件类别
-                .setAction("文章入口")      //事件操作
-                .build());
-        Intent intent = new Intent(activity, ArticleDetailsActivity.class);
-        intent.putExtra("article_id", item_id);
-        startActivity(intent);
+    private void jumpImageDetail(String item_id, int position) {
 
     }
 
@@ -313,10 +281,10 @@ public class ShouCangShopFragment
         }
     }
 
-    public boolean ifHasData(){
+    public boolean ifHasData() {
         if (mListData != null && mListData.size() > 0) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
@@ -363,7 +331,7 @@ public class ShouCangShopFragment
             public void onErrorResponse(VolleyError error) {
                 mRecyclerView.setRefreshing(false);//刷新完毕
                 mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-                ToastUtils.showCenter(activity, "收藏文章数据加载失败！");
+                ToastUtils.showCenter(activity, "收藏商品数据加载失败！");
                 if (state.equals(LOADMORE_STATUS)) {
                     --page_num;
                 } else {
@@ -381,11 +349,11 @@ public class ShouCangShopFragment
                         String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                         String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                         if (error_code == 0) {
-                            ArticleListBean articleListBean = GsonUtil.jsonToBean(data_msg, ArticleListBean.class);
-                            if (null != articleListBean.getArticle_list() && 0 != articleListBean.getArticle_list().size()) {
+                            SCShopBean shopListBean = GsonUtil.jsonToBean(data_msg, SCShopBean.class);
+                            if (null != shopListBean.getItem_list() && 0 != shopListBean.getItem_list().size()) {
                                 changeNone(0);
-                                getSeeNum(articleListBean.getArticle_list(), state);
-                                updateViewFromData(articleListBean.getArticle_list(), state);
+//                                getSeeNum(shopListBean.getItem_list(), state);
+                                updateViewFromData(shopListBean.getItem_list(), state);
                             } else {
                                 changeNone(1);
                                 updateViewFromData(null, state);
@@ -408,36 +376,10 @@ public class ShouCangShopFragment
                 }
             }
         };
-        MyHttpManager.getInstance().getShouCangArticleList(user_id, (page_num - 1) * 20, "20", callback);
+        MyHttpManager.getInstance().getShouCangShopList("100006", (page_num - 1) * 20, "20", callback);
     }
 
-    private List<Integer> mListSeeNumArticle = new ArrayList<>();
-    private void getSeeNum(List<ArticleBean> listData, String state) {
-        try {
-            switch (state) {
-                case REFRESH_STATUS:
-                    if (null != listData) {
-                        mListSeeNumArticle.clear();
-                        for (int i = 0; i < listData.size(); i++) {
-                            mListSeeNumArticle.add(Integer.parseInt(listData.get(i).getArticle_info().getView_num().trim()));
-                        }
-                    }
-                    break;
-
-                case LOADMORE_STATUS:
-                    if (null != listData) {
-                        for (int i = 0; i < listData.size(); i++) {
-                            mListSeeNumArticle.add(Integer.parseInt(listData.get(i).getArticle_info().getView_num().trim()));
-                        }
-                    }
-                    break;
-            }
-        }catch (Exception e){
-            Log.d("test","检查下是不是本地代理掉线啦");
-        }
-
-    }
-    private void updateViewFromData(List<ArticleBean> listData, String state) {
+    private void updateViewFromData(List<SCItemShopBean> listData, String state) {
 
         switch (state) {
 
@@ -483,6 +425,7 @@ public class ShouCangShopFragment
 
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
