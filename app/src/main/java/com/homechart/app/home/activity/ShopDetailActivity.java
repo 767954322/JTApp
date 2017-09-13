@@ -5,30 +5,44 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.google.android.gms.analytics.HitBuilders;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.home.bean.shaijia.ShaiJiaItemBean;
 import com.homechart.app.home.bean.shopdetails.ShopDetailsBean;
+import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.imagedetail.ImageDetailsActivity;
+import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
+import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
+import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
+import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
+import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -37,16 +51,22 @@ import java.util.List;
 
 public class ShopDetailActivity
         extends BaseActivity
-        implements View.OnClickListener {
+        implements View.OnClickListener,
+        OnLoadMoreListener {
 
+    private MultiItemCommonAdapter<ShopDetailsBean> mAdapter;
+    private List<ShopDetailsBean> mListData = new ArrayList<>();
+    private LoadMoreFooterView mLoadMoreFooterView;
     private ImageButton nav_left_imageButton;
     private ShopDetailsBean shopDetailsBean;
+    private HRecyclerView mRecyclerView;
     private ImageView iv_shop_image;
     private String spu_id;
     private RelativeLayout rl_num_collect;
     private RelativeLayout rl_go_buy;
     private TextView tv_tital_comment;
     private TextView tv_num_collect;
+    private View headerView;
 
     private List<String> listUrl = new ArrayList<>();
 
@@ -82,12 +102,15 @@ public class ShopDetailActivity
     @Override
     protected void initView() {
 
+        headerView = LayoutInflater.from(ShopDetailActivity.this).inflate(R.layout.header_shop_detail, null);
         nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
-        iv_shop_image = (ImageView) findViewById(R.id.iv_shop_image);
-        rl_num_collect = (RelativeLayout) findViewById(R.id.rl_num_collect);
-        rl_go_buy = (RelativeLayout) findViewById(R.id.rl_go_buy);
-        tv_num_collect = (TextView) findViewById(R.id.tv_num_collect);
+        mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview_info);
+
+        iv_shop_image = (ImageView) headerView.findViewById(R.id.iv_shop_image);
+        rl_num_collect = (RelativeLayout) headerView.findViewById(R.id.rl_num_collect);
+        rl_go_buy = (RelativeLayout) headerView.findViewById(R.id.rl_go_buy);
+        tv_num_collect = (TextView) headerView.findViewById(R.id.tv_num_collect);
 
     }
 
@@ -96,6 +119,7 @@ public class ShopDetailActivity
 
         tv_tital_comment.setText("商品详情");
         if (!TextUtils.isEmpty(spu_id)) {
+            initRecyclerView();
             getDetailsData();
         } else {
             ToastUtils.showCenter(this, "未找到商品！");
@@ -145,6 +169,36 @@ public class ShopDetailActivity
 
     }
 
+    @Override
+    public void onLoadMore() {
+
+    }
+
+    private void initRecyclerView() {
+
+        MultiItemTypeSupport<ShopDetailsBean> support = new MultiItemTypeSupport<ShopDetailsBean>() {
+            @Override
+            public int getLayoutId(int itemType) {
+                    return R.layout.item_userinfo_left;
+            }
+            @Override
+            public int getItemViewType(int position, ShopDetailsBean shopDetailsBean) {
+                return 0;
+            }
+        };
+        mAdapter = new MultiItemCommonAdapter<ShopDetailsBean>(this, mListData, support) {
+            @Override
+            public void convert(BaseViewHolder holder, final int position) {
+
+            }
+        };
+        mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
+        mRecyclerView.setLayoutManager(new GridLayoutManager(ShopDetailActivity.this, 2));
+        mRecyclerView.setItemAnimator(null);
+        mRecyclerView.setOnLoadMoreListener(this);
+        mRecyclerView.addHeaderView(headerView);
+        mRecyclerView.setAdapter(mAdapter);
+    }
 
     private void getDetailsData() {
         OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
@@ -183,5 +237,6 @@ public class ShopDetailActivity
         MyHttpManager.getInstance().getShopDetails(spu_id, callback);
 
     }
+
 
 }

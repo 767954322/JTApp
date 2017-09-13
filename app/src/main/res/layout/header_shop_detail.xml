@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_shop_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/font_10"
+        android:layout_marginRight="@dimen/font_10"
+        android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_50"
+        android:layout_below="@+id/iv_shop_image"
+        android:layout_marginLeft="@dimen/font_10"
+        android:layout_marginRight="@dimen/font_10"
+        android:layout_marginTop="@dimen/font_15"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rl_num_collect"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/font_10"
+            android:layout_weight="1"
+            android:background="@drawable/tv_tag_pic_normal">
+
+            <TextView
+                android:id="@+id/tv_num_collect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="0人已加入收藏" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_go_buy"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/font_10"
+            android:layout_weight="1"
+            android:background="@drawable/tv_tag_pic_normal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="直达链接" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>
