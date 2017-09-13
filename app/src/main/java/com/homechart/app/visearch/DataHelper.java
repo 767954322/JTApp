@@ -90,6 +90,7 @@ public class DataHelper {
     public static UploadSearchParams setSearchParams(UploadSearchParams uploadSearchParams, String detection) {
         List<String> fl = new ArrayList<>();
         fl.add("im_url");
+        fl.add("product_url");
         Map<String, String> fq = new HashMap<>();
         uploadSearchParams.getBaseSearchParams().setFq(fq);
         uploadSearchParams.getBaseSearchParams().setFl(fl);
@@ -109,6 +110,7 @@ public class DataHelper {
     public static BaseSearchParams setIdSearchParams(BaseSearchParams baseSearchParams) {
         List<String> fl = new ArrayList<>();
         fl.add("im_url");
+        fl.add("product_url");
         Map<String, String> fq = new HashMap<>();
         baseSearchParams.setScore(true);
         baseSearchParams.setLimit(30);

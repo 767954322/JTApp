@@ -10,6 +10,7 @@ public class ImageResult {
     private String imageName;
 
     private String imageUrl;
+    private String product_url;
 
     private Float score;
 
@@ -86,4 +87,15 @@ public class ImageResult {
         this.fieldList = fieldList;
     }
 
+    public Map<String, String> getFieldList() {
+        return fieldList;
+    }
+
+    public String getProduct_url() {
+        return product_url;
+    }
+
+    public void setProduct_url(String product_url) {
+        this.product_url = product_url;
+    }
 }

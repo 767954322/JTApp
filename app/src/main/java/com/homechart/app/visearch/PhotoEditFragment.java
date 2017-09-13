@@ -26,6 +26,7 @@ package com.homechart.app.visearch;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -62,6 +63,7 @@ import com.visenze.visearch.android.model.ImageResult;
 import com.visenze.visearch.android.model.ProductType;
 
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -452,14 +454,11 @@ public class PhotoEditFragment
     }
 
     private void startDetailActivity(ImageResult imageResult) {
-        viSearch.track(new TrackParams().setAction("click").setReqid(resultList.getTransId()).setImName(imageResult.getImageName()));
 
-        IntentHelper.addObjectForKey(imageResult.getImageName(), IntentHelper.SEARCH_RESULT_EXTRA);
-        IntentHelper.addObjectForKey(imageResult.getImageUrl(), IntentHelper.SEARCH_IMAGE_PATH_EXTRA);
-
-        Intent intent = new Intent(getActivity(), EditPhotoActivity.class);
-        intent.putExtra("image_url", imageResult.getImageUrl());
-        startActivity(intent);
+        Map<String, String>  map = imageResult.getFieldList();
+        Log.d("test",map.toString());
+        Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(imageResult.getProduct_url()));
+        startActivity(viewIntent);
     }
 
     //change UI when uploading starts

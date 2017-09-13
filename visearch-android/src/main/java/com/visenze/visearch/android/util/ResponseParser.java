@@ -99,6 +99,8 @@ public class ResponseParser {
 
                         if (name.equals("im_url")) {
                             imageResult.setImageUrl(valueObj.getString(name));
+                        }else if(name.equals("product_url")){
+                            imageResult.setProduct_url(valueObj.getString(name));
                         }
                     }
                     imageResult.setFieldList(fieldList);
