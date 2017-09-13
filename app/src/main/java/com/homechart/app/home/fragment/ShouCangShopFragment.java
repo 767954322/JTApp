@@ -24,6 +24,7 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.activity.ArticleDetailsActivity;
+import com.homechart.app.home.activity.ShopDetailActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.searchartile.ArticleBean;
 import com.homechart.app.home.bean.searchartile.ArticleListBean;
@@ -163,6 +164,9 @@ public class ShouCangShopFragment
                     public void onClick(View v) {
                         if (guanli_tag == 0) {//未打开管理
                             //TODO 跳转到商品详情
+                            Intent intent = new Intent(activity, ShopDetailActivity.class);
+                            intent.putExtra("spu_id", mListData.get(position).getItem_info().getSpu_id());
+                            startActivity(intent);
 
                         } else {
                             if (((CheckBox) holder.getView(R.id.cb_check)).isChecked()) {
