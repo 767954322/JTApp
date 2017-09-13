@@ -220,7 +220,7 @@ public class ShouCangListActivity extends BaseActivity
                             ifAllowScroll = false;
                             shouCangShopFragment.clickRightGuanLi();
                         } else {
-                            ToastUtils.showCenter(ShouCangListActivity.this, "先去收藏一些文章吧");
+                            ToastUtils.showCenter(ShouCangListActivity.this, "先去收藏一些商品吧");
                         }
                     } else {
                         mViewPager.setScanScroll(true);
