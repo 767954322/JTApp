@@ -20,9 +20,14 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.home.bean.huodong.HuoDongDataBean;
+import com.homechart.app.home.bean.huodong.ItemActivityDataBean;
 import com.homechart.app.home.bean.shaijia.ShaiJiaItemBean;
+import com.homechart.app.home.bean.shopdetails.MoreShopBean;
 import com.homechart.app.home.bean.shopdetails.ShopDetailsBean;
+import com.homechart.app.home.bean.shopdetails.ShopDetailsItemInfoBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.imagedetail.ImageDetailsActivity;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
@@ -32,6 +37,7 @@ import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
+import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
@@ -54,8 +60,8 @@ public class ShopDetailActivity
         implements View.OnClickListener,
         OnLoadMoreListener {
 
-    private MultiItemCommonAdapter<ShopDetailsBean> mAdapter;
-    private List<ShopDetailsBean> mListData = new ArrayList<>();
+    private MultiItemCommonAdapter<ShopDetailsItemInfoBean> mAdapter;
+    private List<ShopDetailsItemInfoBean> mListData = new ArrayList<>();
     private LoadMoreFooterView mLoadMoreFooterView;
     private ImageButton nav_left_imageButton;
     private ShopDetailsBean shopDetailsBean;
@@ -67,6 +73,7 @@ public class ShopDetailActivity
     private TextView tv_tital_comment;
     private TextView tv_num_collect;
     private View headerView;
+    private int widMoreImage;
 
     private List<String> listUrl = new ArrayList<>();
 
@@ -78,6 +85,7 @@ public class ShopDetailActivity
             switch (tag) {
                 case 0:
                     if (null != shopDetailsBean) {
+                        getListData();
                         listUrl.clear();
                         listUrl.add(shopDetailsBean.getItem_info().getImage().getImg0());
                         tv_num_collect.setText(shopDetailsBean.getItem_info().getCollect_num() + "人已加入收藏");
@@ -118,6 +126,7 @@ public class ShopDetailActivity
     protected void initData(Bundle savedInstanceState) {
 
         tv_tital_comment.setText("商品详情");
+        widMoreImage = PublicUtils.getScreenWidth(this) / 2 - UIUtils.getDimens(R.dimen.font_20);
         if (!TextUtils.isEmpty(spu_id)) {
             initRecyclerView();
             getDetailsData();
@@ -176,19 +185,27 @@ public class ShopDetailActivity
 
     private void initRecyclerView() {
 
-        MultiItemTypeSupport<ShopDetailsBean> support = new MultiItemTypeSupport<ShopDetailsBean>() {
+        MultiItemTypeSupport<ShopDetailsItemInfoBean> support = new MultiItemTypeSupport<ShopDetailsItemInfoBean>() {
             @Override
             public int getLayoutId(int itemType) {
-                    return R.layout.item_userinfo_left;
+                return R.layout.item_shop_morelike;
             }
+
             @Override
-            public int getItemViewType(int position, ShopDetailsBean shopDetailsBean) {
+            public int getItemViewType(int position, ShopDetailsItemInfoBean shopDetailsItemInfoBean) {
                 return 0;
             }
         };
-        mAdapter = new MultiItemCommonAdapter<ShopDetailsBean>(this, mListData, support) {
+        mAdapter = new MultiItemCommonAdapter<ShopDetailsItemInfoBean>(this, mListData, support) {
             @Override
             public void convert(BaseViewHolder holder, final int position) {
+
+                ImageView iv_imageview = holder.getView(R.id.iv_imageview);
+                ViewGroup.LayoutParams layoutParams = iv_imageview.getLayoutParams();
+                layoutParams.width = widMoreImage;
+                layoutParams.height = widMoreImage;
+                iv_imageview.setLayoutParams(layoutParams);
+                ImageUtils.displayFilletImage(mListData.get(position).getImage().getImg0(),iv_imageview);
 
             }
         };
@@ -238,5 +255,50 @@ public class ShopDetailActivity
 
     }
 
+    //获取相似商品
+    private void getListData() {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                mAdapter.notifyData(mListData);
+                ToastUtils.showCenter(ShopDetailActivity.this, "相似商品信息获取失败！");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        MoreShopBean moreShopBean = GsonUtil.jsonToBean(data_msg, MoreShopBean.class);
+                        List<ShopDetailsItemInfoBean> list = moreShopBean.getItem_list();
+                        if (list != null && list.size() > 0) {
+                            updateViewFromData(list);
+                        } else {
+                            mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                            mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+                        }
+                    } else {
+                        mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                        ToastUtils.showCenter(ShopDetailActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                    ToastUtils.showCenter(ShopDetailActivity.this, getString(R.string.huodong_get_error));
+                }
+            }
+        };
+        MyHttpManager.getInstance().getLikeShop(spu_id, "20", callBack);
+
+    }
+
+    private void updateViewFromData(List<ShopDetailsItemInfoBean> item_list) {
+        mListData.addAll(item_list);
+        mAdapter.notifyData(mListData);
+        mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+    }
 
 }

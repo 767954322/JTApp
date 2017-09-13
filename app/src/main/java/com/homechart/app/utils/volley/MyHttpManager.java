@@ -2072,4 +2072,30 @@ public class MyHttpManager {
         queue.add(okStringRequest);
     }
 
+    /**
+     * 获取相似商品
+     *
+     * @param spu_id
+     * @param num
+     * @param callback
+     */
+    public void getLikeShop(final String spu_id,final String num, OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.MORELIKE_SHOP, callback) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                map.put("spu_id", spu_id);
+                map.put("num", num);
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+        };
+        queue.add(okStringRequest);
+    }
+
 }

@@ -78,5 +78,6 @@ public class UrlConstants {
     public static final String SHOUCANG_MSG = "https://api.idcool.com.cn/notice/collect/slist";  //收藏消息
     public static final String PINGLUN_MSG = "https://api.idcool.com.cn/notice/comment/slist";  //评论消息
     public static final String DETAIL_SHOP = "https://api.idcool.com.cn/product/product/info";  //商品详情
+    public static final String MORELIKE_SHOP = "https://api.idcool.com.cn/product/product/similar";  //相似商品
 
 }

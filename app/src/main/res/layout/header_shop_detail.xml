@@ -13,6 +13,7 @@
         android:scaleType="centerCrop" />
 
     <LinearLayout
+        android:id="@+id/ll_line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_50"
         android:layout_below="@+id/iv_shop_image"
@@ -53,5 +54,16 @@
                 android:text="直达链接" />
         </RelativeLayout>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/size_18"
+        android:textColor="@color/bg_00"
+        android:layout_below="@+id/ll_line"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/font_15"
+        android:layout_marginBottom="@dimen/font_16"
+        android:text="更多相似商品"/>
 
 </RelativeLayout>
