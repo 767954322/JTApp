@@ -41,8 +41,30 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/font_20"
             android:clickable="true"
-            android:src="@drawable/shared_icon_white"/>
+            android:src="@drawable/camera_album_selector"/>
 
     </RelativeLayout>
 
+
+    <ImageView
+        android:id="@+id/camera_switch_button"
+        style="@style/AppTheme.CameraButton"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/font_20"
+        android:layout_marginRight="@dimen/font_20"
+        android:clickable="true"
+        android:src="@drawable/camera_switch_selector"/>
+
+    <ImageView
+        android:id="@+id/camera_flash_button"
+        style="@style/AppTheme.CameraButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/camera_switch_button"
+        android:layout_marginRight="20dp"
+        android:clickable="true"
+        android:layout_marginTop="@dimen/font_20"
+        android:src="@drawable/camera_light_selector"/>
 </RelativeLayout>

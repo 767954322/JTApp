@@ -25,6 +25,8 @@ public class PhotoActivity
     private CameraPreview camera_preview;
     private ImageView iv_back;
     private ImageView camera_album_button;
+    private ImageView camera_flash_button;
+    private ImageView camera_switch_button;
 
     @Override
     protected int getLayoutResId() {
@@ -37,6 +39,8 @@ public class PhotoActivity
         camera_preview = (CameraPreview) findViewById(R.id.camera_preview);
         iv_back = (ImageView) findViewById(R.id.iv_back);
         camera_album_button = (ImageView) findViewById(R.id.camera_album_button);
+        camera_flash_button = (ImageView) findViewById(R.id.camera_flash_button);
+        camera_switch_button = (ImageView) findViewById(R.id.camera_switch_button);
     }
 
     @Override
@@ -50,6 +54,8 @@ public class PhotoActivity
         iv_back.setOnClickListener(this);
         camera_album_button.setOnClickListener(this);
         iv_camera_shutter_button.setOnClickListener(this);
+        camera_flash_button.setOnClickListener(this);
+        camera_switch_button.setOnClickListener(this);
     }
 
     @Override
@@ -65,6 +71,13 @@ public class PhotoActivity
                 Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 openAlbumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
                 startActivityForResult(openAlbumIntent, RESULT_LOAD_IMAGE_FROM_GALLERY);
+                break;
+            case R.id.camera_flash_button:
+                camera_flash_button.setSelected(camera_preview.turnOnTorch());
+                break;
+            case R.id.camera_switch_button:
+                camera_flash_button.setSelected(false);
+                camera_preview.switchCamera();
                 break;
         }
     }

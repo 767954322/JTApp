@@ -85,6 +85,7 @@
 
     <color name="bg_4d34A350">#4D34A350</color>
     <color name="white">#ffffff</color>
+    <color name="bg_64ffffff">#64ffffff</color>
     <color name="bg_f2ffffff">#F2ffffff</color>
     <color name="white1">#00ffffff</color>
     <color name="black_trans_40">#64000000</color>
