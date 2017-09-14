@@ -412,12 +412,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:background="@color/bg_4d34A350"
+        android:background="@color/red"
         android:layout_marginRight="@dimen/font_15"
+        android:padding="@dimen/font_10"
         android:clickable="true"
         android:layout_marginBottom="@dimen/font_80">
 
         <ImageView
+            android:id="@+id/iv_image"
             android:paddingBottom="@dimen/font_10"
             android:paddingTop="@dimen/font_10"
             android:paddingLeft="@dimen/font_10"
@@ -425,7 +427,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/jiatu"/>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_image"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="识别物品"/>
     </RelativeLayout>
 
 </RelativeLayout>
