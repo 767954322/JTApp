@@ -1,14 +1,18 @@
 package com.homechart.app.home.fragment;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -198,7 +202,7 @@ public class HomePicFragment
         rl_tos_choose = (RelativeLayout) rootView.findViewById(R.id.rl_tos_choose);
         id_main = (RelativeLayout) rootView.findViewById(R.id.id_main);
         view_line_back = rootView.findViewById(R.id.view_line_back);
-        rl_shibie = (RelativeLayout)rootView.findViewById(R.id.rl_shibie);
+        rl_shibie = (RelativeLayout) rootView.findViewById(R.id.rl_shibie);
 
     }
 
@@ -377,10 +381,15 @@ public class HomePicFragment
                 startActivityForResult(intent_messages, 11);
                 break;
             case R.id.rl_shibie:
-
-                Intent intent1 = new Intent(activity, PhotoActivity.class);
-                startActivity(intent1);
-
+                if (ContextCompat.checkSelfPermission(activity,
+                        Manifest.permission.CAMERA) !=
+                        PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(activity,
+                            new String[]{Manifest.permission.CAMERA}, 0);
+                } else {
+                    Intent intent1 = new Intent(activity, PhotoActivity.class);
+                    startActivity(intent1);
+                }
                 break;
         }
     }
@@ -493,9 +502,9 @@ public class HomePicFragment
                             }
                         });
 
-                        if(mListData.get(position).getObject_info().getCollect_num().trim().equals("0")){
+                        if (mListData.get(position).getObject_info().getCollect_num().trim().equals("0")) {
                             holder.getView(R.id.tv_shoucang_num).setVisibility(View.INVISIBLE);
-                        }else {
+                        } else {
                             holder.getView(R.id.tv_shoucang_num).setVisibility(View.VISIBLE);
                         }
                         ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getObject_info().getCollect_num());
@@ -1243,10 +1252,11 @@ public class HomePicFragment
     }
 
     boolean ifClickShouCang = true;
+
     //收藏或者取消收藏，图片
     public void onShouCang(boolean ifShouCang, int position, SYDataBean syDataBean) {
 
-        if(ifClickShouCang){
+        if (ifClickShouCang) {
             ifClickShouCang = false;
             if (ifShouCang) {
                 //友盟统计

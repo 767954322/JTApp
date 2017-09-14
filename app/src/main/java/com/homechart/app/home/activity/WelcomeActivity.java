@@ -148,6 +148,12 @@ public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter
                 break;
             case 2:
                 //TODO 最后的权限回调
+                if (ContextCompat.checkSelfPermission(WelcomeActivity.this,
+                        Manifest.permission.CAMERA) !=
+                        PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(WelcomeActivity.this,
+                            new String[]{Manifest.permission.CAMERA}, 0);
+                }
         }
     }
 

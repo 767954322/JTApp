@@ -613,9 +613,9 @@ public class PublicUtils {
             mapTabName.put("faucettap", "龙头");
             mapTabName.put("kitchenisland", "厨房中岛");
             mapTabName.put("lighting", "灯具");
-            mapTabName.put("ottomansbean", "沙发凳");
+            mapTabName.put("ottomansbeanbag", "沙发凳");
             mapTabName.put("photoframe", "相框");
-            mapTabName.put("shelveandrac", "置物架");
+            mapTabName.put("shelveandrack", "置物架");
             mapTabName.put("showerhead", "花洒");
             mapTabName.put("sink", "水槽");
             mapTabName.put("sofa", "沙发");
