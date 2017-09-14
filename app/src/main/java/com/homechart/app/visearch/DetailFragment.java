@@ -55,7 +55,10 @@ import butterknife.OnClick;
  *
  * @author yulu
  */
-public class DetailFragment extends Fragment implements ViSearch.ResultListener {
+public class DetailFragment
+        extends Fragment
+        implements ViSearch.ResultListener
+        ,ScrollAwareGridView.OnDetectScrollListener{
     //inject ui
     @InjectView(R.id.detail_image_view)
     ImageView detailImageView;
@@ -147,6 +150,7 @@ public class DetailFragment extends Fragment implements ViSearch.ResultListener 
             loadingImage.setVisibility(View.GONE);
             similarListView.setVisibility(View.VISIBLE);
             similarListView.setAdapter(new SquareImageAdapter(getActivity(), resultList.getImageList()));
+            similarListView.setOnDetectScrollListener(this);
             similarListView.invalidate();
             similarListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -201,5 +205,26 @@ public class DetailFragment extends Fragment implements ViSearch.ResultListener 
 
         slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         this.url = url;
+    }
+
+    @Override
+    public void onUpScrolling() {
+
+    }
+
+    @Override
+    public void onDownScrolling() {
+
+        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);//打开
+    }
+
+    @Override
+    public void onTopReached() {
+
+    }
+
+    @Override
+    public void onBottomReached() {
+
     }
 }

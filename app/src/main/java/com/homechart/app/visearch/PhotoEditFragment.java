@@ -167,7 +167,6 @@ public class PhotoEditFragment
             //            当滑动面板完全滑落时被调用。
             @Override
             public void onPanelCollapsed(View panel) {
-                result_back_button.setImageResource(R.drawable.tital_back);
                 Log.d("test", "当滑动面板完全滑落时被调用");
             }
 
@@ -175,7 +174,6 @@ public class PhotoEditFragment
             @Override
             public void onPanelExpanded(View panel) {
 
-                result_back_button.setImageResource(R.drawable.tital_back_wight);
                 Log.d("test", "当滑动面板滑动完全展开时调用");
             }
 
