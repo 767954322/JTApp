@@ -26,6 +26,7 @@ package com.homechart.app.visearch.adapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import android.widget.TextView;
 
 
 import com.homechart.app.R;
+import com.homechart.app.commont.PublicUtils;
 
 import java.util.List;
 
@@ -72,7 +74,14 @@ public class HorizontalProductTypeArrayAdapter extends ArrayAdapter<String> {
         }
 
         Holder holder = (Holder)view.getTag();
-        holder.textView.setText(productTypeList.get(position).replace("_", " "));
+        String xiaoName = productTypeList.get(position).replace("_", " ").trim().toLowerCase();
+        String chinaName = PublicUtils.getChinaTab(xiaoName);
+        if(TextUtils.isEmpty(chinaName)){
+            holder.textView.setText("未知");
+        }else {
+            holder.textView.setText(chinaName);
+        }
+
 
         if (selected == position) {
             holder.textView.setTextColor(getContext().getResources().getColor(R.color.red));

@@ -584,4 +584,50 @@ public class PublicUtils {
         return intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
+
+    /**
+     * 获取中文tab
+     *
+     * @param enName
+     * @return
+     */
+    public static String getChinaTab(String enName) {
+        Map<String, String> map = getTabNameMap();
+        String enName1 = enName.trim().replace(" ","");
+        String chiName = map.get(enName1);
+        return chiName;
+    }
+
+    public static Map<String, String> mapTabName = new HashMap<>();
+
+    public static Map<String, String> getTabNameMap() {
+        if (mapTabName.size() == 0) {
+            mapTabName.put("basin", "盥洗盆");
+            mapTabName.put("bathtub", "浴缸");
+            mapTabName.put("bed", "床");
+            mapTabName.put("cabinet", "柜子");
+            mapTabName.put("chair", "椅子");
+            mapTabName.put("chestofdrawer", "五斗柜");
+            mapTabName.put("clock", "钟表");
+            mapTabName.put("diningset", "餐桌椅组合");
+            mapTabName.put("faucettap", "龙头");
+            mapTabName.put("kitchenisland", "厨房中岛");
+            mapTabName.put("lighting", "灯具");
+            mapTabName.put("ottomansbean", "沙发凳");
+            mapTabName.put("photoframe", "相框");
+            mapTabName.put("shelveandrac", "置物架");
+            mapTabName.put("showerhead", "花洒");
+            mapTabName.put("sink", "水槽");
+            mapTabName.put("sofa", "沙发");
+            mapTabName.put("standinglamp", "落地灯");
+            mapTabName.put("table", "桌子");
+            mapTabName.put("toiletbowl", "马桶");
+            mapTabName.put("tvunit", "电视柜");
+            mapTabName.put("vaseandpot", "花瓶");
+            mapTabName.put("other", "其他");
+        }
+        return mapTabName;
+    }
+
+
 }
