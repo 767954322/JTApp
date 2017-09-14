@@ -525,6 +525,23 @@ public class PhotoEditFragment
         Log.d("test","onBottomReached");
     }
 
+    @OnClick(R.id.photoedit_rotate_button)
+    public void rotateImage() {
+        editPhotoView.rotateImageView();
+        editableImage.saveEditedImage(imagePath);
+        changeUploadUI();
+
+        Image image = new Image(imagePath, Image.ResizeSettings.HIGH);
+
+        //set search parameters
+        UploadSearchParams uploadSearchParams = new UploadSearchParams(image);
+        //set detection
+        DataHelper.setSearchParams(uploadSearchParams, selectedType);
+
+        viSearch.cancelSearch();
+        viSearch.uploadSearch(uploadSearchParams);
+    }
+
     private enum VIEW_LAYOUT {
         GRID, WATERFALL
     }

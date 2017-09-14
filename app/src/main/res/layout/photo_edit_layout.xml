@@ -3,16 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/bg_40">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_marginTop="@dimen/font_5"
-        android:layout_marginLeft="@dimen/font_20"
-        android:layout_marginRight="@dimen/font_20"
-        android:layout_marginBottom="@dimen/font_230">
+        android:layout_marginLeft="@dimen/font_50"
+        android:layout_marginRight="@dimen/font_50"
+        android:layout_marginBottom="@dimen/font_230"
+        android:background="@drawable/round_corner_red_background">
 
         <com.homechart.app.croplayout.EditPhotoViewMore
             xmlns:crop="http://schemas.android.com/apk/res-auto"
@@ -20,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="30dp"
+            android:background="@drawable/round_corner_background"
             crop:crop_corner_color="@color/bg_e79056"
             crop:crop_line_color="@color/touming"
             crop:crop_shadow_color="@color/bg_4d000000" />
@@ -30,7 +32,8 @@
             android:layout_gravity="bottom|right"
             android:textColor="@color/white"
             android:layout_margin="4dp"
-            android:text="rotate"/>
+            android:background="@drawable/round_corner_button_selector"
+            android:text="旋转"/>
     </FrameLayout>
 
 </RelativeLayout>
