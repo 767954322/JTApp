@@ -1,0 +1,44 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_40">
+
+    <!--add photo view here-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/font_5"
+        android:layout_marginLeft="@dimen/font_50"
+        android:layout_marginRight="@dimen/font_50"
+        android:layout_marginBottom="@dimen/font_230"
+        android:background="@drawable/round_corner_red_background">
+        <ImageView
+            android:id="@+id/detail_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/round_corner_background"/>
+        <TextView
+            android:id="@+id/detail_im_name_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|left"
+            android:maxWidth="150dip"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:layout_margin="6dp"
+            android:textSize="12sp"
+            android:text="im_name"/>
+        <TextView
+            android:id="@+id/tv_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:textColor="@color/bg_fc7700"
+            android:background="@drawable/round_corner_button_selector"
+            android:layout_margin="4dp"
+            android:text="购买"/>
+    </FrameLayout>
+</RelativeLayout>

@@ -9,14 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-
     <ImageView
         android:id="@+id/iv_back"
+        style="@style/AppTheme.ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/tital_back"
         android:layout_marginTop="@dimen/font_20"
-        android:layout_marginLeft="@dimen/font_20"/>
+        android:layout_marginLeft="@dimen/font_10"
+        android:src="@drawable/camera_close_selector"/>
 
     <RelativeLayout
         android:id="@+id/rl_bottom"

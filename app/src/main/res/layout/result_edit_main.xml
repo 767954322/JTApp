@@ -23,24 +23,16 @@
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/font_50">
-
-        <ImageView
-            android:id="@+id/result_back_button"
-            android:layout_width="@dimen/size_40"
-            android:layout_height="@dimen/size_40"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/size_10"
-            android:background="@drawable/transparent"
-            android:padding="@dimen/size_8"
-            android:scaleType="centerInside"
-            android:src="@drawable/tital_back"
-            android:visibility="visible" />
-
-    </RelativeLayout>
+    <ImageView
+        android:id="@+id/result_back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/square_button_selector"
+        android:src="@drawable/camera_close_selector" />
 
 
 </FrameLayout>

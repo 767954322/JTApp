@@ -455,10 +455,18 @@ public class PhotoEditFragment
 
     private void startDetailActivity(ImageResult imageResult) {
 
-        Map<String, String>  map = imageResult.getFieldList();
-        Log.d("test",map.toString());
-        Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(imageResult.getProduct_url()));
-        startActivity(viewIntent);
+//        Map<String, String>  map = imageResult.getFieldList();
+//        Log.d("test",map.toString());
+//        Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(imageResult.getProduct_url()));
+//        startActivity(viewIntent);
+
+        viSearch.track(new TrackParams().setAction("click").setReqid(resultList.getTransId()).setImName(imageResult.getImageName()));
+        IntentHelper.addObjectForKey(imageResult.getImageName(), IntentHelper.SEARCH_RESULT_EXTRA);
+        IntentHelper.addObjectForKey(imageResult.getImageUrl(), IntentHelper.SEARCH_IMAGE_PATH_EXTRA);
+        IntentHelper.addObjectForKey(imageResult.getProduct_url(), IntentHelper.BUY_URL);
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        startActivity(intent);
+
     }
 
     //change UI when uploading starts

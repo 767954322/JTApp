@@ -35,6 +35,7 @@ public class IntentHelper {
     public static final String SEARCH_IMAGE_PATH_EXTRA = "image_path";
     public static final String SEARCH_THUMBNAIL_PATH_EXTRA = "thumbnail_path";
     public static final String SEARCH_RESULT_EXTRA = "result_list";
+    public static final String BUY_URL = "buy_url";
 
     private static IntentHelper _instance;
     private Hashtable<String, Object> _hash;
