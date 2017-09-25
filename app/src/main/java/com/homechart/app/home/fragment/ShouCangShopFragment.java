@@ -129,7 +129,6 @@ public class ShouCangShopFragment
         mAdapter = new CommonAdapter<SCItemShopBean>(activity, R.layout.item_shop_shoucang, mListData) {
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
-                ((TextView) holder.getView(R.id.tv_article_name)).setText(mListData.get(position).getItem_info().getSource());
                 final String spu_id = mListData.get(position).getItem_info().getSpu_id();
                 if (guanli_tag == 0) {
                     holder.getView(R.id.cb_check).setVisibility(View.GONE);
@@ -142,6 +141,8 @@ public class ShouCangShopFragment
                     ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(),
                             (ImageView) holder.getView(R.id.iv_article_image));
                 }
+                ((TextView) holder.getView(R.id.tv_shop_item_tital)).setText(mListData.get(position).getItem_info().getTitle());
+                ((TextView) holder.getView(R.id.tv_shop_item_price)).setText("¥ " + mListData.get(position).getItem_info().getPrice());
                 ((CheckBox) holder.getView(R.id.cb_check)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
