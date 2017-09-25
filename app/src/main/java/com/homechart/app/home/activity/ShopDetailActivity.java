@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -241,11 +242,11 @@ public class ShopDetailActivity
                 ImageView iv_imageview = holder.getView(R.id.iv_imageview);
                 ViewGroup.LayoutParams layoutParams = iv_imageview.getLayoutParams();
                 layoutParams.width = widMoreImage;
-                layoutParams.height = widMoreImage;
+                layoutParams.height = (int) ((widMoreImage * 1.0000) / mListData.get(position).getImage().getRatio());
                 iv_imageview.setLayoutParams(layoutParams);
                 ImageUtils.displayFilletImage(mListData.get(position).getImage().getImg0(), iv_imageview);
-                ((TextView)holder.getView(R.id.tv_shop_item_name)).setText(mListData.get(position).getTitle());
-                ((TextView)holder.getView(R.id.tv_price)).setText("¥ "+mListData.get(position).getPrice());
+                ((TextView) holder.getView(R.id.tv_shop_item_name)).setText(mListData.get(position).getTitle());
+                ((TextView) holder.getView(R.id.tv_price)).setText("¥ " + mListData.get(position).getPrice());
                 holder.getView(R.id.rl_item_shop_all).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -259,7 +260,7 @@ public class ShopDetailActivity
             }
         };
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setOnLoadMoreListener(this);
         mRecyclerView.addHeaderView(headerView);
