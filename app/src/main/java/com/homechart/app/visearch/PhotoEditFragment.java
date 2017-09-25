@@ -277,13 +277,17 @@ public class PhotoEditFragment
         });
         //start scan
         AnimationDrawable anim = (AnimationDrawable) loadingImage.getDrawable();
-        anim.start();
+        if(anim != null){
+            anim.start();
+        }
     }
 
     private void searchShopImage(String loc) {
         //start scan
         AnimationDrawable anim = (AnimationDrawable) loadingImage.getDrawable();
-        anim.start();
+        if(anim != null){
+            anim.start();
+        }
         if (listSearch != null && listSearch.size() > 0) {
             SearchSObjectBean searchSObjectBean = listSearch.get(0);
             String mloc = "";
