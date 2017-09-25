@@ -13,16 +13,19 @@ public class ShopDetailsItemInfoBean implements Serializable {
     private String title;
     private String price;
     private String collect_num;
+    private String is_collected;
     private String source;
     private String source_name;
     private String buy_url;
     private ShopDetailsItemImageBean image;
 
-    public ShopDetailsItemInfoBean(String spu_id, String title, String price, String collect_num, String source, String source_name, String buy_url, ShopDetailsItemImageBean image) {
+
+    public ShopDetailsItemInfoBean(String spu_id, String title, String price, String collect_num, String is_collected, String source, String source_name, String buy_url, ShopDetailsItemImageBean image) {
         this.spu_id = spu_id;
         this.title = title;
         this.price = price;
         this.collect_num = collect_num;
+        this.is_collected = is_collected;
         this.source = source;
         this.source_name = source_name;
         this.buy_url = buy_url;
@@ -61,6 +64,14 @@ public class ShopDetailsItemInfoBean implements Serializable {
         this.collect_num = collect_num;
     }
 
+    public String getIs_collected() {
+        return is_collected;
+    }
+
+    public void setIs_collected(String is_collected) {
+        this.is_collected = is_collected;
+    }
+
     public String getSource() {
         return source;
     }
@@ -93,7 +104,6 @@ public class ShopDetailsItemInfoBean implements Serializable {
         this.image = image;
     }
 
-
     @Override
     public String toString() {
         return "ShopDetailsItemInfoBean{" +
@@ -101,6 +111,7 @@ public class ShopDetailsItemInfoBean implements Serializable {
                 ", title='" + title + '\'' +
                 ", price='" + price + '\'' +
                 ", collect_num='" + collect_num + '\'' +
+                ", is_collected='" + is_collected + '\'' +
                 ", source='" + source + '\'' +
                 ", source_name='" + source_name + '\'' +
                 ", buy_url='" + buy_url + '\'' +

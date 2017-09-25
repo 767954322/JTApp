@@ -2149,4 +2149,51 @@ public class MyHttpManager {
         queue.add(okStringRequest);
     }
 
+    /**
+     * 收藏商品
+     * @param spu_id
+     * @param callback
+     */
+    public void shoucangShop(final String spu_id, OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.SHOUCANG_ADD_SHOP, callback) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                map.put("spu_id", spu_id);
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+        };
+        queue.add(okStringRequest);
+    }
+
+    /**
+     * 删除收藏的商品
+     * @param spu_id
+     * @param callback
+     */
+    public void deleteShop(final String spu_id, OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.SHOUCANG_REMOVE_SHOP, callback) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                map.put("spu_id", spu_id);
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+        };
+        queue.add(okStringRequest);
+    }
+
+
 }

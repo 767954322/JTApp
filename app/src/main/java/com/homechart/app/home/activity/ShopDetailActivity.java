@@ -67,15 +67,20 @@ public class ShopDetailActivity
     private ShopDetailsBean shopDetailsBean;
     private HRecyclerView mRecyclerView;
     private ImageView iv_shop_image;
+    private ImageView iv_shoucang_shop;
     private String spu_id;
-    private RelativeLayout rl_num_collect;
-    private RelativeLayout rl_go_buy;
+    private TextView tv_shop_details_tital;
+    private RelativeLayout rl_shoucang;
     private TextView tv_tital_comment;
-    private TextView tv_num_collect;
+    private TextView tv_num_people;
+    private TextView tv_price_two;
+    private TextView tv_price_three;
+    private TextView tv_buy;
     private View headerView;
     private int widMoreImage;
-
     private List<String> listUrl = new ArrayList<>();
+    private boolean ifShouCang = false;
+    private boolean allowClickShouCang = true;
 
     Handler mHandler = new Handler() {
         @Override
@@ -88,7 +93,25 @@ public class ShopDetailActivity
                         getListData();
                         listUrl.clear();
                         listUrl.add(shopDetailsBean.getItem_info().getImage().getImg0());
-                        tv_num_collect.setText(shopDetailsBean.getItem_info().getCollect_num() + "人已加入收藏");
+                        tv_shop_details_tital.setText(shopDetailsBean.getItem_info().getTitle());
+                        String price = shopDetailsBean.getItem_info().getPrice().toString().trim();
+                        String[] strPrice = price.split("\\.");
+                        if (strPrice.length > 1) {
+                            tv_price_two.setText(strPrice[0]);
+                            tv_price_three.setText("." + strPrice[1]);
+                        } else {
+                            tv_price_two.setText(shopDetailsBean.getItem_info().getPrice().toString());
+                            tv_price_three.setText("");
+                        }
+                        if (shopDetailsBean.getItem_info().getIs_collected().equals("1")) {//已收藏
+                            ifShouCang = true;
+                            tv_num_people.setText(shopDetailsBean.getItem_info().getCollect_num());
+                            iv_shoucang_shop.setImageResource(R.drawable.xing1);
+                        } else {//未收藏
+                            ifShouCang = false;
+                            tv_num_people.setText(shopDetailsBean.getItem_info().getCollect_num());
+                            iv_shoucang_shop.setImageResource(R.drawable.xing);
+                        }
                         ImageUtils.disRectangleImage(shopDetailsBean.getItem_info().getImage().getImg0(), iv_shop_image);
                     }
                     break;
@@ -116,9 +139,13 @@ public class ShopDetailActivity
         mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview_info);
 
         iv_shop_image = (ImageView) headerView.findViewById(R.id.iv_shop_image);
-        rl_num_collect = (RelativeLayout) headerView.findViewById(R.id.rl_num_collect);
-        rl_go_buy = (RelativeLayout) headerView.findViewById(R.id.rl_go_buy);
-        tv_num_collect = (TextView) headerView.findViewById(R.id.tv_num_collect);
+        iv_shoucang_shop = (ImageView) headerView.findViewById(R.id.iv_shoucang_shop);
+        tv_shop_details_tital = (TextView) headerView.findViewById(R.id.tv_shop_details_tital);
+        tv_price_two = (TextView) headerView.findViewById(R.id.tv_price_two);
+        tv_price_three = (TextView) headerView.findViewById(R.id.tv_price_three);
+        tv_num_people = (TextView) headerView.findViewById(R.id.tv_num_people);
+        rl_shoucang = (RelativeLayout) headerView.findViewById(R.id.rl_shoucang);
+        tv_buy = (TextView) headerView.findViewById(R.id.tv_buy);
 
     }
 
@@ -141,8 +168,8 @@ public class ShopDetailActivity
         super.initListener();
 
         nav_left_imageButton.setOnClickListener(this);
-        rl_num_collect.setOnClickListener(this);
-        rl_go_buy.setOnClickListener(this);
+        tv_buy.setOnClickListener(this);
+        rl_shoucang.setOnClickListener(this);
         iv_shop_image.setOnClickListener(this);
 
     }
@@ -154,9 +181,19 @@ public class ShopDetailActivity
             case R.id.nav_left_imageButton:
                 this.finish();
                 break;
-            case R.id.rl_num_collect:
+            case R.id.rl_shoucang:
+                if (null != shopDetailsBean && allowClickShouCang) {
+                    allowClickShouCang = false;
+                    if (ifShouCang) {
+                        //取消收藏
+                        removeShouCang(shopDetailsBean.getItem_info().getSpu_id());
+                    } else {
+                        //收藏商品
+                        addShouCang(shopDetailsBean.getItem_info().getSpu_id());
+                    }
+                }
                 break;
-            case R.id.rl_go_buy:
+            case R.id.tv_buy:
                 if (null != shopDetailsBean) {
                     Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(shopDetailsBean.getItem_info().getBuy_url()));
                     startActivity(viewIntent);
@@ -205,7 +242,7 @@ public class ShopDetailActivity
                 layoutParams.width = widMoreImage;
                 layoutParams.height = widMoreImage;
                 iv_imageview.setLayoutParams(layoutParams);
-                ImageUtils.displayFilletImage(mListData.get(position).getImage().getImg0(),iv_imageview);
+                ImageUtils.displayFilletImage(mListData.get(position).getImage().getImg0(), iv_imageview);
 
             }
         };
@@ -299,6 +336,81 @@ public class ShopDetailActivity
         mListData.addAll(item_list);
         mAdapter.notifyData(mListData);
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+    }
+
+    private void removeShouCang(String spu_id) {
+        OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onResponse(String response) {
+                allowClickShouCang = true;
+                try {
+                    if (response != null) {
+                        JSONObject jsonObject = new JSONObject(response);
+                        int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                        String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                        String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                        if (error_code == 0) {
+                            ifShouCang = false;
+                            int num = Integer.parseInt(tv_num_people.getText().toString().trim());
+                            tv_num_people.setText(--num + "");
+                            iv_shoucang_shop.setImageResource(R.drawable.xing);
+                            ToastUtils.showCenter(ShopDetailActivity.this, "取消收藏成功！");
+                        } else {
+                            ToastUtils.showCenter(ShopDetailActivity.this, error_msg);
+                        }
+                    } else {
+                        ToastUtils.showCenter(ShopDetailActivity.this, "取消收藏失败！");
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(ShopDetailActivity.this, "取消收藏失败！");
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                allowClickShouCang = true;
+                ToastUtils.showCenter(ShopDetailActivity.this, "取消收藏失败！");
+            }
+        };
+        MyHttpManager.getInstance().deleteShop(spu_id, callback);
+    }
+
+    private void addShouCang(String spu_id) {
+
+        OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onResponse(String response) {
+                allowClickShouCang = true;
+                try {
+                    if (response != null) {
+                        JSONObject jsonObject = new JSONObject(response);
+                        int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                        String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                        String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                        if (error_code == 0) {
+                            ifShouCang = true;
+                            int num = Integer.parseInt(tv_num_people.getText().toString().trim());
+                            tv_num_people.setText(++num + "");
+                            iv_shoucang_shop.setImageResource(R.drawable.xing1);
+                            ToastUtils.showCenter(ShopDetailActivity.this, "商品收藏成功！");
+                        } else {
+                            ToastUtils.showCenter(ShopDetailActivity.this, error_msg);
+                        }
+                    } else {
+                        ToastUtils.showCenter(ShopDetailActivity.this, "商品收藏失败！");
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(ShopDetailActivity.this, "商品收藏失败！");
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                allowClickShouCang = true;
+                ToastUtils.showCenter(ShopDetailActivity.this, "商品收藏失败！");
+            }
+        };
+        MyHttpManager.getInstance().shoucangShop(spu_id, callback);
     }
 
 }
