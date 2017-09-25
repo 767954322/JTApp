@@ -24,9 +24,9 @@ public class EditPhotoViewMore extends FrameLayout {
 
     private Context context;
 
-    private ImageView imageView;
-    private SelectionView selectionView;
-    private EditableImage editableImage;
+    public ImageView imageView;
+    public SelectionView selectionView;
+    public EditableImage editableImage;
 
     private float lineWidth;
     private float cornerWidth;
@@ -139,5 +139,17 @@ public class EditPhotoViewMore extends FrameLayout {
     protected int dp2px(float dp) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dp * scale + 0.5f);
+    }
+
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public SelectionView getSelectionView() {
+        return selectionView;
+    }
+
+    public EditableImage getEditableImage() {
+        return editableImage;
     }
 }

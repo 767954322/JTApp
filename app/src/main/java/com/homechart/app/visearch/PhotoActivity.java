@@ -4,13 +4,23 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.homechart.app.R;
+import com.homechart.app.home.activity.FaBuActvity;
+import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.utils.ToastUtils;
 import com.visenze.visearch.android.model.Image;
+
+import java.util.List;
+
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.model.PhotoInfo;
 
 /**
  * Created by gumenghao on 17/9/11.
@@ -68,9 +78,25 @@ public class PhotoActivity
                 camera_preview.takePhoto(this);
                 break;
             case R.id.camera_album_button:
-                Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                openAlbumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                startActivityForResult(openAlbumIntent, RESULT_LOAD_IMAGE_FROM_GALLERY);
+//                Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
+//                openAlbumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+//                startActivityForResult(openAlbumIntent, RESULT_LOAD_IMAGE_FROM_GALLERY);
+                GalleryFinal.openGallerySingle(0, new GalleryFinal.OnHanlderResultCallback() {
+                    @Override
+                    public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+                        if (resultList != null && resultList.size() > 0) {
+                            Message message = new Message();
+                            message.obj = resultList.get(0).getPhotoPath().toString();
+                            handler.sendMessage(message);
+                        } else {
+                            ToastUtils.showCenter(PhotoActivity.this, "图片资源获取失败");
+                        }
+                    }
+
+                    @Override
+                    public void onHanlderFailure(int requestCode, String errorMsg) {
+                    }
+                });
                 break;
             case R.id.camera_flash_button:
                 camera_flash_button.setSelected(camera_preview.turnOnTorch());
@@ -91,25 +117,17 @@ public class PhotoActivity
         PhotoActivity.this.finish();
     }
 
-    private static final int RESULT_LOAD_IMAGE_FROM_GALLERY = 0x00;
-    /**
-     * Image selection activity callback:
-     *
-     * get the image Uri from intent and pass to upload search params to start search
-     */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RESULT_LOAD_IMAGE_FROM_GALLERY && resultCode == Activity.RESULT_OK && null != data) {
-            Uri uri = data.getData();
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String url_Imag = (String) msg.obj;
             Intent intent1 = new Intent(PhotoActivity.this, EditPhotoActivity.class);
-            intent1.putExtra("image_url", "uri");
-            intent1.putExtra("type", "uri");
-            intent1.setData(uri);
+            intent1.putExtra("image_url", url_Imag);
+            intent1.putExtra("type", "location");
             startActivity(intent1);
             PhotoActivity.this.finish();
         }
-    }
+    };
 
 }

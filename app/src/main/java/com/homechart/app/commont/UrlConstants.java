@@ -79,5 +79,7 @@ public class UrlConstants {
     public static final String PINGLUN_MSG = "https://api.idcool.com.cn/notice/comment/slist";  //评论消息
     public static final String DETAIL_SHOP = "https://api.idcool.com.cn/product/product/info";  //商品详情
     public static final String MORELIKE_SHOP = "https://api.idcool.com.cn/product/product/similar";  //相似商品
+    public static final String CHECK_IMAGE = "https://api.idcool.com.cn/product/product/detect";  //检测图片中的物体
+    public static final String SEARCH_SHOP_IMAGE = "https://api.idcool.com.cn/product/product/search";  //从商品库中检索所圈商品的同款
 
 }

@@ -23,23 +23,41 @@
  */
 package com.homechart.app.visearch;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
+import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.commont.PublicUtils;
+import com.homechart.app.commont.UrlConstants;
+import com.homechart.app.home.activity.FaBuActvity;
+import com.homechart.app.home.bean.searchfservice.SearchSBean;
+import com.homechart.app.utils.BitmapUtil;
 import com.homechart.app.utils.CustomProgress;
+import com.homechart.app.utils.GsonUtil;
+import com.homechart.app.utils.Md5Util;
+import com.homechart.app.utils.ToastUtils;
+import com.homechart.app.utils.volley.FileHttpManager;
+import com.homechart.app.utils.volley.PutFileCallBack;
 import com.visenze.visearch.android.ResultList;
 import com.visenze.visearch.android.UploadSearchParams;
 import com.visenze.visearch.android.ViSearch;
 import com.visenze.visearch.android.model.Image;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -47,6 +65,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
 
 import retrofit2.http.Url;
 
@@ -55,11 +76,13 @@ import retrofit2.http.Url;
  */
 public class EditPhotoActivity
         extends FragmentActivity
-        implements ViSearch.ResultListener {
+        implements ViSearch.ResultListener,
+        PutFileCallBack {
 
     //parameters passed in from result activity
     private String imagePath;
     private String thumbnailPath;
+    private SearchSBean searchSBean;
     private ResultList resultList;
     private String image_url;
     private static final String APP_KEY = "2317c981400c6b2ca55114cb6bdfb963";
@@ -94,73 +117,75 @@ public class EditPhotoActivity
         CustomProgress.show(this, "正在识别中...", false, null);
         image_url = getIntent().getStringExtra("image_url");
         type = getIntent().getStringExtra("type");
-        viSearch = new ViSearch.Builder(APP_KEY).build(EditPhotoActivity.this);
-        viSearch.setListener(EditPhotoActivity.this);
-
-        if (null != type && type.equals("location")) {
-            imagePath = image_url;
-            thumbnailPath = imagePath;
-            BufferedInputStream in;
-            try {
-                in = new BufferedInputStream(new FileInputStream(image_url));
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
-                int size = 0;
-                byte[] temp = new byte[1024];
-                while ((size = in.read(temp)) != -1) {
-                    out.write(temp, 0, size);
-                }
-                in.close();
-                Image image = new Image(out.toByteArray(), Image.ResizeSettings.HIGH);
-                UploadSearchParams uploadSearchParams = new UploadSearchParams(image);
-                DataHelper.setSearchParams(uploadSearchParams, "all");
-                viSearch.uploadSearch(uploadSearchParams);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        imagePath = image_url;
+        upLoaderHeader();
+//        viSearch = new ViSearch.Builder(APP_KEY).build(EditPhotoActivity.this);
+//        viSearch.setListener(EditPhotoActivity.this);
 //
-//            Image image = new Image(image_url);
-//            UploadSearchParams uploadSearchParams = new UploadSearchParams();
-//            uploadSearchParams.setImage(image);
-//            DataHelper.setSearchParams(uploadSearchParams, "all");
-//            viSearch.uploadSearch(uploadSearchParams);
-        } else if (null != type && type.equals("uri")) {
-            new Thread() {
-                @Override
-                public void run() {
-                    super.run();
-                    try {
-                        byte[] bytes = ImageHelper.readBytes(getIntent().getData(), EditPhotoActivity.this, Image.ResizeSettings.HIGH);
-                        imagePath = ImageHelper.saveImageByteTmp(EditPhotoActivity.this, bytes);
-                        thumbnailPath = imagePath;
-                        image_url = imagePath;
-                        Image image = new Image(bytes, Image.ResizeSettings.HIGH);
-                        UploadSearchParams uploadSearchParams = new UploadSearchParams(image);
-                        DataHelper.setSearchParams(uploadSearchParams, "all");
-                        viSearch.uploadSearch(uploadSearchParams);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }.start();
-        } else {
-            new Thread() {
-                @Override
-                public void run() {
-                    super.run();
-                    try {
-                        byte[] buffer = getImage(image_url);
-                        Message message = new Message();
-                        message.obj = buffer;
-                        message.arg1 = 1;
-                        mHandler.sendMessage(message);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }.start();
-        }
+//        if (null != type && type.equals("location")) {
+//            imagePath = image_url;
+//            thumbnailPath = imagePath;
+//            BufferedInputStream in;
+//            try {
+//                in = new BufferedInputStream(new FileInputStream(image_url));
+//                ByteArrayOutputStream out = new ByteArrayOutputStream();
+//                int size = 0;
+//                byte[] temp = new byte[1024];
+//                while ((size = in.read(temp)) != -1) {
+//                    out.write(temp, 0, size);
+//                }
+//                in.close();
+//                Image image = new Image(out.toByteArray(), Image.ResizeSettings.HIGH);
+//                UploadSearchParams uploadSearchParams = new UploadSearchParams(image);
+//                DataHelper.setSearchParams(uploadSearchParams, "all");
+//                viSearch.uploadSearch(uploadSearchParams);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+////
+////            Image image = new Image(image_url);
+////            UploadSearchParams uploadSearchParams = new UploadSearchParams();
+////            uploadSearchParams.setImage(image);
+////            DataHelper.setSearchParams(uploadSearchParams, "all");
+////            viSearch.uploadSearch(uploadSearchParams);
+//        } else if (null != type && type.equals("uri")) {
+//            new Thread() {
+//                @Override
+//                public void run() {
+//                    super.run();
+//                    try {
+//                        byte[] bytes = ImageHelper.readBytes(getIntent().getData(), EditPhotoActivity.this, Image.ResizeSettings.HIGH);
+//                        imagePath = ImageHelper.saveImageByteTmp(EditPhotoActivity.this, bytes);
+//                        thumbnailPath = imagePath;
+//                        image_url = imagePath;
+//                        Image image = new Image(bytes, Image.ResizeSettings.HIGH);
+//                        UploadSearchParams uploadSearchParams = new UploadSearchParams(image);
+//                        DataHelper.setSearchParams(uploadSearchParams, "all");
+//                        viSearch.uploadSearch(uploadSearchParams);
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }.start();
+//        } else {
+//            new Thread() {
+//                @Override
+//                public void run() {
+//                    super.run();
+//                    try {
+//                        byte[] buffer = getImage(image_url);
+//                        Message message = new Message();
+//                        message.obj = buffer;
+//                        message.arg1 = 1;
+//                        mHandler.sendMessage(message);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }.start();
+//        }
     }
 
     public String getImagePath() {
@@ -219,6 +244,10 @@ public class EditPhotoActivity
         return null;
     }
 
+    public SearchSBean getSearchSBean() {
+        return searchSBean;
+    }
+
     /**
      * Get data from stream
      *
@@ -237,5 +266,97 @@ public class EditPhotoActivity
         inStream.close();
         return outStream.toByteArray();
     }
+
+
+    private void upLoaderHeader() {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                SimpleDateFormat timesdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String fileName = timesdf.format(new Date()).toString();//获取系统时间
+                //压缩图片
+                Bitmap bitmap_before = null;
+                bitmap_before = BitmapUtil.getBitmap(image_url);
+                Bitmap bitmap_compress_press = BitmapUtil.compressImage(bitmap_before);
+                try {
+                    boolean status = BitmapUtil.saveBitmap(bitmap_compress_press, Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName + "/");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                FileHttpManager.getInstance().uploadFile(EditPhotoActivity.this, new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName + "/"),
+                        UrlConstants.CHECK_IMAGE,
+                        map,
+                        PublicUtils.getPublicHeader(MyApplication.getInstance()));
+            }
+        }.start();
+    }
+
+    @Override
+    public void onSucces(String result) {
+        try {
+            JSONObject jsonObject = new JSONObject(result);
+            int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+            String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+            String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+            if (error_code == 0) {
+                searchSBean = GsonUtil.jsonToBean(data_msg, SearchSBean.class);
+                if (null != searchSBean.getObject_list() && searchSBean.getObject_list().size() > 0) {
+                    Message message = new Message();
+                    message.arg1 = 0;
+                    handler.sendMessage(message);
+                }else {
+                    Message message = new Message();
+                    message.arg1 = 1;
+                    handler.sendMessage(message);
+                }
+            } else {
+                ToastUtils.showCenter(EditPhotoActivity.this, error_msg);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onFails() {
+        CustomProgress.cancelDialog();
+        Message message = new Message();
+        message.arg1 = 2;
+        handler.sendMessage(message);
+    }
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+           int tag =  msg.arg1;
+            switch (tag){
+                case 0:
+                    CustomProgress.cancelDialog();
+                    if(null != searchSBean){
+                        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.add(R.id.main_holder, PhotoEditFragment.newInstance());
+                        fragmentTransaction.commit();
+                    }
+                    break;
+                case 1:
+                    CustomProgress.cancelDialog();
+                    ToastUtils.showCenter(EditPhotoActivity.this, "未识别到数据！");
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.add(R.id.main_holder, PhotoEditFragment.newInstance());
+                    fragmentTransaction.commit();
+                    break;
+                case 2:
+                    CustomProgress.cancelDialog();
+                    ToastUtils.showCenter(EditPhotoActivity.this, "图片上传失败！");
+                    break;
+            }
+        }
+    };
 
 }
