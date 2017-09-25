@@ -30,6 +30,7 @@ import com.homechart.app.home.bean.shopdetails.ShopDetailsBean;
 import com.homechart.app.home.bean.shopdetails.ShopDetailsItemInfoBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.imagedetail.ImageDetailsActivity;
+import com.homechart.app.myview.GridSpacingItemDecoration;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
@@ -243,11 +244,22 @@ public class ShopDetailActivity
                 layoutParams.height = widMoreImage;
                 iv_imageview.setLayoutParams(layoutParams);
                 ImageUtils.displayFilletImage(mListData.get(position).getImage().getImg0(), iv_imageview);
+                ((TextView)holder.getView(R.id.tv_shop_item_name)).setText(mListData.get(position).getTitle());
+                ((TextView)holder.getView(R.id.tv_price)).setText("¥ "+mListData.get(position).getPrice());
+                holder.getView(R.id.rl_item_shop_all).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //TODO 跳转到商品详情
+                        Intent intent = new Intent(ShopDetailActivity.this, ShopDetailActivity.class);
+                        intent.putExtra("spu_id", mListData.get(position).getSpu_id());
+                        startActivity(intent);
+                    }
+                });
 
             }
         };
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
-        mRecyclerView.setLayoutManager(new GridLayoutManager(ShopDetailActivity.this, 2));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setOnLoadMoreListener(this);
         mRecyclerView.addHeaderView(headerView);
@@ -328,8 +340,7 @@ public class ShopDetailActivity
                 }
             }
         };
-        MyHttpManager.getInstance().getLikeShop(spu_id, "20", callBack);
-
+        MyHttpManager.getInstance().getLikeShop(spu_id, "40", callBack);
     }
 
     private void updateViewFromData(List<ShopDetailsItemInfoBean> item_list) {
