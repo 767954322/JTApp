@@ -383,7 +383,9 @@ public class PhotoEditFragment
 
     //When cancel button is clicked, bring UI back
     private void changeUploadUIBack() {
-        ButterKnife.apply(photoUIs, SHOW);
+        if(photoUIs != null){
+            ButterKnife.apply(photoUIs, SHOW);
+        }
         loadingImage.setVisibility(View.GONE);
     }
 
