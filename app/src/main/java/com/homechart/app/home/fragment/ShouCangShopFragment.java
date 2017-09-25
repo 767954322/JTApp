@@ -376,7 +376,7 @@ public class ShouCangShopFragment
                 }
             }
         };
-        MyHttpManager.getInstance().getShouCangShopList("100006", (page_num - 1) * 20, "20", callback);
+        MyHttpManager.getInstance().getShouCangShopList(user_id, (page_num - 1) * 20, "20", callback);
     }
 
     private void updateViewFromData(List<SCItemShopBean> listData, String state) {
