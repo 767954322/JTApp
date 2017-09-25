@@ -131,6 +131,7 @@ public class PhotoEditFragment
     private int widerImage;
     private int heightImage;
     private int selectedTypeID;
+    private boolean ifFirst = true;
 
     public static PhotoEditFragment newInstance() {
         return new PhotoEditFragment();
@@ -319,8 +320,12 @@ public class PhotoEditFragment
                                     startDetailActivity(searchShopsBean.getItem_list().get(position));
                                 }
                             });
-//                            horizontalAdapter.setSelected(strTypeName.indexOf(selectedType));
-//                            categoryListView.scrollTo(strTypeName.indexOf(selectedType), 0);
+                            if (ifFirst) {
+//                                horizontalAdapter.setSelected(strTypeName.indexOf(selectedType));
+//                                categoryListView.scrollTo(strTypeName.indexOf(selectedType), 0);
+                                categoryListView.smoothScrollToPosition(strTypeName.indexOf(selectedType));
+                                ifFirst = false;
+                            }
 
                         } else {
                             ToastUtils.showCenter(activity, error_msg);

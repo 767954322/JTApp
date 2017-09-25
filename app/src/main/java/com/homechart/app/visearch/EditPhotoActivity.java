@@ -76,38 +76,13 @@ import retrofit2.http.Url;
  */
 public class EditPhotoActivity
         extends FragmentActivity
-        implements ViSearch.ResultListener,
-        PutFileCallBack {
+        implements PutFileCallBack {
 
     //parameters passed in from result activity
     private String imagePath;
-    private String thumbnailPath;
     private SearchSBean searchSBean;
-    private ResultList resultList;
     private String image_url;
-    private static final String APP_KEY = "2317c981400c6b2ca55114cb6bdfb963";
-    private ViSearch viSearch;
     private String type;
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            int arg = msg.arg1;
-            if (arg == 1) {
-                byte[] buffer = (byte[]) msg.obj;
-                imagePath = ImageHelper.saveImageByte(EditPhotoActivity.this, buffer);
-                thumbnailPath = imagePath;
-                UploadSearchParams uploadSearchParams = new UploadSearchParams(image_url);
-                viSearch.uploadSearch(uploadSearchParams);
-            } else if (arg == 2) {
-                CustomProgress.cancelDialog();
-                //add fragment
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.add(R.id.main_holder, PhotoEditFragment.newInstance());
-                fragmentTransaction.commit();
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,110 +94,15 @@ public class EditPhotoActivity
         type = getIntent().getStringExtra("type");
         imagePath = image_url;
         upLoaderHeader();
-//        viSearch = new ViSearch.Builder(APP_KEY).build(EditPhotoActivity.this);
-//        viSearch.setListener(EditPhotoActivity.this);
-//
-//        if (null != type && type.equals("location")) {
-//            imagePath = image_url;
-//            thumbnailPath = imagePath;
-//            BufferedInputStream in;
-//            try {
-//                in = new BufferedInputStream(new FileInputStream(image_url));
-//                ByteArrayOutputStream out = new ByteArrayOutputStream();
-//                int size = 0;
-//                byte[] temp = new byte[1024];
-//                while ((size = in.read(temp)) != -1) {
-//                    out.write(temp, 0, size);
-//                }
-//                in.close();
-//                Image image = new Image(out.toByteArray(), Image.ResizeSettings.HIGH);
-//                UploadSearchParams uploadSearchParams = new UploadSearchParams(image);
-//                DataHelper.setSearchParams(uploadSearchParams, "all");
-//                viSearch.uploadSearch(uploadSearchParams);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-////
-////            Image image = new Image(image_url);
-////            UploadSearchParams uploadSearchParams = new UploadSearchParams();
-////            uploadSearchParams.setImage(image);
-////            DataHelper.setSearchParams(uploadSearchParams, "all");
-////            viSearch.uploadSearch(uploadSearchParams);
-//        } else if (null != type && type.equals("uri")) {
-//            new Thread() {
-//                @Override
-//                public void run() {
-//                    super.run();
-//                    try {
-//                        byte[] bytes = ImageHelper.readBytes(getIntent().getData(), EditPhotoActivity.this, Image.ResizeSettings.HIGH);
-//                        imagePath = ImageHelper.saveImageByteTmp(EditPhotoActivity.this, bytes);
-//                        thumbnailPath = imagePath;
-//                        image_url = imagePath;
-//                        Image image = new Image(bytes, Image.ResizeSettings.HIGH);
-//                        UploadSearchParams uploadSearchParams = new UploadSearchParams(image);
-//                        DataHelper.setSearchParams(uploadSearchParams, "all");
-//                        viSearch.uploadSearch(uploadSearchParams);
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }.start();
-//        } else {
-//            new Thread() {
-//                @Override
-//                public void run() {
-//                    super.run();
-//                    try {
-//                        byte[] buffer = getImage(image_url);
-//                        Message message = new Message();
-//                        message.obj = buffer;
-//                        message.arg1 = 1;
-//                        mHandler.sendMessage(message);
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }.start();
-//        }
     }
 
     public String getImagePath() {
         return imagePath;
     }
 
-    public String getThumbnailPath() {
-        return thumbnailPath;
-    }
-
-    public ResultList getResultList() {
-        return resultList;
-    }
-
     @Override
     public void onBackPressed() {
         finish();
-    }
-
-    @Override
-    public void onSearchResult(ResultList resultList) {
-        this.resultList = resultList;
-
-        Message message = new Message();
-        message.arg1 = 2;
-        mHandler.sendMessage(message);
-    }
-
-    @Override
-    public void onSearchError(String errorMessage) {
-
-        Log.d("test", errorMessage);
-    }
-
-    @Override
-    public void onSearchCanceled() {
-        Log.d("test", "onSearchCanceled");
     }
 
     /**
