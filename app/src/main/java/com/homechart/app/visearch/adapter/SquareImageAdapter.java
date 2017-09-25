@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.homechart.app.R;
+import com.homechart.app.home.bean.shopdetails.ShopDetailsItemInfoBean;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.squareup.picasso.Picasso;
 import com.visenze.visearch.android.model.ImageResult;
@@ -41,11 +42,11 @@ import java.util.List;
 /**
  * Created by visenze on 15/12/15.
  */
-public class SquareImageAdapter extends ArrayAdapter<ImageResult> {
+public class SquareImageAdapter extends ArrayAdapter<ShopDetailsItemInfoBean> {
     private Activity mContext;
-    private List<ImageResult> imageList;
+    private List<ShopDetailsItemInfoBean> imageList;
 
-    public SquareImageAdapter(Activity c, List<ImageResult> imageList) {
+    public SquareImageAdapter(Activity c, List<ShopDetailsItemInfoBean> imageList) {
         super(c, R.layout.result_layout, imageList);
         this.mContext = c;
         this.imageList = imageList;
@@ -71,7 +72,7 @@ public class SquareImageAdapter extends ArrayAdapter<ImageResult> {
             viewHolder = (ViewHolder)imageLayout.getTag();
         }
 
-        ImageUtils.displayFilletImage(imageList.get(position).getImageUrl(),viewHolder.imageView);
+        ImageUtils.displayFilletImage(imageList.get(position).getImage().getImg0(),viewHolder.imageView);
 
 //        Picasso.with(mContext)
 //                .load(imageList.get(position).getImageUrl())
@@ -81,11 +82,11 @@ public class SquareImageAdapter extends ArrayAdapter<ImageResult> {
 //                .fit()
 //                .tag(mContext)
 //                .into(viewHolder.imageView);
-        int score = 0;
-        if(imageList.get(position).getScore() != null){
-            score = (int)(imageList.get(position).getScore() * 100);
-        }
-        viewHolder.scoreView.setText("相识度 " + String.valueOf(score) + "%");
+//        int score = 0;
+//        if(imageList.get(position).getScore() != null){
+//            score = (int)(imageList.get(position).getScore() * 100);
+//        }
+//        viewHolder.scoreView.setText("相识度 " + String.valueOf(score) + "%");
 
         return imageLayout;
     }

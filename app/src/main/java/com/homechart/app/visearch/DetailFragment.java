@@ -36,7 +36,17 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.homechart.app.R;
+import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.home.activity.ShopDetailActivity;
+import com.homechart.app.home.bean.shopdetails.MoreShopBean;
+import com.homechart.app.home.bean.shopdetails.ShopDetailsItemInfoBean;
+import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.utils.GsonUtil;
+import com.homechart.app.utils.ToastUtils;
+import com.homechart.app.utils.volley.MyHttpManager;
+import com.homechart.app.utils.volley.OkStringRequest;
 import com.homechart.app.visearch.adapter.SquareImageAdapter;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
@@ -45,6 +55,11 @@ import com.visenze.visearch.android.ResultList;
 import com.visenze.visearch.android.TrackParams;
 import com.visenze.visearch.android.ViSearch;
 import com.visenze.visearch.android.model.ImageResult;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -57,8 +72,7 @@ import butterknife.OnClick;
  */
 public class DetailFragment
         extends Fragment
-        implements ViSearch.ResultListener
-        ,ScrollAwareGridView.OnDetectScrollListener{
+        implements ScrollAwareGridView.OnDetectScrollListener {
     //inject ui
     @InjectView(R.id.detail_image_view)
     ImageView detailImageView;
@@ -77,8 +91,6 @@ public class DetailFragment
     @InjectView(R.id.detail_im_name_view)
     TextView imNameView;
 
-    //ViSearch and Search parameters
-    private ViSearch viSearch;
     private String url;
 
     public static DetailFragment newInstance() {
@@ -91,17 +103,9 @@ public class DetailFragment
         View view = inflater.inflate(R.layout.detail_layout, container, false);
         ButterKnife.inject(this, view);
 
-        //get viSearch instance
-        try {
-            viSearch = SearchAPI.getInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         String imName = ((DetailActivity) getActivity()).getImName();
         url = ((DetailActivity) getActivity()).getUrl();
-
-        viSearch.setListener(this);
 
         updateUI(url, imName);
         editQueryView.setText("");
@@ -113,7 +117,6 @@ public class DetailFragment
 
     @OnClick(R.id.detail_back_button)
     public void clickBack() {
-        viSearch.cancelSearch();
         getActivity().finish();
     }
 
@@ -144,36 +147,6 @@ public class DetailFragment
         ButterKnife.reset(this);
     }
 
-    @Override
-    public void onSearchResult(final ResultList resultList) {
-        if (isAdded()) {
-            loadingImage.setVisibility(View.GONE);
-            similarListView.setVisibility(View.VISIBLE);
-            similarListView.setAdapter(new SquareImageAdapter(getActivity(), resultList.getImageList()));
-            similarListView.setOnDetectScrollListener(this);
-            similarListView.invalidate();
-            similarListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    ImageResult imageResult = resultList.getImageList().get(position);
-                    updateUI(imageResult.getImageUrl(), imageResult.getImageName());
-                    startSearch(imageResult.getImageName());
-                    viSearch.track(new TrackParams().setAction("click").setReqid(resultList.getTransId()).setImName(imageResult.getImageName()));
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onSearchError(String errorMessage) {
-        loadingImage.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onSearchCanceled() {
-
-    }
-
     private void startSearch(String imName) {
         loadingImage.setVisibility(View.VISIBLE);
         similarListView.setVisibility(View.GONE);
@@ -181,10 +154,7 @@ public class DetailFragment
         AnimationDrawable anim = (AnimationDrawable) loadingImage.getDrawable();
         anim.start();
 
-        //start id search
-        IdSearchParams params = new IdSearchParams(imName);
-        DataHelper.setIdSearchParams(params.getBaseSearchParams());
-        viSearch.idSearch(params);
+        getListData(imName);
     }
 
     private void updateUI(String url, String imName) {
@@ -227,4 +197,51 @@ public class DetailFragment
     public void onBottomReached() {
 
     }
+
+
+    //获取相似商品
+    private void getListData(String spu_id) {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtils.showCenter(getActivity(), "相似商品信息获取失败！");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        MoreShopBean moreShopBean = GsonUtil.jsonToBean(data_msg, MoreShopBean.class);
+                        final List<ShopDetailsItemInfoBean> list = moreShopBean.getItem_list();
+                        loadingImage.setVisibility(View.GONE);
+                        similarListView.setVisibility(View.VISIBLE);
+                        similarListView.setAdapter(new SquareImageAdapter(getActivity(), list));
+                        similarListView.setOnDetectScrollListener(DetailFragment.this);
+                        similarListView.invalidate();
+                        similarListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                ShopDetailsItemInfoBean shopDetailsItemInfoBean = list.get(position);
+                                updateUI(shopDetailsItemInfoBean.getImage().getImg0(), shopDetailsItemInfoBean.getSpu_id());
+                                startSearch(shopDetailsItemInfoBean.getSpu_id());
+                                ((DetailActivity) getActivity()).setBuy_url(shopDetailsItemInfoBean.getBuy_url());
+                            }
+                        });
+                    } else {
+                        ToastUtils.showCenter(getActivity(), error_msg);
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(getActivity(), getString(R.string.huodong_get_error));
+                }
+            }
+        };
+        MyHttpManager.getInstance().getLikeShop(spu_id, "20", callBack);
+
+    }
+
+
 }

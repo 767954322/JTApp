@@ -65,4 +65,8 @@ public class DetailActivity extends FragmentActivity {
     public String getBuy_url() {
         return buy_url;
     }
+
+    public void setBuy_url(String buy_url) {
+        this.buy_url = buy_url;
+    }
 }
