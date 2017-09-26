@@ -689,9 +689,9 @@ public class ImageDetailLongActivity
             case R.id.iv_details_image:
 
                 if (imageDetailBean != null) {
-                    Intent intent1 = new Intent(ImageDetailLongActivity.this, EditPhotoActivity.class);
-                    intent1.putExtra("image_url", imageDetailBean.getItem_info().getImage().getImg0());
-                    startActivity(intent1);
+//                    Intent intent1 = new Intent(ImageDetailLongActivity.this, EditPhotoActivity.class);
+//                    intent1.putExtra("image_url", imageDetailBean.getItem_info().getImage().getImg0());
+//                    startActivity(intent1);
                 }
 
                 break;
