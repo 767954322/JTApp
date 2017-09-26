@@ -119,9 +119,10 @@ public class PhotoActivity
 
     @Override
     public void OnImageCaptured(Image image, String imagePath) {
-        Intent intent1 = new Intent(PhotoActivity.this, EditPhotoActivity.class);
+        Intent intent1 = new Intent(PhotoActivity.this, SearchLoadingActivity.class);
         intent1.putExtra("image_url", imagePath);
         intent1.putExtra("type", "location");
+        intent1.putExtra("image_type", "location");
         startActivity(intent1);
         PhotoActivity.this.finish();
     }
@@ -131,9 +132,10 @@ public class PhotoActivity
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String url_Imag = (String) msg.obj;
-            Intent intent1 = new Intent(PhotoActivity.this, EditPhotoActivity.class);
+            Intent intent1 = new Intent(PhotoActivity.this, SearchLoadingActivity.class);
             intent1.putExtra("image_url", url_Imag);
             intent1.putExtra("type", "location");
+            intent1.putExtra("image_type", "location");
             startActivity(intent1);
             PhotoActivity.this.finish();
         }

@@ -40,6 +40,7 @@ import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.homechart.app.visearch.EditPhotoActivity;
 import com.homechart.app.visearch.PhotoActivity;
+import com.homechart.app.visearch.SearchLoadingActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -117,10 +118,12 @@ public class ShiBieActivity
                 holder.getView(R.id.iv_article_image).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent1 = new Intent(ShiBieActivity.this, EditPhotoActivity.class);
+
+                        Intent intent1 = new Intent(ShiBieActivity.this, SearchLoadingActivity.class);
                         intent1.putExtra("image_url", mListData.get(position).getItem_info().getImage_url());
                         intent1.putExtra("type", "lishi");
                         intent1.putExtra("image_id", mListData.get(position).getItem_info().getImage_id());
+                        intent1.putExtra("image_type", "network");
                         startActivity(intent1);
                     }
                 });
