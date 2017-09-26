@@ -9,6 +9,7 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.homechart.app.R;
 import com.homechart.app.home.activity.FaBuActvity;
@@ -31,10 +32,11 @@ public class PhotoActivity
         implements View.OnClickListener,
         CameraPreview.ImageCapturedCallback {
 
-    private ImageView iv_camera_shutter_button;
+    private TextView iv_camera_shutter_button;
     private CameraPreview camera_preview;
     private ImageView iv_back;
-    private ImageView camera_album_button;
+    private TextView camera_album_button;
+    private TextView tv_shibiejilu;
     private ImageView camera_flash_button;
     private ImageView camera_switch_button;
 
@@ -45,10 +47,11 @@ public class PhotoActivity
 
     @Override
     protected void initView() {
-        iv_camera_shutter_button = (ImageView) findViewById(R.id.iv_camera_shutter_button);
+        iv_camera_shutter_button = (TextView) findViewById(R.id.iv_camera_shutter_button);
         camera_preview = (CameraPreview) findViewById(R.id.camera_preview);
         iv_back = (ImageView) findViewById(R.id.iv_back);
-        camera_album_button = (ImageView) findViewById(R.id.camera_album_button);
+        camera_album_button = (TextView) findViewById(R.id.camera_album_button);
+        tv_shibiejilu = (TextView) findViewById(R.id.tv_shibiejilu);
         camera_flash_button = (ImageView) findViewById(R.id.camera_flash_button);
         camera_switch_button = (ImageView) findViewById(R.id.camera_switch_button);
     }
@@ -66,6 +69,7 @@ public class PhotoActivity
         iv_camera_shutter_button.setOnClickListener(this);
         camera_flash_button.setOnClickListener(this);
         camera_switch_button.setOnClickListener(this);
+        tv_shibiejilu.setOnClickListener(this);
     }
 
     @Override
@@ -105,6 +109,9 @@ public class PhotoActivity
                 camera_flash_button.setSelected(false);
                 camera_preview.switchCamera();
                 break;
+            case R.id.tv_shibiejilu:
+                ToastUtils.showCenter(this,"识别纪录！");
+                break;
         }
     }
 
@@ -117,7 +124,7 @@ public class PhotoActivity
         PhotoActivity.this.finish();
     }
 
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);

@@ -79,8 +79,7 @@ import me.littlecheesecake.waterfalllayoutview.MultiColumnListView;
  * <p>
  * PhotoEditFragment
  */
-public class PhotoEditFragment
-        extends BaseFragment
+public class PhotoEditFragment extends BaseFragment
         implements View.OnClickListener, ScrollAwareGridView.OnDetectScrollListener {
     final static ButterKnife.Action<View> SHOW = new ButterKnife.Action<View>() {
         @Override
@@ -277,7 +276,7 @@ public class PhotoEditFragment
         });
         //start scan
         AnimationDrawable anim = (AnimationDrawable) loadingImage.getDrawable();
-        if(anim != null){
+        if (anim != null) {
             anim.start();
         }
     }
@@ -285,7 +284,7 @@ public class PhotoEditFragment
     private void searchShopImage(String loc) {
         //start scan
         AnimationDrawable anim = (AnimationDrawable) loadingImage.getDrawable();
-        if(anim != null){
+        if (anim != null) {
             anim.start();
         }
         if (listSearch != null && listSearch.size() > 0) {
@@ -383,7 +382,7 @@ public class PhotoEditFragment
 
     //When cancel button is clicked, bring UI back
     private void changeUploadUIBack() {
-        if(photoUIs != null){
+        if (photoUIs != null) {
             ButterKnife.apply(photoUIs, SHOW);
         }
         loadingImage.setVisibility(View.GONE);

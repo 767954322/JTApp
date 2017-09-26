@@ -9,39 +9,72 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <ImageView
-        android:id="@+id/iv_back"
-        style="@style/AppTheme.ImageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/font_20"
-        android:layout_marginLeft="@dimen/font_10"
-        android:src="@drawable/camera_close_selector"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_50"
+        android:background="@color/bg_80000000">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_10"
+            android:padding="@dimen/font_10"
+            android:src="@drawable/back_takephoto" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/font_110"
+        android:layout_height="@dimen/font_117"
         android:layout_alignParentBottom="true"
-        android:background="@color/bg_33000000">
+        android:background="@color/bg_80000000">
 
-        <ImageView
+        <TextView
             android:id="@+id/iv_camera_shutter_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/camera_button_selector"
-            android:layout_centerInParent="true"
-            android:clickable="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/font_20"
+            android:drawableTop="@drawable/paizhao"
+            android:drawablePadding="@dimen/font_7"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_14"
+            android:gravity="center_horizontal"
+            android:text="拍照识别" />
 
-        <ImageView
+        <TextView
             android:id="@+id/camera_album_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/font_20"
+            android:layout_marginLeft="@dimen/font_50"
+            android:drawableTop="@drawable/xiangce_takephoto"
+            android:drawablePadding="@dimen/font_7"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_14"
+            android:gravity="center_horizontal"
+            android:text="相册" />
+
+        <TextView
+            android:id="@+id/tv_shibiejilu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/font_20"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/font_20"
-            android:clickable="true"
-            android:src="@drawable/camera_album_selector"/>
+            android:layout_marginRight="@dimen/font_50"
+            android:drawableTop="@drawable/xiangce_takephoto"
+            android:drawablePadding="@dimen/font_7"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_14"
+            android:gravity="center_horizontal"
+            android:text="识别纪录" />
 
     </RelativeLayout>
 
@@ -50,21 +83,23 @@
         android:id="@+id/camera_switch_button"
         style="@style/AppTheme.CameraButton"
         android:layout_width="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/font_20"
+        android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/font_20"
+        android:layout_marginTop="@dimen/font_20"
         android:clickable="true"
-        android:src="@drawable/camera_switch_selector"/>
+        android:src="@drawable/camera_switch_selector"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/camera_flash_button"
         style="@style/AppTheme.CameraButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/camera_switch_button"
         android:layout_marginRight="20dp"
-        android:clickable="true"
         android:layout_marginTop="@dimen/font_20"
-        android:src="@drawable/camera_light_selector"/>
+        android:layout_toLeftOf="@+id/camera_switch_button"
+        android:clickable="true"
+        android:src="@drawable/camera_light_selector"
+        android:visibility="gone" />
 </RelativeLayout>

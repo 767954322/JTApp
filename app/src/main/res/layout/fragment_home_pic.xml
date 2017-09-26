@@ -408,19 +408,19 @@
 
     <RelativeLayout
         android:id="@+id/rl_shibie"
-        android:layout_width="@dimen/font_90"
-        android:layout_height="@dimen/font_90"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/font_15"
+        android:layout_marginRight="@dimen/font_20"
         android:clickable="true"
-        android:layout_marginBottom="@dimen/font_80">
+        android:layout_marginBottom="@dimen/font_69">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:scaleType="fitXY"
-            android:src="@drawable/shibie"/>
+            android:src="@drawable/tongkuan"/>
 
     </RelativeLayout>
 
