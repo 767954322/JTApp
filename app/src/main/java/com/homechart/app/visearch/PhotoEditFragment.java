@@ -385,7 +385,9 @@ public class PhotoEditFragment extends BaseFragment
         if (photoUIs != null) {
             ButterKnife.apply(photoUIs, SHOW);
         }
-        loadingImage.setVisibility(View.GONE);
+        if(loadingImage != null){
+            loadingImage.setVisibility(View.GONE);
+        }
     }
 
     @Override
