@@ -69,6 +69,7 @@ public class ShiBieActivity
     private RelativeLayout rl_no_data;
     private int position;
     private int screenWid;
+    private TextView tv_tital_comment;
 
     @Override
     protected int getLayoutResId() {
@@ -79,6 +80,7 @@ public class ShiBieActivity
     protected void initView() {
         user_id = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
         ibBack = (ImageButton) findViewById(R.id.nav_left_imageButton);
+        tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
         mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview);
         rl_no_data = (RelativeLayout) findViewById(R.id.rl_no_data);
     }
@@ -92,6 +94,7 @@ public class ShiBieActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
         screenWid = PublicUtils.getScreenWidth(this);
+        tv_tital_comment.setText("识别纪录");
         buildRecyclerView();
     }
 
