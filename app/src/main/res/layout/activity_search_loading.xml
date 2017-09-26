@@ -13,4 +13,46 @@
         android:scaleType="centerCrop"/>
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_80000000">
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_centerInParent="true">
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/gif_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shibiezhong"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/font_10"
+                android:layout_toRightOf="@+id/gif_image"
+                android:textSize="@dimen/size_20"
+                android:textColor="@color/white"
+                android:text="智能分析中..."/>
+
+        </RelativeLayout>
+
+
+        <ImageView
+            android:id="@+id/iv_quxiao_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/font_45"
+            android:src="@drawable/bushibie"/>
+
+    </RelativeLayout>
+
 </RelativeLayout>

@@ -78,6 +78,7 @@ public class SearchLoadingActivity
     private String image_id;
     private ImageView iv_image_search;
     private String image_type;
+    private ImageView iv_quxiao_loading;
 
     @Override
     protected int getLayoutResId() {
@@ -98,6 +99,7 @@ public class SearchLoadingActivity
     protected void initView() {
 
         iv_image_search = (ImageView) findViewById(R.id.iv_image_search);
+        iv_quxiao_loading = (ImageView) findViewById(R.id.iv_quxiao_loading);
 
     }
 
@@ -109,6 +111,12 @@ public class SearchLoadingActivity
             ImageUtils.disRectangleImage(imagePath, iv_image_search);
         }
         shibie();
+    }
+
+    @Override
+    protected void initListener() {
+        super.initListener();
+        iv_quxiao_loading.setOnClickListener(this);
     }
 
     private void shibie() {
@@ -256,27 +264,31 @@ public class SearchLoadingActivity
             int tag = msg.arg1;
             switch (tag) {
                 case 0:
-                    Intent intent = new Intent(SearchLoadingActivity.this, EditPhotoActivity.class);
-                    intent.putExtra("image_id", image_id);
-                    intent.putExtra("imagePath", imagePath);
-                    intent.putExtra("searchstatus", "0");
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("searchSBean", searchSBean);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                    SearchLoadingActivity.this.finish();
+                    if (!ifCloseSearch) {
+                        Intent intent = new Intent(SearchLoadingActivity.this, EditPhotoActivity.class);
+                        intent.putExtra("image_id", image_id);
+                        intent.putExtra("imagePath", imagePath);
+                        intent.putExtra("searchstatus", "0");
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("searchSBean", searchSBean);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                        SearchLoadingActivity.this.finish();
+                    }
                     break;
                 case 1:
-                    Intent intent1 = new Intent(SearchLoadingActivity.this, EditPhotoActivity.class);
-                    intent1.putExtra("image_id", image_id);
-                    intent1.putExtra("imagePath", imagePath);
-                    intent1.putExtra("searchstatus", "1");
-                    Bundle bundle1 = new Bundle();
-                    bundle1.putSerializable("searchSBean", searchSBean);
-                    intent1.putExtras(bundle1);
-                    startActivity(intent1);
-                    SearchLoadingActivity.this.finish();
-                    break;
+                    if (!ifCloseSearch) {
+                        Intent intent1 = new Intent(SearchLoadingActivity.this, EditPhotoActivity.class);
+                        intent1.putExtra("image_id", image_id);
+                        intent1.putExtra("imagePath", imagePath);
+                        intent1.putExtra("searchstatus", "1");
+                        Bundle bundle1 = new Bundle();
+                        bundle1.putSerializable("searchSBean", searchSBean);
+                        intent1.putExtras(bundle1);
+                        startActivity(intent1);
+                        SearchLoadingActivity.this.finish();
+                        break;
+                    }
                 case 2:
                     ToastUtils.showCenter(SearchLoadingActivity.this, "图片上传失败！");
                     break;
@@ -287,5 +299,14 @@ public class SearchLoadingActivity
     @Override
     public void onClick(View v) {
 
+        switch (v.getId()) {
+            case R.id.iv_quxiao_loading:
+                ifCloseSearch = true;
+                SearchLoadingActivity.this.finish();
+                break;
+        }
+
     }
+
+    boolean ifCloseSearch = false;
 }
