@@ -89,7 +89,6 @@ public class EditPhotoActivity
         extends FragmentActivity
         implements PutFileCallBack {
 
-    //parameters passed in from result activity
     private String imagePath;
     private SearchSBean searchSBean;
     private String image_url;
@@ -102,12 +101,17 @@ public class EditPhotoActivity
         setContentView(R.layout.activity_edit_photo);
 
         CustomProgress.show(this, "正在识别中...", false, null);
+
         image_url = getIntent().getStringExtra("image_url");
         type = getIntent().getStringExtra("type");
         image_id = getIntent().getStringExtra("image_id");
         imagePath = image_url;
 
-        if (type.equals("lishi") && !TextUtils.isEmpty(image_id)) {
+        shibie();
+    }
+
+    private void shibie() {
+        if (type.equals("lishi") && !TextUtils.isEmpty(image_id)) {//网络图片
             //讲网络图片保存到本地
             new Thread() {
                 @Override
@@ -120,30 +124,24 @@ public class EditPhotoActivity
                     Bitmap bitmap_compress_press = BitmapUtil.compressImage(bitmap_before);
                     try {
                         boolean status = BitmapUtil.saveBitmap(bitmap_compress_press, path);
-                        if(status){
+                        if (status) {
                             imagePath = path;
                         }
-                        //直接识别
-                        searchByImageId();
+                        //直接识别网络图片
+                        searchByImageId(image_id);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 }
             }.start();
 
-
-        } else {
+        } else {//直接识别本地图片
             upLoaderHeader();
         }
     }
 
-    private Bitmap mBitmap;
-    private String mFileName;
-    private String mSaveMessage;
-
-
-    private void searchByImageId() {
+    //通过image_id直接识别网络图片
+    private void searchByImageId(String imageid) {
 
         OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
             @Override
@@ -182,61 +180,10 @@ public class EditPhotoActivity
                 }
             }
         };
-        MyHttpManager.getInstance().searchByImageId(image_id, callback);
+        MyHttpManager.getInstance().searchByImageId(imageid, callback);
     }
 
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
-
-    /**
-     * Get image from newwork
-     *
-     * @param path The path of image
-     * @return byte[]
-     * @throws Exception
-     */
-    public byte[] getImage(String path) throws Exception {
-        URL url = new URL(path);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setConnectTimeout(20 * 1000);
-        conn.setRequestMethod("GET");
-        InputStream inStream = conn.getInputStream();
-        if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            return readStream(inStream);
-        }
-        return null;
-    }
-
-    public SearchSBean getSearchSBean() {
-        return searchSBean;
-    }
-
-    /**
-     * Get data from stream
-     *
-     * @param inStream
-     * @return byte[]
-     * @throws Exception
-     */
-    public static byte[] readStream(InputStream inStream) throws Exception {
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int len = 0;
-        while ((len = inStream.read(buffer)) != -1) {
-            outStream.write(buffer, 0, len);
-        }
-        outStream.close();
-        inStream.close();
-        return outStream.toByteArray();
-    }
-
-
+    //直接识别本地图片
     private void upLoaderHeader() {
         new Thread() {
             @Override
@@ -265,6 +212,7 @@ public class EditPhotoActivity
         }.start();
     }
 
+    //上传本地图片的成功回调
     @Override
     public void onSucces(String result) {
         try {
@@ -291,6 +239,7 @@ public class EditPhotoActivity
         }
     }
 
+    //上传本地图片的失败回调
     @Override
     public void onFails() {
         CustomProgress.cancelDialog();
@@ -298,6 +247,7 @@ public class EditPhotoActivity
         message.arg1 = 2;
         handler.sendMessage(message);
     }
+
 
     Handler handler = new Handler() {
         @Override
@@ -329,4 +279,16 @@ public class EditPhotoActivity
     };
 
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public SearchSBean getSearchSBean() {
+        return searchSBean;
+    }
 }
