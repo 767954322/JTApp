@@ -31,22 +31,31 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.volley.VolleyError;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.commont.UrlConstants;
 import com.homechart.app.home.activity.FaBuActvity;
+import com.homechart.app.home.activity.ShiBieActivity;
+import com.homechart.app.home.bean.historyshibie.ShiBieBean;
 import com.homechart.app.home.bean.searchfservice.SearchSBean;
+import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.utils.BitmapUtil;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.Md5Util;
 import com.homechart.app.utils.ToastUtils;
+import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.volley.FileHttpManager;
+import com.homechart.app.utils.volley.MyHttpManager;
+import com.homechart.app.utils.volley.OkStringRequest;
 import com.homechart.app.utils.volley.PutFileCallBack;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.visenze.visearch.android.ResultList;
 import com.visenze.visearch.android.UploadSearchParams;
 import com.visenze.visearch.android.ViSearch;
@@ -56,10 +65,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -83,6 +94,7 @@ public class EditPhotoActivity
     private SearchSBean searchSBean;
     private String image_url;
     private String type;
+    private String image_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +104,85 @@ public class EditPhotoActivity
         CustomProgress.show(this, "正在识别中...", false, null);
         image_url = getIntent().getStringExtra("image_url");
         type = getIntent().getStringExtra("type");
+        image_id = getIntent().getStringExtra("image_id");
         imagePath = image_url;
-        upLoaderHeader();
+
+        if (type.equals("lishi") && !TextUtils.isEmpty(image_id)) {
+            //讲网络图片保存到本地
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    SimpleDateFormat timesdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String fileName = timesdf.format(new Date()).toString();//获取系统时间
+                    String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName + "/";
+                    Bitmap bitmap_before = ImageLoader.getInstance().loadImageSync(image_url);
+                    Bitmap bitmap_compress_press = BitmapUtil.compressImage(bitmap_before);
+                    try {
+                        boolean status = BitmapUtil.saveBitmap(bitmap_compress_press, path);
+                        if(status){
+                            imagePath = path;
+                        }
+                        //直接识别
+                        searchByImageId();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }.start();
+
+
+        } else {
+            upLoaderHeader();
+        }
+    }
+
+    private Bitmap mBitmap;
+    private String mFileName;
+    private String mSaveMessage;
+
+
+    private void searchByImageId() {
+
+        OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ToastUtils.showCenter(EditPhotoActivity.this, "识别失败");
+            }
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    if (response != null) {
+                        JSONObject jsonObject = new JSONObject(response);
+                        int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                        String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                        String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                        if (error_code == 0) {
+                            searchSBean = GsonUtil.jsonToBean(data_msg, SearchSBean.class);
+                            if (null != searchSBean.getObject_list() && searchSBean.getObject_list().size() > 0) {
+                                Message message = new Message();
+                                message.arg1 = 0;
+                                handler.sendMessage(message);
+                            } else {
+                                Message message = new Message();
+                                message.arg1 = 1;
+                                handler.sendMessage(message);
+                            }
+                        } else {
+                            ToastUtils.showCenter(EditPhotoActivity.this, error_msg);
+                        }
+                    } else {
+                        ToastUtils.showCenter(EditPhotoActivity.this, "识别失败");
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(EditPhotoActivity.this, "识别失败");
+                }
+            }
+        };
+        MyHttpManager.getInstance().searchByImageId(image_id, callback);
     }
 
     public String getImagePath() {
@@ -189,7 +278,7 @@ public class EditPhotoActivity
                     Message message = new Message();
                     message.arg1 = 0;
                     handler.sendMessage(message);
-                }else {
+                } else {
                     Message message = new Message();
                     message.arg1 = 1;
                     handler.sendMessage(message);
@@ -210,15 +299,15 @@ public class EditPhotoActivity
         handler.sendMessage(message);
     }
 
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-           int tag =  msg.arg1;
-            switch (tag){
+            int tag = msg.arg1;
+            switch (tag) {
                 case 0:
                     CustomProgress.cancelDialog();
-                    if(null != searchSBean){
+                    if (null != searchSBean) {
                         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.add(R.id.main_holder, PhotoEditFragment.newInstance());
                         fragmentTransaction.commit();
@@ -238,5 +327,6 @@ public class EditPhotoActivity
             }
         }
     };
+
 
 }

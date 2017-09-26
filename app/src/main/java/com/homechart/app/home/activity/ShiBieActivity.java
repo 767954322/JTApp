@@ -1,5 +1,6 @@
 package com.homechart.app.home.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -37,6 +38,8 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.homechart.app.visearch.EditPhotoActivity;
+import com.homechart.app.visearch.PhotoActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,7 +54,6 @@ import java.util.List;
 public class ShiBieActivity
         extends BaseActivity
         implements View.OnClickListener,
-        CommonAdapter.OnItemClickListener,
         OnLoadMoreListener,
         OnRefreshListener {
     private ImageButton ibBack;
@@ -88,7 +90,7 @@ public class ShiBieActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-       screenWid =  PublicUtils.getScreenWidth(this);
+        screenWid = PublicUtils.getScreenWidth(this);
         buildRecyclerView();
     }
 
@@ -107,10 +109,21 @@ public class ShiBieActivity
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
                 ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_article_image).getLayoutParams();
-                layoutParams.width = screenWid/3;
-                layoutParams.height = screenWid/3;
+                layoutParams.width = screenWid / 3;
+                layoutParams.height = screenWid / 3;
                 holder.getView(R.id.iv_article_image).setLayoutParams(layoutParams);
                 ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage_url(), (ImageView) holder.getView(R.id.iv_article_image));
+
+                holder.getView(R.id.iv_article_image).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent1 = new Intent(ShiBieActivity.this, EditPhotoActivity.class);
+                        intent1.putExtra("image_url", mListData.get(position).getItem_info().getImage_url());
+                        intent1.putExtra("type", "lishi");
+                        intent1.putExtra("image_id", mListData.get(position).getItem_info().getImage_id());
+                        startActivity(intent1);
+                    }
+                });
             }
         };
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
@@ -139,11 +152,6 @@ public class ShiBieActivity
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
         ++page_num;
         getListData(LOADMORE_STATUS);
-    }
-
-    @Override
-    public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-
     }
 
     private void getListData(final String state) {
@@ -238,6 +246,7 @@ public class ShiBieActivity
         if (i == 0) {
             rl_no_data.setVisibility(View.GONE);
         } else if (i == 1) {
+            mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
             if (mListData.size() > 0) {
                 rl_no_data.setVisibility(View.GONE);
             } else {
