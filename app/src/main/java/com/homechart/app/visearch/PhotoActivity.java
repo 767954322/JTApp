@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.homechart.app.R;
 import com.homechart.app.home.activity.FaBuActvity;
 import com.homechart.app.home.activity.HomeActivity;
+import com.homechart.app.home.activity.ShiBieActivity;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.utils.ToastUtils;
 import com.visenze.visearch.android.model.Image;
@@ -110,7 +111,8 @@ public class PhotoActivity
                 camera_preview.switchCamera();
                 break;
             case R.id.tv_shibiejilu:
-                ToastUtils.showCenter(this,"识别纪录！");
+                Intent intent = new Intent(PhotoActivity.this,ShiBieActivity.class);
+                startActivity(intent);
                 break;
         }
     }

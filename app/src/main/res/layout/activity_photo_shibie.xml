@@ -69,7 +69,7 @@
             android:layout_marginBottom="@dimen/font_20"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/font_50"
-            android:drawableTop="@drawable/xiangce_takephoto"
+            android:drawableTop="@drawable/jilu"
             android:drawablePadding="@dimen/font_7"
             android:textColor="@color/white"
             android:textSize="@dimen/size_14"

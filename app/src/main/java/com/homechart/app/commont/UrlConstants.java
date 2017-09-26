@@ -83,5 +83,6 @@ public class UrlConstants {
     public static final String SEARCH_SHOP_IMAGE = "https://api.idcool.com.cn/product/product/search";  //从商品库中检索所圈商品的同款
     public static final String SHOUCANG_ADD_SHOP = "https://api.idcool.com.cn/collect/product/add";  //收藏商品
     public static final String SHOUCANG_REMOVE_SHOP = "https://api.idcool.com.cn/collect/product/remove";  //删除收藏的商品
+    public static final String HISTORY_SHIBIE = "https://api.idcool.com.cn/product/product/history";  //检测历史记录
 
 }
