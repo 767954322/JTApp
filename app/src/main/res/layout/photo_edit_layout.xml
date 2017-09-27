@@ -5,35 +5,28 @@
     android:layout_height="match_parent"
     android:background="@color/bg_40">
 
+
+    <include
+        android:id="@+id/common_navbar"
+        layout="@layout/view_navigation_header" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/font_5"
-        android:layout_marginLeft="@dimen/font_50"
-        android:layout_marginRight="@dimen/font_50"
+        android:layout_below="@+id/common_navbar"
         android:layout_marginBottom="@dimen/font_230"
-        android:background="@drawable/round_corner_red_background">
+        android:background="@color/bg_4d000000">
 
         <com.homechart.app.croplayout.EditPhotoViewMore
             xmlns:crop="http://schemas.android.com/apk/res-auto"
             android:id="@+id/photoedit_image_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="30dp"
-            android:background="@drawable/round_corner_background"
-            crop:crop_corner_color="@color/bg_e79056"
+            android:background="@color/bg_4d000000"
+            crop:crop_corner_color="@color/white"
             crop:crop_line_color="@color/touming"
             crop:crop_shadow_color="@color/bg_4d000000" />
-        <TextView
-            android:id="@+id/photoedit_rotate_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:textColor="@color/white"
-            android:layout_margin="4dp"
-            android:background="@drawable/round_corner_button_selector"
-            android:text="旋转"/>
     </FrameLayout>
 
 </RelativeLayout>

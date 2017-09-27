@@ -32,7 +32,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -97,6 +99,8 @@ public class PhotoEditFragment extends BaseFragment
     //UI element
     @InjectView(R.id.result_loading)
     ImageView loadingImage;
+    @InjectView(R.id.message)
+    TextView tital;
     @InjectView(R.id.result_query_image)
     ImageView queryImage;
     @InjectViews({R.id.result_grid_view})
@@ -121,7 +125,7 @@ public class PhotoEditFragment extends BaseFragment
     private String selectedType;
     private String imId;
     private EditableImage editableImage;
-    private ImageView result_back_button;
+    private ImageButton result_back_button;
     private SearchSBean searchSBean;
     private List<SearchSCateBean> listType;
     private List<SearchSObjectBean> listSearch;
@@ -131,6 +135,7 @@ public class PhotoEditFragment extends BaseFragment
     private int heightImage;
     private int selectedTypeID;
     private boolean ifFirst = true;
+    private TextView tv_tital_comment;
 
     public static PhotoEditFragment newInstance() {
         return new PhotoEditFragment();
@@ -144,7 +149,8 @@ public class PhotoEditFragment extends BaseFragment
     @Override
     protected void initView() {
         ButterKnife.inject(this, rootView);
-        result_back_button = (ImageView) rootView.findViewById(R.id.result_back_button);
+        result_back_button = (ImageButton) rootView.findViewById(R.id.nav_left_imageButton);
+        tv_tital_comment = (TextView) rootView.findViewById(R.id.tv_tital_comment);
     }
 
     @Override
@@ -163,6 +169,7 @@ public class PhotoEditFragment extends BaseFragment
             @Override
             public void onPanelCollapsed(View panel) {
                 Log.d("test", "当滑动面板完全滑落时被调用");
+                tital.setText("拖动收起");
             }
 
             //            当滑动面板滑动完全展开时调用。
@@ -170,6 +177,7 @@ public class PhotoEditFragment extends BaseFragment
             public void onPanelExpanded(View panel) {
 
                 Log.d("test", "当滑动面板滑动完全展开时调用");
+                tital.setText("拖动展开");
             }
 
             //            当滑动面板固定时调用。
@@ -190,6 +198,7 @@ public class PhotoEditFragment extends BaseFragment
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        tv_tital_comment.setText("相似商品");
         //获取数据
         imagePath = ((EditPhotoActivity) getActivity()).getImagePath();
         searchSBean = ((EditPhotoActivity) getActivity()).getSearchSBean();
@@ -346,7 +355,7 @@ public class PhotoEditFragment extends BaseFragment
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.result_back_button:
+            case R.id.nav_left_imageButton:
                 activity.finish();
                 break;
         }
@@ -410,14 +419,6 @@ public class PhotoEditFragment extends BaseFragment
     public void onBottomReached() {
 
         Log.d("test", "onBottomReached");
-    }
-
-    @OnClick(R.id.photoedit_rotate_button)
-    public void rotateImage() {
-        editPhotoView.rotateImageView();
-        editableImage.saveEditedImage(imagePath);
-        changeUploadUI();
-        Image image = new Image(imagePath, Image.ResizeSettings.HIGH);
     }
 
     private enum VIEW_LAYOUT {
