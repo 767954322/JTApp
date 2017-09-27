@@ -33,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,6 +41,7 @@ import com.android.volley.VolleyError;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.activity.ShopDetailActivity;
+import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.shopdetails.MoreShopBean;
 import com.homechart.app.home.bean.shopdetails.ShopDetailsItemInfoBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
@@ -71,8 +73,8 @@ import butterknife.OnClick;
  * @author yulu
  */
 public class DetailFragment
-        extends Fragment
-        implements ScrollAwareGridView.OnDetectScrollListener {
+        extends BaseFragment
+        implements ScrollAwareGridView.OnDetectScrollListener ,View.OnClickListener{
     //inject ui
     @InjectView(R.id.detail_image_view)
     ImageView detailImageView;
@@ -88,36 +90,44 @@ public class DetailFragment
     TextView tv_buy;
     @InjectView(R.id.result_loading)
     ImageView loadingImage;
-    @InjectView(R.id.detail_im_name_view)
-    TextView imNameView;
 
     private String url;
+    private ImageButton result_back_button;
+    private TextView tv_tital_comment;
 
     public static DetailFragment newInstance() {
         return new DetailFragment();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.detail_layout, container, false);
-        ButterKnife.inject(this, view);
+    protected int getLayoutResId() {
+        return R.layout.detail_layout;
+    }
 
+    @Override
+    protected void initView() {
+
+        result_back_button = (ImageButton) rootView.findViewById(R.id.nav_left_imageButton);
+        tv_tital_comment = (TextView) rootView.findViewById(R.id.tv_tital_comment);
+    }
+
+    @Override
+    protected void initData(Bundle savedInstanceState) {
+        ButterKnife.inject(this, rootView);
+        tv_tital_comment.setText("商品详情");
 
         String imName = ((DetailActivity) getActivity()).getImName();
         url = ((DetailActivity) getActivity()).getUrl();
-
         updateUI(url, imName);
         editQueryView.setText("");
 
         startSearch(imName);
-
-        return view;
     }
 
-    @OnClick(R.id.detail_back_button)
-    public void clickBack() {
-        getActivity().finish();
+    @Override
+    protected void initListener() {
+        super.initListener();
+        result_back_button.setOnClickListener(this);
     }
 
     @OnClick(R.id.tv_buy)
@@ -171,7 +181,6 @@ public class DetailFragment
                 .error(R.drawable.empty_image)
                 .tag(getActivity())
                 .into(queryImageView);
-        imNameView.setText(imName);
 
         slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         this.url = url;
@@ -244,4 +253,12 @@ public class DetailFragment
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.nav_left_imageButton:
+                activity.finish();
+                break;
+        }
+    }
 }
