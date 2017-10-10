@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
@@ -46,6 +47,9 @@ import com.homechart.app.home.bean.search.SearchItemDataBean;
 import com.homechart.app.home.bean.shaijia.ShaiJiaItemBean;
 import com.homechart.app.home.bean.shouye.SYDataColorBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.hotposition.ImageLayout;
+import com.homechart.app.hotposition.PointSimple;
+import com.homechart.app.hotposition.PositionClickImp;
 import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.myview.CustomGridView;
 import com.homechart.app.myview.FlowLayoutBiaoQian;
@@ -93,8 +97,8 @@ public class ImageDetailLongActivity
         extends BaseActivity
         implements View.OnClickListener,
         OnLoadMoreListener,
-        HomeSharedPopWinPublic.ClickInter {
-    private ImageView iv_details_image;
+        HomeSharedPopWinPublic.ClickInter,PositionClickImp {
+    private ImageLayout iv_details_image;
     private ShangshabanChangeTextSpaceView tv_details_tital;
     private TextView tv_details_time;
     private ImageView iv_bang;
@@ -280,7 +284,7 @@ public class ImageDetailLongActivity
         tv_if_zuozhe_two = (TextView) view.findViewById(R.id.tv_if_zuozhe_two);
         tv_if_zuozhe_three = (TextView) view.findViewById(R.id.tv_if_zuozhe_three);
 
-        iv_details_image = (ImageView) view.findViewById(R.id.iv_details_image);
+        iv_details_image = (ImageLayout) view.findViewById(R.id.iv_details_image);
         tv_details_tital = (ShangshabanChangeTextSpaceView) view.findViewById(R.id.tv_details_tital);
         tv_details_time = (TextView) view.findViewById(R.id.tv_details_time);
         iv_bang = (ImageView) view.findViewById(R.id.iv_bang);
@@ -1333,7 +1337,20 @@ public class ImageDetailLongActivity
         }
 
         if (imageFirstTag) {
-            ImageUtils.displayFilletImage(imageDetailBean.getItem_info().getImage().getImg0(), iv_details_image);
+//            ArrayList<PointSimple> pointSimples = new ArrayList<>();
+//            PointSimple pointSimple1 = new PointSimple();
+//            pointSimple1.width_scale = 0.9f;
+//            pointSimple1.height_scale = 0.9f;
+//
+//            PointSimple pointSimple2 = new PointSimple();
+//            pointSimple2.width_scale = 0.1f;
+//            pointSimple2.height_scale = 0.1f;
+//
+//            pointSimples.add(pointSimple1);
+//            pointSimples.add(pointSimple2);
+
+//            iv_details_image.setPoints(pointSimples);
+            iv_details_image.setImgBg(wide_num,(int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()),imageDetailBean.getItem_info().getImage().getImg0(),this);
             imageFirstTag = false;
         }
         listColor = imageDetailBean.getColor_info();
@@ -1481,6 +1498,10 @@ public class ImageDetailLongActivity
 
     }
 
+    @Override
+    public void onClickPosition(int pos) {
+        Toast.makeText(this, "pos : " + pos, Toast.LENGTH_SHORT).show();
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
