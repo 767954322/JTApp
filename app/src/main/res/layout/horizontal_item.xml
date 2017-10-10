@@ -6,12 +6,10 @@
     <TextView
         android:id="@+id/horizontal_item_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_height="@dimen/font_30"
+        android:gravity="center"
         android:layout_gravity="center"
-        android:textColor="@color/gray"
-        android:textSize="12sp"
-        android:background="@drawable/round_corner_tag_selector"
+        android:textColor="@color/bg_262626"
+        android:textSize="@dimen/size_14"
         android:textAllCaps="true"/>
 </LinearLayout>

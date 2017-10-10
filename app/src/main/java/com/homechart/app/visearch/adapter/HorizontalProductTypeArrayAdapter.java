@@ -78,10 +78,10 @@ public class HorizontalProductTypeArrayAdapter extends ArrayAdapter<String> {
         holder.textView.setText(productTypeList.get(position));
 
         if (selected == position) {
-            holder.textView.setTextColor(getContext().getResources().getColor(R.color.red));
+            holder.textView.setTextColor(getContext().getResources().getColor(R.color.white));
             holder.textView.setBackground(getContext().getResources().getDrawable(R.drawable.round_corner_tag_selected));
         } else {
-            holder.textView.setTextColor(getContext().getResources().getColor(R.color.gray));
+            holder.textView.setTextColor(getContext().getResources().getColor(R.color.bg_262626));
             holder.textView.setBackground(getContext().getResources().getDrawable(R.drawable.round_corner_tag));
         }
 

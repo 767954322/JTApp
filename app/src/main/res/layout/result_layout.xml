@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/result_all"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,51 +25,36 @@
     </RelativeLayout>
 
     <!--result-->
-    <LinearLayout
+    <RelativeLayout
         android:background="@color/bg_8f8f8f"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/font_56"
         android:orientation="vertical">
-        <FrameLayout
+        <RelativeLayout
+            android:id="@+id/rl_tab"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/font_40"
-            android:background="@color/gray_type_list">
+            android:layout_height="@dimen/font_60"
+            android:gravity="center_vertical"
+            android:background="@color/white">
             <it.sephiroth.android.library.widget.HListView
                 android:id="@+id/category_list_view"
                 android:layout_width="match_parent"
-                android:paddingLeft="@dimen/font_5"
-                android:paddingRight="@dimen/font_5"
-                android:layout_height="match_parent"
-                android:overScrollMode="never"
-                android:listSelector="@color/white1"
-                android:drawSelectorOnTop="false"/>
-            <ImageView
-                android:id="@+id/result_switch_button"
-                android:layout_width="45dp"
-                android:padding="5dp"
-                android:visibility="gone"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"/>
-        </FrameLayout>
+                android:layout_height="@dimen/font_30"
+                android:paddingLeft="@dimen/font_10"
+                app:hlv_dividerWidth="@dimen/font_7"
+                android:layout_centerInParent="true"
+                android:overScrollMode="never"/>
+        </RelativeLayout>
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rl_tab">
             <FrameLayout
                 android:id="@+id/result_grid_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             </FrameLayout>
-            <TextView
-                android:id="@+id/no_result_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"
-                android:text="No Result found"
-                android:layout_gravity="center"
-                android:textStyle="bold"
-                android:color="@color/white"/>
-            <!--Animation picture-->
             <ImageView
                 android:id="@+id/result_loading"
                 android:layout_width="40dp"
@@ -79,7 +64,7 @@
                 android:src="@drawable/loading"
                 android:layout_gravity="center_horizontal"/>
         </FrameLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
     <include layout="@layout/bottom_layout"/>
 

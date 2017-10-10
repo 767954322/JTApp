@@ -113,8 +113,6 @@ public class PhotoEditFragment extends BaseFragment
     HListView categoryListView;
     @InjectView(R.id.sliding_layout)
     SlidingUpPanelLayout slidingUpPanelLayout;
-    @InjectView(R.id.result_switch_button)
-    ImageView switchButtonView;
     //Dynamic UI elements
     private HorizontalProductTypeArrayAdapter horizontalAdapter;
     private MultiColumnListView waterfallViewLayout;
@@ -210,7 +208,6 @@ public class PhotoEditFragment extends BaseFragment
         listSearch = searchSBean.getObject_list();
 
         currentLayout = VIEW_LAYOUT.GRID;
-        switchButtonView.setSelected(false);
 
         if (gridViewLayout == null) {
             gridViewLayout = new ScrollAwareGridView(getActivity());
