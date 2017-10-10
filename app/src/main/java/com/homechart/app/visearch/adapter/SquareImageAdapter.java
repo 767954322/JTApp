@@ -60,10 +60,12 @@ public class SquareImageAdapter extends ArrayAdapter<ShopDetailsItemInfoBean> {
         if (convertView == null) {
             LayoutInflater inflater = mContext.getLayoutInflater();
 
-            imageLayout = inflater.inflate(R.layout.grid_item_square, null);
+            imageLayout = inflater.inflate(R.layout.grid_item_details, null);
             viewHolder = new ViewHolder();
 
             viewHolder.scoreView = (TextView)imageLayout.findViewById(R.id.score_view);
+            viewHolder.tv_item_name = (TextView)imageLayout.findViewById(R.id.tv_item_name);
+            viewHolder.tv_item_price = (TextView)imageLayout.findViewById(R.id.tv_item_price);
             viewHolder.imageView = (ImageView)imageLayout.findViewById(R.id.result_image_view);
 
             imageLayout.setTag(viewHolder);
@@ -71,7 +73,8 @@ public class SquareImageAdapter extends ArrayAdapter<ShopDetailsItemInfoBean> {
         } else {
             viewHolder = (ViewHolder)imageLayout.getTag();
         }
-
+        viewHolder.tv_item_name.setText(imageList.get(position).getTitle());
+        viewHolder.tv_item_price.setText("¥ "+imageList.get(position).getPrice());
         ImageUtils.displayFilletImage(imageList.get(position).getImage().getImg0(),viewHolder.imageView);
 
 //        Picasso.with(mContext)
@@ -93,6 +96,8 @@ public class SquareImageAdapter extends ArrayAdapter<ShopDetailsItemInfoBean> {
 
     class ViewHolder {
         public TextView scoreView;
+        public TextView tv_item_name;
+        public TextView tv_item_price;
         public ImageView imageView;
     }
 }

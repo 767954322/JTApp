@@ -29,6 +29,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,6 +95,7 @@ public class DetailFragment
     private String url;
     private ImageButton result_back_button;
     private TextView tv_tital_comment;
+    private TextView message;
 
     public static DetailFragment newInstance() {
         return new DetailFragment();
@@ -109,6 +111,7 @@ public class DetailFragment
 
         result_back_button = (ImageButton) rootView.findViewById(R.id.nav_left_imageButton);
         tv_tital_comment = (TextView) rootView.findViewById(R.id.tv_tital_comment);
+        message = (TextView) rootView.findViewById(R.id.message);
     }
 
     @Override
@@ -128,6 +131,44 @@ public class DetailFragment
     protected void initListener() {
         super.initListener();
         result_back_button.setOnClickListener(this);
+        slidingUpPanelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            //            当滑动窗格的位置更改时调用。
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+
+                Log.d("test", "当滑动窗格的位置更改时调用");
+            }
+
+            //            当滑动面板完全滑落时被调用。
+            @Override
+            public void onPanelCollapsed(View panel) {
+                Log.d("test", "当滑动面板完全滑落时被调用");
+                message.setText("拖动收起");
+            }
+
+            //            当滑动面板滑动完全展开时调用。
+            @Override
+            public void onPanelExpanded(View panel) {
+
+                Log.d("test", "当滑动面板滑动完全展开时调用");
+                message.setText("拖动展开");
+            }
+
+            //            当滑动面板固定时调用。
+            @Override
+            public void onPanelAnchored(View panel) {
+
+                Log.d("test", "当滑动面板固定时调用");
+            }
+
+            //            当滑动面板完全隐藏时调用。
+            @Override
+            public void onPanelHidden(View panel) {
+
+                Log.d("test", "当滑动面板完全隐藏时调用");
+            }
+        });
+
     }
 
     @OnClick(R.id.tv_buy)
