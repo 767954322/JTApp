@@ -66,6 +66,16 @@
                 android:visibility="gone"
                 android:src="@drawable/loading"
                 android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:id="@+id/tv_none_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="@dimen/font_7"
+                android:visibility="gone"
+                android:textSize="@dimen/font_15"
+                android:textColor="@color/view_line"
+                android:text="未查找到相似商品"/>
         </FrameLayout>
     </RelativeLayout>
 

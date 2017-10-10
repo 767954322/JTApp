@@ -135,6 +135,7 @@ public class PhotoEditFragment extends BaseFragment
     private boolean ifFirst = true;
     private TextView tv_tital_comment;
     private String network;
+    private TextView tv_none_search;
 
     public static PhotoEditFragment newInstance() {
         return new PhotoEditFragment();
@@ -150,6 +151,7 @@ public class PhotoEditFragment extends BaseFragment
         ButterKnife.inject(this, rootView);
         result_back_button = (ImageButton) rootView.findViewById(R.id.nav_left_imageButton);
         tv_tital_comment = (TextView) rootView.findViewById(R.id.tv_tital_comment);
+        tv_none_search = (TextView) rootView.findViewById(R.id.tv_none_search);
     }
 
     @Override
@@ -308,6 +310,8 @@ public class PhotoEditFragment extends BaseFragment
             anim.start();
         }
         if (listSearch != null && listSearch.size() > 0) {
+            tv_none_search.setVisibility(View.GONE);
+            loadingImage.setVisibility(View.VISIBLE);
             SearchSObjectBean searchSObjectBean = listSearch.get(0);
             String mloc = "";
             if (TextUtils.isEmpty(loc)) {
@@ -364,6 +368,9 @@ public class PhotoEditFragment extends BaseFragment
             };
             MyHttpManager.getInstance().
                     searchShopImage(imId, mloc, selectedTypeID + "", callBack);
+        }else {
+            tv_none_search.setVisibility(View.VISIBLE);
+            loadingImage.setVisibility(View.GONE);
         }
     }
 
