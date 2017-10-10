@@ -122,28 +122,30 @@ public class SearchLoadingActivity
     private void shibie() {
         if (type.equals("lishi") && !TextUtils.isEmpty(image_id)) {//网络图片
             //讲网络图片保存到本地
-            new Thread() {
-                @Override
-                public void run() {
-                    super.run();
-                    SimpleDateFormat timesdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    String fileName = timesdf.format(new Date()).toString();//获取系统时间
-                    String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName + "/";
-                    Bitmap bitmap_before = ImageLoader.getInstance().loadImageSync(image_url);
-                    Bitmap bitmap_compress_press = BitmapUtil.compressImage(bitmap_before);
-                    try {
-                        boolean status = BitmapUtil.saveBitmap(bitmap_compress_press, path);
-                        if (status) {
-                            imagePath = path;
-                        }
-                        //直接识别网络图片
-                        searchByImageId(image_id);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }.start();
+//            new Thread() {
+//                @Override
+//                public void run() {
+//                    super.run();
+//                    SimpleDateFormat timesdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                    String fileName = timesdf.format(new Date()).toString();//获取系统时间
+//                    String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName + "/";
+//                    Bitmap bitmap_before = ImageLoader.getInstance().loadImageSync(image_url);
+//                    Bitmap bitmap_compress_press = BitmapUtil.compressImage(bitmap_before);
+//                    try {
+//                        boolean status = BitmapUtil.saveBitmap(bitmap_compress_press, path);
+//                        if (status) {
+//                            imagePath = path;
+//                        }
+//                        //直接识别网络图片
+//                        searchByImageId(image_id);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }.start();
 
+            //直接识别网络图片
+            searchByImageId(image_id);
         } else {//直接识别本地图片
             upLoaderHeader();
         }
