@@ -232,7 +232,7 @@ public class BitmapUtil {
         image.compress(Bitmap.CompressFormat.JPEG, 100, baos);// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
         int options = 95;
        int i =  baos.toByteArray().length / 1024;
-        while (baos.toByteArray().length / 1024 > 5120) { // 循环判断如果压缩后图片是否大于1M(1024),大于继续压缩
+        while (baos.toByteArray().length / 1024 > 6144) { // 循环判断如果压缩后图片是否大于1M(1024),大于继续压缩
             baos.reset(); // 重置baos即清空baos
             if (options <= 0) {
                 break;
@@ -260,7 +260,7 @@ public class BitmapUtil {
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.flush();
         } catch (IOException e) {
             throw e;

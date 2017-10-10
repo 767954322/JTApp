@@ -43,6 +43,7 @@ public class EditPhotoActivity
     private SearchSBean searchSBean;
     private String image_id;
     private String searchstatus;
+    private String network;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class EditPhotoActivity
         image_id =intent.getStringExtra("image_id");
         imagePath = intent.getStringExtra("imagePath");
         searchstatus = intent.getStringExtra("searchstatus");
+        network = intent.getStringExtra("network");
         searchSBean = (SearchSBean)intent.getSerializableExtra("searchSBean");
 
         if(!TextUtils.isEmpty(searchstatus) && searchstatus.equals("1")){
@@ -76,4 +78,7 @@ public class EditPhotoActivity
         return searchSBean;
     }
 
+    public String getNetwork() {
+        return network;
+    }
 }

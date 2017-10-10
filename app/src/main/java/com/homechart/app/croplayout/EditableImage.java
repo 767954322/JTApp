@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 
 import com.homechart.app.croplayout.model.ScalableBox;
 import com.homechart.app.croplayout.util.ImageHelper;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * Editable image, manage bitmap rotation, calculate fit size and search box size
@@ -20,6 +21,14 @@ public class EditableImage {
     public EditableImage(String localPath) {
         //load image from path to bitmap
         originalImage = ImageHelper.getBitmapFromPath(localPath);
+
+        //init the search box
+        originalBox = new ScalableBox();
+    }
+    public EditableImage(String netPath , boolean ifNetWork) {
+        Bitmap bitmap_before = ImageLoader.getInstance().loadImageSync(netPath);
+        //load image from path to bitmap
+        originalImage = bitmap_before;
 
         //init the search box
         originalBox = new ScalableBox();

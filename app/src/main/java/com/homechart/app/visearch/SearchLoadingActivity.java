@@ -233,11 +233,11 @@ public class SearchLoadingActivity
                 searchSBean = GsonUtil.jsonToBean(data_msg, SearchSBean.class);
                 if (null != searchSBean.getObject_list() && searchSBean.getObject_list().size() > 0) {
                     Message message = new Message();
-                    message.arg1 = 0;
+                    message.arg1 = 3;
                     handler.sendMessage(message);
                 } else {
                     Message message = new Message();
-                    message.arg1 = 1;
+                    message.arg1 = 4;
                     handler.sendMessage(message);
                 }
             } else {
@@ -263,12 +263,27 @@ public class SearchLoadingActivity
             super.handleMessage(msg);
             int tag = msg.arg1;
             switch (tag) {
-                case 0:
+                case 0://识别网络图片
+                    if (!ifCloseSearch) {
+                        Intent intent = new Intent(SearchLoadingActivity.this, EditPhotoActivity.class);
+                        intent.putExtra("image_id", image_id);
+                        intent.putExtra("imagePath", image_url);
+                        intent.putExtra("searchstatus", "0");
+                        intent.putExtra("network", "true");
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("searchSBean", searchSBean);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                        SearchLoadingActivity.this.finish();
+                    }
+                    break;
+                case 3://识别本地图片
                     if (!ifCloseSearch) {
                         Intent intent = new Intent(SearchLoadingActivity.this, EditPhotoActivity.class);
                         intent.putExtra("image_id", image_id);
                         intent.putExtra("imagePath", imagePath);
                         intent.putExtra("searchstatus", "0");
+                        intent.putExtra("network", "false");
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("searchSBean", searchSBean);
                         intent.putExtras(bundle);
@@ -280,8 +295,24 @@ public class SearchLoadingActivity
                     if (!ifCloseSearch) {
                         Intent intent1 = new Intent(SearchLoadingActivity.this, EditPhotoActivity.class);
                         intent1.putExtra("image_id", image_id);
+                        intent1.putExtra("imagePath", image_url);
+                        intent1.putExtra("searchstatus", "1");
+                        intent1.putExtra("network", "true");
+                        Bundle bundle1 = new Bundle();
+                        bundle1.putSerializable("searchSBean", searchSBean);
+                        intent1.putExtras(bundle1);
+                        startActivity(intent1);
+                        SearchLoadingActivity.this.finish();
+                        break;
+                    }
+
+                case 4:
+                    if (!ifCloseSearch) {
+                        Intent intent1 = new Intent(SearchLoadingActivity.this, EditPhotoActivity.class);
+                        intent1.putExtra("image_id", image_id);
                         intent1.putExtra("imagePath", imagePath);
                         intent1.putExtra("searchstatus", "1");
+                        intent1.putExtra("network", "false");
                         Bundle bundle1 = new Bundle();
                         bundle1.putSerializable("searchSBean", searchSBean);
                         intent1.putExtras(bundle1);

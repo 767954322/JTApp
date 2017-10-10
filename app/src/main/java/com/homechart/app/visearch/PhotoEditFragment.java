@@ -136,6 +136,7 @@ public class PhotoEditFragment extends BaseFragment
     private int selectedTypeID;
     private boolean ifFirst = true;
     private TextView tv_tital_comment;
+    private String network;
 
     public static PhotoEditFragment newInstance() {
         return new PhotoEditFragment();
@@ -201,6 +202,7 @@ public class PhotoEditFragment extends BaseFragment
         tv_tital_comment.setText("相似商品");
         //获取数据
         imagePath = ((EditPhotoActivity) getActivity()).getImagePath();
+        network = ((EditPhotoActivity) getActivity()).getNetwork();
         searchSBean = ((EditPhotoActivity) getActivity()).getSearchSBean();
         imId = searchSBean.getImage_id();
 
@@ -240,7 +242,12 @@ public class PhotoEditFragment extends BaseFragment
         //初始化选框
         if (listSearch != null && listSearch.size() > 0) {
             SearchSObjectInfoBean searchSObjectInfoBean = listSearch.get(0).getObject_info();
-            editableImage = new EditableImage(imagePath);
+
+            if (network.equals("true")) {
+                editableImage = new EditableImage(imagePath, true);
+            } else {
+                editableImage = new EditableImage(imagePath);
+            }
             editPhotoView.initView(getActivity(), editableImage, true);
             widerImage = editPhotoView.getEditableImage().getOriginalImage().getWidth();
             heightImage = editPhotoView.getEditableImage().getOriginalImage().getHeight();
@@ -249,8 +256,15 @@ public class PhotoEditFragment extends BaseFragment
                     (int) (searchSObjectInfoBean.getX() * widerImage) + (int) (searchSObjectInfoBean.getWidth() * widerImage),
                     (int) (searchSObjectInfoBean.getY() * heightImage) + (int) (searchSObjectInfoBean.getHeight() * heightImage));
             editableImage.setBox(scalableBox);
+
         } else {
-            editableImage = new EditableImage(imagePath);
+
+            if (network.equals("true")) {
+
+                editableImage = new EditableImage(imagePath, true);
+            } else {
+                editableImage = new EditableImage(imagePath);
+            }
             editPhotoView.initView(getActivity(), editableImage, false);
         }
 
@@ -324,14 +338,18 @@ public class PhotoEditFragment extends BaseFragment
                         if (error_code == 0) {
                             changeUploadUIBack();
                             final SearchShopsBean searchShopsBean = GsonUtil.jsonToBean(data_msg, SearchShopsBean.class);
-                            gridViewLayout.setAdapter(new MySquareImageAdapter(getActivity(), searchShopsBean.getItem_list()));
-                            gridViewLayout.invalidate();
-                            gridViewLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    startDetailActivity(searchShopsBean.getItem_list().get(position));
+                            if (null != gridViewLayout) {
+                                if (searchShopsBean != null && searchShopsBean.getItem_list() != null && searchShopsBean.getItem_list().size() > 0) {
+                                    gridViewLayout.setAdapter(new MySquareImageAdapter(getActivity(), searchShopsBean.getItem_list()));
                                 }
-                            });
+                                gridViewLayout.invalidate();
+                                gridViewLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        startDetailActivity(searchShopsBean.getItem_list().get(position));
+                                    }
+                                });
+                            }
                             if (ifFirst) {
 //                                horizontalAdapter.setSelected(strTypeName.indexOf(selectedType));
 //                                categoryListView.scrollTo(strTypeName.indexOf(selectedType), 0);
@@ -394,7 +412,7 @@ public class PhotoEditFragment extends BaseFragment
         if (photoUIs != null) {
             ButterKnife.apply(photoUIs, SHOW);
         }
-        if(loadingImage != null){
+        if (loadingImage != null) {
             loadingImage.setVisibility(View.GONE);
         }
     }

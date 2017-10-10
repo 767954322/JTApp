@@ -60,7 +60,7 @@ public class EditPhotoViewMore extends FrameLayout {
         //set the default image and selection view
         this.mH = h;
         this.mW = w;
-        if (editableImage != null) {
+        if (editableImage != null && selectionView != null) {
             editableImage.setViewSize(w, h);
             imageView.setImageBitmap(editableImage.getOriginalImage());
             selectionView.setBoxSize(editableImage, editableImage.getBox(), w, h);
