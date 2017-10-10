@@ -1339,8 +1339,8 @@ public class ImageDetailLongActivity
         if (imageFirstTag) {
 //            ArrayList<PointSimple> pointSimples = new ArrayList<>();
 //            PointSimple pointSimple1 = new PointSimple();
-//            pointSimple1.width_scale = 0.9f;
-//            pointSimple1.height_scale = 0.9f;
+//            pointSimple1.width_scale = 0.4f;
+//            pointSimple1.height_scale = 0.4f;
 //
 //            PointSimple pointSimple2 = new PointSimple();
 //            pointSimple2.width_scale = 0.1f;

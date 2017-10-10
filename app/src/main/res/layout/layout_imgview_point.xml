@@ -9,7 +9,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
-        android:maxHeight="1000dp"
         android:scaleType="centerCrop" />
 
     <FrameLayout
