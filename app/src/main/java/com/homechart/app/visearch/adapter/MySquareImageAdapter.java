@@ -63,6 +63,8 @@ public class MySquareImageAdapter extends ArrayAdapter<SearchShopItemBean> {
             viewHolder = new ViewHolder();
 
             viewHolder.scoreView = (TextView)imageLayout.findViewById(R.id.score_view);
+            viewHolder.tv_item_name = (TextView)imageLayout.findViewById(R.id.tv_item_name);
+            viewHolder.tv_item_price = (TextView)imageLayout.findViewById(R.id.tv_item_price);
             viewHolder.imageView = (ImageView)imageLayout.findViewById(R.id.result_image_view);
 
             imageLayout.setTag(viewHolder);
@@ -70,7 +72,8 @@ public class MySquareImageAdapter extends ArrayAdapter<SearchShopItemBean> {
         } else {
             viewHolder = (ViewHolder)imageLayout.getTag();
         }
-
+        viewHolder.tv_item_name.setText(imageList.get(position).getItem_info().getTitle());
+        viewHolder.tv_item_price.setText("¥ "+imageList.get(position).getItem_info().getPrice());
         ImageUtils.displayFilletImage(imageList.get(position).getItem_info().getImage().getImg0(),viewHolder.imageView);
 
 //        Picasso.with(mContext)
@@ -93,6 +96,8 @@ public class MySquareImageAdapter extends ArrayAdapter<SearchShopItemBean> {
 
     class ViewHolder {
         public TextView scoreView;
+        public TextView tv_item_name;
+        public TextView tv_item_price;
         public ImageView imageView;
     }
 }

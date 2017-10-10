@@ -49,11 +49,14 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/bg_f2f2f2"
             android:layout_below="@+id/rl_tab">
             <FrameLayout
                 android:id="@+id/result_grid_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/font_5"
+                android:paddingRight="@dimen/font_5">
             </FrameLayout>
             <ImageView
                 android:id="@+id/result_loading"

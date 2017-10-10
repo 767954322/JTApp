@@ -1,20 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="3dp">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
-        <com.homechart.app.visearch.SquareImageView
-            android:id="@+id/result_image_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/spinner_10"
-            android:scaleType="centerInside" />
-    </RelativeLayout>
+    <com.homechart.app.visearch.SquareImageView
+        android:id="@+id/result_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/font_10"
+        android:layout_marginLeft="@dimen/font_5"
+        android:layout_marginRight="@dimen/font_5"
+        android:layout_marginTop="@dimen/font_10"
+        android:background="@drawable/spinner_10"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/tv_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/result_image_view"
+        android:layout_marginLeft="@dimen/font_7"
+        android:layout_marginRight="@dimen/font_10"
+        android:lineSpacingExtra="@dimen/font_5"
+        android:textColor="@color/bg_262626"
+        android:lines="2"
+        android:ellipsize="end"
+        android:textSize="@dimen/size_14" />
+
+    <TextView
+        android:id="@+id/tv_item_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_item_name"
+        android:layout_marginBottom="@dimen/font_5"
+        android:layout_marginLeft="@dimen/font_7"
+        android:layout_marginTop="@dimen/font_5"
+        android:lineSpacingExtra="@dimen/font_5"
+        android:textColor="@color/bg_e79056"
+        android:textSize="@dimen/size_13" />
+
+
     <TextView
         android:id="@+id/score_view"
         android:layout_width="wrap_content"
@@ -27,5 +52,6 @@
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:textColor="@color/white"
-        android:textSize="11sp" />
+        android:textSize="11sp"
+        android:visibility="gone" />
 </RelativeLayout>
