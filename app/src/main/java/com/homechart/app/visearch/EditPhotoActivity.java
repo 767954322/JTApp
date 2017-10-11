@@ -58,7 +58,7 @@ public class EditPhotoActivity
         searchSBean = (SearchSBean)intent.getSerializableExtra("searchSBean");
 
         if(!TextUtils.isEmpty(searchstatus) && searchstatus.equals("1")){
-            ToastUtils.showCenter(EditPhotoActivity.this,"未识别到相识商品！");
+//            ToastUtils.showCenter(EditPhotoActivity.this,"未识别到相识商品！");
         }
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.main_holder, PhotoEditFragment.newInstance());

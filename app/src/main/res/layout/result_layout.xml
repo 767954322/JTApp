@@ -75,7 +75,7 @@
                 android:visibility="gone"
                 android:textSize="@dimen/font_15"
                 android:textColor="@color/view_line"
-                android:text="未查找到相似商品"/>
+                android:text="未识别到相似商品"/>
         </FrameLayout>
     </RelativeLayout>
 

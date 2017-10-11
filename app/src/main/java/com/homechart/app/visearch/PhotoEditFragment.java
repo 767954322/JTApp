@@ -239,7 +239,7 @@ public class PhotoEditFragment extends BaseFragment
             categoryListView.setAdapter(horizontalAdapter);
         }
         //初始化选框
-        if (listSearch != null && listSearch.size() > 0 && editPhotoView != null) {
+        if (listSearch != null && listSearch.size() > 0 && editPhotoView != null ) {
             SearchSObjectInfoBean searchSObjectInfoBean = listSearch.get(0).getObject_info();
 
             if (network.equals("true")) {
@@ -248,25 +248,28 @@ public class PhotoEditFragment extends BaseFragment
                 editableImage = new EditableImage(imagePath);
             }
             editPhotoView.initView(getActivity(), editableImage, true);
-            widerImage = editPhotoView.getEditableImage().getOriginalImage().getWidth();
-            heightImage = editPhotoView.getEditableImage().getOriginalImage().getHeight();
 
-            int x1 = (int) (searchSObjectInfoBean.getX() * widerImage);
-            int y1 = (int) (searchSObjectInfoBean.getY() * heightImage);
-            int x2 = (int) (searchSObjectInfoBean.getX() * widerImage) + (int) (searchSObjectInfoBean.getWidth() * widerImage);
-            int y2 = (int) (searchSObjectInfoBean.getY() * heightImage) + (int) (searchSObjectInfoBean.getHeight() * heightImage);
-            if (Math.abs(x1 - x2) < 120) {
-                int xAdd = (120 - Math.abs(x1 - x2)) / 2;
-                x1 = x1 - xAdd;
-                x2 = x2 + xAdd;
+            if(null!=editPhotoView.getEditableImage()&&null!=editPhotoView.getEditableImage().getOriginalImage()){
+                widerImage = editPhotoView.getEditableImage().getOriginalImage().getWidth();
+                heightImage = editPhotoView.getEditableImage().getOriginalImage().getHeight();
+
+                int x1 = (int) (searchSObjectInfoBean.getX() * widerImage);
+                int y1 = (int) (searchSObjectInfoBean.getY() * heightImage);
+                int x2 = (int) (searchSObjectInfoBean.getX() * widerImage) + (int) (searchSObjectInfoBean.getWidth() * widerImage);
+                int y2 = (int) (searchSObjectInfoBean.getY() * heightImage) + (int) (searchSObjectInfoBean.getHeight() * heightImage);
+                if (Math.abs(x1 - x2) < 120) {
+                    int xAdd = (120 - Math.abs(x1 - x2)) / 2;
+                    x1 = x1 - xAdd;
+                    x2 = x2 + xAdd;
+                }
+                if (Math.abs(y1 - y2) < 120) {
+                    int yAdd = (120 - Math.abs(y1 - y2)) / 2;
+                    y1 = y1 - yAdd;
+                    y2 = y2 + yAdd;
+                }
+                ScalableBox scalableBox = new ScalableBox(x1, y1, x2, y2);
+                editableImage.setBox(scalableBox);
             }
-            if (Math.abs(y1 - y2) < 120) {
-                int yAdd = (120 - Math.abs(y1 - y2)) / 2;
-                y1 = y1 - yAdd;
-                y2 = y2 + yAdd;
-            }
-            ScalableBox scalableBox = new ScalableBox(x1, y1, x2, y2);
-            editableImage.setBox(scalableBox);
 
         } else {
 
@@ -353,7 +356,10 @@ public class PhotoEditFragment extends BaseFragment
                             final SearchShopsBean searchShopsBean = GsonUtil.jsonToBean(data_msg, SearchShopsBean.class);
                             if (null != gridViewLayout) {
                                 if (searchShopsBean != null && searchShopsBean.getItem_list() != null && searchShopsBean.getItem_list().size() > 0) {
-                                    gridViewLayout.setAdapter(new MySquareImageAdapter(getActivity(), searchShopsBean.getItem_list()));
+                                    try {
+                                        gridViewLayout.setAdapter(new MySquareImageAdapter(getActivity(), searchShopsBean.getItem_list()));
+                                    }catch (Exception e){
+                                    }
                                 }
                                 gridViewLayout.invalidate();
                                 gridViewLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
