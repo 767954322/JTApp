@@ -239,7 +239,7 @@ public class PhotoEditFragment extends BaseFragment
             categoryListView.setAdapter(horizontalAdapter);
         }
         //初始化选框
-        if (listSearch != null && listSearch.size() > 0) {
+        if (listSearch != null && listSearch.size() > 0 && editPhotoView != null) {
             SearchSObjectInfoBean searchSObjectInfoBean = listSearch.get(0).getObject_info();
 
             if (network.equals("true")) {
