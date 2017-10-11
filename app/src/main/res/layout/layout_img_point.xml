@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/imgPoint"
-        android:layout_width="@dimen/font_18"
-        android:layout_height="@dimen/font_18"
+        android:layout_width="@dimen/font_20"
+        android:layout_height="@dimen/font_20"
         android:src="@drawable/prod_point_img" />
 
 </LinearLayout>

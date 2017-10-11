@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.homechart.app.R;
+import com.homechart.app.utils.UIUtils;
 
 import java.util.ArrayList;
 
@@ -112,24 +113,26 @@ public class ImageLayout extends FrameLayout implements View.OnClickListener {
 
                 LayoutParams layoutParams = (LayoutParams) view.getLayoutParams();
 
-                layoutParams.leftMargin = (int) (width * width_scale);
-                layoutParams.topMargin = (int) (height * height_scale);
+                layoutParams.leftMargin = (int) (width * width_scale) + UIUtils.getDimens(R.dimen.font_10);
+                layoutParams.topMargin = (int) (height * height_scale) + UIUtils.getDimens(R.dimen.font_10);
 
                 imageView.setOnClickListener(this);
-
                 layouPoints.addView(view, layoutParams);
             }
         }
     }
 
-    View view1;
+
+    int tag = -1;
 
     @Override
     public void onClick(View view) {
-//      if(view1 != null){
-//          layouPoints.addView(view1);
-//      }
+        if (tag != -1 && tag >= 0) {
+            layouPoints.getChildAt(tag).setVisibility(VISIBLE);
+        }
         int pos = (int) view.getTag();
+        tag = pos;
+        layouPoints.getChildAt(pos).setVisibility(GONE);
 //      view1 = layouPoints.getChildAt(pos);
 //      layouPoints.removeView(view1);
 //      layouPoints.invalidate();

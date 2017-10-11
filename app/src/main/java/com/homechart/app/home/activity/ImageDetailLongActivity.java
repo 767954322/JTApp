@@ -1337,24 +1337,33 @@ public class ImageDetailLongActivity
         }
 
         if (imageFirstTag) {
-            ArrayList<PointSimple> pointSimples = new ArrayList<>();
-            PointSimple pointSimple1 = new PointSimple();
-            pointSimple1.width_scale = 0.5f;
-            pointSimple1.height_scale = 0.5f;
 
-            PointSimple pointSimple2 = new PointSimple();
-            pointSimple2.width_scale = 0.1f;
-            pointSimple2.height_scale = 0.3f;
+            if(null != imageDetailBean.getObject_list() && imageDetailBean.getObject_list().size() > 0 ){
+                ArrayList<PointSimple> pointSimples = new ArrayList<>();
 
-            PointSimple pointSimple3= new PointSimple();
-            pointSimple3.width_scale = 0.8f;
-            pointSimple3.height_scale = 0.7f;
+                for (int i = 0; i< imageDetailBean.getObject_list().size(); i++ ){
+                    PointSimple pointSimple = new PointSimple();
+                    float width = Float.parseFloat(imageDetailBean.getObject_list().get(i).getObject_info().getX().trim());
+                    float height = Float.parseFloat(imageDetailBean.getObject_list().get(i).getObject_info().getY().trim());
+                    pointSimple.width_scale = width;
+                    pointSimple.height_scale = height;
+                    pointSimples.add(pointSimple);
+                }
+                iv_details_image.setPoints(pointSimples);
+            }
 
-            pointSimples.add(pointSimple1);
-            pointSimples.add(pointSimple2);
-            pointSimples.add(pointSimple3);
+//
+//            PointSimple pointSimple2 = new PointSimple();
+//            pointSimple2.width_scale = 0.1f;
+//            pointSimple2.height_scale = 0.3f;
+//
+//            PointSimple pointSimple3= new PointSimple();
+//            pointSimple3.width_scale = 0.8f;
+//            pointSimple3.height_scale = 0.7f;
+//
+//            pointSimples.add(pointSimple2);
+//            pointSimples.add(pointSimple3);
 
-            iv_details_image.setPoints(pointSimples);
             iv_details_image.setImgBg(wide_num,(int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()),imageDetailBean.getItem_info().getImage().getImg0(),this);
             imageFirstTag = false;
         }
