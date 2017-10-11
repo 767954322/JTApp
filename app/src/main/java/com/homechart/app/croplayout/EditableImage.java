@@ -2,41 +2,54 @@ package com.homechart.app.croplayout;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.view.View;
 
 import com.homechart.app.croplayout.model.ScalableBox;
 import com.homechart.app.croplayout.util.ImageHelper;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 /**
  * Editable image, manage bitmap rotation, calculate fit size and search box size
  * Created by yulu on 11/19/14.
  */
 public class EditableImage {
-    private Bitmap          originalImage;
+    private Bitmap originalImage;
     private ScalableBox originalBox;
-
-    private int             viewWidth;
-    private int             viewHeight;
+    private int viewWidth;
+    private int viewHeight;
 
     public EditableImage(String localPath) {
         //load image from path to bitmap
         originalImage = ImageHelper.getBitmapFromPath(localPath);
-
-        //init the search box
-        originalBox = new ScalableBox();
-    }
-    public EditableImage(String netPath , boolean ifNetWork) {
-        Bitmap bitmap_before = ImageLoader.getInstance().loadImageSync(netPath);
-        //load image from path to bitmap
-        originalImage = bitmap_before;
-
         //init the search box
         originalBox = new ScalableBox();
     }
 
+    public EditableImage(final String netPath, boolean ifNetWork) {
+//        Bitmap bitmap_before = ImageLoader.getInstance().loadImageSync(netPath);
+        ImageLoader.getInstance().loadImage(netPath, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String imageUri, View view) {
+            }
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+            }
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                //load image from path to bitmap
+                originalImage = loadedImage;
+                //init the search box
+                originalBox = new ScalableBox();
+            }
+            @Override
+            public void onLoadingCancelled(String imageUri, View view) {
+            }
+        });
+    }
     public EditableImage(Context context, int id) {
         originalImage = ImageHelper.getBitmapFromResource(context.getResources(), id);
-
         //init the search box
         originalBox = new ScalableBox();
     }
@@ -85,19 +98,19 @@ public class EditableImage {
     public int[] getFitSize() {
         int[] fitSize = new int[2];
 
-        float ratio = originalImage.getWidth() / (float)originalImage.getHeight();
-        float viewRatio = viewWidth / (float)viewHeight;
+        float ratio = originalImage.getWidth() / (float) originalImage.getHeight();
+        float viewRatio = viewWidth / (float) viewHeight;
 
         //width dominate, fit w
-        if(ratio > viewRatio) {
-            float factor = viewWidth / (float)originalImage.getWidth();
+        if (ratio > viewRatio) {
+            float factor = viewWidth / (float) originalImage.getWidth();
             fitSize[0] = viewWidth;
-            fitSize[1] = (int)(originalImage.getHeight() * factor);
+            fitSize[1] = (int) (originalImage.getHeight() * factor);
 
         } else {
             //height dominate, fit h
-            float factor = viewHeight / (float)originalImage.getHeight();
-            fitSize[0] = (int)(originalImage.getWidth() * factor);
+            float factor = viewHeight / (float) originalImage.getHeight();
+            fitSize[0] = (int) (originalImage.getWidth() * factor);
             fitSize[1] = viewHeight;
         }
 
@@ -106,6 +119,7 @@ public class EditableImage {
 
     /**
      * get actual size of the image
+     *
      * @return int array size[0] is width, size[1] is height
      */
     public int[] getActualSize() {

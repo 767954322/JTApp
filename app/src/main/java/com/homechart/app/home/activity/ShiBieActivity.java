@@ -124,7 +124,7 @@ public class ShiBieActivity
 
                         Intent intent1 = new Intent(ShiBieActivity.this, SearchLoadingActivity.class);
 //                        Intent intent1 = new Intent(ShiBieActivity.this, TestActivity.class);
-                        intent1.putExtra("image_url", mListData.get(position).getItem_info().getImage_url());
+                        intent1.putExtra("image_url", mListData.get(position).getItem_info().getBig_image_url());
                         intent1.putExtra("type", "lishi");
                         intent1.putExtra("image_id", mListData.get(position).getItem_info().getImage_id());
                         intent1.putExtra("image_type", "network");
