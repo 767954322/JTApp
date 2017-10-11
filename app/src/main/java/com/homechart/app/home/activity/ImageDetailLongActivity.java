@@ -1347,6 +1347,8 @@ public class ImageDetailLongActivity
                     float height = Float.parseFloat(imageDetailBean.getObject_list().get(i).getObject_info().getY().trim());
                     pointSimple.width_scale = width;
                     pointSimple.height_scale = height;
+                    pointSimple.width_object = Double.parseDouble(imageDetailBean.getObject_list().get(i).getObject_info().getWidth().trim());
+                    pointSimple.height_object = Double.parseDouble(imageDetailBean.getObject_list().get(i).getObject_info().getHeight().trim());
                     pointSimples.add(pointSimple);
                 }
                 iv_details_image.setPoints(pointSimples);

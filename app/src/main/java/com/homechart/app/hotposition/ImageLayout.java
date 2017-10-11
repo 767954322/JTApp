@@ -113,8 +113,10 @@ public class ImageLayout extends FrameLayout implements View.OnClickListener {
 
                 LayoutParams layoutParams = (LayoutParams) view.getLayoutParams();
 
-                layoutParams.leftMargin = (int) (width * width_scale) + UIUtils.getDimens(R.dimen.font_10);
-                layoutParams.topMargin = (int) (height * height_scale) + UIUtils.getDimens(R.dimen.font_10);
+                int object_wide = (int) (points.get(i).width_object * width / 2);
+                int object_heigh = (int) (points.get(i).height_object * height / 2);
+                layoutParams.leftMargin = (int) (width * width_scale) + object_wide-UIUtils.getDimens(R.dimen.font_10);
+                layoutParams.topMargin = (int) (height * height_scale) + object_heigh-UIUtils.getDimens(R.dimen.font_10);
 
                 imageView.setOnClickListener(this);
                 layouPoints.addView(view, layoutParams);

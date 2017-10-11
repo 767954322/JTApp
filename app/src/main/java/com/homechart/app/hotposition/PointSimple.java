@@ -10,4 +10,7 @@ public class PointSimple {
     // 标记点相对于横向的高度的比例
     public double height_scale;
 
+    public double width_object;
+    public double height_object;
+
 }
