@@ -1337,19 +1337,24 @@ public class ImageDetailLongActivity
         }
 
         if (imageFirstTag) {
-//            ArrayList<PointSimple> pointSimples = new ArrayList<>();
-//            PointSimple pointSimple1 = new PointSimple();
-//            pointSimple1.width_scale = 0.4f;
-//            pointSimple1.height_scale = 0.4f;
-//
-//            PointSimple pointSimple2 = new PointSimple();
-//            pointSimple2.width_scale = 0.1f;
-//            pointSimple2.height_scale = 0.1f;
-//
-//            pointSimples.add(pointSimple1);
-//            pointSimples.add(pointSimple2);
+            ArrayList<PointSimple> pointSimples = new ArrayList<>();
+            PointSimple pointSimple1 = new PointSimple();
+            pointSimple1.width_scale = 0.5f;
+            pointSimple1.height_scale = 0.5f;
 
-//            iv_details_image.setPoints(pointSimples);
+            PointSimple pointSimple2 = new PointSimple();
+            pointSimple2.width_scale = 0.1f;
+            pointSimple2.height_scale = 0.3f;
+
+            PointSimple pointSimple3= new PointSimple();
+            pointSimple3.width_scale = 0.8f;
+            pointSimple3.height_scale = 0.7f;
+
+            pointSimples.add(pointSimple1);
+            pointSimples.add(pointSimple2);
+            pointSimples.add(pointSimple3);
+
+            iv_details_image.setPoints(pointSimples);
             iv_details_image.setImgBg(wide_num,(int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()),imageDetailBean.getItem_info().getImage().getImg0(),this);
             imageFirstTag = false;
         }
