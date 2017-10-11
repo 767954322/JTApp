@@ -44,6 +44,7 @@ import com.homechart.app.croplayout.EditPhotoViewMore;
 import com.homechart.app.croplayout.EditableImage;
 import com.homechart.app.croplayout.handler.OnBoxChangedListener;
 import com.homechart.app.croplayout.model.ScalableBox;
+import com.homechart.app.home.activity.ShopDetailActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.searchfservice.SearchSBean;
 import com.homechart.app.home.bean.searchfservice.SearchSCateBean;
@@ -416,10 +417,9 @@ public class PhotoEditFragment extends BaseFragment
     }
 
     private void startDetailActivity(SearchShopItemBean searchShopItemBean) {
-        IntentHelper.addObjectForKey(searchShopItemBean.getItem_info().getSpu_id(), IntentHelper.SEARCH_RESULT_EXTRA);
-        IntentHelper.addObjectForKey(searchShopItemBean.getItem_info().getImage().getImg0(), IntentHelper.SEARCH_IMAGE_PATH_EXTRA);
-        IntentHelper.addObjectForKey(searchShopItemBean.getItem_info().getBuy_url(), IntentHelper.BUY_URL);
-        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        //TODO 跳转到商品详情
+        Intent intent = new Intent(getActivity(), ShopDetailActivity.class);
+        intent.putExtra("spu_id", searchShopItemBean.getItem_info().getSpu_id());
         startActivity(intent);
     }
 
