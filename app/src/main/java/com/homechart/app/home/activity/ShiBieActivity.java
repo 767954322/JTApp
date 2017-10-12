@@ -129,6 +129,7 @@ public class ShiBieActivity
                         intent1.putExtra("image_id", mListData.get(position).getItem_info().getImage_id());
                         intent1.putExtra("image_type", "network");
                         startActivity(intent1);
+                        ShiBieActivity.this.finish();
                     }
                 });
             }
