@@ -97,7 +97,7 @@ public class ImageDetailLongActivity
         extends BaseActivity
         implements View.OnClickListener,
         OnLoadMoreListener,
-        HomeSharedPopWinPublic.ClickInter,PositionClickImp {
+        HomeSharedPopWinPublic.ClickInter, PositionClickImp {
     private ImageLayout iv_details_image;
     private ShangshabanChangeTextSpaceView tv_details_tital;
     private TextView tv_details_time;
@@ -1337,11 +1337,9 @@ public class ImageDetailLongActivity
         }
 
         if (imageFirstTag) {
-
-            if(null != imageDetailBean.getObject_list() && imageDetailBean.getObject_list().size() > 0 ){
+            if (null != imageDetailBean.getObject_list() && imageDetailBean.getObject_list().size() > 0) {
                 ArrayList<PointSimple> pointSimples = new ArrayList<>();
-
-                for (int i = 0; i< imageDetailBean.getObject_list().size(); i++ ){
+                for (int i = 0; i < imageDetailBean.getObject_list().size(); i++) {
                     PointSimple pointSimple = new PointSimple();
                     float width = Float.parseFloat(imageDetailBean.getObject_list().get(i).getObject_info().getX().trim());
                     float height = Float.parseFloat(imageDetailBean.getObject_list().get(i).getObject_info().getY().trim());
@@ -1353,20 +1351,7 @@ public class ImageDetailLongActivity
                 }
                 iv_details_image.setPoints(pointSimples);
             }
-
-//
-//            PointSimple pointSimple2 = new PointSimple();
-//            pointSimple2.width_scale = 0.1f;
-//            pointSimple2.height_scale = 0.3f;
-//
-//            PointSimple pointSimple3= new PointSimple();
-//            pointSimple3.width_scale = 0.8f;
-//            pointSimple3.height_scale = 0.7f;
-//
-//            pointSimples.add(pointSimple2);
-//            pointSimples.add(pointSimple3);
-
-            iv_details_image.setImgBg(wide_num,(int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()),imageDetailBean.getItem_info().getImage().getImg0(),this);
+            iv_details_image.setImgBg(wide_num, (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()), imageDetailBean.getItem_info().getImage().getImg0(), this);
             imageFirstTag = false;
         }
         listColor = imageDetailBean.getColor_info();
@@ -1518,6 +1503,7 @@ public class ImageDetailLongActivity
     public void onClickPosition(int pos) {
         Toast.makeText(this, "pos : " + pos, Toast.LENGTH_SHORT).show();
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -373,7 +373,9 @@ public class PhotoEditFragment extends BaseFragment
                             if (ifFirst) {
 //                                horizontalAdapter.setSelected(strTypeName.indexOf(selectedType));
 //                                categoryListView.scrollTo(strTypeName.indexOf(selectedType), 0);
-                                categoryListView.smoothScrollToPosition(strTypeName.indexOf(selectedType));
+                                if(categoryListView != null){
+                                    categoryListView.smoothScrollToPosition(strTypeName.indexOf(selectedType));
+                                }
                                 ifFirst = false;
                             }
 

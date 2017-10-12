@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.homechart.app.R;
+import com.homechart.app.croplayout.EditPhotoViewMore;
+import com.homechart.app.croplayout.EditableImage;
 import com.homechart.app.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public class ImageLayout extends FrameLayout implements View.OnClickListener {
 
     FrameLayout layouPoints;
 
-    ImageView imgBg;
+    EditPhotoViewMore imgBg;
     int mWidth;
     int mHeight;
 
@@ -51,7 +53,7 @@ public class ImageLayout extends FrameLayout implements View.OnClickListener {
 
         View imgPointLayout = inflate(context, R.layout.layout_imgview_point, this);
 
-        imgBg = (ImageView) imgPointLayout.findViewById(R.id.imgBg);
+        imgBg = (EditPhotoViewMore) imgPointLayout.findViewById(R.id.imgBg);
         layouPoints = (FrameLayout) imgPointLayout.findViewById(R.id.layouPoints);
     }
 
@@ -82,7 +84,11 @@ public class ImageLayout extends FrameLayout implements View.OnClickListener {
 
         layouPoints.setLayoutParams(lp1);
 
-        Glide.with(mContext).load(imgUrl).asBitmap().into(imgBg);
+//        Glide.with(mContext).load(imgUrl).asBitmap().into(imgBg);
+
+        EditableImage editableImage = new EditableImage(imgUrl, true);
+        imgBg.setUrlImage(imgUrl);
+        imgBg.initView(mContext, editableImage, false);
 
         addPoints(width, height);
 

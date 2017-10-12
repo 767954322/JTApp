@@ -11,6 +11,7 @@ import com.homechart.app.R;
 import com.homechart.app.croplayout.handler.OnBoxChangedListener;
 import com.homechart.app.croplayout.model.ScalableBox;
 import com.homechart.app.utils.ToastUtils;
+import com.homechart.app.utils.imageloader.ImageUtils;
 
 /**
  * Created by yulu on 12/3/15.
@@ -35,6 +36,8 @@ public class EditPhotoViewMore extends FrameLayout {
     private int cornerColor;
     private int shadowColor;
 
+    private String urlImage ;
+
     public EditPhotoViewMore(Context context) {
         super(context);
         this.context = context;
@@ -55,15 +58,25 @@ public class EditPhotoViewMore extends FrameLayout {
     private int mW;
     private int mH;
 
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
+    }
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         //set the default image and selection view
         this.mH = h;
         this.mW = w;
-        if (editableImage != null && selectionView != null) {
+        if (editableImage != null && selectionView != null ) {
             editableImage.setViewSize(w, h);
-            imageView.setImageBitmap(editableImage.getOriginalImage());
-            selectionView.setBoxSize(editableImage, editableImage.getBox(), w, h);
+            if(editableImage.getOriginalImage() == null){
+                ImageUtils.disRectangleImage(urlImage,imageView);
+            }else {
+                imageView.setImageBitmap(editableImage.getOriginalImage());
+            }
+            if(null != editableImage.getBox()){
+                selectionView.setBoxSize(editableImage, editableImage.getBox(), w, h);
+            }
         }
 
         super.onSizeChanged(w, h, oldw, oldh);
@@ -75,7 +88,7 @@ public class EditPhotoViewMore extends FrameLayout {
      * @param context       activity
      * @param editableImage image to be edited
      */
-    public void initView(Context context, EditableImage editableImage,boolean initSearch) {
+    public void initView(Context context, EditableImage editableImage, boolean initSearch) {
         this.editableImage = editableImage;
 
         selectionView = new SelectionView(context,
@@ -87,7 +100,7 @@ public class EditPhotoViewMore extends FrameLayout {
         selectionView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
         addView(imageView, 0);
-        if(initSearch){
+        if (initSearch) {
             addView(selectionView, 1);
         }
     }

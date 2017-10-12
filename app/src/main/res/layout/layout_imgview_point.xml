@@ -3,13 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <com.homechart.app.croplayout.EditPhotoViewMore
+        xmlns:crop="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imgBg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop" />
+        android:background="@color/bg_f7f7f7"
+        crop:crop_corner_color="@color/white"
+        crop:crop_line_color="@color/touming"
+        crop:crop_shadow_color="@color/bg_4d000000" />
 
     <FrameLayout
         android:id="@+id/layouPoints"

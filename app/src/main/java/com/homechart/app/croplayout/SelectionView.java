@@ -80,43 +80,47 @@ public class SelectionView extends View implements View.OnTouchListener {
     }
 
     public void setBoxSize(EditableImage editableImage, ScalableBox originalBox, int widthX, int heightY) {
-        this.displayBox = new ScalableBox(originalBox.getX1(), originalBox.getY1(), originalBox.getX2(), originalBox.getY2());
 
-        this.bitmapWidth = editableImage.getFitSize()[0];
-        this.bitmapHeight = editableImage.getFitSize()[1];
-        int originX = (widthX - bitmapWidth) / 2;
-        int originY = (heightY - bitmapHeight) / 2;
-        this.originX = originX;
-        this.originY = originY;
+        try {
+            this.displayBox = new ScalableBox(originalBox.getX1(), originalBox.getY1(), originalBox.getX2(), originalBox.getY2());
+            this.bitmapWidth = editableImage.getFitSize()[0];
+            this.bitmapHeight = editableImage.getFitSize()[1];
+            int originX = (widthX - bitmapWidth) / 2;
+            int originY = (heightY - bitmapHeight) / 2;
+            this.originX = originX;
+            this.originY = originY;
 
-        if (    originalBox.getX1() >= 0
-                && originalBox.getX2() > 0
-                && originalBox.getY1() >= 0
-                && originalBox.getY2() > 0) {
+            if (    originalBox.getX1() >= 0
+                    && originalBox.getX2() > 0
+                    && originalBox.getY1() >= 0
+                    && originalBox.getY2() > 0) {
 
-            Log.d(SELECTION_VIEW,
-                    "original box: + (" + originalBox.getX1() + " " + originalBox.getY1() + ")"
-                            + " (" + originalBox.getX2() + " " + originalBox.getY2() + ")");
+                Log.d(SELECTION_VIEW,
+                        "original box: + (" + originalBox.getX1() + " " + originalBox.getY1() + ")"
+                                + " (" + originalBox.getX2() + " " + originalBox.getY2() + ")");
 
-            float scale = ((float) editableImage.getFitSize()[0]) / editableImage.getActualSize()[0];
-            int scaleX1 = (int) Math.ceil((originalBox.getX1() * scale) + originX);
-            int scaleX2 = (int) Math.ceil((originalBox.getX2() * scale) + originX);
-            int scaleY1 = (int) Math.ceil((originalBox.getY1() * scale) + originY);
-            int scaleY2 = (int) Math.ceil((originalBox.getY2() * scale) + originY);
+                float scale = ((float) editableImage.getFitSize()[0]) / editableImage.getActualSize()[0];
+                int scaleX1 = (int) Math.ceil((originalBox.getX1() * scale) + originX);
+                int scaleX2 = (int) Math.ceil((originalBox.getX2() * scale) + originX);
+                int scaleY1 = (int) Math.ceil((originalBox.getY1() * scale) + originY);
+                int scaleY2 = (int) Math.ceil((originalBox.getY2() * scale) + originY);
 
-            //resize the box size to image
-            displayBox.setX1(scaleX1);
-            displayBox.setX2(scaleX2);
-            displayBox.setY1(scaleY1);
-            displayBox.setY2(scaleY2);
-        } else {
-            displayBox.setX1(originX);
-            displayBox.setX2(originX + bitmapWidth);
-            displayBox.setY1(originY);
-            displayBox.setY2(originY + bitmapHeight);
+                //resize the box size to image
+                displayBox.setX1(scaleX1);
+                displayBox.setX2(scaleX2);
+                displayBox.setY1(scaleY1);
+                displayBox.setY2(scaleY2);
+            } else {
+                displayBox.setX1(originX);
+                displayBox.setX2(originX + bitmapWidth);
+                displayBox.setY1(originY);
+                displayBox.setY2(originY + bitmapHeight);
+            }
+
+            invalidate();
+        }catch (Exception e){
+
         }
-
-        invalidate();
     }
 
     public void setOnBoxChangedListener(OnBoxChangedListener listener) {
@@ -130,9 +134,13 @@ public class SelectionView extends View implements View.OnTouchListener {
 
     @Override
     public void onDraw(Canvas canvas) {
-        drawShadow(canvas);
-        drawLines(canvas);
-        drawCorner(canvas);
+        try {
+            drawShadow(canvas);
+            drawLines(canvas);
+            drawCorner(canvas);
+        }catch (Exception e){
+
+        }
     }
 
     private void drawShadow(Canvas canvas) {
