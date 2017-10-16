@@ -37,13 +37,8 @@ import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.homechart.app.visearch.ScrollAwareGridView;
-import com.homechart.app.visearch.SearchLoadingActivity;
 import com.homechart.app.visearch.adapter.HorizontalProductTypeArrayAdapter;
 import com.homechart.app.visearch.adapter.MySquareImageAdapter;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -55,7 +50,8 @@ import it.sephiroth.android.library.widget.HListView;
 public class SearchShopPopWin
         extends PopupWindow
         implements View.OnClickListener,
-        ScrollAwareGridView.OnDetectScrollListener {
+        ScrollAwareGridView.OnDetectScrollListener,
+        HorizontalProductTypeArrayAdapter.OnClickText {
 
     private ImageButton mBack;
     private View view;
@@ -219,7 +215,6 @@ public class SearchShopPopWin
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
             listType = searchSBean.getCategory_list();
             listSearch = searchSBean.getObject_list();
             selectedType = mImageDetailBean.getObject_list().get(mPosition).getObject_info().getCategory_name();
@@ -238,9 +233,9 @@ public class SearchShopPopWin
             gridViewLayout.invalidate();
             resultGridView.removeAllViews();
             resultGridView.addView(gridViewLayout);
-            //更新UI
+            //搜索分类列表
             if (strTypeName.size() > 0) {
-                horizontalAdapter = new HorizontalProductTypeArrayAdapter((Activity) mContext, strTypeName);
+                horizontalAdapter = new HorizontalProductTypeArrayAdapter((Activity) mContext, strTypeName,SearchShopPopWin.this);
                 horizontalAdapter.setSelected(strTypeName.indexOf(selectedType));
                 categoryListView.setAdapter(horizontalAdapter);
                 int position = strTypeName.indexOf(selectedType);
@@ -252,7 +247,6 @@ public class SearchShopPopWin
                     shiBieItemBean.getObject_info().getWidth() + "-" +
                     shiBieItemBean.getObject_info().getHeight();
             searchShopImage(mloc);
-
             // 搜索框监听
             editPhotoView.setOnBoxChangedListener(new OnBoxChangedListener() {
                 @Override
@@ -267,21 +261,14 @@ public class SearchShopPopWin
                     searchShopImage(mloc);
                 }
             });
-            // 搜索分类的监听
-            categoryListView.setOnItemClickListener(new it.sephiroth.android.library.widget.AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(it.sephiroth.android.library.widget.AdapterView<?> parent, View view, int position, long id) {
-                    selectedType = strTypeName.get(position);
-                    selectedTypeID = strTypeID.get(position)+"";
-                    loadingImage.setVisibility(View.VISIBLE);
-                    searchShopImage(mloc);
-                    horizontalAdapter.setSelected(position);
-                }
-            });
+//            SearchShopPopWin.this.categoryListView.setOnItemClickListener(new it.sephiroth.android.library.widget.AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(it.sephiroth.android.library.widget.AdapterView<?> parent, View view, int position, long id) {
+//
+//                }
+//            });
         }
     };
-
-
 
     private void searchShopImage(String loc) {
         //start scan
@@ -322,6 +309,7 @@ public class SearchShopPopWin
                                 gridViewLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        ToastUtils.showCenter(mContext,""+position);
                                     }
                                 });
                             }
@@ -336,7 +324,6 @@ public class SearchShopPopWin
         } else {
         }
     }
-
 
     @Override
     public void onUpScrolling() {
@@ -358,6 +345,14 @@ public class SearchShopPopWin
 
     }
 
+    @Override
+    public void onClickTextItem(int position) {
+        selectedType = strTypeName.get(position);
+        selectedTypeID = strTypeID.get(position)+"";
+        loadingImage.setVisibility(View.VISIBLE);
+        searchShopImage(mloc);
+        horizontalAdapter.setSelected(position);
+    }
 
     private List<SearchSCateBean> listType;
     private List<SearchSObjectBean> listSearch;
@@ -366,4 +361,5 @@ public class SearchShopPopWin
     private List<Integer> strTypeID = new ArrayList<>();
     private String selectedType;
     private String selectedTypeID;
+
 }

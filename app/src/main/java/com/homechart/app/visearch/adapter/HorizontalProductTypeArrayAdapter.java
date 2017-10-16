@@ -47,6 +47,7 @@ public class HorizontalProductTypeArrayAdapter extends ArrayAdapter<String> {
     private Activity context;
     private List<String> productTypeList;
     private int selected;
+    private OnClickText mOnClickText;
 
     public HorizontalProductTypeArrayAdapter(Activity context, List<String> productTypeList) {
         super(context, R.layout.result_layout, productTypeList);
@@ -55,9 +56,17 @@ public class HorizontalProductTypeArrayAdapter extends ArrayAdapter<String> {
         this.selected = 0;
     }
 
+    public HorizontalProductTypeArrayAdapter(Activity context, List<String> productTypeList , OnClickText onClickText) {
+        super(context, R.layout.result_layout, productTypeList);
+        this.productTypeList = productTypeList;
+        this.context = context;
+        this.mOnClickText = onClickText;
+        this.selected = 0;
+    }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View view;
 
         if (convertView == null) {
@@ -84,6 +93,14 @@ public class HorizontalProductTypeArrayAdapter extends ArrayAdapter<String> {
             holder.textView.setTextColor(getContext().getResources().getColor(R.color.bg_262626));
             holder.textView.setBackground(getContext().getResources().getDrawable(R.drawable.round_corner_tag));
         }
+        if(null != mOnClickText){
+            holder.textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnClickText.onClickTextItem(position);
+                }
+            });
+        }
 
         return view;
     }
@@ -100,5 +117,9 @@ public class HorizontalProductTypeArrayAdapter extends ArrayAdapter<String> {
      */
     private class Holder {
         public TextView textView;
+    }
+
+    public interface OnClickText{
+        void onClickTextItem(int position);
     }
 }
