@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <ImageButton
+            android:id="@+id/nav_left_imageButton"
+            android:layout_width="@dimen/size_40"
+            android:layout_height="@dimen/size_40"
+            android:layout_marginLeft="@dimen/size_10"
+            android:background="@drawable/transparent"
+            android:padding="@dimen/size_8"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_delete"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:slide="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/sliding_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:layout_marginTop="@dimen/font_40"
+        slide:umanoDragView="@+id/result_drag_view"
+        slide:umanoOverlay="true"
+        slide:umanoPanelHeight="@dimen/font_330"
+        slide:umanoParallaxOffset="@dimen/font_100"
+        slide:umanoScrollableView="@+id/result_scroll_list"
+        slide:umanoShadowHeight="@dimen/font_3">
+
+
+
+        <include layout="@layout/search_shop_image_layout" />
+
+        <include layout="@layout/search_shop_result_layout" />
+
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+</FrameLayout>

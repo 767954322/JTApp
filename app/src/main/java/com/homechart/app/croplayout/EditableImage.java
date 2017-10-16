@@ -28,25 +28,28 @@ public class EditableImage {
     }
 
     public EditableImage(final String netPath, boolean ifNetWork) {
-//        Bitmap bitmap_before = ImageLoader.getInstance().loadImageSync(netPath);
-        ImageLoader.getInstance().loadImage(netPath, new ImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String imageUri, View view) {
-            }
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-            }
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                //load image from path to bitmap
-                originalImage = loadedImage;
-                //init the search box
-                originalBox = new ScalableBox();
-            }
-            @Override
-            public void onLoadingCancelled(String imageUri, View view) {
-            }
-        });
+        Bitmap bitmap_before = ImageLoader.getInstance().loadImageSync(netPath);
+        originalImage = bitmap_before;
+        if(originalImage == null){
+            ImageLoader.getInstance().loadImage(netPath, new ImageLoadingListener() {
+                @Override
+                public void onLoadingStarted(String imageUri, View view) {
+                }
+                @Override
+                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                }
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    //load image from path to bitmap
+                    originalImage = loadedImage;
+                    //init the search box
+                    originalBox = new ScalableBox();
+                }
+                @Override
+                public void onLoadingCancelled(String imageUri, View view) {
+                }
+            });
+        }
     }
     public EditableImage(Context context, int id) {
         originalImage = ImageHelper.getBitmapFromResource(context.getResources(), id);

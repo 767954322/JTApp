@@ -10,10 +10,12 @@ public class ItemInfoImageBean implements Serializable{
 
     private float ratio;
     private String img0;
+    private String image_id;
 
-    public ItemInfoImageBean(float ratio, String img0) {
+    public ItemInfoImageBean(float ratio, String img0, String image_id) {
         this.ratio = ratio;
         this.img0 = img0;
+        this.image_id = image_id;
     }
 
     public float getRatio() {
@@ -32,11 +34,20 @@ public class ItemInfoImageBean implements Serializable{
         this.img0 = img0;
     }
 
+    public String getImage_id() {
+        return image_id;
+    }
+
+    public void setImage_id(String image_id) {
+        this.image_id = image_id;
+    }
+
     @Override
     public String toString() {
         return "ItemInfoImageBean{" +
                 "ratio=" + ratio +
                 ", img0='" + img0 + '\'' +
+                ", image_id='" + image_id + '\'' +
                 '}';
     }
 }

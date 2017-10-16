@@ -136,12 +136,13 @@ public class ImageLayout extends FrameLayout implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        if (tag != -1 && tag >= 0) {
-            layouPoints.getChildAt(tag).setVisibility(VISIBLE);
-        }
+//        if (tag != -1 && tag >= 0) {
+//            layouPoints.getChildAt(tag).setVisibility(VISIBLE);
+//        }
         int pos = (int) view.getTag();
-        tag = pos;
-        layouPoints.getChildAt(pos).setVisibility(GONE);
+//        tag = pos;
+//        layouPoints.getChildAt(pos).setVisibility(GONE);
+
 //      view1 = layouPoints.getChildAt(pos);
 //      layouPoints.removeView(view1);
 //      layouPoints.invalidate();

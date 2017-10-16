@@ -53,10 +53,12 @@ import com.homechart.app.hotposition.PositionClickImp;
 import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.myview.CustomGridView;
 import com.homechart.app.myview.FlowLayoutBiaoQian;
+import com.homechart.app.myview.HomeActivityPopWin;
 import com.homechart.app.myview.HomeSharedPopWinPublic;
 import com.homechart.app.myview.MyListView;
 import com.homechart.app.myview.ResizeRelativeLayout;
 import com.homechart.app.myview.RoundImageView;
+import com.homechart.app.myview.SearchShopPopWin;
 import com.homechart.app.myview.ShangshabanChangeTextSpaceView;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
@@ -203,6 +205,7 @@ public class ImageDetailLongActivity
 
     private List<String> mItemIdList = new ArrayList<>();
     private RelativeLayout rl_edit;
+    private SearchShopPopWin mSearchShopPopWin;
 
     @Override
     protected int getLayoutResId() {
@@ -1501,7 +1504,15 @@ public class ImageDetailLongActivity
 
     @Override
     public void onClickPosition(int pos) {
-        Toast.makeText(this, "pos : " + pos, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "pos : " + pos, Toast.LENGTH_SHORT).show();
+        if (imageDetailBean != null) {
+            mSearchShopPopWin = new SearchShopPopWin(ImageDetailLongActivity.this);
+            mSearchShopPopWin.setImageData(imageDetailBean, pos);
+            mSearchShopPopWin.showAtLocation(ImageDetailLongActivity.this.findViewById(R.id.menu_layout),
+                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
+                    0,
+                    0); //设置layout在PopupWindow中显示的位置
+        }
     }
 
     @Override

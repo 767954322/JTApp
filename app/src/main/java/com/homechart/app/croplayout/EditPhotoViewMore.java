@@ -111,6 +111,12 @@ public class EditPhotoViewMore extends FrameLayout {
 
     //TODO
     public void changeBox(ScalableBox box) {
+        editableImage.getBox().setX1(box.getX1());
+        editableImage.getBox().setY1(box.getY1());
+        editableImage.getBox().setX2(box.getX2());
+        editableImage.getBox().setY2(box.getY2());
+        editableImage.setBox(box);
+        invalidate();
     }
 
     public void setOnBoxChangedListener(OnBoxChangedListener onBoxChangedListener) {
