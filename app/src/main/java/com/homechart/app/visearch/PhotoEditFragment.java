@@ -240,7 +240,7 @@ public class PhotoEditFragment extends BaseFragment
             categoryListView.setAdapter(horizontalAdapter);
         }
         //初始化选框
-        if (listSearch != null && listSearch.size() > 0 && editPhotoView != null ) {
+        if (listSearch != null && listSearch.size() > 0 && editPhotoView != null) {
             SearchSObjectInfoBean searchSObjectInfoBean = listSearch.get(0).getObject_info();
 
             if (network.equals("true")) {
@@ -250,7 +250,7 @@ public class PhotoEditFragment extends BaseFragment
             }
             editPhotoView.initView(getActivity(), editableImage, true);
 
-            if(null!=editPhotoView.getEditableImage()&&null!=editPhotoView.getEditableImage().getOriginalImage()){
+            if (null != editPhotoView.getEditableImage() && null != editPhotoView.getEditableImage().getOriginalImage()) {
                 widerImage = editPhotoView.getEditableImage().getOriginalImage().getWidth();
                 heightImage = editPhotoView.getEditableImage().getOriginalImage().getHeight();
 
@@ -280,7 +280,15 @@ public class PhotoEditFragment extends BaseFragment
             } else {
                 editableImage = new EditableImage(imagePath);
             }
-            editPhotoView.initView(getActivity(), editableImage, false);
+            editPhotoView.initView(getActivity(), editableImage, true);
+            //整张图片展示框
+            int x1 = 0;
+            int y1 = 0;
+            int x2 = widerImage;
+            int y2 = heightImage;
+            ScalableBox scalableBox = new ScalableBox(x1, y1, x2, y2);
+            editableImage.setBox(scalableBox);
+
         }
 
         //获取同款商品
@@ -359,7 +367,7 @@ public class PhotoEditFragment extends BaseFragment
                                 if (searchShopsBean != null && searchShopsBean.getItem_list() != null && searchShopsBean.getItem_list().size() > 0) {
                                     try {
                                         gridViewLayout.setAdapter(new MySquareImageAdapter(getActivity(), searchShopsBean.getItem_list()));
-                                    }catch (Exception e){
+                                    } catch (Exception e) {
                                     }
                                 }
                                 gridViewLayout.invalidate();
@@ -373,7 +381,7 @@ public class PhotoEditFragment extends BaseFragment
                             if (ifFirst) {
 //                                horizontalAdapter.setSelected(strTypeName.indexOf(selectedType));
 //                                categoryListView.scrollTo(strTypeName.indexOf(selectedType), 0);
-                                if(categoryListView != null){
+                                if (categoryListView != null) {
                                     categoryListView.smoothScrollToPosition(strTypeName.indexOf(selectedType));
                                 }
                                 ifFirst = false;
