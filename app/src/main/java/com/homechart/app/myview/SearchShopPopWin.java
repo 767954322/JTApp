@@ -2,6 +2,7 @@ package com.homechart.app.myview;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -27,6 +28,7 @@ import com.homechart.app.croplayout.EditPhotoViewMore;
 import com.homechart.app.croplayout.EditableImage;
 import com.homechart.app.croplayout.handler.OnBoxChangedListener;
 import com.homechart.app.croplayout.model.ScalableBox;
+import com.homechart.app.home.activity.ShopDetailActivity;
 import com.homechart.app.home.bean.imagedetail.ImageDetailBean;
 import com.homechart.app.home.bean.imagedetail.ShiBieItemBean;
 import com.homechart.app.home.bean.searchfservice.SearchSBean;
@@ -346,7 +348,12 @@ public class SearchShopPopWin
                                 gridViewLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        ToastUtils.showCenter(mContext, "" + position);
+
+                                        // 跳转到商品详情
+                                        Intent intent = new Intent(mContext, ShopDetailActivity.class);
+                                        intent.putExtra("spu_id", searchShopsBean.getItem_list().get(position).getItem_info().getSpu_id());
+                                        mContext.startActivity(intent);
+
                                     }
                                 });
                             }
@@ -374,6 +381,7 @@ public class SearchShopPopWin
     @Override
     public void onDownScrolling() {
 
+        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);//打开
     }
 
     @Override

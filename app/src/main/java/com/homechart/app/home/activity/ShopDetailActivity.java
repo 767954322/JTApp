@@ -92,6 +92,11 @@ public class ShopDetailActivity
             switch (tag) {
                 case 0:
                     if (null != shopDetailsBean) {
+                        ViewGroup.LayoutParams layoutParams = iv_shop_image.getLayoutParams();
+                        layoutParams.width = PublicUtils.getScreenWidth(ShopDetailActivity.this);
+                        layoutParams.height = PublicUtils.getScreenWidth(ShopDetailActivity.this);
+                        iv_shop_image.setLayoutParams(layoutParams);
+                        ImageUtils.disRectangleImage(shopDetailsBean.getItem_info().getImage().getImg0(), iv_shop_image);
                         getListData();
                         listUrl.clear();
                         listUrl.add(shopDetailsBean.getItem_info().getImage().getImg0());
@@ -114,7 +119,6 @@ public class ShopDetailActivity
                             tv_num_people.setText(shopDetailsBean.getItem_info().getCollect_num());
                             iv_shoucang_shop.setImageResource(R.drawable.xing);
                         }
-                        ImageUtils.disRectangleImage(shopDetailsBean.getItem_info().getImage().getImg0(), iv_shop_image);
                     }
                     break;
             }

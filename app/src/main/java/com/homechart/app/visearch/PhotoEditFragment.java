@@ -437,7 +437,7 @@ public class PhotoEditFragment extends BaseFragment
     }
 
     private void startDetailActivity(SearchShopItemBean searchShopItemBean) {
-        //TODO 跳转到商品详情
+        // 跳转到商品详情
         Intent intent = new Intent(getActivity(), ShopDetailActivity.class);
         intent.putExtra("spu_id", searchShopItemBean.getItem_info().getSpu_id());
         startActivity(intent);
@@ -461,24 +461,19 @@ public class PhotoEditFragment extends BaseFragment
 
     @Override
     public void onUpScrolling() {
-        Log.d("test", "onUpScrolling");
     }
 
     @Override
     public void onDownScrolling() {
         slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);//打开
-        Log.d("test", "onDownScrolling");
     }
 
     @Override
     public void onTopReached() {
-        Log.d("test", "onTopReached");
     }
 
     @Override
     public void onBottomReached() {
-
-        Log.d("test", "onBottomReached");
     }
 
     private enum VIEW_LAYOUT {
