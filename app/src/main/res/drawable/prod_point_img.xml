@@ -25,19 +25,4 @@
     <item
         android:drawable="@drawable/point_img8"
         android:duration="100" />
-    <item
-        android:drawable="@drawable/point_img9"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/point_img10"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/point_img11"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/point_img12"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/point_img13"
-        android:duration="100" />
 </animation-list>
