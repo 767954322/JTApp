@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.homechart.app.R;
@@ -39,6 +40,8 @@ import com.homechart.app.utils.volley.OkStringRequest;
 import com.homechart.app.visearch.ScrollAwareGridView;
 import com.homechart.app.visearch.adapter.HorizontalProductTypeArrayAdapter;
 import com.homechart.app.visearch.adapter.MySquareImageAdapter;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -71,6 +74,8 @@ public class SearchShopPopWin
     private ImageView loadingImage;
     private String imageID;
     private String mloc = "";
+    private TextView tital;
+    private SlidingUpPanelLayout slidingUpPanelLayout;
 
     public SearchShopPopWin(Context context) {
 
@@ -105,11 +110,39 @@ public class SearchShopPopWin
         loadingImage = (ImageView) view.findViewById(R.id.result_loading);
         editPhotoView = (EditPhotoViewMore) view.findViewById(R.id.photoedit_image_view);
         categoryListView = (HListView) view.findViewById(R.id.category_list_view);
+        tital = (TextView) view.findViewById(R.id.message);
+        slidingUpPanelLayout = (SlidingUpPanelLayout) view.findViewById(R.id.sliding_layout);
     }
 
 
     private void initListener() {
         mBack.setOnClickListener(this);
+        slidingUpPanelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+
+            }
+
+            @Override
+            public void onPanelCollapsed(View panel) {
+                tital.setText("拖动收起");
+            }
+
+            @Override
+            public void onPanelExpanded(View panel) {
+                tital.setText("拖动展开");
+            }
+
+            @Override
+            public void onPanelAnchored(View panel) {
+
+            }
+
+            @Override
+            public void onPanelHidden(View panel) {
+
+            }
+        });
     }
 
 
