@@ -21,7 +21,7 @@ import com.homechart.app.utils.imageloader.ImageUtils;
 public class EditPhotoViewMore extends FrameLayout {
 
     private static final int LINE_WIDTH = 2;
-    private static final int CORNER_LENGTH = 30;
+    private static final int CORNER_LENGTH = 20;
 
     private Context context;
 
