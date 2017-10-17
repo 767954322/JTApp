@@ -287,5 +287,12 @@ public class FenSiListActivity
         MobclickAgent.onPageEnd("个人中心粉丝列表页");
         MobclickAgent.onPause(this);
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        onRefresh();
+    }
+
     private int position;
 }

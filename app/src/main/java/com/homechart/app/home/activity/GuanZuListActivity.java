@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -268,6 +269,12 @@ public class GuanZuListActivity
             }
 
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        onRefresh();
     }
 
     @Override
