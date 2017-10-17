@@ -78,6 +78,7 @@ public class SearchShopPopWin
     private String mloc = "";
     private TextView tital;
     private SlidingUpPanelLayout slidingUpPanelLayout;
+    private TextView tv_tital_comment;
 
     public SearchShopPopWin(Context context) {
 
@@ -113,6 +114,7 @@ public class SearchShopPopWin
         editPhotoView = (EditPhotoViewMore) view.findViewById(R.id.photoedit_image_view);
         categoryListView = (HListView) view.findViewById(R.id.category_list_view);
         tital = (TextView) view.findViewById(R.id.message);
+        tv_tital_comment = (TextView) view.findViewById(R.id.tv_tital_comment);
         slidingUpPanelLayout = (SlidingUpPanelLayout) view.findViewById(R.id.sliding_layout);
     }
 
@@ -169,6 +171,8 @@ public class SearchShopPopWin
     private void initImage() {
         //初始化图片及添加选择框
         if (null != mImageDetailBean && mPosition >= 0) {
+            tv_tital_comment.setText(mImageDetailBean.getObject_list().get(mPosition).getObject_info().getCategory_name());
+
             editableImage = new EditableImage(mImageDetailBean.getItem_info().getImage().getImg0(), true);
             editPhotoView.setUrlImage(mImageDetailBean.getItem_info().getImage().getImg0());
             editPhotoView.initView(mContext, editableImage, true);
@@ -272,6 +276,7 @@ public class SearchShopPopWin
             gridViewLayout.invalidate();
             resultGridView.removeAllViews();
             resultGridView.addView(gridViewLayout);
+
             //搜索分类列表
             if (strTypeName.size() > 0) {
                 horizontalAdapter = new HorizontalProductTypeArrayAdapter((Activity) mContext, strTypeName, SearchShopPopWin.this);
@@ -291,6 +296,8 @@ public class SearchShopPopWin
                 @Override
                 public void onChanged(int x1, int y1, int x2, int y2) {
 
+
+                    tv_tital_comment.setText("全部");
                     selectedTypeID = "-1";
                     selectedType = "全部";
                     horizontalAdapter.setSelected(0);
@@ -399,6 +406,8 @@ public class SearchShopPopWin
         selectedType = strTypeName.get(position);
         selectedTypeID = strTypeID.get(position) + "";
         loadingImage.setVisibility(View.VISIBLE);
+
+        tv_tital_comment.setText(selectedType);
         searchShopImage(mloc);
         horizontalAdapter.setSelected(position);
     }
