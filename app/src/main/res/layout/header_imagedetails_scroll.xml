@@ -76,12 +76,11 @@
         android:layout_marginTop="@dimen/font_15"
         android:background="@drawable/image_details_backgroud">
 
-        <ImageView
+        <com.homechart.app.hotposition.ImageLayout
             android:id="@+id/iv_details_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:scaleType="centerCrop" />
+            android:background="@color/white" />
 
         <LinearLayout
             android:id="@+id/ll_color_lines"

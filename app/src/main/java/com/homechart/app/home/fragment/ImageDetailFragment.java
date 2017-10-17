@@ -43,12 +43,16 @@ import com.homechart.app.home.bean.pinglun.CommentListBean;
 import com.homechart.app.home.bean.pinglun.PingBean;
 import com.homechart.app.home.bean.shouye.SYDataBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.hotposition.ImageLayout;
+import com.homechart.app.hotposition.PointSimple;
+import com.homechart.app.hotposition.PositionClickImp;
 import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.myview.FlowLayoutBiaoQian;
 import com.homechart.app.myview.HomeSharedPopWinPublic;
 import com.homechart.app.myview.MyListView;
 import com.homechart.app.myview.ResizeRelativeLayout;
 import com.homechart.app.myview.RoundImageView;
+import com.homechart.app.myview.SearchShopPopWin;
 import com.homechart.app.myview.ShangshabanChangeTextSpaceView;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
@@ -86,10 +90,10 @@ public class ImageDetailFragment
         extends LazyLoadFragment
         implements View.OnClickListener,
         OnLoadMoreListener,
-        HomeSharedPopWinPublic.ClickInter {
+        HomeSharedPopWinPublic.ClickInter, PositionClickImp {
 
 
-    private ImageView iv_details_image;
+    private ImageLayout iv_details_image;
     private ShangshabanChangeTextSpaceView tv_details_tital;
     private TextView tv_details_time;
     private ImageView iv_bang;
@@ -195,6 +199,7 @@ public class ImageDetailFragment
     private TextView tv_content_right;
     private ImageButton nav_secondary_imageButton;
     private boolean mifShowColorList;
+    private SearchShopPopWin mSearchShopPopWin;
 
     public ImageDetailFragment() {
 
@@ -285,7 +290,7 @@ public class ImageDetailFragment
             tv_if_zuozhe_two = (TextView) view.findViewById(R.id.tv_if_zuozhe_two);
             tv_if_zuozhe_three = (TextView) view.findViewById(R.id.tv_if_zuozhe_three);
 
-            iv_details_image = (ImageView) view.findViewById(R.id.iv_details_image);
+            iv_details_image = (ImageLayout) view.findViewById(R.id.iv_details_image);
             tv_details_tital = (ShangshabanChangeTextSpaceView) view.findViewById(R.id.tv_details_tital);
             tv_details_time = (TextView) view.findViewById(R.id.tv_details_time);
             iv_bang = (ImageView) view.findViewById(R.id.iv_bang);
@@ -1234,6 +1239,17 @@ public class ImageDetailFragment
 
     }
 
+    @Override
+    public void onClickPosition(int pos) {
+        if (imageDetailBean != null) {
+            mSearchShopPopWin = new SearchShopPopWin(activity);
+            mSearchShopPopWin.setImageData(imageDetailBean, pos);
+            mSearchShopPopWin.showAtLocation(activity.findViewById(R.id.menu_layout),
+                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
+                    0,
+                    0); //设置layout在PopupWindow中显示的位置
+        }
+    }
     private void changeUI(ImageDetailBean imageDetailBean) {
         int wide_num = PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_20);
         ViewGroup.LayoutParams layoutParams = iv_details_image.getLayoutParams();
@@ -1283,7 +1299,21 @@ public class ImageDetailFragment
         }
 
         if (imageFirstTag) {
-            ImageUtils.displayFilletImage(imageDetailBean.getItem_info().getImage().getImg0(), iv_details_image);
+            if (null != imageDetailBean.getObject_list() && imageDetailBean.getObject_list().size() > 0) {
+                ArrayList<PointSimple> pointSimples = new ArrayList<>();
+                for (int i = 0; i < imageDetailBean.getObject_list().size(); i++) {
+                    PointSimple pointSimple = new PointSimple();
+                    float width = Float.parseFloat(imageDetailBean.getObject_list().get(i).getObject_info().getX().trim());
+                    float height = Float.parseFloat(imageDetailBean.getObject_list().get(i).getObject_info().getY().trim());
+                    pointSimple.width_scale = width;
+                    pointSimple.height_scale = height;
+                    pointSimple.width_object = Double.parseDouble(imageDetailBean.getObject_list().get(i).getObject_info().getWidth().trim());
+                    pointSimple.height_object = Double.parseDouble(imageDetailBean.getObject_list().get(i).getObject_info().getHeight().trim());
+                    pointSimples.add(pointSimple);
+                }
+                iv_details_image.setPoints(pointSimples);
+            }
+            iv_details_image.setImgBg(wide_num, (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()), imageDetailBean.getItem_info().getImage().getImg0(), this);
             imageFirstTag = false;
         }
         listColor = imageDetailBean.getColor_info();
@@ -2105,6 +2135,7 @@ public class ImageDetailFragment
         };
         MyHttpManager.getInstance().removeShouCang(item_id, callBack);
     }
+
 
 
     public interface UserInfo {
