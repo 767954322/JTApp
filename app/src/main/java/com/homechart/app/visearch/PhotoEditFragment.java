@@ -137,6 +137,7 @@ public class PhotoEditFragment extends BaseFragment
     private TextView tv_tital_comment;
     private String network;
     private TextView tv_none_search;
+    private String mloc;
 
     public static PhotoEditFragment newInstance() {
         return new PhotoEditFragment();
@@ -224,6 +225,11 @@ public class PhotoEditFragment extends BaseFragment
 
         if (listType != null && listType.size() > 0) {
             for (int i = 0; i < listType.size(); i++) {
+                if (i == 0) {
+                    strTypeName.add("全部");
+                    strTypeID.add(-1);
+                }
+
                 strTypeName.add(listType.get(i).getCategory_info().getCategory_name());
                 strTypeID.add(listType.get(i).getCategory_info().getCategory_id());
             }
@@ -231,6 +237,9 @@ public class PhotoEditFragment extends BaseFragment
         if (listSearch != null && listSearch.size() > 0) {
             selectedType = listSearch.get(0).getObject_info().getCategory_name();
             selectedTypeID = listSearch.get(0).getObject_info().getCategory_id();
+        } else {
+            selectedType = "全部";
+            selectedTypeID = -1;
         }
         //更新UI
         if (strTypeName.size() > 0) {
@@ -270,8 +279,15 @@ public class PhotoEditFragment extends BaseFragment
                 }
                 ScalableBox scalableBox = new ScalableBox(x1, y1, x2, y2);
                 editableImage.setBox(scalableBox);
-            }
 
+                SearchSObjectBean searchSObjectBean = listSearch.get(0);
+                mloc = searchSObjectBean.getObject_info().getX() + "-" +
+                        searchSObjectBean.getObject_info().getY() + "-" +
+                        searchSObjectBean.getObject_info().getWidth() + "-" +
+                        searchSObjectBean.getObject_info().getHeight();
+
+                searchShopImage(mloc);
+            }
         } else {
 
             if (network.equals("true")) {
@@ -289,11 +305,12 @@ public class PhotoEditFragment extends BaseFragment
             ScalableBox scalableBox = new ScalableBox(x1, y1, x2, y2);
             editableImage.setBox(scalableBox);
 
+            mloc = 0 + "-" + 0 + "-" + 1 + "-" + 1;
+            searchShopImage(mloc);
         }
 
         //获取同款商品
         changeUploadUI();
-        searchShopImage("");
 
         //TODO 搜索分类的监听
         categoryListView.setOnItemClickListener(new it.sephiroth.android.library.widget.AdapterView.OnItemClickListener() {
@@ -303,7 +320,7 @@ public class PhotoEditFragment extends BaseFragment
                 selectedType = strTypeName.get(i);
                 selectedTypeID = strTypeID.get(i);
                 changeUploadUI();
-                searchShopImage("");
+                searchShopImage(mloc);
                 horizontalAdapter.setSelected(i);
             }
         });
@@ -311,9 +328,12 @@ public class PhotoEditFragment extends BaseFragment
         editPhotoView.setOnBoxChangedListener(new OnBoxChangedListener() {
             @Override
             public void onChanged(int x1, int y1, int x2, int y2) {
-
+                selectedTypeID = -1;
+                selectedType = "全部";
+                horizontalAdapter.setSelected(0);
+                categoryListView.setSelection(0);
                 changeUploadUI();
-                String mloc = x1 * 1.000000 / widerImage + "-" +
+                mloc = x1 * 1.000000 / widerImage + "-" +
                         y1 * 1.000000 / heightImage + "-" +
                         (x2 - x1) + "-" +
                         (y2 - y1);
@@ -333,73 +353,63 @@ public class PhotoEditFragment extends BaseFragment
         if (anim != null) {
             anim.start();
         }
-        if (listSearch != null && listSearch.size() > 0) {
-            tv_none_search.setVisibility(View.GONE);
-            loadingImage.setVisibility(View.VISIBLE);
-            SearchSObjectBean searchSObjectBean = listSearch.get(0);
-            String mloc = "";
-            if (TextUtils.isEmpty(loc)) {
-                mloc = searchSObjectBean.getObject_info().getX() + "-" +
-                        searchSObjectBean.getObject_info().getY() + "-" +
-                        searchSObjectBean.getObject_info().getWidth() + "-" +
-                        searchSObjectBean.getObject_info().getHeight();
-            } else {
-                mloc = loc;
+        tv_none_search.setVisibility(View.GONE);
+        loadingImage.setVisibility(View.VISIBLE);
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                changeUploadUIBack();
+                ToastUtils.showCenter(activity, "搜索同款失败！");
             }
-            OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    changeUploadUIBack();
-                    ToastUtils.showCenter(activity, "搜索同款失败！");
-                }
 
-                @Override
-                public void onResponse(String s) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(s);
-                        int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                        String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                        String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                        if (error_code == 0) {
-                            changeUploadUIBack();
-                            final SearchShopsBean searchShopsBean = GsonUtil.jsonToBean(data_msg, SearchShopsBean.class);
-                            if (null != gridViewLayout) {
-                                if (searchShopsBean != null && searchShopsBean.getItem_list() != null && searchShopsBean.getItem_list().size() > 0) {
-                                    try {
-                                        gridViewLayout.setAdapter(new MySquareImageAdapter(getActivity(), searchShopsBean.getItem_list()));
-                                    } catch (Exception e) {
-                                    }
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        changeUploadUIBack();
+                        final SearchShopsBean searchShopsBean = GsonUtil.jsonToBean(data_msg, SearchShopsBean.class);
+                        if (null != gridViewLayout) {
+                            if (searchShopsBean != null && searchShopsBean.getItem_list() != null && searchShopsBean.getItem_list().size() > 0) {
+                                try {
+                                    gridViewLayout.setAdapter(new MySquareImageAdapter(getActivity(), searchShopsBean.getItem_list()));
+                                } catch (Exception e) {
                                 }
-                                gridViewLayout.invalidate();
-                                gridViewLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        startDetailActivity(searchShopsBean.getItem_list().get(position));
-                                    }
-                                });
                             }
-                            if (ifFirst) {
+                            gridViewLayout.invalidate();
+                            gridViewLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    startDetailActivity(searchShopsBean.getItem_list().get(position));
+                                }
+                            });
+                        }
+                        if (ifFirst) {
 //                                horizontalAdapter.setSelected(strTypeName.indexOf(selectedType));
 //                                categoryListView.scrollTo(strTypeName.indexOf(selectedType), 0);
-                                if (categoryListView != null) {
-                                    categoryListView.smoothScrollToPosition(strTypeName.indexOf(selectedType));
-                                }
-                                ifFirst = false;
+                            if (categoryListView != null) {
+                                categoryListView.smoothScrollToPosition(strTypeName.indexOf(selectedType));
                             }
-
-                        } else {
-                            ToastUtils.showCenter(activity, error_msg);
+                            ifFirst = false;
                         }
-                    } catch (JSONException e) {
-                        ToastUtils.showCenter(activity, getString(R.string.huodong_get_error));
+
+                    } else {
+                        ToastUtils.showCenter(activity, error_msg);
                     }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(activity, getString(R.string.huodong_get_error));
                 }
-            };
-            MyHttpManager.getInstance().
-                    searchShopImage(imId, mloc, selectedTypeID + "", callBack);
+            }
+        };
+        if (selectedTypeID == -1) {
+
+            MyHttpManager.getInstance().searchShopImage(imId, loc, "", callBack);
         } else {
-            tv_none_search.setVisibility(View.VISIBLE);
-            loadingImage.setVisibility(View.GONE);
+
+            MyHttpManager.getInstance().searchShopImage(imId, loc, selectedTypeID + "", callBack);
         }
     }
 
