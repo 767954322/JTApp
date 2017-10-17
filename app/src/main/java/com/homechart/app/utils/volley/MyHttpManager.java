@@ -2136,7 +2136,9 @@ public class MyHttpManager {
                 Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
                 map.put("image_id", image_id);
                 map.put("loc", loc);
-                map.put("category_id", category_id);
+                if(!TextUtils.isEmpty(category_id.trim())){
+                    map.put("category_id", category_id);
+                }
                 String signString = PublicUtils.getSinaString(map);
                 String tabMd5String = Md5Util.getMD5twoTimes(signString);
                 map.put(ClassConstant.PublicKey.SIGN, tabMd5String);

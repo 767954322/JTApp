@@ -254,6 +254,10 @@ public class SearchShopPopWin
             selectedTypeID = mImageDetailBean.getObject_list().get(mPosition).getObject_info().getCategory_id();
             if (listType != null && listType.size() > 0) {
                 for (int i = 0; i < listType.size(); i++) {
+                    if (i == 0) {
+                        strTypeName.add("全部");
+                        strTypeID.add(-1);
+                    }
                     strTypeName.add(listType.get(i).getCategory_info().getCategory_name());
                     strTypeID.add(listType.get(i).getCategory_info().getCategory_id());
                 }
@@ -268,7 +272,7 @@ public class SearchShopPopWin
             resultGridView.addView(gridViewLayout);
             //搜索分类列表
             if (strTypeName.size() > 0) {
-                horizontalAdapter = new HorizontalProductTypeArrayAdapter((Activity) mContext, strTypeName,SearchShopPopWin.this);
+                horizontalAdapter = new HorizontalProductTypeArrayAdapter((Activity) mContext, strTypeName, SearchShopPopWin.this);
                 horizontalAdapter.setSelected(strTypeName.indexOf(selectedType));
                 categoryListView.setAdapter(horizontalAdapter);
                 int position = strTypeName.indexOf(selectedType);
@@ -284,6 +288,11 @@ public class SearchShopPopWin
             editPhotoView.setOnBoxChangedListener(new OnBoxChangedListener() {
                 @Override
                 public void onChanged(int x1, int y1, int x2, int y2) {
+
+                    selectedTypeID = "-1";
+                    selectedType = "全部";
+                    horizontalAdapter.setSelected(0);
+                    categoryListView.setSelection(0);
                     if (loadingImage != null) {
                         loadingImage.setVisibility(View.GONE);
                     }
@@ -294,12 +303,6 @@ public class SearchShopPopWin
                     searchShopImage(mloc);
                 }
             });
-//            SearchShopPopWin.this.categoryListView.setOnItemClickListener(new it.sephiroth.android.library.widget.AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(it.sephiroth.android.library.widget.AdapterView<?> parent, View view, int position, long id) {
-//
-//                }
-//            });
         }
     };
 
@@ -319,6 +322,7 @@ public class SearchShopPopWin
                         loadingImage.setVisibility(View.GONE);
                     }
                 }
+
                 @Override
                 public void onResponse(String s) {
                     try {
@@ -335,14 +339,14 @@ public class SearchShopPopWin
                                 if (searchShopsBean != null && searchShopsBean.getItem_list() != null && searchShopsBean.getItem_list().size() > 0) {
                                     try {
                                         gridViewLayout.setAdapter(new MySquareImageAdapter((Activity) mContext, searchShopsBean.getItem_list()));
-                                    }catch (Exception e){
+                                    } catch (Exception e) {
                                     }
                                 }
                                 gridViewLayout.invalidate();
                                 gridViewLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        ToastUtils.showCenter(mContext,""+position);
+                                        ToastUtils.showCenter(mContext, "" + position);
                                     }
                                 });
                             }
@@ -353,7 +357,11 @@ public class SearchShopPopWin
                     }
                 }
             };
-            MyHttpManager.getInstance().searchShopImage(imageID, loc, selectedTypeID + "", callBack);
+            if (selectedTypeID.trim().equals("-1")) {
+                MyHttpManager.getInstance().searchShopImage(imageID, loc, "", callBack);
+            } else {
+                MyHttpManager.getInstance().searchShopImage(imageID, loc, selectedTypeID + "", callBack);
+            }
         } else {
         }
     }
@@ -381,7 +389,7 @@ public class SearchShopPopWin
     @Override
     public void onClickTextItem(int position) {
         selectedType = strTypeName.get(position);
-        selectedTypeID = strTypeID.get(position)+"";
+        selectedTypeID = strTypeID.get(position) + "";
         loadingImage.setVisibility(View.VISIBLE);
         searchShopImage(mloc);
         horizontalAdapter.setSelected(position);
