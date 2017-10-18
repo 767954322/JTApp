@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_56"
         android:background="@color/bg_4c4c4c"
+        android:visibility="gone"
         android:gravity="center_vertical">
 
         <TextView
@@ -29,7 +30,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/font_56"
         android:background="@color/bg_8f8f8f"
         android:orientation="vertical">
 

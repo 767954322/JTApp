@@ -11,6 +11,7 @@
         android:id="@+id/result_drag_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_56"
+        android:visibility="gone"
         android:gravity="center_vertical"
         android:background="@color/bg_4c4c4c">
         <TextView
@@ -29,7 +30,6 @@
         android:background="@color/bg_8f8f8f"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/font_56"
         android:orientation="vertical">
         <RelativeLayout
             android:id="@+id/rl_tab"

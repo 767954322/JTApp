@@ -470,6 +470,7 @@ public class PhotoEditFragment extends BaseFragment
 
     @Override
     public void onTopReached() {
+        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);//关闭
     }
 
     @Override
