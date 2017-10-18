@@ -74,6 +74,7 @@ import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.homechart.app.visearch.EditPhotoActivity;
+import com.homechart.app.visearch.PhotoActivity;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
@@ -1504,6 +1505,18 @@ public class ImageDetailLongActivity
 
     @Override
     public void onClickPosition(int pos) {
+
+        //友盟统计
+        HashMap<String, String> map6 = new HashMap<String, String>();
+        map6.put("evenname", "图片中商品点击");
+        map6.put("even", "记录点击图片中的商品圆点的次数");
+        MobclickAgent.onEvent(ImageDetailLongActivity.this, "jtaction54", map6);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("记录点击图片中的商品圆点的次数")  //事件类别
+                .setAction("图片中商品点击")      //事件操作
+                .build());
+
 //        Toast.makeText(this, "pos : " + pos, Toast.LENGTH_SHORT).show();
         if (imageDetailBean != null) {
             mSearchShopPopWin = new SearchShopPopWin(ImageDetailLongActivity.this);

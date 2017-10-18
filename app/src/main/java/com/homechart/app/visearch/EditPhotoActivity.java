@@ -29,9 +29,13 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.home.bean.searchfservice.SearchSBean;
 import com.homechart.app.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by yulu on 12/3/15.
@@ -81,4 +85,25 @@ public class EditPhotoActivity
     public String getNetwork() {
         return network;
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart("图片识别展示页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("图片识别展示页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("图片识别展示页");
+        MobclickAgent.onPause(this);
+    }
 }
+

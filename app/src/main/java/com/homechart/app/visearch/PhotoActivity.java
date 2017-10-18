@@ -11,14 +11,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.home.activity.FaBuActvity;
 import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.activity.ShiBieActivity;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 import com.visenze.visearch.android.model.Image;
 
+import java.util.HashMap;
 import java.util.List;
 
 import cn.finalteam.galleryfinal.GalleryFinal;
@@ -111,6 +116,17 @@ public class PhotoActivity
                 camera_preview.switchCamera();
                 break;
             case R.id.tv_shibiejilu:
+                //友盟统计
+                HashMap<String, String> map6 = new HashMap<String, String>();
+                map6.put("evenname", "检测图片记录");
+                map6.put("even", "点击查看识别图片历史记录的次数");
+                MobclickAgent.onEvent(PhotoActivity.this, "jtaction53", map6);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("点击查看识别图片历史记录的次数")  //事件类别
+                        .setAction("检测图片记录")      //事件操作
+                        .build());
+
                 Intent intent = new Intent(PhotoActivity.this,ShiBieActivity.class);
                 startActivity(intent);
                 break;
@@ -140,5 +156,27 @@ public class PhotoActivity
             PhotoActivity.this.finish();
         }
     };
+
+
+    @Override
+    protected void onResume() {
+        super.onPause();
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart("拍照页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("拍照页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("拍照页");
+        MobclickAgent.onPause(this);
+    }
+
 
 }

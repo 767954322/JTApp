@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
@@ -43,6 +44,7 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.homechart.app.visearch.PhotoActivity;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
@@ -194,6 +196,18 @@ public class ShopDetailActivity
                         //取消收藏
                         removeShouCang(shopDetailsBean.getItem_info().getSpu_id());
                     } else {
+
+                        //友盟统计
+                        HashMap<String, String> map6 = new HashMap<String, String>();
+                        map6.put("evenname", "收藏商品");
+                        map6.put("even", "收藏商品的次数");
+                        MobclickAgent.onEvent(ShopDetailActivity.this, "jtaction56", map6);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("收藏商品的次数")  //事件类别
+                                .setAction("收藏商品")      //事件操作
+                                .build());
+
                         //收藏商品
                         addShouCang(shopDetailsBean.getItem_info().getSpu_id());
                     }
@@ -254,6 +268,17 @@ public class ShopDetailActivity
                 holder.getView(R.id.rl_item_shop_all).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+                        //友盟统计
+                        HashMap<String, String> map6 = new HashMap<String, String>();
+                        map6.put("evenname", "查看相似商品");
+                        map6.put("even", "点击推荐商品的次数");
+                        MobclickAgent.onEvent(ShopDetailActivity.this, "jtaction57", map6);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("点击推荐商品的次数")  //事件类别
+                                .setAction("查看相似商品")      //事件操作
+                                .build());
                         //TODO 跳转到商品详情
                         Intent intent = new Intent(ShopDetailActivity.this, ShopDetailActivity.class);
                         intent.putExtra("spu_id", mListData.get(position).getSpu_id());
@@ -429,4 +454,23 @@ public class ShopDetailActivity
         MyHttpManager.getInstance().shoucangShop(spu_id, callback);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("商品详情页");
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart("商品详情页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("商品详情页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
 }

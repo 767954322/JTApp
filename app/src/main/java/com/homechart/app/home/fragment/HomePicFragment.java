@@ -387,6 +387,18 @@ public class HomePicFragment
                     ActivityCompat.requestPermissions(activity,
                             new String[]{Manifest.permission.CAMERA}, 0);
                 } else {
+
+                    //友盟统计
+                    HashMap<String, String> map6 = new HashMap<String, String>();
+                    map6.put("evenname", "找同款拍照入口");
+                    map6.put("even", "记录用户启动拍照识别入口的次数");
+                    MobclickAgent.onEvent(activity, "jtaction52", map6);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("记录用户启动拍照识别入口的次数")  //事件类别
+                            .setAction("找同款拍照入口")      //事件操作
+                            .build());
+
                     Intent intent1 = new Intent(activity, PhotoActivity.class);
                     startActivity(intent1);
                 }

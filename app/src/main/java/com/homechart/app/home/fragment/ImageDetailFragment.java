@@ -1241,6 +1241,16 @@ public class ImageDetailFragment
 
     @Override
     public void onClickPosition(int pos) {
+        //友盟统计
+        HashMap<String, String> map6 = new HashMap<String, String>();
+        map6.put("evenname", "图片中商品点击");
+        map6.put("even", "记录点击图片中的商品圆点的次数");
+        MobclickAgent.onEvent(activity, "jtaction54", map6);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("记录点击图片中的商品圆点的次数")  //事件类别
+                .setAction("图片中商品点击")      //事件操作
+                .build());
         if (imageDetailBean != null) {
             mSearchShopPopWin = new SearchShopPopWin(activity);
             mSearchShopPopWin.setImageData(imageDetailBean, pos);

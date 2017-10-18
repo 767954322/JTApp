@@ -165,6 +165,16 @@ public class ShouCangShopFragment
                     public void onClick(View v) {
                         if (guanli_tag == 0) {//未打开管理
                             //TODO 跳转到商品详情
+                            //友盟统计
+                            HashMap<String, String> map4 = new HashMap<String, String>();
+                            map4.put("evenname", "收藏-商品");
+                            map4.put("even", "收藏-商品页的浏览次数");
+                            MobclickAgent.onEvent(activity, "jtaction55", map4);
+                            //ga统计
+                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                    .setCategory("收藏-商品页的浏览次数")  //事件类别
+                                    .setAction("收藏-商品")      //事件操作
+                                    .build());
                             Intent intent = new Intent(activity, ShopDetailActivity.class);
                             intent.putExtra("spu_id", mListData.get(position).getItem_info().getSpu_id());
                             startActivityForResult(intent,1);
