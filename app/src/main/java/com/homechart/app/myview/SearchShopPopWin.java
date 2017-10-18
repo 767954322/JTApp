@@ -293,7 +293,7 @@ public class SearchShopPopWin
             mloc = shiBieItemBean.getObject_info().getX() + "-" +
                     shiBieItemBean.getObject_info().getY() + "-" +
                     shiBieItemBean.getObject_info().getWidth() + "-" +
-                    shiBieItemBean.getObject_info().getHeight();
+                    (Float.parseFloat(shiBieItemBean.getObject_info().getHeight()) * 1.000000 / heightImage);
             searchShopImage(mloc);
             // 搜索框监听
             editPhotoView.setOnBoxChangedListener(new OnBoxChangedListener() {
@@ -311,8 +311,8 @@ public class SearchShopPopWin
                     }
                     mloc = x1 * 1.000000 / widerImage + "-" +
                             y1 * 1.000000 / heightImage + "-" +
-                            (x2 - x1) + "-" +
-                            (y2 - y1);
+                            (x2 - x1) * 1.000000 / widerImage + "-" +
+                            (y2 - y1) * 1.000000 / heightImage;
                     searchShopImage(mloc);
                 }
             });

@@ -8,6 +8,7 @@
         android:protectionLevel="signature" />
 
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.hardware.camera.autofocus"/>
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS"/>
     <!-- Required  一些系统要求的权限，如访问网络等-->
     <uses-permission android:name="com.homechart.app.permission.JPUSH_MESSAGE" />

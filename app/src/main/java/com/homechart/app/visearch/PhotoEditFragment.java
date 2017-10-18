@@ -287,7 +287,7 @@ public class PhotoEditFragment extends BaseFragment
                 SearchSObjectBean searchSObjectBean = listSearch.get(0);
                 mloc = searchSObjectBean.getObject_info().getX() + "-" +
                         searchSObjectBean.getObject_info().getY() + "-" +
-                        searchSObjectBean.getObject_info().getWidth() + "-" +
+                        searchSObjectBean.getObject_info().getWidth()+ "-" +
                         searchSObjectBean.getObject_info().getHeight();
 
                 searchShopImage(mloc);
@@ -339,8 +339,8 @@ public class PhotoEditFragment extends BaseFragment
                 changeUploadUI();
                 mloc = x1 * 1.000000 / widerImage + "-" +
                         y1 * 1.000000 / heightImage + "-" +
-                        (x2 - x1) + "-" +
-                        (y2 - y1);
+                        (x2 - x1) * 1.000000 / widerImage + "-" +
+                        (y2 - y1) * 1.000000 / heightImage;
                 searchShopImage(mloc);
             }
         });
