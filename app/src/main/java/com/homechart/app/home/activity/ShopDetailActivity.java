@@ -250,7 +250,7 @@ public class ShopDetailActivity
 
     }
 
-    private void initRecyclerView() {
+    private void initRecyclerView()  {
 
         MultiItemTypeSupport<ShopDetailsItemInfoBean> support = new MultiItemTypeSupport<ShopDetailsItemInfoBean>() {
             @Override

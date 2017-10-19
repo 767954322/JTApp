@@ -35,7 +35,7 @@
         android:layout_marginTop="@dimen/font_8"
         android:layout_marginBottom="@dimen/font_10"
         android:textColor="@color/bg_dda066"
-        android:textSize="@dimen/size_14"
+        android:textSize="@dimen/size_13"
         android:layout_alignLeft="@+id/iv_imageview"
         android:text="¥ 33.00"
         android:layout_below="@+id/tv_shop_item_name"/>

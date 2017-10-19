@@ -177,7 +177,7 @@ public class ShouCangShopFragment
                                     .build());
                             Intent intent = new Intent(activity, ShopDetailActivity.class);
                             intent.putExtra("spu_id", mListData.get(position).getItem_info().getSpu_id());
-                            startActivityForResult(intent,1);
+                            startActivityForResult(intent, 1);
 
                         } else {
                             if (((CheckBox) holder.getView(R.id.cb_check)).isChecked()) {
@@ -191,7 +191,16 @@ public class ShouCangShopFragment
                 holder.getView(R.id.bt_buy).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        jumpImageDetail(mListData.get(position).getItem_info().getBuy_url(), position);
+
+                        if (guanli_tag == 0) {
+                            jumpImageDetail(mListData.get(position).getItem_info().getBuy_url(), position);
+                        }else {
+                            if (((CheckBox) holder.getView(R.id.cb_check)).isChecked()) {
+                                ((CheckBox) holder.getView(R.id.cb_check)).setChecked(false);
+                            } else {
+                                ((CheckBox) holder.getView(R.id.cb_check)).setChecked(true);
+                            }
+                        }
                     }
                 });
                 if (map_delete.containsKey(spu_id)) {
@@ -445,7 +454,7 @@ public class ShouCangShopFragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1){
+        if (requestCode == 1) {
             onRefresh();
         }
     }
