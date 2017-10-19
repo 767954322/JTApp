@@ -4,12 +4,17 @@
     android:layout_height="wrap_content"
     android:background="@color/white">
 
+    <View
+        android:id="@+id/view_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_10"/>
     <ImageView
         android:id="@+id/iv_imageview_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/font_10"
-        android:layout_marginRight="@dimen/font_10" />
+        android:layout_marginRight="@dimen/font_10"
+        android:layout_below="@+id/view_top"/>
     <RelativeLayout
         android:id="@+id/rl_shoucang_pic"
         android:layout_width="match_parent"
@@ -114,7 +119,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_10"
-        android:layout_marginBottom="@dimen/font_10"
         android:layout_below="@+id/rl_pic_content"
         android:background="@color/bg_f2f2f2"/>
 
