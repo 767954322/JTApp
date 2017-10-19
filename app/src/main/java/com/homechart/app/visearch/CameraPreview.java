@@ -41,6 +41,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
+import com.homechart.app.commont.PublicUtils;
 import com.visenze.visearch.android.model.Image;
 import java.util.List;
 
@@ -267,11 +268,16 @@ public class CameraPreview extends SurfaceView implements
         synchronized (this) {
             if ((getContext()).getResources().getConfiguration().orientation ==
                     Configuration.ORIENTATION_LANDSCAPE) {
-                mSurfaceHeight = h;
-                mSurfaceWidth = w;
+
+               int wide =  PublicUtils.getScreenWidth(context);
+               int hight =  PublicUtils.getScreenHeight(context);
+                mSurfaceHeight = hight;
+                mSurfaceWidth = wide;
             } else {
-                mSurfaceWidth = h;
-                mSurfaceHeight = w;
+                int wide =  PublicUtils.getScreenWidth(context);
+                int hight =  PublicUtils.getScreenHeight(context);
+                mSurfaceWidth = hight;
+                mSurfaceHeight = wide;
             }
 
             Log.d("Camera", "holder resize: " + mSurfaceWidth + ", " + mSurfaceHeight);
@@ -288,7 +294,7 @@ public class CameraPreview extends SurfaceView implements
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (frameSize != null) {
             //keep aspect ratio and scale holder size
-//            scaleHolderSize();
+            scaleHolderSize();
             if ((getContext()).getResources().getConfiguration().orientation ==
                     Configuration.ORIENTATION_LANDSCAPE) {
                 setMeasuredDimension(mSurfaceWidth, mSurfaceHeight);
