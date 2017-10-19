@@ -115,10 +115,18 @@ public class ShopDetailActivity
                         if (shopDetailsBean.getItem_info().getIs_collected().equals("1")) {//已收藏
                             ifShouCang = true;
                             tv_num_people.setText(shopDetailsBean.getItem_info().getCollect_num());
+                            tv_tital_people.setText("人已加入收藏");
                             iv_shoucang_shop.setImageResource(R.drawable.xing1);
                         } else {//未收藏
                             ifShouCang = false;
                             tv_num_people.setText(shopDetailsBean.getItem_info().getCollect_num());
+                            if(shopDetailsBean.getItem_info().getCollect_num().trim().equals("0")){
+                                tv_num_people.setVisibility(View.INVISIBLE);
+                                tv_tital_people.setText("加入收藏");
+                            }else {
+                                tv_num_people.setVisibility(View.VISIBLE);
+                                tv_tital_people.setText("人已加入收藏");
+                            }
                             iv_shoucang_shop.setImageResource(R.drawable.xing);
                         }
                     }
@@ -126,6 +134,7 @@ public class ShopDetailActivity
             }
         }
     };
+    private TextView tv_tital_people;
 
     @Override
     protected int getLayoutResId() {
@@ -152,6 +161,7 @@ public class ShopDetailActivity
         tv_price_two = (TextView) headerView.findViewById(R.id.tv_price_two);
         tv_price_three = (TextView) headerView.findViewById(R.id.tv_price_three);
         tv_num_people = (TextView) headerView.findViewById(R.id.tv_num_people);
+        tv_tital_people = (TextView) headerView.findViewById(R.id.tv_tital_people);
         rl_shoucang = (RelativeLayout) headerView.findViewById(R.id.rl_shoucang);
         tv_buy = (TextView) headerView.findViewById(R.id.tv_buy);
 
@@ -393,7 +403,18 @@ public class ShopDetailActivity
                         if (error_code == 0) {
                             ifShouCang = false;
                             int num = Integer.parseInt(tv_num_people.getText().toString().trim());
-                            tv_num_people.setText(--num + "");
+                            num = num -1;
+                            tv_num_people.setText(num + "");
+                            if(num == 0){
+                                tv_num_people.setVisibility(View.INVISIBLE);
+                                tv_tital_people.setText("加入收藏");
+                            }else {
+
+                                tv_num_people.setVisibility(View.VISIBLE);
+                                tv_tital_people.setText("人已加入收藏");
+                            }
+
+
                             iv_shoucang_shop.setImageResource(R.drawable.xing);
                             ToastUtils.showCenter(ShopDetailActivity.this, "取消收藏成功！");
                         } else {
@@ -432,6 +453,8 @@ public class ShopDetailActivity
                             ifShouCang = true;
                             int num = Integer.parseInt(tv_num_people.getText().toString().trim());
                             tv_num_people.setText(++num + "");
+                            tv_num_people.setVisibility(View.VISIBLE);
+                            tv_tital_people.setText("人已加入收藏");
                             iv_shoucang_shop.setImageResource(R.drawable.xing1);
                             ToastUtils.showCenter(ShopDetailActivity.this, "商品收藏成功！");
                         } else {

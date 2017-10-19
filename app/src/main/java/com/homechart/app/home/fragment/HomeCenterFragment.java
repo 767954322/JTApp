@@ -189,11 +189,11 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
                         .build());
 
                 Intent intent_messages = new Intent(activity, MessagesListActivity.class);
-                intent_messages.putExtra("notice_num",notice_num);
-                intent_messages.putExtra("follow_notice",follow_notice);
-                intent_messages.putExtra("collect_notice",collect_notice);
-                intent_messages.putExtra("comment_notice",comment_notice);
-                intent_messages.putExtra("system_notice",system_notice);
+                intent_messages.putExtra("notice_num", notice_num);
+                intent_messages.putExtra("follow_notice", follow_notice);
+                intent_messages.putExtra("collect_notice", collect_notice);
+                intent_messages.putExtra("comment_notice", comment_notice);
+                intent_messages.putExtra("system_notice", system_notice);
                 startActivityForResult(intent_messages, 2);
 
                 break;
@@ -327,7 +327,7 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
         if (null != userCenterInfoBean && null != userCenterInfoBean.getCounter()) {
             tv_fensi_num.setText(userCenterInfoBean.getCounter().getFans_num() + "");
             tv_guanzhu_num.setText(userCenterInfoBean.getCounter().getFollow_num() + "");
-            tv_shoucang_num.setText((userCenterInfoBean.getCounter().getCollect_article_num() + userCenterInfoBean.getCounter().getCollect_single_num()) + "");
+            tv_shoucang_num.setText((userCenterInfoBean.getCounter().getCollect_article_num() + userCenterInfoBean.getCounter().getCollect_single_num()) + userCenterInfoBean.getCounter().getCollect_product_num() + "");
             tv_shaijia_num.setText((userCenterInfoBean.getCounter().getSingle_num() + userCenterInfoBean.getCounter().getArticle_num()) + "");
             Log.d("test", (userCenterInfoBean.getCounter().getSingle_num() + userCenterInfoBean.getCounter().getCollect_article_num()) + "");
         }

@@ -93,13 +93,22 @@
         android:layout_below="@+id/relativeLayout"
         android:layout_marginTop="@dimen/font_30">
 
+        <ImageView
+            android:id="@+id/iv_shoucang_shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/xing"
+            android:layout_marginLeft="@dimen/font_10"
+            android:layout_centerVertical="true"/>
+
         <TextView
             android:id="@+id/tv_num_people"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/size_14"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/font_10"
+            android:layout_marginLeft="@dimen/font_5"
+            android:layout_toRightOf="@+id/iv_shoucang_shop"
             android:textColor="@color/bg_dda066"
             android:text="15"/>
         <TextView
@@ -112,13 +121,6 @@
             android:textColor="@color/bg_8f8f8f"
             android:text="人已加入收藏"/>
 
-        <ImageView
-            android:id="@+id/iv_shoucang_shop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/font_5"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/tv_tital_people"/>
 
     </RelativeLayout>
 
@@ -126,7 +128,7 @@
         android:id="@+id/view_line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_10"
-        android:background="@color/view_line"
+        android:background="@color/bg_f2f2f2"
         android:layout_marginTop="@dimen/font_18"
         android:layout_below="@+id/rl_shoucang" />
 
