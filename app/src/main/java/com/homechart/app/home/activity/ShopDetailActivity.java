@@ -115,16 +115,19 @@ public class ShopDetailActivity
                         if (shopDetailsBean.getItem_info().getIs_collected().equals("1")) {//已收藏
                             ifShouCang = true;
                             tv_num_people.setText(shopDetailsBean.getItem_info().getCollect_num());
+                            view_line_none.setVisibility(View.GONE);
                             tv_tital_people.setText("人已加入收藏");
                             iv_shoucang_shop.setImageResource(R.drawable.xing1);
                         } else {//未收藏
                             ifShouCang = false;
                             tv_num_people.setText(shopDetailsBean.getItem_info().getCollect_num());
                             if(shopDetailsBean.getItem_info().getCollect_num().trim().equals("0")){
-                                tv_num_people.setVisibility(View.INVISIBLE);
+                                tv_num_people.setVisibility(View.GONE);
+                                view_line_none.setVisibility(View.VISIBLE);
                                 tv_tital_people.setText("加入收藏");
                             }else {
                                 tv_num_people.setVisibility(View.VISIBLE);
+                                view_line_none.setVisibility(View.GONE);
                                 tv_tital_people.setText("人已加入收藏");
                             }
                             iv_shoucang_shop.setImageResource(R.drawable.xing);
@@ -135,6 +138,7 @@ public class ShopDetailActivity
         }
     };
     private TextView tv_tital_people;
+    private View view_line_none;
 
     @Override
     protected int getLayoutResId() {
@@ -159,6 +163,7 @@ public class ShopDetailActivity
         iv_shoucang_shop = (ImageView) headerView.findViewById(R.id.iv_shoucang_shop);
         tv_shop_details_tital = (TextView) headerView.findViewById(R.id.tv_shop_details_tital);
         tv_price_two = (TextView) headerView.findViewById(R.id.tv_price_two);
+        view_line_none =  headerView.findViewById(R.id.view_line_none);
         tv_price_three = (TextView) headerView.findViewById(R.id.tv_price_three);
         tv_num_people = (TextView) headerView.findViewById(R.id.tv_num_people);
         tv_tital_people = (TextView) headerView.findViewById(R.id.tv_tital_people);
@@ -420,11 +425,13 @@ public class ShopDetailActivity
                             num = num -1;
                             tv_num_people.setText(num + "");
                             if(num == 0){
-                                tv_num_people.setVisibility(View.INVISIBLE);
+                                tv_num_people.setVisibility(View.GONE);
+                                view_line_none.setVisibility(View.VISIBLE);
                                 tv_tital_people.setText("加入收藏");
                             }else {
 
                                 tv_num_people.setVisibility(View.VISIBLE);
+                                view_line_none.setVisibility(View.GONE);
                                 tv_tital_people.setText("人已加入收藏");
                             }
 
@@ -468,6 +475,7 @@ public class ShopDetailActivity
                             int num = Integer.parseInt(tv_num_people.getText().toString().trim());
                             tv_num_people.setText(++num + "");
                             tv_num_people.setVisibility(View.VISIBLE);
+                            view_line_none.setVisibility(View.GONE);
                             tv_tital_people.setText("人已加入收藏");
                             iv_shoucang_shop.setImageResource(R.drawable.xing1);
                             ToastUtils.showCenter(ShopDetailActivity.this, "商品收藏成功！");

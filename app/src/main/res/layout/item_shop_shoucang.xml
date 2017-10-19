@@ -61,15 +61,12 @@
 
     <TextView
         android:id="@+id/bt_buy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/font_80"
+        android:layout_height="@dimen/font_25"
         android:background="@drawable/bt_login"
+        android:gravity="center"
         android:textColor="@color/white"
         android:layout_alignBottom="@+id/iv_article_image"
-        android:paddingLeft="@dimen/font_12"
-        android:paddingRight="@dimen/font_12"
-        android:paddingTop="@dimen/font_5"
-        android:paddingBottom="@dimen/font_5"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/font_15"
         android:text="直达链接"/>
