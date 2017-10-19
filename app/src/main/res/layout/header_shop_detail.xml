@@ -14,29 +14,31 @@
         android:id="@+id/tv_shop_details_tital"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lineSpacingExtra="@dimen/font_5"
         android:layout_below="@+id/iv_shop_image"
+        android:layout_marginLeft="@dimen/font_10"
+        android:layout_marginRight="@dimen/font_10"
+        android:layout_marginTop="@dimen/font_15"
+        android:lineSpacingExtra="@dimen/font_5"
         android:textColor="@color/bg_262626"
-        android:textSize="@dimen/size_17"
-        android:layout_marginTop="@dimen/font_15" />
+        android:textSize="@dimen/size_17" />
 
     <RelativeLayout
         android:id="@+id/rl_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_shop_details_tital"
         android:layout_marginTop="@dimen/font_10"
-        android:gravity="center_vertical"
-        android:layout_below="@+id/tv_shop_details_tital">
+        android:gravity="center_vertical">
 
 
         <RelativeLayout
+            android:id="@+id/relativeLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/font_10"
             android:layout_marginTop="@dimen/font_22"
-            android:layout_centerVertical="true"
-            android:gravity="bottom"
-            android:id="@+id/relativeLayout">
+            android:gravity="bottom">
 
             <TextView
                 android:id="@+id/tv_price_one"
@@ -59,15 +61,16 @@
                 android:text="99"
                 android:textColor="@color/bg_dda066"
                 android:textSize="@dimen/font_24" />
+
             <TextView
                 android:id="@+id/tv_price_three"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_price_one"
                 android:layout_toRightOf="@+id/tv_price_two"
                 android:text=".00"
                 android:textColor="@color/bg_dda066"
-                android:textSize="@dimen/font_15"
-                android:layout_alignBottom="@+id/tv_price_one" />
+                android:textSize="@dimen/font_15" />
 
         </RelativeLayout>
 
@@ -75,19 +78,19 @@
             android:id="@+id/tv_buy"
             android:layout_width="@dimen/font_150"
             android:layout_height="@dimen/font_35"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_10"
+            android:layout_marginTop="@dimen/font_15"
             android:background="@drawable/bt_login"
-            android:textColor="@color/white"
+            android:gravity="center"
+            android:paddingBottom="@dimen/font_5"
             android:paddingLeft="@dimen/font_12"
             android:paddingRight="@dimen/font_12"
             android:paddingTop="@dimen/font_5"
-            android:paddingBottom="@dimen/font_5"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:layout_marginTop="@dimen/font_15"
-            android:layout_marginRight="@dimen/font_10"
-            android:layout_alignParentRight="true"
-            android:textSize="@dimen/size_14"
-            android:text="直达链接" />
+            android:text="直达链接"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_14" />
 
     </RelativeLayout>
 
@@ -102,36 +105,37 @@
             android:id="@+id/iv_shoucang_shop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/xing"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/font_10"
-            android:layout_centerVertical="true"/>
+            android:src="@drawable/xing" />
 
         <View
             android:id="@+id/view_line_none"
             android:layout_width="@dimen/font_4"
             android:layout_height="@dimen/font_1"
-            android:visibility="gone"
-            android:layout_toRightOf="@+id/iv_shoucang_shop"/>
+            android:layout_toRightOf="@+id/iv_shoucang_shop"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_num_people"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/size_14"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/font_5"
             android:layout_toRightOf="@+id/view_line_none"
+            android:text="15"
             android:textColor="@color/bg_dda066"
-            android:text="15"/>
+            android:textSize="@dimen/size_14" />
+
         <TextView
             android:id="@+id/tv_tital_people"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/size_14"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/tv_num_people"
+            android:text="人已加入收藏"
             android:textColor="@color/bg_8f8f8f"
-            android:text="人已加入收藏"/>
+            android:textSize="@dimen/size_14" />
 
 
     </RelativeLayout>
@@ -140,9 +144,9 @@
         android:id="@+id/view_line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_10"
-        android:background="@color/bg_f2f2f2"
+        android:layout_below="@+id/rl_shoucang"
         android:layout_marginTop="@dimen/font_18"
-        android:layout_below="@+id/rl_shoucang" />
+        android:background="@color/bg_f2f2f2" />
 
 
     <TextView
