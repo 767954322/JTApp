@@ -106,7 +106,7 @@ public class SearchLoadingActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
         if (image_type.equals("location")) {
-            ImageUtils.disRectangleImage("file:///" + imagePath, iv_image_search);
+            ImageUtils.disRectangleImage("file://" + imagePath, iv_image_search);
         } else {
             ImageUtils.disRectangleImage(imagePath, iv_image_search);
         }

@@ -4,12 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -19,10 +25,17 @@ import com.homechart.app.home.activity.FaBuActvity;
 import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.activity.ShiBieActivity;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.ToastUtils;
+import com.homechart.app.visearch.media.IMediaCallback;
+import com.homechart.app.visearch.media.MediaErrorCode;
+import com.homechart.app.visearch.media.MediaManager;
 import com.umeng.analytics.MobclickAgent;
 import com.visenze.visearch.android.model.Image;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,15 +49,23 @@ import cn.finalteam.galleryfinal.model.PhotoInfo;
 public class PhotoActivity
         extends BaseActivity
         implements View.OnClickListener,
-        CameraPreview.ImageCapturedCallback {
-
+        CameraPreview.ImageCapturedCallback ,
+        ScaleGestureDetector.OnScaleGestureListener{
+    
+    private String photoPath = Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_PICTURES).getPath() + File.separator + "JiaTuApp";
+    
     private TextView iv_camera_shutter_button;
-    private CameraPreview camera_preview;
+//    private CameraPreview camera_preview;
     private ImageView iv_back;
     private TextView camera_album_button;
     private TextView tv_shibiejilu;
     private ImageView camera_flash_button;
     private ImageView camera_switch_button;
+    private SurfaceView media_preview;
+    private MediaManager photoManager;
+    private ScaleGestureDetector scaleGestureDetector;
+    private String name;
 
     @Override
     protected int getLayoutResId() {
@@ -54,7 +75,7 @@ public class PhotoActivity
     @Override
     protected void initView() {
         iv_camera_shutter_button = (TextView) findViewById(R.id.iv_camera_shutter_button);
-        camera_preview = (CameraPreview) findViewById(R.id.camera_preview);
+        media_preview = (SurfaceView) findViewById(R.id.media_preview);
         iv_back = (ImageView) findViewById(R.id.iv_back);
         camera_album_button = (TextView) findViewById(R.id.camera_album_button);
         tv_shibiejilu = (TextView) findViewById(R.id.tv_shibiejilu);
@@ -65,6 +86,57 @@ public class PhotoActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
 
+        photoManager = new MediaManager(PhotoActivity.this, media_preview);
+
+        scaleGestureDetector = new ScaleGestureDetector(this, this);
+        photoManager.setMediaCallback(new IMediaCallback() {
+            @Override
+            public void Error(MediaErrorCode errorCode) {
+                switch (errorCode) {
+                    case TAKEPICTURE_FAIL:
+                        Toast.makeText(PhotoActivity.this, "拍照失败", Toast.LENGTH_SHORT).show();
+                        break;
+                    case NO_CAMERA:
+                        Toast.makeText(PhotoActivity.this, "没有摄像头", Toast.LENGTH_SHORT).show();
+                        break;
+                    case NO_FRONT_CAMERA:
+                        Toast.makeText(PhotoActivity.this, "没有前置摄像头", Toast.LENGTH_SHORT).show();
+                        break;
+                    case OPEN_CAMERA_FAIL:
+                        Toast.makeText(PhotoActivity.this, "打开摄像头失败", Toast.LENGTH_SHORT).show();
+                        break;
+                    case OPEN_PREVIEW_FAIL:
+                        Toast.makeText(PhotoActivity.this, "打开预览界面失败", Toast.LENGTH_SHORT).show();
+                        break;
+                    case START_RECORD_FAIL:
+                        Toast.makeText(PhotoActivity.this, "启动录制视频失败", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void takePicture(String path, String name) {
+                Intent intent1 = new Intent(PhotoActivity.this, SearchLoadingActivity.class);
+                intent1.putExtra("image_url",path+ "/"+ name);
+                intent1.putExtra("type", "location");
+                intent1.putExtra("image_type", "location");
+                startActivity(intent1);
+                CustomProgress.cancelDialog();
+                PhotoActivity.this.finish();
+
+            }
+
+            @Override
+            public void recordStop() {
+            }
+        });
+
+        media_preview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return scaleGestureDetector.onTouchEvent(event);
+            }
+        });
     }
 
     @Override
@@ -85,7 +157,10 @@ public class PhotoActivity
                 PhotoActivity.this.finish();
                 break;
             case R.id.iv_camera_shutter_button:
-                camera_preview.takePhoto(this);
+                CustomProgress.show(PhotoActivity.this, "拍照中...", false, null);
+                name = "IMG_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
+                photoManager.tackPicture(photoPath, name);
+//                camera_preview.takePhoto(this);
                 break;
             case R.id.camera_album_button:
 //                Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -102,18 +177,10 @@ public class PhotoActivity
                             ToastUtils.showCenter(PhotoActivity.this, "图片资源获取失败");
                         }
                     }
-
                     @Override
                     public void onHanlderFailure(int requestCode, String errorMsg) {
                     }
                 });
-                break;
-            case R.id.camera_flash_button:
-                camera_flash_button.setSelected(camera_preview.turnOnTorch());
-                break;
-            case R.id.camera_switch_button:
-                camera_flash_button.setSelected(false);
-                camera_preview.switchCamera();
                 break;
             case R.id.tv_shibiejilu:
                 //友盟统计
@@ -174,9 +241,23 @@ public class PhotoActivity
     @Override
     protected void onPause() {
         super.onPause();
+        photoManager.release();
         MobclickAgent.onPageEnd("拍照页");
         MobclickAgent.onPause(this);
     }
 
+    @Override
+    public boolean onScale(ScaleGestureDetector detector) {
+        return false;
+    }
 
+    @Override
+    public boolean onScaleBegin(ScaleGestureDetector detector) {
+        return false;
+    }
+
+    @Override
+    public void onScaleEnd(ScaleGestureDetector detector) {
+
+    }
 }

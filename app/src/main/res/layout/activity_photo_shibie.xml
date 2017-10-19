@@ -3,12 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--Camera preview-->
-    <com.homechart.app.visearch.CameraPreview
-        android:id="@+id/camera_preview"
+    <!--&lt;!&ndash;Camera preview&ndash;&gt;-->
+    <!--<com.homechart.app.visearch.CameraPreview-->
+        <!--android:id="@+id/camera_preview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+    <SurfaceView
+        android:id="@+id/media_preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 
     <RelativeLayout
         android:layout_width="match_parent"
