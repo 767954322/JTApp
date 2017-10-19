@@ -171,7 +171,7 @@ public class ShopDetailActivity
     protected void initData(Bundle savedInstanceState) {
 
         tv_tital_comment.setText("商品详情");
-        widMoreImage = PublicUtils.getScreenWidth(this) / 2 - UIUtils.getDimens(R.dimen.font_20);
+        widMoreImage = PublicUtils.getScreenWidth(this) / 2 - UIUtils.getDimens(R.dimen.font_9);
         if (!TextUtils.isEmpty(spu_id)) {
             initRecyclerView();
             getDetailsData();
@@ -255,12 +255,26 @@ public class ShopDetailActivity
         MultiItemTypeSupport<ShopDetailsItemInfoBean> support = new MultiItemTypeSupport<ShopDetailsItemInfoBean>() {
             @Override
             public int getLayoutId(int itemType) {
-                return R.layout.item_shop_morelike;
+
+                if(itemType == 0){
+
+                    return R.layout.item_shop_morelike_left;
+                }else {
+
+                    return R.layout.item_shop_morelike_right;
+                }
             }
 
             @Override
             public int getItemViewType(int position, ShopDetailsItemInfoBean shopDetailsItemInfoBean) {
-                return 0;
+
+                if(position%2 == 0){
+
+                    return 0;
+                }else {
+
+                    return 1;
+                }
             }
         };
         mAdapter = new MultiItemCommonAdapter<ShopDetailsItemInfoBean>(this, mListData, support) {
@@ -299,7 +313,7 @@ public class ShopDetailActivity
             }
         };
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(ShopDetailActivity.this, 2));
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setOnLoadMoreListener(this);
         mRecyclerView.addHeaderView(headerView);
