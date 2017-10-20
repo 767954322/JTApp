@@ -205,20 +205,22 @@ public class SearchLoadingActivity
                 //压缩图片
                 Bitmap bitmap_before = null;
                 bitmap_before = BitmapUtil.getBitmap(image_url);
-                Bitmap bitmap_compress_press = BitmapUtil.compressImage(bitmap_before);
-                try {
-                    boolean status = BitmapUtil.saveBitmap(bitmap_compress_press, Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName + "/");
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (bitmap_before != null) {
+                    Bitmap bitmap_compress_press = BitmapUtil.compressImage(bitmap_before);
+                    try {
+                        boolean status = BitmapUtil.saveBitmap(bitmap_compress_press, Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName + "/");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                    String signString = PublicUtils.getSinaString(map);
+                    String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                    map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                    FileHttpManager.getInstance().uploadFile(SearchLoadingActivity.this, new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName + "/"),
+                            UrlConstants.CHECK_IMAGE,
+                            map,
+                            PublicUtils.getPublicHeader(MyApplication.getInstance()));
                 }
-                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
-                String signString = PublicUtils.getSinaString(map);
-                String tabMd5String = Md5Util.getMD5twoTimes(signString);
-                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
-                FileHttpManager.getInstance().uploadFile(SearchLoadingActivity.this, new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName + "/"),
-                        UrlConstants.CHECK_IMAGE,
-                        map,
-                        PublicUtils.getPublicHeader(MyApplication.getInstance()));
             }
         }.start();
     }

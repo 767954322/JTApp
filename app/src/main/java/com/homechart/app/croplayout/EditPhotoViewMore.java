@@ -3,6 +3,7 @@ package com.homechart.app.croplayout;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -61,6 +62,9 @@ public class EditPhotoViewMore extends FrameLayout {
     public void setUrlImage(String urlImage) {
         this.urlImage = urlImage;
     }
+    public void setUrlImage(String urlImage,boolean iftrue) {
+        this.urlImage = urlImage;
+    }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -72,7 +76,11 @@ public class EditPhotoViewMore extends FrameLayout {
             if(editableImage.getOriginalImage() == null){
                 ImageUtils.disRectangleImage(urlImage,imageView);
             }else {
-                imageView.setImageBitmap(editableImage.getOriginalImage());
+                if(!TextUtils.isEmpty(urlImage)){
+                    ImageUtils.disRectangleImage(urlImage,imageView);
+                }else {
+                    imageView.setImageBitmap(editableImage.getOriginalImage());
+                }
             }
             if(null != editableImage.getBox()){
                 selectionView.setBoxSize(editableImage, editableImage.getBox(), w, h);

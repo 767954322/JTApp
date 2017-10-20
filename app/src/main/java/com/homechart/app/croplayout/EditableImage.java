@@ -27,6 +27,10 @@ public class EditableImage {
         originalBox = new ScalableBox();
     }
 
+   public void setImageBitmap(Bitmap bitmap ){
+        this.originalImage = bitmap;
+    }
+
     public EditableImage(final String netPath, boolean ifNetWork) {
         Bitmap bitmap_before = ImageLoader.getInstance().loadImageSync(netPath);
         originalImage = bitmap_before;

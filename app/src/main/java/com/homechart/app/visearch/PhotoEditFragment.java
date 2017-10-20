@@ -54,6 +54,7 @@ import com.homechart.app.home.bean.searchfservice.SearchSObjectBean;
 import com.homechart.app.home.bean.searchfservice.SearchSObjectInfoBean;
 import com.homechart.app.home.bean.searchshops.SearchShopItemBean;
 import com.homechart.app.home.bean.searchshops.SearchShopsBean;
+import com.homechart.app.utils.BitmapUtil;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
@@ -260,6 +261,7 @@ public class PhotoEditFragment extends BaseFragment
                 editableImage = new EditableImage(imagePath, true);
             } else {
                 editableImage = new EditableImage(imagePath);
+                editPhotoView.setUrlImage("file://"+imagePath , true);
             }
             editPhotoView.initView(getActivity(), editableImage, true);
 
@@ -293,12 +295,11 @@ public class PhotoEditFragment extends BaseFragment
                 searchShopImage(mloc);
             }
         } else {
-
             if (network.equals("true")) {
-
                 editableImage = new EditableImage(imagePath, true);
             } else {
                 editableImage = new EditableImage(imagePath);
+                editPhotoView.setUrlImage("file://"+imagePath , true);
             }
             editPhotoView.initView(getActivity(), editableImage, true);
             //整张图片展示框
