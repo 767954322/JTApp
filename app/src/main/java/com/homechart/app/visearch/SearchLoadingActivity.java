@@ -206,9 +206,9 @@ public class SearchLoadingActivity
                 Bitmap bitmap_before = null;
                 bitmap_before = BitmapUtil.getBitmap(image_url);
                 if (bitmap_before != null) {
-                    Bitmap bitmap_compress_press = BitmapUtil.compressImage(bitmap_before);
+//                    Bitmap bitmap_compress_press = BitmapUtil.compressImage(bitmap_before);
                     try {
-                        boolean status = BitmapUtil.saveBitmap(bitmap_compress_press, Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName + "/");
+                        boolean status = BitmapUtil.saveBitmap(bitmap_before, Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName + "/");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
