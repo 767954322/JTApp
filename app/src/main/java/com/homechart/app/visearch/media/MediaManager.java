@@ -143,7 +143,7 @@ public class MediaManager implements SurfaceHolder.Callback {
      * @param path
      * @param name
      */
-    public void tackPicture(final String path, final String name) {
+    public void tackPicture(final String path, final String name, final int degree) {
         if (camera == null || TextUtils.isEmpty(path) || TextUtils.isEmpty(name)) {
             setError(MediaErrorCode.TAKEPICTURE_FAIL);
             return;
@@ -165,6 +165,22 @@ public class MediaManager implements SurfaceHolder.Callback {
                     rotate = 270;
                 }
                 Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                if (degree <= 45 || degree > 315) {//不用旋转
+
+                } else if (degree > 45 && degree < 135) {//头在左边
+                    Matrix matrix = new Matrix();
+                    matrix.setRotate(270, bitmap.getWidth() / 2, bitmap.getHeight() / 2);
+                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+                } else if (degree >= 225 && degree <= 315) {//头在右边
+                    Matrix matrix = new Matrix();
+                    matrix.setRotate(90, bitmap.getWidth() / 2, bitmap.getHeight() / 2);
+                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                } else if (degree >= 135 && degree < 225) {//头在下边
+                    Matrix matrix = new Matrix();
+                    matrix.setRotate(180, bitmap.getWidth() / 2, bitmap.getHeight() / 2);
+                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                }
                 Matrix matrix = new Matrix();
                 matrix.preRotate(rotate);
                 bitmap = Bitmap.createBitmap(bitmap, 0, 0,

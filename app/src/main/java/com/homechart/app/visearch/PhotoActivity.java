@@ -2,6 +2,10 @@ package com.homechart.app.visearch;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -49,14 +53,14 @@ import cn.finalteam.galleryfinal.model.PhotoInfo;
 public class PhotoActivity
         extends BaseActivity
         implements View.OnClickListener,
-        CameraPreview.ImageCapturedCallback ,
-        ScaleGestureDetector.OnScaleGestureListener{
-    
+        CameraPreview.ImageCapturedCallback,
+        ScaleGestureDetector.OnScaleGestureListener {
+
     private String photoPath = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_PICTURES).getPath() + File.separator + "JiaTuApp";
-    
+
     private TextView iv_camera_shutter_button;
-//    private CameraPreview camera_preview;
+    //    private CameraPreview camera_preview;
     private ImageView iv_back;
     private TextView camera_album_button;
     private TextView tv_shibiejilu;
@@ -66,6 +70,7 @@ public class PhotoActivity
     private MediaManager photoManager;
     private ScaleGestureDetector scaleGestureDetector;
     private String name;
+    private int degree = -1;
 
     @Override
     protected int getLayoutResId() {
@@ -87,6 +92,8 @@ public class PhotoActivity
     protected void initData(Bundle savedInstanceState) {
 
         photoManager = new MediaManager(PhotoActivity.this, media_preview);
+
+        SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         scaleGestureDetector = new ScaleGestureDetector(this, this);
         photoManager.setMediaCallback(new IMediaCallback() {
@@ -117,7 +124,7 @@ public class PhotoActivity
             @Override
             public void takePicture(String path, String name) {
                 Intent intent1 = new Intent(PhotoActivity.this, SearchLoadingActivity.class);
-                intent1.putExtra("image_url",path+ "/"+ name);
+                intent1.putExtra("image_url", path + "/" + name);
                 intent1.putExtra("type", "location");
                 intent1.putExtra("image_type", "location");
                 startActivity(intent1);
@@ -137,6 +144,43 @@ public class PhotoActivity
                 return scaleGestureDetector.onTouchEvent(event);
             }
         });
+
+        sm.registerListener(new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                if (Sensor.TYPE_ACCELEROMETER != event.sensor.getType()) {
+                    return;
+                }
+
+                float[] values = event.values;
+                float ax = values[0];
+                float ay = values[1];
+
+                double g = Math.sqrt(ax * ax + ay * ay);
+                double cos = ay / g;
+                if (cos > 1) {
+                    cos = 1;
+                } else if (cos < -1) {
+                    cos = -1;
+                }
+                double rad = Math.acos(cos);
+                if (ax < 0) {
+                    rad = 2 * Math.PI - rad;
+                }
+
+                int uiRot = getWindowManager().getDefaultDisplay().getRotation();
+                double uiRad = Math.PI / 2 * uiRot;
+                rad -= uiRad;
+
+                degree = (int) (180 * rad / Math.PI);
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        }, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+
     }
 
     @Override
@@ -159,7 +203,8 @@ public class PhotoActivity
             case R.id.iv_camera_shutter_button:
                 CustomProgress.show(PhotoActivity.this, "拍照中...", false, null);
                 name = "IMG_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
-                photoManager.tackPicture(photoPath, name);
+                Log.d("test", degree + "");
+                photoManager.tackPicture(photoPath, name,degree);
 //                camera_preview.takePhoto(this);
                 break;
             case R.id.camera_album_button:
@@ -177,6 +222,7 @@ public class PhotoActivity
                             ToastUtils.showCenter(PhotoActivity.this, "图片资源获取失败");
                         }
                     }
+
                     @Override
                     public void onHanlderFailure(int requestCode, String errorMsg) {
                     }
@@ -194,7 +240,7 @@ public class PhotoActivity
                         .setAction("检测图片记录")      //事件操作
                         .build());
 
-                Intent intent = new Intent(PhotoActivity.this,ShiBieActivity.class);
+                Intent intent = new Intent(PhotoActivity.this, ShiBieActivity.class);
                 startActivity(intent);
                 break;
         }
