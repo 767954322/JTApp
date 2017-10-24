@@ -277,21 +277,23 @@ public class FaBuActvity
                 //压缩图片
                 Bitmap bitmap_before = BitmapUtil.getBitmap(urlImage);
 //                Bitmap bitmap_compress = BitmapUtil.ratio(bitmap_before, 400, 800);
-                Bitmap bitmap_compress_press = BitmapUtil.compressImage(bitmap_before);
-                try {
-                    boolean status = BitmapUtil.saveBitmap(bitmap_compress_press, Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName + "/");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                Bitmap bitmap_compress_press = BitmapUtil.compressImage(bitmap_before);
+                if(bitmap_before != null){
+                    try {
+                        boolean status = BitmapUtil.saveBitmap(bitmap_before, Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName + "/");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
-                String signString = PublicUtils.getSinaString(map);
-                String tabMd5String = Md5Util.getMD5twoTimes(signString);
-                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
-                FileHttpManager.getInstance().uploadFile(FaBuActvity.this, new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName + "/"),
-                        UrlConstants.PUT_IMAGE,
-                        map,
-                        PublicUtils.getPublicHeader(MyApplication.getInstance()));
+                    Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                    String signString = PublicUtils.getSinaString(map);
+                    String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                    map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                    FileHttpManager.getInstance().uploadFile(FaBuActvity.this, new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName + "/"),
+                            UrlConstants.PUT_IMAGE,
+                            map,
+                            PublicUtils.getPublicHeader(MyApplication.getInstance()));
+                }
             }
         }.start();
 
@@ -486,7 +488,7 @@ public class FaBuActvity
                     CustomProgress.cancelDialog();
                     Intent intent = new Intent(FaBuActvity.this, ImageDetailActivity.class);
                     intent.putExtra("item_id", item_id);
-                    startActivity(intent);
+                    FaBuActvity.this.startActivity(intent);
                     FaBuActvity.this.finish();
                     //TODO(统计依据activity_id，为空是+号跳转的，不为空为活动跳进来了)
 
