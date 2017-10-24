@@ -11,6 +11,7 @@ android {
         versionName "5.0.0"
         multiDexEnabled true
 
+
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "default_channel"]
         productFlavors {
             default_channel {}
