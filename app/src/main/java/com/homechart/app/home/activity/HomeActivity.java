@@ -47,11 +47,13 @@ import com.homechart.app.upapk.BroadcastUtil;
 import com.homechart.app.upapk.DialogUtils;
 import com.homechart.app.upapk.DownloadService;
 import com.homechart.app.utils.CustomProgress;
+import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.homechart.app.visearch.EditPhotoActivity;
+import com.homechart.app.visearch.PhotoActivity;
 import com.jaeger.library.StatusBarUtil;
 import com.umeng.analytics.MobclickAgent;
 
@@ -93,6 +95,8 @@ public class HomeActivity
     private String photo_id;
     private String activity_id;
     private String article_id;
+    private RadioButton radio_btn_designer;
+    private Boolean loginStatus;
 
     @Override
     protected int getLayoutResId() {
@@ -103,18 +107,34 @@ public class HomeActivity
     protected void initExtraBundle() {
         super.initExtraBundle();
 
-        photo_id = getIntent().getStringExtra("photo_id");
-        activity_id = getIntent().getStringExtra("activity_id");
-        article_id = getIntent().getStringExtra("article_id");
-
+//        if_first =  getIntent().getBooleanExtra("if_first",false);
+            String data = getIntent().getDataString();
+            if (!TextUtils.isEmpty(data) && data.contains("photo")) {
+                String[] str = data.split("photo");
+                if (str.length > 1) {
+                    photo_id = str[1].substring(1, str[1].length());
+                }
+            } else if (!TextUtils.isEmpty(data) && data.contains("activity")) {
+                String[] str = data.split("activity");
+                if (str.length > 1) {
+                    activity_id = str[1].substring(1, str[1].length());
+                }
+            } else if (!TextUtils.isEmpty(data) && data.contains("article")) {
+                String[] str = data.split("article");
+                if (str.length > 1) {
+                    article_id = str[1].substring(1, str[1].length());
+                }
+            }
         type = getIntent().getStringExtra("type");
         object_id = getIntent().getStringExtra("object_id");
+        loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
     }
 
     @Override
     protected void initView() {
         mRadioGroup = (RadioGroup) findViewById(R.id.rg_home_radio_group);
         radio_btn_center = (RadioButton) findViewById(R.id.radio_btn_center);
+        radio_btn_designer = (RadioButton) findViewById(R.id.radio_btn_designer);
         iv_add_icon = (ImageView) findViewById(R.id.iv_add_icon);
     }
 
@@ -149,8 +169,11 @@ public class HomeActivity
 
     @Override
     public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+
+        loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
         switch (checkedId) {
             case R.id.radio_btn_pic:
+                jumpPosition = 0;
                 if (null == mHomePicFragment) {
                     mHomePicFragment = new HomePicFragment(getSupportFragmentManager());
                 }
@@ -158,19 +181,9 @@ public class HomeActivity
                     mTagFragment = mHomePicFragment;
                     replaceFragment(mHomePicFragment);
                 }
-                jumpPosition = 0;
                 break;
             case R.id.radio_btn_designer:
             case R.id.iv_add_icon:
-//                if (null == mHomeDesignerFragment) {
-//                    mHomeDesignerFragment = new HomeDesignerFragment(getSupportFragmentManager());
-//                }
-//                if (mTagFragment != mHomeDesignerFragment) {
-//                    mTagFragment = mHomeDesignerFragment;
-//                    replaceFragment(mHomeDesignerFragment);
-//                }
-//                jumpPosition = 1;
-
                 //友盟统计
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("evenname", "发布入口");
@@ -181,28 +194,66 @@ public class HomeActivity
                         .setCategory("首页")  //事件类别
                         .setAction("发布入口")      //事件操作
                         .build());
-
                 if (jumpPosition == 0) {
                     mRadioGroup.check(R.id.radio_btn_pic);
                 } else if (jumpPosition == 2) {
                     mRadioGroup.check(R.id.radio_btn_center);
                 }
-                menuWindow.showAtLocation(HomeActivity.this.findViewById(R.id.main),
-                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
-                        0,
-                        0); //设置layout在PopupWindow中显示的位置
+
+                if (ContextCompat.checkSelfPermission(HomeActivity.this,
+                        Manifest.permission.CAMERA) !=
+                        PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(HomeActivity.this,
+                            new String[]{Manifest.permission.CAMERA}, 0);
+                } else {
+                    //友盟统计
+                    HashMap<String, String> map6 = new HashMap<String, String>();
+                    map6.put("evenname", "找同款拍照入口");
+                    map6.put("even", "记录用户启动拍照识别入口的次数");
+                    MobclickAgent.onEvent(HomeActivity.this, "jtaction52", map6);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("记录用户启动拍照识别入口的次数")  //事件类别
+                            .setAction("找同款拍照入口")      //事件操作
+                            .build());
+                    Intent intent1 = new Intent(HomeActivity.this, PhotoActivity.class);
+                    startActivity(intent1);
+                }
+//                menuWindow.showAtLocation(HomeActivity.this.findViewById(R.id.main),
+//                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
+//                        0,
+//                        0); //设置layout在PopupWindow中显示的位置
                 break;
             case R.id.radio_btn_center:
-                if (null == mHomeCenterFragment) {
-                    mHomeCenterFragment = new HomeCenterFragment(getSupportFragmentManager());
+
+                if(loginStatus){
+                    jumpPosition = 2;
+                    if (null == mHomeCenterFragment) {
+                        mHomeCenterFragment = new HomeCenterFragment(getSupportFragmentManager());
+                    }
+                    if (mTagFragment != mHomeCenterFragment) {
+                        mTagFragment = mHomeCenterFragment;
+                        replaceFragment(mHomeCenterFragment);
+                    }
+                }else {
+                    if(ifJump){
+                        mRadioGroup.check(R.id.radio_btn_pic);
+                        Intent intent = new Intent(HomeActivity.this,LoginActivity.class);
+                        startActivityForResult(intent,1);
+                    }
                 }
-                if (mTagFragment != mHomeCenterFragment) {
-                    mTagFragment = mHomeCenterFragment;
-                    replaceFragment(mHomeCenterFragment);
-                }
-                jumpPosition = 2;
+
                 break;
         }
+    }
+
+    private boolean ifJump = true;
+    public void changeShowPic(){
+        ifJump = false;
+        jumpPosition = 0;
+        mRadioGroup.check(R.id.radio_btn_pic);
+        mHomeCenterFragment = null;
+        ifJump = true;
     }
 
     public void replaceFragment(Fragment fragment) {
@@ -507,6 +558,20 @@ public class HomeActivity
                     ToastUtils.showCenter(HomeActivity.this, "对不起你没有同意该权限");
                 }
                 break;
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+
+            loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+            if(loginStatus){
+                jumpPosition = 2;
+                mRadioGroup.check(R.id.radio_btn_center);
+            }
         }
 
     }

@@ -414,6 +414,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/font_20"
         android:clickable="true"
+        android:visibility="gone"
         android:layout_marginBottom="@dimen/font_69">
 
         <ImageView

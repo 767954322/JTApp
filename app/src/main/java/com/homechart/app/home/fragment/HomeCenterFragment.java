@@ -76,6 +76,7 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
     private int collect_notice = 0;
     private int comment_notice = 0;
     private int system_notice = 0;
+    private Boolean loginStatus;
 
     Handler handler = new Handler() {
         @Override
@@ -235,7 +236,7 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
             case R.id.rl_set:
 
                 Intent intent_set = new Intent(activity, SetActivity.class);
-                startActivity(intent_set);
+                startActivityForResult(intent_set,3);
 
                 break;
         }
@@ -369,6 +370,11 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
             getUserInfo();
         } else if (requestCode == 2) {
             getUnReaderMsg();
+        }else if(requestCode == 3){
+            loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+            if(!loginStatus){
+                ((HomeActivity)activity).changeShowPic();
+            }
         }
 
     }

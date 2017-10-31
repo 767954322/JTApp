@@ -121,6 +121,7 @@ public class LoginActivity extends BaseActivity
         mTVLoginQQ.setOnClickListener(this);
         mTVLoginWeiXin.setOnClickListener(this);
         mTVLoginSina.setOnClickListener(this);
+        mIBBack.setOnClickListener(this);
 
     }
 
@@ -142,22 +143,21 @@ public class LoginActivity extends BaseActivity
         PublicUtils.verifyStoragePermissions(LoginActivity.this);
         boolean login_status = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
         if (login_status) {
-            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-            intent.putExtra("photo_id", photo_id);
-            intent.putExtra("activity_id", activity_id);
-            intent.putExtra("article_id", article_id);
-            if (!TextUtils.isEmpty(object_id)) {
-                intent.putExtra("type", type);
-                intent.putExtra("object_id", object_id);
-            }
-            startActivity(intent);
-            LoginActivity.this.finish();
+//            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+//            intent.putExtra("photo_id", photo_id);
+//            intent.putExtra("activity_id", activity_id);
+//            intent.putExtra("article_id", article_id);
+//            if (!TextUtils.isEmpty(object_id)) {
+//                intent.putExtra("type", type);
+//                intent.putExtra("object_id", object_id);
+//            }
+//            startActivity(intent);
+//            LoginActivity.this.finish();
         } else {
             PublicUtils.changeEditTextHint(getString(R.string.login_name_hint), mETLoginName, 14);
             PublicUtils.changeEditTextHint(getString(R.string.login_pass_hint), mETLoginPass, 14);
             umAuthListener = new PublicUtils.UmAuthListener(LoginActivity.this, this);
             mTVTital.setText(R.string.login_tital);
-            mIBBack.setVisibility(View.GONE);
         }
 
     }
@@ -193,7 +193,6 @@ public class LoginActivity extends BaseActivity
                 break;
             case R.id.tv_goto_register:
             case R.id.iv_next:
-
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 intent.putExtra("photo_id", photo_id);
                 intent.putExtra("activity_id", activity_id);
@@ -205,6 +204,10 @@ public class LoginActivity extends BaseActivity
                 startActivity(intent);
                 this.finish();
 
+                break;
+
+            case R.id.nav_left_imageButton:
+                LoginActivity.this.finish();
                 break;
         }
     }
@@ -233,15 +236,15 @@ public class LoginActivity extends BaseActivity
                         String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                         LoginBean loginBean = GsonUtil.jsonToBean(data_msg, LoginBean.class);
                         PublicUtils.loginSucces(loginBean);
-                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                        intent.putExtra("photo_id", photo_id);
-                        intent.putExtra("activity_id", activity_id);
-                        intent.putExtra("article_id", article_id);
-                        if (!TextUtils.isEmpty(object_id)) {
-                            intent.putExtra("type", type);
-                            intent.putExtra("object_id", object_id);
-                        }
-                        startActivity(intent);
+//                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+//                        intent.putExtra("photo_id", photo_id);
+//                        intent.putExtra("activity_id", activity_id);
+//                        intent.putExtra("article_id", article_id);
+//                        if (!TextUtils.isEmpty(object_id)) {
+//                            intent.putExtra("type", type);
+//                            intent.putExtra("object_id", object_id);
+//                        }
+//                        startActivity(intent);
                         LoginActivity.this.finish();
                     } else {
                         ToastUtils.showCenter(LoginActivity.this, error_msg);
@@ -320,15 +323,15 @@ public class LoginActivity extends BaseActivity
                         String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                         LoginBean loginBean = GsonUtil.jsonToBean(data_msg, LoginBean.class);
                         PublicUtils.loginSucces(loginBean);
-                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                        intent.putExtra("photo_id", photo_id);
-                        intent.putExtra("activity_id", activity_id);
-                        intent.putExtra("article_id", article_id);
-                        if (!TextUtils.isEmpty(object_id)) {
-                            intent.putExtra("type", type);
-                            intent.putExtra("object_id", object_id);
-                        }
-                        startActivity(intent);
+//                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+//                        intent.putExtra("photo_id", photo_id);
+//                        intent.putExtra("activity_id", activity_id);
+//                        intent.putExtra("article_id", article_id);
+//                        if (!TextUtils.isEmpty(object_id)) {
+//                            intent.putExtra("type", type);
+//                            intent.putExtra("object_id", object_id);
+//                        }
+//                        startActivity(intent);
                         LoginActivity.this.finish();
                     } else {
                         if (error_code == 1006 || error_code == 1012) {
@@ -382,15 +385,15 @@ public class LoginActivity extends BaseActivity
 
         //注册成功后的跳转
         if (requestCode == 0 && resultCode == 1) {
-            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-            intent.putExtra("photo_id", photo_id);
-            intent.putExtra("activity_id", activity_id);
-            intent.putExtra("article_id", article_id);
-            if (!TextUtils.isEmpty(object_id)) {
-                intent.putExtra("type", type);
-                intent.putExtra("object_id", object_id);
-            }
-            startActivity(intent);
+//            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+//            intent.putExtra("photo_id", photo_id);
+//            intent.putExtra("activity_id", activity_id);
+//            intent.putExtra("article_id", article_id);
+//            if (!TextUtils.isEmpty(object_id)) {
+//                intent.putExtra("type", type);
+//                intent.putExtra("object_id", object_id);
+//            }
+//            startActivity(intent);
             LoginActivity.this.finish();
         }
 
@@ -408,11 +411,11 @@ public class LoginActivity extends BaseActivity
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-
-            exit();
-            return true;
-        }
+//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+//
+//            exit();
+//            return true;
+//        }
         return super.onKeyDown(keyCode, event);
     }
 

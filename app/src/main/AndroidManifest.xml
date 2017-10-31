@@ -79,6 +79,20 @@
             android:alwaysRetainTaskState="true"
             android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
             android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".home.activity.RegisterActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".home.activity.HomeActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -97,19 +111,6 @@
             </intent-filter>
 
         </activity>
-        <activity
-            android:name=".home.activity.RegisterActivity"
-            android:alwaysRetainTaskState="true"
-            android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".home.activity.HomeActivity"
-            android:alwaysRetainTaskState="true"
-            android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
 
 
         <activity

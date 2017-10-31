@@ -37,7 +37,8 @@
                 style="@style/main_tab_bottom"
                 android:layout_marginTop="@dimen/size_6"
                 android:checked="true"
-                android:text=""
+                android:text="识图"
+                android:drawableTop="@drawable/center_radio_select"
                 android:textSize="@dimen/size_11" />
 
             <RadioButton
@@ -58,6 +59,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/font_7"
             android:clickable="false"
+            android:visibility="gone"
             android:src="@drawable/fabu" />
 
         <View

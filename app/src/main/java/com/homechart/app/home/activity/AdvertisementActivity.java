@@ -68,7 +68,7 @@ public class AdvertisementActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_time:
-                Intent intent = new Intent(AdvertisementActivity.this, LoginActivity.class);
+                Intent intent = new Intent(AdvertisementActivity.this, HomeActivity.class);
                 startActivity(intent);
                 handler.removeCallbacksAndMessages(null);
                 finish();
@@ -134,7 +134,7 @@ public class AdvertisementActivity extends BaseActivity implements View.OnClickL
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            Intent intent = new Intent(AdvertisementActivity.this, LoginActivity.class);
+            Intent intent = new Intent(AdvertisementActivity.this, HomeActivity.class);
             startActivity(intent);
             handler.removeCallbacksAndMessages(null);
             AdvertisementActivity.this.finish();
@@ -157,7 +157,7 @@ public class AdvertisementActivity extends BaseActivity implements View.OnClickL
         public void run() {
             --show_time;
             if (show_time == -1) {
-                Intent intent = new Intent(AdvertisementActivity.this, LoginActivity.class);
+                Intent intent = new Intent(AdvertisementActivity.this, HomeActivity.class);
                 startActivity(intent);
                 handler.removeCallbacksAndMessages(null);
                 finish();

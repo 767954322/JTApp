@@ -158,13 +158,14 @@ public class SetActivity
                 //清除登陆数据
                 PublicUtils.clearShared(SetActivity.this);
                 //清除所有显示Activity
-                ActivityManager.getInstance().exit(SetActivity.this);
+//                ActivityManager.getInstance().exit(SetActivity.this);
                 //清除友盟授权
                 clearUMengOauth();
 
-                Intent intent1 = new Intent(SetActivity.this, LoginActivity.class);
-                startActivity(intent1);
+//                Intent intent1 = new Intent(SetActivity.this, LoginActivity.class);
+//                startActivity(intent1);
                 SetActivity.this.finish();
+
                 break;
             case R.id.rl_set_haoping:
                 try {
