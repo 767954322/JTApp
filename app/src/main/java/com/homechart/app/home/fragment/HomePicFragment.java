@@ -135,7 +135,6 @@ public class HomePicFragment
     private RelativeLayout rl_jubu;
     private RelativeLayout rl_zhuangshi;
     private RelativeLayout rl_shouna;
-    private RelativeLayout rl_secai;
     public TagDataBean tagDataBean;
     public ColorBean colorBean;
     private View view;
@@ -198,7 +197,6 @@ public class HomePicFragment
         rl_jubu = (RelativeLayout) rootView.findViewById(R.id.rl_jubu);
         rl_zhuangshi = (RelativeLayout) rootView.findViewById(R.id.rl_zhuangshi);
         rl_shouna = (RelativeLayout) rootView.findViewById(R.id.rl_shouna);
-        rl_secai = (RelativeLayout) rootView.findViewById(R.id.rl_secai);
         rl_tos_choose = (RelativeLayout) rootView.findViewById(R.id.rl_tos_choose);
         id_main = (RelativeLayout) rootView.findViewById(R.id.id_main);
         view_line_back = rootView.findViewById(R.id.view_line_back);
@@ -217,7 +215,6 @@ public class HomePicFragment
         rl_jubu.setOnClickListener(this);
         rl_zhuangshi.setOnClickListener(this);
         rl_shouna.setOnClickListener(this);
-        rl_secai.setOnClickListener(this);
         iv_center_msgicon.setOnClickListener(this);
         rl_shibie.setOnClickListener(this);
         mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
@@ -279,15 +276,17 @@ public class HomePicFragment
             case R.id.iv_change_frag:
 
                 if (curentListTag) {
+                    curentListTag = false;
                     mRecyclerView.setPadding(UIUtils.getDimens(R.dimen.font_6), 0, UIUtils.getDimens(R.dimen.font_6), 0);
                     iv_change_frag.setImageResource(R.drawable.changtu);
                     mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
-                    curentListTag = false;
+
                 } else {
+                    curentListTag = true;
                     mRecyclerView.setPadding(0, 0, 0, 0);
                     mRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
                     iv_change_frag.setImageResource(R.drawable.pubuliu);
-                    curentListTag = true;
+
                 }
                 break;
 
@@ -489,30 +488,6 @@ public class HomePicFragment
 
 
                     if (mListData.get(position).getObject_info().getType().equals("single")) {
-                        holder.getView(R.id.iv_color_right).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                tongjiYuan(mListData.get(position).getObject_info().getObject_id());
-                            }
-                        });
-                        holder.getView(R.id.iv_color_center).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                tongjiYuan(mListData.get(position).getObject_info().getObject_id());
-                            }
-                        });
-                        holder.getView(R.id.iv_color_left).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                tongjiYuan(mListData.get(position).getObject_info().getObject_id());
-                            }
-                        });
-                        holder.getView(R.id.tv_color_tital).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                tongjiYuan(mListData.get(position).getObject_info().getObject_id());
-                            }
-                        });
 
                         if (mListData.get(position).getObject_info().getCollect_num().trim().equals("0")) {
                             holder.getView(R.id.tv_shoucang_num).setVisibility(View.INVISIBLE);
@@ -543,7 +518,13 @@ public class HomePicFragment
                     }
 
                     ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
-                    layoutParams.width = width_Pic_List;
+                    if (curentListTag) {
+
+                        layoutParams.width = width_Pic_List;
+                    } else {
+
+                        layoutParams.width = width_Pic_Staggered;
+                    }
                     if (mListData.get(position).getObject_info().getType().equals("活动")) {
 
                         layoutParams.height = (curentListTag ? (int) (width_Pic_List / 2.36) : (int) (width_Pic_Staggered / mListData.get(position).getObject_info().getImage().getRatio()));
@@ -596,43 +577,6 @@ public class HomePicFragment
                                 holder.getView(R.id.iv_desiner_icon).setVisibility(View.VISIBLE);
                             } else {
                                 holder.getView(R.id.iv_desiner_icon).setVisibility(View.GONE);
-                            }
-                        }
-                        List<SYDataColorBean> list_color = mListData.get(position).getColor_info();
-                        if (null != list_color && list_color.size() == 1) {
-                            holder.getView(R.id.iv_color_right).setVisibility(View.VISIBLE);
-                            holder.getView(R.id.iv_color_left).setVisibility(View.GONE);
-                            holder.getView(R.id.iv_color_center).setVisibility(View.GONE);
-                            holder.getView(R.id.iv_color_right).setBackgroundColor(Color.parseColor("#" + list_color.get(0).getColor_value()));
-                            if (curentListTag) {
-                                holder.getView(R.id.tv_color_tital).setVisibility(View.VISIBLE);
-                            }
-                        } else if (null != mListData.get(position).getColor_info() && mListData.get(position).getColor_info().size() == 2) {
-
-                            holder.getView(R.id.iv_color_right).setVisibility(View.VISIBLE);
-                            holder.getView(R.id.iv_color_left).setVisibility(View.GONE);
-                            holder.getView(R.id.iv_color_center).setVisibility(View.VISIBLE);
-                            holder.getView(R.id.iv_color_right).setBackgroundColor(Color.parseColor("#" + list_color.get(1).getColor_value()));
-                            holder.getView(R.id.iv_color_center).setBackgroundColor(Color.parseColor("#" + list_color.get(0).getColor_value()));
-                            if (curentListTag) {
-                                holder.getView(R.id.tv_color_tital).setVisibility(View.VISIBLE);
-                            }
-                        } else if (null != mListData.get(position).getColor_info() && mListData.get(position).getColor_info().size() == 3) {
-                            holder.getView(R.id.iv_color_right).setVisibility(View.VISIBLE);
-                            holder.getView(R.id.iv_color_left).setVisibility(View.VISIBLE);
-                            holder.getView(R.id.iv_color_center).setVisibility(View.VISIBLE);
-                            holder.getView(R.id.iv_color_right).setBackgroundColor(Color.parseColor("#" + list_color.get(2).getColor_value()));
-                            holder.getView(R.id.iv_color_center).setBackgroundColor(Color.parseColor("#" + list_color.get(1).getColor_value()));
-                            holder.getView(R.id.iv_color_left).setBackgroundColor(Color.parseColor("#" + list_color.get(0).getColor_value()));
-                            if (curentListTag) {
-                                holder.getView(R.id.tv_color_tital).setVisibility(View.VISIBLE);
-                            }
-                        } else {
-                            holder.getView(R.id.iv_color_right).setVisibility(View.GONE);
-                            holder.getView(R.id.iv_color_left).setVisibility(View.GONE);
-                            holder.getView(R.id.iv_color_center).setVisibility(View.GONE);
-                            if (curentListTag) {
-                                holder.getView(R.id.tv_color_tital).setVisibility(View.GONE);
                             }
                         }
                     }

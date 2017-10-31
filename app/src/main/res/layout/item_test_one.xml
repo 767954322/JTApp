@@ -78,42 +78,7 @@
             android:src="@drawable/fensi"
             android:visibility="gone"
             android:layout_toRightOf="@+id/tv_name_pic"/>
-        <com.homechart.app.myview.RoundImageView
-            android:id="@+id/iv_color_right"
-            android:layout_width="@dimen/font_15"
-            android:layout_height="@dimen/font_15"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/font_10"
-            android:background="@color/bank_bg01" />
 
-
-        <com.homechart.app.myview.RoundImageView
-            android:id="@+id/iv_color_center"
-            android:layout_width="@dimen/font_15"
-            android:layout_height="@dimen/font_15"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/iv_color_right"
-            android:background="@color/bank_bg01" />
-
-        <com.homechart.app.myview.RoundImageView
-            android:id="@+id/iv_color_left"
-            android:layout_width="@dimen/font_15"
-            android:layout_height="@dimen/font_15"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/iv_color_center"
-            android:background="@color/bank_bg01" />
-
-        <TextView
-            android:id="@+id/tv_color_tital"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/size_6"
-            android:layout_toLeftOf="@+id/iv_color_left"
-            android:text="色彩搭配"
-            android:textColor="@color/bg_8f8f8f"
-            android:textSize="@dimen/size_12" />
     </RelativeLayout>
 
     <View
