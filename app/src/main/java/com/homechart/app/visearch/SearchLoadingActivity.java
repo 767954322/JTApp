@@ -29,12 +29,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
@@ -54,7 +51,6 @@ import com.homechart.app.utils.volley.FileHttpManager;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.homechart.app.utils.volley.PutFileCallBack;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -94,7 +90,7 @@ public class SearchLoadingActivity
         type = getIntent().getStringExtra("type");
         image_id = getIntent().getStringExtra("image_id");
         image_type = getIntent().getStringExtra("image_type");
-        image_ratio = getIntent().getFloatExtra("image_ratio",0);
+        image_ratio = getIntent().getFloatExtra("image_ratio", 0);
         imagePath = image_url;
     }
 
@@ -111,10 +107,10 @@ public class SearchLoadingActivity
         if (image_type.equals("location")) {
             ImageUtils.disRectangleImage("file://" + imagePath, iv_image_search);
         } else {
-            if(image_ratio > 0){
-               ViewGroup.LayoutParams layoutParams = iv_image_search.getLayoutParams();
+            if (image_ratio > 0) {
+                ViewGroup.LayoutParams layoutParams = iv_image_search.getLayoutParams();
                 layoutParams.width = PublicUtils.getScreenWidth(SearchLoadingActivity.this);
-                layoutParams.height = (int) (PublicUtils.getScreenWidth(SearchLoadingActivity.this)/image_ratio);
+                layoutParams.height = (int) (PublicUtils.getScreenWidth(SearchLoadingActivity.this) / image_ratio);
                 iv_image_search.setLayoutParams(layoutParams);
             }
             ImageUtils.disRectangleImage(imagePath, iv_image_search);
@@ -278,7 +274,8 @@ public class SearchLoadingActivity
             switch (tag) {
                 case 0://识别网络图片
                     if (!ifCloseSearch) {
-                        Intent intent = new Intent(SearchLoadingActivity.this, EditPhotoActivity.class);
+
+                        Intent intent = new Intent(SearchLoadingActivity.this, NewSearchResultActivity.class);
                         intent.putExtra("image_id", image_id);
                         intent.putExtra("imagePath", image_url);
                         intent.putExtra("searchstatus", "0");
@@ -288,6 +285,42 @@ public class SearchLoadingActivity
                         intent.putExtras(bundle);
                         startActivity(intent);
                         SearchLoadingActivity.this.finish();
+
+//                        Intent intent = new Intent(SearchLoadingActivity.this, EditPhotoActivity.class);
+//                        intent.putExtra("image_id", image_id);
+//                        intent.putExtra("imagePath", image_url);
+//                        intent.putExtra("searchstatus", "0");
+//                        intent.putExtra("network", "true");
+//                        Bundle bundle = new Bundle();
+//                        bundle.putSerializable("searchSBean", searchSBean);
+//                        intent.putExtras(bundle);
+//                        startActivity(intent);
+//                        SearchLoadingActivity.this.finish();
+                    }
+                    break;
+                case 1:
+                    if (!ifCloseSearch) {
+                        Intent intent1 = new Intent(SearchLoadingActivity.this, NewSearchResultActivity.class);
+                        intent1.putExtra("image_id", image_id);
+                        intent1.putExtra("imagePath", image_url);
+                        intent1.putExtra("searchstatus", "1");
+                        intent1.putExtra("network", "true");
+                        Bundle bundle1 = new Bundle();
+                        bundle1.putSerializable("searchSBean", searchSBean);
+                        intent1.putExtras(bundle1);
+                        startActivity(intent1);
+                        SearchLoadingActivity.this.finish();
+
+//                        Intent intent1 = new Intent(SearchLoadingActivity.this, EditPhotoActivity.class);
+//                        intent1.putExtra("image_id", image_id);
+//                        intent1.putExtra("imagePath", image_url);
+//                        intent1.putExtra("searchstatus", "1");
+//                        intent1.putExtra("network", "true");
+//                        Bundle bundle1 = new Bundle();
+//                        bundle1.putSerializable("searchSBean", searchSBean);
+//                        intent1.putExtras(bundle1);
+//                        startActivity(intent1);
+//                        SearchLoadingActivity.this.finish();
                     }
                     break;
                 case 3://识别本地图片
@@ -304,21 +337,6 @@ public class SearchLoadingActivity
                         SearchLoadingActivity.this.finish();
                     }
                     break;
-                case 1:
-                    if (!ifCloseSearch) {
-                        Intent intent1 = new Intent(SearchLoadingActivity.this, EditPhotoActivity.class);
-                        intent1.putExtra("image_id", image_id);
-                        intent1.putExtra("imagePath", image_url);
-                        intent1.putExtra("searchstatus", "1");
-                        intent1.putExtra("network", "true");
-                        Bundle bundle1 = new Bundle();
-                        bundle1.putSerializable("searchSBean", searchSBean);
-                        intent1.putExtras(bundle1);
-                        startActivity(intent1);
-                        SearchLoadingActivity.this.finish();
-                        break;
-                    }
-
                 case 4:
                     if (!ifCloseSearch) {
                         Intent intent1 = new Intent(SearchLoadingActivity.this, EditPhotoActivity.class);

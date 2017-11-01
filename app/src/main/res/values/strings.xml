@@ -59,7 +59,7 @@
     <!--  ShaiXuanResultActivity  -->
     <string name="shaixuan_get_error">筛选信息获取失败</string>
     <string name="color_get_error">筛选颜色信息获取失败</string>
-    <!-- SearchResultActivity -->
+    <!-- NewSearchResultActivity -->
     <string name="search_result_error">搜索失败</string>
     <!-- FenSiListActivity -->
     <string name="error_fensi">粉丝数据加载失败，请重新刷新加载</string>
