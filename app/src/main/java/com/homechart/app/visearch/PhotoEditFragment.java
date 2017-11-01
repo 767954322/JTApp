@@ -27,6 +27,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -48,10 +50,12 @@ import com.homechart.app.croplayout.handler.OnBoxChangedListener;
 import com.homechart.app.croplayout.model.ScalableBox;
 import com.homechart.app.home.activity.ShopDetailActivity;
 import com.homechart.app.home.base.BaseFragment;
+import com.homechart.app.home.bean.searchfservice.ItemTypeNewBean;
 import com.homechart.app.home.bean.searchfservice.SearchSBean;
 import com.homechart.app.home.bean.searchfservice.SearchSCateBean;
 import com.homechart.app.home.bean.searchfservice.SearchSObjectBean;
 import com.homechart.app.home.bean.searchfservice.SearchSObjectInfoBean;
+import com.homechart.app.home.bean.searchfservice.TypeNewBean;
 import com.homechart.app.home.bean.searchshops.SearchShopItemBean;
 import com.homechart.app.home.bean.searchshops.SearchShopsBean;
 import com.homechart.app.utils.BitmapUtil;
@@ -131,7 +135,6 @@ public class PhotoEditFragment extends BaseFragment
     private EditableImage editableImage;
     private ImageButton result_back_button;
     private SearchSBean searchSBean;
-    private List<SearchSCateBean> listType;
     private List<SearchSObjectBean> listSearch;
     private List<String> strTypeName = new ArrayList<>();
     private List<Integer> strTypeID = new ArrayList<>();
@@ -143,6 +146,44 @@ public class PhotoEditFragment extends BaseFragment
     private String network;
     private TextView tv_none_search;
     private String mloc;
+    private TypeNewBean typeNewBean;
+
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (typeNewBean != null && typeNewBean.getCategory_list() != null) {
+                List<ItemTypeNewBean> typeList = typeNewBean.getCategory_list();
+                if (typeList != null && typeList.size() > 0) {
+                    for (int i = 0; i < typeList.size(); i++) {
+                        if (i == 0) {
+                            strTypeName.add("全部");
+                            strTypeID.add(-1);
+                        }
+                        strTypeName.add(typeList.get(i).getCategory_info().getCategory_name());
+                        strTypeID.add(typeList.get(i).getCategory_info().getCategory_id());
+                    }
+                }
+                if (listSearch != null && listSearch.size() > 0) {
+                    selectedType = listSearch.get(0).getObject_info().getCategory_name();
+                    selectedTypeID = listSearch.get(0).getObject_info().getCategory_id();
+                } else {
+                    selectedType = "全部";
+                    selectedTypeID = -1;
+                }
+                //更新UI
+                if (strTypeName.size() > 0) {
+                    horizontalAdapter = new HorizontalProductTypeArrayAdapter(getActivity(), strTypeName);
+                    horizontalAdapter.setSelected(strTypeName.indexOf(selectedType));
+                    categoryListView.setAdapter(horizontalAdapter);
+                }
+            } else {
+                getTypeData();
+            }
+        }
+    };
+
 
     public static PhotoEditFragment newInstance() {
         return new PhotoEditFragment();
@@ -207,13 +248,13 @@ public class PhotoEditFragment extends BaseFragment
     @Override
     protected void initData(Bundle savedInstanceState) {
         tv_tital_comment.setText("相似商品");
+
         //获取数据
         imagePath = ((EditPhotoActivity) getActivity()).getImagePath();
         network = ((EditPhotoActivity) getActivity()).getNetwork();
         searchSBean = ((EditPhotoActivity) getActivity()).getSearchSBean();
         imId = searchSBean.getImage_id();
 
-        listType = searchSBean.getCategory_list();
         listSearch = searchSBean.getObject_list();
 
         currentLayout = VIEW_LAYOUT.GRID;
@@ -228,31 +269,8 @@ public class PhotoEditFragment extends BaseFragment
         resultGridView.removeAllViews();
         resultGridView.addView(gridViewLayout);
 
-        if (listType != null && listType.size() > 0) {
-            for (int i = 0; i < listType.size(); i++) {
-                if (i == 0) {
-                    strTypeName.add("全部");
-                    strTypeID.add(-1);
-                }
+        getTypeData();
 
-                strTypeName.add(listType.get(i).getCategory_info().getCategory_name());
-                strTypeID.add(listType.get(i).getCategory_info().getCategory_id());
-            }
-        }
-        if (listSearch != null && listSearch.size() > 0) {
-            selectedType = listSearch.get(0).getObject_info().getCategory_name();
-            selectedTypeID = listSearch.get(0).getObject_info().getCategory_id();
-        } else {
-            selectedType = "全部";
-            selectedTypeID = -1;
-        }
-        //更新UI
-        if (strTypeName.size() > 0) {
-            horizontalAdapter = new HorizontalProductTypeArrayAdapter(getActivity(), strTypeName);
-            horizontalAdapter.setSelected(strTypeName.indexOf(selectedType));
-            categoryListView.scrollTo(strTypeName.indexOf(selectedType), 0);
-            categoryListView.setAdapter(horizontalAdapter);
-        }
         //初始化选框
         if (listSearch != null && listSearch.size() > 0 && editPhotoView != null) {
             SearchSObjectInfoBean searchSObjectInfoBean = listSearch.get(0).getObject_info();
@@ -261,7 +279,7 @@ public class PhotoEditFragment extends BaseFragment
                 editableImage = new EditableImage(imagePath, true);
             } else {
                 editableImage = new EditableImage(imagePath);
-                editPhotoView.setUrlImage("file://"+imagePath , true);
+                editPhotoView.setUrlImage("file://" + imagePath, true);
             }
             editPhotoView.initView(getActivity(), editableImage, true);
 
@@ -289,7 +307,7 @@ public class PhotoEditFragment extends BaseFragment
                 SearchSObjectBean searchSObjectBean = listSearch.get(0);
                 mloc = searchSObjectBean.getObject_info().getX() + "-" +
                         searchSObjectBean.getObject_info().getY() + "-" +
-                        searchSObjectBean.getObject_info().getWidth()+ "-" +
+                        searchSObjectBean.getObject_info().getWidth() + "-" +
                         searchSObjectBean.getObject_info().getHeight();
 
                 searchShopImage(mloc);
@@ -299,7 +317,7 @@ public class PhotoEditFragment extends BaseFragment
                 editableImage = new EditableImage(imagePath, true);
             } else {
                 editableImage = new EditableImage(imagePath);
-                editPhotoView.setUrlImage("file://"+imagePath , true);
+                editPhotoView.setUrlImage("file://" + imagePath, true);
             }
             editPhotoView.initView(getActivity(), editableImage, true);
             //整张图片展示框
@@ -351,6 +369,36 @@ public class PhotoEditFragment extends BaseFragment
             anim.start();
         }
     }
+
+    private void getTypeData() {
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtils.showCenter(activity, "商品类别获取失败！");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        typeNewBean = GsonUtil.jsonToBean(data_msg, TypeNewBean.class);
+                        mHandler.sendEmptyMessage(0);
+                    } else {
+                        ToastUtils.showCenter(activity, error_msg);
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().getShopTypes(callBack);
+
+    }
+
 
     private void searchShopImage(String loc) {
         //start scan

@@ -1253,7 +1253,7 @@ public class ImageDetailFragment
                 .build());
         if (imageDetailBean != null) {
             mSearchShopPopWin = new SearchShopPopWin(activity);
-            mSearchShopPopWin.setImageData(imageDetailBean, pos);
+            mSearchShopPopWin.setImageData(imageDetailBean, pos,((ImageDetailScrollActivity)activity).getTypeNewBean());
             mSearchShopPopWin.showAtLocation(activity.findViewById(R.id.menu_layout),
                     Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
                     0,

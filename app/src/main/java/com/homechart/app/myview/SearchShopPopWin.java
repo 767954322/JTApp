@@ -30,12 +30,15 @@ import com.homechart.app.croplayout.EditPhotoViewMore;
 import com.homechart.app.croplayout.EditableImage;
 import com.homechart.app.croplayout.handler.OnBoxChangedListener;
 import com.homechart.app.croplayout.model.ScalableBox;
+import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.ShopDetailActivity;
 import com.homechart.app.home.bean.imagedetail.ImageDetailBean;
 import com.homechart.app.home.bean.imagedetail.ShiBieItemBean;
+import com.homechart.app.home.bean.searchfservice.ItemTypeNewBean;
 import com.homechart.app.home.bean.searchfservice.SearchSBean;
 import com.homechart.app.home.bean.searchfservice.SearchSCateBean;
 import com.homechart.app.home.bean.searchfservice.SearchSObjectBean;
+import com.homechart.app.home.bean.searchfservice.TypeNewBean;
 import com.homechart.app.home.bean.searchshops.SearchShopsBean;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
@@ -83,6 +86,7 @@ public class SearchShopPopWin
     private TextView tital;
     private SlidingUpPanelLayout slidingUpPanelLayout;
     private TextView tv_tital_comment;
+    private TypeNewBean mtypeNewBean;
 
     public SearchShopPopWin(Context context) {
 
@@ -207,9 +211,10 @@ public class SearchShopPopWin
     }
 
 
-    public void setImageData(ImageDetailBean imageDetailBean, int position) {
+    public void setImageData(ImageDetailBean imageDetailBean, int position, TypeNewBean typeNewBean) {
         this.mImageDetailBean = imageDetailBean;
         this.mPosition = position;
+        this.mtypeNewBean = typeNewBean;
         shiBieItemBean = mImageDetailBean.getObject_list().get(position);
         imageID = mImageDetailBean.getItem_info().getImage().getImage_id();
         initImage();
@@ -254,23 +259,66 @@ public class SearchShopPopWin
         MyHttpManager.getInstance().searchByImageId(imageid, callback);
     }
 
+    Handler handle = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (mtypeNewBean != null) {
+                List<ItemTypeNewBean> listType = mtypeNewBean.getCategory_list();
+                if (listType != null && listType.size() > 0) {
+                    for (int i = 0; i < listType.size(); i++) {
+                        if (i == 0) {
+                            strTypeName.add("全部");
+                            strTypeID.add(-1);
+                        }
+                        strTypeName.add(listType.get(i).getCategory_info().getCategory_name());
+                        strTypeID.add(listType.get(i).getCategory_info().getCategory_id());
+                    }
+                }
+                //搜索分类列表
+                if (strTypeName.size() > 0) {
+                    horizontalAdapter = new HorizontalProductTypeArrayAdapter((Activity) mContext, strTypeName, SearchShopPopWin.this);
+                    horizontalAdapter.setSelected(strTypeName.indexOf(selectedType));
+                    categoryListView.setAdapter(horizontalAdapter);
+                    int position = strTypeName.indexOf(selectedType);
+                    categoryListView.setSelection(position);
+                }
+            } else {
+                getTypeData();
+            }
+        }
+    };
+
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            listType = searchSBean.getCategory_list();
+//            listType = searchSBean.getCategory_list();
             listSearch = searchSBean.getObject_list();
             selectedType = mImageDetailBean.getObject_list().get(mPosition).getObject_info().getCategory_name();
             selectedTypeID = mImageDetailBean.getObject_list().get(mPosition).getObject_info().getCategory_id();
-            if (listType != null && listType.size() > 0) {
-                for (int i = 0; i < listType.size(); i++) {
-                    if (i == 0) {
-                        strTypeName.add("全部");
-                        strTypeID.add(-1);
+            if (mtypeNewBean != null) {
+                List<ItemTypeNewBean> listType = mtypeNewBean.getCategory_list();
+                if (listType != null && listType.size() > 0) {
+                    for (int i = 0; i < listType.size(); i++) {
+                        if (i == 0) {
+                            strTypeName.add("全部");
+                            strTypeID.add(-1);
+                        }
+                        strTypeName.add(listType.get(i).getCategory_info().getCategory_name());
+                        strTypeID.add(listType.get(i).getCategory_info().getCategory_id());
                     }
-                    strTypeName.add(listType.get(i).getCategory_info().getCategory_name());
-                    strTypeID.add(listType.get(i).getCategory_info().getCategory_id());
                 }
+                //搜索分类列表
+                if (strTypeName.size() > 0) {
+                    horizontalAdapter = new HorizontalProductTypeArrayAdapter((Activity) mContext, strTypeName, SearchShopPopWin.this);
+                    horizontalAdapter.setSelected(strTypeName.indexOf(selectedType));
+                    categoryListView.setAdapter(horizontalAdapter);
+                    int position = strTypeName.indexOf(selectedType);
+                    categoryListView.setSelection(position);
+                }
+            } else {
+                getTypeData();
             }
             if (gridViewLayout == null) {
                 gridViewLayout = new ScrollAwareGridView(mContext);
@@ -281,14 +329,6 @@ public class SearchShopPopWin
             resultGridView.removeAllViews();
             resultGridView.addView(gridViewLayout);
 
-            //搜索分类列表
-            if (strTypeName.size() > 0) {
-                horizontalAdapter = new HorizontalProductTypeArrayAdapter((Activity) mContext, strTypeName, SearchShopPopWin.this);
-                horizontalAdapter.setSelected(strTypeName.indexOf(selectedType));
-                categoryListView.setAdapter(horizontalAdapter);
-                int position = strTypeName.indexOf(selectedType);
-                categoryListView.setSelection(position);
-            }
             //搜索相似商品
             mloc = shiBieItemBean.getObject_info().getX() + "-" +
                     shiBieItemBean.getObject_info().getY() + "-" +
@@ -426,7 +466,37 @@ public class SearchShopPopWin
         horizontalAdapter.setSelected(position);
     }
 
-    private List<SearchSCateBean> listType;
+
+    private void getTypeData() {
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        mtypeNewBean = GsonUtil.jsonToBean(data_msg, TypeNewBean.class);
+                        handle.sendEmptyMessage(0);
+                    } else {
+                        ToastUtils.showCenter(mContext, error_msg);
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().getShopTypes(callBack);
+
+    }
+
+
+    //    private List<SearchSCateBean> listType;
     private List<SearchSObjectBean> listSearch;
     private ScrollAwareGridView gridViewLayout;
     private List<String> strTypeName = new ArrayList<>();

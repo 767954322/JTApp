@@ -26,6 +26,7 @@ import com.homechart.app.home.bean.cailike.LikeDataBean;
 import com.homechart.app.home.bean.color.ColorItemBean;
 import com.homechart.app.home.bean.imagedetail.ImageDetailBean;
 import com.homechart.app.home.bean.search.SearchDataBean;
+import com.homechart.app.home.bean.searchfservice.TypeNewBean;
 import com.homechart.app.home.fragment.ImageDetailFragment;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.myview.HomeSharedPopWinPublic;
@@ -87,6 +88,7 @@ public class ImageDetailScrollActivity
     private int like_maybe_page_num = 2;
     private boolean if_click_color;
     public boolean ifShowColorList = true;
+    private TypeNewBean typeNewBean;
 
     @Override
     protected int getLayoutResId() {
@@ -215,8 +217,35 @@ public class ImageDetailScrollActivity
                 }
             }
         }
-    }
+        getTypeData();
 
+    }
+    private void getTypeData() {
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        typeNewBean = GsonUtil.jsonToBean(data_msg, TypeNewBean.class);
+                    } else {
+                        ToastUtils.showCenter(ImageDetailScrollActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().getShopTypes(callBack);
+
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -533,5 +562,13 @@ public class ImageDetailScrollActivity
         public int getCount() {
             return mItemIdList.size();
         }
+    }
+
+    public TypeNewBean getTypeNewBean() {
+        return typeNewBean;
+    }
+
+    public void setTypeNewBean(TypeNewBean typeNewBean) {
+        this.typeNewBean = typeNewBean;
     }
 }

@@ -44,6 +44,7 @@ import com.homechart.app.home.bean.pinglun.CommentListBean;
 import com.homechart.app.home.bean.pinglun.PingBean;
 import com.homechart.app.home.bean.search.SearchDataColorBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
+import com.homechart.app.home.bean.searchfservice.TypeNewBean;
 import com.homechart.app.home.bean.shaijia.ShaiJiaItemBean;
 import com.homechart.app.home.bean.shouye.SYDataColorBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
@@ -207,6 +208,7 @@ public class ImageDetailLongActivity
     private List<String> mItemIdList = new ArrayList<>();
     private RelativeLayout rl_edit;
     private SearchShopPopWin mSearchShopPopWin;
+    private TypeNewBean typeNewBean;
 
     @Override
     protected int getLayoutResId() {
@@ -414,6 +416,7 @@ public class ImageDetailLongActivity
         getImageDetail();
         getPingList();
         buildRecyclerView();
+        getTypeData();
     }
 
     @Override
@@ -1112,6 +1115,34 @@ public class ImageDetailLongActivity
 
     }
 
+    private void getTypeData() {
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        typeNewBean = GsonUtil.jsonToBean(data_msg, TypeNewBean.class);
+                        mHandler.sendEmptyMessage(0);
+                    } else {
+                        ToastUtils.showCenter(ImageDetailLongActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().getShopTypes(callBack);
+
+    }
+
     //取消收藏
     private void removeShouCang() {
 
@@ -1520,7 +1551,7 @@ public class ImageDetailLongActivity
 //        Toast.makeText(this, "pos : " + pos, Toast.LENGTH_SHORT).show();
         if (imageDetailBean != null) {
             mSearchShopPopWin = new SearchShopPopWin(ImageDetailLongActivity.this);
-            mSearchShopPopWin.setImageData(imageDetailBean, pos);
+            mSearchShopPopWin.setImageData(imageDetailBean, pos,typeNewBean);
             mSearchShopPopWin.showAtLocation(ImageDetailLongActivity.this.findViewById(R.id.menu_layout),
                     Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
                     0,
