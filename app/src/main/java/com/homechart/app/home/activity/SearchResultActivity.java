@@ -80,7 +80,7 @@ public class SearchResultActivity
     private List<Fragment> mFragmentsList = new ArrayList<>();//页卡视图集合
     private MyPagerAdapter mViewPagerAdapter;
     private SearchPicFragment searchPicFragment;
-    private SearchArticleFragment searchArticleFragment;
+//    private SearchArticleFragment searchArticleFragment;
 
     @Override
     protected int getLayoutResId() {
@@ -148,7 +148,7 @@ public class SearchResultActivity
                         search_info = searchContext;
                         search_tag = "";
                         searchPicFragment.setSearchInfo(search_info);
-                        searchArticleFragment.setSearchInfo(search_info);
+//                        searchArticleFragment.setSearchInfo(search_info);
 
                         //友盟统计
                         HashMap<String, String> map = new HashMap<String, String>();
@@ -184,10 +184,9 @@ public class SearchResultActivity
 
     private void initFragment() {
         searchPicFragment = new SearchPicFragment(search_info, search_tag);
-        searchArticleFragment = new SearchArticleFragment(search_info, search_tag);
+//        searchArticleFragment = new SearchArticleFragment(search_info, search_tag);
         mFragmentsList.add(searchPicFragment);
-        mFragmentsList.add(searchArticleFragment);
-
+//        mFragmentsList.add(searchArticleFragment);
     }
 
 

@@ -12,6 +12,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -31,6 +33,8 @@ import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.ArticleDetailsActivity;
 import com.homechart.app.home.activity.HuoDongDetailsActivity;
 import com.homechart.app.home.activity.ImageDetailLongActivity;
+import com.homechart.app.home.activity.ImageDetailScrollActivity;
+import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.MessagesListActivity;
 import com.homechart.app.home.activity.SearchActivity;
 import com.homechart.app.home.activity.SearchResultActivity;
@@ -61,6 +65,7 @@ import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
+import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
@@ -71,6 +76,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -100,8 +106,11 @@ public class SearchPicFragment
     private String search_info;
     private String search_tag;
     private int position;
+    private boolean loginStatus;
+
     public SearchPicFragment() {
     }
+
     public SearchPicFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
@@ -147,15 +156,18 @@ public class SearchPicFragment
 
     }
 
+    List<String> listTag = new ArrayList<>();
+    private List<String> mItemIdList = new ArrayList<>();
+
     private void buildRecyclerView() {
 
         MultiItemTypeSupport<SearchItemDataBean> support = new MultiItemTypeSupport<SearchItemDataBean>() {
             @Override
             public int getLayoutId(int itemType) {
                 if (itemType == TYPE_ONE) {
-                    return R.layout.item_search_one;
+                    return R.layout.item_pubu_new;
                 } else {
-                    return R.layout.item_search_two;
+                    return R.layout.item_list_new;
                 }
             }
 
@@ -168,48 +180,47 @@ public class SearchPicFragment
         mAdapter = new MultiItemCommonAdapter<SearchItemDataBean>(activity, mListData, support) {
             @Override
             public void convert(BaseViewHolder holder, final int position) {
+                ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
 
-                if(mListData.get(position).getItem_info().getCollect_num().trim().equals("0")){
-                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.INVISIBLE);
-                }else {
-                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.VISIBLE);
-                }
-                ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
+//                layoutParams.width = (curentListTag ? width_Pic_List : width_Pic_Staggered);
+                layoutParams.height = mListData.get(position).getItem_info().getImage().getRatio() == 0
+                        ? width_Pic_Staggered
+                        : Math.round(width_Pic_Staggered / mListData.get(position).getItem_info().getImage().getRatio());
+                holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
 
-                if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
-                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang);
-                } else {//收藏
-                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang1);
-                }
-                holder.getView(R.id.tv_shoucang_num).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onShouCang(!mListData.get(position).getItem_info().getIs_collected().equals("1"), position, mListData.get(position));
-                    }
-                });
-                holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onShouCang(!mListData.get(position).getItem_info().getIs_collected().equals("1"), position, mListData.get(position));
-                    }
-                });
-
-
-
-                ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_search_one).getLayoutParams();
-//                layoutParams.width = width_Pic_Staggered;
-                layoutParams.height = mListDataHeight.get(position);
-                holder.getView(R.id.iv_imageview_search_one).setLayoutParams(layoutParams);
                 String nikeName = mListData.get(position).getUser_info().getNickname();
-                if (nikeName.length() > 5) {
+                if (nikeName != null && nikeName.length() > 5) {
                     nikeName = nikeName.substring(0, 5) + "...";
                 }
-                ((TextView) holder.getView(R.id.tv_nikename_search)).setText(nikeName);
+                ((TextView) holder.getView(R.id.tv_name_pic)).setText(nikeName);
+
+
+                String strTag = "";
+                String tag = mListData.get(position).getItem_info().getTag();
+                if (!TextUtils.isEmpty(tag)) {
+                    String[] str_tag = tag.split(" ");
+                    listTag.clear();
+                    for (int i = 0; i < str_tag.length; i++) {
+                        if (!TextUtils.isEmpty(str_tag[i].trim())) {
+                            listTag.add(str_tag[i]);
+                        }
+                    }
+                    for (int i = 0; i < listTag.size(); i++) {
+                        strTag = strTag + "# " + listTag.get(i) + "  ";
+                    }
+                }
+
+                String str = "<font color='#f79056'>" + strTag + "</font>" + "非滴滴答答滴滴答答等等等等等等非滴滴答答滴滴答答等等等等等等非滴滴答答滴滴答答等等等等等等";
+                ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
+
+
                 ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
-                        (ImageView) holder.getView(R.id.iv_imageview_search_one));
+                        (ImageView) holder.getView(R.id.iv_imageview_one));
+
                 ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
-                        (RoundImageView) holder.getView(R.id.iv_header_search));
-                holder.getView(R.id.iv_header_search).setOnClickListener(new View.OnClickListener() {
+                        (ImageView) holder.getView(R.id.iv_header_pic));
+
+                holder.getView(R.id.iv_header_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(activity, UserInfoActivity.class);
@@ -218,85 +229,59 @@ public class SearchPicFragment
                     }
                 });
 
-                holder.getView(R.id.iv_imageview_search_one).setOnClickListener(new View.OnClickListener() {
+                holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //查看单图详情
-                        Intent intent = new Intent(activity, ImageDetailLongActivity.class);
+                        Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
                         intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+                        intent.putExtra("position", position);
+                        intent.putExtra("type", "色彩");
+                        intent.putExtra("if_click_color", false);
+                        intent.putExtra("shaixuan_tag", "");
+                        intent.putExtra("page_num", page_num + 1);
+                        intent.putExtra("item_id_list", (Serializable) mItemIdList);
                         startActivity(intent);
                     }
                 });
-                List<SearchDataColorBean> list_color = mListData.get(position).getColor_info();
-                if (null != list_color && list_color.size() == 1) {
-                    holder.getView(R.id.iv_color_right).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_color_left).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_color_center).setVisibility(View.GONE);
-                    if (list_color.get(0).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_right).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_right).setBackgroundColor(Color.parseColor("#" + list_color.get(0).getColor_value()));
-                    }
-                } else if (null != mListData.get(position).getColor_info() && mListData.get(position).getColor_info().size() == 2) {
 
-                    holder.getView(R.id.iv_color_right).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_color_left).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_color_center).setVisibility(View.VISIBLE);
-                    if (list_color.get(1).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_right).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_right).setBackgroundColor(Color.parseColor("#" + list_color.get(1).getColor_value()));
+                holder.getView(R.id.tv_shoucang_num).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                        if (!loginStatus) {
+                            Intent intent = new Intent(activity, LoginActivity.class);
+                            startActivityForResult(intent, 1);
+                        } else {
+                            onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
+                        }
                     }
-                    if (list_color.get(0).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_center).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_center).setBackgroundColor(Color.parseColor("#" + list_color.get(0).getColor_value()));
+                });
+                holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                        if (!loginStatus) {
+                            Intent intent = new Intent(activity, LoginActivity.class);
+                            startActivityForResult(intent, 1);
+                        } else {
+                            onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
+                        }
                     }
+                });
 
-                } else if (null != mListData.get(position).getColor_info() && mListData.get(position).getColor_info().size() == 3) {
-                    holder.getView(R.id.iv_color_right).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_color_left).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_color_center).setVisibility(View.VISIBLE);
-                    if (list_color.get(2).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_right).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_right).setBackgroundColor(Color.parseColor("#" + list_color.get(2).getColor_value()));
-                    }
-                    if (list_color.get(1).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_center).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_center).setBackgroundColor(Color.parseColor("#" + list_color.get(1).getColor_value()));
-                    }
-                    if (list_color.get(0).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_left).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_left).setBackgroundColor(Color.parseColor("#" + list_color.get(0).getColor_value()));
-                    }
-
+                if (mListData.get(position).getItem_info().getCollect_num().trim().equals("0")) {
+                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.INVISIBLE);
                 } else {
-                    holder.getView(R.id.iv_color_right).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_color_left).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_color_center).setVisibility(View.GONE);
+                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.VISIBLE);
                 }
+                ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
 
-                holder.getView(R.id.iv_color_right).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        clickColorQiu(mListData.get(position).getItem_info().getItem_id());
-                    }
-                });
-                 holder.getView(R.id.iv_color_left).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        clickColorQiu(mListData.get(position).getItem_info().getItem_id());
-                    }
-                });
-                 holder.getView(R.id.iv_color_center).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        clickColorQiu(mListData.get(position).getItem_info().getItem_id());
-                    }
-                });
+                if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
+                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing);
+                } else {//收藏
+                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing1);
+                }
             }
         };
 
@@ -310,7 +295,7 @@ public class SearchPicFragment
         onRefresh();
     }
 
-    public void clickColorQiu(String item_id){
+    public void clickColorQiu(String item_id) {
 
         //友盟统计
         HashMap<String, String> map = new HashMap<String, String>();
@@ -401,8 +386,12 @@ public class SearchPicFragment
 
             case REFRESH_STATUS:
                 mListData.clear();
+                mItemIdList.clear();
                 if (null != listData) {
                     mListData.addAll(listData);
+                    for (int i = 0; i < listData.size(); i++) {
+                        mItemIdList.add(listData.get(i).getItem_info().getItem_id());
+                    }
                 } else {
                     page_num = 1;
                     mListData.clear();
@@ -420,6 +409,9 @@ public class SearchPicFragment
                     mListData.addAll(listData);
                     mAdapter.notifyItem(position, mListData, listData);
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                    for (int i = 0; i < listData.size(); i++) {
+                        mItemIdList.add(listData.get(i).getItem_info().getItem_id());
+                    }
                 } else {
                     --page_num;
                     //没有更多数据
@@ -460,11 +452,11 @@ public class SearchPicFragment
     }
 
 
-
     boolean ifClickShouCang = true;
+
     //收藏或者取消收藏，图片
     public void onShouCang(boolean ifShouCang, int position, SearchItemDataBean searchItemDataBean) {
-        if(ifClickShouCang) {
+        if (ifClickShouCang) {
             ifClickShouCang = false;
             if (ifShouCang) {
                 //未被收藏，去收藏

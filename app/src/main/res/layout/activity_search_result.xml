@@ -69,6 +69,7 @@
         app:tl_indicator_width_equal_title="true"
         app:tl_tab_padding="22dp"
         app:tl_tab_space_equal="true"
+        android:visibility="gone"
         app:tl_textSelectColor="@color/black"
         app:tl_textUnselectColor="@color/bg_8f8f8f"
         app:tl_underline_color="#1A000000"
