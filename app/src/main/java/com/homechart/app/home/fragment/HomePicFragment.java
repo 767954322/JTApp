@@ -476,33 +476,15 @@ public class HomePicFragment
         }
     }
 
-    private void tongjiYuan(String item_id) {
-        //友盟统计
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("evenname", "三个色彩点");
-        map.put("even", "首页");
-        MobclickAgent.onEvent(activity, "jtaction3", map);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("首页")  //事件类别
-                .setAction("三个色彩点")      //事件操作
-                .build());
-        //查看单图详情
-        Intent intent = new Intent(activity, ImageDetailLongActivity.class);
-        intent.putExtra("item_id", item_id);
-        intent.putExtra("if_click_color", true);
-        startActivity(intent);
-    }
-
     private void buildRecyclerView() {
 
         MultiItemTypeSupport<SearchItemDataBean> support = new MultiItemTypeSupport<SearchItemDataBean>() {
             @Override
             public int getLayoutId(int itemType) {
                 if (itemType == TYPE_ONE) {
-                    return R.layout.item_test_one;
+                    return R.layout.item_list_new;
                 } else {
-                    return R.layout.item_test_pic_pubu;
+                    return R.layout.item_pubu_new;
                 }
             }
 
@@ -603,11 +585,21 @@ public class HomePicFragment
                     holder.getView(R.id.tv_shoucang_num).setVisibility(View.VISIBLE);
                 }
                 ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
-                if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
-                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang);
-                } else {//收藏
-                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang1);
+
+                if(curentListTag){
+                    if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
+                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.datuxing);
+                    } else {//收藏
+                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.datuxing1);
+                    }
+                }else {
+                    if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
+                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing);
+                    } else {//收藏
+                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing1);
+                    }
                 }
+
             }
         };
 
@@ -621,33 +613,12 @@ public class HomePicFragment
         onRefresh();
     }
 
-
-    private void onRefreshTong() {
-
-        if (curentListTag) {
-
-        } else {
-
-        }
-
-    }
-
     @Override
     public void onRefresh() {
 
-        onRefreshTong();
         page_num = 1;
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
         getListData(REFRESH_STATUS);
-    }
-
-    private void onLoaderTong() {
-        if (curentListTag) {
-
-        } else {
-
-        }
-
     }
 
     @Override
@@ -662,7 +633,6 @@ public class HomePicFragment
                 .setCategory("首页")  //事件类别
                 .setAction("首页加载次数")      //事件操作
                 .build());
-        onLoaderTong();
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
         ++page_num;
         getListData(LOADMORE_STATUS);
@@ -898,13 +868,6 @@ public class HomePicFragment
         }
     }
 
-    private void closeTagTongJi() {
-    }
-
-    private void openTagTongJi(String name) {
-
-    }
-
     private void showPopwindow(int id, int position) {
         if (tagDataBean != null && colorBean != null) {
             if (null == homeTabPopWin) {
@@ -913,7 +876,6 @@ public class HomePicFragment
             if (homeTabPopWin.isShowing()) {
                 if (last_id != 0 && last_id == id) {
                     last_id = 0;
-                    closeTagTongJi();
                     homeTabPopWin.dismiss();
                     iv_kongjian.setImageResource(R.drawable.kongjian1);
                     iv_jubu.setImageResource(R.drawable.jubu1);
@@ -981,7 +943,6 @@ public class HomePicFragment
 
                 switch (id) {
                     case R.id.rl_kongjian:
-                        openTagTongJi("空间");
                         iv_kongjian.setImageResource(R.drawable.kongjian);
                         iv_jubu.setImageResource(R.drawable.jubu1);
                         iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
@@ -989,7 +950,6 @@ public class HomePicFragment
                         iv_secai.setImageResource(R.drawable.secai1);
                         break;
                     case R.id.rl_jubu:
-                        openTagTongJi("局部");
                         iv_kongjian.setImageResource(R.drawable.kongjian1);
                         iv_jubu.setImageResource(R.drawable.jubu);
                         iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
@@ -997,7 +957,6 @@ public class HomePicFragment
                         iv_secai.setImageResource(R.drawable.secai1);
                         break;
                     case R.id.rl_zhuangshi:
-                        openTagTongJi("装饰");
                         iv_kongjian.setImageResource(R.drawable.kongjian1);
                         iv_jubu.setImageResource(R.drawable.jubu1);
                         iv_zhuangshi.setImageResource(R.drawable.zhuangshi);
@@ -1005,7 +964,6 @@ public class HomePicFragment
                         iv_secai.setImageResource(R.drawable.secai1);
                         break;
                     case R.id.rl_shouna:
-                        openTagTongJi("收纳");
                         iv_kongjian.setImageResource(R.drawable.kongjian1);
                         iv_jubu.setImageResource(R.drawable.jubu1);
                         iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
@@ -1013,7 +971,6 @@ public class HomePicFragment
                         iv_secai.setImageResource(R.drawable.secai1);
                         break;
                     case R.id.rl_secai:
-                        openTagTongJi("色彩");
                         iv_kongjian.setImageResource(R.drawable.kongjian1);
                         iv_jubu.setImageResource(R.drawable.jubu1);
                         iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
@@ -1084,7 +1041,6 @@ public class HomePicFragment
     @Override
     public void onDismiss() {
         if (homeTabPopWin != null) {
-            closeTagTongJi();
             homeTabPopWin.dismiss();
             iv_kongjian.setImageResource(R.drawable.kongjian1);
             iv_jubu.setImageResource(R.drawable.jubu1);
