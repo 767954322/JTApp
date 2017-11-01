@@ -192,52 +192,55 @@ public class SelectionView extends View implements View.OnTouchListener {
         int curX = (int)motionEvent.getRawX();
         int curY = (int)motionEvent.getRawY();
 
-        switch (motionEvent.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                prevX = curX;
-                prevY = curY;
+        if(editableImage.getBox() != null){
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    prevX = curX;
+                    prevY = curY;
 
-                prevBoxX1 = editableImage.getBox().getX1();
-                prevBoxX2 = editableImage.getBox().getX2();
-                prevBoxY1 = editableImage.getBox().getY1();
-                prevBoxY2 = editableImage.getBox().getY2();
+                    prevBoxX1 = editableImage.getBox().getX1();
+                    prevBoxX2 = editableImage.getBox().getX2();
+                    prevBoxY1 = editableImage.getBox().getY1();
+                    prevBoxY2 = editableImage.getBox().getY2();
 
-                return true;
+                    return true;
 
-            case MotionEvent.ACTION_MOVE:
-                int[] loc = new int[2];
-                getLocationOnScreen(loc);
-                int diffX = curX - prevX;
-                int diffY = curY - prevY;
+                case MotionEvent.ACTION_MOVE:
+                    int[] loc = new int[2];
+                    getLocationOnScreen(loc);
+                    int diffX = curX - prevX;
+                    int diffY = curY - prevY;
 
-                displayBox.resizeBox(curX - loc[0], curY - loc[1], diffX, diffY,
-                        (getWidth() - bitmapWidth) / 2,
-                        (getHeight() - bitmapHeight) / 2,
-                        (getWidth() + bitmapWidth) / 2,
-                        (getHeight() + bitmapHeight) / 2,
-                        (int)cornerLength);
-                updateOriginalBox();
+                    displayBox.resizeBox(curX - loc[0], curY - loc[1], diffX, diffY,
+                            (getWidth() - bitmapWidth) / 2,
+                            (getHeight() - bitmapHeight) / 2,
+                            (getWidth() + bitmapWidth) / 2,
+                            (getHeight() + bitmapHeight) / 2,
+                            (int)cornerLength);
+                    updateOriginalBox();
 
-                invalidate();
+                    invalidate();
 
-                prevX = curX;
-                prevY = curY;
-                return true;
-            case MotionEvent.ACTION_UP:
-                ScalableBox originalBox = editableImage.getBox();
-                if (onBoxChangedListener != null
-                        &&(prevBoxX1 != originalBox.getX1()
-                        || prevBoxX2 != originalBox.getX2()
-                        || prevBoxY1 != originalBox.getY1()
-                        || prevBoxY2 != originalBox.getY2())) {
-                    onBoxChangedListener.onChanged(originalBox.getX1(), originalBox.getY1(), originalBox.getX2(), originalBox.getY2());
-                }
+                    prevX = curX;
+                    prevY = curY;
+                    return true;
+                case MotionEvent.ACTION_UP:
+                    ScalableBox originalBox = editableImage.getBox();
+                    if (onBoxChangedListener != null
+                            &&(prevBoxX1 != originalBox.getX1()
+                            || prevBoxX2 != originalBox.getX2()
+                            || prevBoxY1 != originalBox.getY1()
+                            || prevBoxY2 != originalBox.getY2())) {
+                        onBoxChangedListener.onChanged(originalBox.getX1(), originalBox.getY1(), originalBox.getX2(), originalBox.getY2());
+                    }
 
-                prevBoxX1 = originalBox.getX1();
-                prevBoxX2 = originalBox.getX2();
-                prevBoxY1 = originalBox.getY1();
-                prevBoxY2 = originalBox.getY2();
+                    prevBoxX1 = originalBox.getX1();
+                    prevBoxX2 = originalBox.getX2();
+                    prevBoxY1 = originalBox.getY1();
+                    prevBoxY2 = originalBox.getY2();
+            }
         }
+
         return false;
     }
 
