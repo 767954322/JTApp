@@ -33,6 +33,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -79,6 +80,7 @@ public class SearchLoadingActivity
     private ImageView iv_image_search;
     private String image_type;
     private ImageView iv_quxiao_loading;
+    private float image_ratio;
 
     @Override
     protected int getLayoutResId() {
@@ -92,6 +94,7 @@ public class SearchLoadingActivity
         type = getIntent().getStringExtra("type");
         image_id = getIntent().getStringExtra("image_id");
         image_type = getIntent().getStringExtra("image_type");
+        image_ratio = getIntent().getFloatExtra("image_ratio",0);
         imagePath = image_url;
     }
 
@@ -108,6 +111,12 @@ public class SearchLoadingActivity
         if (image_type.equals("location")) {
             ImageUtils.disRectangleImage("file://" + imagePath, iv_image_search);
         } else {
+            if(image_ratio > 0){
+               ViewGroup.LayoutParams layoutParams = iv_image_search.getLayoutParams();
+                layoutParams.width = PublicUtils.getScreenWidth(SearchLoadingActivity.this);
+                layoutParams.height = (int) (PublicUtils.getScreenWidth(SearchLoadingActivity.this)/image_ratio);
+                iv_image_search.setLayoutParams(layoutParams);
+            }
             ImageUtils.disRectangleImage(imagePath, iv_image_search);
         }
         shibie();
