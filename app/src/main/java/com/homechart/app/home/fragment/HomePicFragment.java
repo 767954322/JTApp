@@ -18,6 +18,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -471,10 +473,12 @@ public class HomePicFragment
 //            rl_unreader_msg_single.setVisibility(View.GONE);
 //            rl_unreader_msg_double.setVisibility(View.GONE);
             getUnReaderMsg();
-        }else if(requestCode == 1){
+        } else if (requestCode == 1) {
 //            onRefresh();
         }
     }
+
+    List<String> listTag = new ArrayList<>();
 
     private void buildRecyclerView() {
 
@@ -515,8 +519,28 @@ public class HomePicFragment
                 if (nikeName != null && !curentListTag && nikeName.length() > 5) {
                     nikeName = nikeName.substring(0, 5) + "...";
                 }
-
                 ((TextView) holder.getView(R.id.tv_name_pic)).setText(nikeName);
+
+
+                String strTag = "";
+                String tag = mListData.get(position).getItem_info().getTag();
+                if (!TextUtils.isEmpty(tag)) {
+                    String[] str_tag = tag.split(" ");
+                    listTag.clear();
+                    for (int i = 0; i < str_tag.length; i++) {
+                        if (!TextUtils.isEmpty(str_tag[i].trim())) {
+                            listTag.add(str_tag[i]);
+                        }
+                    }
+                    for (int i = 0; i < listTag.size(); i++) {
+                        strTag = strTag + "# " + listTag.get(i) + "  ";
+                    }
+                }
+
+                String str = "<font color='#f79056'>" + strTag + "</font>" + "非滴滴答答滴滴答答等等等等等等非滴滴答答滴滴答答等等等等等等非滴滴答答滴滴答答等等等等等等";
+                ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
+
+
                 if (curentListTag) {
                     ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(),
                             (ImageView) holder.getView(R.id.iv_imageview_one));
@@ -525,6 +549,7 @@ public class HomePicFragment
                             (ImageView) holder.getView(R.id.iv_imageview_one));
 
                 }
+
                 ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
                         (ImageView) holder.getView(R.id.iv_header_pic));
 
@@ -560,7 +585,7 @@ public class HomePicFragment
                         loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
                         if (!loginStatus) {
                             Intent intent = new Intent(activity, LoginActivity.class);
-                            startActivityForResult(intent,1);
+                            startActivityForResult(intent, 1);
                         } else {
                             onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
                         }
@@ -572,7 +597,7 @@ public class HomePicFragment
                         loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
                         if (!loginStatus) {
                             Intent intent = new Intent(activity, LoginActivity.class);
-                            startActivityForResult(intent,1);
+                            startActivityForResult(intent, 1);
                         } else {
                             onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
                         }
@@ -586,13 +611,13 @@ public class HomePicFragment
                 }
                 ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
 
-                if(curentListTag){
+                if (curentListTag) {
                     if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
                         ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.datuxing);
                     } else {//收藏
                         ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.datuxing1);
                     }
-                }else {
+                } else {
                     if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
                         ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing);
                     } else {//收藏

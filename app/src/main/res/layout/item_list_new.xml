@@ -23,6 +23,7 @@
         android:layout_alignTop="@+id/iv_imageview_one"
         android:layout_alignRight="@+id/iv_imageview_one"
         android:layout_marginTop="@dimen/font_7"
+        android:clickable="true"
         android:layout_marginRight="@dimen/font_7"
         android:src="@drawable/datushibie"/>
 
@@ -36,7 +37,6 @@
         android:textSize="@dimen/size_15"
         android:includeFontPadding="false"
         android:textColor="@color/bg_464646"
-        android:text="那地方 i 你牛的是你说几点上课打瞌睡的时代是丹江口市的开始山东省颠三倒四那地方 i 你牛的是你说几点上课打瞌睡的时代是丹江口市的开始山东省颠三倒四"
         android:maxLines="2"
         android:ellipsize="end"
         android:layout_below="@+id/iv_imageview_one"
@@ -47,14 +47,14 @@
         android:id="@+id/rl_pic_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/font_13"
+        android:layout_marginBottom="@dimen/font_15"
         android:layout_below="@+id/tv_image_miaosu">
 
         <com.homechart.app.myview.RoundImageView
             android:id="@+id/iv_header_pic"
             android:layout_width="@dimen/font_32"
             android:layout_height="@dimen/font_32"
-            android:layout_marginTop="@dimen/font_15"
-            android:layout_marginBottom="@dimen/font_15"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/font_10" />
 
