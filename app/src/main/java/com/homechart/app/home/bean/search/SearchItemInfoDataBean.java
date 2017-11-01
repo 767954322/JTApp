@@ -13,15 +13,20 @@ public class SearchItemInfoDataBean implements Serializable{
 
     private String item_id;
     private String tag;
+    private String description;
     private SearchDataObjectImgBean image;
     private String like_num;
     private String collect_num;
     private String comment_num;
     private String is_collected;
 
-    public SearchItemInfoDataBean(String item_id, String tag, SearchDataObjectImgBean image, String like_num, String collect_num, String comment_num, String is_collected) {
+    public SearchItemInfoDataBean() {
+    }
+
+    public SearchItemInfoDataBean(String item_id, String tag, String description, SearchDataObjectImgBean image, String like_num, String collect_num, String comment_num, String is_collected) {
         this.item_id = item_id;
         this.tag = tag;
+        this.description = description;
         this.image = image;
         this.like_num = like_num;
         this.collect_num = collect_num;
@@ -43,6 +48,14 @@ public class SearchItemInfoDataBean implements Serializable{
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public SearchDataObjectImgBean getImage() {
@@ -90,6 +103,7 @@ public class SearchItemInfoDataBean implements Serializable{
         return "SearchItemInfoDataBean{" +
                 "item_id='" + item_id + '\'' +
                 ", tag='" + tag + '\'' +
+                ", description='" + description + '\'' +
                 ", image=" + image +
                 ", like_num='" + like_num + '\'' +
                 ", collect_num='" + collect_num + '\'' +

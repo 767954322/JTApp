@@ -537,7 +537,7 @@ public class HomePicFragment
                     }
                 }
 
-                String str = "<font color='#f79056'>" + strTag + "</font>" + "非滴滴答答滴滴答答等等等等等等非滴滴答答滴滴答答等等等等等等非滴滴答答滴滴答答等等等等等等";
+                String str = "<font color='#f79056'>" + strTag + "</font>" + mListData.get(position).getItem_info().getDescription();
                 ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
 
 
