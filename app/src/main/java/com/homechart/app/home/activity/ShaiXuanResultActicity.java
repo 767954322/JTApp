@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -47,6 +49,7 @@ import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
+import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
@@ -104,6 +107,7 @@ public class ShaiXuanResultActicity
     private ImageView iv_chongzhi;
     private TextView bt_tag_page_item;
     private boolean islist;
+    private boolean loginStatus;
 
     //取消收藏
     private void removeShouCang(final int position, String item_id) {
@@ -476,15 +480,16 @@ public class ShaiXuanResultActicity
         }
     }
 
+    List<String> listTag = new ArrayList<>();
     private void buildRecyclerView() {
 
         MultiItemTypeSupport<SearchItemDataBean> support = new MultiItemTypeSupport<SearchItemDataBean>() {
             @Override
             public int getLayoutId(int itemType) {
                 if (itemType == TYPE_ONE) {
-                    return R.layout.item_test_one;
+                    return R.layout.item_list_new;
                 } else {
-                    return R.layout.item_test_pic_pubu;
+                    return R.layout.item_pubu_new;
                 }
             }
 
@@ -515,8 +520,28 @@ public class ShaiXuanResultActicity
                 if (nikeName != null && !curentListTag && nikeName.length() > 5) {
                     nikeName = nikeName.substring(0, 5) + "...";
                 }
-
                 ((TextView) holder.getView(R.id.tv_name_pic)).setText(nikeName);
+
+
+                String strTag = "";
+                String tag = mListData.get(position).getItem_info().getTag();
+                if (!TextUtils.isEmpty(tag)) {
+                    String[] str_tag = tag.split(" ");
+                    listTag.clear();
+                    for (int i = 0; i < str_tag.length; i++) {
+                        if (!TextUtils.isEmpty(str_tag[i].trim())) {
+                            listTag.add(str_tag[i]);
+                        }
+                    }
+                    for (int i = 0; i < listTag.size(); i++) {
+                        strTag = strTag + "# " + listTag.get(i) + "  ";
+                    }
+                }
+
+                String str = "<font color='#f79056'>" + strTag + "</font>" + mListData.get(position).getItem_info().getDescription();
+                ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
+
+
                 if (curentListTag) {
                     ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(),
                             (ImageView) holder.getView(R.id.iv_imageview_one));
@@ -525,6 +550,7 @@ public class ShaiXuanResultActicity
                             (ImageView) holder.getView(R.id.iv_imageview_one));
 
                 }
+
                 ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
                         (ImageView) holder.getView(R.id.iv_header_pic));
 
@@ -544,11 +570,11 @@ public class ShaiXuanResultActicity
                         Intent intent = new Intent(ShaiXuanResultActicity.this, ImageDetailScrollActivity.class);
                         intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
                         intent.putExtra("position", position);
-                        intent.putExtra("type", "筛选");
+                        intent.putExtra("type", "色彩");
                         intent.putExtra("if_click_color", false);
                         intent.putExtra("mSelectListData", (Serializable) mSelectListData);
-                        intent.putExtra("shaixuan_tag", shaixuan_tag);
-                        intent.putExtra("page_num", page_num);
+                        intent.putExtra("shaixuan_tag", "");
+                        intent.putExtra("page_num", page_num + 1);
                         intent.putExtra("item_id_list", (Serializable) mItemIdList);
                         startActivity(intent);
                     }
@@ -557,27 +583,47 @@ public class ShaiXuanResultActicity
                 holder.getView(R.id.tv_shoucang_num).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
+                        loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                        if (!loginStatus) {
+                            Intent intent = new Intent(ShaiXuanResultActicity.this, LoginActivity.class);
+                            startActivityForResult(intent, 1);
+                        } else {
+                            onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
+                        }
                     }
                 });
                 holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
+                        loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                        if (!loginStatus) {
+                            Intent intent = new Intent(ShaiXuanResultActicity.this, LoginActivity.class);
+                            startActivityForResult(intent, 1);
+                        } else {
+                            onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
+                        }
                     }
                 });
 
-                if(mListData.get(position).getItem_info().getCollect_num().trim().equals("0")){
+                if (mListData.get(position).getItem_info().getCollect_num().trim().equals("0")) {
                     holder.getView(R.id.tv_shoucang_num).setVisibility(View.INVISIBLE);
-                }else {
+                } else {
                     holder.getView(R.id.tv_shoucang_num).setVisibility(View.VISIBLE);
                 }
-
                 ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
-                if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
-                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang);
-                } else {//收藏
-                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang1);
+
+                if (curentListTag) {
+                    if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
+                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.datuxing);
+                    } else {//收藏
+                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.datuxing1);
+                    }
+                } else {
+                    if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
+                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing);
+                    } else {//收藏
+                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing1);
+                    }
                 }
             }
         };
