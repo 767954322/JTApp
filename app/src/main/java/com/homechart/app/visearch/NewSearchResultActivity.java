@@ -3,6 +3,7 @@ package com.homechart.app.visearch;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -31,6 +32,9 @@ public class NewSearchResultActivity
     private SearchSBean searchSBean;
     private NewEditPhotoViewMore mPhotoImage;
     private EditableImage editableImage;
+    private FrameLayout fl_image;
+    private int widerImage;
+    private int heightImage;
 
     @Override
     protected int getLayoutResId() {
@@ -52,6 +56,7 @@ public class NewSearchResultActivity
     @Override
     protected void initView() {
 
+        fl_image = (FrameLayout) findViewById(R.id.fl_image);
         mTital = (TextView) findViewById(R.id.tv_tital_comment);
         mBackButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
         mPhotoImage = (NewEditPhotoViewMore) findViewById(R.id.photoedit_image_view);
@@ -72,6 +77,7 @@ public class NewSearchResultActivity
             editableImage = new EditableImage(imagePath, true);
             mPhotoImage.initView(NewSearchResultActivity.this, editableImage, true);
         }
+
     }
 
     @Override

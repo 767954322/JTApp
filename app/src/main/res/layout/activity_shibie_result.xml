@@ -19,6 +19,7 @@
     </RelativeLayout>
 
     <FrameLayout
+        android:id="@+id/fl_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -37,6 +38,7 @@
             crop:crop_corner_color="@color/white"
             crop:crop_line_color="@color/touming"
             crop:crop_shadow_color="@color/bg_4d000000" />
+
     </FrameLayout>
 
 
