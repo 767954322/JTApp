@@ -11,12 +11,13 @@ public class SearchDataObjectImgBean implements Serializable{
     private float ratio;
     private String img0;
     private String img1;
+    private String image_id;
 
-
-    public SearchDataObjectImgBean(float ratio, String img0, String img1) {
+    public SearchDataObjectImgBean(float ratio, String img0, String img1, String image_id) {
         this.ratio = ratio;
         this.img0 = img0;
         this.img1 = img1;
+        this.image_id = image_id;
     }
 
     public float getRatio() {
@@ -43,6 +44,13 @@ public class SearchDataObjectImgBean implements Serializable{
         this.img1 = img1;
     }
 
+    public String getImage_id() {
+        return image_id;
+    }
+
+    public void setImage_id(String image_id) {
+        this.image_id = image_id;
+    }
 
     @Override
     public String toString() {
@@ -50,6 +58,7 @@ public class SearchDataObjectImgBean implements Serializable{
                 "ratio=" + ratio +
                 ", img0='" + img0 + '\'' +
                 ", img1='" + img1 + '\'' +
+                ", image_id='" + image_id + '\'' +
                 '}';
     }
 }

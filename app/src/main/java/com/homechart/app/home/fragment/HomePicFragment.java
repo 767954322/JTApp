@@ -588,7 +588,7 @@ public class HomePicFragment
 //                        Intent intent1 = new Intent(ShiBieActivity.this, TestActivity.class);
                         intent1.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg1());
                         intent1.putExtra("type", "lishi");
-                        intent1.putExtra("image_id", mListData.get(position).getItem_info().getItem_id());
+                        intent1.putExtra("image_id", mListData.get(position).getItem_info().getImage().getImage_id());
                         intent1.putExtra("image_type", "network");
                         intent1.putExtra("image_ratio", mListData.get(position).getItem_info().getImage().getRatio());
                         startActivity(intent1);
