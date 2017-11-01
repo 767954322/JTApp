@@ -528,68 +528,6 @@ public class ShaiXuanResultActicity
                 ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
                         (ImageView) holder.getView(R.id.iv_header_pic));
 
-
-                List<SearchDataColorBean> list_color = mListData.get(position).getColor_info();
-                if (null != list_color && list_color.size() == 1) {
-                    holder.getView(R.id.iv_color_right).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_color_left).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_color_center).setVisibility(View.GONE);
-                    if (list_color.get(0).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_right).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_right).setBackgroundColor(Color.parseColor("#" + list_color.get(0).getColor_value()));
-                    }
-                    if (curentListTag) {
-                        holder.getView(R.id.tv_color_tital).setVisibility(View.VISIBLE);
-                    }
-                } else if (null != mListData.get(position).getColor_info() && mListData.get(position).getColor_info().size() == 2) {
-
-                    holder.getView(R.id.iv_color_right).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_color_left).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_color_center).setVisibility(View.VISIBLE);
-                    if (list_color.get(1).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_right).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_right).setBackgroundColor(Color.parseColor("#" + list_color.get(1).getColor_value()));
-                    }
-                    if (list_color.get(0).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_center).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_center).setBackgroundColor(Color.parseColor("#" + list_color.get(0).getColor_value()));
-                    }
-                    if (curentListTag) {
-                        holder.getView(R.id.tv_color_tital).setVisibility(View.VISIBLE);
-                    }
-                } else if (null != mListData.get(position).getColor_info() && mListData.get(position).getColor_info().size() == 3) {
-                    holder.getView(R.id.iv_color_right).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_color_left).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_color_center).setVisibility(View.VISIBLE);
-                    if (list_color.get(2).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_right).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_right).setBackgroundColor(Color.parseColor("#" + list_color.get(2).getColor_value()));
-                    }
-                    if (list_color.get(1).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_center).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_center).setBackgroundColor(Color.parseColor("#" + list_color.get(1).getColor_value()));
-                    }
-                    if (list_color.get(0).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_left).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_left).setBackgroundColor(Color.parseColor("#" + list_color.get(0).getColor_value()));
-                    }
-                    if (curentListTag) {
-                        holder.getView(R.id.tv_color_tital).setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    holder.getView(R.id.iv_color_right).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_color_left).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_color_center).setVisibility(View.GONE);
-                    if (curentListTag) {
-                        holder.getView(R.id.tv_color_tital).setVisibility(View.GONE);
-                    }
-                }
                 holder.getView(R.id.iv_header_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -615,34 +553,6 @@ public class ShaiXuanResultActicity
                         startActivity(intent);
                     }
                 });
-
-                holder.getView(R.id.iv_color_right).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        clickColorQiu(position);
-                    }
-                });
-                holder.getView(R.id.iv_color_center).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        clickColorQiu(position);
-                    }
-                });
-                holder.getView(R.id.iv_color_left).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        clickColorQiu(position);
-                    }
-                });
-
-                if (curentListTag) {
-                    holder.getView(R.id.tv_color_tital).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            clickColorQiu(position);
-                        }
-                    });
-                }
 
                 holder.getView(R.id.tv_shoucang_num).setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -477,68 +477,6 @@ public class ColorShaiXuanActivity
                 ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
                         (ImageView) holder.getView(R.id.iv_header_pic));
 
-
-                List<SearchDataColorBean> list_color = mListData.get(position).getColor_info();
-                if (null != list_color && list_color.size() == 1) {
-                    holder.getView(R.id.iv_color_right).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_color_left).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_color_center).setVisibility(View.GONE);
-                    if (list_color.get(0).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_right).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_right).setBackgroundColor(Color.parseColor("#" + list_color.get(0).getColor_value()));
-                    }
-                    if (curentListTag) {
-                        holder.getView(R.id.tv_color_tital).setVisibility(View.VISIBLE);
-                    }
-                } else if (null != mListData.get(position).getColor_info() && mListData.get(position).getColor_info().size() == 2) {
-
-                    holder.getView(R.id.iv_color_right).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_color_left).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_color_center).setVisibility(View.VISIBLE);
-                    if (list_color.get(1).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_right).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_right).setBackgroundColor(Color.parseColor("#" + list_color.get(1).getColor_value()));
-                    }
-                    if (list_color.get(0).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_center).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_center).setBackgroundColor(Color.parseColor("#" + list_color.get(0).getColor_value()));
-                    }
-                    if (curentListTag) {
-                        holder.getView(R.id.tv_color_tital).setVisibility(View.VISIBLE);
-                    }
-                } else if (null != mListData.get(position).getColor_info() && mListData.get(position).getColor_info().size() == 3) {
-                    holder.getView(R.id.iv_color_right).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_color_left).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_color_center).setVisibility(View.VISIBLE);
-                    if (list_color.get(2).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_right).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_right).setBackgroundColor(Color.parseColor("#" + list_color.get(2).getColor_value()));
-                    }
-                    if (list_color.get(1).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_center).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_center).setBackgroundColor(Color.parseColor("#" + list_color.get(1).getColor_value()));
-                    }
-                    if (list_color.get(0).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_left).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_left).setBackgroundColor(Color.parseColor("#" + list_color.get(0).getColor_value()));
-                    }
-                    if (curentListTag) {
-                        holder.getView(R.id.tv_color_tital).setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    holder.getView(R.id.iv_color_right).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_color_left).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_color_center).setVisibility(View.GONE);
-                    if (curentListTag) {
-                        holder.getView(R.id.tv_color_tital).setVisibility(View.GONE);
-                    }
-                }
                 holder.getView(R.id.iv_header_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -564,33 +502,6 @@ public class ColorShaiXuanActivity
                         startActivity(intent);
                     }
                 });
-
-                holder.getView(R.id.iv_color_right).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                    }
-                });
-                holder.getView(R.id.iv_color_center).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        clickColorQiu(position);
-                    }
-                });
-                holder.getView(R.id.iv_color_left).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        clickColorQiu(position);
-                    }
-                });
-
-                if (curentListTag) {
-                    holder.getView(R.id.tv_color_tital).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            clickColorQiu(position);
-                        }
-                    });
-                }
 
                 holder.getView(R.id.tv_shoucang_num).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -812,31 +723,6 @@ public class ColorShaiXuanActivity
         MyHttpManager.getInstance().getColorListData(callBack);
 
     }
-
-    private void clickColorQiu(int position) {
-        //友盟统计
-        HashMap<String, String> map4 = new HashMap<String, String>();
-        map4.put("evenname", "三个色彩点");
-        map4.put("even", "色彩页");
-        MobclickAgent.onEvent(ColorShaiXuanActivity.this, "jtaction3", map4);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("色彩页")  //事件类别
-                .setAction("三个色彩点")      //事件操作
-                .build());
-        //查看单图详情
-        Intent intent = new Intent(ColorShaiXuanActivity.this, ImageDetailScrollActivity.class);
-        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-        intent.putExtra("position", position);
-        intent.putExtra("type", "筛选");
-        intent.putExtra("if_click_color", true);
-        intent.putExtra("mSelectListData", (Serializable) mSelectListData);
-        intent.putExtra("shaixuan_tag", "");
-        intent.putExtra("page_num", page_num);
-        intent.putExtra("item_id_list", (Serializable) mItemIdList);
-        startActivity(intent);
-    }
-
     boolean ifClickShouCang = true;
     //收藏或者取消收藏，图片
     public void onShouCang(boolean ifShouCang, int position, SearchItemDataBean searchItemDataBean) {
