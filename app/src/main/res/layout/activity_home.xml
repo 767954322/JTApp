@@ -28,7 +28,7 @@
                 android:layout_marginTop="@dimen/size_6"
                 android:checked="true"
                 android:drawableTop="@drawable/pic_radio_select"
-                android:text="发现"
+                android:text="看图"
                 android:textSize="@dimen/size_11" />
 
             <!--设计师-->
