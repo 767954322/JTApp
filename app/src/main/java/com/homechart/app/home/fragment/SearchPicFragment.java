@@ -71,6 +71,7 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.homechart.app.visearch.SearchLoadingActivity;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
@@ -282,6 +283,19 @@ public class SearchPicFragment
                 } else {//收藏
                     ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing1);
                 }
+                holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent1 = new Intent(activity, SearchLoadingActivity.class);
+//                        Intent intent1 = new Intent(ShiBieActivity.this, TestActivity.class);
+                        intent1.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg1());
+                        intent1.putExtra("type", "lishi");
+                        intent1.putExtra("image_id", mListData.get(position).getItem_info().getImage().getImage_id());
+                        intent1.putExtra("image_type", "network");
+                        intent1.putExtra("image_ratio", mListData.get(position).getItem_info().getImage().getRatio());
+                        startActivity(intent1);
+                    }
+                });
             }
         };
 

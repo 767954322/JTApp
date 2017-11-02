@@ -11,13 +11,15 @@ public class ItemInfoBean implements Serializable{
 
     private String item_id;
     private String tag;
+    private String description;
     private ItemInfoImageBean image;
     private String is_collected;
     private String collect_num;
 
-    public ItemInfoBean(String item_id, String tag, ItemInfoImageBean image, String is_collected, String collect_num) {
+    public ItemInfoBean(String item_id, String tag, String description, ItemInfoImageBean image, String is_collected, String collect_num) {
         this.item_id = item_id;
         this.tag = tag;
+        this.description = description;
         this.image = image;
         this.is_collected = is_collected;
         this.collect_num = collect_num;
@@ -37,6 +39,14 @@ public class ItemInfoBean implements Serializable{
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public ItemInfoImageBean getImage() {
@@ -68,6 +78,7 @@ public class ItemInfoBean implements Serializable{
         return "ItemInfoBean{" +
                 "item_id='" + item_id + '\'' +
                 ", tag='" + tag + '\'' +
+                ", description='" + description + '\'' +
                 ", image=" + image +
                 ", is_collected='" + is_collected + '\'' +
                 ", collect_num='" + collect_num + '\'' +
