@@ -18,28 +18,15 @@
 
     </RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/fl_image"
+    <com.homechart.app.imagedetail.PhotoView
+        android:id="@+id/pv_Image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/bg_4d000000"
         android:layout_below="@+id/common_navbar"
         android:layout_above="@+id/rl_image_bottom"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <com.homechart.app.croplayout.NewEditPhotoViewMore
-            xmlns:crop="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/photoedit_image_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/bg_f7f7f7"
-            crop:crop_corner_color="@color/white"
-            crop:crop_line_color="@color/touming"
-            crop:crop_shadow_color="@color/bg_4d000000" />
-
-    </FrameLayout>
-
+        android:layout_alignParentStart="true"/>
 
 </RelativeLayout>
