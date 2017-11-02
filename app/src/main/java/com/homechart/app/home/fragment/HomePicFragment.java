@@ -91,7 +91,6 @@ public class HomePicFragment
         implements View.OnClickListener,
         OnLoadMoreListener,
         OnRefreshListener,
-        ViewPager.OnPageChangeListener,
         HomeTagAdapter.PopupWindowCallBack,
         SelectColorSeCaiWindow.SureColor {
 
@@ -117,27 +116,13 @@ public class HomePicFragment
     private final String LOADMORE_STATUS = "loadmore";
     private StaggeredGridLayoutManager staggeredGridLayoutManager;
     private ClearEditText cet_clearedit;
-    private RelativeLayout rl_unreader_msg_double;
-    private RelativeLayout rl_unreader_msg_single;
-    private TextView tv_unreader_mag_double;
-    private TextView tv_unreader_mag_single;
     private int width_Pic_Staggered;
     private int width_Pic_List;
     private NewHomeTabPopWin newHomeTabPopWin;
-    private LinearLayout ll_pic_choose;
-    private RoundImageView iv_kongjian;
-    private RoundImageView iv_jubu;
-    private RoundImageView iv_zhuangshi;
-    private RoundImageView iv_shouna;
-    private RelativeLayout rl_kongjian;
-    private RelativeLayout rl_jubu;
-    private RelativeLayout rl_zhuangshi;
-    private RelativeLayout rl_shouna;
     public TagDataBean tagDataBean;
     public ColorBean colorBean;
     private View view;
     private Timer timer = new Timer(true);
-    private RelativeLayout rl_tos_choose;
 
     private float mDownY;
     private float mMoveY;
@@ -181,26 +166,12 @@ public class HomePicFragment
 
     @Override
     protected void initView() {
-        tv_unreader_mag_double = (TextView) rootView.findViewById(R.id.tv_unreader_mag_double);
-        tv_unreader_mag_single = (TextView) rootView.findViewById(R.id.tv_unreader_mag_single);
-        rl_unreader_msg_single = (RelativeLayout) rootView.findViewById(R.id.rl_unreader_msg_single);
-        rl_unreader_msg_double = (RelativeLayout) rootView.findViewById(R.id.rl_unreader_msg_double);
 
         cet_clearedit = (ClearEditText) rootView.findViewById(R.id.cet_clearedit);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_pic);
 
         iv_open_pop = (ImageView) rootView.findViewById(R.id.iv_open_pop);
         view_line_top = rootView.findViewById(R.id.view_line_top);
-        ll_pic_choose = (LinearLayout) rootView.findViewById(R.id.ll_pic_choose);
-        iv_kongjian = (RoundImageView) rootView.findViewById(R.id.iv_kongjian);
-        iv_jubu = (RoundImageView) rootView.findViewById(R.id.iv_jubu);
-        iv_zhuangshi = (RoundImageView) rootView.findViewById(R.id.iv_zhuangshi);
-        iv_shouna = (RoundImageView) rootView.findViewById(R.id.iv_shouna);
-        rl_kongjian = (RelativeLayout) rootView.findViewById(R.id.rl_kongjian);
-        rl_jubu = (RelativeLayout) rootView.findViewById(R.id.rl_jubu);
-        rl_zhuangshi = (RelativeLayout) rootView.findViewById(R.id.rl_zhuangshi);
-        rl_shouna = (RelativeLayout) rootView.findViewById(R.id.rl_shouna);
-        rl_tos_choose = (RelativeLayout) rootView.findViewById(R.id.rl_tos_choose);
         id_main = (RelativeLayout) rootView.findViewById(R.id.id_main);
         view_line_back = rootView.findViewById(R.id.view_line_back);
         rl_shibie = (RelativeLayout) rootView.findViewById(R.id.rl_shibie);
@@ -222,10 +193,6 @@ public class HomePicFragment
         cet_clearedit.setKeyListener(null);
         cet_clearedit.setOnClickListener(this);
         iv_change_frag.setOnClickListener(this);
-        rl_kongjian.setOnClickListener(this);
-        rl_jubu.setOnClickListener(this);
-        rl_zhuangshi.setOnClickListener(this);
-        rl_shouna.setOnClickListener(this);
         iv_chongzhi.setOnClickListener(this);
         rl_shibie.setOnClickListener(this);
         iv_open_pop.setOnClickListener(this);
@@ -319,10 +286,6 @@ public class HomePicFragment
 
             case R.id.iv_chongzhi:
                 mSelectListData.clear();
-                iv_kongjian.setImageResource(R.drawable.kongjian1);
-                iv_jubu.setImageResource(R.drawable.jubu1);
-                iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
-                iv_shouna.setImageResource(R.drawable.shouna1);
                 bt_tag_page_item.setVisibility(View.GONE);
                 iv_chongzhi.setVisibility(View.GONE);
                 tv_color_tital.setVisibility(View.VISIBLE);
@@ -740,7 +703,7 @@ public class HomePicFragment
 
         if (tagDataBean != null) {
             if (null == newHomeTabPopWin) {
-                newHomeTabPopWin = new NewHomeTabPopWin(activity, this, tagDataBean, this, colorBean, null);
+                newHomeTabPopWin = new NewHomeTabPopWin(activity, tagDataBean, this, colorBean, null);
             }
             if (newHomeTabPopWin.isShowing()) {
                 iv_open_pop.setImageResource(R.drawable.shaixuan);
@@ -760,53 +723,6 @@ public class HomePicFragment
                 }
             }
         }
-
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        switch (position) {
-            case 0:
-                iv_kongjian.setImageResource(R.drawable.kongjian);
-                iv_jubu.setImageResource(R.drawable.jubu1);
-                iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
-                iv_shouna.setImageResource(R.drawable.shouna1);
-                break;
-            case 1:
-                iv_kongjian.setImageResource(R.drawable.kongjian1);
-                iv_jubu.setImageResource(R.drawable.jubu);
-                iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
-                iv_shouna.setImageResource(R.drawable.shouna1);
-                break;
-            case 2:
-                iv_kongjian.setImageResource(R.drawable.kongjian1);
-                iv_jubu.setImageResource(R.drawable.jubu1);
-                iv_zhuangshi.setImageResource(R.drawable.zhuangshi);
-                iv_shouna.setImageResource(R.drawable.shouna1);
-                break;
-            case 3:
-                iv_kongjian.setImageResource(R.drawable.kongjian1);
-                iv_jubu.setImageResource(R.drawable.jubu1);
-                iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
-                iv_shouna.setImageResource(R.drawable.shouna);
-                break;
-            case 4:
-                iv_kongjian.setImageResource(R.drawable.kongjian1);
-                iv_jubu.setImageResource(R.drawable.jubu1);
-                iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
-                iv_shouna.setImageResource(R.drawable.shouna1);
-                break;
-        }
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
 
     }
 
@@ -839,10 +755,6 @@ public class HomePicFragment
                 mSelectListData.clear();
                 mSelectListData.put(mColorClick.getColor_id(), mColorClick);
                 newHomeTabPopWin.changeColor(mSelectListData);
-                iv_kongjian.setImageResource(R.drawable.kongjian1);
-                iv_jubu.setImageResource(R.drawable.jubu1);
-                iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
-                iv_shouna.setImageResource(R.drawable.shouna1);
 
                 if (mSelectListData != null && mSelectListData.size() > 0) {
                     bt_tag_page_item.setVisibility(View.VISIBLE);
@@ -1081,10 +993,6 @@ public class HomePicFragment
             if (mSelectListData.get(mColorClick.getColor_id()) == null) {
                 mSelectListData.clear();
                 mSelectListData.put(mColorClick.getColor_id(), mColorClick);
-                iv_kongjian.setImageResource(R.drawable.kongjian1);
-                iv_jubu.setImageResource(R.drawable.jubu1);
-                iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
-                iv_shouna.setImageResource(R.drawable.shouna1);
                 if (mSelectListData != null && mSelectListData.size() > 0) {
                     bt_tag_page_item.setVisibility(View.VISIBLE);
                     iv_chongzhi.setVisibility(View.VISIBLE);

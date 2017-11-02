@@ -37,7 +37,6 @@ public class NewHomeTabPopWin extends PopupWindow implements View.OnClickListene
     private List<TagItemDataBean> mTagList;
 
     public NewHomeTabPopWin(Context context,
-                            ViewPager.OnPageChangeListener onPageChangeListener,
                             TagDataBean tagDataBean,
                             HomeTagAdapter.PopupWindowCallBack popupWindowCallBack,
                             ColorBean colorBean,
@@ -70,7 +69,7 @@ public class NewHomeTabPopWin extends PopupWindow implements View.OnClickListene
         vp_home_tag.setOffscreenPageLimit(5);
         vp_home_tag.setScanScroll(true);
         // 设置按钮监听
-        vp_home_tag.addOnPageChangeListener(onPageChangeListener);
+//        vp_home_tag.addOnPageChangeListener(onPageChangeListener);
 
         // 设置外部可点击
         this.setOutsideTouchable(true);
