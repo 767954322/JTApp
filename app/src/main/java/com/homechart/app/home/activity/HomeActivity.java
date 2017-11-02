@@ -28,6 +28,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.fragment.HomeCenterFragment;
 import com.homechart.app.home.fragment.HomePicFragment;
+import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.myview.SelectPicPopupWindow;
 import com.homechart.app.myview.UpApkPopupWindow;
 import com.homechart.app.upapk.BroadcastUtil;
@@ -97,6 +99,12 @@ public class HomeActivity
     private String article_id;
     private RadioButton radio_btn_designer;
     private Boolean loginStatus;
+    private RoundImageView riv_round_five;
+    private RoundImageView riv_round_four;
+    private RoundImageView riv_round_three;
+    private RoundImageView riv_round_two;
+    private RoundImageView riv_round_one;
+    private RelativeLayout rl_shitu;
 
     @Override
     protected int getLayoutResId() {
@@ -108,23 +116,23 @@ public class HomeActivity
         super.initExtraBundle();
 
 //        if_first =  getIntent().getBooleanExtra("if_first",false);
-            String data = getIntent().getDataString();
-            if (!TextUtils.isEmpty(data) && data.contains("photo")) {
-                String[] str = data.split("photo");
-                if (str.length > 1) {
-                    photo_id = str[1].substring(1, str[1].length());
-                }
-            } else if (!TextUtils.isEmpty(data) && data.contains("activity")) {
-                String[] str = data.split("activity");
-                if (str.length > 1) {
-                    activity_id = str[1].substring(1, str[1].length());
-                }
-            } else if (!TextUtils.isEmpty(data) && data.contains("article")) {
-                String[] str = data.split("article");
-                if (str.length > 1) {
-                    article_id = str[1].substring(1, str[1].length());
-                }
+        String data = getIntent().getDataString();
+        if (!TextUtils.isEmpty(data) && data.contains("photo")) {
+            String[] str = data.split("photo");
+            if (str.length > 1) {
+                photo_id = str[1].substring(1, str[1].length());
             }
+        } else if (!TextUtils.isEmpty(data) && data.contains("activity")) {
+            String[] str = data.split("activity");
+            if (str.length > 1) {
+                activity_id = str[1].substring(1, str[1].length());
+            }
+        } else if (!TextUtils.isEmpty(data) && data.contains("article")) {
+            String[] str = data.split("article");
+            if (str.length > 1) {
+                article_id = str[1].substring(1, str[1].length());
+            }
+        }
         type = getIntent().getStringExtra("type");
         object_id = getIntent().getStringExtra("object_id");
         loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
@@ -136,11 +144,23 @@ public class HomeActivity
         radio_btn_center = (RadioButton) findViewById(R.id.radio_btn_center);
         radio_btn_designer = (RadioButton) findViewById(R.id.radio_btn_designer);
         iv_add_icon = (ImageView) findViewById(R.id.iv_add_icon);
+        riv_round_five = (RoundImageView) findViewById(R.id.riv_round_five);
+        riv_round_four = (RoundImageView) findViewById(R.id.riv_round_four);
+        riv_round_three = (RoundImageView) findViewById(R.id.riv_round_three);
+        riv_round_two = (RoundImageView) findViewById(R.id.riv_round_two);
+        riv_round_one = (RoundImageView) findViewById(R.id.riv_round_one);
+        rl_shitu = (RelativeLayout) findViewById(R.id.rl_shitu);
     }
 
     @Override
     protected void initListener() {
         super.initListener();
+        riv_round_five.setOnClickListener(this);
+        riv_round_four.setOnClickListener(this);
+        riv_round_three.setOnClickListener(this);
+        riv_round_two.setOnClickListener(this);
+        riv_round_one.setOnClickListener(this);
+        rl_shitu.setOnClickListener(this);
         mRadioGroup.setOnCheckedChangeListener(this);
     }
 
@@ -226,7 +246,7 @@ public class HomeActivity
                 break;
             case R.id.radio_btn_center:
 
-                if(loginStatus){
+                if (loginStatus) {
                     jumpPosition = 2;
                     if (null == mHomeCenterFragment) {
                         mHomeCenterFragment = new HomeCenterFragment(getSupportFragmentManager());
@@ -235,11 +255,11 @@ public class HomeActivity
                         mTagFragment = mHomeCenterFragment;
                         replaceFragment(mHomeCenterFragment);
                     }
-                }else {
-                    if(ifJump){
+                } else {
+                    if (ifJump) {
                         mRadioGroup.check(R.id.radio_btn_pic);
-                        Intent intent = new Intent(HomeActivity.this,LoginActivity.class);
-                        startActivityForResult(intent,1);
+                        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                        startActivityForResult(intent, 1);
                     }
                 }
 
@@ -248,7 +268,8 @@ public class HomeActivity
     }
 
     private boolean ifJump = true;
-    public void changeShowPic(){
+
+    public void changeShowPic() {
         ifJump = false;
         jumpPosition = 0;
         mRadioGroup.check(R.id.radio_btn_pic);
@@ -359,6 +380,29 @@ public class HomeActivity
                     upApkPopupWindow.dismiss();
                 }
 
+                break;
+
+            case R.id.riv_round_five:
+            case R.id.riv_round_four:
+            case R.id.riv_round_three:
+            case R.id.riv_round_two:
+            case R.id.riv_round_one:
+            case R.id.rl_shitu:
+
+                if (jumpPosition == 0) {
+                    mRadioGroup.check(R.id.radio_btn_pic);
+                } else if (jumpPosition == 2) {
+                    mRadioGroup.check(R.id.radio_btn_center);
+                }
+                if (ContextCompat.checkSelfPermission(HomeActivity.this,
+                        Manifest.permission.CAMERA) !=
+                        PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(HomeActivity.this,
+                            new String[]{Manifest.permission.CAMERA}, 0);
+                } else {
+                    Intent intent1 = new Intent(HomeActivity.this, PhotoActivity.class);
+                    startActivity(intent1);
+                }
                 break;
         }
     }
@@ -565,10 +609,10 @@ public class HomeActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1){
+        if (requestCode == 1) {
 
             loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
-            if(loginStatus){
+            if (loginStatus) {
                 jumpPosition = 2;
                 mRadioGroup.check(R.id.radio_btn_center);
             }

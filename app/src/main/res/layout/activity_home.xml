@@ -9,11 +9,45 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" />
+
     <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="22.5dp">
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/riv_round_one"
+            android:layout_width="53dp"
+            android:layout_height="53dp"
+            android:layout_centerInParent="true"
+            android:background="#F2F2F2F2" />
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/riv_round_two"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_centerInParent="true"
+            android:background="#F2F3F3F3" />
+
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/riv_round_three"
+            android:layout_width="51dp"
+            android:layout_height="51dp"
+            android:layout_centerInParent="true"
+            android:background="#F2F8F8F8" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_49"
-        android:background="@drawable/tab_yinying"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/tab_yinying">
 
         <RadioGroup
             android:id="@+id/rg_home_radio_group"
@@ -25,9 +59,11 @@
             <RadioButton
                 android:id="@+id/radio_btn_pic"
                 style="@style/main_tab_bottom"
-                android:layout_marginTop="@dimen/size_6"
+                android:layout_marginBottom="@dimen/font_3"
+                android:layout_marginTop="@dimen/font_7"
                 android:checked="true"
                 android:drawableTop="@drawable/pic_radio_select"
+                android:gravity="bottom|center_horizontal"
                 android:text="看图"
                 android:textSize="@dimen/size_11" />
 
@@ -35,23 +71,27 @@
             <RadioButton
                 android:id="@+id/radio_btn_designer"
                 style="@style/main_tab_bottom"
-                android:layout_marginTop="@dimen/size_6"
+                android:layout_marginBottom="@dimen/font_3"
+                android:layout_marginTop="@dimen/font_7"
                 android:checked="true"
+                android:gravity="bottom|center_horizontal"
                 android:text="识图"
-                android:drawableTop="@drawable/center_radio_select"
                 android:textSize="@dimen/size_11" />
 
             <RadioButton
                 android:id="@+id/radio_btn_center"
                 style="@style/main_tab_bottom"
-                android:layout_marginTop="@dimen/size_6"
+                android:layout_marginBottom="@dimen/font_3"
+                android:layout_marginTop="@dimen/font_7"
                 android:checked="true"
                 android:drawableTop="@drawable/center_radio_select"
+                android:gravity="bottom|center_horizontal"
                 android:text="我的"
                 android:textSize="@dimen/size_11" />
 
 
         </RadioGroup>
+
         <ImageView
             android:id="@+id/iv_add_icon"
             android:layout_width="@dimen/font_34"
@@ -59,8 +99,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/font_7"
             android:clickable="false"
-            android:visibility="gone"
-            android:src="@drawable/fabu" />
+            android:src="@drawable/fabu"
+            android:visibility="gone" />
 
         <View
             android:id="@+id/view_line"
@@ -69,5 +109,31 @@
             android:layout_above="@+id/rg_home_radio_group"
             android:background="@color/view_line" />
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_shitu"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:clickable="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="22.5dp">
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/riv_round_four"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:clickable="true"
+            android:layout_centerInParent="true"
+            android:background="@color/white" />
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/riv_round_five"
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:clickable="true"
+            android:layout_centerInParent="true"
+            android:background="@drawable/shitu" />
+
+
+    </RelativeLayout>
+
 
 </RelativeLayout>
