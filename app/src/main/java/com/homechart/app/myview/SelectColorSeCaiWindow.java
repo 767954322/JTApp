@@ -74,24 +74,8 @@ public class SelectColorSeCaiWindow extends PopupWindow {
                 if (position == mListData.size()) {
                     mSureColor.qingkong();
                     SelectColorSeCaiWindow.this.dismiss();
-//                    mSelectListData.clear();
-//                    colorAdapter.changeData(mListData, mSelectListData);
                 } else {
                     mSureColor.clickColor(mListData.get(position));
-//                    int colorId = mListData.get(position).getColor_id();
-//                    if (mSelectListData.containsKey(colorId)) {
-//                        mSelectListData.remove(colorId);
-//                    } else {
-//                        if (mSelectListData.size() < 3) {
-//                            mSelectListData.put(colorId, mListData.get(position));
-//                        } else {
-//                            ToastUtils.showCenter(context, "最多选择三种色彩搭配哦～");
-//                        }
-//                    }
-//
-//                    if (colorAdapter != null) {
-//                        colorAdapter.changeData(mListData, mSelectListData);
-//                    }
                 }
             }
         });

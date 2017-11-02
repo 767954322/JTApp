@@ -37,18 +37,11 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
-import com.homechart.app.home.activity.ArticleDetailsActivity;
-import com.homechart.app.home.activity.ColorShaiXuanActivity;
-import com.homechart.app.home.activity.HomeActivity;
-import com.homechart.app.home.activity.HuoDongDetailsActivity;
-import com.homechart.app.home.activity.HuoDongListActivity;
-import com.homechart.app.home.activity.ImageDetailLongActivity;
 import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.MessagesListActivity;
 import com.homechart.app.home.activity.SearchActivity;
 import com.homechart.app.home.activity.ShaiXuanResultActicity;
-import com.homechart.app.home.activity.ShiBieActivity;
 import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.adapter.HomeTagAdapter;
 import com.homechart.app.home.base.BaseFragment;
@@ -57,17 +50,10 @@ import com.homechart.app.home.bean.color.ColorItemBean;
 import com.homechart.app.home.bean.pictag.TagDataBean;
 import com.homechart.app.home.bean.search.SearchDataBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
-import com.homechart.app.home.bean.shaijia.ShaiJiaItemBean;
-import com.homechart.app.home.bean.shouye.DataBean;
-import com.homechart.app.home.bean.shouye.SYActivityBean;
-import com.homechart.app.home.bean.shouye.SYActivityInfoBean;
-import com.homechart.app.home.bean.shouye.SYDataBean;
-import com.homechart.app.home.bean.shouye.SYDataColorBean;
-import com.homechart.app.home.bean.shouye.SYDataObjectBean;
-import com.homechart.app.home.bean.shouye.SYDataObjectImgBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.myview.HomeTabPopWin;
+import com.homechart.app.myview.NewHomeTabPopWin;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.myview.SelectColorSeCaiWindow;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
@@ -137,7 +123,7 @@ public class HomePicFragment
     private TextView tv_unreader_mag_single;
     private int width_Pic_Staggered;
     private int width_Pic_List;
-    private HomeTabPopWin homeTabPopWin;
+    private NewHomeTabPopWin newHomeTabPopWin;
     private LinearLayout ll_pic_choose;
     private RoundImageView iv_kongjian;
     private RoundImageView iv_jubu;
@@ -151,7 +137,6 @@ public class HomePicFragment
     public ColorBean colorBean;
     private View view;
     private Timer timer = new Timer(true);
-    private ImageView iv_center_msgicon;
     private RelativeLayout rl_tos_choose;
 
     private float mDownY;
@@ -160,16 +145,8 @@ public class HomePicFragment
     private RelativeLayout id_main;
     private View view_line_back;
     boolean ifShouCang = true;
-    private RoundImageView iv_secai;
-    //任务
-    private TimerTask task = new TimerTask() {
-        public void run() {
-            getUnReaderMsg();
-        }
-    };
     private int last_id = 0;
     private RelativeLayout rl_shibie;
-    private RelativeLayout rl_secai;
     private int scroll_position;
     private Map<Integer, ColorItemBean> mSelectListData = new HashMap<>();
     private List<String> mItemIdList = new ArrayList<>();
@@ -182,6 +159,8 @@ public class HomePicFragment
     private ColorItemBean mColorClick;
     private SelectColorSeCaiWindow selectColorPopupWindow;
     private Boolean loginStatus;
+    private View view_line_top;
+    private ImageView iv_open_pop;
 
     public HomePicFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -207,21 +186,20 @@ public class HomePicFragment
         rl_unreader_msg_single = (RelativeLayout) rootView.findViewById(R.id.rl_unreader_msg_single);
         rl_unreader_msg_double = (RelativeLayout) rootView.findViewById(R.id.rl_unreader_msg_double);
 
-        iv_center_msgicon = (ImageView) rootView.findViewById(R.id.iv_center_msgicon);
         cet_clearedit = (ClearEditText) rootView.findViewById(R.id.cet_clearedit);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_pic);
 
+        iv_open_pop = (ImageView) rootView.findViewById(R.id.iv_open_pop);
+        view_line_top = rootView.findViewById(R.id.view_line_top);
         ll_pic_choose = (LinearLayout) rootView.findViewById(R.id.ll_pic_choose);
         iv_kongjian = (RoundImageView) rootView.findViewById(R.id.iv_kongjian);
         iv_jubu = (RoundImageView) rootView.findViewById(R.id.iv_jubu);
         iv_zhuangshi = (RoundImageView) rootView.findViewById(R.id.iv_zhuangshi);
         iv_shouna = (RoundImageView) rootView.findViewById(R.id.iv_shouna);
-        iv_secai = (RoundImageView) rootView.findViewById(R.id.iv_secai);
         rl_kongjian = (RelativeLayout) rootView.findViewById(R.id.rl_kongjian);
         rl_jubu = (RelativeLayout) rootView.findViewById(R.id.rl_jubu);
         rl_zhuangshi = (RelativeLayout) rootView.findViewById(R.id.rl_zhuangshi);
         rl_shouna = (RelativeLayout) rootView.findViewById(R.id.rl_shouna);
-        rl_secai = (RelativeLayout) rootView.findViewById(R.id.rl_secai);
         rl_tos_choose = (RelativeLayout) rootView.findViewById(R.id.rl_tos_choose);
         id_main = (RelativeLayout) rootView.findViewById(R.id.id_main);
         view_line_back = rootView.findViewById(R.id.view_line_back);
@@ -249,9 +227,8 @@ public class HomePicFragment
         rl_zhuangshi.setOnClickListener(this);
         rl_shouna.setOnClickListener(this);
         iv_chongzhi.setOnClickListener(this);
-        rl_secai.setOnClickListener(this);
-        iv_center_msgicon.setOnClickListener(this);
         rl_shibie.setOnClickListener(this);
+        iv_open_pop.setOnClickListener(this);
 
         tv_color_tital.setOnClickListener(this);
         iv_color_icon.setOnClickListener(this);
@@ -275,11 +252,11 @@ public class HomePicFragment
                         mMoveY = event.getY();
                         Log.e("UP", "Y" + mMoveY);
                         if (Math.abs((mMoveY - mDownY)) > 20) {
-                            if (mMoveY > mDownY) {
-                                rl_tos_choose.setVisibility(View.VISIBLE);
-                            } else {
-                                rl_tos_choose.setVisibility(View.GONE);
-                            }
+//                            if (mMoveY > mDownY) {
+//                                rl_tos_choose.setVisibility(View.VISIBLE);
+//                            } else {
+//                                rl_tos_choose.setVisibility(View.GONE);
+//                            }
                         }
                         break;
                 }
@@ -298,8 +275,6 @@ public class HomePicFragment
         buildRecyclerView();
         getTagData();
         getColorData();
-        getUnReaderMsg();
-        timer.schedule(task, 0, 1 * 60 * 1000);
     }
 
     @Override
@@ -330,96 +305,6 @@ public class HomePicFragment
 
                 }
                 break;
-
-            case R.id.rl_kongjian:
-                //友盟统计
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("evenname", "首页筛选");
-                map.put("even", "空间");
-                MobclickAgent.onEvent(activity, "jtaction34", map);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("空间")  //事件类别
-                        .setAction("首页筛选")      //事件操作
-                        .build());
-                showPopwindow(R.id.rl_kongjian, 0);
-                break;
-            case R.id.rl_jubu:
-                //友盟统计
-                HashMap<String, String> map1 = new HashMap<String, String>();
-                map1.put("evenname", "首页筛选");
-                map1.put("even", "局部");
-                MobclickAgent.onEvent(activity, "jtaction34", map1);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("局部")  //事件类别
-                        .setAction("首页筛选")      //事件操作
-                        .build());
-                showPopwindow(R.id.rl_jubu, 1);
-
-                break;
-            case R.id.rl_zhuangshi:
-                //友盟统计
-                HashMap<String, String> map2 = new HashMap<String, String>();
-                map2.put("evenname", "首页筛选");
-                map2.put("even", "装饰");
-                MobclickAgent.onEvent(activity, "jtaction34", map2);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("装饰")  //事件类别
-                        .setAction("首页筛选")      //事件操作
-                        .build());
-                showPopwindow(R.id.rl_zhuangshi, 2);
-
-                break;
-            case R.id.rl_shouna:
-                //友盟统计
-                HashMap<String, String> map3 = new HashMap<String, String>();
-                map3.put("evenname", "首页筛选");
-                map3.put("even", "收纳");
-                MobclickAgent.onEvent(activity, "jtaction34", map3);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("收纳")  //事件类别
-                        .setAction("首页筛选")      //事件操作
-                        .build());
-                showPopwindow(R.id.rl_shouna, 3);
-                break;
-            case R.id.rl_secai:
-                //友盟统计
-                HashMap<String, String> map4 = new HashMap<String, String>();
-                map4.put("evenname", "首页筛选");
-                map4.put("even", "色彩");
-                MobclickAgent.onEvent(activity, "jtaction34", map4);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("色彩")  //事件类别
-                        .setAction("首页筛选")      //事件操作
-                        .build());
-                showPopwindow(R.id.rl_secai, 4);
-                break;
-            case R.id.iv_center_msgicon:
-                onDismiss();
-
-                //友盟统计
-                HashMap<String, String> map5 = new HashMap<String, String>();
-                map5.put("evenname", "消息入口");
-                map5.put("even", "首页");
-                MobclickAgent.onEvent(activity, "jtaction37", map5);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("首页")  //事件类别
-                        .setAction("消息入口")      //事件操作
-                        .build());
-
-                Intent intent_messages = new Intent(activity, MessagesListActivity.class);
-                intent_messages.putExtra("notice_num", notice_num);
-                intent_messages.putExtra("follow_notice", follow_notice);
-                intent_messages.putExtra("collect_notice", collect_notice);
-                intent_messages.putExtra("comment_notice", comment_notice);
-                intent_messages.putExtra("system_notice", system_notice);
-                startActivityForResult(intent_messages, 11);
-                break;
             case R.id.rl_shibie:
                 if (ContextCompat.checkSelfPermission(activity,
                         Manifest.permission.CAMERA) !=
@@ -438,7 +323,6 @@ public class HomePicFragment
                 iv_jubu.setImageResource(R.drawable.jubu1);
                 iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
                 iv_shouna.setImageResource(R.drawable.shouna1);
-                iv_secai.setImageResource(R.drawable.secai1);
                 bt_tag_page_item.setVisibility(View.GONE);
                 iv_chongzhi.setVisibility(View.GONE);
                 tv_color_tital.setVisibility(View.VISIBLE);
@@ -465,6 +349,9 @@ public class HomePicFragment
             case R.id.view_pop_bottom:
                 selectColorPopupWindow.dismiss();
                 break;
+            case R.id.iv_open_pop:
+                showPopwindow();
+                break;
         }
     }
 
@@ -472,9 +359,7 @@ public class HomePicFragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 11) {
-//            rl_unreader_msg_single.setVisibility(View.GONE);
-//            rl_unreader_msg_double.setVisibility(View.GONE);
-            getUnReaderMsg();
+
         } else if (requestCode == 1) {
 //            onRefresh();
         }
@@ -742,63 +627,6 @@ public class HomePicFragment
 
     }
 
-    //获取未读消息数
-    private void getUnReaderMsg() {
-
-        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-            }
-
-            @Override
-            public void onResponse(String s) {
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                    if (error_code == 0) {
-                        Message msg = new Message();
-                        msg.obj = data_msg;
-                        msg.what = 1;
-                        mHandler.sendMessage(msg);
-
-                    } else {
-                        ToastUtils.showCenter(activity, error_msg);
-                    }
-                } catch (JSONException e) {
-                }
-            }
-        };
-        MyHttpManager.getInstance().getUnReadMsg(callBack);
-
-    }
-
-
-    private void changeUnReaderMsg(String num) {
-
-        int num_int = Integer.parseInt(num.trim());
-        if (num_int == 0) {
-            rl_unreader_msg_double.setVisibility(View.GONE);
-            rl_unreader_msg_single.setVisibility(View.GONE);
-        } else {
-            if (num_int < 10) {
-                rl_unreader_msg_double.setVisibility(View.GONE);
-                rl_unreader_msg_single.setVisibility(View.VISIBLE);
-                tv_unreader_mag_single.setText(num_int + "");
-            } else if (10 <= num_int && num_int <= 99) {
-                rl_unreader_msg_double.setVisibility(View.VISIBLE);
-                rl_unreader_msg_single.setVisibility(View.GONE);
-                tv_unreader_mag_double.setText(num_int + "");
-            } else {
-                rl_unreader_msg_double.setVisibility(View.VISIBLE);
-                rl_unreader_msg_single.setVisibility(View.GONE);
-                tv_unreader_mag_double.setText("99");
-            }
-        }
-    }
-
-
     private void getListData(final String state) {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
@@ -908,121 +736,31 @@ public class HomePicFragment
         }
     }
 
-    private void showPopwindow(int id, int position) {
-        if (tagDataBean != null && colorBean != null) {
-            if (null == homeTabPopWin) {
-                homeTabPopWin = new HomeTabPopWin(activity, this, tagDataBean, this, colorBean, null);
+    private void showPopwindow() {
+
+        if (tagDataBean != null) {
+            if (null == newHomeTabPopWin) {
+                newHomeTabPopWin = new NewHomeTabPopWin(activity, this, tagDataBean, this, colorBean, null);
             }
-            if (homeTabPopWin.isShowing()) {
-                if (last_id != 0 && last_id == id) {
-                    last_id = 0;
-                    homeTabPopWin.dismiss();
-                    iv_kongjian.setImageResource(R.drawable.kongjian1);
-                    iv_jubu.setImageResource(R.drawable.jubu1);
-                    iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
-                    iv_shouna.setImageResource(R.drawable.shouna1);
-                    iv_secai.setImageResource(R.drawable.secai1);
-                } else {
-                    last_id = id;
-
-                    homeTabPopWin.setPagePosition(position);
-                    switch (position) {
-                        case 0:
-                            iv_kongjian.setImageResource(R.drawable.kongjian);
-                            iv_jubu.setImageResource(R.drawable.jubu1);
-                            iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
-                            iv_shouna.setImageResource(R.drawable.shouna1);
-                            iv_secai.setImageResource(R.drawable.secai1);
-                            break;
-                        case 1:
-                            iv_kongjian.setImageResource(R.drawable.kongjian1);
-                            iv_jubu.setImageResource(R.drawable.jubu);
-                            iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
-                            iv_shouna.setImageResource(R.drawable.shouna1);
-                            iv_secai.setImageResource(R.drawable.secai1);
-                            break;
-                        case 2:
-                            iv_kongjian.setImageResource(R.drawable.kongjian1);
-                            iv_jubu.setImageResource(R.drawable.jubu1);
-                            iv_zhuangshi.setImageResource(R.drawable.zhuangshi);
-                            iv_shouna.setImageResource(R.drawable.shouna1);
-                            iv_secai.setImageResource(R.drawable.secai1);
-                            break;
-                        case 3:
-                            iv_kongjian.setImageResource(R.drawable.kongjian1);
-                            iv_jubu.setImageResource(R.drawable.jubu1);
-                            iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
-                            iv_shouna.setImageResource(R.drawable.shouna);
-                            iv_secai.setImageResource(R.drawable.secai1);
-                            break;
-                        case 4:
-                            iv_kongjian.setImageResource(R.drawable.kongjian1);
-                            iv_jubu.setImageResource(R.drawable.jubu1);
-                            iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
-                            iv_shouna.setImageResource(R.drawable.shouna1);
-                            iv_secai.setImageResource(R.drawable.secai);
-                            break;
-                    }
-                }
-
+            if (newHomeTabPopWin.isShowing()) {
+                iv_open_pop.setImageResource(R.drawable.shaixuan);
+                newHomeTabPopWin.dismiss();
             } else {
-
-                homeTabPopWin.setPagePosition(position);
-                last_id = id;
                 if (Build.VERSION.SDK_INT < 24) {
-                    homeTabPopWin.showAsDropDown(view_line_back);
+                    iv_open_pop.setImageResource(R.drawable.shaixuan1);
+                    newHomeTabPopWin.showAsDropDown(view_line_top);
                 } else {
+                    iv_open_pop.setImageResource(R.drawable.shaixuan1);
                     // 获取控件的位置，安卓系统>7.0
                     int[] location = new int[2];
-                    view_line_back.getLocationOnScreen(location);
+                    view_line_top.getLocationOnScreen(location);
                     int screenHeight = PublicUtils.getScreenHeight(activity);
-                    homeTabPopWin.setHeight(screenHeight - location[1]);
-                    homeTabPopWin.showAtLocation(ll_pic_choose, Gravity.NO_GRAVITY, 0, location[1]);
-                }
-
-
-                switch (id) {
-                    case R.id.rl_kongjian:
-                        iv_kongjian.setImageResource(R.drawable.kongjian);
-                        iv_jubu.setImageResource(R.drawable.jubu1);
-                        iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
-                        iv_shouna.setImageResource(R.drawable.shouna1);
-                        iv_secai.setImageResource(R.drawable.secai1);
-                        break;
-                    case R.id.rl_jubu:
-                        iv_kongjian.setImageResource(R.drawable.kongjian1);
-                        iv_jubu.setImageResource(R.drawable.jubu);
-                        iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
-                        iv_shouna.setImageResource(R.drawable.shouna1);
-                        iv_secai.setImageResource(R.drawable.secai1);
-                        break;
-                    case R.id.rl_zhuangshi:
-                        iv_kongjian.setImageResource(R.drawable.kongjian1);
-                        iv_jubu.setImageResource(R.drawable.jubu1);
-                        iv_zhuangshi.setImageResource(R.drawable.zhuangshi);
-                        iv_shouna.setImageResource(R.drawable.shouna1);
-                        iv_secai.setImageResource(R.drawable.secai1);
-                        break;
-                    case R.id.rl_shouna:
-                        iv_kongjian.setImageResource(R.drawable.kongjian1);
-                        iv_jubu.setImageResource(R.drawable.jubu1);
-                        iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
-                        iv_shouna.setImageResource(R.drawable.shouna);
-                        iv_secai.setImageResource(R.drawable.secai1);
-                        break;
-                    case R.id.rl_secai:
-                        iv_kongjian.setImageResource(R.drawable.kongjian1);
-                        iv_jubu.setImageResource(R.drawable.jubu1);
-                        iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
-                        iv_shouna.setImageResource(R.drawable.shouna1);
-                        iv_secai.setImageResource(R.drawable.secai);
-                        break;
+                    newHomeTabPopWin.setHeight(screenHeight - location[1]);
+                    newHomeTabPopWin.showAtLocation(view_line_top, Gravity.NO_GRAVITY, 0, location[1]);
                 }
             }
-        } else {
-            getTagData();
-            ToastUtils.showCenter(activity, "数据加载中");
         }
+
     }
 
     @Override
@@ -1038,35 +776,30 @@ public class HomePicFragment
                 iv_jubu.setImageResource(R.drawable.jubu1);
                 iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
                 iv_shouna.setImageResource(R.drawable.shouna1);
-                iv_secai.setImageResource(R.drawable.secai1);
                 break;
             case 1:
                 iv_kongjian.setImageResource(R.drawable.kongjian1);
                 iv_jubu.setImageResource(R.drawable.jubu);
                 iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
                 iv_shouna.setImageResource(R.drawable.shouna1);
-                iv_secai.setImageResource(R.drawable.secai1);
                 break;
             case 2:
                 iv_kongjian.setImageResource(R.drawable.kongjian1);
                 iv_jubu.setImageResource(R.drawable.jubu1);
                 iv_zhuangshi.setImageResource(R.drawable.zhuangshi);
                 iv_shouna.setImageResource(R.drawable.shouna1);
-                iv_secai.setImageResource(R.drawable.secai1);
                 break;
             case 3:
                 iv_kongjian.setImageResource(R.drawable.kongjian1);
                 iv_jubu.setImageResource(R.drawable.jubu1);
                 iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
                 iv_shouna.setImageResource(R.drawable.shouna);
-                iv_secai.setImageResource(R.drawable.secai1);
                 break;
             case 4:
                 iv_kongjian.setImageResource(R.drawable.kongjian1);
                 iv_jubu.setImageResource(R.drawable.jubu1);
                 iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
                 iv_shouna.setImageResource(R.drawable.shouna1);
-                iv_secai.setImageResource(R.drawable.secai);
                 break;
         }
     }
@@ -1080,13 +813,9 @@ public class HomePicFragment
     //关闭tab弹出框
     @Override
     public void onDismiss() {
-        if (homeTabPopWin != null) {
-            homeTabPopWin.dismiss();
-            iv_kongjian.setImageResource(R.drawable.kongjian1);
-            iv_jubu.setImageResource(R.drawable.jubu1);
-            iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
-            iv_shouna.setImageResource(R.drawable.shouna1);
-            iv_secai.setImageResource(R.drawable.secai1);
+        if (newHomeTabPopWin != null) {
+            newHomeTabPopWin.dismiss();
+            iv_open_pop.setImageResource(R.drawable.shaixuan);
         }
     }
 
@@ -1102,19 +831,18 @@ public class HomePicFragment
 
     @Override
     public void onItemColorClick(ColorItemBean colorItemBean) {
-        if (homeTabPopWin != null) {
-            homeTabPopWin.dismiss();
+        if (newHomeTabPopWin != null) {
+            newHomeTabPopWin.dismiss();
             this.mColorClick = colorItemBean;
 
             if (mSelectListData.get(mColorClick.getColor_id()) == null) {
                 mSelectListData.clear();
                 mSelectListData.put(mColorClick.getColor_id(), mColorClick);
-                homeTabPopWin.changeColor(mSelectListData);
+                newHomeTabPopWin.changeColor(mSelectListData);
                 iv_kongjian.setImageResource(R.drawable.kongjian1);
                 iv_jubu.setImageResource(R.drawable.jubu1);
                 iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
                 iv_shouna.setImageResource(R.drawable.shouna1);
-                iv_secai.setImageResource(R.drawable.secai1);
 
                 if (mSelectListData != null && mSelectListData.size() > 0) {
                     bt_tag_page_item.setVisibility(View.VISIBLE);
@@ -1162,7 +890,6 @@ public class HomePicFragment
     @Override
     public void onResume() {
         super.onResume();
-        getUnReaderMsg();
         MobclickAgent.onPageStart("首页");
         Tracker t = MyApplication.getInstance().getDefaultTracker();
         // Set screen name.
@@ -1307,18 +1034,6 @@ public class HomePicFragment
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 1) {
-                String info = (String) msg.obj;
-                try {
-                    JSONObject jsonObject = new JSONObject(info);
-                    notice_num = jsonObject.getInt("notice_num");
-                    follow_notice = jsonObject.getInt("follow_notice");
-                    collect_notice = jsonObject.getInt("collect_notice");
-                    comment_notice = jsonObject.getInt("comment_notice");
-                    system_notice = jsonObject.getInt("system_notice");
-                    changeUnReaderMsg(notice_num + "");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
             } else if (msg.what == 2) {
                 String info = (String) msg.obj;
                 tagDataBean = GsonUtil.jsonToBean(info, TagDataBean.class);
@@ -1370,7 +1085,6 @@ public class HomePicFragment
                 iv_jubu.setImageResource(R.drawable.jubu1);
                 iv_zhuangshi.setImageResource(R.drawable.zhuangshi1);
                 iv_shouna.setImageResource(R.drawable.shouna1);
-                iv_secai.setImageResource(R.drawable.secai1);
                 if (mSelectListData != null && mSelectListData.size() > 0) {
                     bt_tag_page_item.setVisibility(View.VISIBLE);
                     iv_chongzhi.setVisibility(View.VISIBLE);
