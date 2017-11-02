@@ -76,6 +76,7 @@ import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.homechart.app.visearch.EditPhotoActivity;
 import com.homechart.app.visearch.PhotoActivity;
+import com.homechart.app.visearch.SearchLoadingActivity;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
@@ -209,6 +210,7 @@ public class ImageDetailLongActivity
     private RelativeLayout rl_edit;
     private SearchShopPopWin mSearchShopPopWin;
     private TypeNewBean typeNewBean;
+    private boolean loginStatus;
 
     @Override
     protected int getLayoutResId() {
@@ -881,15 +883,16 @@ public class ImageDetailLongActivity
         MyHttpManager.getInstance().goQuXiaoGuanZhu(imageDetailBean.getUser_info().getUser_id(), callBack);
     }
 
+    List<String> listTag = new ArrayList<>();
     private void buildRecyclerView() {
 
         MultiItemTypeSupport<ImageLikeItemBean> support = new MultiItemTypeSupport<ImageLikeItemBean>() {
             @Override
             public int getLayoutId(int itemType) {
                 if (itemType == TYPE_ONE) {
-                    return R.layout.item_like_pic;
+                    return R.layout.item_pubu_new;
                 } else {
-                    return R.layout.item_like_pic;
+                    return R.layout.item_pubu_new;
                 }
             }
 
@@ -902,112 +905,46 @@ public class ImageDetailLongActivity
         mAdapter = new MultiItemCommonAdapter<ImageLikeItemBean>(ImageDetailLongActivity.this, mListData, support) {
             @Override
             public void convert(BaseViewHolder holder, final int position) {
-                if (mListData.get(position).getItem_info().getCollect_num().trim().equals("0")) {
-                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.INVISIBLE);
-                } else {
-                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.VISIBLE);
-                }
-                ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
-
-                if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
-                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang);
-                } else {//收藏
-                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang1);
-                }
-                holder.getView(R.id.tv_shoucang_num).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onShouCang(!mListData.get(position).getItem_info().getIs_collected().equals("1"), position, mListData.get(position));
-                    }
-                });
-                holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onShouCang(!mListData.get(position).getItem_info().getIs_collected().equals("1"), position, mListData.get(position));
-                    }
-                });
-
                 ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
-                layoutParams.width = width_Pic;
-                layoutParams.height = mListDataHeight.get(position);
+
+//                layoutParams.width = (curentListTag ? width_Pic_List : width_Pic_Staggered);
+                layoutParams.height = mListData.get(position).getItem_info().getImage().getRatio() == 0
+                        ? width_Pic
+                        : Math.round(width_Pic / mListData.get(position).getItem_info().getImage().getRatio());
                 holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
-                ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
-                        (ImageView) holder.getView(R.id.iv_imageview_one));
-                ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
-                        (ImageView) holder.getView(R.id.iv_header_pic));
 
                 String nikeName = mListData.get(position).getUser_info().getNickname();
-                if (null != nikeName && nikeName.length() > 5) {
+                if (nikeName != null && nikeName.length() > 5) {
                     nikeName = nikeName.substring(0, 5) + "...";
                 }
                 ((TextView) holder.getView(R.id.tv_name_pic)).setText(nikeName);
-                List<com.homechart.app.home.bean.cailike.ColorInfoBean> list_color1 = mListData.get(position).getColor_info();
-                if (null != list_color1 && list_color1.size() == 1) {
-                    holder.getView(R.id.iv_color_right).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_color_left).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_color_center).setVisibility(View.GONE);
-                    if (list_color1.get(0).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_right).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_right).setBackgroundColor(Color.parseColor("#" + list_color1.get(0).getColor_value()));
-                    }
 
-                } else if (null != list_color1 && list_color1.size() == 2) {
 
-                    holder.getView(R.id.iv_color_right).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_color_left).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_color_center).setVisibility(View.VISIBLE);
-                    if (list_color1.get(1).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_right).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_right).setBackgroundColor(Color.parseColor("#" + list_color1.get(1).getColor_value()));
+                String strTag = "";
+                String tag = mListData.get(position).getItem_info().getTag();
+                if (!TextUtils.isEmpty(tag)) {
+                    String[] str_tag = tag.split(" ");
+                    listTag.clear();
+                    for (int i = 0; i < str_tag.length; i++) {
+                        if (!TextUtils.isEmpty(str_tag[i].trim())) {
+                            listTag.add(str_tag[i]);
+                        }
                     }
-                    if (list_color1.get(0).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_center).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_center).setBackgroundColor(Color.parseColor("#" + list_color1.get(0).getColor_value()));
+                    for (int i = 0; i < listTag.size(); i++) {
+                        strTag = strTag + "# " + listTag.get(i) + "  ";
                     }
-                } else if (null != list_color1 && list_color1.size() == 3) {
-                    holder.getView(R.id.iv_color_right).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_color_left).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_color_center).setVisibility(View.VISIBLE);
-                    if (list_color1.get(2).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_right).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_right).setBackgroundColor(Color.parseColor("#" + list_color1.get(2).getColor_value()));
-                    }
-                    if (list_color1.get(1).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_center).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_center).setBackgroundColor(Color.parseColor("#" + list_color1.get(1).getColor_value()));
-                    }
-                    if (list_color1.get(0).getColor_value().trim().equalsIgnoreCase("ffffff")) {
-                        holder.getView(R.id.iv_color_left).setBackgroundResource(R.drawable.color_line_white);
-                    } else {
-                        holder.getView(R.id.iv_color_left).setBackgroundColor(Color.parseColor("#" + list_color1.get(0).getColor_value()));
-                    }
-                } else {
-                    holder.getView(R.id.iv_color_right).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_color_left).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_color_center).setVisibility(View.GONE);
                 }
-                holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
 
-                        //查看单图详情
-                        Intent intent = new Intent(ImageDetailLongActivity.this, ImageDetailScrollActivity.class);
-                        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-                        intent.putExtra("position", position);
-                        intent.putExtra("like_id", item_id);
-                        intent.putExtra("type", "你可能喜欢");
-                        intent.putExtra("if_click_color", false);
-                        intent.putExtra("page_num", page);
-                        intent.putExtra("item_id_list", (Serializable) mItemIdList);
-                        startActivity(intent);
+                String str = "<font color='#f79056'>" + strTag + "</font>" + mListData.get(position).getItem_info().getDescription();
+                ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
 
-                    }
-                });
+
+                ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
+                        (ImageView) holder.getView(R.id.iv_imageview_one));
+
+                ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
+                        (ImageView) holder.getView(R.id.iv_header_pic));
+
                 holder.getView(R.id.iv_header_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1017,25 +954,71 @@ public class ImageDetailLongActivity
                     }
                 });
 
-                holder.getView(R.id.iv_color_right).setOnClickListener(new View.OnClickListener() {
+                holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        tongjiQiu(position);
-                    }
-                });
-                holder.getView(R.id.iv_color_left).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        tongjiQiu(position);
-                    }
-                });
-                holder.getView(R.id.iv_color_center).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        tongjiQiu(position);
+                        //查看单图详情
+                        Intent intent = new Intent(ImageDetailLongActivity.this, ImageDetailScrollActivity.class);
+                        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+                        intent.putExtra("position", position);
+                        intent.putExtra("type", "色彩");
+                        intent.putExtra("if_click_color", false);
+                        intent.putExtra("page_num", page);
+                        intent.putExtra("item_id_list", (Serializable) mItemIdList);
+                        startActivity(intent);
                     }
                 });
 
+                holder.getView(R.id.tv_shoucang_num).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                        if (!loginStatus) {
+                            Intent intent = new Intent(ImageDetailLongActivity.this, LoginActivity.class);
+                            startActivityForResult(intent, 1);
+                        } else {
+                            onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
+                        }
+                    }
+                });
+                holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                        if (!loginStatus) {
+                            Intent intent = new Intent(ImageDetailLongActivity.this, LoginActivity.class);
+                            startActivityForResult(intent, 1);
+                        } else {
+                            onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
+                        }
+                    }
+                });
+
+                if (mListData.get(position).getItem_info().getCollect_num().trim().equals("0")) {
+                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.INVISIBLE);
+                } else {
+                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.VISIBLE);
+                }
+                ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
+
+                if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
+                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing);
+                } else {//收藏
+                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing1);
+                }
+                holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent1 = new Intent(ImageDetailLongActivity.this, SearchLoadingActivity.class);
+//                        Intent intent1 = new Intent(ShiBieActivity.this, TestActivity.class);
+                        intent1.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg1());
+                        intent1.putExtra("type", "lishi");
+                        intent1.putExtra("image_id", mListData.get(position).getItem_info().getImage().getImage_id());
+                        intent1.putExtra("image_type", "network");
+                        intent1.putExtra("image_ratio", mListData.get(position).getItem_info().getImage().getRatio());
+                        startActivity(intent1);
+                    }
+                });
             }
         };
         mRecyclerView.addHeaderView(view);
