@@ -12,13 +12,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_49"
-        android:background="@color/bg_f2ffffff"
+        android:background="@drawable/tab_yinying"
         android:layout_alignParentBottom="true">
 
         <RadioGroup
             android:id="@+id/rg_home_radio_group"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_49"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <!--图片-->
