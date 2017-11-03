@@ -138,8 +138,6 @@ public class ImageDetailFragment
 //    private RoundImageView riv_color_image_details_one;
 //    private RoundImageView riv_color_image_details_two;
 //    private RoundImageView riv_color_image_details_three;
-    private ImageView iv_imagedetails_next;
-    private TextView tv_imagedetails_next;
     private List<ColorInfoBean> listColor;
     private List<String> list = new ArrayList<>();
     public PingBean pingBean;
@@ -190,7 +188,6 @@ public class ImageDetailFragment
     private TextView tv_color_tips;
     private RelativeLayout rl_color_location;
     private ImageView iv_ifshow_color;
-    private RelativeLayout rl_imagedetails_next;
     private LinearLayout ll_color_lines;
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
 
@@ -259,10 +256,7 @@ public class ImageDetailFragment
             tv_color_tips = (TextView) view.findViewById(R.id.tv_color_tips);
             iv_ifshow_color = (ImageView) view.findViewById(R.id.iv_ifshow_color);
             tv_color_tital = (TextView) view.findViewById(R.id.tv_color_tital);
-            rl_imagedetails_next = (RelativeLayout) view.findViewById(R.id.rl_imagedetails_next);
             rl_color_location = (RelativeLayout) view.findViewById(R.id.rl_color_location);
-            iv_imagedetails_next = (ImageView) view.findViewById(R.id.iv_imagedetails_next);
-            tv_imagedetails_next = (TextView) view.findViewById(R.id.tv_imagedetails_next);
             rl_ping_one = (RelativeLayout) view.findViewById(R.id.rl_ping_one);
             rl_ping_two = (RelativeLayout) view.findViewById(R.id.rl_ping_two);
             rl_ping_three = (RelativeLayout) view.findViewById(R.id.rl_ping_three);
@@ -326,8 +320,6 @@ public class ImageDetailFragment
         tv_bang.setOnClickListener(this);
         iv_bang.setOnClickListener(this);
         iv_xing.setOnClickListener(this);
-        tv_imagedetails_next.setOnClickListener(this);
-        iv_imagedetails_next.setOnClickListener(this);
         tv_xing.setOnClickListener(this);
         iv_shared.setOnClickListener(this);
         tv_shared.setOnClickListener(this);
@@ -537,27 +529,6 @@ public class ImageDetailFragment
                     }
                 }
 
-                break;
-            case R.id.tv_imagedetails_next:
-            case R.id.iv_imagedetails_next:
-                if (list.size() > 0 && listColor != null && listColor.size() > 0) {
-                    //友盟统计
-                    HashMap<String, String> map3 = new HashMap<String, String>();
-                    map3.put("evenname", " 更多相似配色");
-                    map3.put("even", "更多相似配色");
-                    MobclickAgent.onEvent(activity, "jtaction14", map3);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("更多相似配色")  //事件类别
-                            .setAction(" 更多相似配色")      //事件操作
-                            .build());
-
-                    Intent intent = new Intent(activity, ShaiXuanResultActicity.class);
-                    intent.putExtra("shaixuan_tag", list.get(0));
-                    intent.putExtra("colorlist", (Serializable) listColor);
-                    intent.putExtra("islist", true);
-                    startActivity(intent);
-                }
                 break;
             case R.id.ll_huifu_one:
                 huifuTag = "one";
@@ -1342,7 +1313,6 @@ public class ImageDetailFragment
                 }
                 dgv_colorlist.setAdapter(new MyColorGridAdapter(listColor, activity));
                 iv_ifshow_color.setVisibility(View.VISIBLE);
-                rl_imagedetails_next.setVisibility(View.VISIBLE);
                 if (mifShowColorList) {
                     dgv_colorlist.setVisibility(View.VISIBLE);
                     tv_color_tips.setVisibility(View.VISIBLE);
@@ -1355,7 +1325,6 @@ public class ImageDetailFragment
                     rl_color_location.setVisibility(View.GONE);
                 }
             } else {
-                rl_imagedetails_next.setVisibility(View.GONE);
                 iv_ifshow_color.setVisibility(View.GONE);
             }
             ifFirst = false;
