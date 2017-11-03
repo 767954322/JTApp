@@ -88,16 +88,16 @@
             android:layout_height="@dimen/font_30"
             android:layout_below="@+id/iv_details_image"
             android:layout_marginTop="@dimen/font_3"
-            android:visibility="gone"
-            android:orientation="horizontal"/>
+            android:orientation="horizontal"
+            android:visibility="gone" />
 
         <com.homechart.app.myview.MyListView
             android:id="@+id/dgv_colorlist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:descendantFocusability="blocksDescendants"
             android:layout_below="@+id/ll_color_lines"
             android:layout_marginTop="@dimen/font_25"
+            android:descendantFocusability="blocksDescendants"
             android:divider="@null"
             android:visibility="gone" />
 
@@ -154,18 +154,37 @@
 
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/iv_ifshow_color"
+
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/rl_color_location"
+            android:layout_height="@dimen/font_35"
             android:layout_centerHorizontal="true"
-            android:paddingBottom="@dimen/font_10"
-            android:paddingLeft="@dimen/font_20"
-            android:paddingRight="@dimen/font_20"
-            android:paddingTop="@dimen/font_15"
-            android:src="@drawable/shouqi"
-            android:visibility="gone" />
+            android:layout_below="@+id/rl_color_location">
+
+            <TextView
+                android:id="@+id/tv_color_tital"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="色彩详情"
+                android:textColor="@color/bg_8f8f8f"
+                android:textSize="@dimen/size_12" />
+
+            <ImageView
+                android:id="@+id/iv_ifshow_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv_color_tital"
+                android:paddingBottom="@dimen/font_10"
+                android:paddingLeft="@dimen/font_5"
+                android:paddingRight="@dimen/font_20"
+                android:paddingTop="@dimen/font_10"
+                android:src="@drawable/shouqi"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
 
     </RelativeLayout>
 
@@ -203,13 +222,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_imagedetails_next"
-        android:textIsSelectable="true"
         android:layout_marginLeft="@dimen/font_10"
         android:layout_marginRight="@dimen/font_10"
         android:layout_marginTop="@dimen/font_20"
-        android:lineSpacingExtra="@dimen/font_9"
         android:background="@color/white"
+        android:lineSpacingExtra="@dimen/font_9"
         android:textColor="@color/bg_262626"
+        android:textIsSelectable="true"
         android:textSize="@dimen/size_14" />
 
     <com.homechart.app.myview.FlowLayoutBiaoQian
@@ -255,18 +274,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/font_15"
-            android:paddingTop="@dimen/font_15"
             android:paddingBottom="@dimen/font_15"
+            android:paddingTop="@dimen/font_15"
             android:src="@drawable/bang" />
 
         <TextView
             android:id="@+id/tv_bang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:includeFontPadding="true"
             android:layout_toRightOf="@+id/iv_bang"
-            android:paddingTop="@dimen/font_13"
+            android:includeFontPadding="true"
             android:paddingLeft="@dimen/font_4"
+            android:paddingTop="@dimen/font_13"
             android:textColor="@color/bg_8f8f8f"
             android:textSize="@dimen/size_11" />
 
@@ -286,10 +305,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:paddingTop="@dimen/font_13"
             android:layout_toRightOf="@+id/iv_xing"
             android:paddingBottom="@dimen/font_15"
             android:paddingLeft="@dimen/font_4"
+            android:paddingTop="@dimen/font_13"
             android:textColor="@color/bg_8f8f8f"
             android:textSize="@dimen/size_11" />
 
@@ -515,11 +534,11 @@
                     android:layout_marginLeft="@dimen/font_10"
                     android:layout_toRightOf="@+id/tv_huifu_content_two1"
                     android:ellipsize="end"
-                    android:textIsSelectable="true"
                     android:includeFontPadding="false"
                     android:lines="1"
                     android:maxLines="1"
                     android:textColor="@color/bg_8f8f8f"
+                    android:textIsSelectable="true"
                     android:textSize="@dimen/size_14" />
             </RelativeLayout>
 
@@ -527,13 +546,13 @@
                 android:id="@+id/tv_content_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textIsSelectable="true"
                 android:layout_alignLeft="@+id/rl_huifu_content"
                 android:layout_below="@+id/rl_huifu_content"
                 android:layout_marginBottom="@dimen/font_15"
                 android:layout_marginRight="@dimen/font_20"
                 android:layout_marginTop="@dimen/font_15"
-                android:includeFontPadding="false" />
+                android:includeFontPadding="false"
+                android:textIsSelectable="true" />
 
         </RelativeLayout>
 
@@ -683,11 +702,11 @@
                     android:layout_marginLeft="@dimen/font_10"
                     android:layout_toRightOf="@+id/tv_huifu_content_two2"
                     android:ellipsize="end"
-                    android:textIsSelectable="true"
                     android:includeFontPadding="false"
                     android:lines="1"
                     android:maxLines="1"
                     android:textColor="@color/bg_8f8f8f"
+                    android:textIsSelectable="true"
                     android:textSize="@dimen/size_14" />
             </RelativeLayout>
 
@@ -697,11 +716,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/rl_huifu_content_two"
                 android:layout_below="@+id/rl_huifu_content_two"
-                android:textIsSelectable="true"
                 android:layout_marginBottom="@dimen/font_15"
                 android:layout_marginRight="@dimen/font_20"
                 android:layout_marginTop="@dimen/font_15"
-                android:includeFontPadding="false" />
+                android:includeFontPadding="false"
+                android:textIsSelectable="true" />
 
         </RelativeLayout>
 
@@ -851,11 +870,11 @@
                     android:layout_marginLeft="@dimen/font_10"
                     android:layout_toRightOf="@+id/tv_huifu_content_two3"
                     android:ellipsize="end"
-                    android:textIsSelectable="true"
                     android:includeFontPadding="false"
                     android:lines="1"
                     android:maxLines="1"
                     android:textColor="@color/bg_8f8f8f"
+                    android:textIsSelectable="true"
                     android:textSize="@dimen/size_14" />
             </RelativeLayout>
 
@@ -865,11 +884,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/rl_huifu_content_three"
                 android:layout_below="@+id/rl_huifu_content_three"
-                android:textIsSelectable="true"
                 android:layout_marginBottom="@dimen/font_15"
                 android:layout_marginRight="@dimen/font_20"
                 android:layout_marginTop="@dimen/font_15"
-                android:includeFontPadding="false" />
+                android:includeFontPadding="false"
+                android:textIsSelectable="true" />
 
         </RelativeLayout>
 

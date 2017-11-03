@@ -203,6 +203,7 @@ public class ImageDetailFragment
     private boolean mifShowColorList;
     private SearchShopPopWin mSearchShopPopWin;
     private boolean loginStatus;
+    private TextView tv_color_tital;
 
     public ImageDetailFragment() {
 
@@ -257,6 +258,7 @@ public class ImageDetailFragment
             dgv_colorlist = (MyListView) view.findViewById(R.id.dgv_colorlist);
             tv_color_tips = (TextView) view.findViewById(R.id.tv_color_tips);
             iv_ifshow_color = (ImageView) view.findViewById(R.id.iv_ifshow_color);
+            tv_color_tital = (TextView) view.findViewById(R.id.tv_color_tital);
             rl_imagedetails_next = (RelativeLayout) view.findViewById(R.id.rl_imagedetails_next);
             rl_color_location = (RelativeLayout) view.findViewById(R.id.rl_color_location);
             iv_imagedetails_next = (ImageView) view.findViewById(R.id.iv_imagedetails_next);
@@ -338,6 +340,7 @@ public class ImageDetailFragment
         iv_ping.setOnClickListener(this);
         tv_ping.setOnClickListener(this);
         iv_ifshow_color.setOnClickListener(this);
+        tv_color_tital.setOnClickListener(this);
         cet_clearedit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
@@ -614,6 +617,7 @@ public class ImageDetailFragment
                 }
                 break;
             case R.id.iv_ifshow_color:
+            case R.id.tv_color_tital:
 
                 if (mifShowColorList) {
                     //隐藏
