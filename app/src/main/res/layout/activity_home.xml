@@ -22,14 +22,14 @@
             android:layout_width="53dp"
             android:layout_height="53dp"
             android:layout_centerInParent="true"
-            android:background="#F2F2F2F2" />
+            android:background="#F2F2F2" />
 
         <com.homechart.app.myview.RoundImageView
             android:id="@+id/riv_round_two"
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:layout_centerInParent="true"
-            android:background="#F2F3F3F3" />
+            android:background="#F3F3F3" />
 
 
         <com.homechart.app.myview.RoundImageView
@@ -37,7 +37,7 @@
             android:layout_width="51dp"
             android:layout_height="51dp"
             android:layout_centerInParent="true"
-            android:background="#F2F8F8F8" />
+            android:background="#F8F8F8" />
 
     </RelativeLayout>
 

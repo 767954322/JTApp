@@ -7,19 +7,19 @@
             <!-- 第一层 -->
             <item android:top="0.5dp">
                 <shape>
-                    <solid android:color="#F2F2F2F2"/>
+                    <solid android:color="#F2F2F2"/>
                 </shape>
             </item>
             <!-- 第二层 -->
             <item android:top="1dp">
                 <shape>
-                    <solid android:color="#F2F3F3F3"/>
+                    <solid android:color="#F3F3F3"/>
                 </shape>
             </item>
             <!-- 第三层 -->
             <item android:top="1.5dp">
                 <shape>
-                    <solid android:color="#F2F8F8F8"/>
+                    <solid android:color="#F8F8F8"/>
                 </shape>
             </item>
             <!-- 第四层 -->
