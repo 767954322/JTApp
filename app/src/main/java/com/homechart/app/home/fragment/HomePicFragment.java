@@ -790,7 +790,11 @@ public class HomePicFragment
 
     @Override
     public void onClearColor() {
-
+        mSelectListData.clear();
+        bt_tag_page_item.setVisibility(View.GONE);
+        iv_chongzhi.setVisibility(View.GONE);
+        tv_color_tital.setVisibility(View.VISIBLE);
+        onRefresh();
     }
 
     /**
@@ -962,16 +966,6 @@ public class HomePicFragment
     public void qingkong() {
         selectColorPopupWindow.dismiss();
         onClearColor();
-        //友盟统计
-        HashMap<String, String> map4 = new HashMap<String, String>();
-        map4.put("evenname", "色彩筛选清空");
-        map4.put("even", "色彩页");
-        MobclickAgent.onEvent(activity, "jtaction20", map4);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("色彩页")  //事件类别
-                .setAction("色彩筛选清空")      //事件操作
-                .build());
     }
 
     @Override
