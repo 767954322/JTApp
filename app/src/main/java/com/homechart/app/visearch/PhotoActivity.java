@@ -34,6 +34,7 @@ import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.visearch.media.IMediaCallback;
 import com.homechart.app.visearch.media.MediaErrorCode;
 import com.homechart.app.visearch.media.MediaManager;
+import com.homechart.app.visearch.media.MediaTools;
 import com.umeng.analytics.MobclickAgent;
 import com.visenze.visearch.android.model.Image;
 
@@ -71,6 +72,7 @@ public class PhotoActivity
     private ScaleGestureDetector scaleGestureDetector;
     private String name;
     private int degree = -1;
+    private ImageView iv_sanguang;
 
     @Override
     protected int getLayoutResId() {
@@ -82,6 +84,7 @@ public class PhotoActivity
         iv_camera_shutter_button = (TextView) findViewById(R.id.iv_camera_shutter_button);
         media_preview = (SurfaceView) findViewById(R.id.media_preview);
         iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_sanguang = (ImageView) findViewById(R.id.iv_sanguang);
         camera_album_button = (TextView) findViewById(R.id.camera_album_button);
         tv_shibiejilu = (TextView) findViewById(R.id.tv_shibiejilu);
         camera_flash_button = (ImageView) findViewById(R.id.camera_flash_button);
@@ -192,6 +195,7 @@ public class PhotoActivity
         camera_flash_button.setOnClickListener(this);
         camera_switch_button.setOnClickListener(this);
         tv_shibiejilu.setOnClickListener(this);
+        iv_sanguang.setOnClickListener(this);
     }
 
     @Override
@@ -243,9 +247,24 @@ public class PhotoActivity
                 Intent intent = new Intent(PhotoActivity.this, ShiBieActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.iv_sanguang:
+                if (!MediaTools.checkFlash(this)) {
+                    Toast.makeText(PhotoActivity.this, "没有闪光灯", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(ifOpenFlash){
+                    photoManager.openFlush();
+                    ifOpenFlash = false ;
+                }else {
+                    photoManager.closeFlush();
+                    ifOpenFlash = true ;
+                }
+
+                break;
         }
     }
 
+    boolean ifOpenFlash = true ;
     @Override
     public void OnImageCaptured(Image image, String imagePath) {
         Intent intent1 = new Intent(PhotoActivity.this, SearchLoadingActivity.class);
@@ -274,6 +293,7 @@ public class PhotoActivity
     @Override
     protected void onResume() {
         super.onPause();
+        photoManager.release();
         MobclickAgent.onResume(this);
         MobclickAgent.onPageStart("拍照页");
         Tracker t = MyApplication.getInstance().getDefaultTracker();
@@ -287,6 +307,7 @@ public class PhotoActivity
     @Override
     protected void onPause() {
         super.onPause();
+        ifOpenFlash = true ;
         photoManager.release();
         MobclickAgent.onPageEnd("拍照页");
         MobclickAgent.onPause(this);
@@ -306,4 +327,5 @@ public class PhotoActivity
     public void onScaleEnd(ScaleGestureDetector detector) {
 
     }
+
 }

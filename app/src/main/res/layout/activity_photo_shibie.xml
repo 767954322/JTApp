@@ -14,21 +14,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/font_50"
-        android:background="@color/bg_80000000">
 
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/font_10"
-            android:padding="@dimen/font_10"
-            android:src="@drawable/back_takephoto" />
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/font_15"
+        android:src="@drawable/back" />
 
-    </RelativeLayout>
+    <ImageView
+        android:id="@+id/iv_sanguang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:padding="@dimen/font_15"
+        android:src="@drawable/guanshuanguang" />
 
     <RelativeLayout
         android:id="@+id/rl_bottom"
