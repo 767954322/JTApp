@@ -9,7 +9,7 @@
         android:layout_width="@dimen/font_50"
         android:layout_height="@dimen/font_50"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/font_10"
+        android:layout_marginRight="@dimen/font_10"
         android:scaleType="centerCrop"/>
 
 </RelativeLayout>
