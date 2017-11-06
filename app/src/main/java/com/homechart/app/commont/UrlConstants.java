@@ -79,12 +79,13 @@ public class UrlConstants {
     public static final String PINGLUN_MSG = "https://api.idcool.com.cn/notice/comment/slist";  //评论消息
     public static final String DETAIL_SHOP = "https://api.idcool.com.cn/product/product/info";  //商品详情
     public static final String MORELIKE_SHOP = "https://api.idcool.com.cn/product/product/similar";  //相似商品
-//    public static final String CHECK_IMAGE = "https://api.idcool.com.cn/product/product/detect";  //检测图片中的物体
+    //    public static final String CHECK_IMAGE = "https://api.idcool.com.cn/product/product/detect";  //检测图片中的物体
     public static final String CHECK_IMAGE = "https://api.idcool.com.cn/ai/ai/detect";  //检测图片中的物体新接口
     public static final String SEARCH_SHOP_IMAGE = "https://api.idcool.com.cn/product/product/search";  //从商品库中检索所圈商品的同款
     public static final String SHOUCANG_ADD_SHOP = "https://api.idcool.com.cn/collect/product/add";  //收藏商品
     public static final String SHOUCANG_REMOVE_SHOP = "https://api.idcool.com.cn/collect/product/remove";  //删除收藏的商品
     public static final String HISTORY_SHIBIE = "https://api.idcool.com.cn/product/product/history";  //检测历史记录
+    public static final String NEW_HISTORY_SHIBIE = "https://api.idcool.com.cn/ai/ai/history";  //新的检测历史记录
     public static final String TYPE_SHOP = "https://api.idcool.com.cn/ai/ai/category";  //获取商品分类列表
 
 }

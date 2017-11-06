@@ -29,6 +29,7 @@ import com.homechart.app.home.activity.FaBuActvity;
 import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.activity.ShiBieActivity;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.myview.HorizontalListView;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.visearch.media.IMediaCallback;
@@ -60,19 +61,18 @@ public class PhotoActivity
     private String photoPath = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_PICTURES).getPath() + File.separator + "JiaTuApp";
 
-    private TextView iv_camera_shutter_button;
+    private ImageView iv_camera_shutter_button;
     //    private CameraPreview camera_preview;
     private ImageView iv_back;
     private TextView camera_album_button;
-    private TextView tv_shibiejilu;
-    private ImageView camera_flash_button;
-    private ImageView camera_switch_button;
+    //    private TextView tv_shibiejilu;
     private SurfaceView media_preview;
     private MediaManager photoManager;
     private ScaleGestureDetector scaleGestureDetector;
     private String name;
     private int degree = -1;
     private ImageView iv_sanguang;
+    private HorizontalListView hlv_listview;
 
     @Override
     protected int getLayoutResId() {
@@ -81,23 +81,20 @@ public class PhotoActivity
 
     @Override
     protected void initView() {
-        iv_camera_shutter_button = (TextView) findViewById(R.id.iv_camera_shutter_button);
+        iv_camera_shutter_button = (ImageView) findViewById(R.id.iv_camera_shutter_button);
         media_preview = (SurfaceView) findViewById(R.id.media_preview);
         iv_back = (ImageView) findViewById(R.id.iv_back);
         iv_sanguang = (ImageView) findViewById(R.id.iv_sanguang);
         camera_album_button = (TextView) findViewById(R.id.camera_album_button);
-        tv_shibiejilu = (TextView) findViewById(R.id.tv_shibiejilu);
-        camera_flash_button = (ImageView) findViewById(R.id.camera_flash_button);
-        camera_switch_button = (ImageView) findViewById(R.id.camera_switch_button);
+        hlv_listview = (HorizontalListView) findViewById(R.id.hlv_listview);
+//        tv_shibiejilu = (TextView) findViewById(R.id.tv_shibiejilu);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
 
         photoManager = new MediaManager(PhotoActivity.this, media_preview);
-
         SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
-
         scaleGestureDetector = new ScaleGestureDetector(this, this);
         photoManager.setMediaCallback(new IMediaCallback() {
             @Override
@@ -192,9 +189,7 @@ public class PhotoActivity
         iv_back.setOnClickListener(this);
         camera_album_button.setOnClickListener(this);
         iv_camera_shutter_button.setOnClickListener(this);
-        camera_flash_button.setOnClickListener(this);
-        camera_switch_button.setOnClickListener(this);
-        tv_shibiejilu.setOnClickListener(this);
+//        tv_shibiejilu.setOnClickListener(this);
         iv_sanguang.setOnClickListener(this);
     }
 
@@ -208,7 +203,7 @@ public class PhotoActivity
                 CustomProgress.show(PhotoActivity.this, "拍照中...", false, null);
                 name = "IMG_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
                 Log.d("test", degree + "");
-                photoManager.tackPicture(photoPath, name,degree);
+                photoManager.tackPicture(photoPath, name, degree);
 //                camera_preview.takePhoto(this);
                 break;
             case R.id.camera_album_button:
@@ -232,39 +227,40 @@ public class PhotoActivity
                     }
                 });
                 break;
-            case R.id.tv_shibiejilu:
-                //友盟统计
-                HashMap<String, String> map6 = new HashMap<String, String>();
-                map6.put("evenname", "检测图片记录");
-                map6.put("even", "点击查看识别图片历史记录的次数");
-                MobclickAgent.onEvent(PhotoActivity.this, "jtaction53", map6);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("点击查看识别图片历史记录的次数")  //事件类别
-                        .setAction("检测图片记录")      //事件操作
-                        .build());
-
-                Intent intent = new Intent(PhotoActivity.this, ShiBieActivity.class);
-                startActivity(intent);
-                break;
+//            case R.id.tv_shibiejilu:
+//                //友盟统计
+//                HashMap<String, String> map6 = new HashMap<String, String>();
+//                map6.put("evenname", "检测图片记录");
+//                map6.put("even", "点击查看识别图片历史记录的次数");
+//                MobclickAgent.onEvent(PhotoActivity.this, "jtaction53", map6);
+//                //ga统计
+//                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+//                        .setCategory("点击查看识别图片历史记录的次数")  //事件类别
+//                        .setAction("检测图片记录")      //事件操作
+//                        .build());
+//
+//                Intent intent = new Intent(PhotoActivity.this, ShiBieActivity.class);
+//                startActivity(intent);
+//                break;
             case R.id.iv_sanguang:
                 if (!MediaTools.checkFlash(this)) {
                     Toast.makeText(PhotoActivity.this, "没有闪光灯", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(ifOpenFlash){
+                if (ifOpenFlash) {
                     photoManager.openFlush();
-                    ifOpenFlash = false ;
-                }else {
+                    ifOpenFlash = false;
+                } else {
                     photoManager.closeFlush();
-                    ifOpenFlash = true ;
+                    ifOpenFlash = true;
                 }
 
                 break;
         }
     }
 
-    boolean ifOpenFlash = true ;
+    boolean ifOpenFlash = true;
+
     @Override
     public void OnImageCaptured(Image image, String imagePath) {
         Intent intent1 = new Intent(PhotoActivity.this, SearchLoadingActivity.class);
@@ -307,7 +303,7 @@ public class PhotoActivity
     @Override
     protected void onPause() {
         super.onPause();
-        ifOpenFlash = true ;
+        ifOpenFlash = true;
         photoManager.release();
         MobclickAgent.onPageEnd("拍照页");
         MobclickAgent.onPause(this);

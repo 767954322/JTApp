@@ -5,9 +5,9 @@
 
     <!--&lt;!&ndash;Camera preview&ndash;&gt;-->
     <!--<com.homechart.app.visearch.CameraPreview-->
-        <!--android:id="@+id/camera_preview"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent" />-->
+    <!--android:id="@+id/camera_preview"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent" />-->
 
     <SurfaceView
         android:id="@+id/media_preview"
@@ -19,6 +19,9 @@
         android:id="@+id/iv_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:padding="@dimen/font_15"
         android:src="@drawable/back" />
 
@@ -30,80 +33,112 @@
         android:padding="@dimen/font_15"
         android:src="@drawable/guanshuanguang" />
 
-    <RelativeLayout
-        android:id="@+id/rl_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/font_117"
-        android:layout_alignParentBottom="true"
-        android:background="@color/bg_80000000">
 
-        <TextView
-            android:id="@+id/iv_camera_shutter_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/font_20"
-            android:drawableTop="@drawable/paizhao"
-            android:drawablePadding="@dimen/font_7"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_14"
-            android:gravity="center_horizontal"
-            android:text="拍照识别" />
+    <RelativeLayout
+        android:id="@+id/rl_takephoto_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_70"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white">
+
 
         <TextView
             android:id="@+id/camera_album_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/font_20"
-            android:layout_marginLeft="@dimen/font_50"
-            android:drawableTop="@drawable/xiangce_takephoto"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:drawablePadding="@dimen/font_7"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_14"
+            android:drawableTop="@drawable/xiangce1"
             android:gravity="center_horizontal"
-            android:text="相册" />
+            android:paddingBottom="@dimen/font_13"
+            android:paddingLeft="@dimen/font_18"
+            android:paddingRight="@dimen/font_18"
+            android:paddingTop="@dimen/font_12"
+            android:text="相册"
+            android:textColor="@color/black"
+            android:textSize="@dimen/size_14" />
 
-        <TextView
-            android:id="@+id/tv_shibiejilu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/font_20"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/font_50"
-            android:drawableTop="@drawable/jilu"
-            android:drawablePadding="@dimen/font_7"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_14"
-            android:gravity="center_horizontal"
-            android:text="识别纪录" />
+        <View
+            android:id="@+id/view_bottom"
+            android:layout_width="@dimen/font_1"
+            android:layout_height="@dimen/font_40"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/camera_album_button"
+            android:background="@color/bg_e6e6e6" />
+
+        <com.homechart.app.myview.HorizontalListView
+            android:id="@+id/hlv_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/view_bottom" />
+
 
     </RelativeLayout>
 
 
     <ImageView
-        android:id="@+id/camera_switch_button"
-        style="@style/AppTheme.CameraButton"
+        android:id="@+id/iv_camera_shutter_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/font_20"
-        android:layout_marginTop="@dimen/font_20"
-        android:clickable="true"
-        android:src="@drawable/camera_switch_selector"
-        android:visibility="gone" />
+        android:layout_above="@+id/rl_takephoto_bottom"
+        android:layout_centerHorizontal="true"
+        android:padding="@dimen/font_10"
+        android:src="@drawable/paizhao" />
 
-    <ImageView
-        android:id="@+id/camera_flash_button"
-        style="@style/AppTheme.CameraButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="@dimen/font_20"
-        android:layout_toLeftOf="@+id/camera_switch_button"
-        android:clickable="true"
-        android:src="@drawable/camera_light_selector"
-        android:visibility="gone" />
+
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/rl_bottom"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/font_117"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:background="@color/bg_80000000"-->
+    <!--android:visibility="gone">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/iv_camera_shutter_button"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_marginBottom="@dimen/font_20"-->
+    <!--android:drawablePadding="@dimen/font_7"-->
+    <!--android:drawableTop="@drawable/paizhao"-->
+    <!--android:gravity="center_horizontal"-->
+    <!--android:text="拍照识别"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="@dimen/size_14" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/camera_album_button"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_marginBottom="@dimen/font_20"-->
+    <!--android:layout_marginLeft="@dimen/font_50"-->
+    <!--android:drawablePadding="@dimen/font_7"-->
+    <!--android:drawableTop="@drawable/xiangce_takephoto"-->
+    <!--android:gravity="center_horizontal"-->
+    <!--android:text="相册"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="@dimen/size_14" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tv_shibiejilu"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_marginBottom="@dimen/font_20"-->
+    <!--android:layout_marginRight="@dimen/font_50"-->
+    <!--android:drawablePadding="@dimen/font_7"-->
+    <!--android:drawableTop="@drawable/jilu"-->
+    <!--android:gravity="center_horizontal"-->
+    <!--android:text="识别纪录"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="@dimen/size_14" />-->
+
+    <!--</RelativeLayout>-->
+
 </RelativeLayout>
