@@ -93,23 +93,20 @@ public class PhotoActivity
     private String photoPath = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_PICTURES).getPath() + File.separator + "JiaTuApp";
 
-    private ImageView iv_camera_shutter_button;
-    //    private CameraPreview camera_preview;
+    private String name;
+    private int page = 1;
+    private int degree = -1;
     private ImageView iv_back;
-    private TextView camera_album_button;
-    //    private TextView tv_shibiejilu;
+    private ImageView iv_sanguang;
     private SurfaceView media_preview;
     private MediaManager photoManager;
-    private ScaleGestureDetector scaleGestureDetector;
-    private String name;
-    private int degree = -1;
-    private ImageView iv_sanguang;
     private RecyclerView mRecyclerView;
-
-    private List<HistoryDataBean> mListData = new ArrayList<>();
-    private MultiItemCommonAdapter<HistoryDataBean> mAdapter;
+    private TextView camera_album_button;
     private boolean allowLoadMore = true;
-    private int page = 1;
+    private ImageView iv_camera_shutter_button;
+    private ScaleGestureDetector scaleGestureDetector;
+    private MultiItemCommonAdapter<HistoryDataBean> mAdapter;
+    private List<HistoryDataBean> mListData = new ArrayList<>();
 
     @Override
     protected int getLayoutResId() {
@@ -124,7 +121,8 @@ public class PhotoActivity
         iv_sanguang = (ImageView) findViewById(R.id.iv_sanguang);
         camera_album_button = (TextView) findViewById(R.id.camera_album_button);
         mRecyclerView = (RecyclerView) findViewById(R.id.rcy_recyclerview_pic);
-//        tv_shibiejilu = (TextView) findViewById(R.id.tv_shibiejilu);
+        photoManager = new MediaManager(PhotoActivity.this, media_preview);
+        scaleGestureDetector = new ScaleGestureDetector(this, this);
     }
 
     @Override
@@ -132,95 +130,7 @@ public class PhotoActivity
 
 
         getHistoryImage();
-
         initRecyclerView();
-        photoManager = new MediaManager(PhotoActivity.this, media_preview);
-        SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
-        scaleGestureDetector = new ScaleGestureDetector(this, this);
-        photoManager.setMediaCallback(new IMediaCallback() {
-            @Override
-            public void Error(MediaErrorCode errorCode) {
-                switch (errorCode) {
-                    case TAKEPICTURE_FAIL:
-                        Toast.makeText(PhotoActivity.this, "拍照失败", Toast.LENGTH_SHORT).show();
-                        break;
-                    case NO_CAMERA:
-                        Toast.makeText(PhotoActivity.this, "没有摄像头", Toast.LENGTH_SHORT).show();
-                        break;
-                    case NO_FRONT_CAMERA:
-                        Toast.makeText(PhotoActivity.this, "没有前置摄像头", Toast.LENGTH_SHORT).show();
-                        break;
-                    case OPEN_CAMERA_FAIL:
-                        Toast.makeText(PhotoActivity.this, "打开摄像头失败", Toast.LENGTH_SHORT).show();
-                        break;
-                    case OPEN_PREVIEW_FAIL:
-                        Toast.makeText(PhotoActivity.this, "打开预览界面失败", Toast.LENGTH_SHORT).show();
-                        break;
-                    case START_RECORD_FAIL:
-                        Toast.makeText(PhotoActivity.this, "启动录制视频失败", Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-
-            @Override
-            public void takePicture(String path, String name) {
-                Intent intent1 = new Intent(PhotoActivity.this, SearchLoadingActivity.class);
-                intent1.putExtra("image_url", path + "/" + name);
-                intent1.putExtra("type", "location");
-                intent1.putExtra("image_type", "location");
-                startActivity(intent1);
-                CustomProgress.cancelDialog();
-                PhotoActivity.this.finish();
-
-            }
-
-            @Override
-            public void recordStop() {
-            }
-        });
-
-        media_preview.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return scaleGestureDetector.onTouchEvent(event);
-            }
-        });
-
-        sm.registerListener(new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent event) {
-                if (Sensor.TYPE_ACCELEROMETER != event.sensor.getType()) {
-                    return;
-                }
-
-                float[] values = event.values;
-                float ax = values[0];
-                float ay = values[1];
-
-                double g = Math.sqrt(ax * ax + ay * ay);
-                double cos = ay / g;
-                if (cos > 1) {
-                    cos = 1;
-                } else if (cos < -1) {
-                    cos = -1;
-                }
-                double rad = Math.acos(cos);
-                if (ax < 0) {
-                    rad = 2 * Math.PI - rad;
-                }
-
-                int uiRot = getWindowManager().getDefaultDisplay().getRotation();
-                double uiRad = Math.PI / 2 * uiRot;
-                rad -= uiRad;
-
-                degree = (int) (180 * rad / Math.PI);
-            }
-
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-            }
-        }, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
 
     }
 
@@ -315,11 +225,95 @@ public class PhotoActivity
     @Override
     protected void initListener() {
         super.initListener();
+
+        SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
         iv_back.setOnClickListener(this);
         camera_album_button.setOnClickListener(this);
         iv_camera_shutter_button.setOnClickListener(this);
-//        tv_shibiejilu.setOnClickListener(this);
         iv_sanguang.setOnClickListener(this);
+        photoManager.setMediaCallback(new IMediaCallback() {
+            @Override
+            public void Error(MediaErrorCode errorCode) {
+                switch (errorCode) {
+                    case TAKEPICTURE_FAIL:
+                        Toast.makeText(PhotoActivity.this, "拍照失败", Toast.LENGTH_SHORT).show();
+                        break;
+                    case NO_CAMERA:
+                        Toast.makeText(PhotoActivity.this, "没有摄像头", Toast.LENGTH_SHORT).show();
+                        break;
+                    case NO_FRONT_CAMERA:
+                        Toast.makeText(PhotoActivity.this, "没有前置摄像头", Toast.LENGTH_SHORT).show();
+                        break;
+                    case OPEN_CAMERA_FAIL:
+                        Toast.makeText(PhotoActivity.this, "打开摄像头失败", Toast.LENGTH_SHORT).show();
+                        break;
+                    case OPEN_PREVIEW_FAIL:
+                        Toast.makeText(PhotoActivity.this, "打开预览界面失败", Toast.LENGTH_SHORT).show();
+                        break;
+                    case START_RECORD_FAIL:
+                        Toast.makeText(PhotoActivity.this, "启动录制视频失败", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void takePicture(String path, String name) {
+                Intent intent1 = new Intent(PhotoActivity.this, SearchLoadingActivity.class);
+                intent1.putExtra("image_url", path + "/" + name);
+                intent1.putExtra("type", "location");
+                intent1.putExtra("image_type", "location");
+                startActivity(intent1);
+                CustomProgress.cancelDialog();
+                PhotoActivity.this.finish();
+
+            }
+
+            @Override
+            public void recordStop() {
+            }
+        });
+        media_preview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return scaleGestureDetector.onTouchEvent(event);
+            }
+        });
+        sm.registerListener(new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                if (Sensor.TYPE_ACCELEROMETER != event.sensor.getType()) {
+                    return;
+                }
+
+                float[] values = event.values;
+                float ax = values[0];
+                float ay = values[1];
+
+                double g = Math.sqrt(ax * ax + ay * ay);
+                double cos = ay / g;
+                if (cos > 1) {
+                    cos = 1;
+                } else if (cos < -1) {
+                    cos = -1;
+                }
+                double rad = Math.acos(cos);
+                if (ax < 0) {
+                    rad = 2 * Math.PI - rad;
+                }
+
+                int uiRot = getWindowManager().getDefaultDisplay().getRotation();
+                double uiRad = Math.PI / 2 * uiRot;
+                rad -= uiRad;
+
+                degree = (int) (180 * rad / Math.PI);
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        }, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+
     }
 
     @Override
@@ -333,12 +327,8 @@ public class PhotoActivity
                 name = "IMG_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
                 Log.d("test", degree + "");
                 photoManager.tackPicture(photoPath, name, degree);
-//                camera_preview.takePhoto(this);
                 break;
             case R.id.camera_album_button:
-//                Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
-//                openAlbumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-//                startActivityForResult(openAlbumIntent, RESULT_LOAD_IMAGE_FROM_GALLERY);
                 GalleryFinal.openGallerySingle(0, new GalleryFinal.OnHanlderResultCallback() {
                     @Override
                     public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
@@ -357,21 +347,6 @@ public class PhotoActivity
                     }
                 });
                 break;
-//            case R.id.tv_shibiejilu:
-//                //友盟统计
-//                HashMap<String, String> map6 = new HashMap<String, String>();
-//                map6.put("evenname", "检测图片记录");
-//                map6.put("even", "点击查看识别图片历史记录的次数");
-//                MobclickAgent.onEvent(PhotoActivity.this, "jtaction53", map6);
-//                //ga统计
-//                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-//                        .setCategory("点击查看识别图片历史记录的次数")  //事件类别
-//                        .setAction("检测图片记录")      //事件操作
-//                        .build());
-//
-//                Intent intent = new Intent(PhotoActivity.this, ShiBieActivity.class);
-//                startActivity(intent);
-//                break;
             case R.id.iv_sanguang:
                 if (!MediaTools.checkFlash(this)) {
                     Toast.makeText(PhotoActivity.this, "没有闪光灯", Toast.LENGTH_SHORT).show();
