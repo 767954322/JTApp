@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -68,12 +69,14 @@
             android:layout_toRightOf="@+id/camera_album_button"
             android:background="@color/bg_e6e6e6" />
 
-        <com.homechart.app.myview.HorizontalListView
-            android:id="@+id/hlv_listview"
-            android:layout_width="match_parent"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcy_recyclerview_pic"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/view_bottom" />
-
+            android:layout_marginLeft="@dimen/font_5"
+            android:layout_toRightOf="@+id/view_bottom"
+            android:background="@color/white"
+            android:scrollbars="none" />
 
     </RelativeLayout>
 

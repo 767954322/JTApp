@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <ImageView
+        android:id="@+id/iv_item_image"
+        android:layout_width="@dimen/font_50"
+        android:layout_height="@dimen/font_50"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/font_10"
+        android:scaleType="centerCrop"/>
+
+</RelativeLayout>

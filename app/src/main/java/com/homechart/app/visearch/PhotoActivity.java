@@ -12,26 +12,53 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
+import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.activity.FaBuActvity;
 import com.homechart.app.home.activity.HomeActivity;
+import com.homechart.app.home.activity.ImageDetailScrollActivity;
+import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.ShiBieActivity;
+import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.home.bean.historyshibie.ShiBieBean;
+import com.homechart.app.home.bean.newhistory.HistoryBean;
+import com.homechart.app.home.bean.newhistory.HistoryDataBean;
+import com.homechart.app.home.bean.search.SearchItemDataBean;
+import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.myview.HorizontalListView;
+import com.homechart.app.myview.HorizontalListViewAdapter;
+import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
+import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
+import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
+import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.CustomProgress;
+import com.homechart.app.utils.GsonUtil;
+import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
+import com.homechart.app.utils.UIUtils;
+import com.homechart.app.utils.imageloader.ImageUtils;
+import com.homechart.app.utils.volley.MyHttpManager;
+import com.homechart.app.utils.volley.OkStringRequest;
 import com.homechart.app.visearch.media.IMediaCallback;
 import com.homechart.app.visearch.media.MediaErrorCode;
 import com.homechart.app.visearch.media.MediaManager;
@@ -39,8 +66,13 @@ import com.homechart.app.visearch.media.MediaTools;
 import com.umeng.analytics.MobclickAgent;
 import com.visenze.visearch.android.model.Image;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -72,7 +104,12 @@ public class PhotoActivity
     private String name;
     private int degree = -1;
     private ImageView iv_sanguang;
-    private HorizontalListView hlv_listview;
+    private RecyclerView mRecyclerView;
+
+    private List<HistoryDataBean> mListData = new ArrayList<>();
+    private MultiItemCommonAdapter<HistoryDataBean> mAdapter;
+    private boolean allowLoadMore = true;
+    private int page = 1;
 
     @Override
     protected int getLayoutResId() {
@@ -86,13 +123,17 @@ public class PhotoActivity
         iv_back = (ImageView) findViewById(R.id.iv_back);
         iv_sanguang = (ImageView) findViewById(R.id.iv_sanguang);
         camera_album_button = (TextView) findViewById(R.id.camera_album_button);
-        hlv_listview = (HorizontalListView) findViewById(R.id.hlv_listview);
+        mRecyclerView = (RecyclerView) findViewById(R.id.rcy_recyclerview_pic);
 //        tv_shibiejilu = (TextView) findViewById(R.id.tv_shibiejilu);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
 
+
+        getHistoryImage();
+
+        initRecyclerView();
         photoManager = new MediaManager(PhotoActivity.this, media_preview);
         SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
         scaleGestureDetector = new ScaleGestureDetector(this, this);
@@ -183,6 +224,94 @@ public class PhotoActivity
 
     }
 
+    private void initRecyclerView() {
+
+        MultiItemTypeSupport<HistoryDataBean> support = new MultiItemTypeSupport<HistoryDataBean>() {
+            @Override
+            public int getLayoutId(int itemType) {
+                return R.layout.item_scroll_history;
+            }
+
+            @Override
+            public int getItemViewType(int position, HistoryDataBean s) {
+                return 0;
+            }
+        };
+
+        mAdapter = new MultiItemCommonAdapter<HistoryDataBean>(PhotoActivity.this, mListData, support) {
+            @Override
+            public void convert(BaseViewHolder holder, final int position) {
+
+                ImageUtils.disRectangleImage(mListData.get(position).getImage_url(), (ImageView) holder.getView(R.id.iv_item_image));
+                holder.getView(R.id.iv_item_image).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent1 = new Intent(PhotoActivity.this, SearchLoadingActivity.class);
+                        intent1.putExtra("image_url", mListData.get(position).getImage_url());
+                        intent1.putExtra("type", "lishi");
+                        intent1.putExtra("image_id", mListData.get(position).getImage_id());
+                        intent1.putExtra("image_type", "network");
+                        startActivity(intent1);
+                    }
+                });
+                if (allowLoadMore && mDatas.size() > 0 && mDatas.size() % 40 == 0 && position > (mDatas.size() - 20)) {
+                    allowLoadMore = false;
+                    ++page;
+                    getHistoryImage();
+                }
+            }
+        };
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(PhotoActivity.this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mRecyclerView.setHasFixedSize(true);//设置固定大小
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    private void getHistoryImage() {
+
+        OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                allowLoadMore = true;
+            }
+
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    if (response != null) {
+                        JSONObject jsonObject = new JSONObject(response);
+                        int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                        String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                        String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                        if (error_code == 0) {
+                            String history = "{\"data\":" + data_msg + "}";
+                            HistoryBean historyBean = GsonUtil.jsonToBean(history, HistoryBean.class);
+                            if (historyBean != null && historyBean.getData() != null && historyBean.getData().size() > 0) {
+                                Message message = new Message();
+                                message.arg1 = 1;
+                                message.obj = history;
+                                handler.sendMessage(message);
+                            }else {
+                                allowLoadMore = true;
+                            }
+                        } else {
+                            ToastUtils.showCenter(PhotoActivity.this, error_msg);
+                        }
+                    } else {
+                        allowLoadMore = true;
+                    }
+                } catch (JSONException e) {
+                    allowLoadMore = true;
+                }
+            }
+        };
+        MyHttpManager.getInstance().newHistoryShiBie((page - 1) * 40, "40", callback);
+
+    }
+
     @Override
     protected void initListener() {
         super.initListener();
@@ -215,6 +344,7 @@ public class PhotoActivity
                     public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
                         if (resultList != null && resultList.size() > 0) {
                             Message message = new Message();
+                            message.arg1 = 0;
                             message.obj = resultList.get(0).getPhotoPath().toString();
                             handler.sendMessage(message);
                         } else {
@@ -271,17 +401,38 @@ public class PhotoActivity
         PhotoActivity.this.finish();
     }
 
+    private HorizontalListViewAdapter horizontalListViewAdapter;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            String url_Imag = (String) msg.obj;
-            Intent intent1 = new Intent(PhotoActivity.this, SearchLoadingActivity.class);
-            intent1.putExtra("image_url", url_Imag);
-            intent1.putExtra("type", "location");
-            intent1.putExtra("image_type", "location");
-            startActivity(intent1);
-            PhotoActivity.this.finish();
+
+            int code = msg.arg1;
+            switch (code) {
+                case 0:
+                    String url_Imag = (String) msg.obj;
+                    Intent intent1 = new Intent(PhotoActivity.this, SearchLoadingActivity.class);
+                    intent1.putExtra("image_url", url_Imag);
+                    intent1.putExtra("type", "location");
+                    intent1.putExtra("image_type", "location");
+                    startActivity(intent1);
+                    PhotoActivity.this.finish();
+                    break;
+                case 1:
+                    String history = (String) msg.obj;
+                    HistoryBean historyBean = GsonUtil.jsonToBean(history, HistoryBean.class);
+                    if (historyBean.getData() != null && historyBean.getData().size() > 0) {
+                        mListData.addAll(historyBean.getData());
+                        mAdapter.notifyDataSetChanged();
+                        allowLoadMore = true;
+                    }else {
+                        allowLoadMore = true;
+                    }
+//                    horizontalListViewAdapter = new HorizontalListViewAdapter(PhotoActivity.this,historyBean.getData());
+//                    hlv_listview.setAdapter(horizontalListViewAdapter);
+                    break;
+            }
+
         }
     };
 
@@ -323,5 +474,6 @@ public class PhotoActivity
     public void onScaleEnd(ScaleGestureDetector detector) {
 
     }
+
 
 }

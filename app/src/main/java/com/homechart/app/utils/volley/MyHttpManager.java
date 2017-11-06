@@ -2231,7 +2231,7 @@ public class MyHttpManager {
      * @param callback
      */
     public void newHistoryShiBie(final int s,final String n, OkStringRequest.OKResponseCallback callback) {
-        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.HISTORY_SHIBIE, callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.NEW_HISTORY_SHIBIE, callback) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
