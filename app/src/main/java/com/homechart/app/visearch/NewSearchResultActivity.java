@@ -52,6 +52,8 @@ public class NewSearchResultActivity
     private TextView tv_fuwei;
     private TextView tv_sousuo;
     private List<SearchSObjectBean> listSearch;
+    private int mW;
+    private int mH;
 
     @Override
     protected int getLayoutResId() {
@@ -112,7 +114,7 @@ public class NewSearchResultActivity
                 NewSearchResultActivity.this.finish();
                 break;
             case R.id.tv_fuwei:
-                if(mPhotoImage.getChildCount() == 2){
+                if (mPhotoImage.getChildCount() == 2) {
                     mPhotoImage.getChildAt(1).setVisibility(View.GONE);
                 }
                 rly_point.setVisibility(View.VISIBLE);
@@ -122,6 +124,8 @@ public class NewSearchResultActivity
 
     @Override
     public void setLayoutSize(int mH, int mW) {
+        this.mH = mH;
+        this.mW = mW;
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(mW, mH);
         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         rly_point.setLayoutParams(layoutParams);
@@ -163,10 +167,24 @@ public class NewSearchResultActivity
             y1 = y1 - yAdd;
             y2 = y2 + yAdd;
         }
+
+        if (x1 < 0) {
+            x1 = 0+5;
+        }
+        if (y1 < 0) {
+            y1 = 0+5;
+        }
+        if (x2 > widerImage) {
+            x2 = widerImage-5;
+        }
+        if (y2 > heightImage) {
+            y2 = heightImage-5;
+        }
+
         ScalableBox scalableBox = new ScalableBox(x1, y1, x2, y2);
         editableImage.setBox(scalableBox);
-        mPhotoImage.changeBox(editableImage , scalableBox);
-        if(mPhotoImage.getChildCount() == 2){
+        mPhotoImage.changeBox(editableImage, scalableBox);
+        if (mPhotoImage.getChildCount() == 2) {
             mPhotoImage.getChildAt(1).setVisibility(View.VISIBLE);
         }
     }
