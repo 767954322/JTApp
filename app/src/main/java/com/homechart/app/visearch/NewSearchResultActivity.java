@@ -104,6 +104,9 @@ public class NewSearchResultActivity
         }
 
         mPhotoImage.initView(NewSearchResultActivity.this, editableImage, true, this);
+        if (mPhotoImage.getChildCount() == 2) {
+            mPhotoImage.getChildAt(1).setVisibility(View.GONE);
+        }
 
     }
 
@@ -114,10 +117,12 @@ public class NewSearchResultActivity
                 NewSearchResultActivity.this.finish();
                 break;
             case R.id.tv_fuwei:
-                if (mPhotoImage.getChildCount() == 2) {
-                    mPhotoImage.getChildAt(1).setVisibility(View.GONE);
+                if (listSearch != null && listSearch.size() > 0) {
+                    if (mPhotoImage.getChildCount() == 2) {
+                        mPhotoImage.getChildAt(1).setVisibility(View.GONE);
+                    }
+                    rly_point.setVisibility(View.VISIBLE);
                 }
-                rly_point.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -130,19 +135,29 @@ public class NewSearchResultActivity
         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         rly_point.setLayoutParams(layoutParams);
 
-        ArrayList<PointSimple> pointSimples = new ArrayList<>();
-        for (int i = 0; i < searchSBean.getObject_list().size(); i++) {
-            PointSimple pointSimple = new PointSimple();
-            float width = searchSBean.getObject_list().get(i).getObject_info().getX();
-            float height = searchSBean.getObject_list().get(i).getObject_info().getY();
-            pointSimple.width_scale = width;
-            pointSimple.height_scale = height;
-            pointSimple.width_object = searchSBean.getObject_list().get(i).getObject_info().getWidth();
-            pointSimple.height_object = searchSBean.getObject_list().get(i).getObject_info().getHeight();
-            pointSimples.add(pointSimple);
+        if (null != searchSBean.getObject_list() && searchSBean.getObject_list().size() > 0) {
+
+            ArrayList<PointSimple> pointSimples = new ArrayList<>();
+            for (int i = 0; i < searchSBean.getObject_list().size(); i++) {
+                PointSimple pointSimple = new PointSimple();
+                float width = searchSBean.getObject_list().get(i).getObject_info().getX();
+                float height = searchSBean.getObject_list().get(i).getObject_info().getY();
+                pointSimple.width_scale = width;
+                pointSimple.height_scale = height;
+                pointSimple.width_object = searchSBean.getObject_list().get(i).getObject_info().getWidth();
+                pointSimple.height_object = searchSBean.getObject_list().get(i).getObject_info().getHeight();
+                pointSimples.add(pointSimple);
+            }
+            il_points.setPoints(pointSimples);
+            il_points.setImgBg(mW, mH, this);
+        } else {
+            ScalableBox scalableBox = new ScalableBox(0, 0, 0, 0);
+            editableImage.setBox(scalableBox);
+            mPhotoImage.changeBox(editableImage, scalableBox);
+            if (mPhotoImage.getChildCount() == 2) {
+                mPhotoImage.getChildAt(1).setVisibility(View.VISIBLE);
+            }
         }
-        il_points.setPoints(pointSimples);
-        il_points.setImgBg(mW, mH, this);
 
     }
 
@@ -168,17 +183,17 @@ public class NewSearchResultActivity
             y2 = y2 + yAdd;
         }
 
-        if (x1 < 0) {
-            x1 = 0+5;
+        if (x1 < 3) {
+            x1 = 3;
         }
-        if (y1 < 0) {
-            y1 = 0+5;
+        if (y1 < 3) {
+            y1 = 3;
         }
-        if (x2 > widerImage) {
-            x2 = widerImage-5;
+        if (x2 > widerImage - 3) {
+            x2 = widerImage - 3;
         }
-        if (y2 > heightImage) {
-            y2 = heightImage-5;
+        if (y2 > heightImage - 3) {
+            y2 = heightImage - 3;
         }
 
         ScalableBox scalableBox = new ScalableBox(x1, y1, x2, y2);
