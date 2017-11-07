@@ -280,4 +280,11 @@ public class SelectionView extends View implements View.OnTouchListener {
         editableImage.getBox().setY2(originY2);
     }
 
+    public EditableImage getEditableImage() {
+        return editableImage;
+    }
+
+    public void setEditableImage(EditableImage editableImage) {
+        this.editableImage = editableImage;
+    }
 }

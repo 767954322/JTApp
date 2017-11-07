@@ -88,11 +88,19 @@ public class NewEditPhotoViewMore extends FrameLayout {
                 selectionView.setBoxSize(editableImage, editableImage.getBox(), w, h);
             }
         }
-        if(editableImage.getFitSize()!= null &&  editableImage.getFitSize().length >= 2){
+        if (editableImage.getFitSize() != null && editableImage.getFitSize().length >= 2) {
             layoutSize.setLayoutSize(editableImage.getFitSize()[1], editableImage.getFitSize()[0]);
         }
         super.onSizeChanged(w, h, oldw, oldh);
     }
+
+    public void chageBox(EditableImage editableImage, ScalableBox scalableBox) {
+
+        this.editableImage = editableImage;
+        selectionView.setBoxSize(editableImage, editableImage.getBox(), mW, mH);
+//        selectionView.updateOriginalBox();
+    }
+
 
     /**
      * update view with editable image

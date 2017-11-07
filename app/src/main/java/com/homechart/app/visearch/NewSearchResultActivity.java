@@ -13,14 +13,18 @@ import com.homechart.app.R;
 import com.homechart.app.croplayout.EditPhotoViewMore;
 import com.homechart.app.croplayout.EditableImage;
 import com.homechart.app.croplayout.NewEditPhotoViewMore;
+import com.homechart.app.croplayout.model.ScalableBox;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.searchfservice.SearchSBean;
+import com.homechart.app.home.bean.searchfservice.SearchSObjectBean;
+import com.homechart.app.home.bean.searchfservice.SearchSObjectInfoBean;
 import com.homechart.app.hotposition.NewImageLayout;
 import com.homechart.app.hotposition.PointSimple;
 import com.homechart.app.hotposition.PositionClickImp;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by gumenghao on 17/11/1.
@@ -47,6 +51,7 @@ public class NewSearchResultActivity
     private NewImageLayout il_points;
     private TextView tv_fuwei;
     private TextView tv_sousuo;
+    private List<SearchSObjectBean> listSearch;
 
     @Override
     protected int getLayoutResId() {
@@ -88,7 +93,7 @@ public class NewSearchResultActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
+        listSearch = searchSBean.getObject_list();
         if (network.equals("true")) {
             editableImage = new EditableImage(imagePath, true);
         } else {
@@ -137,7 +142,27 @@ public class NewSearchResultActivity
     @Override
     public void onClickPosition(int pos) {
         rly_point.setVisibility(View.GONE);
+        SearchSObjectInfoBean searchSObjectInfoBean = listSearch.get(pos).getObject_info();
+        widerImage = mPhotoImage.getEditableImage().getOriginalImage().getWidth();
+        heightImage = mPhotoImage.getEditableImage().getOriginalImage().getHeight();
 
-
+        int x1 = (int) (searchSObjectInfoBean.getX() * widerImage);
+        int y1 = (int) (searchSObjectInfoBean.getY() * heightImage);
+        int x2 = (int) (searchSObjectInfoBean.getX() * widerImage) + (int) (searchSObjectInfoBean.getWidth() * widerImage);
+        int y2 = (int) (searchSObjectInfoBean.getY() * heightImage) + (int) (searchSObjectInfoBean.getHeight() * heightImage);
+        if (Math.abs(x1 - x2) < 120) {
+            int xAdd = (120 - Math.abs(x1 - x2)) / 2;
+            x1 = x1 - xAdd;
+            x2 = x2 + xAdd;
+        }
+        if (Math.abs(y1 - y2) < 120) {
+            int yAdd = (120 - Math.abs(y1 - y2)) / 2;
+            y1 = y1 - yAdd;
+            y2 = y2 + yAdd;
+        }
+        ScalableBox scalableBox = new ScalableBox(x1, y1, x2, y2);
+        editableImage.setBox(scalableBox);
+        mPhotoImage.chageBox(editableImage,scalableBox);
+        mPhotoImage.getSelectionView().updateOriginalBox();
     }
 }
