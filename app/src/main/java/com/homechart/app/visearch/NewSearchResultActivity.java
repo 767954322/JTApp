@@ -101,7 +101,7 @@ public class NewSearchResultActivity
             mPhotoImage.setUrlImage("file://" + imagePath, true);
         }
 
-        mPhotoImage.initView(NewSearchResultActivity.this, editableImage, false, this);
+        mPhotoImage.initView(NewSearchResultActivity.this, editableImage, true, this);
 
     }
 
@@ -112,6 +112,9 @@ public class NewSearchResultActivity
                 NewSearchResultActivity.this.finish();
                 break;
             case R.id.tv_fuwei:
+                if(mPhotoImage.getChildCount() == 2){
+                    mPhotoImage.getChildAt(1).setVisibility(View.GONE);
+                }
                 rly_point.setVisibility(View.VISIBLE);
                 break;
         }
@@ -162,7 +165,9 @@ public class NewSearchResultActivity
         }
         ScalableBox scalableBox = new ScalableBox(x1, y1, x2, y2);
         editableImage.setBox(scalableBox);
-        mPhotoImage.chageBox(editableImage,scalableBox);
-        mPhotoImage.getSelectionView().updateOriginalBox();
+        mPhotoImage.changeBox(editableImage , scalableBox);
+        if(mPhotoImage.getChildCount() == 2){
+            mPhotoImage.getChildAt(1).setVisibility(View.VISIBLE);
+        }
     }
 }

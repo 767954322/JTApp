@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -95,10 +96,8 @@ public class NewEditPhotoViewMore extends FrameLayout {
     }
 
     public void chageBox(EditableImage editableImage, ScalableBox scalableBox) {
-
         this.editableImage = editableImage;
         selectionView.setBoxSize(editableImage, editableImage.getBox(), mW, mH);
-//        selectionView.updateOriginalBox();
     }
 
 
@@ -131,7 +130,10 @@ public class NewEditPhotoViewMore extends FrameLayout {
     }
 
     //TODO
-    public void changeBox(ScalableBox box) {
+    public void changeBox(EditableImage editable, ScalableBox box) {
+
+        selectionView.setBoxSize(editable,box,mW,mH);
+        this.editableImage = editable;
         editableImage.getBox().setX1(box.getX1());
         editableImage.getBox().setY1(box.getY1());
         editableImage.getBox().setX2(box.getX2());
