@@ -29,12 +29,11 @@ import java.util.ArrayList;
 public class NewSearchResultActivity
         extends BaseActivity
         implements View.OnClickListener,
-        NewEditPhotoViewMore.LayoutSize ,
+        NewEditPhotoViewMore.LayoutSize,
         PositionClickImp {
 
     private ImageButton mBackButton;
     private String network;
-    private TextView mTital;
     private String image_id;
     private String imagePath;
     private String searchstatus;
@@ -46,6 +45,8 @@ public class NewSearchResultActivity
     private int heightImage;
     private RelativeLayout rly_point;
     private NewImageLayout il_points;
+    private TextView tv_fuwei;
+    private TextView tv_sousuo;
 
     @Override
     protected int getLayoutResId() {
@@ -69,10 +70,11 @@ public class NewSearchResultActivity
 
         fl_image = (RelativeLayout) findViewById(R.id.fl_image);
         rly_point = (RelativeLayout) findViewById(R.id.rly_point);
-        mTital = (TextView) findViewById(R.id.tv_tital_comment);
         mBackButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
         mPhotoImage = (NewEditPhotoViewMore) findViewById(R.id.photoedit_image_view);
         il_points = (NewImageLayout) findViewById(R.id.il_points);
+        tv_fuwei = (TextView) findViewById(R.id.tv_fuwei);
+        tv_sousuo = (TextView) findViewById(R.id.tv_sousuo);
 
     }
 
@@ -80,11 +82,12 @@ public class NewSearchResultActivity
     protected void initListener() {
         super.initListener();
         mBackButton.setOnClickListener(this);
+        tv_fuwei.setOnClickListener(this);
+        tv_sousuo.setOnClickListener(this);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        mTital.setText("自定义识别");
 
         if (network.equals("true")) {
             editableImage = new EditableImage(imagePath, true);
@@ -95,13 +98,16 @@ public class NewSearchResultActivity
 
         mPhotoImage.initView(NewSearchResultActivity.this, editableImage, false, this);
 
-  }
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
                 NewSearchResultActivity.this.finish();
+                break;
+            case R.id.tv_fuwei:
+                rly_point.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -130,6 +136,8 @@ public class NewSearchResultActivity
 
     @Override
     public void onClickPosition(int pos) {
+        rly_point.setVisibility(View.GONE);
+
 
     }
 }
