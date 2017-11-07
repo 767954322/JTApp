@@ -15,15 +15,22 @@ import com.homechart.app.croplayout.EditableImage;
 import com.homechart.app.croplayout.NewEditPhotoViewMore;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.searchfservice.SearchSBean;
+import com.homechart.app.hotposition.NewImageLayout;
+import com.homechart.app.hotposition.PointSimple;
+import com.homechart.app.hotposition.PositionClickImp;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by gumenghao on 17/11/1.
  */
 
 public class NewSearchResultActivity
-        extends BaseActivity implements View.OnClickListener, NewEditPhotoViewMore.LayoutSize {
+        extends BaseActivity
+        implements View.OnClickListener,
+        NewEditPhotoViewMore.LayoutSize ,
+        PositionClickImp {
 
     private ImageButton mBackButton;
     private String network;
@@ -38,6 +45,7 @@ public class NewSearchResultActivity
     private int widerImage;
     private int heightImage;
     private RelativeLayout rly_point;
+    private NewImageLayout il_points;
 
     @Override
     protected int getLayoutResId() {
@@ -64,6 +72,7 @@ public class NewSearchResultActivity
         mTital = (TextView) findViewById(R.id.tv_tital_comment);
         mBackButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
         mPhotoImage = (NewEditPhotoViewMore) findViewById(R.id.photoedit_image_view);
+        il_points = (NewImageLayout) findViewById(R.id.il_points);
 
     }
 
@@ -86,7 +95,7 @@ public class NewSearchResultActivity
 
         mPhotoImage.initView(NewSearchResultActivity.this, editableImage, false, this);
 
-    }
+  }
 
     @Override
     public void onClick(View v) {
@@ -102,5 +111,25 @@ public class NewSearchResultActivity
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(mW, mH);
         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         rly_point.setLayoutParams(layoutParams);
+
+        ArrayList<PointSimple> pointSimples = new ArrayList<>();
+        for (int i = 0; i < searchSBean.getObject_list().size(); i++) {
+            PointSimple pointSimple = new PointSimple();
+            float width = searchSBean.getObject_list().get(i).getObject_info().getX();
+            float height = searchSBean.getObject_list().get(i).getObject_info().getY();
+            pointSimple.width_scale = width;
+            pointSimple.height_scale = height;
+            pointSimple.width_object = searchSBean.getObject_list().get(i).getObject_info().getWidth();
+            pointSimple.height_object = searchSBean.getObject_list().get(i).getObject_info().getHeight();
+            pointSimples.add(pointSimple);
+        }
+        il_points.setPoints(pointSimples);
+        il_points.setImgBg(mW, mH, this);
+
+    }
+
+    @Override
+    public void onClickPosition(int pos) {
+
     }
 }

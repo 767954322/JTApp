@@ -41,9 +41,12 @@
             android:id="@+id/rly_point"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/bg_4dfc7700"
             android:layout_centerInParent="true">
-
+            <com.homechart.app.hotposition.NewImageLayout
+                android:id="@+id/il_points"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bg_4d000000"/>
         </RelativeLayout>
     </RelativeLayout>
 
