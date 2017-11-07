@@ -385,14 +385,19 @@ public class MediaManager implements SurfaceHolder.Callback {
     }
 
 
-    public void openFlush(){
+    public void openFlush() {
+
+        if (null == camera) {
+            initCamera();
+        }
         Camera.Parameters mParameters;
         mParameters = camera.getParameters();
         mParameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
         camera.setParameters(mParameters);
         camera.startPreview();
     }
-    public void closeFlush(){
+
+    public void closeFlush() {
         Camera.Parameters mParameters;
         mParameters = camera.getParameters();
         mParameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
@@ -400,8 +405,8 @@ public class MediaManager implements SurfaceHolder.Callback {
         camera.startPreview();
     }
 
-    public void reset(){
-        if(null == camera){
+    public void reset() {
+        if (null == camera) {
             initCamera();
         }
     }
