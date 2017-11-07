@@ -512,6 +512,7 @@ public class MyHttpManager {
 
     /**
      * 获取收藏的商品列表
+     *
      * @param user_id
      * @param s
      * @param n
@@ -2041,6 +2042,7 @@ public class MyHttpManager {
                 map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
                 return map;
             }
+
             public Map<String, String> getHeaders() throws AuthFailureError {
                 return PublicUtils.getPublicHeader(MyApplication.getInstance());
             }
@@ -2065,6 +2067,7 @@ public class MyHttpManager {
                 map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
                 return map;
             }
+
             public Map<String, String> getHeaders() throws AuthFailureError {
                 return PublicUtils.getPublicHeader(MyApplication.getInstance());
             }
@@ -2079,7 +2082,7 @@ public class MyHttpManager {
      * @param num
      * @param callback
      */
-    public void getLikeShop(final String spu_id,final String num, OkStringRequest.OKResponseCallback callback) {
+    public void getLikeShop(final String spu_id, final String num, OkStringRequest.OKResponseCallback callback) {
         OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.MORELIKE_SHOP, callback) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
@@ -2091,6 +2094,7 @@ public class MyHttpManager {
                 map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
                 return map;
             }
+
             public Map<String, String> getHeaders() throws AuthFailureError {
                 return PublicUtils.getPublicHeader(MyApplication.getInstance());
             }
@@ -2099,8 +2103,8 @@ public class MyHttpManager {
     }
 
     /**
-     *
      * 检测图片中的物体
+     *
      * @param image_id
      * @param callback
      */
@@ -2115,6 +2119,7 @@ public class MyHttpManager {
                 map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
                 return map;
             }
+
             public Map<String, String> getHeaders() throws AuthFailureError {
                 return PublicUtils.getPublicHeader(MyApplication.getInstance());
             }
@@ -2124,19 +2129,20 @@ public class MyHttpManager {
 
     /**
      * 检测图片中的物体
+     *
      * @param image_id
      * @param loc
      * @param category_id
      * @param callback
      */
-    public void searchShopImage(final String image_id,final String loc,final String category_id, OkStringRequest.OKResponseCallback callback) {
+    public void searchShopImage(final String image_id, final String loc, final String category_id, OkStringRequest.OKResponseCallback callback) {
         OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.SEARCH_SHOP_IMAGE, callback) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
                 map.put("image_id", image_id);
                 map.put("loc", loc);
-                if(!TextUtils.isEmpty(category_id.trim())){
+                if (!TextUtils.isEmpty(category_id.trim())) {
                     map.put("category_id", category_id);
                 }
                 String signString = PublicUtils.getSinaString(map);
@@ -2144,6 +2150,7 @@ public class MyHttpManager {
                 map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
                 return map;
             }
+
             public Map<String, String> getHeaders() throws AuthFailureError {
                 return PublicUtils.getPublicHeader(MyApplication.getInstance());
             }
@@ -2153,6 +2160,7 @@ public class MyHttpManager {
 
     /**
      * 收藏商品
+     *
      * @param spu_id
      * @param callback
      */
@@ -2167,6 +2175,7 @@ public class MyHttpManager {
                 map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
                 return map;
             }
+
             public Map<String, String> getHeaders() throws AuthFailureError {
                 return PublicUtils.getPublicHeader(MyApplication.getInstance());
             }
@@ -2176,6 +2185,7 @@ public class MyHttpManager {
 
     /**
      * 删除收藏的商品
+     *
      * @param spu_id
      * @param callback
      */
@@ -2190,6 +2200,7 @@ public class MyHttpManager {
                 map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
                 return map;
             }
+
             public Map<String, String> getHeaders() throws AuthFailureError {
                 return PublicUtils.getPublicHeader(MyApplication.getInstance());
             }
@@ -2199,24 +2210,26 @@ public class MyHttpManager {
 
     /**
      * 检测历史记录
+     *
      * @param user_id
      * @param s
      * @param n
      * @param callback
      */
-    public void historyShiBie(final String user_id,final int s,final String n, OkStringRequest.OKResponseCallback callback) {
+    public void historyShiBie(final String user_id, final int s, final String n, OkStringRequest.OKResponseCallback callback) {
         OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.HISTORY_SHIBIE, callback) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
                 map.put("user_id", user_id);
-                map.put("s", s+"");
+                map.put("s", s + "");
                 map.put("n", n);
                 String signString = PublicUtils.getSinaString(map);
                 String tabMd5String = Md5Util.getMD5twoTimes(signString);
                 map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
                 return map;
             }
+
             public Map<String, String> getHeaders() throws AuthFailureError {
                 return PublicUtils.getPublicHeader(MyApplication.getInstance());
             }
@@ -2226,22 +2239,47 @@ public class MyHttpManager {
 
     /**
      * 新的检测历史记录
+     *
      * @param s
      * @param n
      * @param callback
      */
-    public void newHistoryShiBie(final int s,final String n, OkStringRequest.OKResponseCallback callback) {
+    public void newHistoryShiBie(final int s, final String n, OkStringRequest.OKResponseCallback callback) {
         OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.NEW_HISTORY_SHIBIE, callback) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
-                map.put("s", s+"");
+                map.put("s", s + "");
                 map.put("n", n);
                 String signString = PublicUtils.getSinaString(map);
                 String tabMd5String = Md5Util.getMD5twoTimes(signString);
                 map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
                 return map;
             }
+
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+        };
+        queue.add(okStringRequest);
+    }
+
+    /**
+     * 默认的识别图片
+     *
+     * @param callback
+     */
+    public void newHistoryDefault(OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.NEW_HISTORY_SHIBIE_DEFAULT, callback) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+
             public Map<String, String> getHeaders() throws AuthFailureError {
                 return PublicUtils.getPublicHeader(MyApplication.getInstance());
             }
@@ -2251,6 +2289,7 @@ public class MyHttpManager {
 
     /**
      * 通过image_id识别物体
+     *
      * @param image_id
      * @param callback
      */
@@ -2265,6 +2304,7 @@ public class MyHttpManager {
                 map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
                 return map;
             }
+
             public Map<String, String> getHeaders() throws AuthFailureError {
                 return PublicUtils.getPublicHeader(MyApplication.getInstance());
             }
@@ -2275,6 +2315,7 @@ public class MyHttpManager {
 
     /**
      * 获取商品分类列表
+     *
      * @param callback
      */
     public void getShopTypes(OkStringRequest.OKResponseCallback callback) {
@@ -2287,6 +2328,7 @@ public class MyHttpManager {
                 map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
                 return map;
             }
+
             public Map<String, String> getHeaders() throws AuthFailureError {
                 return PublicUtils.getPublicHeader(MyApplication.getInstance());
             }

@@ -1,28 +1,22 @@
 package com.homechart.app.visearch;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,29 +27,16 @@ import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
-import com.homechart.app.home.activity.FaBuActvity;
-import com.homechart.app.home.activity.HomeActivity;
-import com.homechart.app.home.activity.ImageDetailScrollActivity;
-import com.homechart.app.home.activity.LoginActivity;
-import com.homechart.app.home.activity.ShiBieActivity;
-import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.base.BaseActivity;
-import com.homechart.app.home.bean.historyshibie.ShiBieBean;
 import com.homechart.app.home.bean.newhistory.HistoryBean;
 import com.homechart.app.home.bean.newhistory.HistoryDataBean;
-import com.homechart.app.home.bean.search.SearchItemDataBean;
-import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
-import com.homechart.app.myview.HorizontalListView;
-import com.homechart.app.myview.HorizontalListViewAdapter;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
-import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
-import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
@@ -70,11 +51,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import cn.finalteam.galleryfinal.GalleryFinal;
@@ -107,6 +86,7 @@ public class PhotoActivity
     private ScaleGestureDetector scaleGestureDetector;
     private MultiItemCommonAdapter<HistoryDataBean> mAdapter;
     private List<HistoryDataBean> mListData = new ArrayList<>();
+    private Boolean ifLogin;
 
     @Override
     protected int getLayoutResId() {
@@ -128,13 +108,62 @@ public class PhotoActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
 
+        ifLogin = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
 
-        getHistoryImage();
-        initRecyclerView();
+        initLoginRecyclerView();
+        if(ifLogin){
+            getHistoryImage();
+        }else {
+
+            getUnloginImage();
+        }
 
     }
 
-    private void initRecyclerView() {
+    private void getUnloginImage() {
+
+        OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                allowLoadMore = true;
+            }
+
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    if (response != null) {
+                        JSONObject jsonObject = new JSONObject(response);
+                        int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                        String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                        String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                        if (error_code == 0) {
+                            String history = "{\"data\":" + data_msg + "}";
+                            HistoryBean historyBean = GsonUtil.jsonToBean(history, HistoryBean.class);
+                            if (historyBean != null && historyBean.getData() != null && historyBean.getData().size() > 0) {
+                                Message message = new Message();
+                                message.arg1 = 1;
+                                message.obj = history;
+                                handler.sendMessage(message);
+                            }else {
+                                allowLoadMore = true;
+                            }
+                        } else {
+                            ToastUtils.showCenter(PhotoActivity.this, error_msg);
+                        }
+                    } else {
+                        allowLoadMore = true;
+                    }
+                } catch (JSONException e) {
+                    allowLoadMore = true;
+                }
+            }
+        };
+        MyHttpManager.getInstance().newHistoryDefault(callback);
+
+    }
+
+    private void initLoginRecyclerView() {
 
         MultiItemTypeSupport<HistoryDataBean> support = new MultiItemTypeSupport<HistoryDataBean>() {
             @Override
@@ -164,7 +193,7 @@ public class PhotoActivity
                         startActivity(intent1);
                     }
                 });
-                if (allowLoadMore && mDatas.size() > 0 && mDatas.size() % 40 == 0 && position > (mDatas.size() - 20)) {
+                if (ifLogin && allowLoadMore && mDatas.size() > 0 && mDatas.size() % 40 == 0 && position > (mDatas.size() - 20)) {
                     allowLoadMore = false;
                     ++page;
                     getHistoryImage();
@@ -376,7 +405,6 @@ public class PhotoActivity
         PhotoActivity.this.finish();
     }
 
-    private HorizontalListViewAdapter horizontalListViewAdapter;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -403,8 +431,6 @@ public class PhotoActivity
                     }else {
                         allowLoadMore = true;
                     }
-//                    horizontalListViewAdapter = new HorizontalListViewAdapter(PhotoActivity.this,historyBean.getData());
-//                    hlv_listview.setAdapter(horizontalListViewAdapter);
                     break;
             }
 

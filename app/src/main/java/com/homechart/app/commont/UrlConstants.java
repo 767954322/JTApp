@@ -86,6 +86,7 @@ public class UrlConstants {
     public static final String SHOUCANG_REMOVE_SHOP = "https://api.idcool.com.cn/collect/product/remove";  //删除收藏的商品
     public static final String HISTORY_SHIBIE = "https://api.idcool.com.cn/product/product/history";  //检测历史记录
     public static final String NEW_HISTORY_SHIBIE = "https://api.idcool.com.cn/ai/ai/history";  //新的检测历史记录
+    public static final String NEW_HISTORY_SHIBIE_DEFAULT = "https://api.idcool.com.cn/ai/ai/defaultImage";  //默认的检测历史记录
     public static final String TYPE_SHOP = "https://api.idcool.com.cn/ai/ai/category";  //获取商品分类列表
 
 }
