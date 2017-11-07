@@ -3,8 +3,10 @@ package com.homechart.app.visearch;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.homechart.app.R;
@@ -21,7 +23,7 @@ import java.io.Serializable;
  */
 
 public class NewSearchResultActivity
-        extends BaseActivity implements View.OnClickListener {
+        extends BaseActivity implements View.OnClickListener, NewEditPhotoViewMore.LayoutSize {
 
     private ImageButton mBackButton;
     private String network;
@@ -32,9 +34,10 @@ public class NewSearchResultActivity
     private SearchSBean searchSBean;
     private NewEditPhotoViewMore mPhotoImage;
     private EditableImage editableImage;
-    private FrameLayout fl_image;
+    private RelativeLayout fl_image;
     private int widerImage;
     private int heightImage;
+    private RelativeLayout rly_point;
 
     @Override
     protected int getLayoutResId() {
@@ -56,7 +59,8 @@ public class NewSearchResultActivity
     @Override
     protected void initView() {
 
-        fl_image = (FrameLayout) findViewById(R.id.fl_image);
+        fl_image = (RelativeLayout) findViewById(R.id.fl_image);
+        rly_point = (RelativeLayout) findViewById(R.id.rly_point);
         mTital = (TextView) findViewById(R.id.tv_tital_comment);
         mBackButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
         mPhotoImage = (NewEditPhotoViewMore) findViewById(R.id.photoedit_image_view);
@@ -73,10 +77,14 @@ public class NewSearchResultActivity
     protected void initData(Bundle savedInstanceState) {
         mTital.setText("自定义识别");
 
-        if(network.equals("true")){
+        if (network.equals("true")) {
             editableImage = new EditableImage(imagePath, true);
-            mPhotoImage.initView(NewSearchResultActivity.this, editableImage, true);
+        } else {
+            editableImage = new EditableImage(imagePath);
+            mPhotoImage.setUrlImage("file://" + imagePath, true);
         }
+
+        mPhotoImage.initView(NewSearchResultActivity.this, editableImage, false, this);
 
     }
 
@@ -87,5 +95,12 @@ public class NewSearchResultActivity
                 NewSearchResultActivity.this.finish();
                 break;
         }
+    }
+
+    @Override
+    public void setLayoutSize(int mH, int mW) {
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(mW, mH);
+        layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+        rly_point.setLayoutParams(layoutParams);
     }
 }

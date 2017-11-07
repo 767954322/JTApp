@@ -325,21 +325,36 @@ public class SearchLoadingActivity
                     break;
                 case 3://识别本地图片
                     if (!ifCloseSearch) {
-                        Intent intent = new Intent(SearchLoadingActivity.this, EditPhotoActivity.class);
-                        intent.putExtra("image_id", image_id);
-                        intent.putExtra("imagePath", imagePath);
-                        intent.putExtra("searchstatus", "0");
-                        intent.putExtra("network", "false");
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("searchSBean", searchSBean);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
+
+
+                        Intent intent1 = new Intent(SearchLoadingActivity.this, NewSearchResultActivity.class);
+                        intent1.putExtra("image_id", image_id);
+                        intent1.putExtra("imagePath", imagePath);
+                        intent1.putExtra("searchstatus", "0");
+                        intent1.putExtra("network", "false");
+                        Bundle bundle1 = new Bundle();
+                        bundle1.putSerializable("searchSBean", searchSBean);
+                        intent1.putExtras(bundle1);
+                        startActivity(intent1);
                         SearchLoadingActivity.this.finish();
+
+//                        Intent intent = new Intent(SearchLoadingActivity.this, EditPhotoActivity.class);
+//                        intent.putExtra("image_id", image_id);
+//                        intent.putExtra("imagePath", imagePath);
+//                        intent.putExtra("searchstatus", "0");
+//                        intent.putExtra("network", "false");
+//                        Bundle bundle = new Bundle();
+//                        bundle.putSerializable("searchSBean", searchSBean);
+//                        intent.putExtras(bundle);
+//                        startActivity(intent);
+//                        SearchLoadingActivity.this.finish();
                     }
                     break;
                 case 4:
                     if (!ifCloseSearch) {
-                        Intent intent1 = new Intent(SearchLoadingActivity.this, EditPhotoActivity.class);
+
+
+                        Intent intent1 = new Intent(SearchLoadingActivity.this, NewSearchResultActivity.class);
                         intent1.putExtra("image_id", image_id);
                         intent1.putExtra("imagePath", imagePath);
                         intent1.putExtra("searchstatus", "1");
@@ -349,6 +364,17 @@ public class SearchLoadingActivity
                         intent1.putExtras(bundle1);
                         startActivity(intent1);
                         SearchLoadingActivity.this.finish();
+
+//                        Intent intent1 = new Intent(SearchLoadingActivity.this, EditPhotoActivity.class);
+//                        intent1.putExtra("image_id", image_id);
+//                        intent1.putExtra("imagePath", imagePath);
+//                        intent1.putExtra("searchstatus", "1");
+//                        intent1.putExtra("network", "false");
+//                        Bundle bundle1 = new Bundle();
+//                        bundle1.putSerializable("searchSBean", searchSBean);
+//                        intent1.putExtras(bundle1);
+//                        startActivity(intent1);
+//                        SearchLoadingActivity.this.finish();
                         break;
                     }
                 case 2:

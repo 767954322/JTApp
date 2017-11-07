@@ -36,8 +36,9 @@ public class NewEditPhotoViewMore extends FrameLayout {
     private int lineColor;
     private int cornerColor;
     private int shadowColor;
+    private LayoutSize layoutSize;
 
-    private String urlImage ;
+    private String urlImage;
 
     public NewEditPhotoViewMore(Context context) {
         super(context);
@@ -56,13 +57,14 @@ public class NewEditPhotoViewMore extends FrameLayout {
         obtainAttributes(context, attrs);
     }
 
-    private int mW;
-    private int mH;
+    public int mW;
+    public int mH;
 
     public void setUrlImage(String urlImage) {
         this.urlImage = urlImage;
     }
-    public void setUrlImage(String urlImage,boolean iftrue) {
+
+    public void setUrlImage(String urlImage, boolean iftrue) {
         this.urlImage = urlImage;
     }
 
@@ -71,22 +73,24 @@ public class NewEditPhotoViewMore extends FrameLayout {
         //set the default image and selection view
         this.mH = h;
         this.mW = w;
-        if (editableImage != null && selectionView != null ) {
+        if (editableImage != null && selectionView != null) {
             editableImage.setViewSize(w, h);
-            if(editableImage.getOriginalImage() == null){
-                ImageUtils.disRectangleImage(urlImage,imageView);
-            }else {
-                if(!TextUtils.isEmpty(urlImage)){
-                    ImageUtils.disRectangleImage(urlImage,imageView);
-                }else {
+            if (editableImage.getOriginalImage() == null) {
+                ImageUtils.disRectangleImage(urlImage, imageView);
+            } else {
+                if (!TextUtils.isEmpty(urlImage)) {
+                    ImageUtils.disRectangleImage(urlImage, imageView);
+                } else {
                     imageView.setImageBitmap(editableImage.getOriginalImage());
                 }
             }
-            if(null != editableImage.getBox()){
+            if (null != editableImage.getBox()) {
                 selectionView.setBoxSize(editableImage, editableImage.getBox(), w, h);
             }
         }
-
+        if(editableImage.getFitSize()!= null &&  editableImage.getFitSize().length >= 2){
+            layoutSize.setLayoutSize(editableImage.getFitSize()[1], editableImage.getFitSize()[0]);
+        }
         super.onSizeChanged(w, h, oldw, oldh);
     }
 
@@ -96,8 +100,9 @@ public class NewEditPhotoViewMore extends FrameLayout {
      * @param context       activity
      * @param editableImage image to be edited
      */
-    public void initView(Context context, EditableImage editableImage, boolean initSearch) {
+    public void initView(Context context, EditableImage editableImage, boolean initSearch, LayoutSize layoutSize) {
         this.editableImage = editableImage;
+        this.layoutSize = layoutSize;
 
         selectionView = new SelectionView(context,
                 lineWidth, cornerWidth, cornerLength,
@@ -179,4 +184,10 @@ public class NewEditPhotoViewMore extends FrameLayout {
     public EditableImage getEditableImage() {
         return editableImage;
     }
+
+
+    public interface LayoutSize {
+        void setLayoutSize(int mH, int mW);
+    }
+
 }
