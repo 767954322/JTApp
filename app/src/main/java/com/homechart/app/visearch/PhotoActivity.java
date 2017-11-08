@@ -186,7 +186,7 @@ public class PhotoActivity
                     @Override
                     public void onClick(View v) {
                         Intent intent1 = new Intent(PhotoActivity.this, SearchLoadingActivity.class);
-                        intent1.putExtra("image_url", mListData.get(position).getImage_url());
+                        intent1.putExtra("image_url", mListData.get(position).getBig_image_url());
                         intent1.putExtra("type", "lishi");
                         intent1.putExtra("image_id", mListData.get(position).getImage_id());
                         intent1.putExtra("image_type", "network");
