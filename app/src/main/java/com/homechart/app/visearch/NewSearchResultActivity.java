@@ -172,13 +172,13 @@ public class NewSearchResultActivity
         int y1 = (int) (searchSObjectInfoBean.getY() * heightImage);
         int x2 = (int) (searchSObjectInfoBean.getX() * widerImage) + (int) (searchSObjectInfoBean.getWidth() * widerImage);
         int y2 = (int) (searchSObjectInfoBean.getY() * heightImage) + (int) (searchSObjectInfoBean.getHeight() * heightImage);
-        if (Math.abs(x1 - x2) < 120) {
-            int xAdd = (120 - Math.abs(x1 - x2)) / 2;
+        if (Math.abs(x1 - x2) < 40) {
+            int xAdd = (40 - Math.abs(x1 - x2)) / 2;
             x1 = x1 - xAdd;
             x2 = x2 + xAdd;
         }
-        if (Math.abs(y1 - y2) < 120) {
-            int yAdd = (120 - Math.abs(y1 - y2)) / 2;
+        if (Math.abs(y1 - y2) < 40) {
+            int yAdd = (40 - Math.abs(y1 - y2)) / 2;
             y1 = y1 - yAdd;
             y2 = y2 + yAdd;
         }
