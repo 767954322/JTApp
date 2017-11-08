@@ -16,6 +16,7 @@ import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.homechart.app.R;
@@ -93,18 +94,18 @@ public class NewImageLayout extends FrameLayout implements View.OnClickListener 
                 initAnimation();
                 double width_scale = points.get(i).width_scale;
                 double height_scale = points.get(i).height_scale;
-                TextView textView = (TextView) LayoutInflater.from(mContext).inflate(R.layout.layout_img_kuang, this, false);
-                LayoutParams layoutParams = (LayoutParams) textView.getLayoutParams();
+                RelativeLayout relativeLayout = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.layout_img_kuang, this, false);
+                LayoutParams layoutParams = (LayoutParams) relativeLayout.getLayoutParams();
                 int object_wide = (int) (points.get(i).width_object * width / 2);
                 int object_heigh = (int) (points.get(i).height_object * height / 2);
                 layoutParams.leftMargin = (int) (width * width_scale);
                 layoutParams.topMargin = (int) (height * height_scale);
                 layoutParams.width = object_wide * 2;
                 layoutParams.height = object_heigh * 2;
-                textView.setLayoutParams(layoutParams);
+                relativeLayout.setLayoutParams(layoutParams);
 
-                textView.setTag(i);
-                textView.startAnimation(animationSet);
+                relativeLayout.setTag(i);
+                relativeLayout.startAnimation(animationSet);
 
                 animationSet.setAnimationListener(new Animation.AnimationListener() {
                     @Override
@@ -122,8 +123,8 @@ public class NewImageLayout extends FrameLayout implements View.OnClickListener 
 
                     }
                 });
-                textView.setOnClickListener(this);
-                layouPoints.addView(textView, layoutParams);
+                relativeLayout.setOnClickListener(this);
+                layouPoints.addView(relativeLayout, layoutParams);
             }
 
         }
