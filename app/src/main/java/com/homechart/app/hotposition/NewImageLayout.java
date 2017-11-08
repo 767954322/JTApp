@@ -149,7 +149,7 @@ public class NewImageLayout extends FrameLayout implements View.OnClickListener 
         animationSet.setDuration(1500);
         animationSet.setRepeatMode(Animation.RESTART);
         animationSet.setRepeatCount(1);
-        animationSet.setStartOffset(500);
+        animationSet.setStartOffset(800);
     }
 
     private void addPoints(int width, int height) {

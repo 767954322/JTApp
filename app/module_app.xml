@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_app" default="compile.module.app">
+  <dirname property="module.app.basedir" file="${ant.file.module_app}"/>
+  
+  <property name="module.jdk.home.app" value="${jdk.home.android_api_25_platform}"/>
+  <property name="module.jdk.bin.app" value="${jdk.bin.android_api_25_platform}"/>
+  <property name="module.jdk.classpath.app" value="jdk.classpath.android_api_25_platform"/>
+  
+  <property name="compiler.args.app" value="-encoding UTF-8 -source 1.7 -target 1.7 ${compiler.args}"/>
+  
+  <property name="app.output.dir" value="${module.app.basedir}/build/intermediates/classes/default_channel/debug"/>
+  <property name="app.testoutput.dir" value="${module.app.basedir}/build/intermediates/classes/test/default_channel/debug"/>
+  
+  <path id="app.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="app.module.production.classpath">
+    <path refid="${module.jdk.classpath.app}"/>
+    <path refid="library.android-smart-image-view-1.0.0.classpath"/>
+    <path refid="library.firebase-core-10.0.1.classpath"/>
+    <path refid="library.play-services-tagmanager-v4-impl-10.0.1.classpath"/>
+    <path refid="library.picasso-2.4.0.classpath"/>
+    <path refid="library.jpush-android-3.0.8.classpath"/>
+    <path refid="library.transition-25.3.1.classpath"/>
+    <path refid="library.toolsfinal-1.1.5.classpath"/>
+    <path refid="library.umeng_social_shareview.classpath"/>
+    <path refid="library.socialsdk_sina_simplify.classpath"/>
+    <path refid="library.butterknife-6.0.0.classpath"/>
+    <path refid="library.library-1.0.10.classpath"/>
+    <path refid="library.glide-3.6.1.classpath"/>
+    <path refid="library.socialsdk_qq_simplify.classpath"/>
+    <path refid="library.library-2.4.0.classpath"/>
+    <path refid="library.analytics-6.1.2.classpath"/>
+    <path refid="library.universal-image-loader-1.9.5.classpath"/>
+    <path refid="library.firebase-common-10.0.1.classpath"/>
+    <path refid="library.hlistview-1.2.2.classpath"/>
+    <path refid="library.umeng_social_tool.classpath"/>
+    <path refid="library.play-services-analytics-impl-10.0.1.classpath"/>
+    <path refid="library.play-services-basement-10.0.1.classpath"/>
+    <path refid="library.support-v4-25.3.1.classpath"/>
+    <path refid="library.support-media-compat-25.3.1.classpath"/>
+    <path refid="library.socialsdk_wechat_simplify.classpath"/>
+    <path refid="library.support-annotations-25.3.1.classpath"/>
+    <path refid="library.support-vector-drawable-25.3.1.classpath"/>
+    <path refid="library.support-compat-25.3.1.classpath"/>
+    <path refid="library.library-3.2.0.classpath"/>
+    <path refid="library.firebase-analytics-10.0.1.classpath"/>
+    <path refid="library.gson-2.8.0.classpath"/>
+    <path refid="library.constraint-layout-1.0.2.classpath"/>
+    <path refid="library.play-services-tasks-10.0.1.classpath"/>
+    <path refid="library.design-25.3.1.classpath"/>
+    <path refid="library.play-services-base-10.0.1.classpath"/>
+    <path refid="library.support-core-ui-25.3.1.classpath"/>
+    <path refid="library.android-gif-drawable-1.2.8.classpath"/>
+    <path refid="library.grid-view-with-header-footer-1.0.8.classpath"/>
+    <path refid="library.umeng_social_shareboard.classpath"/>
+    <path refid="library.library-1.4.0.classpath"/>
+    <path refid="library.support-core-utils-25.3.1.classpath"/>
+    <path refid="library.support-fragment-25.3.1.classpath"/>
+    <path refid="library.firebase-iid-10.0.1.classpath"/>
+    <path refid="library.umeng_shareboard_widget.classpath"/>
+    <path refid="library.constraint-layout-solver-1.0.2.classpath"/>
+    <path refid="library.okio-1.13.0.classpath"/>
+    <path refid="library.retrofit-2.3.0.classpath"/>
+    <path refid="library.umeng_social_net.classpath"/>
+    <path refid="library.waterfalllayoutview-1.0.0.classpath"/>
+    <path refid="library.firebase-analytics-impl-10.0.1.classpath"/>
+    <path refid="library.umeng_social_api.classpath"/>
+    <path refid="library.okhttp-3.8.0.classpath"/>
+    <path refid="library.multidex-1.0.1.classpath"/>
+    <path refid="library.play-services-analytics-10.0.1.classpath"/>
+    <path refid="library.jcore-android-1.1.6.classpath"/>
+    <path refid="library.recyclerview-v7-25.3.1.classpath"/>
+    <path refid="library.galleryfinal-1.4.8.7.classpath"/>
+    <path refid="library.appcompat-v7-25.3.1.classpath"/>
+    <path refid="library.animated-vector-drawable-25.3.1.classpath"/>
+    <pathelement location="${visearch-android.output.dir}"/>
+    <path refid="library.httpclient-android-4.3.5.classpath"/>
+    <path refid="library.httpmime-4.3.5.classpath"/>
+    <path refid="library.support-annotations-24.0.0.classpath"/>
+    <pathelement location="${flycotablayout_lib.output.dir}"/>
+    <path refid="library.support-compat-25.1.0.classpath"/>
+    <path refid="library.support-fragment-25.1.0.classpath"/>
+    <path refid="library.support-annotations-25.1.0.classpath"/>
+    <path refid="library.support-v4-25.1.0.classpath"/>
+    <path refid="library.support-core-ui-25.1.0.classpath"/>
+    <path refid="library.support-media-compat-25.1.0.classpath"/>
+    <path refid="library.support-core-utils-25.1.0.classpath"/>
+  </path>
+  
+  <path id="app.runtime.production.module.classpath">
+    <pathelement location="${app.output.dir}"/>
+    <path refid="library.android-smart-image-view-1.0.0.classpath"/>
+    <path refid="library.firebase-core-10.0.1.classpath"/>
+    <path refid="library.play-services-tagmanager-v4-impl-10.0.1.classpath"/>
+    <path refid="library.picasso-2.4.0.classpath"/>
+    <path refid="library.jpush-android-3.0.8.classpath"/>
+    <path refid="library.transition-25.3.1.classpath"/>
+    <path refid="library.toolsfinal-1.1.5.classpath"/>
+    <path refid="library.umeng_social_shareview.classpath"/>
+    <path refid="library.socialsdk_sina_simplify.classpath"/>
+    <path refid="library.butterknife-6.0.0.classpath"/>
+    <path refid="library.library-1.0.10.classpath"/>
+    <path refid="library.glide-3.6.1.classpath"/>
+    <path refid="library.socialsdk_qq_simplify.classpath"/>
+    <path refid="library.library-2.4.0.classpath"/>
+    <path refid="library.analytics-6.1.2.classpath"/>
+    <path refid="library.universal-image-loader-1.9.5.classpath"/>
+    <path refid="library.firebase-common-10.0.1.classpath"/>
+    <path refid="library.hlistview-1.2.2.classpath"/>
+    <path refid="library.umeng_social_tool.classpath"/>
+    <path refid="library.play-services-analytics-impl-10.0.1.classpath"/>
+    <path refid="library.play-services-basement-10.0.1.classpath"/>
+    <path refid="library.support-v4-25.3.1.classpath"/>
+    <path refid="library.support-media-compat-25.3.1.classpath"/>
+    <path refid="library.socialsdk_wechat_simplify.classpath"/>
+    <path refid="library.support-annotations-25.3.1.classpath"/>
+    <path refid="library.support-vector-drawable-25.3.1.classpath"/>
+    <path refid="library.support-compat-25.3.1.classpath"/>
+    <path refid="library.library-3.2.0.classpath"/>
+    <path refid="library.firebase-analytics-10.0.1.classpath"/>
+    <path refid="library.gson-2.8.0.classpath"/>
+    <path refid="library.constraint-layout-1.0.2.classpath"/>
+    <path refid="library.play-services-tasks-10.0.1.classpath"/>
+    <path refid="library.design-25.3.1.classpath"/>
+    <path refid="library.play-services-base-10.0.1.classpath"/>
+    <path refid="library.support-core-ui-25.3.1.classpath"/>
+    <path refid="library.android-gif-drawable-1.2.8.classpath"/>
+    <path refid="library.grid-view-with-header-footer-1.0.8.classpath"/>
+    <path refid="library.umeng_social_shareboard.classpath"/>
+    <path refid="library.library-1.4.0.classpath"/>
+    <path refid="library.support-core-utils-25.3.1.classpath"/>
+    <path refid="library.support-fragment-25.3.1.classpath"/>
+    <path refid="library.firebase-iid-10.0.1.classpath"/>
+    <path refid="library.umeng_shareboard_widget.classpath"/>
+    <path refid="library.constraint-layout-solver-1.0.2.classpath"/>
+    <path refid="library.okio-1.13.0.classpath"/>
+    <path refid="library.retrofit-2.3.0.classpath"/>
+    <path refid="library.umeng_social_net.classpath"/>
+    <path refid="library.waterfalllayoutview-1.0.0.classpath"/>
+    <path refid="library.firebase-analytics-impl-10.0.1.classpath"/>
+    <path refid="library.umeng_social_api.classpath"/>
+    <path refid="library.okhttp-3.8.0.classpath"/>
+    <path refid="library.multidex-1.0.1.classpath"/>
+    <path refid="library.play-services-analytics-10.0.1.classpath"/>
+    <path refid="library.jcore-android-1.1.6.classpath"/>
+    <path refid="library.recyclerview-v7-25.3.1.classpath"/>
+    <path refid="library.galleryfinal-1.4.8.7.classpath"/>
+    <path refid="library.appcompat-v7-25.3.1.classpath"/>
+    <path refid="library.animated-vector-drawable-25.3.1.classpath"/>
+    <path refid="visearch-android.runtime.production.module.classpath"/>
+    <path refid="flycotablayout_lib.runtime.production.module.classpath"/>
+  </path>
+  
+  <path id="app.module.classpath">
+    <path refid="${module.jdk.classpath.app}"/>
+    <pathelement location="${app.output.dir}"/>
+    <path refid="library.android-smart-image-view-1.0.0.classpath"/>
+    <path refid="library.runner-0.5.classpath"/>
+    <path refid="library.espresso-idling-resource-2.2.2.classpath"/>
+    <path refid="library.firebase-core-10.0.1.classpath"/>
+    <path refid="library.play-services-tagmanager-v4-impl-10.0.1.classpath"/>
+    <path refid="library.picasso-2.4.0.classpath"/>
+    <path refid="library.hamcrest-library-1.3.classpath"/>
+    <path refid="library.jpush-android-3.0.8.classpath"/>
+    <path refid="library.transition-25.3.1.classpath"/>
+    <path refid="library.toolsfinal-1.1.5.classpath"/>
+    <path refid="library.umeng_social_shareview.classpath"/>
+    <path refid="library.socialsdk_sina_simplify.classpath"/>
+    <path refid="library.butterknife-6.0.0.classpath"/>
+    <path refid="library.library-1.0.10.classpath"/>
+    <path refid="library.glide-3.6.1.classpath"/>
+    <path refid="library.socialsdk_qq_simplify.classpath"/>
+    <path refid="library.multidex-instrumentation-1.0.1.classpath"/>
+    <path refid="library.library-2.4.0.classpath"/>
+    <path refid="library.exposed-instrumentation-api-publish-0.5.classpath"/>
+    <path refid="library.analytics-6.1.2.classpath"/>
+    <path refid="library.javax.annotation-api-1.2.classpath"/>
+    <path refid="library.universal-image-loader-1.9.5.classpath"/>
+    <path refid="library.firebase-common-10.0.1.classpath"/>
+    <path refid="library.hlistview-1.2.2.classpath"/>
+    <path refid="library.umeng_social_tool.classpath"/>
+    <path refid="library.play-services-analytics-impl-10.0.1.classpath"/>
+    <path refid="library.play-services-basement-10.0.1.classpath"/>
+    <path refid="library.javawriter-2.1.1.classpath"/>
+    <path refid="library.support-v4-25.3.1.classpath"/>
+    <path refid="library.support-media-compat-25.3.1.classpath"/>
+    <path refid="library.socialsdk_wechat_simplify.classpath"/>
+    <path refid="library.support-annotations-25.3.1.classpath"/>
+    <path refid="library.support-vector-drawable-25.3.1.classpath"/>
+    <path refid="library.support-compat-25.3.1.classpath"/>
+    <path refid="library.library-3.2.0.classpath"/>
+    <path refid="library.firebase-analytics-10.0.1.classpath"/>
+    <path refid="library.gson-2.8.0.classpath"/>
+    <path refid="library.constraint-layout-1.0.2.classpath"/>
+    <path refid="library.play-services-tasks-10.0.1.classpath"/>
+    <path refid="library.hamcrest-integration-1.3.classpath"/>
+    <path refid="library.design-25.3.1.classpath"/>
+    <path refid="library.play-services-base-10.0.1.classpath"/>
+    <path refid="library.support-core-ui-25.3.1.classpath"/>
+    <path refid="library.android-gif-drawable-1.2.8.classpath"/>
+    <path refid="library.grid-view-with-header-footer-1.0.8.classpath"/>
+    <path refid="library.umeng_social_shareboard.classpath"/>
+    <path refid="library.library-1.4.0.classpath"/>
+    <path refid="library.jsr305-2.0.1.classpath"/>
+    <path refid="library.support-core-utils-25.3.1.classpath"/>
+    <path refid="library.support-fragment-25.3.1.classpath"/>
+    <path refid="library.firebase-iid-10.0.1.classpath"/>
+    <path refid="library.umeng_shareboard_widget.classpath"/>
+    <path refid="library.espresso-core-2.2.2.classpath"/>
+    <path refid="library.rules-0.5.classpath"/>
+    <path refid="library.constraint-layout-solver-1.0.2.classpath"/>
+    <path refid="library.okio-1.13.0.classpath"/>
+    <path refid="library.retrofit-2.3.0.classpath"/>
+    <path refid="library.umeng_social_net.classpath"/>
+    <path refid="library.waterfalllayoutview-1.0.0.classpath"/>
+    <path refid="library.firebase-analytics-impl-10.0.1.classpath"/>
+    <path refid="library.javax.inject-1.classpath"/>
+    <path refid="library.umeng_social_api.classpath"/>
+    <path refid="library.okhttp-3.8.0.classpath"/>
+    <path refid="library.multidex-1.0.1.classpath"/>
+    <path refid="library.hamcrest-core-1.3.classpath"/>
+    <path refid="library.play-services-analytics-10.0.1.classpath"/>
+    <path refid="library.jcore-android-1.1.6.classpath"/>
+    <path refid="library.junit-4.12.classpath"/>
+    <path refid="library.recyclerview-v7-25.3.1.classpath"/>
+    <path refid="library.galleryfinal-1.4.8.7.classpath"/>
+    <path refid="library.appcompat-v7-25.3.1.classpath"/>
+    <path refid="library.animated-vector-drawable-25.3.1.classpath"/>
+    <pathelement location="${visearch-android.testoutput.dir}"/>
+    <pathelement location="${visearch-android.output.dir}"/>
+    <path refid="library.maven-ant-tasks-2.1.3.classpath"/>
+    <path refid="library.ant-1.8.0.classpath"/>
+    <path refid="library.accessibility-test-framework-1.0.classpath"/>
+    <path refid="library.asm-commons-5.0.1.classpath"/>
+    <path refid="library.ant-launcher-1.8.0.classpath"/>
+    <path refid="library.asm-5.0.1.classpath"/>
+    <path refid="library.shadows-core-3.0.classpath"/>
+    <path refid="library.httpclient-android-4.3.5.classpath"/>
+    <path refid="library.asm-util-5.0.1.classpath"/>
+    <path refid="library.bcprov-jdk16-1.46.classpath"/>
+    <path refid="library.mockito-core-1.10.19.classpath"/>
+    <path refid="library.objenesis-2.1.classpath"/>
+    <path refid="library.httpmime-4.3.5.classpath"/>
+    <path refid="library.icu4j-53.1.classpath"/>
+    <path refid="library.robolectric-resources-3.0.classpath"/>
+    <path refid="library.robolectric-annotations-3.0.classpath"/>
+    <path refid="library.support-annotations-24.0.0.classpath"/>
+    <path refid="library.sqlite4java-0.282.classpath"/>
+    <path refid="library.asm-tree-5.0.1.classpath"/>
+    <path refid="library.robolectric-utils-3.0.classpath"/>
+    <path refid="library.asm-analysis-5.0.1.classpath"/>
+    <path refid="library.vtd-xml-2.11.classpath"/>
+    <path refid="library.robolectric-3.0.classpath"/>
+    <pathelement location="${flycotablayout_lib.testoutput.dir}"/>
+    <pathelement location="${flycotablayout_lib.output.dir}"/>
+    <path refid="library.support-compat-25.1.0.classpath"/>
+    <path refid="library.support-fragment-25.1.0.classpath"/>
+    <path refid="library.support-annotations-25.1.0.classpath"/>
+    <path refid="library.support-v4-25.1.0.classpath"/>
+    <path refid="library.support-core-ui-25.1.0.classpath"/>
+    <path refid="library.support-media-compat-25.1.0.classpath"/>
+    <path refid="library.support-core-utils-25.1.0.classpath"/>
+  </path>
+  
+  <path id="app.runtime.module.classpath">
+    <pathelement location="${app.testoutput.dir}"/>
+    <pathelement location="${app.output.dir}"/>
+    <path refid="library.android-smart-image-view-1.0.0.classpath"/>
+    <path refid="library.runner-0.5.classpath"/>
+    <path refid="library.espresso-idling-resource-2.2.2.classpath"/>
+    <path refid="library.firebase-core-10.0.1.classpath"/>
+    <path refid="library.play-services-tagmanager-v4-impl-10.0.1.classpath"/>
+    <path refid="library.picasso-2.4.0.classpath"/>
+    <path refid="library.hamcrest-library-1.3.classpath"/>
+    <path refid="library.jpush-android-3.0.8.classpath"/>
+    <path refid="library.transition-25.3.1.classpath"/>
+    <path refid="library.toolsfinal-1.1.5.classpath"/>
+    <path refid="library.umeng_social_shareview.classpath"/>
+    <path refid="library.socialsdk_sina_simplify.classpath"/>
+    <path refid="library.butterknife-6.0.0.classpath"/>
+    <path refid="library.library-1.0.10.classpath"/>
+    <path refid="library.glide-3.6.1.classpath"/>
+    <path refid="library.socialsdk_qq_simplify.classpath"/>
+    <path refid="library.multidex-instrumentation-1.0.1.classpath"/>
+    <path refid="library.library-2.4.0.classpath"/>
+    <path refid="library.exposed-instrumentation-api-publish-0.5.classpath"/>
+    <path refid="library.analytics-6.1.2.classpath"/>
+    <path refid="library.javax.annotation-api-1.2.classpath"/>
+    <path refid="library.universal-image-loader-1.9.5.classpath"/>
+    <path refid="library.firebase-common-10.0.1.classpath"/>
+    <path refid="library.hlistview-1.2.2.classpath"/>
+    <path refid="library.umeng_social_tool.classpath"/>
+    <path refid="library.play-services-analytics-impl-10.0.1.classpath"/>
+    <path refid="library.play-services-basement-10.0.1.classpath"/>
+    <path refid="library.javawriter-2.1.1.classpath"/>
+    <path refid="library.support-v4-25.3.1.classpath"/>
+    <path refid="library.support-media-compat-25.3.1.classpath"/>
+    <path refid="library.socialsdk_wechat_simplify.classpath"/>
+    <path refid="library.support-annotations-25.3.1.classpath"/>
+    <path refid="library.support-vector-drawable-25.3.1.classpath"/>
+    <path refid="library.support-compat-25.3.1.classpath"/>
+    <path refid="library.library-3.2.0.classpath"/>
+    <path refid="library.firebase-analytics-10.0.1.classpath"/>
+    <path refid="library.gson-2.8.0.classpath"/>
+    <path refid="library.constraint-layout-1.0.2.classpath"/>
+    <path refid="library.play-services-tasks-10.0.1.classpath"/>
+    <path refid="library.hamcrest-integration-1.3.classpath"/>
+    <path refid="library.design-25.3.1.classpath"/>
+    <path refid="library.play-services-base-10.0.1.classpath"/>
+    <path refid="library.support-core-ui-25.3.1.classpath"/>
+    <path refid="library.android-gif-drawable-1.2.8.classpath"/>
+    <path refid="library.grid-view-with-header-footer-1.0.8.classpath"/>
+    <path refid="library.umeng_social_shareboard.classpath"/>
+    <path refid="library.library-1.4.0.classpath"/>
+    <path refid="library.jsr305-2.0.1.classpath"/>
+    <path refid="library.support-core-utils-25.3.1.classpath"/>
+    <path refid="library.support-fragment-25.3.1.classpath"/>
+    <path refid="library.firebase-iid-10.0.1.classpath"/>
+    <path refid="library.umeng_shareboard_widget.classpath"/>
+    <path refid="library.espresso-core-2.2.2.classpath"/>
+    <path refid="library.rules-0.5.classpath"/>
+    <path refid="library.constraint-layout-solver-1.0.2.classpath"/>
+    <path refid="library.okio-1.13.0.classpath"/>
+    <path refid="library.retrofit-2.3.0.classpath"/>
+    <path refid="library.umeng_social_net.classpath"/>
+    <path refid="library.waterfalllayoutview-1.0.0.classpath"/>
+    <path refid="library.firebase-analytics-impl-10.0.1.classpath"/>
+    <path refid="library.javax.inject-1.classpath"/>
+    <path refid="library.umeng_social_api.classpath"/>
+    <path refid="library.okhttp-3.8.0.classpath"/>
+    <path refid="library.multidex-1.0.1.classpath"/>
+    <path refid="library.hamcrest-core-1.3.classpath"/>
+    <path refid="library.play-services-analytics-10.0.1.classpath"/>
+    <path refid="library.jcore-android-1.1.6.classpath"/>
+    <path refid="library.junit-4.12.classpath"/>
+    <path refid="library.recyclerview-v7-25.3.1.classpath"/>
+    <path refid="library.galleryfinal-1.4.8.7.classpath"/>
+    <path refid="library.appcompat-v7-25.3.1.classpath"/>
+    <path refid="library.animated-vector-drawable-25.3.1.classpath"/>
+    <path refid="visearch-android.runtime.module.classpath"/>
+    <path refid="flycotablayout_lib.runtime.module.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.app">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.app">
+    <patternset refid="excluded.from.module.app"/>
+  </patternset>
+  
+  <path id="app.module.sourcepath">
+    <dirset dir="${module.app.basedir}">
+      <include name="build/generated/source/r/default_channel/debug"/>
+      <include name="build/generated/source/aidl/default_channel/debug"/>
+      <include name="build/generated/source/buildConfig/default_channel/debug"/>
+      <include name="build/generated/source/rs/default_channel/debug"/>
+      <include name="build/generated/source/apt/default_channel/debug"/>
+      <include name="build/generated/res/google-services/default_channel/debug"/>
+      <include name="build/generated/res/rs/default_channel/debug"/>
+      <include name="build/generated/res/resValues/default_channel/debug"/>
+      <include name="src/main/res"/>
+      <include name="src/main/assets"/>
+      <include name="src/main/java"/>
+    </dirset>
+  </path>
+  
+  <path id="app.module.test.sourcepath">
+    <dirset dir="${module.app.basedir}">
+      <include name="build/generated/source/r/androidTest/default_channel/debug"/>
+      <include name="build/generated/source/aidl/androidTest/default_channel/debug"/>
+      <include name="build/generated/source/buildConfig/androidTest/default_channel/debug"/>
+      <include name="build/generated/source/rs/androidTest/default_channel/debug"/>
+      <include name="build/generated/source/apt/androidTest/default_channel/debug"/>
+      <include name="build/generated/res/rs/androidTest/default_channel/debug"/>
+      <include name="build/generated/res/resValues/androidTest/default_channel/debug"/>
+      <include name="src/androidTest/java"/>
+      <include name="src/test/java"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.app" depends="compile.module.app.production,compile.module.app.tests" description="Compile module app"/>
+  
+  <target name="compile.module.app.production" depends="register.custom.compilers,compile.module.visearch-android,compile.module.flycotablayout_lib" description="Compile module app; production classes">
+    <mkdir dir="${app.output.dir}"/>
+    <javac2 destdir="${app.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.app}/javac">
+      <compilerarg line="${compiler.args.app}"/>
+      <bootclasspath refid="app.module.bootclasspath"/>
+      <classpath refid="app.module.production.classpath"/>
+      <src refid="app.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.app"/>
+    </javac2>
+    
+    <copy todir="${app.output.dir}">
+      <fileset dir="${module.app.basedir}/build/generated/source/r/default_channel/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.app.basedir}/build/generated/source/aidl/default_channel/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.app.basedir}/build/generated/source/buildConfig/default_channel/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.app.basedir}/build/generated/source/rs/default_channel/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.app.basedir}/build/generated/source/apt/default_channel/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.app.basedir}/build/generated/res/google-services/default_channel/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.app.basedir}/build/generated/res/rs/default_channel/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.app.basedir}/build/generated/res/resValues/default_channel/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.app.basedir}/src/main/res">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.app.basedir}/src/main/assets">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.app.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.app.tests" depends="register.custom.compilers,compile.module.app.production" description="compile module app; test classes" unless="skip.tests">
+    <mkdir dir="${app.testoutput.dir}"/>
+    <javac2 destdir="${app.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.app}/javac">
+      <compilerarg line="${compiler.args.app}"/>
+      <bootclasspath refid="app.module.bootclasspath"/>
+      <classpath refid="app.module.classpath"/>
+      <src refid="app.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.app"/>
+    </javac2>
+    
+    <copy todir="${app.testoutput.dir}">
+      <fileset dir="${module.app.basedir}/build/generated/source/r/androidTest/default_channel/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.app.basedir}/build/generated/source/aidl/androidTest/default_channel/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.app.basedir}/build/generated/source/buildConfig/androidTest/default_channel/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.app.basedir}/build/generated/source/rs/androidTest/default_channel/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.app.basedir}/build/generated/source/apt/androidTest/default_channel/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.app.basedir}/build/generated/res/rs/androidTest/default_channel/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.app.basedir}/build/generated/res/resValues/androidTest/default_channel/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.app.basedir}/src/androidTest/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.app.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.app" description="cleanup module">
+    <delete dir="${app.output.dir}"/>
+    <delete dir="${app.testoutput.dir}"/>
+  </target>
+</project>

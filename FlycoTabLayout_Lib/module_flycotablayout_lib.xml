@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_flycotablayout_lib" default="compile.module.flycotablayout_lib">
+  <dirname property="module.flycotablayout_lib.basedir" file="${ant.file.module_flycotablayout_lib}"/>
+  
+  <property name="module.jdk.home.flycotablayout_lib" value="${jdk.home.android_api_25_platform}"/>
+  <property name="module.jdk.bin.flycotablayout_lib" value="${jdk.bin.android_api_25_platform}"/>
+  <property name="module.jdk.classpath.flycotablayout_lib" value="jdk.classpath.android_api_25_platform"/>
+  
+  <property name="compiler.args.flycotablayout_lib" value="-encoding UTF-8 -source 1.7 -target 1.7 ${compiler.args}"/>
+  
+  <property name="flycotablayout_lib.output.dir" value="${module.flycotablayout_lib.basedir}/build/intermediates/classes/debug"/>
+  <property name="flycotablayout_lib.testoutput.dir" value="${module.flycotablayout_lib.basedir}/build/intermediates/classes/test/debug"/>
+  
+  <path id="flycotablayout_lib.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="flycotablayout_lib.module.production.classpath">
+    <path refid="${module.jdk.classpath.flycotablayout_lib}"/>
+    <path refid="library.support-compat-25.1.0.classpath"/>
+    <path refid="library.support-fragment-25.1.0.classpath"/>
+    <path refid="library.support-annotations-25.1.0.classpath"/>
+    <path refid="library.support-v4-25.1.0.classpath"/>
+    <path refid="library.support-core-ui-25.1.0.classpath"/>
+    <path refid="library.support-media-compat-25.1.0.classpath"/>
+    <path refid="library.support-core-utils-25.1.0.classpath"/>
+  </path>
+  
+  <path id="flycotablayout_lib.runtime.production.module.classpath">
+    <pathelement location="${flycotablayout_lib.output.dir}"/>
+    <path refid="library.support-compat-25.1.0.classpath"/>
+    <path refid="library.support-fragment-25.1.0.classpath"/>
+    <path refid="library.support-annotations-25.1.0.classpath"/>
+    <path refid="library.support-v4-25.1.0.classpath"/>
+    <path refid="library.support-core-ui-25.1.0.classpath"/>
+    <path refid="library.support-media-compat-25.1.0.classpath"/>
+    <path refid="library.support-core-utils-25.1.0.classpath"/>
+  </path>
+  
+  <path id="flycotablayout_lib.module.classpath">
+    <path refid="${module.jdk.classpath.flycotablayout_lib}"/>
+    <pathelement location="${flycotablayout_lib.output.dir}"/>
+    <path refid="library.support-compat-25.1.0.classpath"/>
+    <path refid="library.support-fragment-25.1.0.classpath"/>
+    <path refid="library.support-annotations-25.1.0.classpath"/>
+    <path refid="library.support-v4-25.1.0.classpath"/>
+    <path refid="library.support-core-ui-25.1.0.classpath"/>
+    <path refid="library.support-media-compat-25.1.0.classpath"/>
+    <path refid="library.support-core-utils-25.1.0.classpath"/>
+  </path>
+  
+  <path id="flycotablayout_lib.runtime.module.classpath">
+    <pathelement location="${flycotablayout_lib.testoutput.dir}"/>
+    <pathelement location="${flycotablayout_lib.output.dir}"/>
+    <path refid="library.support-compat-25.1.0.classpath"/>
+    <path refid="library.support-fragment-25.1.0.classpath"/>
+    <path refid="library.support-annotations-25.1.0.classpath"/>
+    <path refid="library.support-v4-25.1.0.classpath"/>
+    <path refid="library.support-core-ui-25.1.0.classpath"/>
+    <path refid="library.support-media-compat-25.1.0.classpath"/>
+    <path refid="library.support-core-utils-25.1.0.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.flycotablayout_lib">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.flycotablayout_lib">
+    <patternset refid="excluded.from.module.flycotablayout_lib"/>
+  </patternset>
+  
+  <path id="flycotablayout_lib.module.sourcepath">
+    <dirset dir="${module.flycotablayout_lib.basedir}">
+      <include name="build/generated/source/r/debug"/>
+      <include name="build/generated/source/aidl/debug"/>
+      <include name="build/generated/source/buildConfig/debug"/>
+      <include name="build/generated/source/rs/debug"/>
+      <include name="build/generated/source/apt/debug"/>
+      <include name="build/generated/res/rs/debug"/>
+      <include name="build/generated/res/resValues/debug"/>
+      <include name="src/main/res"/>
+      <include name="src/main/java"/>
+    </dirset>
+  </path>
+  
+  <path id="flycotablayout_lib.module.test.sourcepath">
+    <dirset dir="${module.flycotablayout_lib.basedir}">
+      <include name="build/generated/source/r/androidTest/debug"/>
+      <include name="build/generated/source/aidl/androidTest/debug"/>
+      <include name="build/generated/source/buildConfig/androidTest/debug"/>
+      <include name="build/generated/source/rs/androidTest/debug"/>
+      <include name="build/generated/source/apt/androidTest/debug"/>
+      <include name="build/generated/res/rs/androidTest/debug"/>
+      <include name="build/generated/res/resValues/androidTest/debug"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.flycotablayout_lib" depends="compile.module.flycotablayout_lib.production,compile.module.flycotablayout_lib.tests" description="Compile module FlycoTabLayout_Lib"/>
+  
+  <target name="compile.module.flycotablayout_lib.production" depends="register.custom.compilers" description="Compile module FlycoTabLayout_Lib; production classes">
+    <mkdir dir="${flycotablayout_lib.output.dir}"/>
+    <javac2 destdir="${flycotablayout_lib.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.flycotablayout_lib}/javac">
+      <compilerarg line="${compiler.args.flycotablayout_lib}"/>
+      <bootclasspath refid="flycotablayout_lib.module.bootclasspath"/>
+      <classpath refid="flycotablayout_lib.module.production.classpath"/>
+      <src refid="flycotablayout_lib.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.flycotablayout_lib"/>
+    </javac2>
+    
+    <copy todir="${flycotablayout_lib.output.dir}">
+      <fileset dir="${module.flycotablayout_lib.basedir}/build/generated/source/r/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.flycotablayout_lib.basedir}/build/generated/source/aidl/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.flycotablayout_lib.basedir}/build/generated/source/buildConfig/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.flycotablayout_lib.basedir}/build/generated/source/rs/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.flycotablayout_lib.basedir}/build/generated/source/apt/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.flycotablayout_lib.basedir}/build/generated/res/rs/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.flycotablayout_lib.basedir}/build/generated/res/resValues/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.flycotablayout_lib.basedir}/src/main/res">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.flycotablayout_lib.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.flycotablayout_lib.tests" depends="register.custom.compilers,compile.module.flycotablayout_lib.production" description="compile module FlycoTabLayout_Lib; test classes" unless="skip.tests">
+    <mkdir dir="${flycotablayout_lib.testoutput.dir}"/>
+    <javac2 destdir="${flycotablayout_lib.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.flycotablayout_lib}/javac">
+      <compilerarg line="${compiler.args.flycotablayout_lib}"/>
+      <bootclasspath refid="flycotablayout_lib.module.bootclasspath"/>
+      <classpath refid="flycotablayout_lib.module.classpath"/>
+      <src refid="flycotablayout_lib.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.flycotablayout_lib"/>
+    </javac2>
+    
+    <copy todir="${flycotablayout_lib.testoutput.dir}">
+      <fileset dir="${module.flycotablayout_lib.basedir}/build/generated/source/r/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.flycotablayout_lib.basedir}/build/generated/source/aidl/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.flycotablayout_lib.basedir}/build/generated/source/buildConfig/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.flycotablayout_lib.basedir}/build/generated/source/rs/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.flycotablayout_lib.basedir}/build/generated/source/apt/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.flycotablayout_lib.basedir}/build/generated/res/rs/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.flycotablayout_lib.basedir}/build/generated/res/resValues/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.flycotablayout_lib" description="cleanup module">
+    <delete dir="${flycotablayout_lib.output.dir}"/>
+    <delete dir="${flycotablayout_lib.testoutput.dir}"/>
+  </target>
+</project>
