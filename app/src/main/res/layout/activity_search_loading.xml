@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop" />
 
 
     <RelativeLayout
@@ -23,23 +23,35 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_centerInParent="true">
-
-            <!--<pl.droidsonroids.gif.GifImageView-->
-                <!--android:id="@+id/gif_image"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@drawable/shibiezhong"-->
-                <!--/>-->
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical">
 
             <TextView
+                android:id="@+id/tv_toast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/font_10"
-                android:textSize="@dimen/size_20"
+                android:gravity="center_horizontal"
+                android:text="智能分析中..."
                 android:textColor="@color/white"
-                android:text="智能分析中..."/>
+                android:textSize="@dimen/size_20" />
+
+            <RelativeLayout
+                android:id="@+id/rl_loading"
+                android:layout_width="128dp"
+                android:layout_height="@dimen/font_15"
+                android:layout_below="@+id/tv_toast"
+                android:layout_marginTop="@dimen/font_15"
+                android:background="@drawable/back_loading">
+
+                <TextView
+                    android:id="@+id/tv_loading_round"
+                    android:layout_width="35dp"
+                    android:layout_height="@dimen/font_15"
+                    android:background="@drawable/back_loading_round" />
+
+            </RelativeLayout>
+
 
         </RelativeLayout>
 
@@ -51,7 +63,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/font_45"
-            android:src="@drawable/bushibie"/>
+            android:src="@drawable/bushibie" />
 
     </RelativeLayout>
 

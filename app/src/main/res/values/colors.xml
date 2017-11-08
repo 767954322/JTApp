@@ -82,6 +82,8 @@
     <color name="bg_dcdcdc">#dcdcdc</color>
     <color name="bg_e6e6e6">#e6e6e6</color>
 
+    <color name="bg_4de6e6e6">#4Dffffff</color>
+
     <color name="black">#000000</color>
     <color name="gray_trans_80">#dd1c2127</color>
     <color name="tiaoguo_back">#66000000</color>

@@ -32,7 +32,10 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.homechart.app.MyApplication;
@@ -46,6 +49,7 @@ import com.homechart.app.utils.BitmapUtil;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.Md5Util;
 import com.homechart.app.utils.ToastUtils;
+import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.FileHttpManager;
 import com.homechart.app.utils.volley.MyHttpManager;
@@ -77,6 +81,7 @@ public class SearchLoadingActivity
     private String image_type;
     private ImageView iv_quxiao_loading;
     private float image_ratio;
+    private TextView tv_loading_round;
 
     @Override
     protected int getLayoutResId() {
@@ -99,11 +104,20 @@ public class SearchLoadingActivity
 
         iv_image_search = (ImageView) findViewById(R.id.iv_image_search);
         iv_quxiao_loading = (ImageView) findViewById(R.id.iv_quxiao_loading);
+        tv_loading_round = (TextView) findViewById(R.id.tv_loading_round);
 
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+        TranslateAnimation animation = new TranslateAnimation(-dip2px(35), dip2px(128), 0, 0);
+        animation.setDuration(2000);
+        animation.setRepeatCount(1000000);//设置重复次数
+        animation.setRepeatMode(Animation.RESTART);//设置反方向执行
+        animation.setStartOffset(0);
+        tv_loading_round.setAnimation(animation);
+
         if (image_type.equals("location")) {
             ImageUtils.disRectangleImage("file://" + imagePath, iv_image_search);
         } else {
@@ -116,6 +130,11 @@ public class SearchLoadingActivity
             ImageUtils.disRectangleImage(imagePath, iv_image_search);
         }
         shibie();
+    }
+
+    public float dip2px(float dpValue) {
+        final float scale = getResources().getDisplayMetrics().density;
+        return dpValue * scale + 0.5f;
     }
 
     @Override
