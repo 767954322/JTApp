@@ -2,6 +2,7 @@ package com.homechart.app.hotposition;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,13 +86,12 @@ public class ImageLayout extends FrameLayout implements View.OnClickListener {
 
         layouPoints.setLayoutParams(lp1);
 
-        ImageUtils.disRectangleImage(imgUrl,imgBg);
-
-//        EditableImage editableImage = new EditableImage(imgUrl, true);
-//        imgBg.setUrlImage(imgUrl);
-//        imgBg.initView(mContext, editableImage, false);
-
-        addPoints(width, height);
+        if(!TextUtils.isEmpty(imgUrl)){
+            ImageUtils.disRectangleImage(imgUrl,imgBg);
+        }
+        if(TextUtils.isEmpty(imgUrl)){
+            addPoints(width, height);
+        }
 
     }
 

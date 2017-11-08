@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,7 @@ public class NewImageLayout extends FrameLayout implements View.OnClickListener 
     Context mContext;
     PositionClickImp mPositionClickImp;
     private AnimationSet animationSet;
+    private String clickposition;
 
     public NewImageLayout(Context context) {
         this(context, null);
@@ -71,12 +73,16 @@ public class NewImageLayout extends FrameLayout implements View.OnClickListener 
         super.onSizeChanged(w, h, oldw, oldh);
     }
 
-    public void setImgBg(int width, int height, PositionClickImp positionClickImp) {
+    public void setImgBg(int width, int height, PositionClickImp positionClickImp, String clickposition) {
 
         this.mPositionClickImp = positionClickImp;
+        this.clickposition = clickposition;
 
-        addKuang(width, height);
-//      addPoints(width, height);
+        if (!TextUtils.isEmpty(clickposition) && clickposition.equals("true")) {
+            addPoints(width, height);
+        }else {
+            addKuang(width, height);
+        }
 
     }
 
@@ -150,7 +156,7 @@ public class NewImageLayout extends FrameLayout implements View.OnClickListener 
         animationSet.setDuration(1500);
         animationSet.setRepeatMode(Animation.RESTART);
         animationSet.setRepeatCount(1);
-        animationSet.setStartOffset(800);
+        animationSet.setStartOffset(400);
     }
 
     private void addPoints(int width, int height) {

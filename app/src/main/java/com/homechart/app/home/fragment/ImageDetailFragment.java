@@ -3,6 +3,7 @@ package com.homechart.app.home.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -43,6 +44,7 @@ import com.homechart.app.home.bean.imagedetail.ColorInfoBean;
 import com.homechart.app.home.bean.imagedetail.ImageDetailBean;
 import com.homechart.app.home.bean.pinglun.CommentListBean;
 import com.homechart.app.home.bean.pinglun.PingBean;
+import com.homechart.app.home.bean.searchfservice.SearchSBean;
 import com.homechart.app.home.bean.shouye.SYDataBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.hotposition.ImageLayout;
@@ -69,6 +71,7 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.homechart.app.visearch.NewSearchResultActivity;
 import com.homechart.app.visearch.SearchLoadingActivity;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
@@ -130,14 +133,9 @@ public class ImageDetailFragment
     private TextView tv_people_details;
     private TextView tv_people_guanzhu;
     private String mUserId;
-    //    private ImageButton nav_secondary_imageButton;
     private int guanzhuTag = 0;//1:未关注  2:关注   3:相互关注
     private boolean imageFirstTag = true;
     private FlowLayoutBiaoQian fl_tags_jubu;
-    //    private RelativeLayout rl_image_color;
-//    private RoundImageView riv_color_image_details_one;
-//    private RoundImageView riv_color_image_details_two;
-//    private RoundImageView riv_color_image_details_three;
     private List<ColorInfoBean> listColor;
     private List<String> list = new ArrayList<>();
     public PingBean pingBean;
@@ -201,6 +199,12 @@ public class ImageDetailFragment
     private SearchShopPopWin mSearchShopPopWin;
     private boolean loginStatus;
     private TextView tv_color_tital;
+
+    List<String> listTag = new ArrayList<>();
+    private List<String> mItemIdList = new ArrayList<>();
+    private SearchSBean searchSBean;
+    boolean getPosition = true;
+
 
     public ImageDetailFragment() {
 
@@ -313,7 +317,6 @@ public class ImageDetailFragment
         mRecyclerView.scrollTo(0, 0);
     }
 
-
     private void initListener() {
         tv_content_right.setOnClickListener(this);
         nav_secondary_imageButton.setOnClickListener(this);
@@ -362,18 +365,6 @@ public class ImageDetailFragment
                             //回复第三条评论
                             pingHuiFu(searchContext);
                         }
-
-                        //友盟统计
-                        HashMap<String, String> map = new HashMap<String, String>();
-                        map.put("evenname", "图片评论");
-                        map.put("even", "图片详情");
-                        MobclickAgent.onEvent(activity, "jtaction12", map);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("图片详情")  //事件类别
-                                .setAction("图片评论")      //事件操作
-                                .build());
-
                     }
 
                     return true;
@@ -423,29 +414,9 @@ public class ImageDetailFragment
             case R.id.iv_bang:
             case R.id.tv_bang:
                 if (ifZan) {
-                    //友盟统计
-                    HashMap<String, String> map1 = new HashMap<String, String>();
-                    map1.put("evenname", "棒图片");
-                    map1.put("even", "图片详情");
-                    MobclickAgent.onEvent(activity, "jtaction11", map1);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("图片详情")  //事件类别
-                            .setAction("棒图片")      //事件操作
-                            .build());
                     addZan();
                     ifZan = false;
                 } else {
-                    //友盟统计
-                    HashMap<String, String> map1 = new HashMap<String, String>();
-                    map1.put("evenname", "取消棒图片");
-                    map1.put("even", "图片详情");
-                    MobclickAgent.onEvent(activity, "jtaction10", map1);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("图片详情")  //事件类别
-                            .setAction("取消棒图片")      //事件操作
-                            .build());
                     removeZan();
                     ifZan = true;
                 }
@@ -453,32 +424,9 @@ public class ImageDetailFragment
             case R.id.iv_xing:
             case R.id.tv_xing:
                 if (ifShouCang) {
-
-                    //友盟统计
-                    HashMap<String, String> map1 = new HashMap<String, String>();
-                    map1.put("evenname", "收藏图片");
-                    map1.put("even", "图片详情");
-                    MobclickAgent.onEvent(activity, "jtaction5", map1);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("图片详情")  //事件类别
-                            .setAction("收藏图片")      //事件操作
-                            .build());
-
                     addShouCang();
                     ifShouCang = false;
                 } else {
-                    //友盟统计
-                    HashMap<String, String> map1 = new HashMap<String, String>();
-                    map1.put("evenname", "取消收藏图片");
-                    map1.put("even", "图片详情");
-                    MobclickAgent.onEvent(activity, "jtaction6", map1);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("图片详情")  //事件类别
-                            .setAction("取消收藏图片")      //事件操作
-                            .build());
-
                     removeShouCang();
                     ifShouCang = true;
                 }
@@ -488,42 +436,12 @@ public class ImageDetailFragment
                 if (null != imageDetailBean) {
                     switch (guanzhuTag) {
                         case 1:
-                            //友盟统计
-                            HashMap<String, String> map1 = new HashMap<String, String>();
-                            map1.put("evenname", " 关注");
-                            map1.put("even", "图片详情");
-                            MobclickAgent.onEvent(activity, "jtaction9", map1);
-                            //ga统计
-                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("图片详情")  //事件类别
-                                    .setAction(" 关注")      //事件操作
-                                    .build());
                             getGuanZhu();
                             break;
                         case 2:
-                            //友盟统计
-                            HashMap<String, String> map2 = new HashMap<String, String>();
-                            map2.put("evenname", " 取消关注");
-                            map2.put("even", "图片详情");
-                            MobclickAgent.onEvent(activity, "jtaction8", map2);
-                            //ga统计
-                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("图片详情")  //事件类别
-                                    .setAction(" 取消关注")      //事件操作
-                                    .build());
                             getQuXiao();
                             break;
                         case 3:
-                            //友盟统计
-                            HashMap<String, String> map3 = new HashMap<String, String>();
-                            map3.put("evenname", " 取消关注");
-                            map3.put("even", "图片详情");
-                            MobclickAgent.onEvent(activity, "jtaction8", map3);
-                            //ga统计
-                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("图片详情")  //事件类别
-                                    .setAction(" 取消关注")      //事件操作
-                                    .build());
                             getQuXiao();
                             break;
                     }
@@ -551,17 +469,6 @@ public class ImageDetailFragment
             case R.id.rl_ping_four:
             case R.id.iv_ping:
             case R.id.tv_ping:
-                //友盟统计
-                HashMap<String, String> map3 = new HashMap<String, String>();
-                map3.put("evenname", " 查看更多评论");
-                map3.put("even", "图片详情");
-                MobclickAgent.onEvent(activity, "jtaction15", map3);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("图片详情")  //事件类别
-                        .setAction(" 查看更多评论")      //事件操作
-                        .build());
-
                 Intent intent = new Intent(activity, PingListActivity.class);
                 intent.putExtra("item_id", item_id);
                 startActivityForResult(intent, 2);
@@ -599,17 +506,6 @@ public class ImageDetailFragment
                     dgv_colorlist.setVisibility(View.GONE);
                     tv_color_tips.setVisibility(View.GONE);
                     rl_color_location.setVisibility(View.GONE);
-                    //友盟统计
-                    HashMap<String, String> map5 = new HashMap<String, String>();
-                    map5.put("evenname", " 颜色分析收起");
-                    map5.put("even", "图片详情");
-                    MobclickAgent.onEvent(activity, "jtaction18", map5);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("图片详情")  //事件类别
-                            .setAction(" 颜色分析收起")      //事件操作
-                            .build());
-
 
                 } else {
                     //显示
@@ -619,17 +515,6 @@ public class ImageDetailFragment
                     dgv_colorlist.setVisibility(View.VISIBLE);
                     tv_color_tips.setVisibility(View.VISIBLE);
                     rl_color_location.setVisibility(View.VISIBLE);
-                    //友盟统计
-                    HashMap<String, String> map5 = new HashMap<String, String>();
-                    map5.put("evenname", " 颜色分析展开");
-                    map5.put("even", "图片详情");
-                    MobclickAgent.onEvent(activity, "jtaction17", map5);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("图片详情")  //事件类别
-                            .setAction(" 颜色分析展开")      //事件操作
-                            .build());
-
                 }
 
                 break;
@@ -643,8 +528,6 @@ public class ImageDetailFragment
         }
     }
 
-    List<String> listTag = new ArrayList<>();
-    private List<String> mItemIdList = new ArrayList<>();
     private void buildRecyclerView() {
 
         MultiItemTypeSupport<ImageLikeItemBean> support = new MultiItemTypeSupport<ImageLikeItemBean>() {
@@ -966,42 +849,7 @@ public class ImageDetailFragment
         MyHttpManager.getInstance().goQuXiaoGuanZhu(imageDetailBean.getUser_info().getUser_id(), callBack);
     }
 
-
-    private void tongjiQiu(int position) {
-        //友盟统计
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("evenname", "三个色彩点");
-        map.put("even", "图片详情-推荐列表");
-        MobclickAgent.onEvent(activity, "jtaction3", map);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("图片详情-推荐列表")  //事件类别
-                .setAction("三个色彩点")      //事件操作
-                .build());
-        //查看单图详情
-        Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
-        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-        intent.putExtra("position", position);
-        intent.putExtra("like_id", item_id);
-        intent.putExtra("type", "你可能喜欢");
-        intent.putExtra("page_num", page);
-        intent.putExtra("if_click_color", true);
-        intent.putExtra("item_id_list", (Serializable) mItemIdList);
-        startActivity(intent);
-    }
-
     private void getImageListData() {
-
-        //友盟统计
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("evenname", "推荐图片加载");
-        map.put("even", "图片详情");
-        MobclickAgent.onEvent(activity, "jtaction16", map);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("图片详情")  //事件类别
-                .setAction("推荐图片加载")      //事件操作
-                .build());
 
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
@@ -1199,27 +1047,6 @@ public class ImageDetailFragment
 
     }
 
-    @Override
-    public void onClickPosition(int pos) {
-        //友盟统计
-        HashMap<String, String> map6 = new HashMap<String, String>();
-        map6.put("evenname", "图片中商品点击");
-        map6.put("even", "记录点击图片中的商品圆点的次数");
-        MobclickAgent.onEvent(activity, "jtaction54", map6);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("记录点击图片中的商品圆点的次数")  //事件类别
-                .setAction("图片中商品点击")      //事件操作
-                .build());
-        if (imageDetailBean != null) {
-            mSearchShopPopWin = new SearchShopPopWin(activity);
-            mSearchShopPopWin.setImageData(imageDetailBean, pos,((ImageDetailScrollActivity)activity).getTypeNewBean());
-            mSearchShopPopWin.showAtLocation(activity.findViewById(R.id.menu_layout),
-                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
-                    0,
-                    0); //设置layout在PopupWindow中显示的位置
-        }
-    }
     private void changeUI(ImageDetailBean imageDetailBean) {
         int wide_num = PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_20);
         ViewGroup.LayoutParams layoutParams = iv_details_image.getLayoutParams();
@@ -1439,7 +1266,6 @@ public class ImageDetailFragment
 
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -1454,7 +1280,6 @@ public class ImageDetailFragment
         }
 
     }
-
 
     @Override
     public void onLoadMore() {
@@ -1718,85 +1543,6 @@ public class ImageDetailFragment
         }
     }
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            comment_num++;
-            tv_ping.setText(comment_num + "");
-        }
-    };
-
-    Handler mHandler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            int code = msg.what;
-            switch (code) {
-                case 1:
-                    String data = (String) msg.obj;
-                    imageDetailBean = GsonUtil.jsonToBean(data, ImageDetailBean.class);
-                    changeUI(imageDetailBean);
-                    userInfo.getUserInfo(imageDetailBean);
-                    break;
-                case 2:
-                    ToastUtils.showCenter(activity, "你很棒棒哦");
-                    iv_bang.setImageResource(R.drawable.bang1);
-                    like_num++;
-                    if (like_num == 0) {
-                        tv_bang.setText("");
-                    } else {
-                        tv_bang.setText(like_num + "");
-                    }
-                    tv_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
-                    break;
-                case 3:
-                    ToastUtils.showCenter(activity, "已取消点赞");
-                    iv_bang.setImageResource(R.drawable.bang);
-                    like_num--;
-                    if (like_num == 0) {
-                        tv_bang.setText("");
-                    } else {
-                        tv_bang.setText(like_num + "");
-                    }
-
-                    tv_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-                    break;
-                case 4:
-                    ToastUtils.showCenter(activity, "收藏成功");
-                    iv_xing.setImageResource(R.drawable.xing1);
-                    collect_num++;
-                    if (collect_num == 0) {
-                        tv_xing.setText("");
-                    } else {
-                        tv_xing.setText(collect_num + "");
-                    }
-                    tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
-                    break;
-                case 5:
-                    ToastUtils.showCenter(activity, "取消收藏");
-                    iv_xing.setImageResource(R.drawable.xing);
-                    collect_num--;
-                    if (collect_num == 0) {
-                        tv_xing.setText("");
-                    } else {
-                        tv_xing.setText(collect_num + "");
-                    }
-                    tv_xing.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-                    break;
-                case 6:
-                    String pinglist = "{\"data\": " + (String) msg.obj + "}";
-                    pingBean = GsonUtil.jsonToBean(pinglist, PingBean.class);
-                    changePingUI();
-                    break;
-                case 7:
-                    break;
-            }
-        }
-    };
-
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
         public void onStart(SHARE_MEDIA platform) {
@@ -1992,9 +1738,10 @@ public class ImageDetailFragment
     }
 
     boolean ifClickShouCang = true;
+
     //收藏或者取消收藏，图片
     public void onShouCang(boolean ifShouCang, int position, ImageLikeItemBean imageLikeItemBean) {
-        if(ifClickShouCang) {
+        if (ifClickShouCang) {
             ifClickShouCang = false;
             if (ifShouCang) {
                 //友盟统计
@@ -2105,9 +1852,164 @@ public class ImageDetailFragment
     }
 
 
-
     public interface UserInfo {
         void getUserInfo(ImageDetailBean imageDetailBean);
+    }
+
+    private void getSearchPosition(String image_id) {
+        OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    if (response != null) {
+                        JSONObject jsonObject = new JSONObject(response);
+                        int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                        String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                        String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                        if (error_code == 0) {
+                            searchSBean = GsonUtil.jsonToBean(data_msg, SearchSBean.class);
+                            if (null != searchSBean.getObject_list() && searchSBean.getObject_list().size() > 0) {
+                                Message message = new Message();
+                                message.what = 8;
+                                mHandler.sendMessage(message);
+                            }
+                        } else {
+                            ToastUtils.showCenter(activity, error_msg);
+                        }
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().searchByImageId(image_id, callback);
+    }
+
+    Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            int code = msg.what;
+            switch (code) {
+                case 1:
+                    String data = (String) msg.obj;
+                    imageDetailBean = GsonUtil.jsonToBean(data, ImageDetailBean.class);
+                    if (getPosition && null != imageDetailBean && null != imageDetailBean.getItem_info()) {
+                        getPosition = false;
+                        getSearchPosition(imageDetailBean.getItem_info().getImage().getImage_id());
+                    }
+                    changeUI(imageDetailBean);
+                    userInfo.getUserInfo(imageDetailBean);
+                    break;
+                case 2:
+                    ToastUtils.showCenter(activity, "你很棒棒哦");
+                    iv_bang.setImageResource(R.drawable.bang1);
+                    like_num++;
+                    if (like_num == 0) {
+                        tv_bang.setText("");
+                    } else {
+                        tv_bang.setText(like_num + "");
+                    }
+                    tv_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                    break;
+                case 3:
+                    ToastUtils.showCenter(activity, "已取消点赞");
+                    iv_bang.setImageResource(R.drawable.bang);
+                    like_num--;
+                    if (like_num == 0) {
+                        tv_bang.setText("");
+                    } else {
+                        tv_bang.setText(like_num + "");
+                    }
+
+                    tv_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                    break;
+                case 4:
+                    ToastUtils.showCenter(activity, "收藏成功");
+                    iv_xing.setImageResource(R.drawable.xing1);
+                    collect_num++;
+                    if (collect_num == 0) {
+                        tv_xing.setText("");
+                    } else {
+                        tv_xing.setText(collect_num + "");
+                    }
+                    tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                    break;
+                case 5:
+                    ToastUtils.showCenter(activity, "取消收藏");
+                    iv_xing.setImageResource(R.drawable.xing);
+                    collect_num--;
+                    if (collect_num == 0) {
+                        tv_xing.setText("");
+                    } else {
+                        tv_xing.setText(collect_num + "");
+                    }
+                    tv_xing.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                    break;
+                case 6:
+                    String pinglist = "{\"data\": " + (String) msg.obj + "}";
+                    pingBean = GsonUtil.jsonToBean(pinglist, PingBean.class);
+                    changePingUI();
+                    break;
+                case 8:
+                    if (null != searchSBean && null != searchSBean.getObject_list() && searchSBean.getObject_list().size() > 0) {
+
+                        int wide_num = PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_20);
+                        ArrayList<PointSimple> pointSimples = new ArrayList<>();
+                        for (int i = 0; i < searchSBean.getObject_list().size(); i++) {
+                            PointSimple pointSimple = new PointSimple();
+                            float width = searchSBean.getObject_list().get(i).getObject_info().getX();
+                            float height = searchSBean.getObject_list().get(i).getObject_info().getY();
+                            pointSimple.width_scale = width;
+                            pointSimple.height_scale = height;
+                            pointSimple.width_object = searchSBean.getObject_list().get(i).getObject_info().getWidth();
+                            pointSimple.height_object = searchSBean.getObject_list().get(i).getObject_info().getHeight();
+                            pointSimples.add(pointSimple);
+                        }
+                        iv_details_image.setPoints(pointSimples);
+                        iv_details_image.setImgBg(wide_num, (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()), "", ImageDetailFragment.this);
+
+                    }
+                    break;
+            }
+        }
+    };
+
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            comment_num++;
+            tv_ping.setText(comment_num + "");
+        }
+    };
+
+    @Override
+    public void onClickPosition(int pos) {
+        if (null != searchSBean &&
+                null != searchSBean.getObject_list() &&
+                searchSBean.getObject_list().size() > 0 &&
+                searchSBean.getObject_list().size() > pos) {
+            Intent intent = new Intent(activity, NewSearchResultActivity.class);
+            intent.putExtra("image_id", imageDetailBean.getItem_info().getImage().getImage_id());
+            intent.putExtra("imagePath", imageDetailBean.getItem_info().getImage().getImg0());
+            intent.putExtra("searchstatus", "0");
+            intent.putExtra("network", "true");
+            intent.putExtra("clickposition", "true");
+            intent.putExtra("position", pos);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("searchSBean", searchSBean);
+            intent.putExtras(bundle);
+            startActivity(intent);
+
+        }
     }
 
 }

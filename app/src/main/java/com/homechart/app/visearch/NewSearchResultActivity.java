@@ -2,6 +2,7 @@ package com.homechart.app.visearch;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -54,6 +55,8 @@ public class NewSearchResultActivity
     private List<SearchSObjectBean> listSearch;
     private int mW;
     private int mH;
+    private String clickposition;
+    private int position;
 
     @Override
     protected int getLayoutResId() {
@@ -69,6 +72,8 @@ public class NewSearchResultActivity
         imagePath = intent.getStringExtra("imagePath");
         searchstatus = intent.getStringExtra("searchstatus");
         network = intent.getStringExtra("network");
+        position = intent.getIntExtra("position", -1);
+        clickposition = intent.getStringExtra("clickposition");
         searchSBean = (SearchSBean) intent.getSerializableExtra("searchSBean");
     }
 
@@ -148,8 +153,14 @@ public class NewSearchResultActivity
                 pointSimple.height_object = searchSBean.getObject_list().get(i).getObject_info().getHeight();
                 pointSimples.add(pointSimple);
             }
+            if (!TextUtils.isEmpty(clickposition) && clickposition.equals("true")) {
+                rly_point.setVisibility(View.GONE);
+            }
             il_points.setPoints(pointSimples);
-            il_points.setImgBg(mW, mH, this);
+            il_points.setImgBg(mW, mH, this, clickposition);
+            if (!TextUtils.isEmpty(clickposition) && clickposition.equals("true")) {
+                onClickPosition(position);
+            }
         } else {
             ScalableBox scalableBox = new ScalableBox(0, 0, 0, 0);
             editableImage.setBox(scalableBox);

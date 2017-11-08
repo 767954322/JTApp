@@ -44,9 +44,11 @@ import com.homechart.app.home.bean.pinglun.CommentListBean;
 import com.homechart.app.home.bean.pinglun.PingBean;
 import com.homechart.app.home.bean.search.SearchDataColorBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
+import com.homechart.app.home.bean.searchfservice.SearchSBean;
 import com.homechart.app.home.bean.searchfservice.TypeNewBean;
 import com.homechart.app.home.bean.shaijia.ShaiJiaItemBean;
 import com.homechart.app.home.bean.shouye.SYDataColorBean;
+import com.homechart.app.home.fragment.ImageDetailFragment;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.hotposition.ImageLayout;
 import com.homechart.app.hotposition.PointSimple;
@@ -75,6 +77,7 @@ import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.homechart.app.visearch.EditPhotoActivity;
+import com.homechart.app.visearch.NewSearchResultActivity;
 import com.homechart.app.visearch.PhotoActivity;
 import com.homechart.app.visearch.SearchLoadingActivity;
 import com.umeng.analytics.MobclickAgent;
@@ -208,6 +211,7 @@ public class ImageDetailLongActivity
     private SearchShopPopWin mSearchShopPopWin;
     private TypeNewBean typeNewBean;
     private boolean loginStatus;
+    private SearchSBean searchSBean;
 
     @Override
     protected int getLayoutResId() {
@@ -844,6 +848,7 @@ public class ImageDetailLongActivity
     }
 
     List<String> listTag = new ArrayList<>();
+
     private void buildRecyclerView() {
 
         MultiItemTypeSupport<ImageLikeItemBean> support = new MultiItemTypeSupport<ImageLikeItemBean>() {
@@ -1478,26 +1483,24 @@ public class ImageDetailLongActivity
     @Override
     public void onClickPosition(int pos) {
 
-        //友盟统计
-        HashMap<String, String> map6 = new HashMap<String, String>();
-        map6.put("evenname", "图片中商品点击");
-        map6.put("even", "记录点击图片中的商品圆点的次数");
-        MobclickAgent.onEvent(ImageDetailLongActivity.this, "jtaction54", map6);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("记录点击图片中的商品圆点的次数")  //事件类别
-                .setAction("图片中商品点击")      //事件操作
-                .build());
+        if (null != searchSBean &&
+                null != searchSBean.getObject_list() &&
+                searchSBean.getObject_list().size() > 0 &&
+                searchSBean.getObject_list().size() > pos) {
+            Intent intent = new Intent(ImageDetailLongActivity.this, NewSearchResultActivity.class);
+            intent.putExtra("image_id", imageDetailBean.getItem_info().getImage().getImage_id());
+            intent.putExtra("imagePath", imageDetailBean.getItem_info().getImage().getImg0());
+            intent.putExtra("searchstatus", "0");
+            intent.putExtra("network", "true");
+            intent.putExtra("clickposition", "true");
+            intent.putExtra("position", pos);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("searchSBean", searchSBean);
+            intent.putExtras(bundle);
+            startActivity(intent);
 
-//        Toast.makeText(this, "pos : " + pos, Toast.LENGTH_SHORT).show();
-        if (imageDetailBean != null) {
-            mSearchShopPopWin = new SearchShopPopWin(ImageDetailLongActivity.this);
-            mSearchShopPopWin.setImageData(imageDetailBean, pos,typeNewBean);
-            mSearchShopPopWin.showAtLocation(ImageDetailLongActivity.this.findViewById(R.id.menu_layout),
-                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
-                    0,
-                    0); //设置layout在PopupWindow中显示的位置
         }
+
     }
 
     @Override
@@ -1787,6 +1790,7 @@ public class ImageDetailLongActivity
     };
 
     private ColorBean colorBean;
+    private boolean getPosition = true;
     Handler mHandler = new Handler() {
 
         @Override
@@ -1798,6 +1802,10 @@ public class ImageDetailLongActivity
                 case 1:
                     String data = (String) msg.obj;
                     imageDetailBean = GsonUtil.jsonToBean(data, ImageDetailBean.class);
+                    if (getPosition && null != imageDetailBean && null != imageDetailBean.getItem_info()) {
+                        getPosition = false;
+                        getSearchPosition(imageDetailBean.getItem_info().getImage().getImage_id());
+                    }
                     changeUI(imageDetailBean);
                     break;
                 case 2:
@@ -1855,6 +1863,24 @@ public class ImageDetailLongActivity
                 case 8:
                     String info = (String) msg.obj;
                     colorBean = GsonUtil.jsonToBean(info, ColorBean.class);
+                    break;
+                case 9:
+                    if (null != searchSBean && null != searchSBean.getObject_list() && searchSBean.getObject_list().size() > 0) {
+                        int wide_num = PublicUtils.getScreenWidth(ImageDetailLongActivity.this) - UIUtils.getDimens(R.dimen.font_20);
+                        ArrayList<PointSimple> pointSimples = new ArrayList<>();
+                        for (int i = 0; i < searchSBean.getObject_list().size(); i++) {
+                            PointSimple pointSimple = new PointSimple();
+                            float width = searchSBean.getObject_list().get(i).getObject_info().getX();
+                            float height = searchSBean.getObject_list().get(i).getObject_info().getY();
+                            pointSimple.width_scale = width;
+                            pointSimple.height_scale = height;
+                            pointSimple.width_object = searchSBean.getObject_list().get(i).getObject_info().getWidth();
+                            pointSimple.height_object = searchSBean.getObject_list().get(i).getObject_info().getHeight();
+                            pointSimples.add(pointSimple);
+                        }
+                        iv_details_image.setPoints(pointSimples);
+                        iv_details_image.setImgBg(wide_num, (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()), "", ImageDetailLongActivity.this);
+                    }
                     break;
             }
         }
@@ -2215,6 +2241,39 @@ public class ImageDetailLongActivity
         };
         MyHttpManager.getInstance().getColorListData(callBack);
 
+    }
+
+    private void getSearchPosition(String image_id) {
+        OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    if (response != null) {
+                        JSONObject jsonObject = new JSONObject(response);
+                        int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                        String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                        String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                        if (error_code == 0) {
+                            searchSBean = GsonUtil.jsonToBean(data_msg, SearchSBean.class);
+                            if (null != searchSBean.getObject_list() && searchSBean.getObject_list().size() > 0) {
+                                Message message = new Message();
+                                message.what = 9;
+                                mHandler.sendMessage(message);
+                            }
+                        } else {
+                            ToastUtils.showCenter(ImageDetailLongActivity.this, error_msg);
+                        }
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().searchByImageId(image_id, callback);
     }
 
 
