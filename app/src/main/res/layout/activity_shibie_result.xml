@@ -55,7 +55,7 @@
             android:background="@color/black"
             crop:crop_corner_color="@color/white"
             crop:crop_line_color="@color/touming"
-            crop:crop_shadow_color="@color/bg_4d000000" />
+            crop:crop_shadow_color="@color/bg_80000000" />
 
         <RelativeLayout
             android:id="@+id/rly_point"
