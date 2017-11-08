@@ -137,8 +137,8 @@ public class NewImageLayout extends FrameLayout implements View.OnClickListener 
         animationSet = new AnimationSet(true);
         animationSet.setInterpolator(new LinearInterpolator());
         //透明度
-//        AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0.3f);
-//        alphaAnimation.setRepeatMode(Animation.RESTART);
+        AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0.5f);
+        alphaAnimation.setRepeatMode(Animation.RESTART);
         //缩放（以某个点为中心缩放）
         ScaleAnimation scaleAnimation = new ScaleAnimation(1, 0.0f, 1, 0.0f,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);

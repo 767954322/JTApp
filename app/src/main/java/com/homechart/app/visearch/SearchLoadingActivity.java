@@ -111,7 +111,7 @@ public class SearchLoadingActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
 
-        TranslateAnimation animation = new TranslateAnimation(-dip2px(35), dip2px(128), 0, 0);
+        TranslateAnimation animation = new TranslateAnimation(-dip2px(35), dip2px(168), 0, 0);
         animation.setDuration(2000);
         animation.setRepeatCount(1000000);//设置重复次数
         animation.setRepeatMode(Animation.RESTART);//设置反方向执行
