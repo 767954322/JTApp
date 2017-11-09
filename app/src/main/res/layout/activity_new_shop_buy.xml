@@ -77,35 +77,103 @@
     <RelativeLayout
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/font_56"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/rl_navr_header">
 
-        <ImageView
-            android:id="@+id/iv_crop_imageview"
-            android:layout_width="@dimen/font_36"
-            android:layout_height="@dimen/font_36"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/font_10"
-            android:layout_marginRight="@dimen/font_10"
-            android:scaleType="centerCrop" />
-
-        <HorizontalScrollView
+        <RelativeLayout
+            android:id="@+id/rl_add_shuaixuan"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/iv_crop_imageview">
+            android:layout_height="@dimen/font_68">
 
-            <RelativeLayout
+            <ImageView
+                android:id="@+id/iv_crop_imageview"
+                android:layout_width="@dimen/font_36"
+                android:layout_height="@dimen/font_36"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/font_10"
+                android:layout_marginRight="@dimen/font_10"
+                android:scaleType="centerCrop" />
+
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/iv_crop_imageview">
 
-                <ImageView
-                    android:id="@+id/iv_xuanxiang"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/xuanxiang" />
-            </RelativeLayout>
-        </HorizontalScrollView>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/iv_xuanxiang"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/xuanxiang" />
+                </RelativeLayout>
+            </HorizontalScrollView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_set_shuaixuan"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="@dimen/font_68">
+
+            <TextView
+                android:id="@+id/tv_price_set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/font_14"
+                android:layout_marginLeft="@dimen/font_25"
+                android:drawablePadding="@dimen/font_8"
+                android:drawableTop="@drawable/jiage1_1"
+                android:text="价格"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_12" />
+
+            <TextView
+                android:id="@+id/tv_type_set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tv_price_set"
+                android:layout_alignBottom="@+id/tv_price_set"
+                android:layout_marginLeft="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_toEndOf="@+id/tv_price_set"
+                android:layout_toRightOf="@+id/tv_price_set"
+                android:drawablePadding="@dimen/font_8"
+                android:drawableTop="@drawable/pinlei1_1"
+                android:text="品类"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_12" />
+
+            <TextView
+                android:id="@+id/tv_guanjianzi_set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/font_14"
+                android:layout_marginLeft="@dimen/font_25"
+                android:layout_marginRight="@dimen/font_33"
+                android:layout_toRightOf="@+id/tv_type_set"
+                android:drawablePadding="@dimen/font_8"
+                android:drawableTop="@drawable/guanjianzi1_1"
+                android:text="关键字"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_12" />
+
+            <ImageView
+                android:id="@+id/iv_close_set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/font_10"
+                android:padding="@dimen/font_20"
+                android:src="@drawable/guanbitishi_1" />
+
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

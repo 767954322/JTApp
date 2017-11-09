@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -25,6 +26,9 @@ public class NewShopDetailsActivity
     private TextView tv_tital_comment;
     private String cropImage;
     private ImageView iv_xuanxiang;
+    private RelativeLayout rl_add_shuaixuan;
+    private RelativeLayout rl_set_shuaixuan;
+    private ImageView iv_close_set;
 
     @Override
     protected int getLayoutResId() {
@@ -35,9 +39,13 @@ public class NewShopDetailsActivity
     protected void initView() {
 
         nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
+        rl_add_shuaixuan = (RelativeLayout) findViewById(R.id.rl_add_shuaixuan);
+        rl_set_shuaixuan = (RelativeLayout) findViewById(R.id.rl_set_shuaixuan);
         iv_crop_imageview = (ImageView) findViewById(R.id.iv_crop_imageview);
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
         iv_xuanxiang = (ImageView) findViewById(R.id.iv_xuanxiang);
+        iv_close_set = (ImageView) findViewById(R.id.iv_close_set);
+
     }
 
     @Override
@@ -45,6 +53,7 @@ public class NewShopDetailsActivity
         super.initListener();
         nav_left_imageButton.setOnClickListener(this);
         iv_xuanxiang.setOnClickListener(this);
+        iv_close_set.setOnClickListener(this);
     }
 
     @Override
@@ -66,7 +75,12 @@ public class NewShopDetailsActivity
                 NewShopDetailsActivity.this.finish();
                 break;
             case R.id.iv_xuanxiang:
-
+                rl_add_shuaixuan.setVisibility(View.GONE);
+                rl_set_shuaixuan.setVisibility(View.VISIBLE);
+                break;
+            case R.id.iv_close_set:
+                rl_add_shuaixuan.setVisibility(View.VISIBLE);
+                rl_set_shuaixuan.setVisibility(View.GONE);
                 break;
         }
 
