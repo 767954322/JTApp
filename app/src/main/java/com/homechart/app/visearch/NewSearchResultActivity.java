@@ -71,6 +71,7 @@ public class NewSearchResultActivity
     private int position;
     private String cropName;
 
+    private boolean ifOpenSearch = false;
     private String photoPath = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_PICTURES).getPath() + File.separator + "JiaTuApp";
 
@@ -138,6 +139,7 @@ public class NewSearchResultActivity
                 break;
             case R.id.tv_fuwei:
                 if (listSearch != null && listSearch.size() > 0) {
+                    ifOpenSearch = false;
                     if (mPhotoImage.getChildCount() == 2) {
                         mPhotoImage.getChildAt(1).setVisibility(View.GONE);
                     }
@@ -145,7 +147,7 @@ public class NewSearchResultActivity
                 }
                 break;
             case R.id.tv_sousuo:
-                if (editableImage != null && editableImage.getBox() != null) {
+                if (editableImage != null && editableImage.getBox() != null && ifOpenSearch) {
                     Bitmap bitmap = imageCrop(editableImage.getOriginalImage());
                     cropName = "IMG_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
                     File file = createFile(photoPath, cropName);
@@ -160,7 +162,7 @@ public class NewSearchResultActivity
                         e.printStackTrace();
                     }
                     Intent intent = new Intent(NewSearchResultActivity.this, NewShopDetailsActivity.class);
-                    intent.putExtra("image_path",photoPath + "/" + cropName);
+                    intent.putExtra("image_path", photoPath + "/" + cropName);
                     startActivity(intent);
                 }
                 break;
@@ -189,6 +191,7 @@ public class NewSearchResultActivity
                 pointSimples.add(pointSimple);
             }
             if (!TextUtils.isEmpty(clickposition) && clickposition.equals("true")) {
+                ifOpenSearch = true;
                 rly_point.setVisibility(View.GONE);
             }
             il_points.setPoints(pointSimples);
@@ -209,6 +212,7 @@ public class NewSearchResultActivity
 
     @Override
     public void onClickPosition(int pos) {
+        ifOpenSearch = true;
         rly_point.setVisibility(View.GONE);
         SearchSObjectInfoBean searchSObjectInfoBean = listSearch.get(pos).getObject_info();
         widerImage = mPhotoImage.getEditableImage().getOriginalImage().getWidth();
@@ -264,6 +268,13 @@ public class NewSearchResultActivity
 
         int wCrop = x2 - x1;// 裁切后所取的正方形区域宽
         int hCrop = y2 - y1;// 裁切后所取的正方形区域高
+
+        if (x1 == 0 && x2 == 0) {
+            wCrop = w;
+        }
+        if (y1 == 0 && y2 == 0) {
+            hCrop = h;
+        }
 
         int retX = x1;//基于原图，取正方形左上角x坐标
         int retY = y1;
