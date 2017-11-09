@@ -50,7 +50,7 @@ public class NewShopDetailsActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        ImageUtils.displayFilletImage("file://" + cropImage, iv_crop_imageview);
+        ImageUtils.disRectangleImage("file://" + cropImage, iv_crop_imageview);
         tv_tital_comment.setText("相似商品");
     }
 
