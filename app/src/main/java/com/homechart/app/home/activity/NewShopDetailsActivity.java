@@ -6,8 +6,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.homechart.app.R;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
 
 /**
