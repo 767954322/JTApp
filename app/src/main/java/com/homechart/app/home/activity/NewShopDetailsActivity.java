@@ -31,8 +31,8 @@ public class NewShopDetailsActivity
     private RelativeLayout rl_set_shuaixuan;
     private ImageView iv_close_set;
     private TextView tv_price_set;
-    private TextView tv_guanjianzi_set;
     private TextView tv_type_set;
+    private TextView tv_guanjianzi_set;
     private RelativeLayout rl_price;
     private ImageView iv_price_icon;
     private TextView tv_price;
@@ -130,6 +130,7 @@ public class NewShopDetailsActivity
                 break;
             case R.id.tv_price_set:
                 rl_price.setVisibility(View.VISIBLE);
+                tv_price_set.setVisibility(View.GONE);
                 rl_add_shuaixuan.setVisibility(View.VISIBLE);
                 rl_set_shuaixuan.setVisibility(View.GONE);
                 rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
@@ -137,6 +138,7 @@ public class NewShopDetailsActivity
                 break;
             case R.id.tv_type_set:
                 rl_type.setVisibility(View.VISIBLE);
+                tv_type_set.setVisibility(View.GONE);
                 rl_add_shuaixuan.setVisibility(View.VISIBLE);
                 rl_set_shuaixuan.setVisibility(View.GONE);
                 rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
@@ -144,6 +146,7 @@ public class NewShopDetailsActivity
                 break;
             case R.id.tv_guanjianzi_set:
                 rl_guanjianzi.setVisibility(View.VISIBLE);
+                tv_guanjianzi_set.setVisibility(View.GONE);
                 rl_add_shuaixuan.setVisibility(View.VISIBLE);
                 rl_set_shuaixuan.setVisibility(View.GONE);
                 rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
@@ -151,12 +154,15 @@ public class NewShopDetailsActivity
                 break;
             case R.id.iv_price_delect:
                 rl_price.setVisibility(View.GONE);
+                tv_price_set.setVisibility(View.VISIBLE);
                 break;
             case R.id.iv_type_delect:
                 rl_type.setVisibility(View.GONE);
+                tv_type_set.setVisibility(View.VISIBLE);
                 break;
             case R.id.iv_guanjianzi_delect:
                 rl_guanjianzi.setVisibility(View.GONE);
+                tv_guanjianzi_set.setVisibility(View.VISIBLE);
                 break;
         }
 

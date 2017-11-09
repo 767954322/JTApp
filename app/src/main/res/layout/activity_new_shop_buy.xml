@@ -245,8 +245,8 @@
         <RelativeLayout
             android:id="@+id/rl_set_shuaixuan"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/font_68"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:layout_height="@dimen/font_68">
 
             <TextView
                 android:id="@+id/tv_price_set"
@@ -265,12 +265,10 @@
                 android:id="@+id/tv_type_set"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/tv_price_set"
-                android:layout_alignBottom="@+id/tv_price_set"
+                android:layout_alignParentBottom="true"
                 android:layout_marginLeft="25dp"
-                android:layout_marginStart="25dp"
-                android:layout_toEndOf="@+id/tv_price_set"
                 android:layout_toRightOf="@+id/tv_price_set"
+                android:layout_marginBottom="@dimen/font_14"
                 android:drawablePadding="@dimen/font_8"
                 android:drawableTop="@drawable/pinlei1_1"
                 android:text="品类"
