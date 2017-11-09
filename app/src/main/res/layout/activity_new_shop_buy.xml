@@ -97,18 +97,144 @@
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scrollbars="none"
                 android:layout_toRightOf="@+id/iv_crop_imageview">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+                    <RelativeLayout
+                        android:id="@+id/rl_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/font_36"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/search_tiaojian_unselect">
+
+                        <ImageView
+                            android:id="@+id/iv_price_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/font_10"
+                            android:src="@drawable/jiage1_1" />
+
+                        <TextView
+                            android:id="@+id/tv_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/font_10"
+                            android:layout_toRightOf="@+id/iv_price_icon"
+                            android:text="$ 669"
+                            android:textColor="@color/bg_464646"
+                            android:textSize="@dimen/font_12" />
+
+
+                        <ImageView
+                            android:id="@+id/iv_price_delect"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/font_10"
+                            android:layout_marginRight="@dimen/font_10"
+                            android:layout_toRightOf="@+id/tv_price"
+                            android:src="@drawable/guanbitishi_1" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/font_36"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/font_12"
+                        android:layout_toRightOf="@+id/rl_price"
+                        android:background="@drawable/search_tiaojian_unselect">
+
+                        <ImageView
+                            android:id="@+id/iv_type_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/font_10"
+                            android:src="@drawable/jiage1_1" />
+
+                        <TextView
+                            android:id="@+id/tv_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/font_10"
+                            android:layout_toRightOf="@+id/iv_type_icon"
+                            android:text="卫生间"
+                            android:textColor="@color/bg_464646"
+                            android:textSize="@dimen/font_12" />
+
+
+                        <ImageView
+                            android:id="@+id/iv_type_delect"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/font_10"
+                            android:layout_marginRight="@dimen/font_10"
+                            android:layout_toRightOf="@+id/tv_type"
+                            android:src="@drawable/guanbitishi_1" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_guanjianzi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/font_36"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/font_12"
+                        android:layout_toRightOf="@+id/rl_type"
+                        android:background="@drawable/search_tiaojian_unselect">
+
+                        <ImageView
+                            android:id="@+id/iv_guanjianzi_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/font_10"
+                            android:src="@drawable/jiage1_1" />
+
+                        <TextView
+                            android:id="@+id/tv_guanjianzi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/font_10"
+                            android:layout_toRightOf="@+id/iv_guanjianzi_icon"
+                            android:text="卫生间"
+                            android:textColor="@color/bg_464646"
+                            android:textSize="@dimen/font_12" />
+
+
+                        <ImageView
+                            android:id="@+id/iv_guanjianzi_delect"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/font_10"
+                            android:layout_marginRight="@dimen/font_10"
+                            android:layout_toRightOf="@+id/tv_guanjianzi"
+                            android:src="@drawable/guanbitishi_1" />
+
+                    </RelativeLayout>
+
                     <ImageView
                         android:id="@+id/iv_xuanxiang"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/font_12"
+                        android:layout_marginRight="@dimen/font_12"
+                        android:layout_toRightOf="@+id/rl_guanjianzi"
                         android:src="@drawable/xuanxiang" />
+
                 </RelativeLayout>
             </HorizontalScrollView>
         </RelativeLayout>
@@ -116,8 +242,8 @@
         <RelativeLayout
             android:id="@+id/rl_set_shuaixuan"
             android:layout_width="match_parent"
-            android:visibility="gone"
-            android:layout_height="@dimen/font_68">
+            android:layout_height="@dimen/font_68"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_price_set"

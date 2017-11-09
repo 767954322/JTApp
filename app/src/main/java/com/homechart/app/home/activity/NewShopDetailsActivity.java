@@ -2,6 +2,7 @@ package com.homechart.app.home.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -29,6 +30,9 @@ public class NewShopDetailsActivity
     private RelativeLayout rl_add_shuaixuan;
     private RelativeLayout rl_set_shuaixuan;
     private ImageView iv_close_set;
+    private TextView tv_price_set;
+    private TextView tv_guanjianzi_set;
+    private TextView tv_type_set;
 
     @Override
     protected int getLayoutResId() {
@@ -46,6 +50,10 @@ public class NewShopDetailsActivity
         iv_xuanxiang = (ImageView) findViewById(R.id.iv_xuanxiang);
         iv_close_set = (ImageView) findViewById(R.id.iv_close_set);
 
+        tv_price_set = (TextView) findViewById(R.id.tv_price_set);
+        tv_type_set = (TextView) findViewById(R.id.tv_type_set);
+        tv_guanjianzi_set = (TextView) findViewById(R.id.tv_guanjianzi_set);
+
     }
 
     @Override
@@ -54,6 +62,9 @@ public class NewShopDetailsActivity
         nav_left_imageButton.setOnClickListener(this);
         iv_xuanxiang.setOnClickListener(this);
         iv_close_set.setOnClickListener(this);
+        tv_price_set.setOnClickListener(this);
+        tv_type_set.setOnClickListener(this);
+        tv_guanjianzi_set.setOnClickListener(this);
     }
 
     @Override
@@ -77,10 +88,41 @@ public class NewShopDetailsActivity
             case R.id.iv_xuanxiang:
                 rl_add_shuaixuan.setVisibility(View.GONE);
                 rl_set_shuaixuan.setVisibility(View.VISIBLE);
+                // 向右边滑动到左边
+                rl_set_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, false));
+                rl_add_shuaixuan.setAnimation(AnimationUtils.makeOutAnimation(this, false));
                 break;
             case R.id.iv_close_set:
+                // 向左边移出
                 rl_add_shuaixuan.setVisibility(View.VISIBLE);
                 rl_set_shuaixuan.setVisibility(View.GONE);
+                // 向左边移入
+                rl_set_shuaixuan.setAnimation(AnimationUtils.makeOutAnimation(this, true));
+                rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
+                break;
+            case R.id.tv_price_set:
+                // 向左边移出
+                rl_add_shuaixuan.setVisibility(View.VISIBLE);
+                rl_set_shuaixuan.setVisibility(View.GONE);
+                // 向左边移入
+                rl_set_shuaixuan.setAnimation(AnimationUtils.makeOutAnimation(this, true));
+                rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
+                break;
+            case R.id.tv_type_set:
+                // 向左边移出
+                rl_add_shuaixuan.setVisibility(View.VISIBLE);
+                rl_set_shuaixuan.setVisibility(View.GONE);
+                // 向左边移入
+                rl_set_shuaixuan.setAnimation(AnimationUtils.makeOutAnimation(this, true));
+                rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
+                break;
+            case R.id.tv_guanjianzi_set:
+                // 向左边移出
+                rl_add_shuaixuan.setVisibility(View.VISIBLE);
+                rl_set_shuaixuan.setVisibility(View.GONE);
+                // 向左边移入
+                rl_set_shuaixuan.setAnimation(AnimationUtils.makeOutAnimation(this, true));
+                rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
                 break;
         }
 
