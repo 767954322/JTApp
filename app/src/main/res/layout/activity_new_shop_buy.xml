@@ -109,6 +109,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/font_36"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/font_12"
+                        android:visibility="gone"
                         android:background="@drawable/search_tiaojian_unselect">
 
                         <ImageView
@@ -148,7 +150,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/font_36"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/font_12"
+                        android:layout_marginRight="@dimen/font_12"
+                        android:visibility="gone"
                         android:layout_toRightOf="@+id/rl_price"
                         android:background="@drawable/search_tiaojian_unselect">
 
@@ -158,7 +161,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/font_10"
-                            android:src="@drawable/jiage1_1" />
+                            android:src="@drawable/pinlei1_1" />
 
                         <TextView
                             android:id="@+id/tv_type"
@@ -189,7 +192,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/font_36"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/font_12"
+                        android:layout_marginRight="@dimen/font_12"
+                        android:visibility="gone"
                         android:layout_toRightOf="@+id/rl_type"
                         android:background="@drawable/search_tiaojian_unselect">
 
@@ -199,7 +203,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/font_10"
-                            android:src="@drawable/jiage1_1" />
+                            android:src="@drawable/guanjianzi1_1" />
 
                         <TextView
                             android:id="@+id/tv_guanjianzi"
@@ -208,7 +212,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/font_10"
                             android:layout_toRightOf="@+id/iv_guanjianzi_icon"
-                            android:text="卫生间"
+                            android:text="实用"
                             android:textColor="@color/bg_464646"
                             android:textSize="@dimen/font_12" />
 
@@ -230,7 +234,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/font_12"
                         android:layout_marginRight="@dimen/font_12"
                         android:layout_toRightOf="@+id/rl_guanjianzi"
                         android:src="@drawable/xuanxiang" />
