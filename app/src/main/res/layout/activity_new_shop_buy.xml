@@ -11,8 +11,13 @@
 
     <ImageView
         android:id="@+id/iv_crop_imageview"
-        android:layout_width="@dimen/font_100"
-        android:layout_height="@dimen/font_100"
-        android:layout_below="@+id/common_navbar"/>
+        android:layout_width="@dimen/font_36"
+        android:layout_height="@dimen/font_36"
+        android:layout_below="@+id/common_navbar"
+        android:layout_marginBottom="@dimen/font_10"
+        android:layout_marginLeft="@dimen/font_10"
+        android:layout_marginRight="@dimen/font_10"
+        android:layout_marginTop="@dimen/font_10"
+        android:scaleType="centerCrop"/>
 
 </RelativeLayout>

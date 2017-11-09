@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.homechart.app.R;
 import com.homechart.app.home.base.BaseActivity;
@@ -19,6 +20,7 @@ public class NewShopDetailsActivity
 
     private ImageButton nav_left_imageButton;
     private ImageView iv_crop_imageview;
+    private TextView tv_tital_comment;
     private String cropImage;
 
     @Override
@@ -31,6 +33,7 @@ public class NewShopDetailsActivity
 
         nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
         iv_crop_imageview = (ImageView) findViewById(R.id.iv_crop_imageview);
+        tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
     }
 
     @Override
@@ -47,7 +50,8 @@ public class NewShopDetailsActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        ImageUtils.disBlackImage("file://" + cropImage, iv_crop_imageview);
+        ImageUtils.displayFilletImage("file://" + cropImage, iv_crop_imageview);
+        tv_tital_comment.setText("相似商品");
     }
 
     @Override
