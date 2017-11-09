@@ -1,0 +1,62 @@
+package com.homechart.app.home.activity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+
+import com.homechart.app.R;
+import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.utils.imageloader.ImageUtils;
+
+/**
+ * Created by gumenghao on 17/11/9.
+ */
+
+public class NewShopDetailsActivity
+        extends BaseActivity
+        implements View.OnClickListener {
+
+    private ImageButton nav_left_imageButton;
+    private ImageView iv_crop_imageview;
+    private String cropImage;
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_new_shop_buy;
+    }
+
+    @Override
+    protected void initView() {
+
+        nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
+        iv_crop_imageview = (ImageView) findViewById(R.id.iv_crop_imageview);
+    }
+
+    @Override
+    protected void initListener() {
+        super.initListener();
+        nav_left_imageButton.setOnClickListener(this);
+    }
+
+    @Override
+    protected void initExtraBundle() {
+        super.initExtraBundle();
+        cropImage = getIntent().getStringExtra("image_path");
+    }
+
+    @Override
+    protected void initData(Bundle savedInstanceState) {
+        ImageUtils.disBlackImage("file://" + cropImage, iv_crop_imageview);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.nav_left_imageButton:
+                NewShopDetailsActivity.this.finish();
+                break;
+        }
+
+    }
+}

@@ -1,12 +1,17 @@
 package com.homechart.app.visearch;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,6 +20,7 @@ import com.homechart.app.croplayout.EditPhotoViewMore;
 import com.homechart.app.croplayout.EditableImage;
 import com.homechart.app.croplayout.NewEditPhotoViewMore;
 import com.homechart.app.croplayout.model.ScalableBox;
+import com.homechart.app.home.activity.NewShopDetailsActivity;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.searchfservice.SearchSBean;
 import com.homechart.app.home.bean.searchfservice.SearchSObjectBean;
@@ -23,8 +29,14 @@ import com.homechart.app.hotposition.NewImageLayout;
 import com.homechart.app.hotposition.PointSimple;
 import com.homechart.app.hotposition.PositionClickImp;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,6 +69,10 @@ public class NewSearchResultActivity
     private int mH;
     private String clickposition;
     private int position;
+    private String cropName;
+
+    private String photoPath = Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_PICTURES).getPath() + File.separator + "JiaTuApp";
 
     @Override
     protected int getLayoutResId() {
@@ -87,7 +103,6 @@ public class NewSearchResultActivity
         il_points = (NewImageLayout) findViewById(R.id.il_points);
         tv_fuwei = (TextView) findViewById(R.id.tv_fuwei);
         tv_sousuo = (TextView) findViewById(R.id.tv_sousuo);
-
     }
 
     @Override
@@ -127,6 +142,26 @@ public class NewSearchResultActivity
                         mPhotoImage.getChildAt(1).setVisibility(View.GONE);
                     }
                     rly_point.setVisibility(View.VISIBLE);
+                }
+                break;
+            case R.id.tv_sousuo:
+                if (editableImage != null && editableImage.getBox() != null) {
+                    Bitmap bitmap = imageCrop(editableImage.getOriginalImage());
+                    cropName = "IMG_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
+                    File file = createFile(photoPath, cropName);
+                    try {
+                        FileOutputStream fos = new FileOutputStream(file);
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                        fos.flush();
+                        fos.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Intent intent = new Intent(NewSearchResultActivity.this, NewShopDetailsActivity.class);
+                    intent.putExtra("image_path",photoPath + "/" + cropName);
+                    startActivity(intent);
                 }
                 break;
         }
@@ -214,4 +249,37 @@ public class NewSearchResultActivity
             mPhotoImage.getChildAt(1).setVisibility(View.VISIBLE);
         }
     }
+
+    /**
+     * 按正方形裁切图片
+     */
+    public Bitmap imageCrop(Bitmap bitmap) {
+        int x1 = editableImage.getBox().getX1();
+        int y1 = editableImage.getBox().getY1();
+        int x2 = editableImage.getBox().getX2();
+        int y2 = editableImage.getBox().getY2();
+
+        int w = bitmap.getWidth(); // 得到图片的宽，高
+        int h = bitmap.getHeight();
+
+        int wCrop = x2 - x1;// 裁切后所取的正方形区域宽
+        int hCrop = y2 - y1;// 裁切后所取的正方形区域高
+
+        int retX = x1;//基于原图，取正方形左上角x坐标
+        int retY = y1;
+        //下面这句是关键
+        return Bitmap.createBitmap(bitmap, retX, retY, wCrop, hCrop, null, false);
+    }
+
+
+    private File createFile(String path, String name) {
+        File folder = new File(path);
+        if (!folder.exists()) {
+            if (!folder.mkdirs()) {
+                return null;
+            }
+        }
+        return new File(folder, name);
+    }
+
 }
