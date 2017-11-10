@@ -10,6 +10,8 @@ import android.widget.PopupWindow;
 import com.homechart.app.R;
 import com.homechart.app.home.bean.color.ColorItemBean;
 
+import org.ielse.widget.RangeSeekBar;
+
 /**
  * Created by gumenghao on 17/6/19.
  */
@@ -18,12 +20,24 @@ public class ShopPriceWindow extends PopupWindow {
 
 
     private final View mMenuView;
+    private final RangeSeekBar rsb_seekbar;
+    private InterPrice mInterPrice;
 
-    public ShopPriceWindow(final Context context, View.OnClickListener itemsOnClick) {
+    public ShopPriceWindow(final Context context, View.OnClickListener itemsOnClick,InterPrice interPrice) {
         super(context);
+        this.mInterPrice = interPrice;
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mMenuView = inflater.inflate(R.layout.pop_shop_price, null);
+
+        rsb_seekbar = (RangeSeekBar) mMenuView.findViewById(R.id.rsb_seekbar);
+        rsb_seekbar.setValue(0,100);
+        rsb_seekbar.setOnRangeChangedListener(new RangeSeekBar.OnRangeChangedListener() {
+            @Override
+            public void onRangeChanged(RangeSeekBar view, float min, float max) {
+                mInterPrice.changePrice(view,min,max);
+            }
+        });
 
         //设置SelectPicPopupWindow的View
         this.setContentView(mMenuView);
@@ -42,9 +56,11 @@ public class ShopPriceWindow extends PopupWindow {
 
     }
 
-    public interface SureColor {
-        void qingkong();
+    public interface InterPrice {
+        void changePrice(RangeSeekBar view, float min, float max);
+    }
 
-        void clickColor(ColorItemBean colorItemBean);
+    public void setSeekBarValut(){
+        rsb_seekbar.setValue(0,100);
     }
 }

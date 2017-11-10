@@ -2,6 +2,7 @@ package com.homechart.app.home.activity;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -20,13 +21,16 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
 
+import org.ielse.widget.RangeSeekBar;
+
 /**
  * Created by gumenghao on 17/11/9.
  */
 
 public class NewShopDetailsActivity
         extends BaseActivity
-        implements View.OnClickListener {
+        implements View.OnClickListener,
+        ShopPriceWindow.InterPrice {
 
     private ImageButton nav_left_imageButton;
     private ImageView iv_crop_imageview;
@@ -54,6 +58,10 @@ public class NewShopDetailsActivity
     private int visiableNum = 0;
     private ShopPriceWindow shopPriceWindow;
     private View view_line_pop;
+
+
+    private float minPrice = -1;
+    private float maxPrice = -1;
 
 
     @Override
@@ -145,6 +153,7 @@ public class NewShopDetailsActivity
             case R.id.rl_price:
                 if (v.getId() == R.id.tv_price_set) {
                     ++visiableNum;
+                    tv_price.setText("未选择");
                 }
                 ifShowAddButton();
                 ifShowPopWin(R.id.tv_price_set);
@@ -160,6 +169,7 @@ public class NewShopDetailsActivity
             case R.id.rl_type:
                 if (v.getId() == R.id.tv_type_set) {
                     ++visiableNum;
+                    tv_type.setText("未选择");
                 }
                 ifShowAddButton();
                 ifShowPopWin(R.id.tv_type_set);
@@ -175,6 +185,7 @@ public class NewShopDetailsActivity
             case R.id.rl_guanjianzi:
                 if (v.getId() == R.id.tv_guanjianzi_set) {
                     ++visiableNum;
+                    tv_guanjianzi.setText("未选择");
                 }
                 ifShowAddButton();
                 ifShowPopWin(R.id.tv_guanjianzi_set);
@@ -217,7 +228,7 @@ public class NewShopDetailsActivity
             case R.id.tv_price_set:
             case R.id.rl_price:
                 if (shopPriceWindow == null) {
-                    shopPriceWindow = new ShopPriceWindow(NewShopDetailsActivity.this, this);
+                    shopPriceWindow = new ShopPriceWindow(NewShopDetailsActivity.this, this, this);
                 }
                 closeOtherWin(id);
                 if (shopPriceWindow.isShowing()) {
@@ -226,8 +237,10 @@ public class NewShopDetailsActivity
                 } else {
                     tabStaus(id);
                     if (Build.VERSION.SDK_INT < 24) {
+                        shopPriceWindow.setSeekBarValut();
                         shopPriceWindow.showAsDropDown(view_line_pop);
                     } else {
+                        shopPriceWindow.setSeekBarValut();
                         // 获取控件的位置，安卓系统>7.0
                         int[] location = new int[2];
                         view_line_pop.getLocationOnScreen(location);
@@ -348,18 +361,18 @@ public class NewShopDetailsActivity
                 break;
             case R.id.tv_type_set:
             case R.id.rl_type:
-                if(null != shopPriceWindow && shopPriceWindow.isShowing()){
+                if (null != shopPriceWindow && shopPriceWindow.isShowing()) {
                     shopPriceWindow.dismiss();
                 }
                 break;
             case R.id.tv_guanjianzi_set:
             case R.id.rl_guanjianzi:
-                if(null != shopPriceWindow && shopPriceWindow.isShowing()){
+                if (null != shopPriceWindow && shopPriceWindow.isShowing()) {
                     shopPriceWindow.dismiss();
                 }
                 break;
             case 0:
-                if(null != shopPriceWindow && shopPriceWindow.isShowing()){
+                if (null != shopPriceWindow && shopPriceWindow.isShowing()) {
                     shopPriceWindow.dismiss();
                 }
                 break;
@@ -387,5 +400,13 @@ public class NewShopDetailsActivity
             shopPriceWindow.dismiss();
             tabStaus(0);
         }
+    }
+
+    @Override
+    public void changePrice(RangeSeekBar view, float min, float max) {
+        if (shopPriceWindow != null && shopPriceWindow.isShowing()) {
+            tv_price.setText(min + " - " + max);
+        }
+        Log.d("test", "min:" + min + "  ;  max:" + max);
     }
 }

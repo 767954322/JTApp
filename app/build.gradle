@@ -85,6 +85,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:6.0.0'
     compile 'com.sothree.slidinguppanel:library:3.2.0'
     compile project(path: ':visearch-android')
+    compile project(':librangeseekbar')
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.8'
 }
 

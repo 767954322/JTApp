@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_pop_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -40,18 +41,31 @@
             android:textSize="@dimen/size_12" />
 
 
+        <org.ielse.widget.RangeSeekBar
+            android:id="@+id/rsb_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/font_30"
+            android:layout_below="@+id/iv_price_pop_icon"
+            app:min="0"
+            app:max="100"
+            android:layout_marginLeft="@dimen/font_22"
+            android:layout_marginRight="@dimen/font_22"
+            android:layout_marginTop="@dimen/font_60" />
+
         <Button
             android:layout_width="@dimen/font_90"
             android:layout_height="@dimen/font_30"
-            android:layout_below="@+id/iv_price_pop_icon"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/font_30"
+            android:layout_marginTop="@dimen/font_50"
+            android:layout_marginBottom="@dimen/font_20"
             android:background="@drawable/bt_login"
+            android:layout_below="@+id/rsb_seekbar"
             android:text="确认"
             android:textColor="@color/white" />
 
 
     </RelativeLayout>
+
 
     <View
         android:id="@+id/view_pop_bottom"
