@@ -110,6 +110,8 @@ public class NewShopDetailsActivity
         tv_tital_comment.setText("相似商品");
     }
 
+    private int visiableNum = 0;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -120,52 +122,67 @@ public class NewShopDetailsActivity
                 rl_add_shuaixuan.setVisibility(View.GONE);
                 rl_set_shuaixuan.setVisibility(View.VISIBLE);
                 rl_set_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, false));
-//                rl_add_shuaixuan.setAnimation(AnimationUtils.makeOutAnimation(this, false));
                 break;
             case R.id.iv_close_set:
                 rl_set_shuaixuan.setVisibility(View.GONE);
                 rl_add_shuaixuan.setVisibility(View.VISIBLE);
                 rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
-//                rl_set_shuaixuan.setAnimation(AnimationUtils.makeOutAnimation(this, true));
                 break;
             case R.id.tv_price_set:
+                ++visiableNum;
+                ifShowAddButton();
                 rl_price.setVisibility(View.VISIBLE);
                 tv_price_set.setVisibility(View.GONE);
                 rl_add_shuaixuan.setVisibility(View.VISIBLE);
                 rl_set_shuaixuan.setVisibility(View.GONE);
                 rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
-//                rl_set_shuaixuan.setAnimation(AnimationUtils.makeOutAnimation(this, true));
                 break;
             case R.id.tv_type_set:
+                ++visiableNum;
+                ifShowAddButton();
                 rl_type.setVisibility(View.VISIBLE);
                 tv_type_set.setVisibility(View.GONE);
                 rl_add_shuaixuan.setVisibility(View.VISIBLE);
                 rl_set_shuaixuan.setVisibility(View.GONE);
                 rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
-//                rl_set_shuaixuan.setAnimation(AnimationUtils.makeOutAnimation(this, true));
                 break;
             case R.id.tv_guanjianzi_set:
+                ++visiableNum;
+                ifShowAddButton();
                 rl_guanjianzi.setVisibility(View.VISIBLE);
                 tv_guanjianzi_set.setVisibility(View.GONE);
                 rl_add_shuaixuan.setVisibility(View.VISIBLE);
                 rl_set_shuaixuan.setVisibility(View.GONE);
                 rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
-//                rl_set_shuaixuan.setAnimation(AnimationUtils.makeOutAnimation(this, true));
                 break;
             case R.id.iv_price_delect:
+                --visiableNum;
+                ifShowAddButton();
                 rl_price.setVisibility(View.GONE);
                 tv_price_set.setVisibility(View.VISIBLE);
                 break;
             case R.id.iv_type_delect:
+                --visiableNum;
+                ifShowAddButton();
                 rl_type.setVisibility(View.GONE);
                 tv_type_set.setVisibility(View.VISIBLE);
                 break;
             case R.id.iv_guanjianzi_delect:
+                --visiableNum;
+                ifShowAddButton();
                 rl_guanjianzi.setVisibility(View.GONE);
                 tv_guanjianzi_set.setVisibility(View.VISIBLE);
                 break;
         }
 
+    }
+
+    private void ifShowAddButton() {
+        if (visiableNum == 3) {
+            iv_xuanxiang.setVisibility(View.GONE);
+        }else {
+            iv_xuanxiang.setVisibility(View.VISIBLE);
+        }
     }
 
 }
