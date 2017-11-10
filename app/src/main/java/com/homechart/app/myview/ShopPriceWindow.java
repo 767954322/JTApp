@@ -5,9 +5,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.homechart.app.R;
+import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.bean.color.ColorItemBean;
 
 import org.ielse.widget.RangeSeekBar;
@@ -22,6 +25,9 @@ public class ShopPriceWindow extends PopupWindow {
     private final View mMenuView;
     private final RangeSeekBar rsb_seekbar;
     private final View view_pop_bottom;
+    private final Button bt_sure_price;
+    private final TextView tv_price_right;
+    private final TextView tv_price_left;
     private float mMinP = -1;
     private float mMaxP = -1;
     private InterPrice mInterPrice;
@@ -35,14 +41,33 @@ public class ShopPriceWindow extends PopupWindow {
 
         rsb_seekbar = (RangeSeekBar) mMenuView.findViewById(R.id.rsb_seekbar);
         view_pop_bottom = mMenuView.findViewById(R.id.view_pop_bottom);
+        bt_sure_price = (Button) mMenuView.findViewById(R.id.bt_sure_price);
+        tv_price_right = (TextView) mMenuView.findViewById(R.id.tv_price_right);
+        tv_price_left = (TextView) mMenuView.findViewById(R.id.tv_price_left);
         rsb_seekbar.setValue(0, 100);
+
+        if (mMinP != -1 && mMaxP != -1) {
+            tv_price_left.setText("¥ " + mMinP);
+            tv_price_right.setText("¥ " + mMaxP);
+        }
         rsb_seekbar.setOnRangeChangedListener(new RangeSeekBar.OnRangeChangedListener() {
             @Override
             public void onRangeChanged(RangeSeekBar view, float min, float max) {
-                mInterPrice.changePrice(view, min, max);
+
+                if (mMinP != -1 && mMaxP != -1) {
+                    float price = mMaxP - mMinP;
+                    if (min < 1) {
+                        tv_price_left.setText("¥ " + mMinP);
+                    } else {
+                        tv_price_left.setText("¥ " + PublicUtils.formatPrice(min / 100 * price));
+                    }
+                    tv_price_right.setText("¥ " + PublicUtils.formatPrice(max / 100 * price));
+                    mInterPrice.changePrice(view, min, max);
+                }
             }
         });
         view_pop_bottom.setOnClickListener(itemsOnClick);
+        bt_sure_price.setOnClickListener(itemsOnClick);
         //设置SelectPicPopupWindow的View
         this.setContentView(mMenuView);
         //设置SelectPicPopupWindow弹出窗体的宽
@@ -71,5 +96,10 @@ public class ShopPriceWindow extends PopupWindow {
     public void setPriceData(float min, float max) {
         this.mMinP = min;
         this.mMaxP = max;
+
+        if (mMinP != -1 && mMaxP != -1) {
+            tv_price_left.setText("¥ " + PublicUtils.formatPrice(mMinP));
+            tv_price_right.setText("¥ " + PublicUtils.formatPrice(mMaxP));
+        }
     }
 }

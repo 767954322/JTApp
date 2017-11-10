@@ -287,7 +287,7 @@ public class NewShopDetailsActivity
                         tv_price_set.setVisibility(View.VISIBLE);
                         ifShowAddButton();
                     }
-                }else {
+                } else {
 
                 }
                 break;
@@ -350,8 +350,7 @@ public class NewShopDetailsActivity
                 if (shopPriceWindow == null) {
                     shopPriceWindow = new ShopPriceWindow(NewShopDetailsActivity.this, this, this);
                 }
-                if (searchFacetsBean != null && searchFacetsBean.getPrice() != null && !ifSetPrice) {
-                    ifSetPrice = true;
+                if (searchFacetsBean != null && searchFacetsBean.getPrice() != null) {
                     shopPriceWindow.setPriceData(searchFacetsBean.getPrice().getMin(), searchFacetsBean.getPrice().getMax());
                 }
                 closeOtherWin(id);
@@ -390,10 +389,10 @@ public class NewShopDetailsActivity
 
     //➕状态改变
     private void ifShowAddButton() {
-        if(rl_price.getVisibility() == View.VISIBLE && rl_type.getVisibility() == View.VISIBLE && rl_guanjianzi.getVisibility() == View.VISIBLE){
+        if (rl_price.getVisibility() == View.VISIBLE && rl_type.getVisibility() == View.VISIBLE && rl_guanjianzi.getVisibility() == View.VISIBLE) {
 
             iv_xuanxiang.setVisibility(View.GONE);
-        }else {
+        } else {
 
             iv_xuanxiang.setVisibility(View.VISIBLE);
         }
@@ -532,7 +531,11 @@ public class NewShopDetailsActivity
     public void changePrice(RangeSeekBar view, float min, float max) {
         if (shopPriceWindow != null && shopPriceWindow.isShowing() && searchFacetsBean != null) {
             float price = searchFacetsBean.getPrice().getMax() - searchFacetsBean.getPrice().getMin();
-            tv_price.setText("¥ " + PublicUtils.formatPrice(min / 100 * price) + " - " + PublicUtils.formatPrice(max / 100 * price));
+            if (min < 1) {
+                tv_price.setText("¥ " + PublicUtils.formatPrice(searchFacetsBean.getPrice().getMin()) + " - " + PublicUtils.formatPrice(max / 100 * price));
+            } else {
+                tv_price.setText("¥ " + PublicUtils.formatPrice(min / 100 * price) + " - " + PublicUtils.formatPrice(max / 100 * price));
+            }
         }
     }
 

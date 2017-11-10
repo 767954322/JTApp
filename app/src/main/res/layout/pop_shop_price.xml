@@ -52,7 +52,28 @@
             android:layout_marginRight="@dimen/font_22"
             android:layout_marginTop="@dimen/font_60" />
 
+        <TextView
+            android:id="@+id/tv_price_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rsb_seekbar"
+            android:layout_marginLeft="@dimen/font_22"
+            android:textSize="@dimen/size_12"
+            android:textColor="@color/bg_464646"
+            android:text="¥ 0.00"/>
+        <TextView
+            android:id="@+id/tv_price_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rsb_seekbar"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/font_22"
+            android:textSize="@dimen/size_12"
+            android:textColor="@color/bg_464646"
+            android:text="¥ 0.00"/>
+
         <Button
+            android:id="@+id/bt_sure_price"
             android:layout_width="@dimen/font_90"
             android:layout_height="@dimen/font_30"
             android:layout_centerHorizontal="true"
