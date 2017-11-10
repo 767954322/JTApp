@@ -1,6 +1,8 @@
 package com.homechart.app.home.activity;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
@@ -10,7 +12,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.homechart.app.R;
+import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.myview.SelectColorSeCaiWindow;
+import com.homechart.app.myview.ShopPriceWindow;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
@@ -47,6 +52,8 @@ public class NewShopDetailsActivity
     private TextView tv_guanjianzi;
     private ImageView iv_guanjianzi_delect;
     private int visiableNum = 0;
+    private ShopPriceWindow shopPriceWindow;
+    private View view_line_pop;
 
 
     @Override
@@ -64,6 +71,7 @@ public class NewShopDetailsActivity
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
         iv_xuanxiang = (ImageView) findViewById(R.id.iv_xuanxiang);
         iv_close_set = (ImageView) findViewById(R.id.iv_close_set);
+        view_line_pop = findViewById(R.id.view_line_pop);
 
         tv_price_set = (TextView) findViewById(R.id.tv_price_set);
         tv_type_set = (TextView) findViewById(R.id.tv_type_set);
@@ -99,6 +107,9 @@ public class NewShopDetailsActivity
         tv_price_set.setOnClickListener(this);
         tv_type_set.setOnClickListener(this);
         tv_guanjianzi_set.setOnClickListener(this);
+        rl_price.setOnClickListener(this);
+        rl_type.setOnClickListener(this);
+        rl_guanjianzi.setOnClickListener(this);
     }
 
     @Override
@@ -120,6 +131,7 @@ public class NewShopDetailsActivity
                 NewShopDetailsActivity.this.finish();
                 break;
             case R.id.iv_xuanxiang:
+                closeAllPopWin();
                 rl_add_shuaixuan.setVisibility(View.GONE);
                 rl_set_shuaixuan.setVisibility(View.VISIBLE);
                 rl_set_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, false));
@@ -130,50 +142,68 @@ public class NewShopDetailsActivity
                 rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
                 break;
             case R.id.tv_price_set:
-                ++visiableNum;
+            case R.id.rl_price:
+                if (v.getId() == R.id.tv_price_set) {
+                    ++visiableNum;
+                }
                 ifShowAddButton();
-                tabStaus(R.id.tv_price_set);
+                ifShowPopWin(R.id.tv_price_set);
                 rl_price.setVisibility(View.VISIBLE);
                 tv_price_set.setVisibility(View.GONE);
                 rl_add_shuaixuan.setVisibility(View.VISIBLE);
                 rl_set_shuaixuan.setVisibility(View.GONE);
-                rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
+                if (v.getId() == R.id.tv_price_set) {
+                    rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
+                }
                 break;
             case R.id.tv_type_set:
-                ++visiableNum;
+            case R.id.rl_type:
+                if (v.getId() == R.id.tv_type_set) {
+                    ++visiableNum;
+                }
                 ifShowAddButton();
-                tabStaus(R.id.tv_type_set);
+                ifShowPopWin(R.id.tv_type_set);
                 rl_type.setVisibility(View.VISIBLE);
                 tv_type_set.setVisibility(View.GONE);
                 rl_add_shuaixuan.setVisibility(View.VISIBLE);
                 rl_set_shuaixuan.setVisibility(View.GONE);
-                rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
+                if (v.getId() == R.id.tv_type_set) {
+                    rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
+                }
                 break;
             case R.id.tv_guanjianzi_set:
-                ++visiableNum;
+            case R.id.rl_guanjianzi:
+                if (v.getId() == R.id.tv_guanjianzi_set) {
+                    ++visiableNum;
+                }
                 ifShowAddButton();
-                tabStaus(R.id.tv_guanjianzi_set);
+                ifShowPopWin(R.id.tv_guanjianzi_set);
                 rl_guanjianzi.setVisibility(View.VISIBLE);
                 tv_guanjianzi_set.setVisibility(View.GONE);
                 rl_add_shuaixuan.setVisibility(View.VISIBLE);
                 rl_set_shuaixuan.setVisibility(View.GONE);
-                rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
+                if (v.getId() == R.id.tv_guanjianzi_set) {
+                    rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
+                }
                 break;
             case R.id.iv_price_delect:
                 --visiableNum;
                 ifShowAddButton();
+                closeCurrentPopWin(R.id.iv_price_delect);
                 rl_price.setVisibility(View.GONE);
                 tv_price_set.setVisibility(View.VISIBLE);
                 break;
             case R.id.iv_type_delect:
                 --visiableNum;
                 ifShowAddButton();
+                closeCurrentPopWin(R.id.iv_type_delect);
                 rl_type.setVisibility(View.GONE);
                 tv_type_set.setVisibility(View.VISIBLE);
                 break;
             case R.id.iv_guanjianzi_delect:
                 --visiableNum;
                 ifShowAddButton();
+                closeCurrentPopWin(R.id.iv_guanjianzi_delect);
                 rl_guanjianzi.setVisibility(View.GONE);
                 tv_guanjianzi_set.setVisibility(View.VISIBLE);
                 break;
@@ -181,6 +211,47 @@ public class NewShopDetailsActivity
 
     }
 
+    //显示或隐藏状态
+    private void ifShowPopWin(int id) {
+        switch (id) {
+            case R.id.tv_price_set:
+            case R.id.rl_price:
+                if (shopPriceWindow == null) {
+                    shopPriceWindow = new ShopPriceWindow(NewShopDetailsActivity.this, this);
+                }
+                closeOtherWin(id);
+                if (shopPriceWindow.isShowing()) {
+                    shopPriceWindow.dismiss();
+                    tabStaus(0);
+                } else {
+                    tabStaus(id);
+                    if (Build.VERSION.SDK_INT < 24) {
+                        shopPriceWindow.showAsDropDown(view_line_pop);
+                    } else {
+                        // 获取控件的位置，安卓系统>7.0
+                        int[] location = new int[2];
+                        view_line_pop.getLocationOnScreen(location);
+                        int screenHeight = PublicUtils.getScreenHeight(NewShopDetailsActivity.this);
+                        shopPriceWindow.setHeight(screenHeight - location[1]);
+                        shopPriceWindow.showAtLocation(view_line_pop, Gravity.NO_GRAVITY, 0, location[1]);
+                    }
+                }
+                break;
+            case R.id.tv_type_set:
+            case R.id.rl_type:
+                closeOtherWin(id);
+                tabStaus(id);
+                break;
+            case R.id.tv_guanjianzi_set:
+            case R.id.rl_guanjianzi:
+                closeOtherWin(id);
+                tabStaus(id);
+                break;
+        }
+
+    }
+
+    //➕状态改变
     private void ifShowAddButton() {
         if (visiableNum == 3) {
             iv_xuanxiang.setVisibility(View.GONE);
@@ -189,6 +260,7 @@ public class NewShopDetailsActivity
         }
     }
 
+    //显示状态改变
     private void tabStaus(int id) {
 
         switch (id) {
@@ -210,6 +282,7 @@ public class NewShopDetailsActivity
                 iv_guanjianzi_delect.setImageResource(R.drawable.guanbitishi_1);
                 break;
             case R.id.tv_price_set:
+            case R.id.rl_price:
                 rl_price.setBackgroundResource(R.drawable.search_tiaojian_select);
                 rl_type.setBackgroundResource(R.drawable.search_tiaojian_unselect);
                 rl_guanjianzi.setBackgroundResource(R.drawable.search_tiaojian_unselect);
@@ -227,7 +300,7 @@ public class NewShopDetailsActivity
                 iv_guanjianzi_delect.setImageResource(R.drawable.guanbitishi_1);
                 break;
             case R.id.tv_type_set:
-
+            case R.id.rl_type:
                 rl_price.setBackgroundResource(R.drawable.search_tiaojian_unselect);
                 rl_type.setBackgroundResource(R.drawable.search_tiaojian_select);
                 rl_guanjianzi.setBackgroundResource(R.drawable.search_tiaojian_unselect);
@@ -245,6 +318,7 @@ public class NewShopDetailsActivity
                 iv_guanjianzi_delect.setImageResource(R.drawable.guanbitishi_1);
                 break;
             case R.id.tv_guanjianzi_set:
+            case R.id.rl_guanjianzi:
 
                 rl_price.setBackgroundResource(R.drawable.search_tiaojian_unselect);
                 rl_type.setBackgroundResource(R.drawable.search_tiaojian_unselect);
@@ -266,4 +340,52 @@ public class NewShopDetailsActivity
 
     }
 
+    //关闭其他的popwin
+    private void closeOtherWin(int id) {
+        switch (id) {
+            case R.id.tv_price_set:
+            case R.id.rl_price:
+                break;
+            case R.id.tv_type_set:
+            case R.id.rl_type:
+                if(null != shopPriceWindow && shopPriceWindow.isShowing()){
+                    shopPriceWindow.dismiss();
+                }
+                break;
+            case R.id.tv_guanjianzi_set:
+            case R.id.rl_guanjianzi:
+                if(null != shopPriceWindow && shopPriceWindow.isShowing()){
+                    shopPriceWindow.dismiss();
+                }
+                break;
+            case 0:
+                if(null != shopPriceWindow && shopPriceWindow.isShowing()){
+                    shopPriceWindow.dismiss();
+                }
+                break;
+        }
+    }
+
+    //关闭当前的的popwin
+    private void closeCurrentPopWin(int id) {
+        switch (id) {
+            case R.id.iv_price_delect:
+                if (shopPriceWindow != null && shopPriceWindow.isShowing()) {
+                    shopPriceWindow.dismiss();
+                }
+                break;
+            case R.id.iv_type_delect:
+                break;
+            case R.id.iv_guanjianzi_delect:
+                break;
+        }
+    }
+
+    //关闭所有的的popwin
+    private void closeAllPopWin() {
+        if (shopPriceWindow != null && shopPriceWindow.isShowing()) {
+            shopPriceWindow.dismiss();
+            tabStaus(0);
+        }
+    }
 }
