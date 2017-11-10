@@ -161,8 +161,14 @@ public class NewSearchResultActivity
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    String loc = editableImage.getBox().getX1() * 1.000000 / mW + "-" +
+                            editableImage.getBox().getY1() * 1.000000 / heightImage + "-" +
+                            (editableImage.getBox().getX2() - editableImage.getBox().getX1()) * 1.000000 / widerImage + "-" +
+                            (editableImage.getBox().getY2() - editableImage.getBox().getY1()) * 1.000000 / heightImage;
                     Intent intent = new Intent(NewSearchResultActivity.this, NewShopDetailsActivity.class);
                     intent.putExtra("image_path", photoPath + "/" + cropName);
+                    intent.putExtra("image_url", searchSBean.getImage_url());
+                    intent.putExtra("loc", loc);
                     startActivity(intent);
                 }
                 break;

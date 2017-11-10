@@ -2,6 +2,8 @@ package com.homechart.app.home.activity;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -11,17 +13,37 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.homechart.app.R;
+import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.home.bean.fensi.FenSiBean;
+import com.homechart.app.home.bean.fensi.UserListBean;
+import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.myview.SelectColorSeCaiWindow;
 import com.homechart.app.myview.ShopPriceWindow;
+import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
+import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
+import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
+import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
+import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
+import com.homechart.app.utils.GsonUtil;
+import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
+import com.homechart.app.utils.volley.MyHttpManager;
+import com.homechart.app.utils.volley.OkStringRequest;
 
 import org.ielse.widget.RangeSeekBar;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by gumenghao on 17/11/9.
@@ -30,7 +52,9 @@ import org.ielse.widget.RangeSeekBar;
 public class NewShopDetailsActivity
         extends BaseActivity
         implements View.OnClickListener,
-        ShopPriceWindow.InterPrice {
+        ShopPriceWindow.InterPrice,
+        OnLoadMoreListener,
+        OnRefreshListener {
 
     private ImageButton nav_left_imageButton;
     private ImageView iv_crop_imageview;
@@ -59,9 +83,10 @@ public class NewShopDetailsActivity
     private ShopPriceWindow shopPriceWindow;
     private View view_line_pop;
 
-
-    private float minPrice = -1;
-    private float maxPrice = -1;
+    private List<UserListBean> mListData = new ArrayList<>();
+    private HRecyclerView mRecyclerView;
+    private CommonAdapter<UserListBean> mAdapter;
+    private LoadMoreFooterView mLoadMoreFooterView;
 
 
     @Override
@@ -79,6 +104,7 @@ public class NewShopDetailsActivity
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
         iv_xuanxiang = (ImageView) findViewById(R.id.iv_xuanxiang);
         iv_close_set = (ImageView) findViewById(R.id.iv_close_set);
+        mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview);
         view_line_pop = findViewById(R.id.view_line_pop);
 
         tv_price_set = (TextView) findViewById(R.id.tv_price_set);
@@ -124,12 +150,16 @@ public class NewShopDetailsActivity
     protected void initExtraBundle() {
         super.initExtraBundle();
         cropImage = getIntent().getStringExtra("image_path");
+        image_url = getIntent().getStringExtra("image_url");
+        mLoc = getIntent().getStringExtra("loc");
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         ImageUtils.disRectangleImage("file://" + cropImage, iv_crop_imageview);
         tv_tital_comment.setText("相似商品");
+//        initRecyclerView();
+
     }
 
     @Override
@@ -220,6 +250,22 @@ public class NewShopDetailsActivity
                 break;
         }
 
+    }
+
+    private void initRecyclerView() {
+        mAdapter = new CommonAdapter<UserListBean>(this, R.layout.item_fensi, mListData) {
+            @Override
+            public void convert(BaseViewHolder holder, int position) {
+
+            }
+        };
+        mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
+        mRecyclerView.setLayoutManager(new GridLayoutManager(NewShopDetailsActivity.this, 2));
+        mRecyclerView.setItemAnimator(null);
+        mRecyclerView.setOnRefreshListener(this);
+        mRecyclerView.setOnLoadMoreListener(this);
+        mRecyclerView.setAdapter(mAdapter);
+        onRefresh();
     }
 
     //显示或隐藏状态
@@ -407,6 +453,64 @@ public class NewShopDetailsActivity
         if (shopPriceWindow != null && shopPriceWindow.isShowing()) {
             tv_price.setText(min + " - " + max);
         }
-        Log.d("test", "min:" + min + "  ;  max:" + max);
     }
+
+    @Override
+    public void onRefresh() {
+        pager = 1;
+        mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+//        getListData(REFRESH_STATUS);
+    }
+
+    private void getListData(String refresh_status) {
+
+        OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mRecyclerView.setRefreshing(false);//刷新完毕
+                mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+            }
+
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+//                        FenSiBean fenSiBean = GsonUtil.jsonToBean(data_msg, FenSiBean.class);
+//                        if (null != fenSiBean.getUser_list() && 0 != fenSiBean.getUser_list().size()) {
+//                            changeNone(0);
+//                            updateViewFromData(fenSiBean.getUser_list(), state);
+//                        } else {
+//                            changeNone(1);
+//                            updateViewFromData(null, state);
+//                        }
+                    } else {
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+//        MyHttpManager.getInstance().getFensiList(user_id, last_id, n, callback);
+    }
+
+    @Override
+    public void onLoadMore() {
+
+    }
+
+    private String image_url;
+    private int pager = 1;
+    private int num_shop = 20;
+    private String mLoc;
+
+    private float minPrice = -1;
+    private float maxPrice = -1;
+
+
+    private final String REFRESH_STATUS = "refresh";
+    private final String LOADMORE_STATUS = "loadmore";
 }
