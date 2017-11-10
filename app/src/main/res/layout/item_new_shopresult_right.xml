@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="@dimen/font_4"
+    android:layout_marginLeft="@dimen/font_4"
+    android:layout_marginTop="@dimen/font_15"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/iv_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_tital"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/bg_262626"
+        android:layout_below="@+id/iv_image_view"
+        android:lineSpacingExtra="@dimen/font_5"
+        android:layout_marginTop="@dimen/font_10"
+        android:textSize="@dimen/size_14"/>
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/bg_e79056"
+        android:layout_below="@+id/tv_tital"
+        android:layout_marginTop="@dimen/font_10"
+        android:textSize="@dimen/size_14"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_price"
+        android:layout_marginTop="@dimen/font_12"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_goto_buy"
+            android:layout_width="@dimen/font_78"
+            android:gravity="center"
+            android:layout_height="@dimen/font_25"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/bg_goto_buy"/>
+
+        <TextView
+            android:id="@+id/tv_goto_shoucang"
+            android:layout_width="@dimen/font_78"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_height="@dimen/font_25"
+            android:background="@drawable/bt_login"
+            android:text="收藏"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

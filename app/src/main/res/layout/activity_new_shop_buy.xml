@@ -129,7 +129,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/font_10"
                             android:layout_toRightOf="@+id/iv_price_icon"
-                            android:text="$ 669"
+                            android:text="￥ 669"
                             android:textColor="@color/bg_464646"
                             android:textSize="@dimen/font_12" />
 
@@ -320,6 +320,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/view_line_pop"
+        android:layout_marginLeft="@dimen/font_6"
+        android:layout_marginRight="@dimen/font_6"
         app:loadMoreEnabled="true"
         app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer"
         app:refreshEnabled="true"

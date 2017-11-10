@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -100,6 +101,7 @@ public class NewShopDetailsActivity
     private CommonAdapter<SearchShopItemBean> mAdapter;
     private LoadMoreFooterView mLoadMoreFooterView;
     private int position;
+    private int wide;
 
 
     @Override
@@ -172,6 +174,7 @@ public class NewShopDetailsActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        wide = PublicUtils.getScreenWidth(this) / 2 - UIUtils.getDimens(R.dimen.font_14);
         ImageUtils.disRectangleImage("file://" + cropImage, iv_crop_imageview);
         tv_tital_comment.setText("相似商品");
         initRecyclerView();
@@ -272,12 +275,20 @@ public class NewShopDetailsActivity
         MultiItemTypeSupport<SearchShopItemBean> support = new MultiItemTypeSupport<SearchShopItemBean>() {
             @Override
             public int getLayoutId(int itemType) {
-                return R.layout.item_pubu_new;
+                if (itemType == 0) {
+                    return R.layout.item_new_shopresult_left;
+                } else {
+                    return R.layout.item_new_shopresult_right;
+                }
             }
 
             @Override
             public int getItemViewType(int position, SearchShopItemBean s) {
-                return 0;
+                if (position % 2 == 0) {
+                    return 0;//左边
+                } else {
+                    return 1;//右边
+                }
             }
         };
 
@@ -285,11 +296,21 @@ public class NewShopDetailsActivity
             @Override
             public void convert(BaseViewHolder holder, final int position) {
 
+                ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_image_view).getLayoutParams();
+                layoutParams.width = wide;
+                layoutParams.height = wide;
+                holder.getView(R.id.iv_image_view).setLayoutParams(layoutParams);
+                ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(),
+                        (ImageView) holder.getView(R.id.iv_image_view));
+                ((TextView) holder.getView(R.id.tv_tital)).setText(mListData.get(position).getItem_info().getTitle());
+                ((TextView) holder.getView(R.id.tv_price)).setText("￥ " + mListData.get(position).getItem_info().getPrice());
+                ((TextView) holder.getView(R.id.tv_goto_buy)).setText("去" + mListData.get(position).getItem_info().getSource());
+
             }
         };
 
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
-        mRecyclerView.setLayoutManager(new GridLayoutManager(NewShopDetailsActivity.this, 2));
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setOnRefreshListener(this);
         mRecyclerView.setOnLoadMoreListener(this);
@@ -489,9 +510,9 @@ public class NewShopDetailsActivity
         OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if(status.equals(REFRESH_STATUS)){
+                if (status.equals(REFRESH_STATUS)) {
                     pager = 1;
-                }else {
+                } else {
                     --pager;
                 }
                 mRecyclerView.setRefreshing(false);//刷新完毕
