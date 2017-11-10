@@ -263,6 +263,7 @@ public class NewShopDetailsActivity
                 rl_price.setVisibility(View.GONE);
                 tv_price_set.setVisibility(View.VISIBLE);
                 ifShowAddButton();
+                onRefresh();
                 break;
             case R.id.iv_type_delect:
                 closeCurrentPopWin(R.id.iv_type_delect);
@@ -293,9 +294,10 @@ public class NewShopDetailsActivity
                 break;
             case R.id.bt_sure_price:
                 if (shopPriceWindow != null && shopPriceWindow.isShowing()) {
-                    shopPriceWindow.dismiss();
                     minPrice = Float.parseFloat(shopPriceWindow.getChooseMin().trim());
                     maxPrice = Float.parseFloat(shopPriceWindow.getChooseMax().trim());
+                    tv_price.setText("¥ " + PublicUtils.formatPrice(minPrice) + " - " + PublicUtils.formatPrice(maxPrice));
+                    ifShowPopWin(R.id.rl_price);
                     onRefresh();
                 }
                 break;
@@ -358,8 +360,9 @@ public class NewShopDetailsActivity
                 if (shopPriceWindow == null) {
                     shopPriceWindow = new ShopPriceWindow(NewShopDetailsActivity.this, this, this);
                 }
-                if (searchFacetsBean != null && searchFacetsBean.getPrice() != null) {
+                if (searchFacetsBean != null && searchFacetsBean.getPrice() != null && minPrice == -1 && maxPrice == -1) {
                     shopPriceWindow.setPriceData(searchFacetsBean.getPrice().getMin(), searchFacetsBean.getPrice().getMax());
+                    shopPriceWindow.setSeekBarValut();
                 }
                 closeOtherWin(id);
                 if (shopPriceWindow.isShowing()) {
@@ -368,10 +371,8 @@ public class NewShopDetailsActivity
                 } else {
                     tabStaus(id);
                     if (Build.VERSION.SDK_INT < 24) {
-                        shopPriceWindow.setSeekBarValut();
                         shopPriceWindow.showAsDropDown(view_line_pop);
                     } else {
-                        shopPriceWindow.setSeekBarValut();
                         // 获取控件的位置，安卓系统>7.0
                         int[] location = new int[2];
                         view_line_pop.getLocationOnScreen(location);
@@ -548,6 +549,7 @@ public class NewShopDetailsActivity
             }
         }
     }
+
     private void getListData(final String status) {
 
         OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
@@ -572,15 +574,21 @@ public class NewShopDetailsActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
-                        SearchShopsBean searchShopsBean = GsonUtil.jsonToBean(data_msg, SearchShopsBean.class);
-                        if (null != searchShopsBean.getItem_list() && 0 != searchShopsBean.getItem_list().size()) {
-                            searchFacetsBean = searchShopsBean.getFacets();
-                            if (shopPriceWindow != null && searchFacetsBean != null && searchFacetsBean.getPrice() != null && !ifSetPrice) {
-                                ifSetPrice = true;
-                                shopPriceWindow.setPriceData(searchFacetsBean.getPrice().getMin(), searchFacetsBean.getPrice().getMax());
+                        try {
+                            SearchShopsBean searchShopsBean = GsonUtil.jsonToBean(data_msg, SearchShopsBean.class);
+                            if (null != searchShopsBean.getItem_list() && 0 != searchShopsBean.getItem_list().size()) {
+                                if (searchFacetsBean == null) {
+                                    searchFacetsBean = searchShopsBean.getFacets();
+                                }
+                                if (shopPriceWindow != null && searchFacetsBean != null && searchFacetsBean.getPrice() != null && !ifSetPrice) {
+                                    ifSetPrice = true;
+                                    shopPriceWindow.setPriceData(searchFacetsBean.getPrice().getMin(), searchFacetsBean.getPrice().getMax());
+                                }
+                                updateViewFromData(searchShopsBean.getItem_list(), status);
+                            } else {
+                                updateViewFromData(null, status);
                             }
-                            updateViewFromData(searchShopsBean.getItem_list(), status);
-                        } else {
+                        } catch (Exception e) {
                             updateViewFromData(null, status);
                         }
                     } else {
@@ -590,9 +598,9 @@ public class NewShopDetailsActivity
             }
         };
         if (ifMoveKuang) {//移动了，部分参数不传递
-            MyHttpManager.getInstance().getNewShops(image_url, pager + "", num_shop + "", mLoc, "", "", "", "", callback);
+            MyHttpManager.getInstance().getNewShops(image_url, pager + "", num_shop + "", mLoc, "", minPrice == -1 || maxPrice == -1 ? "" : minPrice + "-" + maxPrice, "", "", callback);
         } else {
-            MyHttpManager.getInstance().getNewShops(image_url, pager + "", num_shop + "", mLoc, category_id, "", "", object_sign, callback);
+            MyHttpManager.getInstance().getNewShops(image_url, pager + "", num_shop + "", mLoc, category_id, minPrice == -1 || maxPrice == -1 ? "" : minPrice + "-" + maxPrice, "", object_sign, callback);
         }
     }
 
@@ -630,6 +638,7 @@ public class NewShopDetailsActivity
     @Override
     public void onRefresh() {
         pager = 1;
+        mRecyclerView.setRefreshing(true);
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
         getListData(REFRESH_STATUS);
     }
@@ -652,7 +661,6 @@ public class NewShopDetailsActivity
 
     private float minPrice = -1;
     private float maxPrice = -1;
-
 
     private final String REFRESH_STATUS = "refresh";
     private final String LOADMORE_STATUS = "loadmore";
