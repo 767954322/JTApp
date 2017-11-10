@@ -14,14 +14,17 @@ public class SearchSObjectInfoBean implements Serializable {
     private float height;
     private int category_id;
     private String category_name;
+    private String object_sign;
 
-    public SearchSObjectInfoBean(float x, float y, float width, float height, int category_id, String category_name) {
+
+    public SearchSObjectInfoBean(float x, float y, float width, float height, int category_id, String category_name, String object_sign) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.category_id = category_id;
         this.category_name = category_name;
+        this.object_sign = object_sign;
     }
 
     public float getX() {
@@ -72,6 +75,14 @@ public class SearchSObjectInfoBean implements Serializable {
         this.category_name = category_name;
     }
 
+    public String getObject_sign() {
+        return object_sign;
+    }
+
+    public void setObject_sign(String object_sign) {
+        this.object_sign = object_sign;
+    }
+
     @Override
     public String toString() {
         return "SearchSObjectInfoBean{" +
@@ -81,6 +92,7 @@ public class SearchSObjectInfoBean implements Serializable {
                 ", height=" + height +
                 ", category_id=" + category_id +
                 ", category_name='" + category_name + '\'' +
+                ", object_sign='" + object_sign + '\'' +
                 '}';
     }
 }

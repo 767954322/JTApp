@@ -2336,8 +2336,6 @@ public class MyHttpManager {
         queue.add(okStringRequest);
     }
 
-
-
     /**
      * 以图搜索图
      *

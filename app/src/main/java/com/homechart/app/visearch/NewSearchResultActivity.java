@@ -19,6 +19,7 @@ import com.homechart.app.R;
 import com.homechart.app.croplayout.EditPhotoViewMore;
 import com.homechart.app.croplayout.EditableImage;
 import com.homechart.app.croplayout.NewEditPhotoViewMore;
+import com.homechart.app.croplayout.handler.OnBoxChangedListener;
 import com.homechart.app.croplayout.model.ScalableBox;
 import com.homechart.app.home.activity.NewShopDetailsActivity;
 import com.homechart.app.home.base.BaseActivity;
@@ -72,6 +73,8 @@ public class NewSearchResultActivity
     private String cropName;
 
     private boolean ifOpenSearch = false;
+    private boolean ifMoveKuang = false;
+
     private String photoPath = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_PICTURES).getPath() + File.separator + "JiaTuApp";
 
@@ -112,6 +115,12 @@ public class NewSearchResultActivity
         mBackButton.setOnClickListener(this);
         tv_fuwei.setOnClickListener(this);
         tv_sousuo.setOnClickListener(this);
+        mPhotoImage.setOnBoxChangedListener(new OnBoxChangedListener() {
+            @Override
+            public void onChanged(int x1, int y1, int x2, int y2) {
+                ifMoveKuang = true;
+            }
+        });
     }
 
     @Override
@@ -169,6 +178,9 @@ public class NewSearchResultActivity
                     intent.putExtra("image_path", photoPath + "/" + cropName);
                     intent.putExtra("image_url", searchSBean.getImage_url());
                     intent.putExtra("loc", loc);
+                    intent.putExtra("ifMoveKuang", ifMoveKuang);
+                    intent.putExtra("object_sign", listSearch.get(currentPosition).getObject_info().getObject_sign());
+                    intent.putExtra("category_id", listSearch.get(currentPosition).getObject_info().getCategory_id());
                     startActivity(intent);
                 }
                 break;
@@ -218,6 +230,8 @@ public class NewSearchResultActivity
 
     @Override
     public void onClickPosition(int pos) {
+        currentPosition = pos;
+        ifMoveKuang = false;
         ifOpenSearch = true;
         rly_point.setVisibility(View.GONE);
         SearchSObjectInfoBean searchSObjectInfoBean = listSearch.get(pos).getObject_info();
@@ -299,4 +313,6 @@ public class NewSearchResultActivity
         return new File(folder, name);
     }
 
+
+    private int currentPosition = -1;
 }

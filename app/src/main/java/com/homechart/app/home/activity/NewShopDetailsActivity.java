@@ -152,6 +152,9 @@ public class NewShopDetailsActivity
         cropImage = getIntent().getStringExtra("image_path");
         image_url = getIntent().getStringExtra("image_url");
         mLoc = getIntent().getStringExtra("loc");
+        ifMoveKuang =  getIntent().getBooleanExtra("ifMoveKuang",true);
+        object_sign = getIntent().getStringExtra("object_sign");
+        category_id = getIntent().getStringExtra("category_id");
     }
 
     @Override
@@ -506,6 +509,10 @@ public class NewShopDetailsActivity
     private int pager = 1;
     private int num_shop = 20;
     private String mLoc;
+
+    private String object_sign;
+    private String category_id;
+    private boolean ifMoveKuang;
 
     private float minPrice = -1;
     private float maxPrice = -1;
