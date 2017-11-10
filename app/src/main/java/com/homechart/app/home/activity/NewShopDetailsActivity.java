@@ -27,6 +27,7 @@ import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.fensi.FenSiBean;
 import com.homechart.app.home.bean.fensi.UserListBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
+import com.homechart.app.home.bean.searchshops.SearchFacetsBean;
 import com.homechart.app.home.bean.searchshops.SearchShopItemBean;
 import com.homechart.app.home.bean.searchshops.SearchShopsBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
@@ -55,6 +56,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,7 +94,6 @@ public class NewShopDetailsActivity
     private ImageView iv_guanjianzi_icon;
     private TextView tv_guanjianzi;
     private ImageView iv_guanjianzi_delect;
-    private int visiableNum = 0;
     private ShopPriceWindow shopPriceWindow;
     private View view_line_pop;
 
@@ -102,7 +103,7 @@ public class NewShopDetailsActivity
     private LoadMoreFooterView mLoadMoreFooterView;
     private int position;
     private int wide;
-
+    public SearchFacetsBean searchFacetsBean;
 
     @Override
     protected int getLayoutResId() {
@@ -200,32 +201,42 @@ public class NewShopDetailsActivity
                 break;
             case R.id.tv_price_set:
             case R.id.rl_price:
-                if (v.getId() == R.id.tv_price_set) {
-                    ++visiableNum;
-                    tv_price.setText("未选择");
-                }
-                ifShowAddButton();
-                ifShowPopWin(R.id.tv_price_set);
-                rl_price.setVisibility(View.VISIBLE);
-                tv_price_set.setVisibility(View.GONE);
-                rl_add_shuaixuan.setVisibility(View.VISIBLE);
-                rl_set_shuaixuan.setVisibility(View.GONE);
-                if (v.getId() == R.id.tv_price_set) {
-                    rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
+                if (maxPrice == -1 && minPrice == -1 && v.getId() == R.id.rl_price) {
+                    if (null != shopPriceWindow && shopPriceWindow.isShowing()) {
+                        shopPriceWindow.dismiss();
+                        minPrice = -1;
+                        maxPrice = -1;
+                        closeCurrentPopWin(R.id.iv_price_delect);
+                        rl_price.setVisibility(View.GONE);
+                        tv_price_set.setVisibility(View.VISIBLE);
+                        ifShowAddButton();
+                    }
+                } else {
+                    if (v.getId() == R.id.tv_price_set) {
+                        tv_price.setText("未选择");
+                    }
+                    ifShowPopWin(R.id.tv_price_set);
+                    rl_price.setVisibility(View.VISIBLE);
+                    tv_price_set.setVisibility(View.GONE);
+                    rl_add_shuaixuan.setVisibility(View.VISIBLE);
+                    rl_set_shuaixuan.setVisibility(View.GONE);
+                    ifShowAddButton();
+                    if (v.getId() == R.id.tv_price_set) {
+                        rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
+                    }
                 }
                 break;
             case R.id.tv_type_set:
             case R.id.rl_type:
                 if (v.getId() == R.id.tv_type_set) {
-                    ++visiableNum;
                     tv_type.setText("未选择");
                 }
-                ifShowAddButton();
                 ifShowPopWin(R.id.tv_type_set);
                 rl_type.setVisibility(View.VISIBLE);
                 tv_type_set.setVisibility(View.GONE);
                 rl_add_shuaixuan.setVisibility(View.VISIBLE);
                 rl_set_shuaixuan.setVisibility(View.GONE);
+                ifShowAddButton();
                 if (v.getId() == R.id.tv_type_set) {
                     rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
                 }
@@ -233,39 +244,52 @@ public class NewShopDetailsActivity
             case R.id.tv_guanjianzi_set:
             case R.id.rl_guanjianzi:
                 if (v.getId() == R.id.tv_guanjianzi_set) {
-                    ++visiableNum;
                     tv_guanjianzi.setText("未选择");
                 }
-                ifShowAddButton();
                 ifShowPopWin(R.id.tv_guanjianzi_set);
                 rl_guanjianzi.setVisibility(View.VISIBLE);
                 tv_guanjianzi_set.setVisibility(View.GONE);
                 rl_add_shuaixuan.setVisibility(View.VISIBLE);
                 rl_set_shuaixuan.setVisibility(View.GONE);
+                ifShowAddButton();
                 if (v.getId() == R.id.tv_guanjianzi_set) {
                     rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
                 }
                 break;
             case R.id.iv_price_delect:
-                --visiableNum;
-                ifShowAddButton();
+                minPrice = -1;
+                maxPrice = -1;
                 closeCurrentPopWin(R.id.iv_price_delect);
                 rl_price.setVisibility(View.GONE);
                 tv_price_set.setVisibility(View.VISIBLE);
+                ifShowAddButton();
                 break;
             case R.id.iv_type_delect:
-                --visiableNum;
-                ifShowAddButton();
                 closeCurrentPopWin(R.id.iv_type_delect);
                 rl_type.setVisibility(View.GONE);
                 tv_type_set.setVisibility(View.VISIBLE);
+                ifShowAddButton();
                 break;
             case R.id.iv_guanjianzi_delect:
-                --visiableNum;
-                ifShowAddButton();
                 closeCurrentPopWin(R.id.iv_guanjianzi_delect);
                 rl_guanjianzi.setVisibility(View.GONE);
                 tv_guanjianzi_set.setVisibility(View.VISIBLE);
+                ifShowAddButton();
+                break;
+            case R.id.view_pop_bottom:
+                if (minPrice == -1 && maxPrice == -1) {
+                    if (null != shopPriceWindow && shopPriceWindow.isShowing()) {
+                        shopPriceWindow.dismiss();
+                        minPrice = -1;
+                        maxPrice = -1;
+                        closeCurrentPopWin(R.id.iv_price_delect);
+                        rl_price.setVisibility(View.GONE);
+                        tv_price_set.setVisibility(View.VISIBLE);
+                        ifShowAddButton();
+                    }
+                }else {
+
+                }
                 break;
         }
 
@@ -326,6 +350,10 @@ public class NewShopDetailsActivity
                 if (shopPriceWindow == null) {
                     shopPriceWindow = new ShopPriceWindow(NewShopDetailsActivity.this, this, this);
                 }
+                if (searchFacetsBean != null && searchFacetsBean.getPrice() != null && !ifSetPrice) {
+                    ifSetPrice = true;
+                    shopPriceWindow.setPriceData(searchFacetsBean.getPrice().getMin(), searchFacetsBean.getPrice().getMax());
+                }
                 closeOtherWin(id);
                 if (shopPriceWindow.isShowing()) {
                     shopPriceWindow.dismiss();
@@ -362,9 +390,11 @@ public class NewShopDetailsActivity
 
     //➕状态改变
     private void ifShowAddButton() {
-        if (visiableNum == 3) {
+        if(rl_price.getVisibility() == View.VISIBLE && rl_type.getVisibility() == View.VISIBLE && rl_guanjianzi.getVisibility() == View.VISIBLE){
+
             iv_xuanxiang.setVisibility(View.GONE);
-        } else {
+        }else {
+
             iv_xuanxiang.setVisibility(View.VISIBLE);
         }
     }
@@ -500,14 +530,16 @@ public class NewShopDetailsActivity
 
     @Override
     public void changePrice(RangeSeekBar view, float min, float max) {
-        if (shopPriceWindow != null && shopPriceWindow.isShowing()) {
-            tv_price.setText(min + " - " + max);
+        if (shopPriceWindow != null && shopPriceWindow.isShowing() && searchFacetsBean != null) {
+            float price = searchFacetsBean.getPrice().getMax() - searchFacetsBean.getPrice().getMin();
+            tv_price.setText("¥ " + PublicUtils.formatPrice(min / 100 * price) + " - " + PublicUtils.formatPrice(max / 100 * price));
         }
     }
 
     private void getListData(final String status) {
 
         OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
+
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (status.equals(REFRESH_STATUS)) {
@@ -530,6 +562,11 @@ public class NewShopDetailsActivity
                     if (error_code == 0) {
                         SearchShopsBean searchShopsBean = GsonUtil.jsonToBean(data_msg, SearchShopsBean.class);
                         if (null != searchShopsBean.getItem_list() && 0 != searchShopsBean.getItem_list().size()) {
+                            searchFacetsBean = searchShopsBean.getFacets();
+                            if (shopPriceWindow != null && searchFacetsBean != null && searchFacetsBean.getPrice() != null && !ifSetPrice) {
+                                ifSetPrice = true;
+                                shopPriceWindow.setPriceData(searchFacetsBean.getPrice().getMin(), searchFacetsBean.getPrice().getMax());
+                            }
                             updateViewFromData(searchShopsBean.getItem_list(), status);
                         } else {
                             updateViewFromData(null, status);
@@ -607,4 +644,6 @@ public class NewShopDetailsActivity
 
     private final String REFRESH_STATUS = "refresh";
     private final String LOADMORE_STATUS = "loadmore";
+
+    private boolean ifSetPrice = false;
 }

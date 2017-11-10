@@ -36,7 +36,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginLeft="@dimen/font_10"
             android:layout_marginTop="@dimen/font_25"
-            android:text="单位（￥人民币  元）"
+            android:text="单位（¥人民币  元）"
             android:textColor="@color/bg_464646"
             android:textSize="@dimen/size_12" />
 

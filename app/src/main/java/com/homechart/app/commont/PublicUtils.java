@@ -48,6 +48,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -629,5 +630,13 @@ public class PublicUtils {
         return mapTabName;
     }
 
+    public static String formatPrice(float price) {
+        DecimalFormat decimalFormat = new DecimalFormat(".00");
+        String p = decimalFormat.format(price);//format 返回的是字符串
+        if (p.equals(".00")) {
+            p = "0.00";
+        }
+        return p;
+    }
 
 }

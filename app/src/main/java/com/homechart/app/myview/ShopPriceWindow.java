@@ -21,9 +21,12 @@ public class ShopPriceWindow extends PopupWindow {
 
     private final View mMenuView;
     private final RangeSeekBar rsb_seekbar;
+    private final View view_pop_bottom;
+    private float mMinP = -1;
+    private float mMaxP = -1;
     private InterPrice mInterPrice;
 
-    public ShopPriceWindow(final Context context, View.OnClickListener itemsOnClick,InterPrice interPrice) {
+    public ShopPriceWindow(final Context context, View.OnClickListener itemsOnClick, InterPrice interPrice) {
         super(context);
         this.mInterPrice = interPrice;
         LayoutInflater inflater = (LayoutInflater) context
@@ -31,14 +34,15 @@ public class ShopPriceWindow extends PopupWindow {
         mMenuView = inflater.inflate(R.layout.pop_shop_price, null);
 
         rsb_seekbar = (RangeSeekBar) mMenuView.findViewById(R.id.rsb_seekbar);
-        rsb_seekbar.setValue(0,100);
+        view_pop_bottom = mMenuView.findViewById(R.id.view_pop_bottom);
+        rsb_seekbar.setValue(0, 100);
         rsb_seekbar.setOnRangeChangedListener(new RangeSeekBar.OnRangeChangedListener() {
             @Override
             public void onRangeChanged(RangeSeekBar view, float min, float max) {
-                mInterPrice.changePrice(view,min,max);
+                mInterPrice.changePrice(view, min, max);
             }
         });
-
+        view_pop_bottom.setOnClickListener(itemsOnClick);
         //设置SelectPicPopupWindow的View
         this.setContentView(mMenuView);
         //设置SelectPicPopupWindow弹出窗体的宽
@@ -60,7 +64,12 @@ public class ShopPriceWindow extends PopupWindow {
         void changePrice(RangeSeekBar view, float min, float max);
     }
 
-    public void setSeekBarValut(){
-        rsb_seekbar.setValue(0,100);
+    public void setSeekBarValut() {
+        rsb_seekbar.setValue(0, 100);
+    }
+
+    public void setPriceData(float min, float max) {
+        this.mMinP = min;
+        this.mMaxP = max;
     }
 }
