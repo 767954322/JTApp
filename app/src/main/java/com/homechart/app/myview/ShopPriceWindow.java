@@ -116,11 +116,19 @@ public class ShopPriceWindow extends PopupWindow {
         }
     }
 
-    public RangeSeekBar getRsb_seekbar() {
-        return rsb_seekbar;
+    public String getChooseMin() {
+        return chooseMin;
     }
 
-    public void setRsb_seekbar(RangeSeekBar rsb_seekbar) {
-        this.rsb_seekbar = rsb_seekbar;
+    public void setChooseMin(String chooseMin) {
+        this.chooseMin = chooseMin;
+    }
+
+    public String getChooseMax() {
+        return chooseMax;
+    }
+
+    public void setChooseMax(String chooseMax) {
+        this.chooseMax = chooseMax;
     }
 }

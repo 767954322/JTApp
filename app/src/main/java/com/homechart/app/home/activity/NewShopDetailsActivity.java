@@ -293,6 +293,10 @@ public class NewShopDetailsActivity
                 break;
             case R.id.bt_sure_price:
                 if (shopPriceWindow != null && shopPriceWindow.isShowing()) {
+                    shopPriceWindow.dismiss();
+                    minPrice = Float.parseFloat(shopPriceWindow.getChooseMin().trim());
+                    maxPrice = Float.parseFloat(shopPriceWindow.getChooseMax().trim());
+                    onRefresh();
                 }
                 break;
         }
