@@ -291,6 +291,10 @@ public class NewShopDetailsActivity
 
                 }
                 break;
+            case R.id.bt_sure_price:
+                if (shopPriceWindow != null && shopPriceWindow.isShowing()) {
+                }
+                break;
         }
 
     }
@@ -531,14 +535,15 @@ public class NewShopDetailsActivity
     public void changePrice(RangeSeekBar view, float min, float max) {
         if (shopPriceWindow != null && shopPriceWindow.isShowing() && searchFacetsBean != null) {
             float price = searchFacetsBean.getPrice().getMax() - searchFacetsBean.getPrice().getMin();
-            if (min < 1) {
+            if (min < 1 && max > 1) {
                 tv_price.setText("¥ " + PublicUtils.formatPrice(searchFacetsBean.getPrice().getMin()) + " - " + PublicUtils.formatPrice(max / 100 * price));
+            } else if (min < 1 && max < 1) {
+                tv_price.setText("¥ " + PublicUtils.formatPrice(searchFacetsBean.getPrice().getMin()) + " - " + PublicUtils.formatPrice(searchFacetsBean.getPrice().getMin()));
             } else {
                 tv_price.setText("¥ " + PublicUtils.formatPrice(min / 100 * price) + " - " + PublicUtils.formatPrice(max / 100 * price));
             }
         }
     }
-
     private void getListData(final String status) {
 
         OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {

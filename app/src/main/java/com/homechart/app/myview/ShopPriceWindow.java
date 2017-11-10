@@ -22,15 +22,18 @@ import org.ielse.widget.RangeSeekBar;
 public class ShopPriceWindow extends PopupWindow {
 
 
-    private final View mMenuView;
-    private final RangeSeekBar rsb_seekbar;
-    private final View view_pop_bottom;
-    private final Button bt_sure_price;
-    private final TextView tv_price_right;
-    private final TextView tv_price_left;
+    private View mMenuView;
+    public RangeSeekBar rsb_seekbar;
+    private View view_pop_bottom;
+    private Button bt_sure_price;
+    private TextView tv_price_right;
+    private TextView tv_price_left;
     private float mMinP = -1;
     private float mMaxP = -1;
     private InterPrice mInterPrice;
+
+    public String chooseMin = "";
+    public String chooseMax = "";
 
     public ShopPriceWindow(final Context context, View.OnClickListener itemsOnClick, InterPrice interPrice) {
         super(context);
@@ -57,11 +60,19 @@ public class ShopPriceWindow extends PopupWindow {
                 if (mMinP != -1 && mMaxP != -1) {
                     float price = mMaxP - mMinP;
                     if (min < 1) {
-                        tv_price_left.setText("¥ " + mMinP);
+                        chooseMin = mMinP + "";
+                        tv_price_left.setText("¥ " + PublicUtils.formatPrice(mMinP));
                     } else {
+                        chooseMin = PublicUtils.formatPrice(min / 100 * price);
                         tv_price_left.setText("¥ " + PublicUtils.formatPrice(min / 100 * price));
                     }
-                    tv_price_right.setText("¥ " + PublicUtils.formatPrice(max / 100 * price));
+                    if (max < 1) {
+                        chooseMax = mMinP + "";
+                        tv_price_right.setText("¥ " + PublicUtils.formatPrice(mMinP));
+                    }else {
+                        chooseMax = PublicUtils.formatPrice(max / 100 * price);
+                        tv_price_right.setText("¥ " + PublicUtils.formatPrice(max / 100 * price));
+                    }
                     mInterPrice.changePrice(view, min, max);
                 }
             }
@@ -96,10 +107,20 @@ public class ShopPriceWindow extends PopupWindow {
     public void setPriceData(float min, float max) {
         this.mMinP = min;
         this.mMaxP = max;
+        this.chooseMin = PublicUtils.formatPrice(mMinP) + "";
+        this.chooseMax = PublicUtils.formatPrice(mMaxP) + "";
 
         if (mMinP != -1 && mMaxP != -1) {
             tv_price_left.setText("¥ " + PublicUtils.formatPrice(mMinP));
             tv_price_right.setText("¥ " + PublicUtils.formatPrice(mMaxP));
         }
+    }
+
+    public RangeSeekBar getRsb_seekbar() {
+        return rsb_seekbar;
+    }
+
+    public void setRsb_seekbar(RangeSeekBar rsb_seekbar) {
+        this.rsb_seekbar = rsb_seekbar;
     }
 }
