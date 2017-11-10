@@ -27,6 +27,7 @@ import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.fensi.FenSiBean;
 import com.homechart.app.home.bean.fensi.UserListBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
+import com.homechart.app.home.bean.searchfservice.TypeNewBean;
 import com.homechart.app.home.bean.searchshops.SearchFacetsBean;
 import com.homechart.app.home.bean.searchshops.SearchShopItemBean;
 import com.homechart.app.home.bean.searchshops.SearchShopsBean;
@@ -34,6 +35,7 @@ import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.myview.SelectColorSeCaiWindow;
 import com.homechart.app.myview.ShopPriceWindow;
+import com.homechart.app.myview.ShopTypeWindow;
 import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
@@ -58,6 +60,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -68,6 +71,7 @@ public class NewShopDetailsActivity
         extends BaseActivity
         implements View.OnClickListener,
         ShopPriceWindow.InterPrice,
+        ShopTypeWindow.InterType,
         OnLoadMoreListener,
         OnRefreshListener {
 
@@ -104,6 +108,8 @@ public class NewShopDetailsActivity
     private int position;
     private int wide;
     public SearchFacetsBean searchFacetsBean;
+    private TypeNewBean typeNewBean;
+    private ShopTypeWindow shopTypeWindow;
 
     @Override
     protected int getLayoutResId() {
@@ -170,7 +176,7 @@ public class NewShopDetailsActivity
         mLoc = getIntent().getStringExtra("loc");
         ifMoveKuang = getIntent().getBooleanExtra("ifMoveKuang", true);
         object_sign = getIntent().getStringExtra("object_sign");
-        category_id = getIntent().getStringExtra("category_id");
+//        category_id = getIntent().getStringExtra("category_id");
     }
 
     @Override
@@ -178,6 +184,7 @@ public class NewShopDetailsActivity
         wide = PublicUtils.getScreenWidth(this) / 2 - UIUtils.getDimens(R.dimen.font_14);
         ImageUtils.disRectangleImage("file://" + cropImage, iv_crop_imageview);
         tv_tital_comment.setText("相似商品");
+        getTypeData();
         initRecyclerView();
 
     }
@@ -190,6 +197,9 @@ public class NewShopDetailsActivity
                 break;
             case R.id.iv_xuanxiang:
                 closeAllPopWin();
+                if (null == typeNewBean) {
+                    getTypeData();
+                }
                 rl_add_shuaixuan.setVisibility(View.GONE);
                 rl_set_shuaixuan.setVisibility(View.VISIBLE);
                 rl_set_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, false));
@@ -228,17 +238,32 @@ public class NewShopDetailsActivity
                 break;
             case R.id.tv_type_set:
             case R.id.rl_type:
-                if (v.getId() == R.id.tv_type_set) {
-                    tv_type.setText("未选择");
-                }
-                ifShowPopWin(R.id.tv_type_set);
-                rl_type.setVisibility(View.VISIBLE);
-                tv_type_set.setVisibility(View.GONE);
-                rl_add_shuaixuan.setVisibility(View.VISIBLE);
-                rl_set_shuaixuan.setVisibility(View.GONE);
-                ifShowAddButton();
-                if (v.getId() == R.id.tv_type_set) {
-                    rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
+                if (TextUtils.isEmpty(category_id) && v.getId() == R.id.rl_type) {
+                    if (null != shopTypeWindow && shopTypeWindow.isShowing()) {
+                        shopTypeWindow.dismiss();
+                        category_id = "";
+                        category_name = "";
+                        closeCurrentPopWin(R.id.iv_type_delect);
+                        rl_type.setVisibility(View.GONE);
+                        tv_type_set.setVisibility(View.VISIBLE);
+                        ifShowAddButton();
+                    }
+                } else {
+                    if (v.getId() == R.id.tv_type_set) {
+                        tv_type.setText("未选择");
+                    }
+                    if (!TextUtils.isEmpty(category_id) && !TextUtils.isEmpty(category_name)) {
+                        tv_type.setText(category_name);
+                    }
+                    ifShowPopWin(R.id.tv_type_set);
+                    rl_type.setVisibility(View.VISIBLE);
+                    tv_type_set.setVisibility(View.GONE);
+                    rl_add_shuaixuan.setVisibility(View.VISIBLE);
+                    rl_set_shuaixuan.setVisibility(View.GONE);
+                    ifShowAddButton();
+                    if (v.getId() == R.id.tv_type_set) {
+                        rl_add_shuaixuan.setAnimation(AnimationUtils.makeInAnimation(this, true));
+                    }
                 }
                 break;
             case R.id.tv_guanjianzi_set:
@@ -266,10 +291,14 @@ public class NewShopDetailsActivity
                 onRefresh();
                 break;
             case R.id.iv_type_delect:
+
+                category_id = "";
+                category_name = "";
                 closeCurrentPopWin(R.id.iv_type_delect);
                 rl_type.setVisibility(View.GONE);
                 tv_type_set.setVisibility(View.VISIBLE);
                 ifShowAddButton();
+                onRefresh();
                 break;
             case R.id.iv_guanjianzi_delect:
                 closeCurrentPopWin(R.id.iv_guanjianzi_delect);
@@ -352,6 +381,39 @@ public class NewShopDetailsActivity
         onRefresh();
     }
 
+
+    private void getTypeData() {
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        typeNewBean = GsonUtil.jsonToBean(data_msg, TypeNewBean.class);
+                        if (shopTypeWindow == null) {
+                            shopTypeWindow = new ShopTypeWindow(NewShopDetailsActivity.this, NewShopDetailsActivity.this, typeNewBean, NewShopDetailsActivity.this);
+                        }
+                        shopTypeWindow.setTypeData(typeNewBean);
+                    } else {
+                        ToastUtils.showCenter(NewShopDetailsActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().getShopTypes(callBack);
+
+    }
+
+
     //显示或隐藏状态
     private void ifShowPopWin(int id) {
         switch (id) {
@@ -384,8 +446,38 @@ public class NewShopDetailsActivity
                 break;
             case R.id.tv_type_set:
             case R.id.rl_type:
+                if (shopTypeWindow == null) {
+                    shopTypeWindow = new ShopTypeWindow(NewShopDetailsActivity.this, this, typeNewBean, this);
+                }
+                if (TextUtils.isEmpty(category_name) && TextUtils.isEmpty(category_id)) {
+                    shopTypeWindow.setChooseName("");
+                    shopTypeWindow.setMapSelect(new HashMap<String, Integer>());
+                    shopTypeWindow.setMapType(new HashMap<String, Integer>());
+                }
+                if (typeNewBean == null) {
+                    getTypeData();
+                } else if (typeNewBean != null && TextUtils.isEmpty(category_id)) {
+                    shopTypeWindow.setTypeData(typeNewBean);
+                } else if (typeNewBean != null && !TextUtils.isEmpty(category_id) && !TextUtils.isEmpty(category_name)) {
+                    shopTypeWindow.setTypes(typeNewBean, category_id, category_name);
+                }
                 closeOtherWin(id);
-                tabStaus(id);
+                if (shopTypeWindow.isShowing()) {
+                    shopTypeWindow.dismiss();
+                    tabStaus(0);
+                } else {
+                    tabStaus(id);
+                    if (Build.VERSION.SDK_INT < 24) {
+                        shopTypeWindow.showAsDropDown(view_line_pop);
+                    } else {
+                        // 获取控件的位置，安卓系统>7.0
+                        int[] location = new int[2];
+                        view_line_pop.getLocationOnScreen(location);
+                        int screenHeight = PublicUtils.getScreenHeight(NewShopDetailsActivity.this);
+                        shopTypeWindow.setHeight(screenHeight - location[1]);
+                        shopTypeWindow.showAtLocation(view_line_pop, Gravity.NO_GRAVITY, 0, location[1]);
+                    }
+                }
                 break;
             case R.id.tv_guanjianzi_set:
             case R.id.rl_guanjianzi:
@@ -492,6 +584,9 @@ public class NewShopDetailsActivity
         switch (id) {
             case R.id.tv_price_set:
             case R.id.rl_price:
+                if (null != shopTypeWindow && shopTypeWindow.isShowing()) {
+                    shopTypeWindow.dismiss();
+                }
                 break;
             case R.id.tv_type_set:
             case R.id.rl_type:
@@ -504,10 +599,16 @@ public class NewShopDetailsActivity
                 if (null != shopPriceWindow && shopPriceWindow.isShowing()) {
                     shopPriceWindow.dismiss();
                 }
+                if (null != shopTypeWindow && shopTypeWindow.isShowing()) {
+                    shopTypeWindow.dismiss();
+                }
                 break;
             case 0:
                 if (null != shopPriceWindow && shopPriceWindow.isShowing()) {
                     shopPriceWindow.dismiss();
+                }
+                if (null != shopTypeWindow && shopTypeWindow.isShowing()) {
+                    shopTypeWindow.dismiss();
                 }
                 break;
         }
@@ -522,6 +623,9 @@ public class NewShopDetailsActivity
                 }
                 break;
             case R.id.iv_type_delect:
+                if (shopTypeWindow != null && shopTypeWindow.isShowing()) {
+                    shopTypeWindow.dismiss();
+                }
                 break;
             case R.id.iv_guanjianzi_delect:
                 break;
@@ -548,6 +652,43 @@ public class NewShopDetailsActivity
                 tv_price.setText("¥ " + PublicUtils.formatPrice(min / 100 * price) + " - " + PublicUtils.formatPrice(max / 100 * price));
             }
         }
+    }
+
+    @Override
+    public void clickType(String categoryName, Integer categoryId) {
+//        category_id = categoryId + "";
+//        category_name = categoryName;
+        if (TextUtils.isEmpty(categoryName) && categoryId == 0) {
+            tv_type.setText("未选择");
+        } else {
+            tv_type.setText(categoryName);
+        }
+    }
+
+    @Override
+    public void onClickSure(String categoryname, Integer categoryid) {
+        category_id = categoryid + "";
+        category_name = categoryname;
+        if (shopTypeWindow != null && shopTypeWindow.isShowing()) {
+            ifShowPopWin(R.id.rl_type);
+            onRefresh();
+        }
+
+    }
+
+    @Override
+    public void closePop() {
+
+        ifShowPopWin(R.id.rl_type);
+        if (TextUtils.isEmpty(category_id) && TextUtils.isEmpty(category_name)) {
+            rl_type.setVisibility(View.GONE);
+            tv_type_set.setVisibility(View.VISIBLE);
+        } else {
+            rl_type.setVisibility(View.VISIBLE);
+            tv_type_set.setVisibility(View.GONE);
+            tv_type.setText(category_name);
+        }
+        ifShowAddButton();
     }
 
     private void getListData(final String status) {
@@ -598,7 +739,7 @@ public class NewShopDetailsActivity
             }
         };
         if (ifMoveKuang) {//移动了，部分参数不传递
-            MyHttpManager.getInstance().getNewShops(image_url, pager + "", num_shop + "", mLoc, "", minPrice == -1 || maxPrice == -1 ? "" : minPrice + "-" + maxPrice, "", "", callback);
+            MyHttpManager.getInstance().getNewShops(image_url, pager + "", num_shop + "", mLoc, category_id, minPrice == -1 || maxPrice == -1 ? "" : minPrice + "-" + maxPrice, "", "", callback);
         } else {
             MyHttpManager.getInstance().getNewShops(image_url, pager + "", num_shop + "", mLoc, category_id, minPrice == -1 || maxPrice == -1 ? "" : minPrice + "-" + maxPrice, "", object_sign, callback);
         }
@@ -656,7 +797,8 @@ public class NewShopDetailsActivity
     private String mLoc;
 
     private String object_sign;
-    private String category_id;
+    private String category_id = "";
+    private String category_name = "";
     private boolean ifMoveKuang;
 
     private float minPrice = -1;
@@ -666,4 +808,5 @@ public class NewShopDetailsActivity
     private final String LOADMORE_STATUS = "loadmore";
 
     private boolean ifSetPrice = false;
+
 }
