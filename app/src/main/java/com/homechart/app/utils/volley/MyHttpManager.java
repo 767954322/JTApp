@@ -2339,13 +2339,58 @@ public class MyHttpManager {
     /**
      * 以图搜索图
      *
+     * @param image_url
+     * @param p
+     * @param l
+     * @param loc
+     * @param category_id
+     * @param price
+     * @param kw
+     * @param object_sign
      * @param callback
      */
-    public void getNewShops(OkStringRequest.OKResponseCallback callback) {
-        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.TYPE_SHOP, callback) {
+    public void getNewShops(final String image_url,
+                            final String p,
+                            final String l,
+                            final String loc,
+                            final String category_id,
+                            final String price,
+                            final String kw,
+                            final String object_sign,
+                            OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.NEW_SEARCH_SHOPS, callback) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                map.put("image_url", image_url);
+                map.put("p", p);
+                map.put("l", l);
+
+                if (!TextUtils.isEmpty(category_id)) {
+                    map.put("loc", loc);
+                } else {
+                    map.put("loc", "");
+                }
+                if (!TextUtils.isEmpty(category_id)) {
+                    map.put("category_id", category_id);
+                } else {
+                    map.put("category_id", "");
+                }
+                if (!TextUtils.isEmpty(price)) {
+                    map.put("price", price);
+                } else {
+                    map.put("price", "");
+                }
+                if (!TextUtils.isEmpty(kw)) {
+                    map.put("kw", kw);
+                } else {
+                    map.put("kw", "");
+                }
+                if (!TextUtils.isEmpty(object_sign)) {
+                    map.put("object_sign", object_sign);
+                }else {
+                    map.put("object_sign", "");
+                }
                 String signString = PublicUtils.getSinaString(map);
                 String tabMd5String = Md5Util.getMD5twoTimes(signString);
                 map.put(ClassConstant.PublicKey.SIGN, tabMd5String);

@@ -1,12 +1,16 @@
 package com.homechart.app.home.activity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -21,27 +25,35 @@ import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.fensi.FenSiBean;
 import com.homechart.app.home.bean.fensi.UserListBean;
+import com.homechart.app.home.bean.search.SearchItemDataBean;
+import com.homechart.app.home.bean.searchshops.SearchShopItemBean;
+import com.homechart.app.home.bean.searchshops.SearchShopsBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.myview.SelectColorSeCaiWindow;
 import com.homechart.app.myview.ShopPriceWindow;
 import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
+import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
+import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.GsonUtil;
+import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.homechart.app.visearch.SearchLoadingActivity;
 
 import org.ielse.widget.RangeSeekBar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,10 +95,11 @@ public class NewShopDetailsActivity
     private ShopPriceWindow shopPriceWindow;
     private View view_line_pop;
 
-    private List<UserListBean> mListData = new ArrayList<>();
+    private List<SearchShopItemBean> mListData = new ArrayList<>();
     private HRecyclerView mRecyclerView;
-    private CommonAdapter<UserListBean> mAdapter;
+    private CommonAdapter<SearchShopItemBean> mAdapter;
     private LoadMoreFooterView mLoadMoreFooterView;
+    private int position;
 
 
     @Override
@@ -152,7 +165,7 @@ public class NewShopDetailsActivity
         cropImage = getIntent().getStringExtra("image_path");
         image_url = getIntent().getStringExtra("image_url");
         mLoc = getIntent().getStringExtra("loc");
-        ifMoveKuang =  getIntent().getBooleanExtra("ifMoveKuang",true);
+        ifMoveKuang = getIntent().getBooleanExtra("ifMoveKuang", true);
         object_sign = getIntent().getStringExtra("object_sign");
         category_id = getIntent().getStringExtra("category_id");
     }
@@ -161,7 +174,7 @@ public class NewShopDetailsActivity
     protected void initData(Bundle savedInstanceState) {
         ImageUtils.disRectangleImage("file://" + cropImage, iv_crop_imageview);
         tv_tital_comment.setText("相似商品");
-//        initRecyclerView();
+        initRecyclerView();
 
     }
 
@@ -256,12 +269,25 @@ public class NewShopDetailsActivity
     }
 
     private void initRecyclerView() {
-        mAdapter = new CommonAdapter<UserListBean>(this, R.layout.item_fensi, mListData) {
+        MultiItemTypeSupport<SearchShopItemBean> support = new MultiItemTypeSupport<SearchShopItemBean>() {
             @Override
-            public void convert(BaseViewHolder holder, int position) {
+            public int getLayoutId(int itemType) {
+                return R.layout.item_pubu_new;
+            }
+
+            @Override
+            public int getItemViewType(int position, SearchShopItemBean s) {
+                return 0;
+            }
+        };
+
+        mAdapter = new MultiItemCommonAdapter<SearchShopItemBean>(NewShopDetailsActivity.this, mListData, support) {
+            @Override
+            public void convert(BaseViewHolder holder, final int position) {
 
             }
         };
+
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
         mRecyclerView.setLayoutManager(new GridLayoutManager(NewShopDetailsActivity.this, 2));
         mRecyclerView.setItemAnimator(null);
@@ -458,18 +484,16 @@ public class NewShopDetailsActivity
         }
     }
 
-    @Override
-    public void onRefresh() {
-        pager = 1;
-        mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-//        getListData(REFRESH_STATUS);
-    }
-
-    private void getListData(String refresh_status) {
+    private void getListData(final String status) {
 
         OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(status.equals(REFRESH_STATUS)){
+                    pager = 1;
+                }else {
+                    --pager;
+                }
                 mRecyclerView.setRefreshing(false);//刷新完毕
                 mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
             }
@@ -483,26 +507,68 @@ public class NewShopDetailsActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
-//                        FenSiBean fenSiBean = GsonUtil.jsonToBean(data_msg, FenSiBean.class);
-//                        if (null != fenSiBean.getUser_list() && 0 != fenSiBean.getUser_list().size()) {
-//                            changeNone(0);
-//                            updateViewFromData(fenSiBean.getUser_list(), state);
-//                        } else {
-//                            changeNone(1);
-//                            updateViewFromData(null, state);
-//                        }
+                        SearchShopsBean searchShopsBean = GsonUtil.jsonToBean(data_msg, SearchShopsBean.class);
+                        if (null != searchShopsBean.getItem_list() && 0 != searchShopsBean.getItem_list().size()) {
+                            updateViewFromData(searchShopsBean.getItem_list(), status);
+                        } else {
+                            updateViewFromData(null, status);
+                        }
                     } else {
                     }
                 } catch (JSONException e) {
                 }
             }
         };
-//        MyHttpManager.getInstance().getFensiList(user_id, last_id, n, callback);
+        if (ifMoveKuang) {//移动了，部分参数不传递
+            MyHttpManager.getInstance().getNewShops(image_url, pager + "", num_shop + "", mLoc, "", "", "", "", callback);
+        } else {
+            MyHttpManager.getInstance().getNewShops(image_url, pager + "", num_shop + "", mLoc, category_id, "", "", object_sign, callback);
+        }
+    }
+
+    private void updateViewFromData(List<SearchShopItemBean> listData, String state) {
+        switch (state) {
+            case REFRESH_STATUS:
+                mListData.clear();
+                if (null != listData && listData.size() > 0) {
+                    mListData.addAll(listData);
+                } else {
+                    //没有更多数据
+                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+                    pager = 1;
+                    mListData.clear();
+                }
+                mAdapter.notifyDataSetChanged();
+                mRecyclerView.setRefreshing(false);//刷新完毕
+                break;
+
+            case LOADMORE_STATUS:
+                if (null != listData && listData.size() > 0) {
+                    position = mListData.size();
+                    mListData.addAll(listData);
+                    mAdapter.notifyItem(position, mListData, listData);
+                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                } else {
+                    --pager;
+                    //没有更多数据
+                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+        pager = 1;
+        mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+        getListData(REFRESH_STATUS);
     }
 
     @Override
     public void onLoadMore() {
-
+        mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
+        ++pager;
+        getListData(LOADMORE_STATUS);
     }
 
     private String image_url;

@@ -10,9 +10,12 @@ import java.util.List;
 public class SearchShopsBean implements Serializable{
 
     private  List<SearchShopItemBean> item_list;
+    private  SearchFacetsBean facets;
 
-    public SearchShopsBean(List<SearchShopItemBean> item_list) {
+
+    public SearchShopsBean(List<SearchShopItemBean> item_list, SearchFacetsBean facets) {
         this.item_list = item_list;
+        this.facets = facets;
     }
 
     public List<SearchShopItemBean> getItem_list() {
@@ -23,10 +26,19 @@ public class SearchShopsBean implements Serializable{
         this.item_list = item_list;
     }
 
+    public SearchFacetsBean getFacets() {
+        return facets;
+    }
+
+    public void setFacets(SearchFacetsBean facets) {
+        this.facets = facets;
+    }
+
     @Override
     public String toString() {
         return "SearchShopsBean{" +
                 "item_list=" + item_list +
+                ", facets=" + facets +
                 '}';
     }
 }
