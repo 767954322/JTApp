@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.homechart.app.R;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
 
@@ -45,6 +46,8 @@ public class NewShopDetailsActivity
     private ImageView iv_guanjianzi_icon;
     private TextView tv_guanjianzi;
     private ImageView iv_guanjianzi_delect;
+    private int visiableNum = 0;
+
 
     @Override
     protected int getLayoutResId() {
@@ -110,8 +113,6 @@ public class NewShopDetailsActivity
         tv_tital_comment.setText("相似商品");
     }
 
-    private int visiableNum = 0;
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -131,6 +132,7 @@ public class NewShopDetailsActivity
             case R.id.tv_price_set:
                 ++visiableNum;
                 ifShowAddButton();
+                tabStaus(R.id.tv_price_set);
                 rl_price.setVisibility(View.VISIBLE);
                 tv_price_set.setVisibility(View.GONE);
                 rl_add_shuaixuan.setVisibility(View.VISIBLE);
@@ -140,6 +142,7 @@ public class NewShopDetailsActivity
             case R.id.tv_type_set:
                 ++visiableNum;
                 ifShowAddButton();
+                tabStaus(R.id.tv_type_set);
                 rl_type.setVisibility(View.VISIBLE);
                 tv_type_set.setVisibility(View.GONE);
                 rl_add_shuaixuan.setVisibility(View.VISIBLE);
@@ -149,6 +152,7 @@ public class NewShopDetailsActivity
             case R.id.tv_guanjianzi_set:
                 ++visiableNum;
                 ifShowAddButton();
+                tabStaus(R.id.tv_guanjianzi_set);
                 rl_guanjianzi.setVisibility(View.VISIBLE);
                 tv_guanjianzi_set.setVisibility(View.GONE);
                 rl_add_shuaixuan.setVisibility(View.VISIBLE);
@@ -180,9 +184,86 @@ public class NewShopDetailsActivity
     private void ifShowAddButton() {
         if (visiableNum == 3) {
             iv_xuanxiang.setVisibility(View.GONE);
-        }else {
+        } else {
             iv_xuanxiang.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void tabStaus(int id) {
+
+        switch (id) {
+            case 0:
+                rl_price.setBackgroundResource(R.drawable.search_tiaojian_unselect);
+                rl_type.setBackgroundResource(R.drawable.search_tiaojian_unselect);
+                rl_guanjianzi.setBackgroundResource(R.drawable.search_tiaojian_unselect);
+
+                iv_price_icon.setImageResource(R.drawable.jiage1_1);
+                iv_type_icon.setImageResource(R.drawable.pinlei1_1);
+                iv_guanjianzi_icon.setImageResource(R.drawable.guanjianzi1_1);
+
+                tv_price.setTextColor(UIUtils.getColor(R.color.bg_464646));
+                tv_type.setTextColor(UIUtils.getColor(R.color.bg_464646));
+                tv_guanjianzi.setTextColor(UIUtils.getColor(R.color.bg_464646));
+
+                iv_price_delect.setImageResource(R.drawable.guanbitishi_1);
+                iv_type_delect.setImageResource(R.drawable.guanbitishi_1);
+                iv_guanjianzi_delect.setImageResource(R.drawable.guanbitishi_1);
+                break;
+            case R.id.tv_price_set:
+                rl_price.setBackgroundResource(R.drawable.search_tiaojian_select);
+                rl_type.setBackgroundResource(R.drawable.search_tiaojian_unselect);
+                rl_guanjianzi.setBackgroundResource(R.drawable.search_tiaojian_unselect);
+
+                iv_price_icon.setImageResource(R.drawable.jiage_1);
+                iv_type_icon.setImageResource(R.drawable.pinlei1_1);
+                iv_guanjianzi_icon.setImageResource(R.drawable.guanjianzi1_1);
+
+                tv_price.setTextColor(UIUtils.getColor(R.color.white));
+                tv_type.setTextColor(UIUtils.getColor(R.color.bg_464646));
+                tv_guanjianzi.setTextColor(UIUtils.getColor(R.color.bg_464646));
+
+                iv_price_delect.setImageResource(R.drawable.guanbitishi1_1);
+                iv_type_delect.setImageResource(R.drawable.guanbitishi_1);
+                iv_guanjianzi_delect.setImageResource(R.drawable.guanbitishi_1);
+                break;
+            case R.id.tv_type_set:
+
+                rl_price.setBackgroundResource(R.drawable.search_tiaojian_unselect);
+                rl_type.setBackgroundResource(R.drawable.search_tiaojian_select);
+                rl_guanjianzi.setBackgroundResource(R.drawable.search_tiaojian_unselect);
+
+                iv_price_icon.setImageResource(R.drawable.jiage1_1);
+                iv_type_icon.setImageResource(R.drawable.pinlei_1);
+                iv_guanjianzi_icon.setImageResource(R.drawable.guanjianzi1_1);
+
+                tv_price.setTextColor(UIUtils.getColor(R.color.bg_464646));
+                tv_type.setTextColor(UIUtils.getColor(R.color.white));
+                tv_guanjianzi.setTextColor(UIUtils.getColor(R.color.bg_464646));
+
+                iv_price_delect.setImageResource(R.drawable.guanbitishi_1);
+                iv_type_delect.setImageResource(R.drawable.guanbitishi1_1);
+                iv_guanjianzi_delect.setImageResource(R.drawable.guanbitishi_1);
+                break;
+            case R.id.tv_guanjianzi_set:
+
+                rl_price.setBackgroundResource(R.drawable.search_tiaojian_unselect);
+                rl_type.setBackgroundResource(R.drawable.search_tiaojian_unselect);
+                rl_guanjianzi.setBackgroundResource(R.drawable.search_tiaojian_select);
+
+                iv_price_icon.setImageResource(R.drawable.jiage1_1);
+                iv_type_icon.setImageResource(R.drawable.pinlei1_1);
+                iv_guanjianzi_icon.setImageResource(R.drawable.guanjianzi_1);
+
+                tv_price.setTextColor(UIUtils.getColor(R.color.bg_464646));
+                tv_type.setTextColor(UIUtils.getColor(R.color.bg_464646));
+                tv_guanjianzi.setTextColor(UIUtils.getColor(R.color.white));
+
+                iv_price_delect.setImageResource(R.drawable.guanbitishi_1);
+                iv_type_delect.setImageResource(R.drawable.guanbitishi_1);
+                iv_guanjianzi_delect.setImageResource(R.drawable.guanbitishi1_1);
+                break;
+        }
+
     }
 
 }
