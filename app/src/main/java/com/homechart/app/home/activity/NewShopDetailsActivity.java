@@ -303,7 +303,7 @@ public class NewShopDetailsActivity
                 ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(),
                         (ImageView) holder.getView(R.id.iv_image_view));
                 ((TextView) holder.getView(R.id.tv_tital)).setText(mListData.get(position).getItem_info().getTitle());
-                ((TextView) holder.getView(R.id.tv_price)).setText("￥ " + mListData.get(position).getItem_info().getPrice());
+                ((TextView) holder.getView(R.id.tv_price)).setText("¥ " + mListData.get(position).getItem_info().getPrice());
                 ((TextView) holder.getView(R.id.tv_goto_buy)).setText("去" + mListData.get(position).getItem_info().getSource());
 
             }
