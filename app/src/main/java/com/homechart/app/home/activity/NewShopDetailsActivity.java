@@ -399,6 +399,16 @@ public class NewShopDetailsActivity
                         startActivity(viewIntent);
                     }
                 });
+                holder.getView(R.id.tv_goto_shoucang).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(allowClickShouCang){
+                            allowClickShouCang = false;
+                            //收藏商品
+                            addShouCang(mListData.get(position).getItem_info().getSpu_id());
+                        }
+                    }
+                });
             }
         };
 
@@ -410,7 +420,41 @@ public class NewShopDetailsActivity
         mRecyclerView.setAdapter(mAdapter);
         onRefresh();
     }
+    private void addShouCang(String spu_id) {
 
+        OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onResponse(String response) {
+                allowClickShouCang = true;
+                try {
+                    if (response != null) {
+                        JSONObject jsonObject = new JSONObject(response);
+                        int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                        String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                        String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                        if (error_code == 0) {
+                            ToastUtils.showCenter(NewShopDetailsActivity.this, "商品收藏成功！");
+                        } else {
+                            ToastUtils.showCenter(NewShopDetailsActivity.this, error_msg);
+                        }
+                    } else {
+                        ToastUtils.showCenter(NewShopDetailsActivity.this, "商品收藏失败！");
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(NewShopDetailsActivity.this, "商品收藏失败！");
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                allowClickShouCang = true;
+                ToastUtils.showCenter(NewShopDetailsActivity.this, "商品收藏失败！");
+            }
+        };
+        MyHttpManager.getInstance().shoucangShop(spu_id, callback);
+    }
+
+    private boolean  allowClickShouCang = true;
 
     private void getTypeData() {
 
