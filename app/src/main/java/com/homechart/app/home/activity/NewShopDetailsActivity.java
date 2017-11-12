@@ -335,7 +335,8 @@ public class NewShopDetailsActivity
                         ifShowAddButton();
                     }
                 } else {
-
+                    closeCurrentPopWin(R.id.iv_price_delect);
+                    tabStaus(0);
                 }
                 break;
             case R.id.bt_sure_price:
