@@ -1066,11 +1066,9 @@ public class ImageDetailFragment
         }
         tv_people_details.setText(imageDetailBean.getUser_info().getSlogan());
 
-        if (!imageDetailBean.getUser_info().getUser_id().trim().equals(mUserId.trim())) {
-//            tv_content_right.setVisibility(View.GONE);
+        if (null != imageDetailBean && null != imageDetailBean.getUser_info() && !TextUtils.isEmpty(mUserId)
+                && !imageDetailBean.getUser_info().getUser_id().trim().equals(mUserId.trim())) {
             tv_people_guanzhu.setVisibility(View.VISIBLE);
-//            nav_secondary_imageButton.setVisibility(View.VISIBLE);
-//            nav_secondary_imageButton.setImageResource(R.drawable.shared_icon);
             if (imageDetailBean.getUser_info().getRelation().equals("0")) {//未关注
                 guanzhuTag = 1;
                 tv_people_guanzhu.setText("关注");
@@ -1090,9 +1088,7 @@ public class ImageDetailFragment
                 tv_people_guanzhu.setBackgroundResource(R.drawable.tv_guanzhu_xianghu);
             }
         } else {
-//            tv_content_right.setVisibility(View.VISIBLE);
             tv_people_guanzhu.setVisibility(View.GONE);
-//            nav_secondary_imageButton.setVisibility(View.GONE);
         }
 
         if (imageFirstTag) {
