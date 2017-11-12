@@ -23,14 +23,22 @@ import java.util.Map;
 
 public class ShopGuanJianZiWindow extends PopupWindow {
 
+    private final GuanJianZi mGuanJianZi;
     private View mMenuView;
 
-    public ShopGuanJianZiWindow(final Context context, View.OnClickListener itemsOnClick) {
+    public ShopGuanJianZiWindow(final Context context, View.OnClickListener itemsOnClick,GuanJianZi guanJianZi) {
         super(context);
+        this.mGuanJianZi = guanJianZi;
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mMenuView = inflater.inflate(R.layout.pop_shop_guanjianzi, null);
 
+        mMenuView.findViewById(R.id.view_pop_bottom).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mGuanJianZi.clickGuanJianZiBottom();
+            }
+        });
         //设置SelectPicPopupWindow的View
         this.setContentView(mMenuView);
         //设置SelectPicPopupWindow弹出窗体的宽
@@ -45,6 +53,10 @@ public class ShopGuanJianZiWindow extends PopupWindow {
         ColorDrawable dw = new ColorDrawable(0xb0000000);
         //设置SelectPicPopupWindow弹出窗体的背景
         this.setBackgroundDrawable(dw);
-
     }
+
+    public interface GuanJianZi{
+       void clickGuanJianZiBottom();
+    }
+
 }

@@ -13,9 +13,11 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -75,7 +77,7 @@ public class NewShopDetailsActivity
         ShopPriceWindow.InterPrice,
         ShopTypeWindow.InterType,
         OnLoadMoreListener,
-        OnRefreshListener {
+        OnRefreshListener ,ShopGuanJianZiWindow.GuanJianZi {
 
     private ImageButton nav_left_imageButton;
     private ImageView iv_crop_imageview;
@@ -500,7 +502,10 @@ public class NewShopDetailsActivity
             case R.id.tv_guanjianzi_set:
             case R.id.rl_guanjianzi:
                 if (shopGuanJianZiWindow == null) {
-                    shopGuanJianZiWindow = new ShopGuanJianZiWindow(NewShopDetailsActivity.this, this);
+                    shopGuanJianZiWindow = new ShopGuanJianZiWindow(NewShopDetailsActivity.this, this,NewShopDetailsActivity.this);
+
+                    shopGuanJianZiWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+                    shopGuanJianZiWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                 }
                 closeOtherWin(id);
                 if (shopGuanJianZiWindow.isShowing()) {
@@ -839,6 +844,20 @@ public class NewShopDetailsActivity
         getListData(LOADMORE_STATUS);
     }
 
+    @Override
+    public void clickGuanJianZiBottom() {
+
+        if(TextUtils.isEmpty(guanjianzi) && shopGuanJianZiWindow != null){
+            closeCurrentPopWin(R.id.iv_guanjianzi_delect);
+            rl_guanjianzi.setVisibility(View.GONE);
+            tv_guanjianzi_set.setVisibility(View.VISIBLE);
+            ifShowAddButton();
+        }else {
+            closeCurrentPopWin(R.id.iv_guanjianzi_delect);
+            tabStaus(0);
+        }
+    }
+
     private String image_url;
     private int pager = 1;
     private int num_shop = 20;
@@ -858,5 +877,7 @@ public class NewShopDetailsActivity
     private final String LOADMORE_STATUS = "loadmore";
 
     private boolean ifSetPrice = false;
+
+    private String guanjianzi = "";
 
 }
