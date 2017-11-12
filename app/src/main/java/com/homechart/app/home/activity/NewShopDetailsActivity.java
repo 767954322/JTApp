@@ -320,10 +320,13 @@ public class NewShopDetailsActivity
                 onRefresh();
                 break;
             case R.id.iv_guanjianzi_delect:
+                guanjianzi = "";
+                kw = "";
                 closeCurrentPopWin(R.id.iv_guanjianzi_delect);
                 rl_guanjianzi.setVisibility(View.GONE);
                 tv_guanjianzi_set.setVisibility(View.VISIBLE);
                 ifShowAddButton();
+                onRefresh();
                 break;
             case R.id.view_pop_bottom:
                 if (minPrice == -1 && maxPrice == -1) {
@@ -856,6 +859,16 @@ public class NewShopDetailsActivity
             closeCurrentPopWin(R.id.iv_guanjianzi_delect);
             tabStaus(0);
         }
+    }
+
+    @Override
+    public void clickGuanJianZiSure(String guanjianzi) {
+        this.guanjianzi = guanjianzi;
+        this.kw = guanjianzi;
+        tv_guanjianzi.setText(kw);
+        closeCurrentPopWin(R.id.iv_guanjianzi_delect);
+        tabStaus(0);
+        onRefresh();
     }
 
     private String image_url;
