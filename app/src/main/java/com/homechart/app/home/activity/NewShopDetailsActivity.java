@@ -1,6 +1,7 @@
 package com.homechart.app.home.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -390,8 +391,14 @@ public class NewShopDetailsActivity
                         (ImageView) holder.getView(R.id.iv_image_view));
                 ((TextView) holder.getView(R.id.tv_tital)).setText(mListData.get(position).getItem_info().getTitle());
                 ((TextView) holder.getView(R.id.tv_price)).setText("¥ " + mListData.get(position).getItem_info().getPrice());
-                ((TextView) holder.getView(R.id.tv_goto_buy)).setText("去" + mListData.get(position).getItem_info().getSource());
-
+//                ((TextView) holder.getView(R.id.tv_goto_buy)).setText("去" + mListData.get(position).getItem_info().getSource());
+                holder.getView(R.id.tv_goto_buy).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(mListData.get(position).getItem_info().getBuy_url()));
+                        startActivity(viewIntent);
+                    }
+                });
             }
         };
 

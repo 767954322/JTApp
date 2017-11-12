@@ -43,6 +43,7 @@
             android:gravity="center"
             android:layout_height="@dimen/font_25"
             android:layout_alignParentLeft="true"
+            android:text="去购买"
             android:background="@drawable/bg_goto_buy"/>
 
         <TextView

@@ -43,6 +43,7 @@
             android:layout_width="@dimen/font_78"
             android:gravity="center"
             android:layout_height="@dimen/font_25"
+            android:text="去购买"
             android:layout_alignParentLeft="true"
             android:background="@drawable/bg_goto_buy"/>
 
