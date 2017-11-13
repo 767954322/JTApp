@@ -455,7 +455,7 @@ public class ImageDetailScrollActivity
     public void getUserInfo(ImageDetailBean imageDetailBean) {
 
         this.mImageDetailBean = imageDetailBean;
-        if (null != imageDetailBean && null != imageDetailBean.getUser_info() && null != imageDetailBean.getUser_info().getUser_id()) {
+        if (null != imageDetailBean && null != imageDetailBean.getUser_info() && null != imageDetailBean.getUser_info().getUser_id() && !TextUtils.isEmpty(mUserId)) {
             if (!imageDetailBean.getUser_info().getUser_id().trim().equals(mUserId.trim())) {
                 nav_secondary_imageButton.setVisibility(View.VISIBLE);
                 tv_content_right.setVisibility(View.GONE);
