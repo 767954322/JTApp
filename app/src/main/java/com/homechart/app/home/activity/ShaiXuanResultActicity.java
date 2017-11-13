@@ -173,6 +173,8 @@ public class ShaiXuanResultActicity
 
         islist = getIntent().getBooleanExtra("islist",true);
         shaixuan_tag = getIntent().getStringExtra("shaixuan_tag");
+        colorBean = (ColorBean) getIntent().getSerializableExtra("colorBean");
+//        mSelectListData = (Map<Integer, ColorItemBean>) getIntent().getSerializableExtra("mSelectListData");
         listcolor = (List<ColorInfoBean>) getIntent().getSerializableExtra("colorlist");
         mSelectListData = (Map<Integer, ColorItemBean>) getIntent().getSerializableExtra("shaixuan_color");
         if (mSelectListData == null) {
@@ -662,30 +664,6 @@ public class ShaiXuanResultActicity
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
         mRecyclerView.setAdapter(mAdapter);
         onRefresh();
-    }
-
-    private void clickColorQiu(int position) {
-        //友盟统计
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("evenname", "三个色彩点");
-        map.put("even", "标签页");
-        MobclickAgent.onEvent(ShaiXuanResultActicity.this, "jtaction3", map);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("标签页")  //事件类别
-                .setAction("三个色彩点")      //事件操作
-                .build());
-        //查看单图详情
-        Intent intent = new Intent(ShaiXuanResultActicity.this, ImageDetailScrollActivity.class);
-        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-        intent.putExtra("position", position);
-        intent.putExtra("type", "筛选");
-        intent.putExtra("if_click_color", true);
-        intent.putExtra("mSelectListData", (Serializable) mSelectListData);
-        intent.putExtra("shaixuan_tag", shaixuan_tag);
-        intent.putExtra("page_num", page_num);
-        intent.putExtra("item_id_list", (Serializable) mItemIdList);
-        startActivity(intent);
     }
 
     private void getListData(final String state) {

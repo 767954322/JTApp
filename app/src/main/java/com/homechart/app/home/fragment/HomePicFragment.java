@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
@@ -742,6 +743,8 @@ public class HomePicFragment
         Intent intent = new Intent(activity, ShaiXuanResultActicity.class);
         intent.putExtra("shaixuan_tag", tagStr);
         intent.putExtra("islist", true);
+        intent.putExtra("colorBean", colorBean);
+        intent.putExtra("shaixuan_color", (Serializable) mSelectListData);
         startActivity(intent);
     }
 
