@@ -4,14 +4,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -23,23 +18,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.bumptech.glide.Glide;
-import com.google.android.gms.analytics.HitBuilders;
-import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
-import com.homechart.app.home.bean.fensi.FenSiBean;
-import com.homechart.app.home.bean.fensi.UserListBean;
-import com.homechart.app.home.bean.search.SearchItemDataBean;
 import com.homechart.app.home.bean.searchfservice.TypeNewBean;
 import com.homechart.app.home.bean.searchshops.SearchFacetsBean;
 import com.homechart.app.home.bean.searchshops.SearchShopItemBean;
 import com.homechart.app.home.bean.searchshops.SearchShopsBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
-import com.homechart.app.myview.RoundImageView;
-import com.homechart.app.myview.SelectColorSeCaiWindow;
 import com.homechart.app.myview.ShopGuanJianZiWindow;
 import com.homechart.app.myview.ShopPriceWindow;
 import com.homechart.app.myview.ShopTypeWindow;
@@ -55,20 +42,13 @@ import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
-import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
-import com.homechart.app.visearch.NewSearchResultActivity;
-import com.homechart.app.visearch.SearchLoadingActivity;
-import com.umeng.analytics.MobclickAgent;
 
 import org.ielse.widget.RangeSeekBar;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.Serializable;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -299,7 +279,7 @@ public class NewShopDetailsActivity
                         tv_guanjianzi.setText("未选择");
                     }
                     if (!TextUtils.isEmpty(kw)) {
-                        tv_type.setText(kw);
+                        tv_guanjianzi.setText(kw);
                     }
                     ifShowPopWin(R.id.tv_guanjianzi_set);
                     rl_guanjianzi.setVisibility(View.VISIBLE);
