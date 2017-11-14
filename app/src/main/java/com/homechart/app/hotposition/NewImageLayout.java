@@ -155,10 +155,10 @@ public class NewImageLayout extends FrameLayout implements View.OnClickListener 
         animationSet.setFillAfter(true);
 //        animationSet.addAnimation(alphaAnimation);
         animationSet.addAnimation(scaleAnimation);
-        animationSet.setDuration(1500);
+        animationSet.setDuration(1000);
         animationSet.setRepeatMode(Animation.RESTART);
         animationSet.setRepeatCount(1);
-        animationSet.setStartOffset(400);
+        animationSet.setStartOffset(200);
     }
 
     private void addPoints(int width, int height) {
