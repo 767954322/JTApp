@@ -15,9 +15,10 @@ public class SearchShopItemInfoBean implements Serializable {
     private String source;
     private String source_name;
     private String product_id;
+    private String is_collected;
     private SearchShopItemInfoImageBean image;
 
-    public SearchShopItemInfoBean(String spu_id, String title, String price, String buy_url, String source, String source_name, String product_id, SearchShopItemInfoImageBean image) {
+    public SearchShopItemInfoBean(String spu_id, String title, String price, String buy_url, String source, String source_name, String product_id, String is_collected, SearchShopItemInfoImageBean image) {
         this.spu_id = spu_id;
         this.title = title;
         this.price = price;
@@ -25,6 +26,7 @@ public class SearchShopItemInfoBean implements Serializable {
         this.source = source;
         this.source_name = source_name;
         this.product_id = product_id;
+        this.is_collected = is_collected;
         this.image = image;
     }
 
@@ -84,6 +86,14 @@ public class SearchShopItemInfoBean implements Serializable {
         this.product_id = product_id;
     }
 
+    public String getIs_collected() {
+        return is_collected;
+    }
+
+    public void setIs_collected(String is_collected) {
+        this.is_collected = is_collected;
+    }
+
     public SearchShopItemInfoImageBean getImage() {
         return image;
     }
@@ -102,6 +112,7 @@ public class SearchShopItemInfoBean implements Serializable {
                 ", source='" + source + '\'' +
                 ", source_name='" + source_name + '\'' +
                 ", product_id='" + product_id + '\'' +
+                ", is_collected='" + is_collected + '\'' +
                 ", image=" + image +
                 '}';
     }

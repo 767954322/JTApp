@@ -24,6 +24,8 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.analytics.HitBuilders;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
@@ -48,6 +50,7 @@ import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
+import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
@@ -58,6 +61,7 @@ import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.homechart.app.visearch.NewSearchResultActivity;
 import com.homechart.app.visearch.SearchLoadingActivity;
+import com.umeng.analytics.MobclickAgent;
 
 import org.ielse.widget.RangeSeekBar;
 import org.json.JSONException;
@@ -189,10 +193,10 @@ public class NewShopDetailsActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
         wide = PublicUtils.getScreenWidth(this) / 2 - UIUtils.getDimens(R.dimen.font_14);
-        if(!cropImage.equals(image_url)){
+        if (!cropImage.equals(image_url)) {
 
             ImageUtils.disRectangleImage("file://" + cropImage, iv_crop_imageview);
-        }else {
+        } else {
 
             ImageUtils.disRectangleImage(cropImage, iv_crop_imageview);
         }
@@ -406,14 +410,31 @@ public class NewShopDetailsActivity
                         startActivity(viewIntent);
                     }
                 });
+                if (!mListData.get(position).getItem_info().getIs_collected().trim().equals("1")) {
+                    //未收藏（显示收藏）
+                    ((TextView)holder.getView(R.id.tv_goto_shoucang)).setTextColor(UIUtils.getColor(R.color.white));
+                    holder.getView(R.id.tv_goto_shoucang).setBackgroundResource(R.drawable.bt_sousuo);
+                } else {
+                    //已经收藏了（显示已收藏）
+                    ((TextView)holder.getView(R.id.tv_goto_shoucang)).setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                    holder.getView(R.id.tv_goto_shoucang).setBackgroundResource(R.drawable.bt_sousuo_quxiao);
+                }
                 holder.getView(R.id.tv_goto_shoucang).setOnClickListener(new View.OnClickListener() {
+
                     @Override
                     public void onClick(View v) {
-                        if (allowClickShouCang) {
-                            allowClickShouCang = false;
-                            //收藏商品
-                            addShouCang(mListData.get(position).getItem_info().getSpu_id());
+                        Boolean loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                        if (!loginStatus) {
+                            Intent intent = new Intent(NewShopDetailsActivity.this, LoginActivity.class);
+                            startActivityForResult(intent, 1);
+                        } else {
+                            onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
                         }
+//                        if (allowClickShouCang) {
+//                            allowClickShouCang = false;
+//                            //收藏商品
+//                            addShouCang(mListData.get(position).getItem_info().getSpu_id());
+//                        }
                     }
                 });
                 holder.getView(R.id.iv_image_view).setOnClickListener(new View.OnClickListener() {
@@ -452,12 +473,30 @@ public class NewShopDetailsActivity
         onRefresh();
     }
 
-    private void addShouCang(String spu_id) {
+    boolean ifClickShouCang = true;
+
+    //收藏或者取消收藏，图片
+    public void onShouCang(boolean ifShouCang, int position, SearchShopItemBean searchShopItemBean) {
+
+        if (ifClickShouCang) {
+            ifClickShouCang = false;
+            if (ifShouCang) {
+                //未被收藏，去收藏
+                addShouCang(position, searchShopItemBean.getItem_info().getSpu_id());
+            } else {
+                //被收藏，去取消收藏
+                removeShouCang(position, searchShopItemBean.getItem_info().getSpu_id());
+            }
+        }
+
+    }
+
+    private void addShouCang(final int position, String spu_id) {
 
         OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onResponse(String response) {
-                allowClickShouCang = true;
+                ifClickShouCang = true;
                 try {
                     if (response != null) {
                         JSONObject jsonObject = new JSONObject(response);
@@ -465,12 +504,14 @@ public class NewShopDetailsActivity
                         String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                         String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                         if (error_code == 0) {
-                            ToastUtils.showCenter(NewShopDetailsActivity.this, "商品收藏成功！");
+                            ToastUtils.showCenter(NewShopDetailsActivity.this, "收藏成功！");
+                            mListData.get(position).getItem_info().setIs_collected("1");
+                            mAdapter.notifyItemChanged(position);
                         } else {
                             ToastUtils.showCenter(NewShopDetailsActivity.this, error_msg);
                         }
                     } else {
-                        ToastUtils.showCenter(NewShopDetailsActivity.this, "商品收藏失败！");
+                        ToastUtils.showCenter(NewShopDetailsActivity.this, "收藏失败！");
                     }
                 } catch (JSONException e) {
                     ToastUtils.showCenter(NewShopDetailsActivity.this, "商品收藏失败！");
@@ -479,14 +520,46 @@ public class NewShopDetailsActivity
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                allowClickShouCang = true;
+                ifClickShouCang = true;
                 ToastUtils.showCenter(NewShopDetailsActivity.this, "商品收藏失败！");
             }
         };
         MyHttpManager.getInstance().shoucangShop(spu_id, callback);
     }
+    //取消收藏
+    private void removeShouCang(final int position, String spu_id) {
 
-    private boolean allowClickShouCang = true;
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                CustomProgress.cancelDialog();
+                ifClickShouCang = true;
+                ToastUtils.showCenter(NewShopDetailsActivity.this, "取消收藏失败");
+
+            }
+
+            @Override
+            public void onResponse(String s) {
+                ifClickShouCang = true;
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        ToastUtils.showCenter(NewShopDetailsActivity.this, "取消收藏成功");
+                        mListData.get(position).getItem_info().setIs_collected("0");
+                        mAdapter.notifyItemChanged(position);
+                    } else {
+                        ToastUtils.showCenter(NewShopDetailsActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(NewShopDetailsActivity.this, "取消收藏失败");
+                }
+            }
+        };
+        MyHttpManager.getInstance().deleteShop(spu_id, callBack);
+    }
 
     private void getTypeData() {
 
