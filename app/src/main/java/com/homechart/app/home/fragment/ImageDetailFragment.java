@@ -204,6 +204,7 @@ public class ImageDetailFragment
     private List<String> mItemIdList = new ArrayList<>();
     private SearchSBean searchSBean;
     boolean getPosition = true;
+    private TextView tv_toast_shoucang;
 
 
     public ImageDetailFragment() {
@@ -305,6 +306,7 @@ public class ImageDetailFragment
             tv_ping = (TextView) view.findViewById(R.id.tv_ping);
             tv_shared = (TextView) view.findViewById(R.id.tv_shared);
             ll_color_lines = (LinearLayout) view.findViewById(R.id.ll_color_lines);
+            tv_toast_shoucang = (TextView) view.findViewById(R.id.tv_toast_shoucang);
         }
     }
 
@@ -315,6 +317,13 @@ public class ImageDetailFragment
         getPingList();
         buildRecyclerView();
         mRecyclerView.scrollTo(0, 0);
+        if (!SharedPreferencesUtils.readBoolean("p_yindao")) {
+            SharedPreferencesUtils.writeBoolean("p_yindao", true);
+            tv_toast_shoucang.setVisibility(View.VISIBLE);
+        } else {
+            tv_toast_shoucang.setVisibility(View.GONE);
+        }
+
     }
 
     private void initListener() {
@@ -326,6 +335,7 @@ public class ImageDetailFragment
         tv_xing.setOnClickListener(this);
         iv_shared.setOnClickListener(this);
         tv_shared.setOnClickListener(this);
+        tv_toast_shoucang.setOnClickListener(this);
         tv_people_guanzhu.setOnClickListener(this);
         ll_huifu_one.setOnClickListener(this);
         riv_people_header.setOnClickListener(this);
@@ -526,6 +536,9 @@ public class ImageDetailFragment
                     intent1.putExtra("image_value", imageDetailBean);
                     startActivityForResult(intent1, 1);
                 }
+                break;
+            case R.id.tv_toast_shoucang:
+                tv_toast_shoucang.setVisibility(View.GONE);
                 break;
         }
     }
