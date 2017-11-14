@@ -362,6 +362,7 @@ public class NewShopDetailsActivity
                 } else {
                     ImageUtils.disRectangleImage(cropImage, pv_big_imageview);
                 }
+                pv_big_imageview.setZoomable(false);
                 break;
             case R.id.iv_delete:
                 rl_image_big.setVisibility(View.GONE);
