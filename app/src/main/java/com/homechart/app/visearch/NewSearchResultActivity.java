@@ -190,12 +190,17 @@ public class NewSearchResultActivity
     }
 
     @Override
-    public void setLayoutSize(int mH, int mW) {
-        this.mH = mH;
-        this.mW = mW;
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(mW, mH);
-        layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        rly_point.setLayoutParams(layoutParams);
+    public void setLayoutSize(int h, int w) {
+        this.mH = h;
+        this.mW = w;
+        rly_point.post(new Runnable() {
+            @Override
+            public void run() {
+                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(mW, mH);
+                layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+                rly_point.setLayoutParams(layoutParams);
+            }
+        });
 
         if (null != searchSBean.getObject_list() && searchSBean.getObject_list().size() > 0) {
 
