@@ -29,6 +29,7 @@ import com.homechart.app.home.bean.searchfservice.SearchSObjectInfoBean;
 import com.homechart.app.hotposition.NewImageLayout;
 import com.homechart.app.hotposition.PointSimple;
 import com.homechart.app.hotposition.PositionClickImp;
+import com.homechart.app.utils.UIUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -147,6 +148,7 @@ public class NewSearchResultActivity
                 NewSearchResultActivity.this.finish();
                 break;
             case R.id.tv_fuwei:
+                showShouSuoStatus(false);
                 tv_fuwei.setVisibility(View.GONE);
                 if (listSearch != null && listSearch.size() > 0) {
                     ifOpenSearch = false;
@@ -182,7 +184,7 @@ public class NewSearchResultActivity
                     intent.putExtra("ifMoveKuang", ifMoveKuang);
                     if (listSearch != null && listSearch.size() > 0 && listSearch.size() > currentPosition) {
                         intent.putExtra("object_sign", listSearch.get(currentPosition).getObject_info().getObject_sign());
-                        intent.putExtra("category_id", listSearch.get(currentPosition).getObject_info().getCategory_id()+"");
+                        intent.putExtra("category_id", listSearch.get(currentPosition).getObject_info().getCategory_id() + "");
                     }
                     startActivity(intent);
                 }
@@ -228,6 +230,7 @@ public class NewSearchResultActivity
         } else {
             ifOpenSearch = true;
             tv_fuwei.setVisibility(View.GONE);
+            showShouSuoStatus(true);
             ScalableBox scalableBox = new ScalableBox(0, 0, 0, 0);
             editableImage.setBox(scalableBox);
             mPhotoImage.changeBox(editableImage, scalableBox);
@@ -240,6 +243,7 @@ public class NewSearchResultActivity
 
     @Override
     public void onClickPosition(int pos) {
+        showShouSuoStatus(true);
         tv_fuwei.setVisibility(View.VISIBLE);
         currentPosition = pos;
         ifMoveKuang = false;
@@ -326,4 +330,15 @@ public class NewSearchResultActivity
 
 
     private int currentPosition = -1;
+
+    public void showShouSuoStatus(boolean bool) {
+        if (bool) {
+            tv_sousuo.setBackgroundResource(R.drawable.bt_sousuo);
+            tv_sousuo.setTextColor(UIUtils.getColor(R.color.white));
+        } else {
+            tv_sousuo.setBackgroundResource(R.drawable.bt_sousuo_quxiao);
+            tv_sousuo.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+        }
+    }
+
 }

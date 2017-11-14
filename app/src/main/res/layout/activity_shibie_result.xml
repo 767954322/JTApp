@@ -29,12 +29,12 @@
             android:id="@+id/tv_sousuo"
             android:layout_width="@dimen/font_85"
             android:layout_height="@dimen/font_35"
-            android:textColor="@color/white"
+            android:textColor="@color/bg_8f8f8f"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/font_15"
             android:textSize="@dimen/size_14"
-            android:background="@drawable/bt_sousuo"
+            android:background="@drawable/bt_sousuo_quxiao"
             android:gravity="center"
             android:text="搜索" />
 
