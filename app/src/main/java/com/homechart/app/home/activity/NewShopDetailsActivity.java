@@ -56,6 +56,7 @@ import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.homechart.app.visearch.NewSearchResultActivity;
 import com.homechart.app.visearch.SearchLoadingActivity;
 
 import org.ielse.widget.RangeSeekBar;
@@ -78,7 +79,7 @@ public class NewShopDetailsActivity
         ShopPriceWindow.InterPrice,
         ShopTypeWindow.InterType,
         OnLoadMoreListener,
-        OnRefreshListener ,ShopGuanJianZiWindow.GuanJianZi {
+        OnRefreshListener, ShopGuanJianZiWindow.GuanJianZi {
 
     private ImageButton nav_left_imageButton;
     private ImageView iv_crop_imageview;
@@ -188,7 +189,13 @@ public class NewShopDetailsActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
         wide = PublicUtils.getScreenWidth(this) / 2 - UIUtils.getDimens(R.dimen.font_14);
-        ImageUtils.disRectangleImage("file://" + cropImage, iv_crop_imageview);
+        if(!cropImage.equals(image_url)){
+
+            ImageUtils.disRectangleImage("file://" + cropImage, iv_crop_imageview);
+        }else {
+
+            ImageUtils.disRectangleImage(cropImage, iv_crop_imageview);
+        }
         tv_tital_comment.setText("相似商品");
         getTypeData();
         initRecyclerView();
@@ -381,7 +388,7 @@ public class NewShopDetailsActivity
 
         mAdapter = new MultiItemCommonAdapter<SearchShopItemBean>(NewShopDetailsActivity.this, mListData, support) {
             @Override
-            public void convert(BaseViewHolder holder, final int position) {
+            public void convert(final BaseViewHolder holder, final int position) {
 
                 ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_image_view).getLayoutParams();
                 layoutParams.width = wide;
@@ -402,11 +409,35 @@ public class NewShopDetailsActivity
                 holder.getView(R.id.tv_goto_shoucang).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(allowClickShouCang){
+                        if (allowClickShouCang) {
                             allowClickShouCang = false;
                             //收藏商品
                             addShouCang(mListData.get(position).getItem_info().getSpu_id());
                         }
+                    }
+                });
+                holder.getView(R.id.iv_image_view).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((RelativeLayout) holder.getView(R.id.rl_goto_xiangsi)).setVisibility(View.VISIBLE);
+                    }
+                });
+                holder.getView(R.id.rl_goto_xiangsi).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        ((RelativeLayout) holder.getView(R.id.rl_goto_xiangsi)).setVisibility(View.GONE);
+                    }
+                });
+                holder.getView(R.id.riv_goto_xiangsi).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(NewShopDetailsActivity.this, NewShopDetailsActivity.class);
+                        intent.putExtra("image_path", mListData.get(position).getItem_info().getImage().getImg0());
+                        intent.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg0());
+                        intent.putExtra("loc", "");
+                        intent.putExtra("ifMoveKuang", true);
+                        startActivity(intent);
                     }
                 });
             }
@@ -420,6 +451,7 @@ public class NewShopDetailsActivity
         mRecyclerView.setAdapter(mAdapter);
         onRefresh();
     }
+
     private void addShouCang(String spu_id) {
 
         OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
@@ -454,7 +486,7 @@ public class NewShopDetailsActivity
         MyHttpManager.getInstance().shoucangShop(spu_id, callback);
     }
 
-    private boolean  allowClickShouCang = true;
+    private boolean allowClickShouCang = true;
 
     private void getTypeData() {
 
@@ -556,7 +588,7 @@ public class NewShopDetailsActivity
             case R.id.tv_guanjianzi_set:
             case R.id.rl_guanjianzi:
                 if (shopGuanJianZiWindow == null) {
-                    shopGuanJianZiWindow = new ShopGuanJianZiWindow(NewShopDetailsActivity.this, this,NewShopDetailsActivity.this);
+                    shopGuanJianZiWindow = new ShopGuanJianZiWindow(NewShopDetailsActivity.this, this, NewShopDetailsActivity.this);
 
                     shopGuanJianZiWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
                     shopGuanJianZiWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -901,12 +933,12 @@ public class NewShopDetailsActivity
     @Override
     public void clickGuanJianZiBottom() {
 
-        if(TextUtils.isEmpty(guanjianzi) && shopGuanJianZiWindow != null){
+        if (TextUtils.isEmpty(guanjianzi) && shopGuanJianZiWindow != null) {
             closeCurrentPopWin(R.id.iv_guanjianzi_delect);
             rl_guanjianzi.setVisibility(View.GONE);
             tv_guanjianzi_set.setVisibility(View.VISIBLE);
             ifShowAddButton();
-        }else {
+        } else {
             closeCurrentPopWin(R.id.iv_guanjianzi_delect);
             tabStaus(0);
         }
