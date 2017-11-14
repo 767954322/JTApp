@@ -147,6 +147,7 @@ public class NewSearchResultActivity
                 NewSearchResultActivity.this.finish();
                 break;
             case R.id.tv_fuwei:
+                tv_fuwei.setVisibility(View.GONE);
                 if (listSearch != null && listSearch.size() > 0) {
                     ifOpenSearch = false;
                     if (mPhotoImage.getChildCount() == 2) {
@@ -226,6 +227,7 @@ public class NewSearchResultActivity
             }
         } else {
             ifOpenSearch = true;
+            tv_fuwei.setVisibility(View.GONE);
             ScalableBox scalableBox = new ScalableBox(0, 0, 0, 0);
             editableImage.setBox(scalableBox);
             mPhotoImage.changeBox(editableImage, scalableBox);
@@ -238,6 +240,7 @@ public class NewSearchResultActivity
 
     @Override
     public void onClickPosition(int pos) {
+        tv_fuwei.setVisibility(View.VISIBLE);
         currentPosition = pos;
         ifMoveKuang = false;
         ifOpenSearch = true;
