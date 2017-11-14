@@ -338,6 +338,7 @@
         android:id="@+id/rl_image_big"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clickable="true"
         android:visibility="gone"
         android:background="@color/bg_8c000000">
 
@@ -353,8 +354,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/pv_big_imageview"
-            android:layout_marginTop="@dimen/font_25"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/font_70"
             android:src="@drawable/gaunbitankuang_1"/>
 
     </RelativeLayout>

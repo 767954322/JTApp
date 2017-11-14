@@ -182,7 +182,7 @@ public class NewSearchResultActivity
                     intent.putExtra("image_url", searchSBean.getImage_url());
                     intent.putExtra("loc", loc);
                     intent.putExtra("ifMoveKuang", ifMoveKuang);
-                    if (listSearch != null && listSearch.size() > 0 && listSearch.size() > currentPosition) {
+                    if (!ifMoveKuang && listSearch != null && listSearch.size() > 0 && listSearch.size() > currentPosition) {
                         intent.putExtra("object_sign", listSearch.get(currentPosition).getObject_info().getObject_sign());
                         intent.putExtra("category_id", listSearch.get(currentPosition).getObject_info().getCategory_id() + "");
                     }

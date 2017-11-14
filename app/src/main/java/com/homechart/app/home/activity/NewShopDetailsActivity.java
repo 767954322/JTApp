@@ -105,6 +105,7 @@ public class NewShopDetailsActivity
     private ShopGuanJianZiWindow shopGuanJianZiWindow;
     private PhotoView pv_big_imageview;
     private RelativeLayout rl_image_big;
+    private ImageView iv_delete;
 
     @Override
     protected int getLayoutResId() {
@@ -144,6 +145,7 @@ public class NewShopDetailsActivity
         tv_guanjianzi = (TextView) findViewById(R.id.tv_guanjianzi);
         iv_guanjianzi_delect = (ImageView) findViewById(R.id.iv_guanjianzi_delect);
         pv_big_imageview = (PhotoView) findViewById(R.id.pv_big_imageview);
+        iv_delete = (ImageView) findViewById(R.id.iv_delete);
         rl_image_big = (RelativeLayout) findViewById(R.id.rl_image_big);
 
     }
@@ -164,6 +166,7 @@ public class NewShopDetailsActivity
         rl_type.setOnClickListener(this);
         rl_guanjianzi.setOnClickListener(this);
         iv_crop_imageview.setOnClickListener(this);
+        iv_delete.setOnClickListener(this);
     }
 
     @Override
@@ -353,13 +356,15 @@ public class NewShopDetailsActivity
                 }
                 break;
             case R.id.iv_crop_imageview:
-
                 rl_image_big.setVisibility(View.VISIBLE);
                 if (!cropImage.equals(image_url)) {
                     ImageUtils.disRectangleImage("file://" + cropImage, pv_big_imageview);
                 } else {
                     ImageUtils.disRectangleImage(cropImage, pv_big_imageview);
                 }
+                break;
+            case R.id.iv_delete:
+                rl_image_big.setVisibility(View.GONE);
                 break;
         }
 
