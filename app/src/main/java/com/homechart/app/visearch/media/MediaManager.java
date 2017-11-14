@@ -411,4 +411,7 @@ public class MediaManager implements SurfaceHolder.Callback {
         }
     }
 
+    public Camera getCamera() {
+        return camera;
+    }
 }

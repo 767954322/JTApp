@@ -1,6 +1,7 @@
 package com.homechart.app.visearch;
 
 import android.content.Intent;
+import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -37,6 +38,7 @@ import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
+import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
@@ -111,9 +113,9 @@ public class PhotoActivity
         ifLogin = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
 
         initLoginRecyclerView();
-        if(ifLogin){
+        if (ifLogin) {
             getHistoryImage();
-        }else {
+        } else {
 
             getUnloginImage();
         }
@@ -145,7 +147,7 @@ public class PhotoActivity
                                 message.arg1 = 1;
                                 message.obj = history;
                                 handler.sendMessage(message);
-                            }else {
+                            } else {
                                 allowLoadMore = true;
                             }
                         } else {
@@ -233,7 +235,7 @@ public class PhotoActivity
                                 message.arg1 = 1;
                                 message.obj = history;
                                 handler.sendMessage(message);
-                            }else {
+                            } else {
                                 allowLoadMore = true;
                             }
                         } else {
@@ -263,6 +265,10 @@ public class PhotoActivity
         photoManager.setMediaCallback(new IMediaCallback() {
             @Override
             public void Error(MediaErrorCode errorCode) {
+
+                Camera.Parameters parameters = photoManager.getCamera().getParameters();
+                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                photoManager.getCamera().setParameters(parameters);
                 switch (errorCode) {
                     case TAKEPICTURE_FAIL:
                         Toast.makeText(PhotoActivity.this, "拍照失败", Toast.LENGTH_SHORT).show();
@@ -287,6 +293,11 @@ public class PhotoActivity
 
             @Override
             public void takePicture(String path, String name) {
+
+                Camera.Parameters parameters = photoManager.getCamera().getParameters();
+                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                photoManager.getCamera().setParameters(parameters);
+
                 Intent intent1 = new Intent(PhotoActivity.this, SearchLoadingActivity.class);
                 intent1.putExtra("image_url", path + "/" + name);
                 intent1.putExtra("type", "location");
@@ -299,6 +310,7 @@ public class PhotoActivity
 
             @Override
             public void recordStop() {
+
             }
         });
         media_preview.setOnTouchListener(new View.OnTouchListener() {
@@ -352,15 +364,22 @@ public class PhotoActivity
                 PhotoActivity.this.finish();
                 break;
             case R.id.iv_camera_shutter_button:
+                if(!ifOpenFlash){//打开
+                    Camera.Parameters parameters = photoManager.getCamera().getParameters();
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                    photoManager.getCamera().setParameters(parameters);
+                }
                 CustomProgress.show(PhotoActivity.this, "拍照中...", false, null);
                 name = "IMG_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
                 Log.d("test", degree + "");
                 photoManager.tackPicture(photoPath, name, degree);
                 break;
             case R.id.camera_album_button:
+
                 GalleryFinal.openGallerySingle(0, new GalleryFinal.OnHanlderResultCallback() {
                     @Override
                     public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+
                         if (resultList != null && resultList.size() > 0) {
                             Message message = new Message();
                             message.arg1 = 0;
@@ -373,6 +392,10 @@ public class PhotoActivity
 
                     @Override
                     public void onHanlderFailure(int requestCode, String errorMsg) {
+
+                        Camera.Parameters parameters = photoManager.getCamera().getParameters();
+                        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                        photoManager.getCamera().setParameters(parameters);
                     }
                 });
                 break;
@@ -382,10 +405,12 @@ public class PhotoActivity
                     return;
                 }
                 if (ifOpenFlash) {
-                    photoManager.openFlush();
+                    iv_sanguang.setImageDrawable(UIUtils.getDrawable(R.drawable.shanguang));
+//                    photoManager.openFlush();
                     ifOpenFlash = false;
                 } else {
-                    photoManager.closeFlush();
+                    iv_sanguang.setImageDrawable(UIUtils.getDrawable(R.drawable.guanshuanguang));
+//                    photoManager.closeFlush();
                     ifOpenFlash = true;
                 }
 
@@ -428,7 +453,7 @@ public class PhotoActivity
                         mListData.addAll(historyBean.getData());
                         mAdapter.notifyDataSetChanged();
                         allowLoadMore = true;
-                    }else {
+                    } else {
                         allowLoadMore = true;
                     }
                     break;
