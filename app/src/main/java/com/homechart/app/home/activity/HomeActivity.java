@@ -105,6 +105,8 @@ public class HomeActivity
     private RoundImageView riv_round_two;
     private RoundImageView riv_round_one;
     private RelativeLayout rl_shitu;
+    private RelativeLayout rl_yindao2;
+    private RelativeLayout rl_yindao1;
 
     @Override
     protected int getLayoutResId() {
@@ -150,6 +152,8 @@ public class HomeActivity
         riv_round_two = (RoundImageView) findViewById(R.id.riv_round_two);
         riv_round_one = (RoundImageView) findViewById(R.id.riv_round_one);
         rl_shitu = (RelativeLayout) findViewById(R.id.rl_shitu);
+        rl_yindao1 = (RelativeLayout) findViewById(R.id.rl_yindao1);
+        rl_yindao2 = (RelativeLayout) findViewById(R.id.rl_yindao2);
     }
 
     @Override
@@ -161,6 +165,8 @@ public class HomeActivity
         riv_round_two.setOnClickListener(this);
         riv_round_one.setOnClickListener(this);
         rl_shitu.setOnClickListener(this);
+        rl_yindao1.setOnClickListener(this);
+        rl_yindao2.setOnClickListener(this);
         mRadioGroup.setOnCheckedChangeListener(this);
     }
 
@@ -184,6 +190,11 @@ public class HomeActivity
             Intent intent = new Intent(HomeActivity.this, ArticleDetailsActivity.class);
             intent.putExtra("article_id", object_id);
             startActivity(intent);
+        }
+        if(!SharedPreferencesUtils.readBoolean("yindao")){
+            SharedPreferencesUtils.writeBoolean("yindao",true);
+            rl_yindao1.setVisibility(View.VISIBLE);
+            rl_yindao2.setVisibility(View.GONE);
         }
     }
 
@@ -404,6 +415,14 @@ public class HomeActivity
                     startActivity(intent1);
                 }
                 break;
+            case R.id.rl_yindao1:
+                rl_yindao1.setVisibility(View.GONE);
+                rl_yindao2.setVisibility(View.VISIBLE);
+                    break;
+            case R.id.rl_yindao2:
+                rl_yindao2.setVisibility(View.GONE);
+                rl_yindao1.setVisibility(View.GONE);
+                    break;
         }
     }
 

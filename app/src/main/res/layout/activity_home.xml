@@ -13,9 +13,9 @@
     <RelativeLayout
         android:id="@+id/relativeLayout2"
         android:layout_width="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_height="53dp"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="22.5dp">
 
         <com.homechart.app.myview.RoundImageView
@@ -110,32 +110,73 @@
             android:layout_above="@+id/rg_home_radio_group"
             android:background="@color/view_line" />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/rl_shitu"
         android:layout_width="wrap_content"
         android:layout_height="53dp"
-android:layout_centerHorizontal="true"
-        android:clickable="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="22.5dp">
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="22.5dp"
+        android:clickable="true">
 
         <com.homechart.app.myview.RoundImageView
             android:id="@+id/riv_round_four"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:clickable="true"
             android:layout_centerInParent="true"
-            android:background="@color/white" />
+            android:background="@color/white"
+            android:clickable="true" />
+
         <com.homechart.app.myview.RoundImageView
             android:id="@+id/riv_round_five"
             android:layout_width="43dp"
             android:layout_height="43dp"
-            android:clickable="true"
             android:layout_centerInParent="true"
-            android:background="@drawable/shitu" />
+            android:background="@drawable/shitu"
+            android:clickable="true" />
 
 
     </RelativeLayout>
 
+
+    <RelativeLayout
+        android:id="@+id/rl_yindao2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_4d000000"
+        android:clickable="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="24dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginStart="18dp"
+            android:src="@drawable/yindao2_1" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_yindao1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_4d000000"
+        android:visibility="gone"
+        android:clickable="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/yindao_1" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
