@@ -182,7 +182,7 @@ public class NewShopDetailsActivity
         mLoc = getIntent().getStringExtra("loc");
         ifMoveKuang = getIntent().getBooleanExtra("ifMoveKuang", true);
         object_sign = getIntent().getStringExtra("object_sign");
-//        category_id = getIntent().getStringExtra("category_id");
+        category_id = getIntent().getStringExtra("category_id");
     }
 
     @Override
