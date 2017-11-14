@@ -504,6 +504,7 @@ public class ImageDetailFragment
                     iv_ifshow_color.setVisibility(View.VISIBLE);
                     iv_ifshow_color.setImageResource(R.drawable.zhankai);
                     dgv_colorlist.setVisibility(View.GONE);
+                    ll_color_lines.setVisibility(View.GONE);
                     tv_color_tips.setVisibility(View.GONE);
                     rl_color_location.setVisibility(View.GONE);
 
@@ -513,6 +514,7 @@ public class ImageDetailFragment
                     iv_ifshow_color.setImageResource(R.drawable.shouqi);
                     iv_ifshow_color.setVisibility(View.VISIBLE);
                     dgv_colorlist.setVisibility(View.VISIBLE);
+                    ll_color_lines.setVisibility(View.VISIBLE);
                     tv_color_tips.setVisibility(View.VISIBLE);
                     rl_color_location.setVisibility(View.VISIBLE);
                 }
@@ -1113,7 +1115,6 @@ public class ImageDetailFragment
         int width = iv_details_image.getLayoutParams().width;
         if (ifFirst) {
             if (listColor != null && listColor.size() > 0) {
-                ll_color_lines.setVisibility(View.VISIBLE);
                 float float_talte = 0;
                 for (int i = 0; i < listColor.size(); i++) {
                     float wid = Float.parseFloat(listColor.get(i).getColor_percent().trim());
@@ -1137,11 +1138,13 @@ public class ImageDetailFragment
                 dgv_colorlist.setAdapter(new MyColorGridAdapter(listColor, activity));
                 iv_ifshow_color.setVisibility(View.VISIBLE);
                 if (mifShowColorList) {
+                    ll_color_lines.setVisibility(View.VISIBLE);
                     dgv_colorlist.setVisibility(View.VISIBLE);
                     tv_color_tips.setVisibility(View.VISIBLE);
                     rl_color_location.setVisibility(View.VISIBLE);
                     iv_ifshow_color.setImageResource(R.drawable.shouqi);
                 } else {
+                    ll_color_lines.setVisibility(View.GONE);
                     dgv_colorlist.setVisibility(View.GONE);
                     iv_ifshow_color.setImageResource(R.drawable.zhankai);
                     tv_color_tips.setVisibility(View.GONE);
@@ -1153,11 +1156,13 @@ public class ImageDetailFragment
             ifFirst = false;
         } else {
             if (mifShowColorList) {
+                ll_color_lines.setVisibility(View.VISIBLE);
                 dgv_colorlist.setVisibility(View.VISIBLE);
                 tv_color_tips.setVisibility(View.VISIBLE);
                 rl_color_location.setVisibility(View.VISIBLE);
                 iv_ifshow_color.setImageResource(R.drawable.shouqi);
             } else {
+                ll_color_lines.setVisibility(View.GONE);
                 dgv_colorlist.setVisibility(View.GONE);
                 iv_ifshow_color.setImageResource(R.drawable.zhankai);
                 tv_color_tips.setVisibility(View.GONE);
