@@ -867,7 +867,6 @@ public class NewShopDetailsActivity
             ifShowPopWin(R.id.rl_type);
             minPrice = -1;
             maxPrice = -1;
-            closeCurrentPopWin(R.id.iv_price_delect);
             rl_price.setVisibility(View.GONE);
             tv_price_set.setVisibility(View.VISIBLE);
             ifShowAddButton();
@@ -1009,6 +1008,12 @@ public class NewShopDetailsActivity
     public void clickGuanJianZiSure(String guanjianzi) {
         this.guanjianzi = guanjianzi;
         this.kw = guanjianzi;
+        shopPriceWindow = null;
+        minPrice = -1;
+        maxPrice = -1;
+        rl_price.setVisibility(View.GONE);
+        tv_price_set.setVisibility(View.VISIBLE);
+        ifShowAddButton();
         tv_guanjianzi.setText(kw);
         closeCurrentPopWin(R.id.iv_guanjianzi_delect);
         tabStaus(0);
