@@ -371,6 +371,8 @@ public class NewShopDetailsActivity
 
     }
 
+    int openPosition = -1;
+
     private void initRecyclerView() {
         MultiItemTypeSupport<SearchShopItemBean> support = new MultiItemTypeSupport<SearchShopItemBean>() {
             @Override
@@ -439,16 +441,23 @@ public class NewShopDetailsActivity
 //                        }
                     }
                 });
+                if (position == openPosition) {
+                    ((RelativeLayout) holder.getView(R.id.rl_goto_xiangsi)).setVisibility(View.VISIBLE);
+                } else {
+                    ((RelativeLayout) holder.getView(R.id.rl_goto_xiangsi)).setVisibility(View.GONE);
+                }
                 holder.getView(R.id.iv_image_view).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        openPosition = position;
+                        mAdapter.notifyDataSetChanged();
                         ((RelativeLayout) holder.getView(R.id.rl_goto_xiangsi)).setVisibility(View.VISIBLE);
                     }
                 });
                 holder.getView(R.id.rl_goto_xiangsi).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        openPosition = -1;
                         ((RelativeLayout) holder.getView(R.id.rl_goto_xiangsi)).setVisibility(View.GONE);
                     }
                 });
@@ -999,6 +1008,7 @@ public class NewShopDetailsActivity
     @Override
     public void onRefresh() {
         pager = 1;
+        openPosition = -1;
 //        mRecyclerView.setRefreshing(true);
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
         getListData(REFRESH_STATUS);
