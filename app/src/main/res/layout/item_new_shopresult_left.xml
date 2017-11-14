@@ -19,6 +19,9 @@
         android:layout_below="@+id/iv_image_view"
         android:layout_marginTop="@dimen/font_10"
         android:lineSpacingExtra="@dimen/font_5"
+        android:lines="2"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:textColor="@color/bg_262626"
         android:textSize="@dimen/size_14" />
 

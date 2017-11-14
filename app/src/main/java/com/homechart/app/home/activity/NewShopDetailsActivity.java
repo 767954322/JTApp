@@ -49,6 +49,7 @@ import com.homechart.app.utils.volley.OkStringRequest;
 import org.ielse.widget.RangeSeekBar;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -392,11 +393,11 @@ public class NewShopDetailsActivity
                 });
                 if (!mListData.get(position).getItem_info().getIs_collected().trim().equals("1")) {
                     //未收藏（显示收藏）
-                    ((TextView)holder.getView(R.id.tv_goto_shoucang)).setTextColor(UIUtils.getColor(R.color.white));
+                    ((TextView) holder.getView(R.id.tv_goto_shoucang)).setTextColor(UIUtils.getColor(R.color.white));
                     holder.getView(R.id.tv_goto_shoucang).setBackgroundResource(R.drawable.bt_sousuo);
                 } else {
                     //已经收藏了（显示已收藏）
-                    ((TextView)holder.getView(R.id.tv_goto_shoucang)).setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                    ((TextView) holder.getView(R.id.tv_goto_shoucang)).setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                     holder.getView(R.id.tv_goto_shoucang).setBackgroundResource(R.drawable.bt_sousuo_quxiao);
                 }
                 holder.getView(R.id.tv_goto_shoucang).setOnClickListener(new View.OnClickListener() {
@@ -506,6 +507,7 @@ public class NewShopDetailsActivity
         };
         MyHttpManager.getInstance().shoucangShop(spu_id, callback);
     }
+
     //取消收藏
     private void removeShouCang(final int position, String spu_id) {
 
@@ -571,7 +573,6 @@ public class NewShopDetailsActivity
         MyHttpManager.getInstance().getShopTypes(callBack);
 
     }
-
 
     //显示或隐藏状态
     private void ifShowPopWin(int id) {
@@ -861,6 +862,7 @@ public class NewShopDetailsActivity
     public void onClickSure(String categoryname, Integer categoryid) {
         category_id = categoryid + "";
         category_name = categoryname;
+        shopPriceWindow = null;
         if (shopTypeWindow != null && shopTypeWindow.isShowing()) {
             ifShowPopWin(R.id.rl_type);
             minPrice = -1;
@@ -916,12 +918,12 @@ public class NewShopDetailsActivity
                         try {
                             SearchShopsBean searchShopsBean = GsonUtil.jsonToBean(data_msg, SearchShopsBean.class);
                             if (null != searchShopsBean.getItem_list() && 0 != searchShopsBean.getItem_list().size()) {
-                                if (searchFacetsBean == null) {
+                                if (pager == 1 ) {
                                     searchFacetsBean = searchShopsBean.getFacets();
-                                }
-                                if (shopPriceWindow != null && searchFacetsBean != null && searchFacetsBean.getPrice() != null && !ifSetPrice) {
-                                    ifSetPrice = true;
-                                    shopPriceWindow.setPriceData(searchFacetsBean.getPrice().getMin(), searchFacetsBean.getPrice().getMax());
+                                    if (shopPriceWindow != null && searchFacetsBean != null && searchFacetsBean.getPrice() != null && !ifSetPrice) {
+                                        ifSetPrice = true;
+                                        shopPriceWindow.setPriceData(searchFacetsBean.getPrice().getMin(), searchFacetsBean.getPrice().getMax());
+                                    }
                                 }
                                 updateViewFromData(searchShopsBean.getItem_list(), status);
                             } else {

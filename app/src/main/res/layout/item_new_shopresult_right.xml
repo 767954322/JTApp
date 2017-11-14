@@ -20,6 +20,9 @@
         android:layout_below="@+id/iv_image_view"
         android:lineSpacingExtra="@dimen/font_5"
         android:layout_marginTop="@dimen/font_10"
+        android:lines="2"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:textSize="@dimen/size_14"/>
     <TextView
         android:id="@+id/tv_price"
