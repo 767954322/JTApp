@@ -100,7 +100,9 @@ public class NewImageLayout extends FrameLayout implements View.OnClickListener 
                 initAnimation();
                 double width_scale = points.get(i).width_scale;
                 double height_scale = points.get(i).height_scale;
-                RelativeLayout relativeLayout = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.layout_img_kuang, this, false);
+                View view =  LayoutInflater.from(mContext).inflate(R.layout.layout_img_kuang, this, false);
+                RelativeLayout relativeLayout = (RelativeLayout) view.findViewById(R.id.rl_view);
+                RelativeLayout relativeLayout1 = (RelativeLayout)view.findViewById(R.id.rl_kuang);
                 LayoutParams layoutParams = (LayoutParams) relativeLayout.getLayoutParams();
                 int object_wide = (int) (points.get(i).width_object * width / 2);
                 int object_heigh = (int) (points.get(i).height_object * height / 2);
@@ -110,8 +112,8 @@ public class NewImageLayout extends FrameLayout implements View.OnClickListener 
                 layoutParams.height = object_heigh * 2;
                 relativeLayout.setLayoutParams(layoutParams);
 
-                relativeLayout.setTag(i);
-                relativeLayout.startAnimation(animationSet);
+//                relativeLayout.setTag(i);
+                relativeLayout1.startAnimation(animationSet);
 
                 animationSet.setAnimationListener(new Animation.AnimationListener() {
                     @Override
@@ -161,7 +163,7 @@ public class NewImageLayout extends FrameLayout implements View.OnClickListener 
 
     private void addPoints(int width, int height) {
 
-        layouPoints.removeAllViews();
+//        layouPoints.removeAllViews();
         if (points != null && points.size() > 0) {
             for (int i = 0; i < points.size(); i++) {
 
@@ -193,7 +195,9 @@ public class NewImageLayout extends FrameLayout implements View.OnClickListener 
 
     @Override
     public void onClick(View view) {
-        int pos = (int) view.getTag();
-        mPositionClickImp.onClickPosition(pos);
+        if(null != view.getTag()){
+            int pos = (int) view.getTag();
+            mPositionClickImp.onClickPosition(pos);
+        }
     }
 }
