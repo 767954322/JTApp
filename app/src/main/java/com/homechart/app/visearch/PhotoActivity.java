@@ -265,10 +265,11 @@ public class PhotoActivity
         photoManager.setMediaCallback(new IMediaCallback() {
             @Override
             public void Error(MediaErrorCode errorCode) {
-
-                Camera.Parameters parameters = photoManager.getCamera().getParameters();
-                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                photoManager.getCamera().setParameters(parameters);
+                if(photoManager.getCamera() != null){
+                    Camera.Parameters parameters = photoManager.getCamera().getParameters();
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                    photoManager.getCamera().setParameters(parameters);
+                }
                 switch (errorCode) {
                     case TAKEPICTURE_FAIL:
                         Toast.makeText(PhotoActivity.this, "拍照失败", Toast.LENGTH_SHORT).show();
@@ -294,10 +295,11 @@ public class PhotoActivity
             @Override
             public void takePicture(String path, String name) {
 
-                Camera.Parameters parameters = photoManager.getCamera().getParameters();
-                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                photoManager.getCamera().setParameters(parameters);
-
+                if(photoManager.getCamera() != null){
+                    Camera.Parameters parameters = photoManager.getCamera().getParameters();
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                    photoManager.getCamera().setParameters(parameters);
+                }
                 Intent intent1 = new Intent(PhotoActivity.this, SearchLoadingActivity.class);
                 intent1.putExtra("image_url", path + "/" + name);
                 intent1.putExtra("type", "location");
@@ -365,9 +367,11 @@ public class PhotoActivity
                 break;
             case R.id.iv_camera_shutter_button:
                 if(!ifOpenFlash){//打开
-                    Camera.Parameters parameters = photoManager.getCamera().getParameters();
-                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-                    photoManager.getCamera().setParameters(parameters);
+                    if(photoManager.getCamera() != null){
+                        Camera.Parameters parameters = photoManager.getCamera().getParameters();
+                        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                        photoManager.getCamera().setParameters(parameters);
+                    }
                 }
                 CustomProgress.show(PhotoActivity.this, "拍照中...", false, null);
                 name = "IMG_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
@@ -392,10 +396,6 @@ public class PhotoActivity
 
                     @Override
                     public void onHanlderFailure(int requestCode, String errorMsg) {
-
-                        Camera.Parameters parameters = photoManager.getCamera().getParameters();
-                        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                        photoManager.getCamera().setParameters(parameters);
                     }
                 });
                 break;
