@@ -2366,7 +2366,7 @@ public class MyHttpManager {
                 map.put("p", p);
                 map.put("l", l);
 
-                if (!TextUtils.isEmpty(category_id)) {
+                if (!TextUtils.isEmpty(loc)) {
                     map.put("loc", loc);
                 } else {
                     map.put("loc", "");

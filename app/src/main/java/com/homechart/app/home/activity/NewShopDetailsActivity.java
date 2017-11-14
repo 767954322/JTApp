@@ -886,7 +886,7 @@ public class NewShopDetailsActivity
     @Override
     public void onRefresh() {
         pager = 1;
-        mRecyclerView.setRefreshing(true);
+//        mRecyclerView.setRefreshing(true);
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
         getListData(REFRESH_STATUS);
     }
