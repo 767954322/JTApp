@@ -114,6 +114,7 @@
 
     <!-- timerpike -->
     <color name="touming">#00000000</color>
+    <color name="bg_8c000000">#8c000000</color>
     <color name="activity_bg">#ffe7e7e7</color>
     <color name="color_text_01">#ffc5c9ce</color>
     <color name="color_text_03">#ffb1b7be</color>

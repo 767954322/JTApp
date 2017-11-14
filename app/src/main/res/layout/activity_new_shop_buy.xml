@@ -334,5 +334,31 @@
         app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
 
 
+    <RelativeLayout
+        android:id="@+id/rl_image_big"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/bg_8c000000">
+
+        <com.homechart.app.imagedetail.PhotoView
+            android:id="@+id/pv_big_imageview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/font_118"
+            android:layout_marginBottom="@dimen/font_120"/>
+        
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/pv_big_imageview"
+            android:layout_marginTop="@dimen/font_25"
+            android:src="@drawable/gaunbitankuang_1"/>
+
+    </RelativeLayout>
+
+
 
 </RelativeLayout>

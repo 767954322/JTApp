@@ -27,6 +27,7 @@ import com.homechart.app.home.bean.searchshops.SearchFacetsBean;
 import com.homechart.app.home.bean.searchshops.SearchShopItemBean;
 import com.homechart.app.home.bean.searchshops.SearchShopsBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.imagedetail.PhotoView;
 import com.homechart.app.myview.ShopGuanJianZiWindow;
 import com.homechart.app.myview.ShopPriceWindow;
 import com.homechart.app.myview.ShopTypeWindow;
@@ -102,6 +103,8 @@ public class NewShopDetailsActivity
     private TypeNewBean typeNewBean;
     private ShopTypeWindow shopTypeWindow;
     private ShopGuanJianZiWindow shopGuanJianZiWindow;
+    private PhotoView pv_big_imageview;
+    private RelativeLayout rl_image_big;
 
     @Override
     protected int getLayoutResId() {
@@ -140,6 +143,8 @@ public class NewShopDetailsActivity
         iv_guanjianzi_icon = (ImageView) findViewById(R.id.iv_guanjianzi_icon);
         tv_guanjianzi = (TextView) findViewById(R.id.tv_guanjianzi);
         iv_guanjianzi_delect = (ImageView) findViewById(R.id.iv_guanjianzi_delect);
+        pv_big_imageview = (PhotoView) findViewById(R.id.pv_big_imageview);
+        rl_image_big = (RelativeLayout) findViewById(R.id.rl_image_big);
 
     }
 
@@ -158,6 +163,7 @@ public class NewShopDetailsActivity
         rl_price.setOnClickListener(this);
         rl_type.setOnClickListener(this);
         rl_guanjianzi.setOnClickListener(this);
+        iv_crop_imageview.setOnClickListener(this);
     }
 
     @Override
@@ -344,6 +350,15 @@ public class NewShopDetailsActivity
                     tv_price.setText("¥ " + PublicUtils.formatPrice(minPrice) + " - " + PublicUtils.formatPrice(maxPrice));
                     ifShowPopWin(R.id.rl_price);
                     onRefresh();
+                }
+                break;
+            case R.id.iv_crop_imageview:
+
+                rl_image_big.setVisibility(View.VISIBLE);
+                if (!cropImage.equals(image_url)) {
+                    ImageUtils.disRectangleImage("file://" + cropImage, pv_big_imageview);
+                } else {
+                    ImageUtils.disRectangleImage(cropImage, pv_big_imageview);
                 }
                 break;
         }
@@ -917,7 +932,7 @@ public class NewShopDetailsActivity
                         try {
                             SearchShopsBean searchShopsBean = GsonUtil.jsonToBean(data_msg, SearchShopsBean.class);
                             if (null != searchShopsBean.getItem_list() && 0 != searchShopsBean.getItem_list().size()) {
-                                if (pager == 1 ) {
+                                if (pager == 1) {
                                     searchFacetsBean = searchShopsBean.getFacets();
                                     if (shopPriceWindow != null && searchFacetsBean != null && searchFacetsBean.getPrice() != null && !ifSetPrice) {
                                         ifSetPrice = true;
