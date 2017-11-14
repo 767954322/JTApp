@@ -16,27 +16,27 @@
             android:id="@+id/tv_fuwei"
             android:layout_width="@dimen/font_85"
             android:layout_height="@dimen/font_35"
-            android:textColor="@color/bg_262626"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/font_15"
-            android:textSize="@dimen/size_14"
-            android:visibility="gone"
             android:background="@drawable/bt_fuwei"
             android:gravity="center"
-            android:text="复位" />
+            android:text="重置"
+            android:textColor="@color/bg_262626"
+            android:textSize="@dimen/size_14"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_sousuo"
             android:layout_width="@dimen/font_85"
             android:layout_height="@dimen/font_35"
-            android:textColor="@color/bg_8f8f8f"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/font_15"
-            android:textSize="@dimen/size_14"
             android:background="@drawable/bt_sousuo_quxiao"
             android:gravity="center"
-            android:text="搜索" />
+            android:text="搜索"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_14" />
 
     </RelativeLayout>
 
@@ -84,5 +84,20 @@
         android:src="@drawable/tital_back_wight"
         android:visibility="visible" />
 
+    <TextView
+        android:id="@+id/tv_toast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/font_30"
+        android:paddingLeft="@dimen/font_20"
+        android:paddingRight="@dimen/font_20"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="@dimen/font_5"
+        android:paddingBottom="@dimen/font_5"
+        android:visibility="gone"
+        android:background="@drawable/bt_toast_search"
+        android:text="可自定义调整框的范围"
+        android:textColor="@color/case_text_tital_name"
+        android:textSize="@dimen/size_13" />
 
 </RelativeLayout>

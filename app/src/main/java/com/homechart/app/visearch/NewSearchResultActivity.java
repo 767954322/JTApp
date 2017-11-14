@@ -78,6 +78,7 @@ public class NewSearchResultActivity
 
     private String photoPath = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_PICTURES).getPath() + File.separator + "JiaTuApp";
+    private TextView tv_toast;
 
     @Override
     protected int getLayoutResId() {
@@ -108,6 +109,7 @@ public class NewSearchResultActivity
         il_points = (NewImageLayout) findViewById(R.id.il_points);
         tv_fuwei = (TextView) findViewById(R.id.tv_fuwei);
         tv_sousuo = (TextView) findViewById(R.id.tv_sousuo);
+        tv_toast = (TextView) findViewById(R.id.tv_toast);
     }
 
     @Override
@@ -119,6 +121,7 @@ public class NewSearchResultActivity
         mPhotoImage.setOnBoxChangedListener(new OnBoxChangedListener() {
             @Override
             public void onChanged(int x1, int y1, int x2, int y2) {
+                tv_toast.setVisibility(View.GONE);
                 ifMoveKuang = true;
             }
         });
@@ -151,6 +154,7 @@ public class NewSearchResultActivity
                 showShouSuoStatus(false);
                 tv_fuwei.setVisibility(View.GONE);
                 if (listSearch != null && listSearch.size() > 0) {
+                    tv_toast.setVisibility(View.GONE);
                     ifOpenSearch = false;
                     if (mPhotoImage.getChildCount() == 2) {
                         mPhotoImage.getChildAt(1).setVisibility(View.GONE);
@@ -230,6 +234,7 @@ public class NewSearchResultActivity
         } else {
             ifOpenSearch = true;
             tv_fuwei.setVisibility(View.GONE);
+            tv_toast.setVisibility(View.VISIBLE);
             showShouSuoStatus(true);
             ScalableBox scalableBox = new ScalableBox(0, 0, 0, 0);
             editableImage.setBox(scalableBox);
@@ -243,6 +248,7 @@ public class NewSearchResultActivity
 
     @Override
     public void onClickPosition(int pos) {
+        tv_toast.setVisibility(View.VISIBLE);
         showShouSuoStatus(true);
         tv_fuwei.setVisibility(View.VISIBLE);
         currentPosition = pos;
