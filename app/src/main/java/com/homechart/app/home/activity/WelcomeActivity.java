@@ -115,9 +115,9 @@ public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter
 
     public List<Integer> getAdData() {
         List<Integer> adList = new ArrayList<>();
-        adList.add(R.drawable.a1);
-        adList.add(R.drawable.a2);
-        adList.add(R.drawable.a3);
+        adList.add(R.drawable.p1);
+        adList.add(R.drawable.p2);
+//        adList.add(R.drawable.a3);
         return adList;
     }
 

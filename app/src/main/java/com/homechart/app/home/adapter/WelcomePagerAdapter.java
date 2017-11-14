@@ -63,7 +63,7 @@ public class WelcomePagerAdapter extends PagerAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (position == 2) {
+                if (position == 1) {
                     onClickJump.onClickThreeJump();
                 }
             }
