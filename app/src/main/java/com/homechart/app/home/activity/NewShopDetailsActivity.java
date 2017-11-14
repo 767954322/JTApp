@@ -398,7 +398,7 @@ public class NewShopDetailsActivity
                         (ImageView) holder.getView(R.id.iv_image_view));
                 ((TextView) holder.getView(R.id.tv_tital)).setText(mListData.get(position).getItem_info().getTitle());
                 ((TextView) holder.getView(R.id.tv_price)).setText("¥ " + mListData.get(position).getItem_info().getPrice());
-//                ((TextView) holder.getView(R.id.tv_goto_buy)).setText("去" + mListData.get(position).getItem_info().getSource());
+                ((TextView) holder.getView(R.id.tv_goto_buy)).setText("去" + mListData.get(position).getItem_info().getSource_name());
                 holder.getView(R.id.tv_goto_buy).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
