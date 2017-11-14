@@ -863,6 +863,12 @@ public class NewShopDetailsActivity
         category_name = categoryname;
         if (shopTypeWindow != null && shopTypeWindow.isShowing()) {
             ifShowPopWin(R.id.rl_type);
+            minPrice = -1;
+            maxPrice = -1;
+            closeCurrentPopWin(R.id.iv_price_delect);
+            rl_price.setVisibility(View.GONE);
+            tv_price_set.setVisibility(View.VISIBLE);
+            ifShowAddButton();
             onRefresh();
         }
 
