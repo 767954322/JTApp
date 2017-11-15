@@ -510,7 +510,7 @@ public class ImageDetailFragment
                 if (mifShowColorList) {
                     //隐藏
                     mifShowColorList = false;
-
+                    tv_color_tital.setVisibility(View.VISIBLE);
                     iv_ifshow_color.setVisibility(View.VISIBLE);
                     iv_ifshow_color.setImageResource(R.drawable.zhankai);
                     dgv_colorlist.setVisibility(View.GONE);
@@ -521,6 +521,7 @@ public class ImageDetailFragment
                 } else {
                     //显示
                     mifShowColorList = true;
+                    tv_color_tital.setVisibility(View.GONE);
                     iv_ifshow_color.setImageResource(R.drawable.shouqi);
                     iv_ifshow_color.setVisibility(View.VISIBLE);
                     dgv_colorlist.setVisibility(View.VISIBLE);

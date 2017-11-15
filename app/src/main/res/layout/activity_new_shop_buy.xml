@@ -340,7 +340,7 @@
         android:layout_height="match_parent"
         android:clickable="true"
         android:visibility="gone"
-        android:background="@color/bg_8c000000">
+        android:background="@color/bg_cc000000">
 
         <com.homechart.app.imagedetail.PhotoView
             android:id="@+id/pv_big_imageview"
