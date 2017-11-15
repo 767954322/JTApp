@@ -144,7 +144,7 @@
         android:id="@+id/rl_yindao2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_4d000000"
+        android:background="@color/bg_99000000"
         android:visibility="gone"
         android:clickable="true">
 
@@ -162,7 +162,7 @@
         android:id="@+id/rl_yindao1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_4d000000"
+        android:background="@color/bg_99000000"
         android:visibility="gone"
         android:clickable="true">
 
