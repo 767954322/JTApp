@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_image_view"
-        android:layout_marginTop="@dimen/font_10"
+        android:layout_marginTop="@dimen/font_8"
         android:lineSpacingExtra="@dimen/font_3"
         android:lines="2"
         android:maxLines="2"
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_price"
         android:layout_marginTop="@dimen/font_10"
-        android:paddingBottom="@dimen/font_7"
+        android:paddingBottom="@dimen/font_9"
         android:orientation="horizontal">
 
         <TextView
