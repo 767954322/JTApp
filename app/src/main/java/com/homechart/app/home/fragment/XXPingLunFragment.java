@@ -154,17 +154,6 @@ public class XXPingLunFragment
             intent.putExtra("item_id", mListData.get(position).getObject_id());
             startActivity(intent);
         } else if (mListData.get(position).getType().trim().equals("article")) {//文章
-            //友盟统计
-            HashMap<String, String> map4 = new HashMap<String, String>();
-            map4.put("evenname", "文章入口");
-            map4.put("even", "评论消息");
-            MobclickAgent.onEvent(activity, "jtaction36", map4);
-            //ga统计
-            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                    .setCategory("评论消息")  //事件类别
-                    .setAction("文章入口")      //事件操作
-                    .build());
-
             Intent intent = new Intent(activity, ArticleDetailsActivity.class);
             intent.putExtra("article_id", mListData.get(position).getObject_id());
             startActivity(intent);

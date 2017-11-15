@@ -359,16 +359,6 @@ public class HomeActivity
                 menuWindow.dismiss();
                 break;
             case R.id.tv_go_up:
-                //友盟统计
-                HashMap<String, String> map4 = new HashMap<String, String>();
-                map4.put("evenname", "版本更新");
-                map4.put("even", "版本更新");
-                MobclickAgent.onEvent(HomeActivity.this, "jtaction46", map4);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("版本更新")  //事件类别
-                        .setAction("版本更新")      //事件操作
-                        .build());
                 //TODO 区服务器下载
                 Intent downloadIntent = new Intent(HomeActivity.this, DownloadService.class);
                 downloadIntent.putExtra("downloadUrl", download_url);
@@ -376,16 +366,6 @@ public class HomeActivity
                 startService(downloadIntent);
                 break;
             case R.id.iv_close_up:
-                //友盟统计
-                HashMap<String, String> map3 = new HashMap<String, String>();
-                map3.put("evenname", "关闭版本更新");
-                map3.put("even", "关闭版本更新");
-                MobclickAgent.onEvent(HomeActivity.this, "jtaction47", map3);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("关闭版本更新")  //事件类别
-                        .setAction("关闭版本更新")      //事件操作
-                        .build());
                 if (upApkPopupWindow.isShowing()) {
                     upApkPopupWindow.dismiss();
                 }
@@ -543,16 +523,6 @@ public class HomeActivity
                                 intent.putExtra("activity_id", activity_id);
                                 startActivity(intent);
                             } else if (!TextUtils.isEmpty(article_id)) {
-                                //友盟统计
-                                HashMap<String, String> map4 = new HashMap<String, String>();
-                                map4.put("evenname", "文章入口");
-                                map4.put("even", " H5页");
-                                MobclickAgent.onEvent(HomeActivity.this, "jtaction36", map4);
-                                //ga统计
-                                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                        .setCategory(" H5页")  //事件类别
-                                        .setAction("文章入口")      //事件操作
-                                        .build());
                                 Intent intent = new Intent(HomeActivity.this, ArticleDetailsActivity.class);
                                 intent.putExtra("article_id", article_id);
                                 startActivity(intent);

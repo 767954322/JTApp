@@ -1304,18 +1304,6 @@ public class ImageDetailFragment
                 String tag = text.replace("#", "");
                 intent.putExtra("islist", true);
                 intent.putExtra("shaixuan_tag", tag.trim());
-
-                //友盟统计
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("evenname", "图片标签");
-                map.put("even", "图片详情+" + tag.trim());
-                MobclickAgent.onEvent(activity, "jtaction13", map);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("图片详情+" + tag.trim())  //事件类别
-                        .setAction("图片标签")      //事件操作
-                        .build());
-
                 startActivity(intent);
             }
         });

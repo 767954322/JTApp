@@ -459,27 +459,7 @@ public class FaBuActvity
                 String info = (String) msg.obj;
                 try {
                     if(type.equals("home")){//首页
-                        //友盟统计
-                        HashMap<String, String> map = new HashMap<String, String>();
-                        map.put("evenname", "发布成功");
-                        map.put("even", "首页");
-                        MobclickAgent.onEvent(FaBuActvity.this, "jtaction2", map);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("首页")  //事件类别
-                                .setAction("发布成功")      //事件操作
-                                .build());
                     }else {//活动
-                        //友盟统计
-                        HashMap<String, String> map = new HashMap<String, String>();
-                        map.put("evenname", "发布成功");
-                        map.put("even", "活动页");
-                        MobclickAgent.onEvent(FaBuActvity.this, "jtaction2", map);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("活动页")  //事件类别
-                                .setAction("发布成功")      //事件操作
-                                .build());
                     }
 
                     JSONObject jsonObject = new JSONObject(info);

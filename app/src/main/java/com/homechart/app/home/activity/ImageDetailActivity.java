@@ -209,29 +209,9 @@ public class ImageDetailActivity
             case R.id.iv_xing:
             case R.id.tv_xing:
                 if (ifShouCang) {
-                    //友盟统计
-                    HashMap<String, String> map4 = new HashMap<String, String>();
-                    map4.put("evenname", "收藏图片");
-                    map4.put("even", "图片发布成功页");
-                    MobclickAgent.onEvent(ImageDetailActivity.this, "jtaction5", map4);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("图片发布成功页")  //事件类别
-                            .setAction("收藏图片")      //事件操作
-                            .build());
                     addShouCang();
                     ifShouCang = false;
                 } else {
-                    //友盟统计
-                    HashMap<String, String> map4 = new HashMap<String, String>();
-                    map4.put("evenname", "取消收藏图片");
-                    map4.put("even", "图片发布成功页");
-                    MobclickAgent.onEvent(ImageDetailActivity.this, "jtaction6", map4);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("图片发布成功页")  //事件类别
-                            .setAction("取消收藏图片")      //事件操作
-                            .build());
                     removeShouCang();
                     ifShouCang = true;
                 }

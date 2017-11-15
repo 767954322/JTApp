@@ -63,16 +63,6 @@ public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter
             startActivity(intent);
             finish();
         } else {
-            //友盟统计
-            HashMap<String, String> map5 = new HashMap<String, String>();
-            map5.put("evenname", "第一次打开app展示启动页");
-            map5.put("even", "第一次打开app展示启动页");
-            MobclickAgent.onEvent(WelcomeActivity.this, "newaction1", map5);
-            //ga统计
-            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                    .setCategory("第一次打开app展示启动页")  //事件类别
-                    .setAction("第一次打开app展示启动页")  //事件操作
-                    .build());
             WelcomePagerAdapter adapter = new WelcomePagerAdapter(WelcomeActivity.this, getAdData(), this);
 //            //初始化轮播图下面小点
 //            mWelcomeViewPager.updateIndicatorView(getAdData().size());
@@ -208,17 +198,6 @@ public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter
 
     @Override
     public void onClickThreeJump() {
-        //友盟统计
-        HashMap<String, String> map5 = new HashMap<String, String>();
-        map5.put("evenname", "点击启动页第三页进入app");
-        map5.put("even", "引导页");
-        MobclickAgent.onEvent(WelcomeActivity.this, "jtaction44", map5);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("引导页")  //事件类别
-                .setAction("点击启动页第三页进入app")  //事件操作
-                .build());
-
         SharedPreferencesUtils.writeBoolean(ISFIRST, true);
         Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra("if_first", true);
@@ -228,16 +207,6 @@ public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter
 
     @Override
     public void onClickButtonJump() {
-        //友盟统计
-        HashMap<String, String> map5 = new HashMap<String, String>();
-        map5.put("evenname", "点击启动页跳过按钮进入app");
-        map5.put("even", "引导页");
-        MobclickAgent.onEvent(WelcomeActivity.this, "jtaction45", map5);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("引导页")  //事件类别
-                .setAction("点击启动页跳过按钮进入app")  //事件操作
-                .build());
         SharedPreferencesUtils.writeBoolean(ISFIRST, true);
         Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra("if_first", true);

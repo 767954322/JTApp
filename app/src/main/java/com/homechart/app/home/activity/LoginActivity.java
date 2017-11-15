@@ -127,18 +127,6 @@ public class LoginActivity extends BaseActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
-        //友盟统计
-        HashMap<String, String> map5 = new HashMap<String, String>();
-        map5.put("evenname", "登录页面");
-        map5.put("even", "登录页面");
-        MobclickAgent.onEvent(LoginActivity.this, "newaction3", map5);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("登录页面")  //事件类别
-                .setAction("登录页面")  //事件操作
-                .build());
-
         //设置权限
         PublicUtils.verifyStoragePermissions(LoginActivity.this);
         boolean login_status = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);

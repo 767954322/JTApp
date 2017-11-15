@@ -248,16 +248,6 @@ public class HuoDongDetailsActivity
     }
 
     private void fabu() {
-        //友盟统计
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("evenname", "发布入口");
-        map.put("even", "活动页");
-        MobclickAgent.onEvent(HuoDongDetailsActivity.this, "jtaction1", map);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("活动页")  //事件类别
-                .setAction("发布入口")      //事件操作
-                .build());
     }
 
     @Override
@@ -499,16 +489,6 @@ public class HuoDongDetailsActivity
     }
 
     public void clickColorQiu(String item_id) {
-        //友盟统计
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("evenname", "三个色彩点");
-        map.put("even", "活动页");
-        MobclickAgent.onEvent(HuoDongDetailsActivity.this, "jtaction3", map);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("活动页")  //事件类别
-                .setAction("三个色彩点")      //事件操作
-                .build());
         Intent intent = new Intent(HuoDongDetailsActivity.this, ImageDetailLongActivity.class);
         intent.putExtra("item_id", item_id);
         intent.putExtra("if_click_color", true);

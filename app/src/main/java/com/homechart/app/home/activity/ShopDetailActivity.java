@@ -211,18 +211,6 @@ public class ShopDetailActivity
                         //取消收藏
                         removeShouCang(shopDetailsBean.getItem_info().getSpu_id());
                     } else {
-
-                        //友盟统计
-                        HashMap<String, String> map6 = new HashMap<String, String>();
-                        map6.put("evenname", "收藏商品");
-                        map6.put("even", "收藏商品的次数");
-                        MobclickAgent.onEvent(ShopDetailActivity.this, "jtaction56", map6);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("收藏商品的次数")  //事件类别
-                                .setAction("收藏商品")      //事件操作
-                                .build());
-
                         //收藏商品
                         addShouCang(shopDetailsBean.getItem_info().getSpu_id());
                     }
@@ -297,17 +285,6 @@ public class ShopDetailActivity
                 holder.getView(R.id.rl_item_shop_all).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        //友盟统计
-                        HashMap<String, String> map6 = new HashMap<String, String>();
-                        map6.put("evenname", "查看相似商品");
-                        map6.put("even", "点击推荐商品的次数");
-                        MobclickAgent.onEvent(ShopDetailActivity.this, "jtaction57", map6);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("点击推荐商品的次数")  //事件类别
-                                .setAction("查看相似商品")      //事件操作
-                                .build());
                         //TODO 跳转到商品详情
                         Intent intent = new Intent(ShopDetailActivity.this, ShopDetailActivity.class);
                         intent.putExtra("spu_id", mListData.get(position).getSpu_id());

@@ -399,16 +399,6 @@ public class SearchShopPopWin
                                 gridViewLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        //友盟统计
-                                        HashMap<String, String> map6 = new HashMap<String, String>();
-                                        map6.put("evenname", "查看相似商品");
-                                        map6.put("even", "点击推荐商品的次数");
-                                        MobclickAgent.onEvent(mContext, "jtaction57", map6);
-                                        //ga统计
-                                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                                .setCategory("点击推荐商品的次数")  //事件类别
-                                                .setAction("查看相似商品")      //事件操作
-                                                .build());
                                         // 跳转到商品详情
                                         Intent intent = new Intent(mContext, ShopDetailActivity.class);
                                         intent.putExtra("spu_id", searchShopsBean.getItem_list().get(position).getItem_info().getSpu_id());

@@ -98,17 +98,6 @@ public class ArticleDetailsActivity
         type = getIntent().getStringExtra("type");
 
         if (!TextUtils.isEmpty(type)) {
-            //友盟统计
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("evenname", "推送消息点击");
-            map.put("even", "推送消息点击");
-            MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction33", map);
-            //ga统计
-            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                    .setCategory("推送消息点击")  //事件类别
-                    .setAction("推送消息点击")      //事件操作
-                    .build());
-
         }
     }
 
@@ -262,17 +251,6 @@ public class ArticleDetailsActivity
                             //回复评论
                             goPingSingle(reply_id, searchContext);
                         }
-
-                        //友盟统计
-                        HashMap<String, String> map = new HashMap<String, String>();
-                        map.put("evenname", "文章评论");
-                        map.put("even", "文章详情");
-                        MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction28", map);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("文章详情")  //事件类别
-                                .setAction("文章评论")      //事件操作
-                                .build());
                     }
                     return true;
                 }
@@ -286,58 +264,18 @@ public class ArticleDetailsActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
-                //友盟统计
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("evenname", "返回");
-                map.put("even", "文章详情");
-                MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction4", map);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("文章详情")  //事件类别
-                        .setAction("返回")      //事件操作
-                        .build());
                 ArticleDetailsActivity.this.finish();
                 break;
             case R.id.tv_people_guanzhu:
                 if (userCenterInfoBean != null) {
                     switch (guanzhuTag) {
                         case 1:
-                            //友盟统计
-                            HashMap<String, String> map1 = new HashMap<String, String>();
-                            map1.put("evenname", "关注");
-                            map1.put("even", "文章详情");
-                            MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction9", map1);
-                            //ga统计
-                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("文章详情")  //事件类别
-                                    .setAction("关注")      //事件操作
-                                    .build());
                             getGuanZhu();
                             break;
                         case 2:
-                            //友盟统计
-                            HashMap<String, String> map2 = new HashMap<String, String>();
-                            map2.put("evenname", "取消关注");
-                            map2.put("even", "文章详情");
-                            MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction8", map2);
-                            //ga统计
-                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("文章详情")  //事件类别
-                                    .setAction("取消关注")      //事件操作
-                                    .build());
                             getQuXiao();
                             break;
                         case 3:
-                            //友盟统计
-                            HashMap<String, String> map3 = new HashMap<String, String>();
-                            map3.put("evenname", "取消关注");
-                            map3.put("even", "文章详情");
-                            MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction8", map3);
-                            //ga统计
-                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("文章详情")  //事件类别
-                                    .setAction("取消关注")      //事件操作
-                                    .build());
                             getQuXiao();
                             break;
                     }
@@ -351,30 +289,9 @@ public class ArticleDetailsActivity
 
                 if (ifZan) {
 
-                    //友盟统计
-                    HashMap<String, String> map3 = new HashMap<String, String>();
-                    map3.put("evenname", "棒文章");
-                    map3.put("even", "文章详情");
-                    MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction25", map3);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("文章详情")  //事件类别
-                            .setAction("棒文章")      //事件操作
-                            .build());
-
                     addZan();
                     ifZan = false;
                 } else {
-                    //友盟统计
-                    HashMap<String, String> map3 = new HashMap<String, String>();
-                    map3.put("evenname", "取消棒文章");
-                    map3.put("even", "文章详情");
-                    MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction24", map3);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("文章详情")  //事件类别
-                            .setAction("取消棒文章")      //事件操作
-                            .build());
                     removeZan();
                     ifZan = true;
                 }
@@ -386,29 +303,9 @@ public class ArticleDetailsActivity
             case R.id.rl_xing:
 
                 if (ifShouCang) {
-                    //友盟统计
-                    HashMap<String, String> map3 = new HashMap<String, String>();
-                    map3.put("evenname", "收藏文章");
-                    map3.put("even", "文章详情");
-                    MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction26", map3);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("文章详情")  //事件类别
-                            .setAction("收藏文章")      //事件操作
-                            .build());
                     addShouCang();
                     ifShouCang = false;
                 } else {
-                    //友盟统计
-                    HashMap<String, String> map3 = new HashMap<String, String>();
-                    map3.put("evenname", "取消收藏文章");
-                    map3.put("even", "文章详情");
-                    MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction27", map3);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("文章详情")  //事件类别
-                            .setAction("取消收藏文章")      //事件操作
-                            .build());
                     removeShouCang();
                     ifShouCang = true;
                 }
@@ -421,16 +318,6 @@ public class ArticleDetailsActivity
                 inputMethodManager.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
                 break;
             case R.id.tv_look_more_ping:
-                //友盟统计
-                HashMap<String, String> map1 = new HashMap<String, String>();
-                map1.put("evenname", "查看更多评论");
-                map1.put("even", "文章详情");
-                MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction31", map1);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("文章详情")  //事件类别
-                        .setAction("查看更多评论")      //事件操作
-                        .build());
                 getArticlePingList(article_id);
                 break;
             case R.id.riv_people_header:
@@ -489,16 +376,6 @@ public class ArticleDetailsActivity
                     @Override
                     public void onClick(View v) {
                         clickPosition = position;
-                        //友盟统计
-                        HashMap<String, String> map4 = new HashMap<String, String>();
-                        map4.put("evenname", "文章入口");
-                        map4.put("even", "文章详情");
-                        MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction36", map4);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("文章详情")  //事件类别
-                                .setAction("文章入口")      //事件操作
-                                .build());
                         Intent intent = new Intent(ArticleDetailsActivity.this, ArticleDetailsActivity.class);
                         intent.putExtra("article_id", mListData.get(position).getArticle_info().getArticle_id());
                         ArticleDetailsActivity.this.startActivityForResult(intent, 1);
@@ -519,18 +396,6 @@ public class ArticleDetailsActivity
 
     //0文章详情-猜你喜欢
     private void getLikeArticle() {
-
-        //友盟统计
-        HashMap<String, String> map1 = new HashMap<String, String>();
-        map1.put("evenname", "推荐文章加载");
-        map1.put("even", "文章详情");
-        MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction32", map1);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("文章详情")  //事件类别
-                .setAction("推荐文章加载")      //事件操作
-                .build());
-
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
@@ -1154,16 +1019,6 @@ public class ArticleDetailsActivity
 
     //8点赞
     public void addZanPing(PingCommentListItemBean pingCommentListItemBean, final int position) {
-        //友盟统计
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("evenname", "文章评论点赞");
-        map.put("even", "文章详情");
-        MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction29", map);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("文章详情")  //事件类别
-                .setAction("文章评论点赞")      //事件操作
-                .build());
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
@@ -1194,18 +1049,6 @@ public class ArticleDetailsActivity
 
     //8取消点赞
     public void removeZanPing(PingCommentListItemBean pingCommentListItemBean, final int position) {
-
-        //友盟统计
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("evenname", "取消文章评论点赞");
-        map.put("even", "文章详情");
-        MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction30", map);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("文章详情")  //事件类别
-                .setAction("取消文章评论点赞")      //事件操作
-                .build());
-
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
@@ -1270,16 +1113,6 @@ public class ArticleDetailsActivity
     //10.分享微信
     @Override
     public void onClickWeiXin() {
-        //友盟统计
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("evenname", "文章分享");
-        map.put("even", "文章详情+微信好友");
-        MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction23", map);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("文章详情+微信好友")  //事件类别
-                .setAction("文章分享")      //事件操作
-                .build());
 
         sharedItemOpen(SHARE_MEDIA.WEIXIN);
         addSharedTime();
@@ -1288,16 +1121,6 @@ public class ArticleDetailsActivity
     //10.分享朋友圈
     @Override
     public void onClickPYQ() {
-        //友盟统计
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("evenname", "文章分享");
-        map.put("even", "文章详情+微信朋友圈");
-        MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction23", map);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("文章详情+微信朋友圈")  //事件类别
-                .setAction("文章分享")      //事件操作
-                .build());
         sharedItemOpen(SHARE_MEDIA.WEIXIN_CIRCLE);
         addSharedTime();
     }
@@ -1305,32 +1128,12 @@ public class ArticleDetailsActivity
     //10.分享微博
     @Override
     public void onClickWeiBo() {
-        //友盟统计
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("evenname", "文章分享");
-        map.put("even", "文章详情+新浪微博");
-        MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction23", map);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("文章详情+新浪微博")  //事件类别
-                .setAction("文章分享")      //事件操作
-                .build());
         sharedItemOpen(SHARE_MEDIA.SINA);
         addSharedTime();
     }
 
     @Override
     public void onClickQQ() {
-        //友盟统计
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("evenname", "文章分享");
-        map.put("even", "文章详情+QQ");
-        MobclickAgent.onEvent(ArticleDetailsActivity.this, "jtaction23", map);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("文章详情+QQ")  //事件类别
-                .setAction("文章分享")      //事件操作
-                .build());
         sharedItemOpen(SHARE_MEDIA.QQ);
         addSharedTime();
     }

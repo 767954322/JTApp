@@ -143,18 +143,6 @@ public class SearchArticleFragment
                     @Override
                     public void onClick(View v) {
                         clickPosition = position;
-
-                        //友盟统计
-                        HashMap<String, String> map4 = new HashMap<String, String>();
-                        map4.put("evenname", "文章入口");
-                        map4.put("even", "搜索列表");
-                        MobclickAgent.onEvent(activity, "jtaction36", map4);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("搜索列表")  //事件类别
-                                .setAction("文章入口")      //事件操作
-                                .build());
-
                         Intent intent = new Intent(activity, ArticleDetailsActivity.class);
                         intent.putExtra("article_id",mListData.get(position).getArticle_info().getArticle_id());
                         startActivityForResult(intent,1);

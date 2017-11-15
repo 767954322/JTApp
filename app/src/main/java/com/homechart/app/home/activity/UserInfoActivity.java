@@ -317,16 +317,6 @@ public class UserInfoActivity
                         //收藏
                         onShouCang(mListData.get(position).getItem_info().getIs_collected().equals("0"), position, mListData.get(position));
 
-                        //友盟统计
-                        HashMap<String, String> map = new HashMap<String, String>();
-                        map.put("evenname", "收藏图片");
-                        map.put("even", "个人主页");
-                        MobclickAgent.onEvent(UserInfoActivity.this, "jtaction5", map);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("个人主页")  //事件类别
-                                .setAction("收藏图片")      //事件操作
-                                .build());
                     }
                 });
                 holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
@@ -334,16 +324,6 @@ public class UserInfoActivity
                     public void onClick(View v) {
                         //取消收藏
                         onShouCang(mListData.get(position).getItem_info().getIs_collected().equals("0"), position, mListData.get(position));
-                        //友盟统计
-                        HashMap<String, String> map = new HashMap<String, String>();
-                        map.put("evenname", "取消收藏图片");
-                        map.put("even", "个人主页");
-                        MobclickAgent.onEvent(UserInfoActivity.this, "jtaction6", map);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("个人主页")  //事件类别
-                                .setAction("取消收藏图片")      //事件操作
-                                .build());
                     }
                 });
 
