@@ -48,6 +48,7 @@
             android:gravity="center"
             android:layout_height="@dimen/font_25"
             android:layout_alignParentLeft="true"
+            android:textColor="@color/bg_e79056"
             android:text="去购买"
             android:background="@drawable/bg_goto_buy"/>
 
