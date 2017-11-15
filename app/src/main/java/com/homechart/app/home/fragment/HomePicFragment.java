@@ -147,6 +147,7 @@ public class HomePicFragment
     private Boolean loginStatus;
     private View view_line_top;
     private ImageView iv_open_pop;
+    private RelativeLayout rl_clickable_open;
 
     public HomePicFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -184,6 +185,7 @@ public class HomePicFragment
         iv_change_frag = (ImageView) rootView.findViewById(R.id.iv_change_frag);
         bt_tag_page_item = (TextView) rootView.findViewById(R.id.bt_tag_page_item);
         tv_color_tital = (TextView) rootView.findViewById(R.id.tv_color_tital);
+        rl_clickable_open = (RelativeLayout) rootView.findViewById(R.id.rl_clickable_open);
 
     }
 
@@ -197,6 +199,7 @@ public class HomePicFragment
         iv_chongzhi.setOnClickListener(this);
         rl_shibie.setOnClickListener(this);
         iv_open_pop.setOnClickListener(this);
+        rl_clickable_open.setOnClickListener(this);
 
         tv_color_tital.setOnClickListener(this);
         iv_color_icon.setOnClickListener(this);
@@ -314,6 +317,7 @@ public class HomePicFragment
                 selectColorPopupWindow.dismiss();
                 break;
             case R.id.iv_open_pop:
+            case R.id.rl_clickable_open:
                 showPopwindow();
                 break;
         }

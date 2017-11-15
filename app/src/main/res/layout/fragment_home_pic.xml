@@ -52,6 +52,13 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_clickable_open"
+        android:layout_width="@dimen/font_50"
+        android:layout_height="@dimen/font_50"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"/>
+
     <View
         android:id="@+id/view_line_top"
         android:layout_width="match_parent"
