@@ -192,7 +192,6 @@ public class HomeActivity
             startActivity(intent);
         }
         if (!SharedPreferencesUtils.readBoolean("yindao")) {
-            SharedPreferencesUtils.writeBoolean("yindao", true);
             rl_yindao1.setVisibility(View.VISIBLE);
             rl_yindao2.setVisibility(View.GONE);
         }
@@ -418,10 +417,31 @@ public class HomeActivity
             case R.id.rl_yindao1:
                 rl_yindao1.setVisibility(View.GONE);
                 rl_yindao2.setVisibility(View.VISIBLE);
+                //友盟统计
+                HashMap<String, String> map7 = new HashMap<String, String>();
+                map7.put("evenname", "新手指引");
+                map7.put("even", "新手指引-第一张点击");
+                MobclickAgent.onEvent(HomeActivity.this, "shijian8", map7);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("新手指引-第一张点击")  //事件类别
+                        .setAction("新手指引")      //事件操作
+                        .build());
                 break;
             case R.id.rl_yindao2:
+                SharedPreferencesUtils.writeBoolean("yindao", true);
                 rl_yindao2.setVisibility(View.GONE);
                 rl_yindao1.setVisibility(View.GONE);
+                //友盟统计
+                HashMap<String, String> map6 = new HashMap<String, String>();
+                map6.put("evenname", "新手指引");
+                map6.put("even", "新手指引-第二张点击");
+                MobclickAgent.onEvent(HomeActivity.this, "shijian8", map6);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("新手指引-第二张点击")  //事件类别
+                        .setAction("新手指引")      //事件操作
+                        .build());
                 break;
         }
     }
