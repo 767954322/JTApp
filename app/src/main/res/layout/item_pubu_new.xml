@@ -69,7 +69,6 @@
             android:textSize="@dimen/size_14"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/font_10"
             android:textColor="@color/bg_8f8f8f"/>
 
         <ImageView
