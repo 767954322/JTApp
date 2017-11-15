@@ -79,7 +79,7 @@ public class HomeTagAdapter extends PagerAdapter {
                     mPopupWindowCallBack.onDismiss();
                 }
             });
-            mAdapter = new MyTagGridAdapter(mTagList.get(position).getChildren());
+            mAdapter = new MyTagGridAdapter(mTagList.get(position).getChildren(),position);
             gv_pager_gridview.setAdapter(mAdapter);
             return itemView;
         }else {
@@ -126,9 +126,11 @@ public class HomeTagAdapter extends PagerAdapter {
     class MyTagGridAdapter extends BaseAdapter {
 
         private List<TagItemDataChildBean> mList_child;
+        private int mPosition;
 
-        public MyTagGridAdapter(List<TagItemDataChildBean> mList_child) {
+        public MyTagGridAdapter(List<TagItemDataChildBean> mList_child, int position) {
             this.mList_child = mList_child;
+            this.mPosition = position;
         }
 
         @Override
@@ -162,7 +164,7 @@ public class HomeTagAdapter extends PagerAdapter {
             myHolder.tv_tag_page_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mPopupWindowCallBack.onItemClick(mList_child.get(position).getTag_name());
+                    mPopupWindowCallBack.onItemClick(mList_child.get(position).getTag_name(),mPosition);
                 }
             });
             return convertView;
@@ -178,7 +180,7 @@ public class HomeTagAdapter extends PagerAdapter {
     public interface PopupWindowCallBack {
         void onDismiss();
 
-        void onItemClick(String tagStr);
+        void onItemClick(String tagStr,int mPosition);
 
         void onItemColorClick(ColorItemBean colorItemBean);
 

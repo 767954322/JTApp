@@ -175,9 +175,9 @@ public class ShouCangShopFragment
                                     .setCategory("收藏-商品页的浏览次数")  //事件类别
                                     .setAction("收藏-商品")      //事件操作
                                     .build());
-                            Intent intent = new Intent(activity, ShopDetailActivity.class);
-                            intent.putExtra("spu_id", mListData.get(position).getItem_info().getSpu_id());
-                            startActivityForResult(intent, 1);
+//                            Intent intent = new Intent(activity, ShopDetailActivity.class);
+//                            intent.putExtra("spu_id", mListData.get(position).getItem_info().getSpu_id());
+//                            startActivityForResult(intent, 1);
 
                         } else {
                             if (((CheckBox) holder.getView(R.id.cb_check)).isChecked()) {

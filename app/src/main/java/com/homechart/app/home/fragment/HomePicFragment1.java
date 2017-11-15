@@ -1131,7 +1131,7 @@ public class HomePicFragment1
     }
 
     @Override
-    public void onItemClick(String tagStr) {
+    public void onItemClick(String tagStr,int mPosition) {
         onDismiss();
         //跳转到筛选结果页
         Intent intent = new Intent(activity, ShaiXuanResultActicity.class);
