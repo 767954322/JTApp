@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_image_view"
         android:layout_marginTop="@dimen/font_10"
-        android:lineSpacingExtra="@dimen/font_5"
+        android:lineSpacingExtra="@dimen/font_3"
         android:lines="2"
         android:maxLines="2"
         android:ellipsize="end"
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_tital"
-        android:layout_marginTop="@dimen/font_10"
+        android:layout_marginTop="@dimen/font_8"
         android:textColor="@color/bg_e79056"
         android:textSize="@dimen/size_14" />
 
@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_price"
-        android:layout_marginTop="@dimen/font_12"
+        android:layout_marginTop="@dimen/font_10"
         android:paddingBottom="@dimen/font_7"
         android:orientation="horizontal">
 
