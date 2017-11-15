@@ -356,6 +356,7 @@
         android:visibility="gone"
         android:paddingBottom="@dimen/font_10"
         android:paddingRight="@dimen/font_10"
+        android:textColor="@color/white"
         android:text="收藏你喜欢的图片方便回看" />
 
     <View
