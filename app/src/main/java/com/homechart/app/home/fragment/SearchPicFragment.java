@@ -339,6 +339,17 @@ public class SearchPicFragment
 
     @Override
     public void onRefresh() {
+        //友盟统计
+        HashMap<String, String> map7 = new HashMap<String, String>();
+        map7.put("evenname", "搜索结果页加载次数");
+        map7.put("even", "搜索结果页");
+        MobclickAgent.onEvent(activity, "shijian12", map7);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("搜索结果页")  //事件类别
+                .setAction("搜索结果页加载次数")      //事件操作
+                .build());
+
         page_num = 1;
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
         getListData(REFRESH_STATUS);
@@ -346,6 +357,16 @@ public class SearchPicFragment
 
     @Override
     public void onLoadMore() {
+        //友盟统计
+        HashMap<String, String> map7 = new HashMap<String, String>();
+        map7.put("evenname", "搜索结果页加载次数");
+        map7.put("even", "搜索结果页");
+        MobclickAgent.onEvent(activity, "shijian12", map7);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("搜索结果页")  //事件类别
+                .setAction("搜索结果页加载次数")      //事件操作
+                .build());
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
         ++page_num;
         getListData(LOADMORE_STATUS);
