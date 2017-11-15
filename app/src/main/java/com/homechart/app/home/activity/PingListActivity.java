@@ -1,5 +1,6 @@
 package com.homechart.app.home.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -112,10 +113,27 @@ public class PingListActivity
 
     }
 
+    private boolean bol = true;
+    private boolean loginStatus;
+
     @Override
     protected void initListener() {
         super.initListener();
         nav_left_imageButton.setOnClickListener(this);
+        cet_clearedit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                if (!loginStatus && bol) {
+                    bol = false;
+                    Intent intent = new Intent(PingListActivity.this, LoginActivity.class);
+                    startActivityForResult(intent, 1);
+                    cet_clearedit.clearFocus();
+                    bol = true;
+                }
+            }
+        });
         cet_clearedit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
