@@ -103,7 +103,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter
 
             @Override
             public void onPageSelected(int position) {
-                isLastPage = position == 2;
+                isLastPage = position == 1;
             }
 
             @Override
