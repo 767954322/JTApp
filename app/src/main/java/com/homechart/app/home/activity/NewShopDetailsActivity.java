@@ -454,6 +454,16 @@ public class NewShopDetailsActivity
                     public void onClick(View v) {
                         Boolean loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
                         if (!loginStatus) {
+                            //友盟统计
+                            HashMap<String, String> map4 = new HashMap<String, String>();
+                            map4.put("evenname", "登录入口");
+                            map4.put("even", "相似商品页点击商品收藏");
+                            MobclickAgent.onEvent(NewShopDetailsActivity.this, "shijian20", map4);
+                            //ga统计
+                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                    .setCategory("相似商品页点击商品收藏")  //事件类别
+                                    .setAction("登录入口")      //事件操作
+                                    .build());
                             Intent intent = new Intent(NewShopDetailsActivity.this, LoginActivity.class);
                             startActivityForResult(intent, 1);
                         } else {

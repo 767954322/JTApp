@@ -355,6 +355,16 @@ public class ImageDetailFragment
                 loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
                 if (!loginStatus && bol) {
                     bol = false;
+                    //友盟统计
+                    HashMap<String, String> map4 = new HashMap<String, String>();
+                    map4.put("evenname", "登录入口");
+                    map4.put("even", "图片详情页图片评论");
+                    MobclickAgent.onEvent(activity, "shijian20", map4);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("图片详情页图片评论")  //事件类别
+                            .setAction("登录入口")      //事件操作
+                            .build());
                     Intent intent = new Intent(activity, LoginActivity.class);
                     startActivityForResult(intent, 1);
                     cet_clearedit.clearFocus();
@@ -441,6 +451,16 @@ public class ImageDetailFragment
             case R.id.tv_bang:
                 loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
                 if (!loginStatus) {
+                    //友盟统计
+                    HashMap<String, String> map4 = new HashMap<String, String>();
+                    map4.put("evenname", "登录入口");
+                    map4.put("even", "图片详情页图片点赞");
+                    MobclickAgent.onEvent(activity, "shijian20", map4);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("图片详情页图片点赞")  //事件类别
+                            .setAction("登录入口")      //事件操作
+                            .build());
                     Intent intent = new Intent(activity, LoginActivity.class);
                     startActivityForResult(intent, 1);
                 } else {
@@ -457,6 +477,16 @@ public class ImageDetailFragment
             case R.id.tv_xing:
                 loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
                 if (!loginStatus) {
+                    //友盟统计
+                    HashMap<String, String> map4 = new HashMap<String, String>();
+                    map4.put("evenname", "登录入口");
+                    map4.put("even", "图片详情页进行图片收藏");
+                    MobclickAgent.onEvent(activity, "shijian20", map4);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("图片详情页进行图片收藏")  //事件类别
+                            .setAction("登录入口")      //事件操作
+                            .build());
                     Intent intent = new Intent(activity, LoginActivity.class);
                     startActivityForResult(intent, 1);
                 } else {
@@ -672,6 +702,16 @@ public class ImageDetailFragment
                     public void onClick(View v) {
                         loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
                         if (!loginStatus) {
+                            //友盟统计
+                            HashMap<String, String> map4 = new HashMap<String, String>();
+                            map4.put("evenname", "登录入口");
+                            map4.put("even", "猜你喜欢列表进行图片收藏");
+                            MobclickAgent.onEvent(activity, "shijian20", map4);
+                            //ga统计
+                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                    .setCategory("猜你喜欢列表进行图片收藏")  //事件类别
+                                    .setAction("登录入口")      //事件操作
+                                    .build());
                             Intent intent = new Intent(activity, LoginActivity.class);
                             startActivityForResult(intent, 1);
                         } else {
@@ -684,6 +724,16 @@ public class ImageDetailFragment
                     public void onClick(View v) {
                         loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
                         if (!loginStatus) {
+                            //友盟统计
+                            HashMap<String, String> map4 = new HashMap<String, String>();
+                            map4.put("evenname", "登录入口");
+                            map4.put("even", "猜你喜欢列表进行图片收藏");
+                            MobclickAgent.onEvent(activity, "shijian20", map4);
+                            //ga统计
+                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                    .setCategory("猜你喜欢列表进行图片收藏")  //事件类别
+                                    .setAction("登录入口")      //事件操作
+                                    .build());
                             Intent intent = new Intent(activity, LoginActivity.class);
                             startActivityForResult(intent, 1);
                         } else {

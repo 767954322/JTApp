@@ -207,6 +207,16 @@ public class LoginActivity extends BaseActivity
                 break;
 
             case R.id.nav_left_imageButton:
+                //友盟统计
+                HashMap<String, String> map4 = new HashMap<String, String>();
+                map4.put("evenname", "关闭登录");
+                map4.put("even", "关闭登录");
+                MobclickAgent.onEvent(LoginActivity.this, "shijian21", map4);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("关闭登录")  //事件类别
+                        .setAction("关闭登录")      //事件操作
+                        .build());
                 LoginActivity.this.finish();
                 break;
         }

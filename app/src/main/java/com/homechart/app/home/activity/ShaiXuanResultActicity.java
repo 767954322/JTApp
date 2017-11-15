@@ -588,6 +588,16 @@ public class ShaiXuanResultActicity
                     public void onClick(View v) {
                         loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
                         if (!loginStatus) {
+                            //友盟统计
+                            HashMap<String, String> map4 = new HashMap<String, String>();
+                            map4.put("evenname", "登录入口");
+                            map4.put("even", "标签列表页进行图片收藏");
+                            MobclickAgent.onEvent(ShaiXuanResultActicity.this, "shijian20", map4);
+                            //ga统计
+                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                    .setCategory("标签列表页进行图片收藏")  //事件类别
+                                    .setAction("登录入口")      //事件操作
+                                    .build());
                             Intent intent = new Intent(ShaiXuanResultActicity.this, LoginActivity.class);
                             startActivityForResult(intent, 1);
                         } else {

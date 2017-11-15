@@ -258,6 +258,16 @@ public class HomeActivity
                 } else {
                     if (ifJump) {
                         mRadioGroup.check(R.id.radio_btn_pic);
+                        //友盟统计
+                        HashMap<String, String> map4 = new HashMap<String, String>();
+                        map4.put("evenname", "登录入口");
+                        map4.put("even", "未登录状态下点击底部栏我的");
+                        MobclickAgent.onEvent(HomeActivity.this, "shijian20", map4);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("未登录状态下点击底部栏我的")  //事件类别
+                                .setAction("登录入口")      //事件操作
+                                .build());
                         Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
                         startActivityForResult(intent, 1);
                     }
