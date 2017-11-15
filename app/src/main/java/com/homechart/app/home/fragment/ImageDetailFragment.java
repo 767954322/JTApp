@@ -326,6 +326,8 @@ public class ImageDetailFragment
 
     }
 
+    private boolean bol = true;
+
     private void initListener() {
         tv_content_right.setOnClickListener(this);
         nav_secondary_imageButton.setOnClickListener(this);
@@ -346,6 +348,19 @@ public class ImageDetailFragment
         tv_ping.setOnClickListener(this);
         iv_ifshow_color.setOnClickListener(this);
         tv_color_tital.setOnClickListener(this);
+        cet_clearedit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                if (!loginStatus && bol) {
+                    bol = false;
+                    Intent intent = new Intent(activity, LoginActivity.class);
+                    startActivityForResult(intent, 1);
+                    cet_clearedit.clearFocus();
+                    bol = true;
+                }
+            }
+        });
         cet_clearedit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
@@ -423,22 +438,34 @@ public class ImageDetailFragment
                 break;
             case R.id.iv_bang:
             case R.id.tv_bang:
-                if (ifZan) {
-                    addZan();
-                    ifZan = false;
+                loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                if (!loginStatus) {
+                    Intent intent = new Intent(activity, LoginActivity.class);
+                    startActivityForResult(intent, 1);
                 } else {
-                    removeZan();
-                    ifZan = true;
+                    if (ifZan) {
+                        addZan();
+                        ifZan = false;
+                    } else {
+                        removeZan();
+                        ifZan = true;
+                    }
                 }
                 break;
             case R.id.iv_xing:
             case R.id.tv_xing:
-                if (ifShouCang) {
-                    addShouCang();
-                    ifShouCang = false;
+                loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                if (!loginStatus) {
+                    Intent intent = new Intent(activity, LoginActivity.class);
+                    startActivityForResult(intent, 1);
                 } else {
-                    removeShouCang();
-                    ifShouCang = true;
+                    if (ifShouCang) {
+                        addShouCang();
+                        ifShouCang = false;
+                    } else {
+                        removeShouCang();
+                        ifShouCang = true;
+                    }
                 }
                 break;
             case R.id.tv_people_guanzhu:
@@ -456,7 +483,6 @@ public class ImageDetailFragment
                             break;
                     }
                 }
-
                 break;
             case R.id.ll_huifu_one:
                 huifuTag = "one";
