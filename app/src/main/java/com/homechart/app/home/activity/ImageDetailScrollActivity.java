@@ -145,24 +145,24 @@ public class ImageDetailScrollActivity
                     if(position - before_position > 0){//向右滑动了
                         //友盟统计
                         HashMap<String, String> map1 = new HashMap<String, String>();
-                        map1.put("evenname", "右滑动");
+                        map1.put("evenname", "右滑");
                         map1.put("even", "图片详情页");
-                        MobclickAgent.onEvent(ImageDetailScrollActivity.this, "jtaction38", map1);
+                        MobclickAgent.onEvent(ImageDetailScrollActivity.this, "shijian10", map1);
                         //ga统计
                         MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                                 .setCategory("图片详情页")  //事件类别
-                                .setAction("右滑动")      //事件操作
+                                .setAction("右滑")      //事件操作
                                 .build());
                     }else {//向左滑动了
                         //友盟统计
                         HashMap<String, String> map1 = new HashMap<String, String>();
-                        map1.put("evenname", "左滑动");
+                        map1.put("evenname", "左滑");
                         map1.put("even", "图片详情页");
-                        MobclickAgent.onEvent(ImageDetailScrollActivity.this, "jtaction39", map1);
+                        MobclickAgent.onEvent(ImageDetailScrollActivity.this, "shijian11", map1);
                         //ga统计
                         MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                                 .setCategory("图片详情页")  //事件类别
-                                .setAction("左滑动")      //事件操作
+                                .setAction("左滑")      //事件操作
                                 .build());
                     }
                 }

@@ -286,6 +286,16 @@ public class SearchPicFragment
                 holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //友盟统计
+                        HashMap<String, String> map6 = new HashMap<String, String>();
+                        map6.put("evenname", "识图入口");
+                        map6.put("even", "搜索列表页－图片识别");
+                        MobclickAgent.onEvent(activity, "shijian6", map6);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("搜索列表页－图片识别")  //事件类别
+                                .setAction("识图入口")      //事件操作
+                                .build());
                         Intent intent1 = new Intent(activity, SearchLoadingActivity.class);
 //                        Intent intent1 = new Intent(ShiBieActivity.this, TestActivity.class);
                         intent1.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg1());
@@ -473,9 +483,29 @@ public class SearchPicFragment
         if (ifClickShouCang) {
             ifClickShouCang = false;
             if (ifShouCang) {
+                //友盟统计
+                HashMap<String, String> map4 = new HashMap<String, String>();
+                map4.put("evenname", "收藏图片");
+                map4.put("even", "搜索列表页");
+                MobclickAgent.onEvent(activity, "shijian2", map4);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("搜索列表页")  //事件类别
+                        .setAction("收藏图片")      //事件操作
+                        .build());
                 //未被收藏，去收藏
                 addShouCang(position, searchItemDataBean.getItem_info().getItem_id());
             } else {
+                //友盟统计
+                HashMap<String, String> map4 = new HashMap<String, String>();
+                map4.put("evenname", "取消收藏图片");
+                map4.put("even", "搜索列表页");
+                MobclickAgent.onEvent(activity, "shijian3", map4);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("搜索列表页")  //事件类别
+                        .setAction("取消收藏图片")      //事件操作
+                        .build());
                 //被收藏，去取消收藏
                 removeShouCang(position, searchItemDataBean.getItem_info().getItem_id());
             }

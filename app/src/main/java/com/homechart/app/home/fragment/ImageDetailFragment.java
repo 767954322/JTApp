@@ -546,6 +546,17 @@ public class ImageDetailFragment
                     rl_color_location.setVisibility(View.GONE);
 
                 } else {
+
+                    //友盟统计
+                    HashMap<String, String> map6 = new HashMap<String, String>();
+                    map6.put("evenname", "色彩详情");
+                    map6.put("even", "用户点开色彩详情的次数");
+                    MobclickAgent.onEvent(activity, "shijian9", map6);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("用户点开色彩详情的次数")  //事件类别
+                            .setAction("色彩详情")      //事件操作
+                            .build());
                     //显示
                     mifShowColorList = true;
                     tv_color_tital.setVisibility(View.GONE);
@@ -1799,11 +1810,11 @@ public class ImageDetailFragment
                 //友盟统计
                 HashMap<String, String> map4 = new HashMap<String, String>();
                 map4.put("evenname", "收藏图片");
-                map4.put("even", "图片详情-你可能喜欢");
-                MobclickAgent.onEvent(activity, "jtaction5", map4);
+                map4.put("even", "你可能喜欢");
+                MobclickAgent.onEvent(activity, "shijian2", map4);
                 //ga统计
                 MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("图片详情-你可能喜欢")  //事件类别
+                        .setCategory("你可能喜欢")  //事件类别
                         .setAction("收藏图片")      //事件操作
                         .build());
                 //未被收藏，去收藏
@@ -1812,11 +1823,11 @@ public class ImageDetailFragment
                 //友盟统计
                 HashMap<String, String> map4 = new HashMap<String, String>();
                 map4.put("evenname", "取消收藏图片");
-                map4.put("even", "图片详情-你可能喜欢");
-                MobclickAgent.onEvent(activity, "jtaction6", map4);
+                map4.put("even", "图片详情页");
+                MobclickAgent.onEvent(activity, "shijian3", map4);
                 //ga统计
                 MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("图片详情-你可能喜欢")  //事件类别
+                        .setCategory("图片详情页")  //事件类别
                         .setAction("取消收藏图片")      //事件操作
                         .build());
                 //被收藏，去取消收藏
@@ -2051,13 +2062,13 @@ public class ImageDetailFragment
                 searchSBean.getObject_list().size() > pos) {
             //友盟统计
             HashMap<String, String> map6 = new HashMap<String, String>();
-            map6.put("evenname", "图片详情中商品圆点的点击");
+            map6.put("evenname", "图片中商品点击");
             map6.put("even", "图片详情－圆点点击");
             MobclickAgent.onEvent(activity, "shijian7", map6);
             //ga统计
             MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                     .setCategory("图片详情－圆点点击")  //事件类别
-                    .setAction("图片详情中商品圆点的点击")      //事件操作
+                    .setAction("图片中商品点击")      //事件操作
                     .build());
 
             Intent intent = new Intent(activity, NewSearchResultActivity.class);
