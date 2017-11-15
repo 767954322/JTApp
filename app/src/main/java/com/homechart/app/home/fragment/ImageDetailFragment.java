@@ -28,6 +28,7 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
+import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.activity.HuoDongDetailsActivity;
 import com.homechart.app.home.activity.ImageDetailLongActivity;
 import com.homechart.app.home.activity.ImageDetailScrollActivity;
@@ -695,6 +696,16 @@ public class ImageDetailFragment
                 holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //友盟统计
+                        HashMap<String, String> map6 = new HashMap<String, String>();
+                        map6.put("evenname", "识图入口");
+                        map6.put("even", "图片详情－图片识别");
+                        MobclickAgent.onEvent(activity, "shijian6", map6);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("图片详情－图片识别")  //事件类别
+                                .setAction("识图入口")      //事件操作
+                                .build());
                         Intent intent1 = new Intent(activity, SearchLoadingActivity.class);
 //                        Intent intent1 = new Intent(ShiBieActivity.this, TestActivity.class);
                         intent1.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg1());
@@ -2038,6 +2049,17 @@ public class ImageDetailFragment
                 null != searchSBean.getObject_list() &&
                 searchSBean.getObject_list().size() > 0 &&
                 searchSBean.getObject_list().size() > pos) {
+            //友盟统计
+            HashMap<String, String> map6 = new HashMap<String, String>();
+            map6.put("evenname", "图片详情中商品圆点的点击");
+            map6.put("even", "图片详情－圆点点击");
+            MobclickAgent.onEvent(activity, "shijian7", map6);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("图片详情－圆点点击")  //事件类别
+                    .setAction("图片详情中商品圆点的点击")      //事件操作
+                    .build());
+
             Intent intent = new Intent(activity, NewSearchResultActivity.class);
             intent.putExtra("image_id", imageDetailBean.getItem_info().getImage().getImage_id());
             intent.putExtra("imagePath", imageDetailBean.getItem_info().getImage().getImg0());

@@ -191,8 +191,8 @@ public class HomeActivity
             intent.putExtra("article_id", object_id);
             startActivity(intent);
         }
-        if(!SharedPreferencesUtils.readBoolean("yindao")){
-            SharedPreferencesUtils.writeBoolean("yindao",true);
+        if (!SharedPreferencesUtils.readBoolean("yindao")) {
+            SharedPreferencesUtils.writeBoolean("yindao", true);
             rl_yindao1.setVisibility(View.VISIBLE);
             rl_yindao2.setVisibility(View.GONE);
         }
@@ -215,16 +215,6 @@ public class HomeActivity
                 break;
             case R.id.radio_btn_designer:
             case R.id.iv_add_icon:
-                //友盟统计
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("evenname", "发布入口");
-                map.put("even", "首页");
-                MobclickAgent.onEvent(HomeActivity.this, "jtaction1", map);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("首页")  //事件类别
-                        .setAction("发布入口")      //事件操作
-                        .build());
                 if (jumpPosition == 0) {
                     mRadioGroup.check(R.id.radio_btn_pic);
                 } else if (jumpPosition == 2) {
@@ -238,14 +228,14 @@ public class HomeActivity
                             new String[]{Manifest.permission.CAMERA}, 0);
                 } else {
                     //友盟统计
-                    HashMap<String, String> map6 = new HashMap<String, String>();
-                    map6.put("evenname", "找同款拍照入口");
-                    map6.put("even", "记录用户启动拍照识别入口的次数");
-                    MobclickAgent.onEvent(HomeActivity.this, "jtaction52", map6);
+                    HashMap<String, String> map4 = new HashMap<String, String>();
+                    map4.put("evenname", "识图入口");
+                    map4.put("even", "首页识别入口－图片识别");
+                    MobclickAgent.onEvent(HomeActivity.this, "shijian6", map4);
                     //ga统计
                     MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("记录用户启动拍照识别入口的次数")  //事件类别
-                            .setAction("找同款拍照入口")      //事件操作
+                            .setCategory("首页识别入口－图片识别")  //事件类别
+                            .setAction("识图入口")      //事件操作
                             .build());
                     Intent intent1 = new Intent(HomeActivity.this, PhotoActivity.class);
                     startActivity(intent1);
@@ -411,6 +401,16 @@ public class HomeActivity
                     ActivityCompat.requestPermissions(HomeActivity.this,
                             new String[]{Manifest.permission.CAMERA}, 0);
                 } else {
+                    //友盟统计
+                    HashMap<String, String> map6 = new HashMap<String, String>();
+                    map6.put("evenname", "识图入口");
+                    map6.put("even", "首页识别入口－图片识别");
+                    MobclickAgent.onEvent(HomeActivity.this, "shijian6", map6);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("首页识别入口－图片识别")  //事件类别
+                            .setAction("识图入口")      //事件操作
+                            .build());
                     Intent intent1 = new Intent(HomeActivity.this, PhotoActivity.class);
                     startActivity(intent1);
                 }
@@ -418,11 +418,11 @@ public class HomeActivity
             case R.id.rl_yindao1:
                 rl_yindao1.setVisibility(View.GONE);
                 rl_yindao2.setVisibility(View.VISIBLE);
-                    break;
+                break;
             case R.id.rl_yindao2:
                 rl_yindao2.setVisibility(View.GONE);
                 rl_yindao1.setVisibility(View.GONE);
-                    break;
+                break;
         }
     }
 

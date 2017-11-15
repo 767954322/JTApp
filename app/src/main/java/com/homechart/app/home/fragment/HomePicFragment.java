@@ -437,6 +437,16 @@ public class HomePicFragment
                 holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //友盟统计
+                        HashMap<String, String> map4 = new HashMap<String, String>();
+                        map4.put("evenname", "识图入口");
+                        map4.put("even", "看图列表页－图片识别");
+                        MobclickAgent.onEvent(activity, "shijian6", map4);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("看图列表页－图片识别")  //事件类别
+                                .setAction("识图入口")      //事件操作
+                                .build());
                         Intent intent1 = new Intent(activity, SearchLoadingActivity.class);
 //                        Intent intent1 = new Intent(ShiBieActivity.this, TestActivity.class);
                         intent1.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg1());
@@ -509,6 +519,17 @@ public class HomePicFragment
     @Override
     public void onRefresh() {
 
+        //友盟统计
+        HashMap<String, String> map7 = new HashMap<String, String>();
+        map7.put("evenname", "看图列表页加载次数");
+        map7.put("even", "看图列表页");
+        MobclickAgent.onEvent(activity, "shijian4", map7);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("看图列表页")  //事件类别
+                .setAction("看图列表页加载次数")      //事件操作
+                .build());
+
         page_num = 1;
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
         getListData(REFRESH_STATUS);
@@ -516,16 +537,18 @@ public class HomePicFragment
 
     @Override
     public void onLoadMore() {
+
         //友盟统计
-        HashMap<String, String> map4 = new HashMap<String, String>();
-        map4.put("evenname", "首页加载次数");
-        map4.put("even", "首页");
-        MobclickAgent.onEvent(activity, "jtaction51", map4);
+        HashMap<String, String> map7 = new HashMap<String, String>();
+        map7.put("evenname", "看图列表页加载次数");
+        map7.put("even", "看图列表页");
+        MobclickAgent.onEvent(activity, "shijian4", map7);
         //ga统计
         MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("首页")  //事件类别
-                .setAction("首页加载次数")      //事件操作
+                .setCategory("看图列表页")  //事件类别
+                .setAction("看图列表页加载次数")      //事件操作
                 .build());
+
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
         ++page_num;
         getListData(LOADMORE_STATUS);
@@ -741,8 +764,33 @@ public class HomePicFragment
     }
 
     @Override
-    public void onItemClick(String tagStr,int mPosition) {
+    public void onItemClick(String tagStr, int mPosition) {
         onDismiss();
+        String name = "";
+        switch (mPosition) {
+            case 0:
+                name = "空间";
+                break;
+            case 1:
+                name = "局部";
+                break;
+            case 2:
+                name = "装饰";
+                break;
+            case 3:
+                name = "收纳";
+                break;
+        }
+        //友盟统计
+        HashMap<String, String> map7 = new HashMap<String, String>();
+        map7.put("evenname", "看图筛选");
+        map7.put("even", name + "－－" + tagStr);
+        MobclickAgent.onEvent(activity, "shijian1", map7);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory(name + "－－" + tagStr)  //事件类别
+                .setAction("看图筛选")      //事件操作
+                .build());
         //跳转到筛选结果页
         Intent intent = new Intent(activity, ShaiXuanResultActicity.class);
         intent.putExtra("shaixuan_tag", tagStr);
@@ -839,11 +887,11 @@ public class HomePicFragment
                 //友盟统计
                 HashMap<String, String> map4 = new HashMap<String, String>();
                 map4.put("evenname", "收藏图片");
-                map4.put("even", "首页");
-                MobclickAgent.onEvent(activity, "jtaction5", map4);
+                map4.put("even", "看图列表页");
+                MobclickAgent.onEvent(activity, "shijian2", map4);
                 //ga统计
                 MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("首页")  //事件类别
+                        .setCategory("看图列表页")  //事件类别
                         .setAction("收藏图片")      //事件操作
                         .build());
                 //未被收藏，去收藏
@@ -852,11 +900,11 @@ public class HomePicFragment
                 //友盟统计
                 HashMap<String, String> map4 = new HashMap<String, String>();
                 map4.put("evenname", "取消收藏图片");
-                map4.put("even", "首页");
-                MobclickAgent.onEvent(activity, "jtaction6", map4);
+                map4.put("even", "看图列表页");
+                MobclickAgent.onEvent(activity, "shijian3", map4);
                 //ga统计
                 MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("首页")  //事件类别
+                        .setCategory("看图列表页")  //事件类别
                         .setAction("取消收藏图片")      //事件操作
                         .build());
                 //被收藏，去取消收藏
@@ -864,7 +912,6 @@ public class HomePicFragment
             }
 
         }
-
     }
 
     //收藏
@@ -977,16 +1024,7 @@ public class HomePicFragment
 
     @Override
     public void clickColor(ColorItemBean colorItemBean) {
-        //友盟统计
-        HashMap<String, String> map4 = new HashMap<String, String>();
-        map4.put("evenname", "色彩单选");
-        map4.put("even", "色彩页" + colorItemBean.getColor_name());
-        MobclickAgent.onEvent(activity, "jtaction21", map4);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("色彩页" + colorItemBean.getColor_name())  //事件类别
-                .setAction("色彩单选")      //事件操作
-                .build());
+
         if (selectColorPopupWindow != null) {
             selectColorPopupWindow.dismiss();
             this.mColorClick = colorItemBean;
@@ -1017,6 +1055,16 @@ public class HomePicFragment
                         }
                     }
                 }
+                //友盟统计
+                HashMap<String, String> map7 = new HashMap<String, String>();
+                map7.put("evenname", "色彩选择");
+                map7.put("even", "看图列表页-" + mColorClick.getColor_name());
+                MobclickAgent.onEvent(activity, "shijian5", map7);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("看图列表页-" + mColorClick.getColor_name())  //事件类别
+                        .setAction("色彩选择")      //事件操作
+                        .build());
                 onRefresh();
             } else {
                 qingkong();
