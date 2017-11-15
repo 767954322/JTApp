@@ -178,7 +178,7 @@
                 android:layout_toRightOf="@+id/tv_color_tital"
                 android:paddingBottom="@dimen/font_10"
                 android:paddingLeft="@dimen/font_5"
-                android:paddingRight="@dimen/font_20"
+                android:paddingRight="@dimen/font_5"
                 android:paddingTop="@dimen/font_10"
                 android:src="@drawable/shouqi"
                 android:visibility="gone" />
