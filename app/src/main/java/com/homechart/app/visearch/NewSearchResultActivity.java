@@ -15,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.croplayout.EditPhotoViewMore;
 import com.homechart.app.croplayout.EditableImage;
@@ -30,6 +33,7 @@ import com.homechart.app.hotposition.NewImageLayout;
 import com.homechart.app.hotposition.PointSimple;
 import com.homechart.app.hotposition.PositionClickImp;
 import com.homechart.app.utils.UIUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,6 +43,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -151,6 +156,17 @@ public class NewSearchResultActivity
                 NewSearchResultActivity.this.finish();
                 break;
             case R.id.tv_fuwei:
+                //友盟统计
+                HashMap<String, String> map6 = new HashMap<String, String>();
+                map6.put("evenname", "重置");
+                map6.put("even", "识图结果页");
+                MobclickAgent.onEvent(NewSearchResultActivity.this, "shijian13", map6);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("识图结果页")  //事件类别
+                        .setAction("重置")      //事件操作
+                        .build());
+
                 showShouSuoStatus(false);
                 tv_fuwei.setVisibility(View.GONE);
                 if (listSearch != null && listSearch.size() > 0) {
@@ -161,6 +177,7 @@ public class NewSearchResultActivity
                     }
                     rly_point.setVisibility(View.VISIBLE);
                 }
+
                 break;
             case R.id.tv_sousuo:
                 if (editableImage != null && editableImage.getBox() != null && ifOpenSearch) {
@@ -248,6 +265,18 @@ public class NewSearchResultActivity
 
     @Override
     public void onClickPosition(int pos) {
+
+        //友盟统计
+        HashMap<String, String> map6 = new HashMap<String, String>();
+        map6.put("evenname", "图片中商品点击");
+        map6.put("even", "识图结果页－圆点点击");
+        MobclickAgent.onEvent(NewSearchResultActivity.this, "shijian7", map6);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("识图结果页－圆点点击")  //事件类别
+                .setAction("图片中商品点击")      //事件操作
+                .build());
+
         tv_toast.setVisibility(View.VISIBLE);
         showShouSuoStatus(true);
         tv_fuwei.setVisibility(View.VISIBLE);
@@ -347,4 +376,24 @@ public class NewSearchResultActivity
         }
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart("识图结果页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("识图结果页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("识图结果页");
+        MobclickAgent.onPause(this);
+    }
 }

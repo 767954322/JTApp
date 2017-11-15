@@ -18,6 +18,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
@@ -46,6 +49,8 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.homechart.app.visearch.NewSearchResultActivity;
+import com.umeng.analytics.MobclickAgent;
 
 import org.ielse.widget.RangeSeekBar;
 import org.json.JSONException;
@@ -353,6 +358,16 @@ public class NewShopDetailsActivity
                     tv_price.setText("¥ " + PublicUtils.formatPrice(minPrice) + " - " + PublicUtils.formatPrice(maxPrice));
                     ifShowPopWin(R.id.rl_price);
                     onRefresh();
+                    //友盟统计
+                    HashMap<String, String> map6 = new HashMap<String, String>();
+                    map6.put("evenname", "筛选相似");
+                    map6.put("even", "价格-" + tv_price.toString().trim());
+                    MobclickAgent.onEvent(NewShopDetailsActivity.this, "shijian16", map6);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("价格-" + tv_price.toString().trim())  //事件类别
+                            .setAction("筛选相似")      //事件操作
+                            .build());
                 }
                 break;
             case R.id.iv_crop_imageview:
@@ -410,6 +425,16 @@ public class NewShopDetailsActivity
                 holder.getView(R.id.tv_goto_buy).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //友盟统计
+                        HashMap<String, String> map6 = new HashMap<String, String>();
+                        map6.put("evenname", "去购买");
+                        map6.put("even", "相似商品页");
+                        MobclickAgent.onEvent(NewShopDetailsActivity.this, "shijian19", map6);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("相似商品页")  //事件类别
+                                .setAction("去购买")      //事件操作
+                                .build());
                         Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(mListData.get(position).getItem_info().getBuy_url()));
                         startActivity(viewIntent);
                     }
@@ -434,11 +459,6 @@ public class NewShopDetailsActivity
                         } else {
                             onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
                         }
-//                        if (allowClickShouCang) {
-//                            allowClickShouCang = false;
-//                            //收藏商品
-//                            addShouCang(mListData.get(position).getItem_info().getSpu_id());
-//                        }
                     }
                 });
                 if (position == openPosition) {
@@ -457,6 +477,16 @@ public class NewShopDetailsActivity
                 holder.getView(R.id.rl_goto_xiangsi).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //友盟统计
+                        HashMap<String, String> map6 = new HashMap<String, String>();
+                        map6.put("evenname", "取消找相似");
+                        map6.put("even", "取消找相似");
+                        MobclickAgent.onEvent(NewShopDetailsActivity.this, "shijian15", map6);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("取消找相似")  //事件类别
+                                .setAction("取消找相似")      //事件操作
+                                .build());
                         openPosition = -1;
                         ((RelativeLayout) holder.getView(R.id.rl_goto_xiangsi)).setVisibility(View.GONE);
                     }
@@ -464,6 +494,17 @@ public class NewShopDetailsActivity
                 holder.getView(R.id.riv_goto_xiangsi).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+                        //友盟统计
+                        HashMap<String, String> map6 = new HashMap<String, String>();
+                        map6.put("evenname", "找相似");
+                        map6.put("even", "找相似");
+                        MobclickAgent.onEvent(NewShopDetailsActivity.this, "shijian14", map6);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("找相似")  //事件类别
+                                .setAction("找相似")      //事件操作
+                                .build());
                         Intent intent = new Intent(NewShopDetailsActivity.this, NewShopDetailsActivity.class);
                         intent.putExtra("image_path", mListData.get(position).getItem_info().getImage().getImg0());
                         intent.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg0());
@@ -492,9 +533,30 @@ public class NewShopDetailsActivity
         if (ifClickShouCang) {
             ifClickShouCang = false;
             if (ifShouCang) {
+
+                //友盟统计
+                HashMap<String, String> map6 = new HashMap<String, String>();
+                map6.put("evenname", "收藏商品");
+                map6.put("even", "相似商品页");
+                MobclickAgent.onEvent(NewShopDetailsActivity.this, "shijian17", map6);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("相似商品页")  //事件类别
+                        .setAction("收藏商品")      //事件操作
+                        .build());
                 //未被收藏，去收藏
                 addShouCang(position, searchShopItemBean.getItem_info().getSpu_id());
             } else {
+                //友盟统计
+                HashMap<String, String> map6 = new HashMap<String, String>();
+                map6.put("evenname", "取消收藏商品");
+                map6.put("even", "相似商品页");
+                MobclickAgent.onEvent(NewShopDetailsActivity.this, "shijian18", map6);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("相似商品页")  //事件类别
+                        .setAction("取消收藏商品")      //事件操作
+                        .build());
                 //被收藏，去取消收藏
                 removeShouCang(position, searchShopItemBean.getItem_info().getSpu_id());
             }
@@ -901,6 +963,16 @@ public class NewShopDetailsActivity
             tv_price_set.setVisibility(View.VISIBLE);
             ifShowAddButton();
             onRefresh();
+            //友盟统计
+            HashMap<String, String> map6 = new HashMap<String, String>();
+            map6.put("evenname", "筛选相似");
+            map6.put("even", "品类-" + categoryname);
+            MobclickAgent.onEvent(NewShopDetailsActivity.this, "shijian16", map6);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("品类-" + categoryname)  //事件类别
+                    .setAction("筛选相似")      //事件操作
+                    .build());
         }
 
     }
@@ -1049,7 +1121,39 @@ public class NewShopDetailsActivity
         closeCurrentPopWin(R.id.iv_guanjianzi_delect);
         tabStaus(0);
         onRefresh();
+        //友盟统计
+        HashMap<String, String> map6 = new HashMap<String, String>();
+        map6.put("evenname", "筛选相似");
+        map6.put("even", "关键字-" + kw);
+        MobclickAgent.onEvent(NewShopDetailsActivity.this, "shijian16", map6);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("关键字-" + kw)  //事件类别
+                .setAction("筛选相似")      //事件操作
+                .build());
     }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart(" 相似商品页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName(" 相似商品页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(" 相似商品页");
+        MobclickAgent.onPause(this);
+    }
+
 
     private String image_url;
     private int pager = 1;
