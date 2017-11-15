@@ -154,7 +154,7 @@ public class ShaiXuanResultActicity
     private List<Integer> mSListDataHeight = new ArrayList<>();
     private List<String> strTuiJian;
     private Map<Integer, ColorItemBean> mSelectListData;
-    private boolean curentListTag = true;
+    private boolean curentListTag = false;
     private int page_num = 1;
     private int TYPE_ONE = 1;
     private int TYPE_TWO = 2;

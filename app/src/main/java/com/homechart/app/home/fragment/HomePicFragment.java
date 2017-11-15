@@ -112,7 +112,7 @@ public class HomePicFragment
     private int TYPE_FOUR = 4;
     private int TYPE_FIVE = 5;
     private int position;
-    private boolean curentListTag = true;
+    private boolean curentListTag = false;
     private final String REFRESH_STATUS = "refresh";
     private final String LOADMORE_STATUS = "loadmore";
     private StaggeredGridLayoutManager staggeredGridLayoutManager;
@@ -496,7 +496,7 @@ public class HomePicFragment
             }
         };
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setOnRefreshListener(this);
         mRecyclerView.setOnLoadMoreListener(this);
@@ -746,7 +746,7 @@ public class HomePicFragment
         //跳转到筛选结果页
         Intent intent = new Intent(activity, ShaiXuanResultActicity.class);
         intent.putExtra("shaixuan_tag", tagStr);
-        intent.putExtra("islist", true);
+        intent.putExtra("islist", curentListTag);
         intent.putExtra("colorBean", colorBean);
         intent.putExtra("shaixuan_color", (Serializable) mSelectListData);
         startActivity(intent);

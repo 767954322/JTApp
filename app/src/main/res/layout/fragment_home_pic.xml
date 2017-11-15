@@ -329,7 +329,7 @@
             android:paddingLeft="@dimen/font_100"
             android:paddingRight="@dimen/font_12"
             android:paddingTop="@dimen/font_5"
-            android:src="@drawable/pubuliu" />
+            android:src="@drawable/changtu" />
     </RelativeLayout>
 
 
