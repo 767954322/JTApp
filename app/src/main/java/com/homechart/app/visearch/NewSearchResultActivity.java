@@ -84,6 +84,7 @@ public class NewSearchResultActivity
     private String photoPath = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_PICTURES).getPath() + File.separator + "JiaTuApp";
     private TextView tv_toast;
+    private SearchSObjectInfoBean searchSObjectInfoBean;
 
     @Override
     protected int getLayoutResId() {
@@ -194,14 +195,27 @@ public class NewSearchResultActivity
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    String loc = editableImage.getBox().getX1() * 1.000000 / mW + "-" +
+                    String loc = editableImage.getBox().getX1() * 1.000000 / widerImage + "-" +
                             editableImage.getBox().getY1() * 1.000000 / heightImage + "-" +
                             (editableImage.getBox().getX2() - editableImage.getBox().getX1()) * 1.000000 / widerImage + "-" +
                             (editableImage.getBox().getY2() - editableImage.getBox().getY1()) * 1.000000 / heightImage;
+
                     Intent intent = new Intent(NewSearchResultActivity.this, NewShopDetailsActivity.class);
                     intent.putExtra("image_path", photoPath + "/" + cropName);
                     intent.putExtra("image_url", searchSBean.getImage_url());
-                    intent.putExtra("loc", loc);
+                    if (!ifMoveKuang) {//没移动
+                        if (null != searchSObjectInfoBean) {
+                          String str =  searchSObjectInfoBean.getX()+"-"+searchSObjectInfoBean.getY()+
+                                    "-"+searchSObjectInfoBean.getWidth()+"-"+searchSObjectInfoBean.getHeight();
+                            intent.putExtra("loc", str);
+                        }else {
+
+                            intent.putExtra("loc", loc);
+                        }
+                    } else {//移动
+
+                        intent.putExtra("loc", loc);
+                    }
                     intent.putExtra("ifMoveKuang", ifMoveKuang);
                     if (!ifMoveKuang && listSearch != null && listSearch.size() > 0 && listSearch.size() > currentPosition) {
                         intent.putExtra("object_sign", listSearch.get(currentPosition).getObject_info().getObject_sign());
@@ -284,7 +298,7 @@ public class NewSearchResultActivity
         ifMoveKuang = false;
         ifOpenSearch = true;
         rly_point.setVisibility(View.GONE);
-        SearchSObjectInfoBean searchSObjectInfoBean = listSearch.get(pos).getObject_info();
+        searchSObjectInfoBean = listSearch.get(pos).getObject_info();
         widerImage = mPhotoImage.getEditableImage().getOriginalImage().getWidth();
         heightImage = mPhotoImage.getEditableImage().getOriginalImage().getHeight();
 
