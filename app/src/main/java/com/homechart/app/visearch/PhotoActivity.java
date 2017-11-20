@@ -465,12 +465,16 @@ public class PhotoActivity
                         mListData.addAll(historyBean1.getData());
                         mAdapter.notifyDataSetChanged();
                         allowLoadMore = true;
-                        if(historyBean1.getData().size() < 40){
+                        if(historyBean1.getData().size() < 40&& !ifLoadDefatePic){
+                            ifLoadDefatePic = true;
                             getUnloginImage();
                         }
                     } else {
                         allowLoadMore = true;
-                        getUnloginImage();
+                        if(!ifLoadDefatePic){
+                            ifLoadDefatePic = true;
+                            getUnloginImage();
+                        }
                     }
                     break;
             }
