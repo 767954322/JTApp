@@ -388,11 +388,11 @@ public class HomePicFragment
                         }
                     }
                     for (int i = 0; i < listTag.size(); i++) {
-                        strTag = strTag + "# " + listTag.get(i) + "  ";
+                        strTag = strTag + "#" + listTag.get(i) + "  ";
                     }
                 }
 
-                String str = "<font color='#f79056'>" + strTag + "</font>" + mListData.get(position).getItem_info().getDescription();
+                String str = mListData.get(position).getItem_info().getDescription() + " " + "<font color='#464646'>" + strTag + "</font>";
                 ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
 
 
