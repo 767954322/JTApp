@@ -232,7 +232,7 @@ public class PhotoActivity
                             HistoryBean historyBean = GsonUtil.jsonToBean(history, HistoryBean.class);
                             if (historyBean != null && historyBean.getData() != null && historyBean.getData().size() > 0) {
                                 Message message = new Message();
-                                message.arg1 = 1;
+                                message.arg1 = 2;
                                 message.obj = history;
                                 handler.sendMessage(message);
                             } else {
@@ -265,7 +265,7 @@ public class PhotoActivity
         photoManager.setMediaCallback(new IMediaCallback() {
             @Override
             public void Error(MediaErrorCode errorCode) {
-                if(photoManager.getCamera() != null){
+                if (photoManager.getCamera() != null) {
                     Camera.Parameters parameters = photoManager.getCamera().getParameters();
                     parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
                     photoManager.getCamera().setParameters(parameters);
@@ -295,7 +295,7 @@ public class PhotoActivity
             @Override
             public void takePicture(String path, String name) {
 
-                if(photoManager.getCamera() != null){
+                if (photoManager.getCamera() != null) {
                     Camera.Parameters parameters = photoManager.getCamera().getParameters();
                     parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
                     photoManager.getCamera().setParameters(parameters);
@@ -366,8 +366,8 @@ public class PhotoActivity
                 PhotoActivity.this.finish();
                 break;
             case R.id.iv_camera_shutter_button:
-                if(!ifOpenFlash){//打开
-                    if(photoManager.getCamera() != null){
+                if (!ifOpenFlash) {//打开
+                    if (photoManager.getCamera() != null) {
                         Camera.Parameters parameters = photoManager.getCamera().getParameters();
                         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
                         photoManager.getCamera().setParameters(parameters);
@@ -419,6 +419,7 @@ public class PhotoActivity
     }
 
     boolean ifOpenFlash = true;
+    boolean ifLoadDefatePic = false;
 
     @Override
     public void OnImageCaptured(Image image, String imagePath) {
@@ -455,6 +456,21 @@ public class PhotoActivity
                         allowLoadMore = true;
                     } else {
                         allowLoadMore = true;
+                    }
+                    break;
+                case 2:
+                    String history1 = (String) msg.obj;
+                    HistoryBean historyBean1 = GsonUtil.jsonToBean(history1, HistoryBean.class);
+                    if (historyBean1.getData() != null && historyBean1.getData().size() > 0) {
+                        mListData.addAll(historyBean1.getData());
+                        mAdapter.notifyDataSetChanged();
+                        allowLoadMore = true;
+                        if(historyBean1.getData().size() < 40){
+                            getUnloginImage();
+                        }
+                    } else {
+                        allowLoadMore = true;
+                        getUnloginImage();
                     }
                     break;
             }

@@ -141,7 +141,7 @@
 
 
     <RelativeLayout
-        android:id="@+id/rl_yindao2"
+        android:id="@+id/rl_yindao1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg_99000000"
@@ -159,7 +159,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_yindao1"
+        android:id="@+id/rl_yindao2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg_99000000"

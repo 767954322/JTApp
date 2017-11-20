@@ -1987,7 +1987,7 @@ public class ImageDetailFragment
                 }
             }
         };
-        MyHttpManager.getInstance().searchByImageId(image_id, callback);
+        MyHttpManager.getInstance().searchByImageIdUnRember(image_id, callback);
     }
 
     Handler mHandler = new Handler() {

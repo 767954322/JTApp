@@ -2093,7 +2093,7 @@ public class ImageDetailLongActivity
                 }
             }
         };
-        MyHttpManager.getInstance().searchByImageId(image_id, callback);
+        MyHttpManager.getInstance().searchByImageIdUnRember(image_id, callback);
     }
 
 
