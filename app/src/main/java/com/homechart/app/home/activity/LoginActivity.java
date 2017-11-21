@@ -190,7 +190,7 @@ public class LoginActivity extends BaseActivity
                     intent.putExtra("object_id", object_id);
                 }
                 startActivity(intent);
-                this.finish();
+//                this.finish();
 
                 break;
 

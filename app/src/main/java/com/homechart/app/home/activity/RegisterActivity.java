@@ -79,6 +79,7 @@ public class RegisterActivity extends BaseActivity
     private String article_id;
     private String type;
     private String object_id;
+    private ImageButton mIBBack;
 
 
     @Override
@@ -101,7 +102,7 @@ public class RegisterActivity extends BaseActivity
     protected void initView() {
 
         mRLJumpMast = (RelativeLayout) findViewById(R.id.rl_jumpto_mast);
-//        mIBBack = (ImageButton) findViewById(R.id.nav_left_imageButton);
+        mIBBack = (ImageButton) findViewById(R.id.nav_left_imageButton);
         mTVTital = (TextView) findViewById(tv_tital_comment);
         mTVLoginQQ = (TextView) findViewById(R.id.tv_login_qq);
         mTVLoginSina = (TextView) findViewById(R.id.tv_login_sina);
@@ -121,7 +122,7 @@ public class RegisterActivity extends BaseActivity
     protected void initListener() {
         super.initListener();
 
-//        mIBBack.setOnClickListener(this);
+        mIBBack.setOnClickListener(this);
         mTVLoginQQ.setOnClickListener(this);
         mTVLoginWeiXin.setOnClickListener(this);
         mTVLoginSina.setOnClickListener(this);
@@ -143,6 +144,9 @@ public class RegisterActivity extends BaseActivity
     public void onClick(View v) {
 
         switch (v.getId()) {
+            case R.id.nav_left_imageButton:
+                this.finish();
+                break;
             case R.id.rl_jumpto_login:
 
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
@@ -257,7 +261,9 @@ public class RegisterActivity extends BaseActivity
                         int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
                         String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                         if (error_code == 0) {
-                            getGYParams();
+                            //发送短信
+                            newSendMsg();
+//                            getGYParams();
                         } else {
                             CustomProgress.cancelDialog();
                             ToastUtils.showCenter(RegisterActivity.this, error_msg);
@@ -270,6 +276,37 @@ public class RegisterActivity extends BaseActivity
             };
             MyHttpManager.getInstance().judgeMobile(ClassConstant.JiYan.SIGNUP, phone, callBack);
         }
+    }
+
+    private void newSendMsg() {
+        String mobile = mETPhone.getText().toString().trim();
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtils.showCenter(RegisterActivity.this, getString(R.string.error_sendmessage));
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    if (error_code == 0) {
+                        CustomProgress.cancelDialog();
+                        mTVSendJiYan.setEnabled(false);
+                        timer.start();
+                        ToastUtils.showCenter(RegisterActivity.this, getString(R.string.succes_sendmessage));
+                    } else {
+                        ToastUtils.showCenter(RegisterActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    ToastUtils.showCenter(RegisterActivity.this, getString(R.string.error_sendmessage));
+                }
+            }
+        };
+        MyHttpManager.getInstance().newSendMessage(ClassConstant.JiYan.SIGNUP, mobile, callBack);
     }
 
     //从服务器获取极验证需要的三个参数
