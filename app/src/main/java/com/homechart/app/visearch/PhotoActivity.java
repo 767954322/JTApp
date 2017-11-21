@@ -193,6 +193,7 @@ public class PhotoActivity
                         intent1.putExtra("image_id", mListData.get(position).getImage_id());
                         intent1.putExtra("image_type", "network");
                         startActivity(intent1);
+                        ifFirstBuild = true;
                     }
                 });
                 if (ifLogin && allowLoadMore && mDatas.size() > 0 && mDatas.size() % 40 == 0 && position > (mDatas.size() - 20)) {
@@ -380,6 +381,7 @@ public class PhotoActivity
                 break;
             case R.id.camera_album_button:
 
+                ifFirstBuild = true;
                 GalleryFinal.openGallerySingle(0, new GalleryFinal.OnHanlderResultCallback() {
                     @Override
                     public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
@@ -465,13 +467,13 @@ public class PhotoActivity
                         mListData.addAll(historyBean1.getData());
                         mAdapter.notifyDataSetChanged();
                         allowLoadMore = true;
-                        if(historyBean1.getData().size() < 40&& !ifLoadDefatePic){
+                        if (historyBean1.getData().size() < 40 && !ifLoadDefatePic) {
                             ifLoadDefatePic = true;
                             getUnloginImage();
                         }
                     } else {
                         allowLoadMore = true;
-                        if(!ifLoadDefatePic){
+                        if (!ifLoadDefatePic) {
                             ifLoadDefatePic = true;
                             getUnloginImage();
                         }
@@ -482,11 +484,15 @@ public class PhotoActivity
         }
     };
 
+    private boolean ifFirstBuild = true;
 
     @Override
     protected void onResume() {
         super.onPause();
-        photoManager.release();
+        if (ifFirstBuild) {
+            photoManager.release();
+            ifFirstBuild = false;
+        }
         MobclickAgent.onResume(this);
         MobclickAgent.onPageStart("拍照页");
         Tracker t = MyApplication.getInstance().getDefaultTracker();
@@ -495,13 +501,10 @@ public class PhotoActivity
         // Send a screen view.
         t.send(new HitBuilders.ScreenViewBuilder().build());
     }
-
-
     @Override
     protected void onPause() {
         super.onPause();
-        ifOpenFlash = true;
-        photoManager.release();
+//        photoManager.release();
         MobclickAgent.onPageEnd("拍照页");
         MobclickAgent.onPause(this);
     }
