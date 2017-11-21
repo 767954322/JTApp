@@ -391,9 +391,9 @@ public class SearchPicFragment
                             getHeight(searchDataBean.getItem_list(), state);
                             updateViewFromData(searchDataBean.getItem_list(), state);
                         } else {
-                            changeNone(1);
 //                            ToastUtils.showCenter(NewSearchResultActivity.this, "暂时没搜到您要的结果，不如换个关键词试试？");
                             updateViewFromData(null, state);
+                            changeNone(1);
                         }
                     } else {
                         if (state.equals(LOADMORE_STATUS)) {
