@@ -338,6 +338,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_pic_change"
+        android:layout_marginBottom="@dimen/font_49"
         app:loadMoreEnabled="true"
         app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer"
         app:refreshEnabled="true"
