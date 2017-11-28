@@ -182,6 +182,7 @@ public class ShaiXuanResultActicity
         }
     }
 
+
     @Override
     protected void initView() {
         mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview_info);
