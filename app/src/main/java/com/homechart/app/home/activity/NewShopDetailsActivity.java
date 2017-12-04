@@ -183,6 +183,7 @@ public class NewShopDetailsActivity
         ifMoveKuang = getIntent().getBooleanExtra("ifMoveKuang", true);
         object_sign = getIntent().getStringExtra("object_sign");
         category_id = getIntent().getStringExtra("category_id");
+        category_name = getIntent().getStringExtra("category_name");
     }
 
     @Override
@@ -198,6 +199,12 @@ public class NewShopDetailsActivity
         tv_tital_comment.setText("相似商品");
         getTypeData();
         initRecyclerView();
+
+        if (!ifMoveKuang && !TextUtils.isEmpty(category_name)) {
+
+            rl_type.setVisibility(View.VISIBLE);
+            tv_type.setText(category_name.trim());
+        }
 
     }
 

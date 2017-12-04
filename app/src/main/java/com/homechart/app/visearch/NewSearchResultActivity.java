@@ -220,6 +220,7 @@ public class NewSearchResultActivity
                     if (!ifMoveKuang && listSearch != null && listSearch.size() > 0 && listSearch.size() > currentPosition) {
                         intent.putExtra("object_sign", listSearch.get(currentPosition).getObject_info().getObject_sign());
                         intent.putExtra("category_id", listSearch.get(currentPosition).getObject_info().getCategory_id() + "");
+                        intent.putExtra("category_name", listSearch.get(currentPosition).getObject_info().getCategory_name() + "");
                     }
                     startActivity(intent);
                 }
