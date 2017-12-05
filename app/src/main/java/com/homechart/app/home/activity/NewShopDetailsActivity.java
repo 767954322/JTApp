@@ -204,6 +204,7 @@ public class NewShopDetailsActivity
 
             rl_type.setVisibility(View.VISIBLE);
             tv_type.setText(category_name.trim());
+            tv_type_set.setVisibility(View.GONE);
         }
 
     }
@@ -945,13 +946,13 @@ public class NewShopDetailsActivity
     @Override
     public void changePrice(RangeSeekBar view, float min, float max) {
         if (shopPriceWindow != null && shopPriceWindow.isShowing() && searchFacetsBean != null) {
-            float price = searchFacetsBean.getPrice().getMax() - searchFacetsBean.getPrice().getMin();
+            float price = shopPriceWindow.getmMaxP() - shopPriceWindow.getmMinP();
             if (min < 1 && max > 1) {
-                tv_price.setText("¥ " + PublicUtils.formatPrice(searchFacetsBean.getPrice().getMin()) + " - " + PublicUtils.formatPrice(max / 100 * price));
+                tv_price.setText("¥ " + PublicUtils.formatPrice(shopPriceWindow.getmMinP()) + " - " + PublicUtils.formatPrice(max / 100 * price+ shopPriceWindow.getmMinP()));
             } else if (min < 1 && max < 1) {
-                tv_price.setText("¥ " + PublicUtils.formatPrice(searchFacetsBean.getPrice().getMin()) + " - " + PublicUtils.formatPrice(searchFacetsBean.getPrice().getMin()));
+                tv_price.setText("¥ " + PublicUtils.formatPrice(shopPriceWindow.getmMinP()) + " - " + PublicUtils.formatPrice(shopPriceWindow.getmMinP()));
             } else {
-                tv_price.setText("¥ " + PublicUtils.formatPrice(min / 100 * price) + " - " + PublicUtils.formatPrice(max / 100 * price));
+                tv_price.setText("¥ " + PublicUtils.formatPrice(min / 100 * price + shopPriceWindow.getmMinP()) + " - " + PublicUtils.formatPrice(max / 100 * price + shopPriceWindow.getmMinP()));
             }
         }
     }

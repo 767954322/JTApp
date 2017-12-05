@@ -63,15 +63,15 @@ public class ShopPriceWindow extends PopupWindow {
                         chooseMin = mMinP + "";
                         tv_price_left.setText("¥ " + PublicUtils.formatPrice(mMinP));
                     } else {
-                        chooseMin = PublicUtils.formatPrice(min / 100 * price);
-                        tv_price_left.setText("¥ " + PublicUtils.formatPrice(min / 100 * price));
+                        chooseMin = PublicUtils.formatPrice(min / 100 * price + mMinP);
+                        tv_price_left.setText("¥ " + PublicUtils.formatPrice(min / 100 * price+ mMinP));
                     }
                     if (max < 1) {
                         chooseMax = mMinP + "";
                         tv_price_right.setText("¥ " + PublicUtils.formatPrice(mMinP));
                     }else {
-                        chooseMax = PublicUtils.formatPrice(max / 100 * price);
-                        tv_price_right.setText("¥ " + PublicUtils.formatPrice(max / 100 * price));
+                        chooseMax = PublicUtils.formatPrice(max / 100 * price + mMinP);
+                        tv_price_right.setText("¥ " + PublicUtils.formatPrice(max / 100 * price + mMinP));
                     }
                     mInterPrice.changePrice(view, min, max);
                 }
@@ -130,5 +130,21 @@ public class ShopPriceWindow extends PopupWindow {
 
     public void setChooseMax(String chooseMax) {
         this.chooseMax = chooseMax;
+    }
+
+    public float getmMinP() {
+        return mMinP;
+    }
+
+    public void setmMinP(float mMinP) {
+        this.mMinP = mMinP;
+    }
+
+    public float getmMaxP() {
+        return mMaxP;
+    }
+
+    public void setmMaxP(float mMaxP) {
+        this.mMaxP = mMaxP;
     }
 }
