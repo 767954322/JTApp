@@ -99,7 +99,11 @@ public class MediaManager implements SurfaceHolder.Callback {
         }
         this.width = width;
         this.height = height;
-        setCameraParameters();
+        try {
+            setCameraParameters();
+        }catch (Exception e){
+
+        }
     }
 
     @Override

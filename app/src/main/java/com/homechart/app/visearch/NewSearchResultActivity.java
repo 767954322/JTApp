@@ -182,38 +182,28 @@ public class NewSearchResultActivity
                 break;
             case R.id.tv_sousuo:
                 if (editableImage != null && editableImage.getBox() != null && ifOpenSearch) {
-                    Bitmap bitmap = imageCrop(editableImage.getOriginalImage());
-                    cropName = "IMG_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
-                    File file = createFile(photoPath, cropName);
-                    try {
-                        FileOutputStream fos = new FileOutputStream(file);
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                        fos.flush();
-                        fos.close();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+
                     String loc = editableImage.getBox().getX1() * 1.000000 / widerImage + "-" +
                             editableImage.getBox().getY1() * 1.000000 / heightImage + "-" +
                             (editableImage.getBox().getX2() - editableImage.getBox().getX1()) * 1.000000 / widerImage + "-" +
                             (editableImage.getBox().getY2() - editableImage.getBox().getY1()) * 1.000000 / heightImage;
-
                     Intent intent = new Intent(NewSearchResultActivity.this, NewShopDetailsActivity.class);
-                    intent.putExtra("image_path", photoPath + "/" + cropName);
+                    intent.putExtra("image_path", imagePath);
+                    intent.putExtra("network", network.equals("true") ? "true" : "false");
                     intent.putExtra("image_url", searchSBean.getImage_url());
+                    intent.putExtra("x1", editableImage.getBox().getX1());
+                    intent.putExtra("x2", editableImage.getBox().getX2());
+                    intent.putExtra("y1", editableImage.getBox().getY1());
+                    intent.putExtra("y2", editableImage.getBox().getY2());
                     if (!ifMoveKuang) {//没移动
                         if (null != searchSObjectInfoBean) {
-                          String str =  searchSObjectInfoBean.getX()+"-"+searchSObjectInfoBean.getY()+
-                                    "-"+searchSObjectInfoBean.getWidth()+"-"+searchSObjectInfoBean.getHeight();
+                            String str = searchSObjectInfoBean.getX() + "-" + searchSObjectInfoBean.getY() +
+                                    "-" + searchSObjectInfoBean.getWidth() + "-" + searchSObjectInfoBean.getHeight();
                             intent.putExtra("loc", str);
-                        }else {
-
+                        } else {
                             intent.putExtra("loc", loc);
                         }
                     } else {//移动
-
                         intent.putExtra("loc", loc);
                     }
                     intent.putExtra("ifMoveKuang", ifMoveKuang);
@@ -342,6 +332,7 @@ public class NewSearchResultActivity
     /**
      * 按正方形裁切图片
      */
+
     public Bitmap imageCrop(Bitmap bitmap) {
         int x1 = editableImage.getBox().getX1();
         int y1 = editableImage.getBox().getY1();

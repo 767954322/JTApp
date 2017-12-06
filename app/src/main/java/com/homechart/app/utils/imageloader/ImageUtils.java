@@ -33,6 +33,18 @@ public class ImageUtils {
             .resetViewBeforeLoading(true)
             .build();
 
+    //加载矩形大图的options(加载中为透明)
+    private static final DisplayImageOptions rectangleoptionstou = new DisplayImageOptions.Builder()
+            .showImageOnLoading(R.color.touming)
+            .showImageOnFail(R.color.touming)
+            .showImageForEmptyUri(R.color.touming)
+            .cacheInMemory(true)
+            .cacheOnDisk(true)
+            .bitmapConfig(Bitmap.Config.ALPHA_8)
+            .imageScaleType(ImageScaleType.EXACTLY)
+            .resetViewBeforeLoading(true)
+            .build();
+
     //demo圆形的options
     private static final DisplayImageOptions roundOptions = new DisplayImageOptions.Builder()
             .cacheInMemory(true)
@@ -100,6 +112,17 @@ public class ImageUtils {
     public static void disRectangleImage(String imageUrl, ImageView imageView) {
         if (imageView != null)
             ImageLoader.getInstance().displayImage(imageUrl, imageView, rectangleoptions);
+    }
+
+    /**
+     * 加载矩形图片(加载中的背景为透明的)
+     *
+     * @param imageUrl
+     * @param imageView
+     */
+    public static void disRectangleImageTou(String imageUrl, ImageView imageView) {
+        if (imageView != null)
+            ImageLoader.getInstance().displayImage(imageUrl, imageView, rectangleoptionstou);
     }
 
     /**

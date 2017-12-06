@@ -10,11 +10,13 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
+import java.io.Serializable;
+
 /**
  * Editable image, manage bitmap rotation, calculate fit size and search box size
  * Created by yulu on 11/19/14.
  */
-public class EditableImage {
+public class EditableImage implements Serializable{
     private Bitmap originalImage;
     private ScalableBox originalBox;
     private int viewWidth;

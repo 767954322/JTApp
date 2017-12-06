@@ -1,9 +1,14 @@
 package com.homechart.app.home.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -24,6 +29,7 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
+import com.homechart.app.croplayout.EditableImage;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.searchfservice.TypeNewBean;
 import com.homechart.app.home.bean.searchshops.SearchFacetsBean;
@@ -56,7 +62,17 @@ import org.ielse.widget.RangeSeekBar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -75,7 +91,7 @@ public class NewShopDetailsActivity
     private ImageButton nav_left_imageButton;
     private ImageView iv_crop_imageview;
     private TextView tv_tital_comment;
-    private String cropImage;
+    private String cropImage = "";
     private ImageView iv_xuanxiang;
     private RelativeLayout rl_add_shuaixuan;
     private RelativeLayout rl_set_shuaixuan;
@@ -99,18 +115,41 @@ public class NewShopDetailsActivity
     private View view_line_pop;
 
     private List<SearchShopItemBean> mListData = new ArrayList<>();
-    private HRecyclerView mRecyclerView;
+    private ShopGuanJianZiWindow shopGuanJianZiWindow;
     private CommonAdapter<SearchShopItemBean> mAdapter;
     private LoadMoreFooterView mLoadMoreFooterView;
+    public SearchFacetsBean searchFacetsBean;
+    private ShopTypeWindow shopTypeWindow;
+    private HRecyclerView mRecyclerView;
+    private RelativeLayout rl_image_big;
+    private PhotoView pv_big_imageview;
+    private TypeNewBean typeNewBean;
+    private ImageView iv_delete;
+
+    private String photoPath = Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_PICTURES).getPath() + File.separator + "JiaTuApp";
+    private String cropSmallImage;
+    private String cropName;
+    private String network;
+    private int x1;
+    private int x2;
+    private int y1;
+    private int y2;
+
+    private boolean ifClickShouCang = true;
+    private int openPosition = -1;
     private int position;
     private int wide;
-    public SearchFacetsBean searchFacetsBean;
-    private TypeNewBean typeNewBean;
-    private ShopTypeWindow shopTypeWindow;
-    private ShopGuanJianZiWindow shopGuanJianZiWindow;
-    private PhotoView pv_big_imageview;
-    private RelativeLayout rl_image_big;
-    private ImageView iv_delete;
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            cropSmallImage = photoPath + "/" + cropName;
+            ImageUtils.disRectangleImage("file://" + cropSmallImage, iv_crop_imageview);
+        }
+    };
+
 
     @Override
     protected int getLayoutResId() {
@@ -184,24 +223,22 @@ public class NewShopDetailsActivity
         object_sign = getIntent().getStringExtra("object_sign");
         category_id = getIntent().getStringExtra("category_id");
         category_name = getIntent().getStringExtra("category_name");
+        network = getIntent().getStringExtra("network");
+        x1 = getIntent().getIntExtra("x1", 0);
+        x2 = getIntent().getIntExtra("x2", 0);
+        y1 = getIntent().getIntExtra("y1", 0);
+        y2 = getIntent().getIntExtra("y2", 0);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         wide = PublicUtils.getScreenWidth(this) / 2 - UIUtils.getDimens(R.dimen.font_14);
-        if (!cropImage.equals(image_url)) {
 
-            ImageUtils.disRectangleImage("file://" + cropImage, iv_crop_imageview);
-        } else {
-
-            ImageUtils.disRectangleImage(cropImage, iv_crop_imageview);
-        }
+        cropSmallImage();
         tv_tital_comment.setText("相似商品");
         getTypeData();
         initRecyclerView();
-
         if (!ifMoveKuang && !TextUtils.isEmpty(category_name)) {
-
             rl_type.setVisibility(View.VISIBLE);
             tv_type.setText(category_name.trim());
             tv_type_set.setVisibility(View.GONE);
@@ -380,10 +417,8 @@ public class NewShopDetailsActivity
                 break;
             case R.id.iv_crop_imageview:
                 rl_image_big.setVisibility(View.VISIBLE);
-                if (!cropImage.equals(image_url)) {
-                    ImageUtils.disRectangleImage("file://" + cropImage, pv_big_imageview);
-                } else {
-                    ImageUtils.disRectangleImage(cropImage, pv_big_imageview);
+                if (!TextUtils.isEmpty(cropSmallImage)) {
+                    ImageUtils.disRectangleImageTou("file://" + cropSmallImage, pv_big_imageview);
                 }
                 pv_big_imageview.setZoomable(false);
                 break;
@@ -393,8 +428,6 @@ public class NewShopDetailsActivity
         }
 
     }
-
-    int openPosition = -1;
 
     private void initRecyclerView() {
         MultiItemTypeSupport<SearchShopItemBean> support = new MultiItemTypeSupport<SearchShopItemBean>() {
@@ -543,7 +576,98 @@ public class NewShopDetailsActivity
         onRefresh();
     }
 
-    boolean ifClickShouCang = true;
+
+    private void cropSmallImage() {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                if (!TextUtils.isEmpty(cropImage)) {
+                    FileInputStream fis = null;
+                    Bitmap bitmap1 = null;
+                    try {
+                        if (network.equals("true")) {
+                            bitmap1 = getBitmap(cropImage);
+                        } else {
+                            fis = new FileInputStream(cropImage);
+                            bitmap1 = BitmapFactory.decodeStream(fis);
+                        }
+                        if (null != bitmap1) {
+                            Bitmap bitmap = imageCrop(bitmap1);
+                            cropName = "IMG_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
+//                            cropName = "JT_IMG_" + "CROP" + ".jpg";
+                            File file = createFile(photoPath, cropName);
+
+                            FileOutputStream fos = new FileOutputStream(file);
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                            fos.flush();
+                            fos.close();
+                            handler.sendEmptyMessage(0);
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+
+                }
+            }
+        }.start();
+
+    }
+
+    public Bitmap getBitmap(String path) throws IOException {
+        try {
+            URL url = new URL(path);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("GET");
+            if (conn.getResponseCode() == 200) {
+                InputStream inputStream = conn.getInputStream();
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                return bitmap;
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 按正方形裁切图片
+     */
+    public Bitmap imageCrop(Bitmap bitmap) {
+
+        int w = bitmap.getWidth(); // 得到图片的宽，高
+        int h = bitmap.getHeight();
+
+        int wCrop = x2 - x1;// 裁切后所取的正方形区域宽
+        int hCrop = y2 - y1;// 裁切后所取的正方形区域高
+
+        if (x1 == 0 && x2 == 0) {
+            wCrop = w;
+        }
+        if (y1 == 0 && y2 == 0) {
+            hCrop = h;
+        }
+
+        int retX = x1;//基于原图，取正方形左上角x坐标
+        int retY = y1;
+        //下面这句是关键
+        return Bitmap.createBitmap(bitmap, retX, retY, wCrop, hCrop, null, false);
+    }
+
+    private File createFile(String path, String name) {
+        File folder = new File(path);
+        if (!folder.exists()) {
+            if (!folder.mkdirs()) {
+                return null;
+            }
+        }
+        return new File(folder, name);
+    }
 
     //收藏或者取消收藏，图片
     public void onShouCang(boolean ifShouCang, int position, SearchShopItemBean searchShopItemBean) {
@@ -948,7 +1072,7 @@ public class NewShopDetailsActivity
         if (shopPriceWindow != null && shopPriceWindow.isShowing() && searchFacetsBean != null) {
             float price = shopPriceWindow.getmMaxP() - shopPriceWindow.getmMinP();
             if (min < 1 && max > 1) {
-                tv_price.setText("¥ " + PublicUtils.formatPrice(shopPriceWindow.getmMinP()) + " - " + PublicUtils.formatPrice(max / 100 * price+ shopPriceWindow.getmMinP()));
+                tv_price.setText("¥ " + PublicUtils.formatPrice(shopPriceWindow.getmMinP()) + " - " + PublicUtils.formatPrice(max / 100 * price + shopPriceWindow.getmMinP()));
             } else if (min < 1 && max < 1) {
                 tv_price.setText("¥ " + PublicUtils.formatPrice(shopPriceWindow.getmMinP()) + " - " + PublicUtils.formatPrice(shopPriceWindow.getmMinP()));
             } else {
