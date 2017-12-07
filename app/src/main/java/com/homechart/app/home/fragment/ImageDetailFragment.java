@@ -1208,7 +1208,15 @@ public class ImageDetailFragment
                 tv_people_guanzhu.setBackgroundResource(R.drawable.tv_guanzhu_xianghu);
             }
         } else {
-            tv_people_guanzhu.setVisibility(View.GONE);
+            loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+            if (!loginStatus) {
+                tv_people_guanzhu.setText("关注");
+                tv_people_guanzhu.setBackgroundResource(R.drawable.tv_guanzhu_no);
+                tv_people_guanzhu.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+            }else {
+                tv_people_guanzhu.setVisibility(View.GONE);
+            }
+
         }
 
         if (imageFirstTag) {

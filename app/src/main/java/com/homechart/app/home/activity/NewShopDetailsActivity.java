@@ -140,6 +140,7 @@ public class NewShopDetailsActivity
     private int openPosition = -1;
     private int position;
     private int wide;
+    private int ifneedcrop;
 
     Handler handler = new Handler() {
         @Override
@@ -228,13 +229,18 @@ public class NewShopDetailsActivity
         x2 = getIntent().getIntExtra("x2", 0);
         y1 = getIntent().getIntExtra("y1", 0);
         y2 = getIntent().getIntExtra("y2", 0);
+        ifneedcrop = getIntent().getIntExtra("ifneedcrop", 0);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         wide = PublicUtils.getScreenWidth(this) / 2 - UIUtils.getDimens(R.dimen.font_14);
 
-        cropSmallImage();
+        if (ifneedcrop == 0) {
+            cropSmallImage();
+        } else {
+            ImageUtils.disRectangleImage(image_url, iv_crop_imageview);
+        }
         tv_tital_comment.setText("相似商品");
         getTypeData();
         initRecyclerView();
@@ -417,8 +423,14 @@ public class NewShopDetailsActivity
                 break;
             case R.id.iv_crop_imageview:
                 rl_image_big.setVisibility(View.VISIBLE);
-                if (!TextUtils.isEmpty(cropSmallImage)) {
-                    ImageUtils.disRectangleImageTou("file://" + cropSmallImage, pv_big_imageview);
+                if (ifneedcrop == 0) {
+                    if (!TextUtils.isEmpty(cropSmallImage)) {
+                        ImageUtils.disRectangleImageTou("file://" + cropSmallImage, pv_big_imageview);
+                    } else {
+                        ImageUtils.disRectangleImageTou(image_url, pv_big_imageview);
+                    }
+                } else {
+                    ImageUtils.disRectangleImageTou(image_url, pv_big_imageview);
                 }
                 pv_big_imageview.setZoomable(false);
                 break;
@@ -561,6 +573,7 @@ public class NewShopDetailsActivity
                         intent.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg0());
                         intent.putExtra("loc", "");
                         intent.putExtra("ifMoveKuang", true);
+                        intent.putExtra("ifneedcrop", 2);
                         startActivity(intent);
                     }
                 });
