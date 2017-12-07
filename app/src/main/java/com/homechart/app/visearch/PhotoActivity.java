@@ -490,7 +490,11 @@ public class PhotoActivity
     protected void onResume() {
         super.onPause();
         if (ifFirstBuild) {
-            photoManager.release();
+            try {
+                photoManager.release();
+            } catch (Exception e) {
+                ToastUtils.showCenter(PhotoActivity.this, "相机初始化失败，请返回重新进入");
+            }
             ifFirstBuild = false;
         }
         MobclickAgent.onResume(this);
@@ -501,6 +505,7 @@ public class PhotoActivity
         // Send a screen view.
         t.send(new HitBuilders.ScreenViewBuilder().build());
     }
+
     @Override
     protected void onPause() {
         super.onPause();
