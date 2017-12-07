@@ -500,18 +500,24 @@ public class ImageDetailFragment
                 }
                 break;
             case R.id.tv_people_guanzhu:
+                loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                if (!loginStatus) {
+                    Intent intent = new Intent(activity, LoginActivity.class);
+                    startActivityForResult(intent, 1);
+                }else {
 
-                if (null != imageDetailBean) {
-                    switch (guanzhuTag) {
-                        case 1:
-                            getGuanZhu();
-                            break;
-                        case 2:
-                            getQuXiao();
-                            break;
-                        case 3:
-                            getQuXiao();
-                            break;
+                    if (null != imageDetailBean) {
+                        switch (guanzhuTag) {
+                            case 1:
+                                getGuanZhu();
+                                break;
+                            case 2:
+                                getQuXiao();
+                                break;
+                            case 3:
+                                getQuXiao();
+                                break;
+                        }
                     }
                 }
                 break;
