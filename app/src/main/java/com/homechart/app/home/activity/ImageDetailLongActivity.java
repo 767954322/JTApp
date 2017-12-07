@@ -1140,7 +1140,7 @@ public class ImageDetailLongActivity
         }
         tv_people_details.setText(imageDetailBean.getUser_info().getSlogan());
 
-        if (!imageDetailBean.getUser_info().getUser_id().trim().equals(mUserId.trim())) {
+        if (null != imageDetailBean && null != imageDetailBean.getUser_info() && !TextUtils.isEmpty(imageDetailBean.getUser_info().getUser_id()) && !imageDetailBean.getUser_info().getUser_id().trim().equals(mUserId.trim())) {
             tv_content_right.setVisibility(View.GONE);
             tv_people_guanzhu.setVisibility(View.VISIBLE);
             nav_secondary_imageButton.setVisibility(View.VISIBLE);
