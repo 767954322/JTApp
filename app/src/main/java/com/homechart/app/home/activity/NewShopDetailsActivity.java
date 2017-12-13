@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
+import com.homechart.app.utils.HtmlService;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
@@ -150,7 +152,15 @@ public class NewShopDetailsActivity
             ImageUtils.disRectangleImage("file://" + cropSmallImage, iv_crop_imageview);
         }
     };
+    Handler handler1 = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String str = (String) msg.obj;
+            Log.d("test", "html源码:  " + str.trim());
 
+        }
+    };
 
     @Override
     protected int getLayoutResId() {
@@ -488,6 +498,23 @@ public class NewShopDetailsActivity
                                 .setCategory("相似商品页")  //事件类别
                                 .setAction("去购买")      //事件操作
                                 .build());
+
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                super.run();
+                                try {
+//                                    String htmlContent = HtmlService.getHtml("https://item.jd.com/12907534783.html");
+                                    String htmlContent = HtmlService.getHtml(mListData.get(position).getItem_info().getBuy_url(), mListData.get(position).getItem_info().getSource_name());
+                                    Message message = new Message();
+                                    message.obj = htmlContent;
+                                    handler1.sendMessage(message);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    Log.d("test", "报错" + e.getMessage());
+                                }
+                            }
+                        }.start();
                         Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(mListData.get(position).getItem_info().getBuy_url()));
                         startActivity(viewIntent);
                     }
@@ -1308,7 +1335,6 @@ public class NewShopDetailsActivity
         MobclickAgent.onPageEnd(" 相似商品页");
         MobclickAgent.onPause(this);
     }
-
 
     private String image_url;
     private int pager = 1;
