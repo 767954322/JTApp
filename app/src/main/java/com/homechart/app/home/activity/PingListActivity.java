@@ -24,6 +24,7 @@ import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.message.ItemMessageBean;
 import com.homechart.app.home.bean.pinglun.CommentInfoBean;
@@ -53,7 +54,9 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -226,7 +229,29 @@ public class PingListActivity
             public void convert(BaseViewHolder holder, final int position) {
                 CommentInfoBean commentInfoBean = mListData.get(position).getComment_info();
                 ((TextView) holder.getView(R.id.tv_name_one)).setText(commentInfoBean.getUser_info().getNickname());
-                ((TextView) holder.getView(R.id.tv_time_one)).setText(commentInfoBean.getAdd_time());
+
+                String time1 = commentInfoBean.getAdd_time();
+                String shi1 = "";
+                String yue1 = "";
+                String nian1 = "";
+                if (!TextUtils.isEmpty(time1)) {
+                    shi1 = time1.substring(time1.length() - 8, time1.length() - 3);
+                    yue1 = time1.substring(5, 7) + "月" + time1.substring(8, 10) + "日";
+                    nian1 = time1.substring(0, 4);
+                }
+                //计算时间
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date curDate = new Date(System.currentTimeMillis());
+                String strCurrent = formatter.format(curDate);
+                long data = PublicUtils.diffMathDay(time1, strCurrent, "yyyy-MM-dd HH:mm:ss");
+                if (data <= 7) {
+                    ((TextView) holder.getView(R.id.tv_time_one)).setText(nian1 + "年" + yue1 + "  " + shi1);
+                } else if (data > 7 && data <= 30) {
+                    ((TextView) holder.getView(R.id.tv_time_one)).setText("1周以前");
+                } else {
+                    ((TextView) holder.getView(R.id.tv_time_one)).setText("1月以前");
+                }
+//                ((TextView) holder.getView(R.id.tv_time_one)).setText(commentInfoBean.getAdd_time());
                 ((TextView) holder.getView(R.id.tv_content_one)).setText(commentInfoBean.getContent());
                 ImageUtils.displayRoundImage(commentInfoBean.getUser_info().getAvatar().getThumb(), (RoundImageView) holder.getView(R.id.riv_one));
 
