@@ -1426,7 +1426,7 @@ public class ImageDetailLongActivity
                 String strCurrent = formatter.format(curDate);
                 long data = PublicUtils.diffMathDay(commentListBean.getComment_info().getAdd_time(), strCurrent, "yyyy-MM-dd HH:mm:ss");
                 if (data <= 7) {
-                    tv_time_one.setText(nian1 + "年" + yue1 + "  " + shi1);
+                    tv_time_one.setText( yue1 + "  " + shi1);
                 } else if (data > 7 && data <= 30) {
                     tv_time_one.setText("1周以前");
                 } else {
@@ -1467,7 +1467,7 @@ public class ImageDetailLongActivity
 
                 long data2 = PublicUtils.diffMathDay(commentListBean1.getComment_info().getAdd_time(), strCurrent, "yyyy-MM-dd HH:mm:ss");
                 if (data2 <= 7) {
-                    tv_time_two.setText(nian2 + "年" + yue2 + "  " + shi2);
+                    tv_time_two.setText( yue2 + "  " + shi2);
                 } else if (data2 > 7 && data2 <= 30) {
                     tv_time_two.setText("1周以前");
                 } else {
@@ -1508,7 +1508,7 @@ public class ImageDetailLongActivity
                 }
                 long data3 = PublicUtils.diffMathDay(commentListBean2.getComment_info().getAdd_time(), strCurrent, "yyyy-MM-dd HH:mm:ss");
                 if (data3 <= 7) {
-                    tv_time_three.setText(nian3 + "年" + yue3 + "  " + shi3);
+                    tv_time_three.setText( yue3 + "  " + shi3);
                 } else if (data3 > 7 && data3 <= 30) {
                     tv_time_three.setText("1周以前");
                 } else {
@@ -1560,7 +1560,7 @@ public class ImageDetailLongActivity
                 String strCurrent = formatter.format(curDate);
                 long data = PublicUtils.diffMathDay(commentListBean.getComment_info().getAdd_time(), strCurrent, "yyyy-MM-dd HH:mm:ss");
                 if (data <= 7) {
-                    tv_time_one.setText(nian1 + "年" + yue1 + "  " + shi1);
+                    tv_time_one.setText( yue1 + "  " + shi1);
                 } else if (data > 7 && data <= 30) {
                     tv_time_one.setText("1周以前");
                 } else {
@@ -1601,7 +1601,7 @@ public class ImageDetailLongActivity
 
                 long data1 = PublicUtils.diffMathDay(commentListBean1.getComment_info().getAdd_time(), strCurrent, "yyyy-MM-dd HH:mm:ss");
                 if (data1 <= 7) {
-                    tv_time_two.setText(nian2 + "年" + yue2 + "  " + shi2);
+                    tv_time_two.setText( yue2 + "  " + shi2);
                 } else if (data1 > 7 && data1 <= 30) {
                     tv_time_two.setText("1周以前");
                 } else {
@@ -1651,7 +1651,7 @@ public class ImageDetailLongActivity
                 String strCurrent = formatter.format(curDate);
                 long data = PublicUtils.diffMathDay(commentListBean.getComment_info().getAdd_time(), strCurrent, "yyyy-MM-dd HH:mm:ss");
                 if (data <= 7) {
-                    tv_time_one.setText(nian1 + "年" + yue1 + "  " + shi1);
+                    tv_time_one.setText( yue1 + "  " + shi1);
                 } else if (data > 7 && data <= 30) {
                     tv_time_one.setText("1周以前");
                 } else {

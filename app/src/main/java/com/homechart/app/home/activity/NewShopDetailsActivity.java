@@ -157,7 +157,10 @@ public class NewShopDetailsActivity
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String str = (String) msg.obj;
-            Log.d("test", "html源码:  " + str.trim());
+            if(str.equals("暂无报价")){
+
+            }
+//            Log.d("test", "html源码:  " + str.trim());
 
         }
     };
