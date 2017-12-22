@@ -245,7 +245,7 @@ public class PingListActivity
                 String strCurrent = formatter.format(curDate);
                 long data = PublicUtils.diffMathDay(time1, strCurrent, "yyyy-MM-dd HH:mm:ss");
                 if (data <= 7) {
-                    ((TextView) holder.getView(R.id.tv_time_one)).setText(nian1 + "年" + yue1 + "  " + shi1);
+                    ((TextView) holder.getView(R.id.tv_time_one)).setText( yue1 + "  " + shi1);
                 } else if (data > 7 && data <= 30) {
                     ((TextView) holder.getView(R.id.tv_time_one)).setText("1周以前");
                 } else {

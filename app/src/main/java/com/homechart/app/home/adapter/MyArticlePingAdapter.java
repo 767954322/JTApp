@@ -1,6 +1,7 @@
 package com.homechart.app.home.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.homechart.app.R;
+import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.bean.articleping.PingCommentInfoBean;
 import com.homechart.app.home.bean.articleping.PingCommentListItemBean;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -82,7 +86,32 @@ public class MyArticlePingAdapter extends BaseAdapter {
         PingCommentInfoBean pingCommentInfoBean = mListPing.get(position).getComment_info();
 
         myHolder.tv_name_one.setText(pingCommentInfoBean.getUser_info().getNickname());
-        myHolder.tv_time_one.setText(pingCommentInfoBean.getAdd_time());
+
+
+
+        String time1 = pingCommentInfoBean.getAdd_time();
+        String shi1 = "";
+        String yue1 = "";
+        String nian1 = "";
+        if (!TextUtils.isEmpty(time1)) {
+            shi1 = time1.substring(time1.length() - 8, time1.length() - 3);
+            yue1 = time1.substring(5, 7) + "月" + time1.substring(8, 10) + "日";
+            nian1 = time1.substring(0, 4);
+        }
+        //计算时间
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date curDate = new Date(System.currentTimeMillis());
+        String strCurrent = formatter.format(curDate);
+        long data = PublicUtils.diffMathDay(time1, strCurrent, "yyyy-MM-dd HH:mm:ss");
+
+        if (data <= 7) {
+            myHolder.tv_time_one.setText(yue1 + "  " + shi1);
+        } else if (data > 7 && data <= 30) {
+            myHolder.tv_time_one.setText("1周以前");
+        } else {
+            myHolder.tv_time_one.setText("1月以前");
+        }
+
         myHolder.tv_content_one.setText(pingCommentInfoBean.getContent());
         ImageUtils.displayRoundImage(pingCommentInfoBean.getUser_info().getAvatar().getThumb(), myHolder.riv_one);
 
