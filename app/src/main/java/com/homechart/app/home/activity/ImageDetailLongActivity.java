@@ -92,7 +92,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1271,7 +1273,25 @@ public class ImageDetailLongActivity
         //处理时间
         String[] str = imageDetailBean.getItem_info().getAdd_time().split(" ");
         String fabuTime = str[0].replace("-", "/");
-        tv_details_time.setText(fabuTime + " 发布");
+        String[] str1 = str[0].split("-");
+
+        //计算时间
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date curDate = new Date(System.currentTimeMillis());
+        String strCurrent = formatter.format(curDate);
+        long data = PublicUtils.diffMathDay(imageDetailBean.getItem_info().getAdd_time(), strCurrent, "yyyy-MM-dd HH:mm:ss");
+        if (data <= 7) {
+            if (str1.length == 3) {
+                tv_details_time.setText(str1[0] + "年" + str1[1] + "月" + str1[2] + "日 " + " 发布");
+            } else {
+//                tv_details_time.setText("1月以前" + " 发布");
+            }
+        } else if (data > 7 && data <= 30) {
+            tv_details_time.setText("1周以前" + " 发布");
+        } else {
+            tv_details_time.setText("1月以前" + " 发布");
+        }
+//        tv_details_time.setText(fabuTime + " 发布");
         like_num = imageDetailBean.getCounter().getLike_num();
         collect_num = imageDetailBean.getCounter().getCollect_num();
         comment_num = imageDetailBean.getCounter().getComment_num();
@@ -1400,11 +1420,23 @@ public class ImageDetailLongActivity
                     yue1 = time1.substring(5, 7) + "月" + time1.substring(8, 10) + "日";
                     nian1 = time1.substring(0, 4);
                 }
-                if (nian1.equals("2017")) {
-                    tv_time_one.setText(yue1 + "  " + shi1);
-                } else {
+                //计算时间
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date curDate = new Date(System.currentTimeMillis());
+                String strCurrent = formatter.format(curDate);
+                long data = PublicUtils.diffMathDay(commentListBean.getComment_info().getAdd_time(), strCurrent, "yyyy-MM-dd HH:mm:ss");
+                if (data <= 7) {
                     tv_time_one.setText(nian1 + "年" + yue1 + "  " + shi1);
+                } else if (data > 7 && data <= 30) {
+                    tv_time_one.setText("1周以前");
+                } else {
+                    tv_time_one.setText("1月以前");
                 }
+//                if (nian1.equals("2017")) {
+//                    tv_time_one.setText(yue1 + "  " + shi1);
+//                } else {
+//                    tv_time_one.setText(nian1 + "年" + yue1 + "  " + shi1);
+//                }
 
                 ImageUtils.displayRoundImage(commentListBean.getComment_info().getUser_info().getAvatar().getThumb(), riv_one);
                 //........
@@ -1432,12 +1464,21 @@ public class ImageDetailLongActivity
                     yue2 = time2.substring(5, 7) + "月" + time2.substring(8, 10) + "日";
                     nian2 = time2.substring(0, 4);
                 }
-                if (nian2.equals("2017")) {
-                    tv_time_two.setText(yue2 + "  " + shi2);
-                } else {
+
+                long data2 = PublicUtils.diffMathDay(commentListBean1.getComment_info().getAdd_time(), strCurrent, "yyyy-MM-dd HH:mm:ss");
+                if (data2 <= 7) {
                     tv_time_two.setText(nian2 + "年" + yue2 + "  " + shi2);
+                } else if (data2 > 7 && data2 <= 30) {
+                    tv_time_two.setText("1周以前");
+                } else {
+                    tv_time_two.setText("1月以前");
                 }
 
+//                if (nian2.equals("2017")) {
+//                    tv_time_two.setText(yue2 + "  " + shi2);
+//                } else {
+//                    tv_time_two.setText(nian2 + "年" + yue2 + "  " + shi2);
+//                }
 
                 ImageUtils.displayRoundImage(commentListBean1.getComment_info().getUser_info().getAvatar().getThumb(), riv_two);
                 //........
@@ -1465,11 +1506,19 @@ public class ImageDetailLongActivity
                     yue3 = time3.substring(5, 7) + "月" + time3.substring(8, 10) + "日";
                     nian3 = time3.substring(0, 4);
                 }
-                if (nian3.equals("2017")) {
-                    tv_time_three.setText(yue3 + "  " + shi3);
-                } else {
+                long data3 = PublicUtils.diffMathDay(commentListBean2.getComment_info().getAdd_time(), strCurrent, "yyyy-MM-dd HH:mm:ss");
+                if (data3 <= 7) {
                     tv_time_three.setText(nian3 + "年" + yue3 + "  " + shi3);
+                } else if (data3 > 7 && data3 <= 30) {
+                    tv_time_three.setText("1周以前");
+                } else {
+                    tv_time_three.setText("1月以前");
                 }
+//                if (nian3.equals("2017")) {
+//                    tv_time_three.setText(yue3 + "  " + shi3);
+//                } else {
+//                    tv_time_three.setText(nian3 + "年" + yue3 + "  " + shi3);
+//                }
                 ImageUtils.displayRoundImage(commentListBean2.getComment_info().getUser_info().getAvatar().getThumb(), riv_three);
 
             } else if (pingBean.getData().getComment_list().size() == 2) {
@@ -1505,11 +1554,23 @@ public class ImageDetailLongActivity
                     yue1 = time1.substring(5, 7) + "月" + time1.substring(8, 10) + "日";
                     nian1 = time1.substring(0, 4);
                 }
-                if (nian1.equals("2017")) {
-                    tv_time_one.setText(yue1 + "  " + shi1);
-                } else {
+                //计算时间
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date curDate = new Date(System.currentTimeMillis());
+                String strCurrent = formatter.format(curDate);
+                long data = PublicUtils.diffMathDay(commentListBean.getComment_info().getAdd_time(), strCurrent, "yyyy-MM-dd HH:mm:ss");
+                if (data <= 7) {
                     tv_time_one.setText(nian1 + "年" + yue1 + "  " + shi1);
+                } else if (data > 7 && data <= 30) {
+                    tv_time_one.setText("1周以前");
+                } else {
+                    tv_time_one.setText("1月以前");
                 }
+//                if (nian1.equals("2017")) {
+//                    tv_time_one.setText(yue1 + "  " + shi1);
+//                } else {
+//                    tv_time_one.setText(nian1 + "年" + yue1 + "  " + shi1);
+//                }
                 ImageUtils.displayRoundImage(commentListBean.getComment_info().getUser_info().getAvatar().getThumb(), riv_one);
                 //........
                 CommentListBean commentListBean1 = pingBean.getData().getComment_list().get(1);
@@ -1537,11 +1598,20 @@ public class ImageDetailLongActivity
                     yue2 = time2.substring(5, 7) + "月" + time2.substring(8, 10) + "日";
                     nian2 = time2.substring(0, 4);
                 }
-                if (nian2.equals("2017")) {
-                    tv_time_two.setText(yue2 + "  " + shi2);
-                } else {
+
+                long data1 = PublicUtils.diffMathDay(commentListBean1.getComment_info().getAdd_time(), strCurrent, "yyyy-MM-dd HH:mm:ss");
+                if (data1 <= 7) {
                     tv_time_two.setText(nian2 + "年" + yue2 + "  " + shi2);
+                } else if (data1 > 7 && data1 <= 30) {
+                    tv_time_two.setText("1周以前");
+                } else {
+                    tv_time_two.setText("1月以前");
                 }
+//                if (nian2.equals("2017")) {
+//                    tv_time_two.setText(yue2 + "  " + shi2);
+//                } else {
+//                    tv_time_two.setText(nian2 + "年" + yue2 + "  " + shi2);
+//                }
                 ImageUtils.displayRoundImage(commentListBean1.getComment_info().getUser_info().getAvatar().getThumb(), riv_two);
 
 
@@ -1575,11 +1645,23 @@ public class ImageDetailLongActivity
                     yue1 = time1.substring(5, 7) + "月" + time1.substring(8, 10) + "日";
                     nian1 = time1.substring(0, 4);
                 }
-                if (nian1.equals("2017")) {
-                    tv_time_one.setText(yue1 + "  " + shi1);
-                } else {
+                //计算时间
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date curDate = new Date(System.currentTimeMillis());
+                String strCurrent = formatter.format(curDate);
+                long data = PublicUtils.diffMathDay(commentListBean.getComment_info().getAdd_time(), strCurrent, "yyyy-MM-dd HH:mm:ss");
+                if (data <= 7) {
                     tv_time_one.setText(nian1 + "年" + yue1 + "  " + shi1);
+                } else if (data > 7 && data <= 30) {
+                    tv_time_one.setText("1周以前");
+                } else {
+                    tv_time_one.setText("1月以前");
                 }
+//                if (nian1.equals("2017")) {
+//                    tv_time_one.setText(yue1 + "  " + shi1);
+//                } else {
+//                    tv_time_one.setText(nian1 + "年" + yue1 + "  " + shi1);
+//                }
                 tv_content_one.setText(commentListBean.getComment_info().getContent());
                 ImageUtils.displayRoundImage(commentListBean.getComment_info().getUser_info().getAvatar().getThumb(), riv_one);
             }

@@ -1,6 +1,7 @@
 package com.homechart.app.commont;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -101,6 +102,7 @@ public class PublicUtils {
      * @param context
      * @return 唯一标识
      */
+    @SuppressLint("MissingPermission")
     public static String getPhoneImail(Context context) {
         String phone_id = "";
         try {
@@ -481,6 +483,34 @@ public class PublicUtils {
             e.printStackTrace();
         }
         return rday;
+
+    }
+
+    /**
+     * 取两个指定时间的日期差值
+     *
+     * @param begin  比较大的日期
+     * @param end    比较小的日期
+     * @param format 格式
+     * @return
+     */
+    public static long diffMathDay(String begin, String end, String format) {
+        long rday = 0l;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(format.toString());
+            Date cbegin = sdf.parse(begin);
+            Date cend = sdf.parse(end);
+            long l = cbegin.getTime() - cend.getTime();
+            rday = l / (24 * 60 * 60 * 1000);
+            if (l > 0 && rday * 24 * 60 * 60 * 1000 < l) {
+                rday = rday + 1;
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Math.abs(rday);
 
     }
 
