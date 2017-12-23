@@ -518,6 +518,9 @@ public class NewShopDetailsActivity
                                 }
                             }
                         }.start();
+//                        Intent intent  = new Intent(NewShopDetailsActivity.this,TestActivity.class);
+//                        intent.putExtra("image_url",mListData.get(position).getItem_info().getBuy_url());
+//                        startActivity(intent);
                         Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(mListData.get(position).getItem_info().getBuy_url()));
                         startActivity(viewIntent);
                     }

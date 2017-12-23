@@ -37,22 +37,22 @@ public class HtmlService {
 
             return html;
         } else if (name.trim().equals("极有家")) {
-            String location = conn.getHeaderField("Location");
-            URL url1 = new URL(location);
-            // 根据URL
-            // 打开连接，URL.openConnection函数会根据URL的类型，返回不同的URLConnection子类的对象，这里URL是一个http，因此实际返回的是HttpURLConnection
-            HttpURLConnection conn1 = (HttpURLConnection) url1.openConnection();
-            // 设定URL的请求类别，有POST、GET 两类
-            conn1.setRequestMethod("GET");
-            //设置从主机读取数据超时（单位：毫秒）
-            conn1.setConnectTimeout(10000);
-            //设置连接主机超时（单位：毫秒）
-            conn1.setReadTimeout(10000);
-            // 通过打开的连接读取的输入流,获取html数据
-            InputStream inStream1 = conn1.getInputStream();
-            // 得到html的二进制数据
-            byte[] data1 = readInputStream(inStream1);
-            String html = new String(data1, "utf-8");
+//            String location = conn.getHeaderField("Location");
+//            URL url1 = new URL(location);
+//            // 根据URL
+//            // 打开连接，URL.openConnection函数会根据URL的类型，返回不同的URLConnection子类的对象，这里URL是一个http，因此实际返回的是HttpURLConnection
+//            HttpURLConnection conn1 = (HttpURLConnection) url1.openConnection();
+//            // 设定URL的请求类别，有POST、GET 两类
+//            conn1.setRequestMethod("GET");
+//            //设置从主机读取数据超时（单位：毫秒）
+//            conn1.setConnectTimeout(10000);
+//            //设置连接主机超时（单位：毫秒）
+//            conn1.setReadTimeout(10000);
+//            // 通过打开的连接读取的输入流,获取html数据
+//            InputStream inStream1 = conn1.getInputStream();
+//            // 得到html的二进制数据
+//            byte[] data1 = readInputStream(inStream1);
+            String html = new String(data, "utf-8");
 
             return html;
         } else {
