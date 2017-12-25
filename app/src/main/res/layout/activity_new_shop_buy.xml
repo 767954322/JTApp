@@ -395,13 +395,14 @@
                 android:layout_below="@+id/tv_jubao_tital"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/font_24"
-                android:background="@drawable/jubao_back"
+                android:background="@drawable/jubao_back1"
                 android:paddingBottom="@dimen/font_9"
                 android:paddingLeft="@dimen/font_13"
                 android:paddingRight="@dimen/font_13"
                 android:paddingTop="@dimen/font_9"
                 android:text="图片和商品不是一个东西 !"
-                android:textSize="@dimen/font_14" />
+                android:textSize="@dimen/font_14"
+                android:textColor="@color/bg_e79056"/>
 
             <TextView
                 android:id="@+id/tv_jubao_two"
@@ -416,7 +417,8 @@
                 android:paddingRight="@dimen/font_13"
                 android:paddingTop="@dimen/font_9"
                 android:text="商品已经不是那个价格啦 !"
-                android:textSize="@dimen/font_14" />
+                android:textSize="@dimen/font_14"
+                android:textColor="@color/bg_262626" />
 
             <TextView
                 android:id="@+id/tv_jubao_three"
@@ -431,7 +433,8 @@
                 android:paddingRight="@dimen/font_13"
                 android:paddingTop="@dimen/font_9"
                 android:text="商品都已经下架找不到啦 !"
-                android:textSize="@dimen/font_14" />
+                android:textSize="@dimen/font_14"
+                android:textColor="@color/bg_262626" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

@@ -146,6 +146,13 @@ public class NewShopDetailsActivity
 
 
     private RelativeLayout rl_pop_jubao;
+    private TextView tv_jubao_one;
+    private TextView tv_jubao_two;
+    private TextView tv_jubao_three;
+
+    private int current_jubao = 0;
+    private TextView tv_jubao_close;
+    private TextView tv_jubao_sure;
 
     Handler handler = new Handler() {
         @Override
@@ -210,6 +217,11 @@ public class NewShopDetailsActivity
         rl_image_big = (RelativeLayout) findViewById(R.id.rl_image_big);
 
         rl_pop_jubao = (RelativeLayout) findViewById(R.id.rl_pop_jubao);
+        tv_jubao_one = (TextView) findViewById(R.id.tv_jubao_one);
+        tv_jubao_two = (TextView) findViewById(R.id.tv_jubao_two);
+        tv_jubao_three = (TextView) findViewById(R.id.tv_jubao_three);
+        tv_jubao_close = (TextView) findViewById(R.id.tv_jubao_close);
+        tv_jubao_sure = (TextView) findViewById(R.id.tv_jubao_sure);
 
     }
 
@@ -231,6 +243,11 @@ public class NewShopDetailsActivity
         iv_crop_imageview.setOnClickListener(this);
         iv_delete.setOnClickListener(this);
         rl_pop_jubao.setOnClickListener(this);
+        tv_jubao_one.setOnClickListener(this);
+        tv_jubao_two.setOnClickListener(this);
+        tv_jubao_three.setOnClickListener(this);
+        tv_jubao_close.setOnClickListener(this);
+        tv_jubao_sure.setOnClickListener(this);
     }
 
     @Override
@@ -459,8 +476,30 @@ public class NewShopDetailsActivity
             case R.id.rl_pop_jubao:
                 rl_pop_jubao.setVisibility(View.GONE);
                 break;
-        }
+            case R.id.tv_jubao_one:
 
+                current_jubao = 0;
+                changeJuBao(0);
+                break;
+            case R.id.tv_jubao_two:
+
+                current_jubao = 1;
+                changeJuBao(1);
+                break;
+            case R.id.tv_jubao_three:
+
+                current_jubao = 2;
+                changeJuBao(2);
+                break;
+            case R.id.tv_jubao_sure:
+
+                break;
+            case R.id.tv_jubao_close:
+                rl_pop_jubao.setVisibility(View.GONE);
+                current_jubao = 0;
+                changeJuBao(0);
+                break;
+        }
     }
 
     private void initRecyclerView() {
@@ -625,7 +664,8 @@ public class NewShopDetailsActivity
                     @Override
                     public void onClick(View v) {
                         //TODO 初始化举报数据
-
+                        current_jubao = 0;
+                        changeJuBao(0);
                         rl_pop_jubao.setVisibility(View.VISIBLE);
 
                     }
@@ -1381,6 +1421,34 @@ public class NewShopDetailsActivity
                 .build());
     }
 
+    private void changeJuBao(int position) {
+        switch (position) {
+            case 0:
+                tv_jubao_one.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                tv_jubao_two.setTextColor(UIUtils.getColor(R.color.bg_262626));
+                tv_jubao_three.setTextColor(UIUtils.getColor(R.color.bg_262626));
+                tv_jubao_one.setBackgroundResource(R.drawable.jubao_back1);
+                tv_jubao_two.setBackgroundResource(R.drawable.jubao_back);
+                tv_jubao_three.setBackgroundResource(R.drawable.jubao_back);
+                break;
+            case 1:
+                tv_jubao_one.setTextColor(UIUtils.getColor(R.color.bg_262626));
+                tv_jubao_two.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                tv_jubao_three.setTextColor(UIUtils.getColor(R.color.bg_262626));
+                tv_jubao_one.setBackgroundResource(R.drawable.jubao_back);
+                tv_jubao_two.setBackgroundResource(R.drawable.jubao_back1);
+                tv_jubao_three.setBackgroundResource(R.drawable.jubao_back);
+                break;
+            case 2:
+                tv_jubao_one.setTextColor(UIUtils.getColor(R.color.bg_262626));
+                tv_jubao_two.setTextColor(UIUtils.getColor(R.color.bg_262626));
+                tv_jubao_three.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                tv_jubao_one.setBackgroundResource(R.drawable.jubao_back);
+                tv_jubao_two.setBackgroundResource(R.drawable.jubao_back);
+                tv_jubao_three.setBackgroundResource(R.drawable.jubao_back1);
+                break;
+        }
+    }
 
     @Override
     public void onResume() {
