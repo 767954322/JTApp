@@ -144,6 +144,9 @@ public class NewShopDetailsActivity
     private int wide;
     private int ifneedcrop;
 
+
+    private RelativeLayout rl_pop_jubao;
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -206,6 +209,8 @@ public class NewShopDetailsActivity
         iv_delete = (ImageView) findViewById(R.id.iv_delete);
         rl_image_big = (RelativeLayout) findViewById(R.id.rl_image_big);
 
+        rl_pop_jubao = (RelativeLayout) findViewById(R.id.rl_pop_jubao);
+
     }
 
     @Override
@@ -225,6 +230,7 @@ public class NewShopDetailsActivity
         rl_guanjianzi.setOnClickListener(this);
         iv_crop_imageview.setOnClickListener(this);
         iv_delete.setOnClickListener(this);
+        rl_pop_jubao.setOnClickListener(this);
     }
 
     @Override
@@ -450,6 +456,9 @@ public class NewShopDetailsActivity
             case R.id.iv_delete:
                 rl_image_big.setVisibility(View.GONE);
                 break;
+            case R.id.rl_pop_jubao:
+                rl_pop_jubao.setVisibility(View.GONE);
+                break;
         }
 
     }
@@ -615,7 +624,9 @@ public class NewShopDetailsActivity
                 holder.getView(R.id.iv_jubao).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //TODO 举报
+                        //TODO 初始化举报数据
+
+                        rl_pop_jubao.setVisibility(View.VISIBLE);
 
                     }
                 });

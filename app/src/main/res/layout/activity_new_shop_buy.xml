@@ -98,8 +98,8 @@
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="none"
-                android:layout_toRightOf="@+id/iv_crop_imageview">
+                android:layout_toRightOf="@+id/iv_crop_imageview"
+                android:scrollbars="none">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -111,8 +111,8 @@
                         android:layout_height="@dimen/font_36"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/font_12"
-                        android:visibility="gone"
-                        android:background="@drawable/search_tiaojian_unselect">
+                        android:background="@drawable/search_tiaojian_unselect"
+                        android:visibility="gone">
 
                         <ImageView
                             android:id="@+id/iv_type_icon"
@@ -139,11 +139,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/tv_type"
+                            android:paddingBottom="@dimen/font_5"
                             android:paddingLeft="@dimen/font_10"
                             android:paddingRight="@dimen/font_10"
                             android:paddingTop="@dimen/font_5"
-                            android:paddingBottom="@dimen/font_5"
-                            android:layout_toRightOf="@+id/tv_type"
                             android:src="@drawable/guanbitishi_1" />
 
                     </RelativeLayout>
@@ -154,9 +154,9 @@
                         android:layout_height="@dimen/font_36"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/font_12"
-                        android:visibility="gone"
                         android:layout_toRightOf="@+id/rl_type"
-                        android:background="@drawable/search_tiaojian_unselect">
+                        android:background="@drawable/search_tiaojian_unselect"
+                        android:visibility="gone">
 
                         <ImageView
                             android:id="@+id/iv_guanjianzi_icon"
@@ -164,7 +164,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/font_10"
-                            android:src="@drawable/guanjianzi1_1"/>
+                            android:src="@drawable/guanjianzi1_1" />
 
                         <TextView
                             android:id="@+id/tv_guanjianzi"
@@ -183,11 +183,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/tv_guanjianzi"
+                            android:paddingBottom="@dimen/font_5"
                             android:paddingLeft="@dimen/font_10"
                             android:paddingRight="@dimen/font_10"
                             android:paddingTop="@dimen/font_5"
-                            android:paddingBottom="@dimen/font_5"
-                            android:layout_toRightOf="@+id/tv_guanjianzi"
                             android:src="@drawable/guanbitishi_1" />
 
                     </RelativeLayout>
@@ -198,9 +198,9 @@
                         android:layout_height="@dimen/font_36"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/font_12"
-                        android:visibility="gone"
                         android:layout_toRightOf="@+id/rl_guanjianzi"
-                        android:background="@drawable/search_tiaojian_unselect">
+                        android:background="@drawable/search_tiaojian_unselect"
+                        android:visibility="gone">
 
                         <ImageView
                             android:id="@+id/iv_price_icon"
@@ -227,11 +227,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/tv_price"
+                            android:paddingBottom="@dimen/font_5"
                             android:paddingLeft="@dimen/font_10"
                             android:paddingRight="@dimen/font_10"
                             android:paddingTop="@dimen/font_5"
-                            android:paddingBottom="@dimen/font_5"
-                            android:layout_toRightOf="@+id/tv_price"
                             android:src="@drawable/guanbitishi_1" />
 
                     </RelativeLayout>
@@ -252,8 +252,8 @@
         <RelativeLayout
             android:id="@+id/rl_set_shuaixuan"
             android:layout_width="match_parent"
-            android:visibility="gone"
-            android:layout_height="@dimen/font_68">
+            android:layout_height="@dimen/font_68"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_type_set"
@@ -264,8 +264,8 @@
                 android:layout_marginLeft="@dimen/font_25"
                 android:drawablePadding="@dimen/font_8"
                 android:drawableTop="@drawable/pinlei1_1"
-                android:textColor="@color/black"
                 android:text="品类"
+                android:textColor="@color/black"
                 android:textSize="@dimen/size_12" />
 
             <TextView
@@ -273,9 +273,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/font_14"
                 android:layout_marginLeft="25dp"
                 android:layout_toRightOf="@+id/tv_type_set"
-                android:layout_marginBottom="@dimen/font_14"
                 android:drawablePadding="@dimen/font_8"
                 android:drawableTop="@drawable/guanjianzi1_1"
                 android:text="关键字"
@@ -338,28 +338,141 @@
         android:id="@+id/rl_image_big"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/bg_cc000000"
         android:clickable="true"
-        android:visibility="gone"
-        android:background="@color/bg_cc000000">
+        android:visibility="gone">
 
         <com.homechart.app.imagedetail.PhotoView
             android:id="@+id/pv_big_imageview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/font_118"
-            android:layout_marginBottom="@dimen/font_120"/>
-        
+            android:layout_marginBottom="@dimen/font_120"
+            android:layout_marginTop="@dimen/font_118" />
+
         <ImageView
             android:id="@+id/iv_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/font_70"
-            android:src="@drawable/gaunbitankuang_1"/>
+            android:src="@drawable/gaunbitankuang_1" />
 
     </RelativeLayout>
 
 
+    <RelativeLayout
+        android:id="@+id/rl_pop_jubao"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/text_view_border2"
+        android:clickable="true"
+        android:visibility="gone">
+
+
+        <RelativeLayout
+            android:layout_width="@dimen/font_301"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/back_jubao"
+            android:clickable="true">
+
+
+            <TextView
+                android:id="@+id/tv_jubao_tital"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/font_23"
+                android:text="我要举报"
+                android:textSize="@dimen/size_17" />
+
+
+            <TextView
+                android:id="@+id/tv_jubao_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_jubao_tital"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/font_24"
+                android:background="@drawable/jubao_back"
+                android:paddingBottom="@dimen/font_9"
+                android:paddingLeft="@dimen/font_13"
+                android:paddingRight="@dimen/font_13"
+                android:paddingTop="@dimen/font_9"
+                android:text="图片和商品不是一个东西 !"
+                android:textSize="@dimen/font_14" />
+
+            <TextView
+                android:id="@+id/tv_jubao_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_jubao_one"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/font_8"
+                android:background="@drawable/jubao_back"
+                android:paddingBottom="@dimen/font_9"
+                android:paddingLeft="@dimen/font_13"
+                android:paddingRight="@dimen/font_13"
+                android:paddingTop="@dimen/font_9"
+                android:text="商品已经不是那个价格啦 !"
+                android:textSize="@dimen/font_14" />
+
+            <TextView
+                android:id="@+id/tv_jubao_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_jubao_two"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/font_8"
+                android:background="@drawable/jubao_back"
+                android:paddingBottom="@dimen/font_9"
+                android:paddingLeft="@dimen/font_13"
+                android:paddingRight="@dimen/font_13"
+                android:paddingTop="@dimen/font_9"
+                android:text="商品都已经下架找不到啦 !"
+                android:textSize="@dimen/font_14" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_jubao_three"
+                android:layout_marginTop="@dimen/font_22">
+
+                <TextView
+                    android:id="@+id/tv_center"
+                    android:layout_width="@dimen/size_1"
+                    android:layout_height="@dimen/size_1"
+                    android:layout_centerHorizontal="true" />
+
+                <TextView
+                    android:id="@+id/tv_jubao_close"
+                    android:layout_width="@dimen/font_106"
+                    android:layout_height="@dimen/font_32"
+                    android:layout_marginBottom="@dimen/font_20"
+                    android:layout_marginRight="@dimen/font_12"
+                    android:layout_toLeftOf="@+id/tv_center"
+                    android:background="@drawable/jubao_close"
+                    android:gravity="center"
+                    android:text="取消"
+                    android:textColor="@color/bg_262626" />
+
+                <TextView
+                    android:id="@+id/tv_jubao_sure"
+                    android:layout_width="@dimen/font_106"
+                    android:layout_height="@dimen/font_32"
+                    android:layout_marginBottom="@dimen/font_20"
+                    android:layout_marginLeft="@dimen/font_12"
+                    android:layout_toRightOf="@+id/tv_center"
+                    android:background="@drawable/jubao_sure"
+                    android:gravity="center"
+                    android:text="确认"
+                    android:textColor="@color/white" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+
+    </RelativeLayout>
 
 </RelativeLayout>
