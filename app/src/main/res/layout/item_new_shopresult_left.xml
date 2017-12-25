@@ -32,8 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_tital"
-        android:layout_marginLeft="@dimen/font_5"
-        android:layout_marginRight="@dimen/font_5"
         android:layout_marginTop="@dimen/font_8">
 
         <TextView
@@ -42,6 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:textColor="@color/bg_e79056"
+            android:paddingLeft="@dimen/font_5"
+            android:paddingRight="@dimen/font_5"
             android:textSize="@dimen/size_14" />
 
 
@@ -51,6 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/font_5"
+            android:paddingRight="@dimen/font_5"
             android:src="@drawable/jubao" />
 
     </RelativeLayout>
