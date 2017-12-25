@@ -694,14 +694,27 @@ public class NewShopDetailsActivity
                             public void run() {
                                 super.run();
                                 try {
+                                    if (!mListData.get(position).getItem_info().getSource_name().equals("极有家")) {
 //                                    String htmlContent = HtmlService.getHtml("https://item.jd.com/11688078694.html ", "京东");
-                                    String htmlContent = HtmlService.getHtml(mListData.get(position).getItem_info().getBuy_url(), mListData.get(position).getItem_info().getSource_name());
-                                    Message message = new Message();
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("htmlContent", htmlContent);
-                                    bundle.putString("spu_id", mListData.get(position).getItem_info().getSpu_id());
-                                    message.setData(bundle);
-                                    handler1.sendMessage(message);
+                                        String htmlContent = HtmlService.getHtml(mListData.get(position).getItem_info().getBuy_url(), mListData.get(position).getItem_info().getSource_name());
+                                        Message message = new Message();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("htmlContent", htmlContent);
+                                        bundle.putString("spu_id", mListData.get(position).getItem_info().getSpu_id());
+                                        message.setData(bundle);
+                                        handler1.sendMessage(message);
+                                    } else {
+                                        //TODO 极有家处理
+                                        String htmlContent = HtmlService.getJiYouJiaHtml("https://item.taobao.com/item.htm?id=546305631943", mListData.get(position).getItem_info().getSource_name(),mListData.get(position).getItem_info().getSpu_id());
+//                                        String htmlContent = HtmlService.getJiYouJiaHtml(mListData.get(position).getItem_info().getBuy_url(), mListData.get(position).getItem_info().getSource_name(),mListData.get(position).getItem_info().getSpu_id());
+                                        Message message = new Message();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("htmlContent", htmlContent);
+                                        bundle.putString("spu_id", mListData.get(position).getItem_info().getSpu_id());
+                                        message.setData(bundle);
+                                        handler1.sendMessage(message);
+
+                                    }
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                     Log.d("test", "报错" + e.getMessage());
