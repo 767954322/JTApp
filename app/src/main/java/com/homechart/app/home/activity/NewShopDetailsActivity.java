@@ -705,8 +705,8 @@ public class NewShopDetailsActivity
                                         handler1.sendMessage(message);
                                     } else {
                                         //TODO 极有家处理
-                                        String htmlContent = HtmlService.getJiYouJiaHtml("https://item.taobao.com/item.htm?spm=2013.1.0.0.4fa39262RZtebk&scm=1007.11855.31966.100200300000006&id=529579246245&pvid=219c40be-c323-4e45-b317-7f2498ac0dea", mListData.get(position).getItem_info().getSource_name(),mListData.get(position).getItem_info().getSpu_id());
-//                                        String htmlContent = HtmlService.getJiYouJiaHtml(mListData.get(position).getItem_info().getBuy_url(), mListData.get(position).getItem_info().getSource_name(),mListData.get(position).getItem_info().getSpu_id());
+//                                        String htmlContent = HtmlService.getJiYouJiaHtml("https://item.taobao.com/item.htm?spm=2013.1.0.0.4fa39262RZtebk&scm=1007.11855.31966.100200300000006&id=529579246245&pvid=219c40be-c323-4e45-b317-7f2498ac0dea", mListData.get(position).getItem_info().getSource_name(),mListData.get(position).getItem_info().getSpu_id());
+                                        String htmlContent = HtmlService.getJiYouJiaHtml(mListData.get(position).getItem_info().getBuy_url(), mListData.get(position).getItem_info().getSource_name(),mListData.get(position).getItem_info().getSpu_id());
                                         Message message = new Message();
                                         Bundle bundle = new Bundle();
                                         bundle.putString("htmlContent", htmlContent);
