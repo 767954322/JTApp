@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -208,6 +209,8 @@ public class ImageDetailFragment
     private SearchSBean searchSBean;
     boolean getPosition = true;
     private TextView tv_toast_shoucang;
+    private Button bt_shise;
+    private Button bt_shiwu;
 
 
     public ImageDetailFragment() {
@@ -249,6 +252,8 @@ public class ImageDetailFragment
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_info);
         cet_clearedit = (ClearEditText) rootView.findViewById(R.id.cet_clearedit);
         menu_layout = (ResizeRelativeLayout) rootView.findViewById(R.id.menu_layout);
+        bt_shiwu = (Button) rootView.findViewById(R.id.bt_shiwu);
+        bt_shise = (Button) rootView.findViewById(R.id.bt_shise);
 
         if (!ifHasHeader) {
             view = LayoutInflater.from(activity).inflate(R.layout.header_imagedetails_scroll, null);
@@ -351,6 +356,8 @@ public class ImageDetailFragment
         tv_ping.setOnClickListener(this);
         iv_ifshow_color.setOnClickListener(this);
         tv_color_tital.setOnClickListener(this);
+        bt_shiwu.setOnClickListener(this);
+        bt_shise.setOnClickListener(this);
         cet_clearedit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -616,6 +623,26 @@ public class ImageDetailFragment
                 break;
             case R.id.tv_toast_shoucang:
                 tv_toast_shoucang.setVisibility(View.GONE);
+                break;
+            case R.id.bt_shiwu:
+                if (null != imageDetailBean && null != searchSBean) {
+                    Intent intent1 = new Intent(activity, NewSearchResultActivity.class);
+                    intent1.putExtra("image_id", imageDetailBean.getItem_info().getImage().getImage_id());
+                    intent1.putExtra("imagePath", imageDetailBean.getItem_info().getImage().getImg0());
+                    intent1.putExtra("searchstatus", "0");
+                    intent1.putExtra("network", "true");
+//            intent.putExtra("clickposition", "true");
+//                intent.putExtra("position", pos);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("searchSBean", searchSBean);
+                    intent1.putExtras(bundle);
+                    startActivity(intent1);
+                } else {
+                    ToastUtils.showCenter(activity, "正在识别中");
+                }
+                break;
+            case R.id.bt_shise:
+
                 break;
         }
     }
@@ -1508,7 +1535,7 @@ public class ImageDetailFragment
 
                 long data2 = PublicUtils.diffMathDay(commentListBean1.getComment_info().getAdd_time(), strCurrent, "yyyy-MM-dd HH:mm:ss");
                 if (data2 <= 7) {
-                    tv_time_two.setText( yue2 + "  " + shi2);
+                    tv_time_two.setText(yue2 + "  " + shi2);
                 } else if (data2 > 7 && data2 <= 30) {
                     tv_time_two.setText("1周以前");
                 } else {
@@ -1601,7 +1628,7 @@ public class ImageDetailFragment
                 String strCurrent = formatter.format(curDate);
                 long data = PublicUtils.diffMathDay(commentListBean.getComment_info().getAdd_time(), strCurrent, "yyyy-MM-dd HH:mm:ss");
                 if (data <= 7) {
-                    tv_time_one.setText( yue1 + "  " + shi1);
+                    tv_time_one.setText(yue1 + "  " + shi1);
                 } else if (data > 7 && data <= 30) {
                     tv_time_one.setText("1周以前");
                 } else {
@@ -1694,7 +1721,7 @@ public class ImageDetailFragment
                 String strCurrent = formatter.format(curDate);
                 long data = PublicUtils.diffMathDay(commentListBean.getComment_info().getAdd_time(), strCurrent, "yyyy-MM-dd HH:mm:ss");
                 if (data <= 7) {
-                    tv_time_one.setText( yue1 + "  " + shi1);
+                    tv_time_one.setText(yue1 + "  " + shi1);
                 } else if (data > 7 && data <= 30) {
                     tv_time_one.setText("1周以前");
                 } else {
@@ -2174,8 +2201,8 @@ public class ImageDetailFragment
                             pointSimple.height_object = searchSBean.getObject_list().get(i).getObject_info().getHeight();
                             pointSimples.add(pointSimple);
                         }
-                        iv_details_image.setPoints(pointSimples);
-                        iv_details_image.setImgBg(wide_num, (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()), "", ImageDetailFragment.this);
+//                        iv_details_image.setPoints(pointSimples);
+//                        iv_details_image.setImgBg(wide_num, (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()), "", ImageDetailFragment.this);
 
                     }
                     break;
@@ -2215,7 +2242,7 @@ public class ImageDetailFragment
             intent.putExtra("imagePath", imageDetailBean.getItem_info().getImage().getImg0());
             intent.putExtra("searchstatus", "0");
             intent.putExtra("network", "true");
-            intent.putExtra("clickposition", "true");
+//            intent.putExtra("clickposition", "true");
             intent.putExtra("position", pos);
             Bundle bundle = new Bundle();
             bundle.putSerializable("searchSBean", searchSBean);

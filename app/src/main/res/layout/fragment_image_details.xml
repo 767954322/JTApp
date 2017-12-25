@@ -54,5 +54,16 @@
 
     </RelativeLayout>
 
+    <Button
+        android:id="@+id/bt_shiwu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="识别商品"/>
 
+    <Button
+        android:id="@+id/bt_shise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/bt_shiwu"
+        android:text="识别颜色"/>
 </com.homechart.app.myview.ResizeRelativeLayout>
