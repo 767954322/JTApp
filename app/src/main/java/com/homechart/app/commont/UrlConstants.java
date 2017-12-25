@@ -89,5 +89,6 @@ public class UrlConstants {
     public static final String NEW_HISTORY_SHIBIE_DEFAULT = "https://api.idcool.com.cn/ai/ai/defaultImage";  //默认的检测历史记录
     public static final String TYPE_SHOP = "https://api.idcool.com.cn/ai/ai/category";  //获取商品分类列表
     public static final String NEW_SEARCH_SHOPS = "https://api.idcool.com.cn/ai/ai/search";  //以图搜索图
+    public static final String JUBAO = "https://api.idcool.com.cn/report/report/add";  //提交举报
 
 }

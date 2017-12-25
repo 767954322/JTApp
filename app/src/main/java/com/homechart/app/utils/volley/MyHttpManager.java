@@ -2444,7 +2444,7 @@ public class MyHttpManager {
                 }
                 if (!TextUtils.isEmpty(object_sign)) {
                     map.put("object_sign", object_sign);
-                }else {
+                } else {
                     map.put("object_sign", "");
                 }
                 String signString = PublicUtils.getSinaString(map);
@@ -2460,5 +2460,33 @@ public class MyHttpManager {
         queue.add(okStringRequest);
     }
 
+    /**
+     * 提交举报
+     *
+     * @param type
+     * @param object_id
+     * @param report_id
+     * @param callback
+     */
+    public void juBao(final String type, final String object_id, final String report_id, OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.JUBAO, callback) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                map.put("type", type);
+                map.put("object_id", object_id);
+                map.put("report_id", report_id);
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+        };
+        queue.add(okStringRequest);
+    }
 
 }

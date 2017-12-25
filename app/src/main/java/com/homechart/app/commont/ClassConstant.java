@@ -146,4 +146,11 @@ public class ClassConstant {
         public static final String ARTICLE = "article";
     }
 
+    public static class JuBao {
+        //single:单图；project:案例； article:文章
+        public static final String PRODUCT = "product";
+        public static final String ITEM = "item";
+        public static final String ALBUM = "album";
+    }
+
 }

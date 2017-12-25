@@ -150,7 +150,8 @@ public class NewShopDetailsActivity
     private TextView tv_jubao_two;
     private TextView tv_jubao_three;
 
-    private int current_jubao = 0;
+    private int current_jubao = 1;
+    private int current_position = -1;
     private TextView tv_jubao_close;
     private TextView tv_jubao_sure;
 
@@ -478,26 +479,37 @@ public class NewShopDetailsActivity
                 break;
             case R.id.tv_jubao_one:
 
-                current_jubao = 0;
-                changeJuBao(0);
-                break;
-            case R.id.tv_jubao_two:
-
                 current_jubao = 1;
                 changeJuBao(1);
                 break;
-            case R.id.tv_jubao_three:
+            case R.id.tv_jubao_two:
 
                 current_jubao = 2;
                 changeJuBao(2);
                 break;
-            case R.id.tv_jubao_sure:
+            case R.id.tv_jubao_three:
 
+                current_jubao = 3;
+                changeJuBao(3);
+                break;
+            case R.id.tv_jubao_sure:
+                if (current_position != -1 && mListData.size() > current_position) {
+
+                    String spu_id = mListData.get(position).getItem_info().getSpu_id();
+                    juBao(spu_id, current_jubao);
+                    current_position = -1;
+                    rl_pop_jubao.setVisibility(View.GONE);
+
+                }else {
+
+                }
+//                current_position = -1;
                 break;
             case R.id.tv_jubao_close:
                 rl_pop_jubao.setVisibility(View.GONE);
-                current_jubao = 0;
-                changeJuBao(0);
+                current_position = -1;
+                current_jubao = 1;
+                changeJuBao(1);
                 break;
         }
     }
@@ -664,8 +676,9 @@ public class NewShopDetailsActivity
                     @Override
                     public void onClick(View v) {
                         //TODO 初始化举报数据
-                        current_jubao = 0;
-                        changeJuBao(0);
+                        current_position = position;
+                        current_jubao = 1;
+                        changeJuBao(1);
                         rl_pop_jubao.setVisibility(View.VISIBLE);
 
                     }
@@ -1423,7 +1436,7 @@ public class NewShopDetailsActivity
 
     private void changeJuBao(int position) {
         switch (position) {
-            case 0:
+            case 1:
                 tv_jubao_one.setTextColor(UIUtils.getColor(R.color.bg_e79056));
                 tv_jubao_two.setTextColor(UIUtils.getColor(R.color.bg_262626));
                 tv_jubao_three.setTextColor(UIUtils.getColor(R.color.bg_262626));
@@ -1431,7 +1444,7 @@ public class NewShopDetailsActivity
                 tv_jubao_two.setBackgroundResource(R.drawable.jubao_back);
                 tv_jubao_three.setBackgroundResource(R.drawable.jubao_back);
                 break;
-            case 1:
+            case 2:
                 tv_jubao_one.setTextColor(UIUtils.getColor(R.color.bg_262626));
                 tv_jubao_two.setTextColor(UIUtils.getColor(R.color.bg_e79056));
                 tv_jubao_three.setTextColor(UIUtils.getColor(R.color.bg_262626));
@@ -1439,7 +1452,7 @@ public class NewShopDetailsActivity
                 tv_jubao_two.setBackgroundResource(R.drawable.jubao_back1);
                 tv_jubao_three.setBackgroundResource(R.drawable.jubao_back);
                 break;
-            case 2:
+            case 3:
                 tv_jubao_one.setTextColor(UIUtils.getColor(R.color.bg_262626));
                 tv_jubao_two.setTextColor(UIUtils.getColor(R.color.bg_262626));
                 tv_jubao_three.setTextColor(UIUtils.getColor(R.color.bg_e79056));
@@ -1448,6 +1461,33 @@ public class NewShopDetailsActivity
                 tv_jubao_three.setBackgroundResource(R.drawable.jubao_back1);
                 break;
         }
+    }
+
+    private void juBao(String object_id, int report_id) {
+
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        ToastUtils.showCenter(NewShopDetailsActivity.this, "家图已经收到了您的举报，非常感谢!");
+                    } else {
+                        ToastUtils.showCenter(NewShopDetailsActivity.this, "家图已经收到了您的举报，非常感谢!");
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().juBao(ClassConstant.JuBao.PRODUCT, object_id, report_id + "", callBack);
     }
 
     @Override
