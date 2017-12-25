@@ -20,24 +20,45 @@
         android:layout_below="@+id/iv_image_view"
         android:lineSpacingExtra="@dimen/font_3"
         android:layout_marginTop="@dimen/font_8"
+        android:layout_marginLeft="@dimen/font_5"
+        android:layout_marginRight="@dimen/font_5"
         android:lines="2"
         android:maxLines="2"
         android:ellipsize="end"
         android:textSize="@dimen/size_14"/>
-    <TextView
-        android:id="@+id/tv_price"
+
+    <RelativeLayout
+        android:id="@+id/rl_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/bg_e79056"
         android:layout_below="@+id/tv_tital"
-        android:layout_marginTop="@dimen/font_8"
-        android:textSize="@dimen/size_14"/>
+        android:layout_marginLeft="@dimen/font_5"
+        android:layout_marginRight="@dimen/font_5"
+        android:layout_marginTop="@dimen/font_8">
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/bg_e79056"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/size_14" />
+
+        <ImageView
+            android:id="@+id/iv_jubao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/jubao"/>
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/rl_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_price"
+        android:layout_below="@+id/rl_price"
         android:layout_marginTop="@dimen/font_10"
         android:paddingBottom="@dimen/font_9"
         android:orientation="horizontal">
@@ -49,45 +70,87 @@
             android:layout_height="@dimen/font_25"
             android:layout_alignParentLeft="true"
             android:textColor="@color/bg_e79056"
+            android:visibility="gone"
             android:text="去购买"
             android:background="@drawable/bg_goto_buy"/>
 
         <TextView
             android:id="@+id/tv_goto_shoucang"
-            android:layout_width="@dimen/font_78"
             android:textColor="@color/white"
             android:gravity="center"
+            android:layout_width="match_parent"
             android:layout_alignParentRight="true"
             android:layout_height="@dimen/font_25"
+            android:layout_marginLeft="@dimen/font_5"
+            android:layout_marginRight="@dimen/font_5"
             android:background="@drawable/bt_login"
             android:text="收藏"/>
 
     </RelativeLayout>
 
+
     <RelativeLayout
         android:id="@+id/rl_goto_xiangsi"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignTop="@+id/iv_image_view"
         android:layout_alignBottom="@+id/rl_button"
-        android:visibility="gone"
-        android:background="@drawable/text_view_border">
+        android:layout_alignTop="@+id/iv_image_view"
+        android:background="@drawable/text_view_border"
+        android:visibility="gone">
 
-        <com.homechart.app.myview.RoundImageView
-            android:id="@+id/riv_goto_xiangsi"
-            android:layout_width="@dimen/font_71"
-            android:layout_height="@dimen/font_71"
-            android:layout_centerInParent="true"
-            android:clickable="true"
-            android:background="@color/bg_e79056"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/font_172"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:layout_centerInParent="true"
-            android:textSize="@dimen/size_14"
-            android:text="找相似"/>
+            <com.homechart.app.myview.RoundImageView
+                android:id="@+id/riv_goto_xiangsi"
+                android:layout_width="@dimen/font_71"
+                android:layout_height="@dimen/font_71"
+                android:layout_centerHorizontal="true"
+                android:background="@color/bg_e79056" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/font_71"
+                android:layout_alignParentTop="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="找相似"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size_14" />
+            </RelativeLayout>
+
+
+            <com.homechart.app.myview.RoundImageView
+                android:id="@+id/riv_goto_buy"
+                android:layout_width="@dimen/font_71"
+                android:layout_height="@dimen/font_71"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@color/bg_5ea9aa" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/font_71"
+                android:layout_alignParentBottom="true">
+
+                <TextView
+                    android:id="@+id/tv_go_buy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="去购买"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size_14" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
 
     </RelativeLayout>
 

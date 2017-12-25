@@ -157,7 +157,7 @@ public class NewShopDetailsActivity
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String str = (String) msg.obj;
-            if(str.equals("暂无报价")){
+            if (str.equals("暂无报价")) {
 
             }
 //            Log.d("test", "html源码:  " + str.trim());
@@ -487,7 +487,7 @@ public class NewShopDetailsActivity
                         (ImageView) holder.getView(R.id.iv_image_view));
                 ((TextView) holder.getView(R.id.tv_tital)).setText(mListData.get(position).getItem_info().getTitle());
                 ((TextView) holder.getView(R.id.tv_price)).setText("¥ " + mListData.get(position).getItem_info().getPrice());
-                ((TextView) holder.getView(R.id.tv_goto_buy)).setText("去" + mListData.get(position).getItem_info().getSource_name());
+                ((TextView) holder.getView(R.id.tv_go_buy)).setText("去" + mListData.get(position).getItem_info().getSource_name());
                 holder.getView(R.id.tv_goto_buy).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -529,10 +529,12 @@ public class NewShopDetailsActivity
                     //未收藏（显示收藏）
                     ((TextView) holder.getView(R.id.tv_goto_shoucang)).setTextColor(UIUtils.getColor(R.color.white));
                     holder.getView(R.id.tv_goto_shoucang).setBackgroundResource(R.drawable.bt_sousuo);
+                    ((TextView) holder.getView(R.id.tv_goto_shoucang)).setText("收藏");
                 } else {
                     //已经收藏了（显示已收藏）
                     ((TextView) holder.getView(R.id.tv_goto_shoucang)).setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                     holder.getView(R.id.tv_goto_shoucang).setBackgroundResource(R.drawable.bt_sousuo_quxiao);
+                    ((TextView) holder.getView(R.id.tv_goto_shoucang)).setText("已收藏");
                 }
                 holder.getView(R.id.tv_goto_shoucang).setOnClickListener(new View.OnClickListener() {
 
@@ -610,6 +612,53 @@ public class NewShopDetailsActivity
                         startActivity(intent);
                     }
                 });
+                holder.getView(R.id.iv_jubao).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //TODO 举报
+
+                    }
+                });
+                holder.getView(R.id.riv_goto_buy).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        //友盟统计
+                        HashMap<String, String> map6 = new HashMap<String, String>();
+                        map6.put("evenname", "去购买");
+                        map6.put("even", "相似商品页");
+                        MobclickAgent.onEvent(NewShopDetailsActivity.this, "shijian19", map6);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("相似商品页")  //事件类别
+                                .setAction("去购买")      //事件操作
+                                .build());
+
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                super.run();
+                                try {
+//                                    String htmlContent = HtmlService.getHtml("https://item.jd.com/12907534783.html");
+                                    String htmlContent = HtmlService.getHtml(mListData.get(position).getItem_info().getBuy_url(), mListData.get(position).getItem_info().getSource_name());
+                                    Message message = new Message();
+                                    message.obj = htmlContent;
+                                    handler1.sendMessage(message);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    Log.d("test", "报错" + e.getMessage());
+                                }
+                            }
+                        }.start();
+//                        Intent intent  = new Intent(NewShopDetailsActivity.this,TestActivity.class);
+//                        intent.putExtra("image_url",mListData.get(position).getItem_info().getBuy_url());
+//                        startActivity(intent);
+                        Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(mListData.get(position).getItem_info().getBuy_url()));
+                        startActivity(viewIntent);
+
+                    }
+                });
+
             }
         };
 
