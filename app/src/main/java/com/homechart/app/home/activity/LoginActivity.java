@@ -145,7 +145,7 @@ public class LoginActivity extends BaseActivity
             PublicUtils.changeEditTextHint(getString(R.string.login_name_hint), mETLoginName, 14);
             PublicUtils.changeEditTextHint(getString(R.string.login_pass_hint), mETLoginPass, 14);
             umAuthListener = new PublicUtils.UmAuthListener(LoginActivity.this, this);
-            mTVTital.setText(R.string.login_tital);
+            mTVTital.setText(R.string.login_tital1);
         }
 
     }

@@ -26,6 +26,7 @@
     <string name="okpromiss">知道了</string>
     <string name="setpromiss">去设置</string>
     <string name="login_tital">登录</string>
+    <string name="login_tital1">登录后享受更佳体验</string>
     <string name="login_name_hint">邮箱/手机/昵称</string>
     <string name="login_pass_hint">请输入密码</string>
     <string name="login_error">登陆失败，请重新登陆</string>
