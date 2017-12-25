@@ -500,8 +500,10 @@ public class NewShopDetailsActivity
                     current_position = -1;
                     rl_pop_jubao.setVisibility(View.GONE);
 
-                }else {
-
+                } else {
+                    current_position = -1;
+                    rl_pop_jubao.setVisibility(View.GONE);
+                    ToastUtils.showCenter(NewShopDetailsActivity.this, "抱歉，您的举报没有发送成功，请稍后再试!");
                 }
 //                current_position = -1;
                 break;
@@ -1481,7 +1483,7 @@ public class NewShopDetailsActivity
                     if (error_code == 0) {
                         ToastUtils.showCenter(NewShopDetailsActivity.this, "家图已经收到了您的举报，非常感谢!");
                     } else {
-                        ToastUtils.showCenter(NewShopDetailsActivity.this, "家图已经收到了您的举报，非常感谢!");
+                        ToastUtils.showCenter(NewShopDetailsActivity.this, "抱歉，您的举报没有发送成功，请稍后再试!");
                     }
                 } catch (JSONException e) {
                 }
