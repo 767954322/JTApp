@@ -67,17 +67,6 @@
         android:paddingBottom="@dimen/font_9">
 
         <TextView
-            android:id="@+id/tv_goto_buy"
-            android:layout_width="@dimen/font_78"
-            android:layout_height="@dimen/font_25"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/bg_goto_buy"
-            android:gravity="center"
-            android:text="去购买"
-            android:textColor="@color/bg_e79056"
-            android:visibility="gone" />
-
-        <TextView
             android:id="@+id/tv_goto_shoucang"
             android:layout_width="match_parent"
             android:layout_height="@dimen/font_25"

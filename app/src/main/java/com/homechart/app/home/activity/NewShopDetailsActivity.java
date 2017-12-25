@@ -167,12 +167,38 @@ public class NewShopDetailsActivity
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            String str = (String) msg.obj;
-            if (str.equals("暂无报价")) {
+            Bundle bundle = msg.getData();
+            String htmlContent = bundle.getString("htmlContent");
+            String spu_id = bundle.getString("spu_id");
+            if (htmlContent.equals("此商品暂时售完") ||
+                    htmlContent.contains("该商品已下柜") ||
+                    htmlContent.contains("您查看的宝贝不存在") ||
+                    htmlContent.contains("此商品已下架") ||
+                    htmlContent.contains("此宝贝已下架") ||
+                    htmlContent.contains("您查看的商品找不到了")) {
+                //下架商品
+                OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                    }
+
+                    @Override
+                    public void onResponse(String s) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(s);
+                            int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                            String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                            String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                            if (error_code == 0) {
+                            } else {
+                            }
+                        } catch (JSONException e) {
+                        }
+                    }
+                };
+                MyHttpManager.getInstance().removeShop(spu_id, callBack);
 
             }
-//            Log.d("test", "html源码:  " + str.trim());
-
         }
     };
 
@@ -550,43 +576,6 @@ public class NewShopDetailsActivity
                 ((TextView) holder.getView(R.id.tv_tital)).setText(mListData.get(position).getItem_info().getTitle());
                 ((TextView) holder.getView(R.id.tv_price)).setText("¥ " + mListData.get(position).getItem_info().getPrice());
                 ((TextView) holder.getView(R.id.tv_go_buy)).setText("去" + mListData.get(position).getItem_info().getSource_name());
-                holder.getView(R.id.tv_goto_buy).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //友盟统计
-                        HashMap<String, String> map6 = new HashMap<String, String>();
-                        map6.put("evenname", "去购买");
-                        map6.put("even", "相似商品页");
-                        MobclickAgent.onEvent(NewShopDetailsActivity.this, "shijian19", map6);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("相似商品页")  //事件类别
-                                .setAction("去购买")      //事件操作
-                                .build());
-
-                        new Thread() {
-                            @Override
-                            public void run() {
-                                super.run();
-                                try {
-//                                    String htmlContent = HtmlService.getHtml("https://item.jd.com/12907534783.html");
-                                    String htmlContent = HtmlService.getHtml(mListData.get(position).getItem_info().getBuy_url(), mListData.get(position).getItem_info().getSource_name());
-                                    Message message = new Message();
-                                    message.obj = htmlContent;
-                                    handler1.sendMessage(message);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    Log.d("test", "报错" + e.getMessage());
-                                }
-                            }
-                        }.start();
-//                        Intent intent  = new Intent(NewShopDetailsActivity.this,TestActivity.class);
-//                        intent.putExtra("image_url",mListData.get(position).getItem_info().getBuy_url());
-//                        startActivity(intent);
-                        Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(mListData.get(position).getItem_info().getBuy_url()));
-                        startActivity(viewIntent);
-                    }
-                });
                 if (!mListData.get(position).getItem_info().getIs_collected().trim().equals("1")) {
                     //未收藏（显示收藏）
                     ((TextView) holder.getView(R.id.tv_goto_shoucang)).setTextColor(UIUtils.getColor(R.color.white));
@@ -705,10 +694,13 @@ public class NewShopDetailsActivity
                             public void run() {
                                 super.run();
                                 try {
-//                                    String htmlContent = HtmlService.getHtml("https://item.jd.com/12907534783.html");
+//                                    String htmlContent = HtmlService.getHtml("https://item.jd.com/11688078694.html ", "京东");
                                     String htmlContent = HtmlService.getHtml(mListData.get(position).getItem_info().getBuy_url(), mListData.get(position).getItem_info().getSource_name());
                                     Message message = new Message();
-                                    message.obj = htmlContent;
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("htmlContent", htmlContent);
+                                    bundle.putString("spu_id", mListData.get(position).getItem_info().getSpu_id());
+                                    message.setData(bundle);
                                     handler1.sendMessage(message);
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -1467,7 +1459,6 @@ public class NewShopDetailsActivity
 
     private void juBao(String object_id, int report_id) {
 
-
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
@@ -1503,7 +1494,6 @@ public class NewShopDetailsActivity
         // Send a screen view.
         t.send(new HitBuilders.ScreenViewBuilder().build());
     }
-
 
     @Override
     public void onPause() {
