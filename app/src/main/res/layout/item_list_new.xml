@@ -19,6 +19,7 @@
         android:layout_alignRight="@+id/iv_imageview_one"
         android:layout_marginTop="@dimen/font_7"
         android:clickable="true"
+        android:visibility="gone"
         android:layout_marginRight="@dimen/font_7"
         android:src="@drawable/datushibie"/>
 
