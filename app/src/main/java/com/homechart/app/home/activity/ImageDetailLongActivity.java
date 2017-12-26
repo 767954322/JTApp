@@ -1411,8 +1411,10 @@ public class ImageDetailLongActivity
         }
         if (comment_num == 0) {
             tv_ping.setText("");
+            tv_ping_tital.setText("评论");
         } else {
             tv_ping.setText(comment_num + "");
+            tv_ping_tital.setText("评论（" + comment_num + "）");
         }
         if (share_num == 0) {
             tv_shared.setText("");
@@ -1789,6 +1791,7 @@ public class ImageDetailLongActivity
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             comment_num++;
+            tv_ping_tital.setText("评论（" + comment_num + "）");
             tv_ping.setText(comment_num + "");
         }
     };

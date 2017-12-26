@@ -1478,8 +1478,10 @@ public class ImageDetailFragment
             ifShouCang = true;
         }
         if (comment_num == 0) {
+            tv_ping_tital.setText("评论");
             tv_ping.setText("");
         } else {
+            tv_ping_tital.setText("评论（" + comment_num + "）");
             tv_ping.setText(comment_num + "");
         }
         if (share_num == 0) {
@@ -2277,6 +2279,7 @@ public class ImageDetailFragment
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             comment_num++;
+            tv_ping_tital.setText("评论（" + comment_num + "）");
             tv_ping.setText(comment_num + "");
         }
     };
