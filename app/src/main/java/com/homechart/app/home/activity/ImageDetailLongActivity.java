@@ -542,10 +542,12 @@ public class ImageDetailLongActivity
                         pingBean.getData().getComment_list().size() > 0) {
 
                     String reply_id = pingBean.getData().getComment_list().get(0).getComment_info().getComment_id();
+                    String nikename = pingBean.getData().getComment_list().get(0).getComment_info().getUser_info().getNickname();
                     Intent intent1 = new Intent(ImageDetailLongActivity.this, PingListActivity.class);
                     intent1.putExtra("item_id", item_id);
                     intent1.putExtra("ifopen", "true");
                     intent1.putExtra("reply_id", reply_id);
+                    intent1.putExtra("nikename", nikename);
                     startActivityForResult(intent1, 2);
                 }
 
@@ -561,9 +563,11 @@ public class ImageDetailLongActivity
                         pingBean.getData().getComment_list().size() > 1) {
 
                     String reply_id = pingBean.getData().getComment_list().get(1).getComment_info().getComment_id();
+                    String nikename = pingBean.getData().getComment_list().get(1).getComment_info().getUser_info().getNickname();
                     Intent intent1 = new Intent(ImageDetailLongActivity.this, PingListActivity.class);
                     intent1.putExtra("item_id", item_id);
                     intent1.putExtra("ifopen", "true");
+                    intent1.putExtra("nikename", nikename);
                     intent1.putExtra("reply_id", reply_id);
                     startActivityForResult(intent1, 2);
                 }
@@ -579,10 +583,12 @@ public class ImageDetailLongActivity
                         pingBean.getData().getComment_list().size() > 2) {
 
                     String reply_id = pingBean.getData().getComment_list().get(2).getComment_info().getComment_id();
+                    String nikename = pingBean.getData().getComment_list().get(2).getComment_info().getUser_info().getNickname();
                     Intent intent1 = new Intent(ImageDetailLongActivity.this, PingListActivity.class);
                     intent1.putExtra("item_id", item_id);
                     intent1.putExtra("ifopen", "true");
                     intent1.putExtra("reply_id", reply_id);
+                    intent1.putExtra("nikename", nikename);
                     startActivityForResult(intent1, 2);
                 }
 //                cet_clearedit.requestFocus();
