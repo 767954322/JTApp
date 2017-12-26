@@ -238,6 +238,7 @@ public class ImageDetailFragment
     private View view_below_image;
     private int height_pic = 0;
     private boolean firstLoad = true;
+    private View color_bottom;
 
     public ImageDetailFragment() {
 
@@ -291,6 +292,7 @@ public class ImageDetailFragment
         ll_color_lines1 = (LinearLayout) rootView.findViewById(R.id.ll_color_lines);
         tv_color_tips1 = (TextView) rootView.findViewById(R.id.tv_color_tips);
         rl_color_location1 = (RelativeLayout) rootView.findViewById(R.id.rl_color_location);
+        color_bottom = rootView.findViewById(R.id.color_bottom);
 
         if (!ifHasHeader) {
             view = LayoutInflater.from(activity).inflate(R.layout.header_imagedetails_scroll, null);
@@ -803,6 +805,7 @@ public class ImageDetailFragment
                 ((ImageDetailScrollActivity) activity).setTitalClickAble(false);
                 ((ImageDetailScrollActivity) activity).setViewPagerScrollAble(false);
                 rl_color.setVisibility(View.VISIBLE);
+                color_bottom.setVisibility(View.VISIBLE);
                 break;
             case R.id.iv_close_color:
                 bt_shiwu2.setClickable(true);
@@ -812,6 +815,7 @@ public class ImageDetailFragment
                 ((ImageDetailScrollActivity) activity).setTitalClickAble(true);
                 ((ImageDetailScrollActivity) activity).setViewPagerScrollAble(true);
                 rl_color.setVisibility(View.GONE);
+                color_bottom.setVisibility(View.GONE);
                 break;
             case R.id.cet_all_ping:
                 loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
