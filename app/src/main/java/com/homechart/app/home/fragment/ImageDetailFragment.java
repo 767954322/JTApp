@@ -224,6 +224,10 @@ public class ImageDetailFragment
     private RelativeLayout rl_color_location1;
     private RelativeLayout rl_color;
     private ImageView iv_close_color;
+    private ClearEditText cet_all_ping;
+    private RoundImageView riv_people_header1;
+    private TextView tv_people_name1;
+    private ImageView iv_people_tag1;
 
 
     public ImageDetailFragment() {
@@ -278,6 +282,9 @@ public class ImageDetailFragment
         if (!ifHasHeader) {
             view = LayoutInflater.from(activity).inflate(R.layout.header_imagedetails_scroll, null);
             riv_people_header = (RoundImageView) view.findViewById(R.id.riv_people_header);
+            riv_people_header1 = (RoundImageView) view.findViewById(R.id.riv_people_header1);
+            tv_people_name1 = (TextView) view.findViewById(R.id.tv_people_name1);
+            iv_people_tag1 = (ImageView) view.findViewById(R.id.iv_people_tag1);
             tv_ping_tital = (TextView) view.findViewById(R.id.tv_ping_tital);
             view_more_like = view.findViewById(R.id.view_more_like);
             tv_people_guanzhu = (TextView) view.findViewById(R.id.tv_people_guanzhu);
@@ -332,6 +339,7 @@ public class ImageDetailFragment
             tv_bang = (TextView) view.findViewById(R.id.tv_bang);
             tv_xing = (TextView) view.findViewById(R.id.tv_xing);
             tv_ping = (TextView) view.findViewById(R.id.tv_ping);
+            cet_all_ping = (ClearEditText) view.findViewById(R.id.cet_all_ping);
             tv_shared = (TextView) view.findViewById(R.id.tv_shared);
             ll_color_lines = (LinearLayout) view.findViewById(R.id.ll_color_lines);
             tv_toast_shoucang = (TextView) view.findViewById(R.id.tv_toast_shoucang);
@@ -395,11 +403,13 @@ public class ImageDetailFragment
         tv_people_guanzhu.setOnClickListener(this);
         ll_huifu_one.setOnClickListener(this);
         riv_people_header.setOnClickListener(this);
+        riv_people_header1.setOnClickListener(this);
         ll_huifu_two.setOnClickListener(this);
         ll_huifu_three.setOnClickListener(this);
         rl_ping_four.setOnClickListener(this);
         iv_ping.setOnClickListener(this);
         tv_ping.setOnClickListener(this);
+        cet_all_ping.setOnClickListener(this);
         iv_ifshow_color.setOnClickListener(this);
         tv_color_tital.setOnClickListener(this);
         bt_shiwu.setOnClickListener(this);
@@ -497,6 +507,7 @@ public class ImageDetailFragment
 
         switch (v.getId()) {
             case R.id.riv_people_header:
+            case R.id.riv_people_header1:
                 if (imageDetailBean != null) {
                     Intent intent_info = new Intent(activity, UserInfoActivity.class);
                     intent_info.putExtra(ClassConstant.LoginSucces.USER_ID, imageDetailBean.getUser_info().getUser_id());
@@ -701,6 +712,12 @@ public class ImageDetailFragment
                 ((ImageDetailScrollActivity) activity).setTitalClickAble(true);
                 ((ImageDetailScrollActivity) activity).setViewPagerScrollAble(true);
                 rl_color.setVisibility(View.GONE);
+                break;
+            case R.id.cet_all_ping:
+                Intent intent1 = new Intent(activity, PingListActivity.class);
+                intent1.putExtra("item_id", item_id);
+                intent1.putExtra("ifopen", "true");
+                startActivityForResult(intent1, 2);
                 break;
         }
     }
@@ -1261,16 +1278,20 @@ public class ImageDetailFragment
         layoutParams.height = (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio());
         iv_details_image.setLayoutParams(layoutParams);
         ImageUtils.displayRoundImage(imageDetailBean.getUser_info().getAvatar().getThumb(), riv_people_header);
+        ImageUtils.displayRoundImage(imageDetailBean.getUser_info().getAvatar().getThumb(), riv_people_header1);
 
         String nikeName = imageDetailBean.getUser_info().getNickname();
         if (nikeName.length() > 8) {
             nikeName = nikeName.substring(0, 8) + "...";
         }
         tv_people_name.setText(nikeName);
+        tv_people_name1.setText(nikeName);
         if (!imageDetailBean.getUser_info().getProfession().equals("0")) {
             iv_people_tag.setVisibility(View.VISIBLE);
+            iv_people_tag1.setVisibility(View.VISIBLE);
         } else {
             iv_people_tag.setVisibility(View.GONE);
+            iv_people_tag1.setVisibility(View.GONE);
         }
         tv_people_details.setText(imageDetailBean.getUser_info().getSlogan());
 

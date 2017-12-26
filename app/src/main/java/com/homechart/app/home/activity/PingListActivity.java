@@ -88,6 +88,7 @@ public class PingListActivity
     private boolean mIsKeyboardOpened = false;
     private int mMenuOpenedHeight = 0;
     private RelativeLayout rl_no_data;
+    private String ifopen;
 
     @Override
     protected int getLayoutResId() {
@@ -99,6 +100,7 @@ public class PingListActivity
         super.initExtraBundle();
 
         item_id = getIntent().getStringExtra("item_id");
+        ifopen = getIntent().getStringExtra("ifopen");
 
         mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
     }
@@ -245,7 +247,7 @@ public class PingListActivity
                 String strCurrent = formatter.format(curDate);
                 long data = PublicUtils.diffMathDay(time1, strCurrent, "yyyy-MM-dd HH:mm:ss");
                 if (data <= 7) {
-                    ((TextView) holder.getView(R.id.tv_time_one)).setText( yue1 + "  " + shi1);
+                    ((TextView) holder.getView(R.id.tv_time_one)).setText(yue1 + "  " + shi1);
                 } else if (data > 7 && data <= 30) {
                     ((TextView) holder.getView(R.id.tv_time_one)).setText("1周以前");
                 } else {

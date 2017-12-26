@@ -228,6 +228,9 @@ public class ImageDetailLongActivity
     private RelativeLayout rl_color_location1;
     private RelativeLayout rl_color;
     private ImageView iv_close_color;
+    private RoundImageView riv_people_header1;
+    private TextView tv_people_name1;
+    private ImageView iv_people_tag1;
 
     @Override
     protected int getLayoutResId() {
@@ -263,6 +266,9 @@ public class ImageDetailLongActivity
         menu_layout = (ResizeRelativeLayout) findViewById(R.id.menu_layout);
 
         riv_people_header = (RoundImageView) view.findViewById(R.id.riv_people_header);
+        riv_people_header1 = (RoundImageView) view.findViewById(R.id.riv_people_header1);
+        tv_people_name1 = (TextView) view.findViewById(R.id.tv_people_name1);
+        iv_people_tag1 = (ImageView) view.findViewById(R.id.iv_people_tag1);
         tv_ping_tital = (TextView) view.findViewById(R.id.tv_ping_tital);
         view_more_like = view.findViewById(R.id.view_more_like);
         tv_people_guanzhu = (TextView) view.findViewById(R.id.tv_people_guanzhu);
@@ -346,6 +352,7 @@ public class ImageDetailLongActivity
         ll_huifu_one.setOnClickListener(this);
         iv_details_image.setOnClickListener(this);
         riv_people_header.setOnClickListener(this);
+        riv_people_header1.setOnClickListener(this);
         ll_huifu_two.setOnClickListener(this);
         ll_huifu_three.setOnClickListener(this);
         rl_ping_four.setOnClickListener(this);
@@ -466,6 +473,7 @@ public class ImageDetailLongActivity
 
         switch (v.getId()) {
             case R.id.riv_people_header:
+            case R.id.riv_people_header1:
                 if (imageDetailBean != null) {
                     Intent intent_info = new Intent(ImageDetailLongActivity.this, UserInfoActivity.class);
                     intent_info.putExtra(ClassConstant.LoginSucces.USER_ID, imageDetailBean.getUser_info().getUser_id());
@@ -1211,15 +1219,19 @@ public class ImageDetailLongActivity
         layoutParams.height = (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio());
         iv_details_image.setLayoutParams(layoutParams);
         ImageUtils.displayRoundImage(imageDetailBean.getUser_info().getAvatar().getThumb(), riv_people_header);
+        ImageUtils.displayRoundImage(imageDetailBean.getUser_info().getAvatar().getThumb(), riv_people_header1);
         String nikeName = imageDetailBean.getUser_info().getNickname();
         if (nikeName.length() > 8) {
             nikeName = nikeName.substring(0, 8) + "...";
         }
         tv_people_name.setText(nikeName);
+        tv_people_name1.setText(nikeName);
         if (!imageDetailBean.getUser_info().getProfession().equals("0")) {
             iv_people_tag.setVisibility(View.VISIBLE);
+            iv_people_tag1.setVisibility(View.VISIBLE);
         } else {
             iv_people_tag.setVisibility(View.GONE);
+            iv_people_tag1.setVisibility(View.GONE);
         }
         tv_people_details.setText(imageDetailBean.getUser_info().getSlogan());
 
