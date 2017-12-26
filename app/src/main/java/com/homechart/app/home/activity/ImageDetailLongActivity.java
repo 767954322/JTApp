@@ -471,16 +471,16 @@ public class ImageDetailLongActivity
             //要做的事情，这里再次调用此Runnable对象，以实现每两秒实现一次的定时器操作
             if (iv_details_image.getLocalVisibleRect(rect)) {/*rect.contains(ivRect)*/
                 //控件在屏幕可见区域-----显现
-                bt_shiwu.setVisibility(View.VISIBLE);
-                bt_shiwu2.setVisibility(View.VISIBLE);
-                bt_shise.setVisibility(View.VISIBLE);
-                bt_shise2.setVisibility(View.VISIBLE);
+//                bt_shiwu.setVisibility(View.VISIBLE);
+//                bt_shiwu2.setVisibility(View.VISIBLE);
+//                bt_shise.setVisibility(View.VISIBLE);
+//                bt_shise2.setVisibility(View.VISIBLE);
             } else {
                 //控件已不在屏幕可见区域（已滑出屏幕）-----隐去
-                bt_shiwu.setVisibility(View.GONE);
-                bt_shiwu2.setVisibility(View.GONE);
-                bt_shise.setVisibility(View.GONE);
-                bt_shise2.setVisibility(View.GONE);
+//                bt_shiwu.setVisibility(View.GONE);
+//                bt_shiwu2.setVisibility(View.GONE);
+//                bt_shise.setVisibility(View.GONE);
+//                bt_shise2.setVisibility(View.GONE);
             }
             handler.postDelayed(this, 200);
         }
@@ -1310,10 +1310,16 @@ public class ImageDetailLongActivity
 
     private void changeUI(ImageDetailBean imageDetailBean) {
         int wide_num = PublicUtils.getScreenWidth(ImageDetailLongActivity.this);
+        int height_pic = (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio());
         ViewGroup.LayoutParams layoutParams = iv_details_image.getLayoutParams();
         layoutParams.width = wide_num;
-        layoutParams.height = (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio());
+        layoutParams.height = height_pic;
         iv_details_image.setLayoutParams(layoutParams);
+        if ((height_pic + UIUtils.getDimens(R.dimen.font_50)) < PublicUtils.getScreenHeight(ImageDetailLongActivity.this)) {
+            changeShiBieUI(true);
+        } else {
+            changeShiBieUI(false);
+        }
         ImageUtils.displayRoundImage(imageDetailBean.getUser_info().getAvatar().getThumb(), riv_people_header);
         ImageUtils.displayRoundImage(imageDetailBean.getUser_info().getAvatar().getThumb(), riv_people_header1);
         String nikeName = imageDetailBean.getUser_info().getNickname();
@@ -2373,6 +2379,28 @@ public class ImageDetailLongActivity
             }
         };
         MyHttpManager.getInstance().searchByImageIdUnRember(image_id, callback);
+    }
+    private void changeShiBieUI(boolean boo) {
+
+        if (boo) {
+            //在图片上面显示
+            iv_xing2.setVisibility(View.VISIBLE);
+            bt_shiwu2.setVisibility(View.VISIBLE);
+            bt_shise2.setVisibility(View.VISIBLE);
+            iv_xing.setVisibility(View.GONE);
+            bt_shiwu.setVisibility(View.GONE);
+            bt_shise.setVisibility(View.GONE);
+        } else {
+            //在页面上面显示
+            iv_xing2.setVisibility(View.GONE);
+            bt_shiwu2.setVisibility(View.GONE);
+            bt_shise2.setVisibility(View.GONE);
+            iv_xing.setVisibility(View.VISIBLE);
+            bt_shiwu.setVisibility(View.VISIBLE);
+            bt_shise.setVisibility(View.VISIBLE);
+        }
+
+
     }
 
 

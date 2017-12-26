@@ -69,6 +69,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginRight="@dimen/font_10"
         android:layout_marginBottom="@dimen/font_15"
+        android:visibility="gone"
         android:src="@drawable/tongkuan2" />
 
     <ImageView
@@ -77,6 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@+id/bt_shiwu"
+        android:visibility="gone"
         android:layout_marginRight="@dimen/font_10"
         android:layout_marginBottom="@dimen/font_15"
         android:src="@drawable/secai2" />
@@ -87,6 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@+id/bt_shise"
+        android:visibility="gone"
         android:layout_marginRight="@dimen/font_10"
         android:layout_marginBottom="@dimen/font_15"
         android:src="@drawable/xing2" />

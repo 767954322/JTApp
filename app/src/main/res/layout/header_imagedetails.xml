@@ -89,6 +89,7 @@
             android:layout_alignRight="@+id/iv_details_image"
             android:layout_alignBottom="@+id/iv_details_image"
             android:layout_marginRight="@dimen/font_10"
+            android:visibility="gone"
             android:layout_marginBottom="@dimen/font_15"
             android:src="@drawable/tongkuan2" />
 
@@ -97,6 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/bt_shiwu2"
+            android:visibility="gone"
             android:layout_alignBottom="@+id/bt_shiwu2"
             android:layout_marginRight="@dimen/font_10"
             android:src="@drawable/secai2" />
@@ -107,6 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/bt_shiwu2"
             android:layout_toLeftOf="@+id/bt_shise2"
+            android:visibility="gone"
             android:layout_marginRight="@dimen/font_10"
             android:src="@drawable/xing2" />
 
