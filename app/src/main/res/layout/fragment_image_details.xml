@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
+
     <com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView
         android:id="@+id/rcy_recyclerview_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/common_navbar"
         android:layout_above="@+id/et_edit"
-        app:loadMoreEnabled="true"
+        android:layout_below="@+id/common_navbar"
         android:descendantFocusability="blocksDescendants"
+        app:loadMoreEnabled="true"
         app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer_huodong"
         app:refreshEnabled="false"
         app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
@@ -29,25 +30,26 @@
             android:layout_height="0.5dp"
             android:layout_alignParentTop="true"
             android:background="@color/view_line" />
+
         <com.homechart.app.myview.ClearEditText
             android:id="@+id/cet_clearedit"
             android:layout_width="match_parent"
             android:layout_height="@dimen/font_35"
+            android:layout_marginBottom="@dimen/font_8"
             android:layout_marginLeft="@dimen/font_10"
             android:layout_marginRight="@dimen/font_10"
-            android:layout_toLeftOf="@+id/tv_quxiao"
-            android:layout_marginBottom="@dimen/font_8"
             android:layout_marginTop="@dimen/font_8"
+            android:layout_toLeftOf="@+id/tv_quxiao"
             android:background="@drawable/bg_huifu"
             android:drawableLeft="@drawable/xie"
             android:drawablePadding="@dimen/font_10"
             android:gravity="center_vertical"
             android:hint="评论"
-            android:textColorHint="@color/bg_8f8f8f"
-            android:maxLength="300"
             android:imeOptions="actionSend"
+            android:maxLength="300"
             android:paddingLeft="@dimen/font_10"
             android:singleLine="true"
+            android:textColorHint="@color/bg_8f8f8f"
             android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="@dimen/size_14" />
 
@@ -58,12 +60,108 @@
         android:id="@+id/bt_shiwu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="识别商品"/>
+        android:text="识别商品" />
 
     <Button
         android:id="@+id/bt_shise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/bt_shiwu"
-        android:text="识别颜色"/>
+        android:text="识别颜色" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_color"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_80000000"
+        android:clickable="true"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_centerVertical="true">
+
+            <LinearLayout
+                android:id="@+id/ll_color_lines"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/font_30"
+                android:layout_marginTop="@dimen/font_3"
+                android:orientation="horizontal" />
+
+            <com.homechart.app.myview.MyListView
+                android:id="@+id/dgv_colorlist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_color_lines"
+                android:layout_marginTop="@dimen/font_25"
+                android:descendantFocusability="blocksDescendants"
+                android:divider="@null" />
+
+            <TextView
+                android:id="@+id/tv_color_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dgv_colorlist"
+                android:layout_marginLeft="@dimen/font_10"
+                android:layout_marginRight="@dimen/font_10"
+                android:lineSpacingExtra="@dimen/font_4"
+                android:text="Tips:因光线和显示原因，图中色彩可能与实际色彩有所偏差。"
+                android:textColor="@color/bg_8f8f8f"
+                android:textSize="@dimen/size_12" />
+
+            <RelativeLayout
+                android:id="@+id/rl_color_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/tv_color_tips"
+                android:layout_marginTop="@dimen/font_25">
+
+                <TextView
+                    android:id="@+id/tv_color_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="power by 码隆科技 "
+                    android:textColor="@color/bg_8f8f8f"
+                    android:textSize="@dimen/size_12" />
+
+                <ImageView
+                    android:id="@+id/iv_colot_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tv_color_start"
+                    android:src="@drawable/productai" />
+
+                <TextView
+                    android:id="@+id/tv_color_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/font_10"
+                    android:layout_toRightOf="@+id/iv_colot_icon"
+                    android:text="@string/color_end"
+                    android:textColor="@color/bg_8f8f8f"
+                    android:textSize="@dimen/size_12" />
+
+            </RelativeLayout>
+
+
+            <ImageView
+                android:id="@+id/iv_close_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_color_location"
+                android:layout_marginTop="@dimen/font_30"
+                android:layout_marginBottom="@dimen/font_10"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/close_back"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
 </com.homechart.app.myview.ResizeRelativeLayout>

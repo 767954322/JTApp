@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -29,6 +30,7 @@ import com.homechart.app.home.bean.search.SearchDataBean;
 import com.homechart.app.home.bean.searchfservice.TypeNewBean;
 import com.homechart.app.home.fragment.ImageDetailFragment;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.myview.CustomViewPager;
 import com.homechart.app.myview.HomeSharedPopWinPublic;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
@@ -67,7 +69,7 @@ public class ImageDetailScrollActivity
     private TextView tv_tital_comment;
     private int mPosition;
     private List<String> mItemIdList;
-    private ViewPager mViewPager;
+    private CustomViewPager mViewPager;
     private MyImagePageAdater mAdapter;
     private TextView tv_content_right;
     private ImageButton nav_secondary_imageButton;
@@ -89,6 +91,7 @@ public class ImageDetailScrollActivity
     private boolean if_click_color;
     public boolean ifShowColorList = true;
     private TypeNewBean typeNewBean;
+    private RelativeLayout rl_back_unclick;
 
     @Override
     protected int getLayoutResId() {
@@ -116,10 +119,11 @@ public class ImageDetailScrollActivity
     protected void initView() {
 
         nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
+        rl_back_unclick = (RelativeLayout) findViewById(R.id.rl_back_unclick);
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
         tv_content_right = (TextView) findViewById(R.id.tv_content_right);
         nav_secondary_imageButton = (ImageButton) findViewById(R.id.nav_secondary_imageButton);
-        mViewPager = (ViewPager) findViewById(R.id.vp_viewpager);
+        mViewPager = (CustomViewPager) findViewById(R.id.vp_viewpager);
         homeSharedPopWinPublic = new HomeSharedPopWinPublic(ImageDetailScrollActivity.this, ImageDetailScrollActivity.this);
 
     }
@@ -130,6 +134,7 @@ public class ImageDetailScrollActivity
     protected void initListener() {
         super.initListener();
         nav_left_imageButton.setOnClickListener(this);
+        mViewPager.setScanScroll(true);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -570,5 +575,22 @@ public class ImageDetailScrollActivity
 
     public void setTypeNewBean(TypeNewBean typeNewBean) {
         this.typeNewBean = typeNewBean;
+    }
+
+    public  void  setTitalClickAble(boolean boo){
+        if(boo){
+            rl_back_unclick.setVisibility(View.GONE);
+        }else {
+            rl_back_unclick.setVisibility(View.VISIBLE);
+        }
+
+    }
+    public  void  setViewPagerScrollAble(boolean boo){
+        if(boo){
+            mViewPager.setScanScroll(true);
+        }else {
+            mViewPager.setScanScroll(false);
+        }
+
     }
 }

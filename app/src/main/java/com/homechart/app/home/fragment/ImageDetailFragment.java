@@ -218,6 +218,13 @@ public class ImageDetailFragment
     private int screenHeight;
     private Rect rect;
 
+    private MyListView dgv_colorlist1;
+    private LinearLayout ll_color_lines1;
+    private TextView tv_color_tips1;
+    private RelativeLayout rl_color_location1;
+    private RelativeLayout rl_color;
+    private ImageView iv_close_color;
+
 
     public ImageDetailFragment() {
 
@@ -260,6 +267,13 @@ public class ImageDetailFragment
         menu_layout = (ResizeRelativeLayout) rootView.findViewById(R.id.menu_layout);
         bt_shiwu = (Button) rootView.findViewById(R.id.bt_shiwu);
         bt_shise = (Button) rootView.findViewById(R.id.bt_shise);
+
+        rl_color = (RelativeLayout) rootView.findViewById(R.id.rl_color);
+        iv_close_color = (ImageView) rootView.findViewById(R.id.iv_close_color);
+        dgv_colorlist1 = (MyListView) rootView.findViewById(R.id.dgv_colorlist);
+        ll_color_lines1 = (LinearLayout) rootView.findViewById(R.id.ll_color_lines);
+        tv_color_tips1 = (TextView) rootView.findViewById(R.id.tv_color_tips);
+        rl_color_location1 = (RelativeLayout) rootView.findViewById(R.id.rl_color_location);
 
         if (!ifHasHeader) {
             view = LayoutInflater.from(activity).inflate(R.layout.header_imagedetails_scroll, null);
@@ -363,7 +377,8 @@ public class ImageDetailFragment
             handler.postDelayed(this, 200);
         }
     };
-    Handler handler2 = new Handler() {};
+    Handler handler2 = new Handler() {
+    };
 
     private boolean bol = true;
 
@@ -389,6 +404,7 @@ public class ImageDetailFragment
         tv_color_tital.setOnClickListener(this);
         bt_shiwu.setOnClickListener(this);
         bt_shise.setOnClickListener(this);
+        iv_close_color.setOnClickListener(this);
         cet_clearedit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -673,7 +689,14 @@ public class ImageDetailFragment
                 }
                 break;
             case R.id.bt_shise:
-
+                ((ImageDetailScrollActivity) activity).setTitalClickAble(false);
+                ((ImageDetailScrollActivity) activity).setViewPagerScrollAble(false);
+                rl_color.setVisibility(View.VISIBLE);
+                break;
+            case R.id.iv_close_color:
+                ((ImageDetailScrollActivity) activity).setTitalClickAble(true);
+                ((ImageDetailScrollActivity) activity).setViewPagerScrollAble(true);
+                rl_color.setVisibility(View.GONE);
                 break;
         }
     }
@@ -1320,9 +1343,11 @@ public class ImageDetailFragment
                     }
                     textView.setHeight(UIUtils.getDimens(R.dimen.font_30));
                     textView.setBackgroundColor(Color.parseColor("#" + listColor.get(i).getColor_value()));
-                    ll_color_lines.addView(textView);
+//                    ll_color_lines.addView(textView);
+                    ll_color_lines1.addView(textView);
                 }
                 dgv_colorlist.setAdapter(new MyColorGridAdapter(listColor, activity));
+                dgv_colorlist1.setAdapter(new MyColorGridAdapter(listColor, activity));
                 iv_ifshow_color.setVisibility(View.VISIBLE);
                 if (mifShowColorList) {
                     ll_color_lines.setVisibility(View.VISIBLE);

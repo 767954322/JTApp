@@ -10,8 +10,16 @@
         android:id="@+id/common_navbar"
         layout="@layout/view_navigation_header" />
 
+    <RelativeLayout
+        android:id="@+id/rl_back_unclick"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_50"
+        android:background="@color/bg_80000000"
+        android:visibility="gone"
+        android:clickable="true"/>
 
-    <android.support.v4.view.ViewPager
+
+    <com.homechart.app.myview.CustomViewPager
         android:id="@+id/vp_viewpager"
         android:layout_below="@+id/common_navbar"
         android:layout_width="match_parent"
