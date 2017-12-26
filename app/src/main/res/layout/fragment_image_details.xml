@@ -23,8 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:visibility="gone"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:visibility="gone">
 
         <View
             android:layout_width="match_parent"
@@ -71,6 +71,15 @@
         android:text="识别颜色" />
 
 
+    <ImageView
+        android:id="@+id/iv_xing"
+        android:layout_width="@dimen/font_30"
+        android:layout_height="@dimen/font_30"
+        android:layout_marginLeft="@dimen/font_10"
+        android:layout_toRightOf="@+id/bt_shise"
+        android:src="@drawable/xing" />
+
+
     <RelativeLayout
         android:id="@+id/rl_color"
         android:layout_width="match_parent"
@@ -82,8 +91,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_centerVertical="true">
+            android:layout_centerVertical="true"
+            android:background="@color/white">
 
             <LinearLayout
                 android:id="@+id/ll_color_lines"
@@ -157,10 +166,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rl_color_location"
-                android:layout_marginTop="@dimen/font_30"
-                android:layout_marginBottom="@dimen/font_10"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/close_back"/>
+                android:layout_marginBottom="@dimen/font_10"
+                android:layout_marginTop="@dimen/font_30"
+                android:src="@drawable/close_back" />
         </RelativeLayout>
 
     </RelativeLayout>

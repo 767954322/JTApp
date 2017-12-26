@@ -272,6 +272,7 @@ public class ImageDetailFragment
         menu_layout = (ResizeRelativeLayout) rootView.findViewById(R.id.menu_layout);
         bt_shiwu = (Button) rootView.findViewById(R.id.bt_shiwu);
         bt_shise = (Button) rootView.findViewById(R.id.bt_shise);
+        iv_xing = (ImageView) rootView.findViewById(R.id.iv_xing);
 
         rl_color = (RelativeLayout) rootView.findViewById(R.id.rl_color);
         iv_close_color = (ImageView) rootView.findViewById(R.id.iv_close_color);
@@ -335,7 +336,7 @@ public class ImageDetailFragment
             tv_details_tital = (ShangshabanChangeTextSpaceView) view.findViewById(R.id.tv_details_tital);
             tv_details_time = (TextView) view.findViewById(R.id.tv_details_time);
             iv_bang = (ImageView) view.findViewById(R.id.iv_bang);
-            iv_xing = (ImageView) view.findViewById(R.id.iv_xing);
+//            iv_xing = (ImageView) view.findViewById(R.id.iv_xing);
             iv_ping = (ImageView) view.findViewById(R.id.iv_ping);
             iv_shared = (ImageView) view.findViewById(R.id.iv_shared);
             tv_bang = (TextView) view.findViewById(R.id.tv_bang);
