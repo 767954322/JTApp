@@ -89,6 +89,8 @@ public class PingListActivity
     private int mMenuOpenedHeight = 0;
     private RelativeLayout rl_no_data;
     private String ifopen;
+    private String reply_id;
+    private String nikename;
 
     @Override
     protected int getLayoutResId() {
@@ -101,6 +103,8 @@ public class PingListActivity
 
         item_id = getIntent().getStringExtra("item_id");
         ifopen = getIntent().getStringExtra("ifopen");
+        reply_id = getIntent().getStringExtra("reply_id");
+        nikename = getIntent().getStringExtra("nikename");
 
         mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
     }
@@ -190,6 +194,8 @@ public class PingListActivity
                 }
 
                 if (!mIsKeyboardOpened) {
+                    cet_clearedit.setText("");
+                    cet_clearedit.setHint("评论");
                     huifuTag = "";
                 }
 
@@ -206,10 +212,16 @@ public class PingListActivity
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            huiFuPing("");
+            if (!TextUtils.isEmpty(reply_id) && !TextUtils.isEmpty(nikename)) {
+                cet_clearedit.setHint("回复：" + nikename);
+                huiFuPing(reply_id);
+            }else {
+                huiFuPing("");
+            }
         }
     };
-    Handler handler = new Handler() {};
+    Handler handler = new Handler() {
+    };
 
     @Override
     public void onClick(View v) {
@@ -283,6 +295,9 @@ public class PingListActivity
                     @Override
                     public void onClick(View v) {
 
+                        reply_id = mListData.get(position).getComment_info().getComment_id();
+                        nikename = mListData.get(position).getComment_info().getUser_info().getNickname();
+                        cet_clearedit.setHint("回复：" + nikename);
                         huiFuPing(mListData.get(position).getComment_info().getComment_id());
 
                     }
