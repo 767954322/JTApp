@@ -231,6 +231,8 @@ public class ImageDetailLongActivity
     private RoundImageView riv_people_header1;
     private TextView tv_people_name1;
     private ImageView iv_people_tag1;
+    private View view_new_list;
+    private ClearEditText cet_all_ping;
 
     @Override
     protected int getLayoutResId() {
@@ -280,6 +282,8 @@ public class ImageDetailLongActivity
         tv_color_tips = (TextView) view.findViewById(R.id.tv_color_tips);
         iv_ifshow_color = (ImageView) view.findViewById(R.id.iv_ifshow_color);
         rl_color_location = (RelativeLayout) view.findViewById(R.id.rl_color_location);
+        view_new_list = view.findViewById(R.id.view_new_list);
+        cet_all_ping = (ClearEditText) view.findViewById(R.id.cet_all_ping);
         rl_ping_one = (RelativeLayout) view.findViewById(R.id.rl_ping_one);
         rl_ping_two = (RelativeLayout) view.findViewById(R.id.rl_ping_two);
         rl_ping_three = (RelativeLayout) view.findViewById(R.id.rl_ping_three);
@@ -363,6 +367,7 @@ public class ImageDetailLongActivity
         bt_shiwu.setOnClickListener(this);
         bt_shise.setOnClickListener(this);
         iv_close_color.setOnClickListener(this);
+        cet_all_ping.setOnClickListener(this);
         cet_clearedit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
@@ -530,21 +535,59 @@ public class ImageDetailLongActivity
                 break;
             case R.id.ll_huifu_one:
                 huifuTag = "one";
-                cet_clearedit.requestFocus();
-                InputMethodManager imm = (InputMethodManager) cet_clearedit.getContext().getSystemService(ImageDetailLongActivity.this.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+
+                if (pingBean != null &&
+                        pingBean.getData() != null &&
+                        pingBean.getData().getComment_list() != null &&
+                        pingBean.getData().getComment_list().size() > 0) {
+
+                    String reply_id = pingBean.getData().getComment_list().get(0).getComment_info().getComment_id();
+                    Intent intent1 = new Intent(ImageDetailLongActivity.this, PingListActivity.class);
+                    intent1.putExtra("item_id", item_id);
+                    intent1.putExtra("ifopen", "true");
+                    intent1.putExtra("reply_id", reply_id);
+                    startActivityForResult(intent1, 2);
+                }
+
+//                cet_clearedit.requestFocus();
+//                InputMethodManager imm = (InputMethodManager) cet_clearedit.getContext().getSystemService(ImageDetailLongActivity.this.INPUT_METHOD_SERVICE);
+//                imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
                 break;
             case R.id.ll_huifu_two:
                 huifuTag = "two";
-                cet_clearedit.requestFocus();
-                InputMethodManager imm1 = (InputMethodManager) cet_clearedit.getContext().getSystemService(ImageDetailLongActivity.this.INPUT_METHOD_SERVICE);
-                imm1.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+                if (pingBean != null &&
+                        pingBean.getData() != null &&
+                        pingBean.getData().getComment_list() != null &&
+                        pingBean.getData().getComment_list().size() > 1) {
+
+                    String reply_id = pingBean.getData().getComment_list().get(1).getComment_info().getComment_id();
+                    Intent intent1 = new Intent(ImageDetailLongActivity.this, PingListActivity.class);
+                    intent1.putExtra("item_id", item_id);
+                    intent1.putExtra("ifopen", "true");
+                    intent1.putExtra("reply_id", reply_id);
+                    startActivityForResult(intent1, 2);
+                }
+//                cet_clearedit.requestFocus();
+//                InputMethodManager imm1 = (InputMethodManager) cet_clearedit.getContext().getSystemService(ImageDetailLongActivity.this.INPUT_METHOD_SERVICE);
+//                imm1.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
                 break;
             case R.id.ll_huifu_three:
                 huifuTag = "three";
-                cet_clearedit.requestFocus();
-                InputMethodManager imm2 = (InputMethodManager) cet_clearedit.getContext().getSystemService(ImageDetailLongActivity.this.INPUT_METHOD_SERVICE);
-                imm2.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+                if (pingBean != null &&
+                        pingBean.getData() != null &&
+                        pingBean.getData().getComment_list() != null &&
+                        pingBean.getData().getComment_list().size() > 2) {
+
+                    String reply_id = pingBean.getData().getComment_list().get(2).getComment_info().getComment_id();
+                    Intent intent1 = new Intent(ImageDetailLongActivity.this, PingListActivity.class);
+                    intent1.putExtra("item_id", item_id);
+                    intent1.putExtra("ifopen", "true");
+                    intent1.putExtra("reply_id", reply_id);
+                    startActivityForResult(intent1, 2);
+                }
+//                cet_clearedit.requestFocus();
+//                InputMethodManager imm2 = (InputMethodManager) cet_clearedit.getContext().getSystemService(ImageDetailLongActivity.this.INPUT_METHOD_SERVICE);
+//                imm2.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
                 break;
             case R.id.rl_ping_four:
             case R.id.iv_ping:
@@ -635,6 +678,12 @@ public class ImageDetailLongActivity
                 bt_shiwu.setClickable(true);
                 bt_shise.setClickable(true);
                 rl_color.setVisibility(View.GONE);
+                break;
+            case R.id.cet_all_ping:
+                Intent intent6 = new Intent(ImageDetailLongActivity.this, PingListActivity.class);
+                intent6.putExtra("item_id", item_id);
+                intent6.putExtra("ifopen", "true");
+                startActivityForResult(intent6, 2);
                 break;
         }
     }
@@ -1213,7 +1262,7 @@ public class ImageDetailLongActivity
     }
 
     private void changeUI(ImageDetailBean imageDetailBean) {
-        int wide_num = PublicUtils.getScreenWidth(ImageDetailLongActivity.this) ;
+        int wide_num = PublicUtils.getScreenWidth(ImageDetailLongActivity.this);
         ViewGroup.LayoutParams layoutParams = iv_details_image.getLayoutParams();
         layoutParams.width = wide_num;
         layoutParams.height = (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio());
@@ -1767,8 +1816,9 @@ public class ImageDetailLongActivity
             rl_ping_two.setVisibility(View.GONE);
             rl_ping_three.setVisibility(View.GONE);
             rl_ping_four.setVisibility(View.GONE);
-            tv_ping_tital.setVisibility(View.GONE);
-            view_more_like.setVisibility(View.GONE);
+            tv_ping_tital.setVisibility(View.VISIBLE);
+            view_more_like.setVisibility(View.VISIBLE);
+            tv_ping_tital.setText("评论");
         }
 
     }

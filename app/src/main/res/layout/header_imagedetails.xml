@@ -242,6 +242,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/font_10"
             android:layout_marginRight="@dimen/font_10"
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:background="@color/white"
             android:textColor="@color/bg_8f8f8f"
@@ -256,8 +257,7 @@
         android:layout_below="@+id/rl_time"
         android:layout_marginLeft="@dimen/font_10"
         android:layout_marginRight="@dimen/font_10"
-        android:layout_marginTop="@dimen/font_15"
-        android:background="@color/view_line" />
+        android:layout_marginTop="@dimen/font_15" />
 
 
 
@@ -930,10 +930,34 @@
         </RelativeLayout>
 
         <View
+            android:id="@+id/view_new_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_ping_four"
+            android:layout_marginTop="@dimen/font_15"
+            android:visibility="gone"/>
+
+        <com.homechart.app.myview.ClearEditText
+            android:id="@+id/cet_all_ping"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/font_32"
+            android:layout_below="@+id/view_new_list"
+            android:layout_marginBottom="@dimen/font_15"
+            android:layout_marginLeft="@dimen/font_10"
+            android:layout_marginRight="@dimen/font_10"
+            android:background="@drawable/bg_pinglun"
+            android:drawablePadding="@dimen/font_6"
+            android:gravity="center_vertical"
+            android:hint="有话要说"
+            android:paddingLeft="@dimen/font_10"
+            android:textColorHint="@color/bg_b2b2b2"
+            android:textSize="@dimen/size_14" />
+
+        <View
             android:id="@+id/view_more_like"
             android:layout_width="match_parent"
             android:layout_height="@dimen/font_10"
-            android:layout_below="@+id/rl_ping_four"
+            android:layout_below="@+id/cet_all_ping"
             android:background="@color/bg_eeeeee"
             android:visibility="gone" />
 

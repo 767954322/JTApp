@@ -276,8 +276,7 @@
         android:layout_below="@+id/rl_time"
         android:layout_marginLeft="@dimen/font_10"
         android:layout_marginRight="@dimen/font_10"
-        android:layout_marginTop="@dimen/font_15"
-        android:background="@color/view_line" />
+        android:layout_marginTop="@dimen/font_15" />
 
 
     <RelativeLayout

@@ -1867,7 +1867,7 @@ public class ImageDetailFragment
             rl_ping_three.setVisibility(View.GONE);
             rl_ping_four.setVisibility(View.GONE);
             tv_ping_tital.setVisibility(View.VISIBLE);
-            view_more_like.setVisibility(View.GONE);
+            view_more_like.setVisibility(View.VISIBLE);
             tv_ping_tital.setText("评论");
         }
 
