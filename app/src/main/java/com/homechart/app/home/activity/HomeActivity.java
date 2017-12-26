@@ -197,7 +197,7 @@ public class HomeActivity
             transaction.add(R.id.main_content, mHomePicFragment).commitAllowingStateLoss();
 //            FragmentManager.executePendingTransactions();
         }
-        ((RadioButton)mRadioGroup.findViewById(R.id.radio_btn_pic)).setChecked(true);
+        ((RadioButton) mRadioGroup.findViewById(R.id.radio_btn_pic)).setChecked(true);
 //        mRadioGroup.check(R.id.radio_btn_pic);
         mRadioGroup.setAlpha(0.96f);
         menuWindow = new SelectPicPopupWindow(HomeActivity.this, HomeActivity.this);
@@ -243,7 +243,7 @@ public class HomeActivity
                         Manifest.permission.CAMERA) !=
                         PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(HomeActivity.this,
-                            new String[]{Manifest.permission.CAMERA}, 0);
+                            new String[]{Manifest.permission.CAMERA}, 3);
                 } else {
                     //友盟统计
                     HashMap<String, String> map4 = new HashMap<String, String>();
@@ -335,17 +335,17 @@ public class HomeActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_takephoto:
-                menuWindow.dismiss();
-                //android 6.0权限问题
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-                        ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
-                    ToastUtils.showCenter(this, "执行了权限请求");
-                } else {
-                    takePhoto();
-                }
-                break;
+//            case R.id.tv_takephoto:
+//                menuWindow.dismiss();
+//                //android 6.0权限问题
+//                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+//                        ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
+//                    ToastUtils.showCenter(this, "执行了权限请求");
+//                } else {
+//                    takePhoto();
+//                }
+//                break;
             case R.id.tv_pic:
                 menuWindow.dismiss();
                 GalleryFinal.openGallerySingle(0, new GalleryFinal.OnHanlderResultCallback() {
@@ -391,17 +391,20 @@ public class HomeActivity
             case R.id.riv_round_two:
             case R.id.riv_round_one:
             case R.id.rl_shitu:
+            case R.id.tv_takephoto:
 
                 if (jumpPosition == 0) {
-                    mRadioGroup.check(R.id.radio_btn_pic);
+                    ((RadioButton) mRadioGroup.findViewById(R.id.radio_btn_pic)).setChecked(true);
+//                    mRadioGroup.check(R.id.radio_btn_pic);
                 } else if (jumpPosition == 2) {
-                    mRadioGroup.check(R.id.radio_btn_center);
+                    ((RadioButton) mRadioGroup.findViewById(R.id.radio_btn_center)).setChecked(true);
+//                    mRadioGroup.check(R.id.radio_btn_center);
                 }
                 if (ContextCompat.checkSelfPermission(HomeActivity.this,
                         Manifest.permission.CAMERA) !=
                         PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(HomeActivity.this,
-                            new String[]{Manifest.permission.CAMERA}, 0);
+                            new String[]{Manifest.permission.CAMERA}, 3);
                 } else {
                     //友盟统计
                     HashMap<String, String> map6 = new HashMap<String, String>();
@@ -630,11 +633,12 @@ public class HomeActivity
                 initFragmentData();
                 break;
             case 3:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //获取到了权限
                     takePhoto();
                 } else {
-                    ToastUtils.showCenter(HomeActivity.this, "对不起你没有同意该权限");
+//                    getAppDetailSettingIntent(this);
+                    ToastUtils.showCenter(HomeActivity.this, "您没有授权该权限，请在设置中打开授权");
                 }
                 break;
         }
@@ -654,7 +658,21 @@ public class HomeActivity
         }
 
     }
+
     private List<String> list_up_toast = new ArrayList<>();
 
+    public static void getAppDetailSettingIntent(Context context) {
+        Intent localIntent = new Intent();
+        localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (Build.VERSION.SDK_INT >= 9) {
+            localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+            localIntent.setData(Uri.fromParts("package", context.getPackageName(), null));
+        } else if (Build.VERSION.SDK_INT <= 8) {
+            localIntent.setAction(Intent.ACTION_VIEW);
+            localIntent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails");
+            localIntent.putExtra("com.android.settings.ApplicationPkgName", context.getPackageName());
+        }
+        context.startActivity(localIntent);
+    }
 }
 
