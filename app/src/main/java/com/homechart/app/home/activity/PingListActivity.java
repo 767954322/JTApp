@@ -388,7 +388,7 @@ public class PingListActivity
                 }
                 if (ifFirst && !TextUtils.isEmpty(ifopen) && ifopen.equals("true")) {
                     ifFirst = false;
-                    handler.postDelayed(runnable, 600);
+                    handler.postDelayed(runnable, 0);
                 }
             }
         };

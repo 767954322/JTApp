@@ -733,6 +733,7 @@ public class ImageDetailLongActivity
                 rl_color.setVisibility(View.GONE);
                 break;
             case R.id.cet_all_ping:
+                loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
                 if (!loginStatus) {
                     Intent intent1 = new Intent(ImageDetailLongActivity.this, LoginActivity.class);
                     startActivityForResult(intent1, 1);
