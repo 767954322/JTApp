@@ -237,7 +237,7 @@ public class ImageDetailFragment
     private boolean ifchange = false;
     private View view_below_image;
     private int height_pic = 0;
-
+    private boolean firstLoad = true;
 
     public ImageDetailFragment() {
 
@@ -260,10 +260,13 @@ public class ImageDetailFragment
         if (userInfo != null) {
             userInfo.getUserInfo(imageDetailBean);
         }
-        initExtraBundle();
-        initView();
-        initData();
-        initListener();
+        if (firstLoad) {
+            initExtraBundle();
+            initView();
+            initData();
+            initListener();
+            firstLoad = false;
+        }
     }
 
     private void initExtraBundle() {
@@ -1376,6 +1379,7 @@ public class ImageDetailFragment
 
     private void changeUI(ImageDetailBean imageDetailBean) {
         int wide_num = PublicUtils.getScreenWidth(activity);
+//        height_pic = 2400;
         height_pic = (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio());
         ViewGroup.LayoutParams layoutParams = iv_details_image.getLayoutParams();
         layoutParams.width = wide_num;
