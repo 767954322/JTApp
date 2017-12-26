@@ -396,7 +396,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/riv_people_header"
         android:layout_alignStart="@+id/riv_people_header"
-        android:layout_alignTop="@+id/tv_details_time"
+        android:layout_alignTop="@+id/rl_time"
         android:background="@drawable/tishi"
         android:clickable="true"
         android:drawableRight="@drawable/guanbitishi1_1"
