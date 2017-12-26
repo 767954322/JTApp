@@ -57,27 +57,37 @@
 
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/bt_shiwu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="识别商品" />
-
-    <Button
-        android:id="@+id/bt_shise"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/bt_shiwu"
-        android:text="识别颜色" />
 
 
     <ImageView
+        android:id="@+id/bt_shiwu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="@dimen/font_10"
+        android:layout_marginBottom="@dimen/font_15"
+        android:src="@drawable/tongkuan2" />
+
+    <ImageView
+        android:id="@+id/bt_shise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/bt_shiwu"
+        android:layout_marginRight="@dimen/font_10"
+        android:layout_marginBottom="@dimen/font_15"
+        android:src="@drawable/secai2" />
+
+    <ImageView
         android:id="@+id/iv_xing"
-        android:layout_width="@dimen/font_30"
-        android:layout_height="@dimen/font_30"
-        android:layout_marginLeft="@dimen/font_10"
-        android:layout_toRightOf="@+id/bt_shise"
-        android:src="@drawable/xing" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/bt_shise"
+        android:layout_marginRight="@dimen/font_10"
+        android:layout_marginBottom="@dimen/font_15"
+        android:src="@drawable/xing2" />
 
 
     <RelativeLayout

@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.text.TextUtils;
@@ -212,8 +213,8 @@ public class ImageDetailFragment
     private SearchSBean searchSBean;
     boolean getPosition = true;
     //    private TextView tv_toast_shoucang;
-    private Button bt_shise;
-    private Button bt_shiwu;
+    private ImageView bt_shise;
+    private ImageView bt_shiwu;
     private int screenWidth;
     private int screenHeight;
     private Rect rect;
@@ -229,6 +230,7 @@ public class ImageDetailFragment
     private TextView tv_people_name1;
     private ImageView iv_people_tag1;
     private View view_new_list;
+    private int totalDy = 0;
 
 
     public ImageDetailFragment() {
@@ -270,8 +272,8 @@ public class ImageDetailFragment
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_info);
         cet_clearedit = (ClearEditText) rootView.findViewById(R.id.cet_clearedit);
         menu_layout = (ResizeRelativeLayout) rootView.findViewById(R.id.menu_layout);
-        bt_shiwu = (Button) rootView.findViewById(R.id.bt_shiwu);
-        bt_shise = (Button) rootView.findViewById(R.id.bt_shise);
+        bt_shiwu = (ImageView) rootView.findViewById(R.id.bt_shiwu);
+        bt_shise = (ImageView) rootView.findViewById(R.id.bt_shise);
         iv_xing = (ImageView) rootView.findViewById(R.id.iv_xing);
 
         rl_color = (RelativeLayout) rootView.findViewById(R.id.rl_color);
@@ -375,6 +377,8 @@ public class ImageDetailFragment
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
+           int top =  mRecyclerView.getScrollY();
+           Log.d("test",totalDy+"");
             //要做的事情，这里再次调用此Runnable对象，以实现每两秒实现一次的定时器操作
             if (iv_details_image.getLocalVisibleRect(rect)) {/*rect.contains(ivRect)*/
                 //控件在屏幕可见区域-----显现
@@ -501,6 +505,13 @@ public class ImageDetailFragment
                     huifuTag = "";
                 }
 
+            }
+        });
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                totalDy -= dy;
             }
         });
     }
@@ -1561,7 +1572,7 @@ public class ImageDetailFragment
         }
 
         if (imageDetailBean.getItem_info().getIs_collected().equals("1")) {//已收藏
-            iv_xing.setImageResource(R.drawable.xing1);
+            iv_xing.setImageResource(R.drawable.yishoucang2);
             tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
             ifShouCang = false;
         } else {//未收藏
@@ -2314,7 +2325,7 @@ public class ImageDetailFragment
                     break;
                 case 4:
                     ToastUtils.showCenter(activity, "收藏成功");
-                    iv_xing.setImageResource(R.drawable.xing1);
+                    iv_xing.setImageResource(R.drawable.yishoucang2);
                     collect_num++;
                     if (collect_num == 0) {
                         tv_xing.setText("");
@@ -2325,7 +2336,7 @@ public class ImageDetailFragment
                     break;
                 case 5:
                     ToastUtils.showCenter(activity, "取消收藏");
-                    iv_xing.setImageResource(R.drawable.xing);
+                    iv_xing.setImageResource(R.drawable.xing2);
                     collect_num--;
                     if (collect_num == 0) {
                         tv_xing.setText("");

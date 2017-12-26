@@ -216,8 +216,8 @@ public class ImageDetailLongActivity
     private TypeNewBean typeNewBean;
     private boolean loginStatus;
     private SearchSBean searchSBean;
-    private Button bt_shiwu;
-    private Button bt_shise;
+    private ImageView bt_shiwu;
+    private ImageView bt_shise;
     private int screenWidth;
     private int screenHeight;
     private Rect rect;
@@ -329,8 +329,8 @@ public class ImageDetailLongActivity
         tv_shared = (TextView) view.findViewById(R.id.tv_shared);
         ll_color_lines = (LinearLayout) view.findViewById(R.id.ll_color_lines);
 
-        bt_shiwu = (Button) findViewById(R.id.bt_shiwu);
-        bt_shise = (Button) findViewById(R.id.bt_shise);
+        bt_shiwu = (ImageView) findViewById(R.id.bt_shiwu);
+        bt_shise = (ImageView) findViewById(R.id.bt_shise);
         iv_xing = (ImageView)findViewById(R.id.iv_xing);
 
         rl_color = (RelativeLayout) findViewById(R.id.rl_color);
@@ -1490,7 +1490,7 @@ public class ImageDetailLongActivity
         }
 
         if (imageDetailBean.getItem_info().getIs_collected().equals("1")) {//已收藏
-            iv_xing.setImageResource(R.drawable.xing1);
+            iv_xing.setImageResource(R.drawable.yishoucang2);
             tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
             ifShouCang = false;
         } else {//未收藏
@@ -1928,7 +1928,7 @@ public class ImageDetailLongActivity
                     break;
                 case 4:
                     ToastUtils.showCenter(ImageDetailLongActivity.this, "收藏成功");
-                    iv_xing.setImageResource(R.drawable.xing1);
+                    iv_xing.setImageResource(R.drawable.yishoucang2);
                     collect_num++;
                     if (collect_num == 0) {
                         tv_xing.setText("");
@@ -1939,7 +1939,7 @@ public class ImageDetailLongActivity
                     break;
                 case 5:
                     ToastUtils.showCenter(ImageDetailLongActivity.this, "取消收藏");
-                    iv_xing.setImageResource(R.drawable.xing);
+                    iv_xing.setImageResource(R.drawable.xing2);
                     collect_num--;
                     if (collect_num == 0) {
                         tv_xing.setText("");
