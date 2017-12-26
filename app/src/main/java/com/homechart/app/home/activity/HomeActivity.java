@@ -191,10 +191,10 @@ public class HomeActivity
             intent.putExtra("article_id", object_id);
             startActivity(intent);
         }
-        if (!SharedPreferencesUtils.readBoolean("yindao")) {
-            rl_yindao1.setVisibility(View.VISIBLE);
-            rl_yindao2.setVisibility(View.GONE);
-        }
+//        if (!SharedPreferencesUtils.readBoolean("yindao")) {
+//            rl_yindao1.setVisibility(View.VISIBLE);
+//            rl_yindao2.setVisibility(View.GONE);
+//        }
     }
 
     @Override
