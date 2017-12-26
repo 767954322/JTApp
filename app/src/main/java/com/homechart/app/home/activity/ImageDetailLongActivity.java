@@ -1394,7 +1394,7 @@ public class ImageDetailLongActivity
             imageFirstTag = false;
         }
         listColor = imageDetailBean.getColor_info();
-        int width = iv_details_image.getLayoutParams().width;
+        int width = PublicUtils.getScreenWidth(ImageDetailLongActivity.this)-UIUtils.getDimens(R.dimen.font_40);
         if (ifFirst) {
             if (listColor != null && listColor.size() > 0) {
 //                ll_color_lines.setVisibility(View.VISIBLE);

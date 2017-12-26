@@ -1462,7 +1462,7 @@ public class ImageDetailFragment
             imageFirstTag = false;
         }
         listColor = imageDetailBean.getColor_info();
-        int width = iv_details_image.getLayoutParams().width;
+        int width = PublicUtils.getScreenWidth(activity)-UIUtils.getDimens(R.dimen.font_40);
         if (ifFirst) {
             if (listColor != null && listColor.size() > 0) {
                 float float_talte = 0;

@@ -103,16 +103,21 @@
         android:visibility="gone">
 
         <RelativeLayout
+            android:id="@+id/rl_color_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@drawable/back_jubao"
+            android:layout_marginLeft="@dimen/font_10"
+            android:layout_marginRight="@dimen/font_10"
             android:layout_centerVertical="true">
 
             <LinearLayout
                 android:id="@+id/ll_color_lines"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/font_30"
-                android:layout_marginTop="@dimen/font_3"
+                android:layout_marginLeft="@dimen/font_10"
+                android:layout_marginRight="@dimen/font_10"
+                android:layout_marginTop="@dimen/font_15"
                 android:orientation="horizontal" />
 
             <com.homechart.app.myview.MyListView
@@ -142,6 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/tv_color_tips"
+                android:layout_marginBottom="@dimen/font_15"
                 android:layout_marginTop="@dimen/font_25">
 
                 <TextView
@@ -174,18 +180,16 @@
 
             </RelativeLayout>
 
-
-            <ImageView
-                android:id="@+id/iv_close_color"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rl_color_location"
-                android:layout_marginTop="@dimen/font_30"
-                android:layout_marginBottom="@dimen/font_10"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/close_back"/>
         </RelativeLayout>
 
+        <ImageView
+            android:id="@+id/iv_close_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_color_content"
+            android:layout_marginTop="@dimen/font_45"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/guanbi2" />
     </RelativeLayout>
 
 </com.homechart.app.myview.ResizeRelativeLayout>
