@@ -10,8 +10,8 @@
         android:layout_width="@dimen/font_32"
         android:layout_height="@dimen/font_32"
         android:layout_marginLeft="@dimen/font_15"
-        android:visibility="gone"
-        android:layout_marginTop="@dimen/font_15" />
+        android:layout_marginTop="@dimen/font_15"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/rl_people_name"
@@ -19,8 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/font_8"
         android:layout_marginTop="@dimen/font_15"
-        android:visibility="gone"
-        android:layout_toRightOf="@+id/riv_people_header">
+        android:layout_toRightOf="@+id/riv_people_header"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_people_name"
@@ -53,9 +53,9 @@
         android:layout_below="@+id/rl_people_name"
         android:layout_marginTop="@dimen/font_2"
         android:gravity="top"
-        android:visibility="gone"
         android:textColor="@color/bg_8f8f8f"
-        android:textSize="@dimen/size_11" />
+        android:textSize="@dimen/size_11"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_people_guanzhu"
@@ -63,11 +63,11 @@
         android:layout_height="@dimen/font_25"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/font_10"
-        android:visibility="gone"
         android:layout_marginTop="@dimen/font_18"
         android:gravity="center"
         android:textColor="@color/bg_e79056"
-        android:textSize="@dimen/font_12" />
+        android:textSize="@dimen/font_12"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/rl_details_image"
@@ -221,16 +221,16 @@
             android:id="@+id/riv_people_header1"
             android:layout_width="@dimen/font_20"
             android:layout_height="@dimen/font_20"
-            android:layout_marginLeft="@dimen/font_10"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_10" />
 
 
         <RelativeLayout
             android:id="@+id/rl_people_name1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/font_6"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_6"
             android:layout_toRightOf="@+id/riv_people_header1">
 
             <TextView
@@ -260,9 +260,9 @@
             android:id="@+id/tv_details_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_marginLeft="@dimen/font_10"
             android:layout_marginRight="@dimen/font_10"
-            android:layout_alignParentRight="true"
             android:background="@color/white"
             android:textColor="@color/bg_8f8f8f"
             android:textSize="@dimen/font_12" />
@@ -286,8 +286,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:visibility="gone"
-        android:layout_below="@+id/view_line">
+        android:layout_below="@+id/view_line"
+        android:visibility="gone">
 
 
         <ImageView
@@ -402,11 +402,11 @@
         android:clickable="true"
         android:drawableRight="@drawable/guanbitishi1_1"
         android:gravity="center"
-        android:visibility="gone"
         android:paddingBottom="@dimen/font_10"
         android:paddingRight="@dimen/font_10"
+        android:text="收藏你喜欢的图片方便回看"
         android:textColor="@color/white"
-        android:text="收藏你喜欢的图片方便回看" />
+        android:visibility="gone" />
 
     <View
         android:id="@+id/view_top_ping"
@@ -965,18 +965,25 @@
 
         </RelativeLayout>
 
+        <View
+            android:id="@+id/view_new_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_ping_four"
+            android:layout_marginTop="@dimen/font_15"
+            android:visibility="gone"/>
+
         <com.homechart.app.myview.ClearEditText
             android:id="@+id/cet_all_ping"
             android:layout_width="match_parent"
             android:layout_height="@dimen/font_32"
+            android:layout_below="@+id/view_new_list"
+            android:layout_marginBottom="@dimen/font_15"
             android:layout_marginLeft="@dimen/font_10"
             android:layout_marginRight="@dimen/font_10"
             android:background="@drawable/bg_pinglun"
             android:drawablePadding="@dimen/font_6"
-            android:layout_below="@+id/rl_ping_four"
             android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/font_15"
-            android:layout_marginBottom="@dimen/font_15"
             android:hint="有话要说"
             android:paddingLeft="@dimen/font_10"
             android:textColorHint="@color/bg_b2b2b2"
