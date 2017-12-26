@@ -592,62 +592,78 @@ public class ImageDetailFragment
                 }
                 break;
             case R.id.ll_huifu_one:
-                huifuTag = "one";
+                loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                if (!loginStatus) {
+                    Intent intent = new Intent(activity, LoginActivity.class);
+                    startActivityForResult(intent, 1);
+                } else {
+                    huifuTag = "one";
+                    if (pingBean != null &&
+                            pingBean.getData() != null &&
+                            pingBean.getData().getComment_list() != null &&
+                            pingBean.getData().getComment_list().size() > 0) {
 
-                if (pingBean != null &&
-                        pingBean.getData() != null &&
-                        pingBean.getData().getComment_list() != null &&
-                        pingBean.getData().getComment_list().size() > 0) {
-
-                    String reply_id = pingBean.getData().getComment_list().get(0).getComment_info().getComment_id();
-                    String nikename = pingBean.getData().getComment_list().get(0).getComment_info().getUser_info().getNickname();
-                    Intent intent1 = new Intent(activity, PingListActivity.class);
-                    intent1.putExtra("item_id", item_id);
-                    intent1.putExtra("ifopen", "true");
-                    intent1.putExtra("reply_id", reply_id);
-                    intent1.putExtra("nikename", nikename);
-                    startActivityForResult(intent1, 2);
+                        String reply_id = pingBean.getData().getComment_list().get(0).getComment_info().getComment_id();
+                        String nikename = pingBean.getData().getComment_list().get(0).getComment_info().getUser_info().getNickname();
+                        Intent intent1 = new Intent(activity, PingListActivity.class);
+                        intent1.putExtra("item_id", item_id);
+                        intent1.putExtra("ifopen", "true");
+                        intent1.putExtra("reply_id", reply_id);
+                        intent1.putExtra("nikename", nikename);
+                        startActivityForResult(intent1, 2);
+                    }
                 }
-
 //                cet_clearedit.requestFocus();
 //                InputMethodManager imm = (InputMethodManager) cet_clearedit.getContext().getSystemService(activity.INPUT_METHOD_SERVICE);
 //                imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
                 break;
             case R.id.ll_huifu_two:
-                huifuTag = "two";
-                if (pingBean != null &&
-                        pingBean.getData() != null &&
-                        pingBean.getData().getComment_list() != null &&
-                        pingBean.getData().getComment_list().size() > 1) {
+                loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                if (!loginStatus) {
+                    Intent intent = new Intent(activity, LoginActivity.class);
+                    startActivityForResult(intent, 1);
+                } else {
+                    huifuTag = "two";
+                    if (pingBean != null &&
+                            pingBean.getData() != null &&
+                            pingBean.getData().getComment_list() != null &&
+                            pingBean.getData().getComment_list().size() > 1) {
 
-                    String reply_id = pingBean.getData().getComment_list().get(1).getComment_info().getComment_id();
-                    String nikename = pingBean.getData().getComment_list().get(1).getComment_info().getUser_info().getNickname();
-                    Intent intent1 = new Intent(activity, PingListActivity.class);
-                    intent1.putExtra("item_id", item_id);
-                    intent1.putExtra("ifopen", "true");
-                    intent1.putExtra("reply_id", reply_id);
-                    intent1.putExtra("nikename", nikename);
-                    startActivityForResult(intent1, 2);
+                        String reply_id = pingBean.getData().getComment_list().get(1).getComment_info().getComment_id();
+                        String nikename = pingBean.getData().getComment_list().get(1).getComment_info().getUser_info().getNickname();
+                        Intent intent1 = new Intent(activity, PingListActivity.class);
+                        intent1.putExtra("item_id", item_id);
+                        intent1.putExtra("ifopen", "true");
+                        intent1.putExtra("reply_id", reply_id);
+                        intent1.putExtra("nikename", nikename);
+                        startActivityForResult(intent1, 2);
+                    }
                 }
 //                cet_clearedit.requestFocus();
 //                InputMethodManager imm1 = (InputMethodManager) cet_clearedit.getContext().getSystemService(activity.INPUT_METHOD_SERVICE);
 //                imm1.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
                 break;
             case R.id.ll_huifu_three:
-                huifuTag = "three";
-                if (pingBean != null &&
-                        pingBean.getData() != null &&
-                        pingBean.getData().getComment_list() != null &&
-                        pingBean.getData().getComment_list().size() > 2) {
+                loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                if (!loginStatus) {
+                    Intent intent = new Intent(activity, LoginActivity.class);
+                    startActivityForResult(intent, 1);
+                } else {
+                    huifuTag = "three";
+                    if (pingBean != null &&
+                            pingBean.getData() != null &&
+                            pingBean.getData().getComment_list() != null &&
+                            pingBean.getData().getComment_list().size() > 2) {
 
-                    String reply_id = pingBean.getData().getComment_list().get(2).getComment_info().getComment_id();
-                    String nikename = pingBean.getData().getComment_list().get(2).getComment_info().getUser_info().getNickname();
-                    Intent intent1 = new Intent(activity, PingListActivity.class);
-                    intent1.putExtra("item_id", item_id);
-                    intent1.putExtra("ifopen", "true");
-                    intent1.putExtra("reply_id", reply_id);
-                    intent1.putExtra("nikename", nikename);
-                    startActivityForResult(intent1, 2);
+                        String reply_id = pingBean.getData().getComment_list().get(2).getComment_info().getComment_id();
+                        String nikename = pingBean.getData().getComment_list().get(2).getComment_info().getUser_info().getNickname();
+                        Intent intent1 = new Intent(activity, PingListActivity.class);
+                        intent1.putExtra("item_id", item_id);
+                        intent1.putExtra("ifopen", "true");
+                        intent1.putExtra("reply_id", reply_id);
+                        intent1.putExtra("nikename", nikename);
+                        startActivityForResult(intent1, 2);
+                    }
                 }
 //                cet_clearedit.requestFocus();
 //                InputMethodManager imm2 = (InputMethodManager) cet_clearedit.getContext().getSystemService(activity.INPUT_METHOD_SERVICE);
@@ -761,11 +777,16 @@ public class ImageDetailFragment
                 ((ImageDetailScrollActivity) activity).setViewPagerScrollAble(true);
                 rl_color.setVisibility(View.GONE);
                 break;
-            case R.id.cet_all_ping:
-                Intent intent6 = new Intent(activity, PingListActivity.class);
-                intent6.putExtra("item_id", item_id);
-                intent6.putExtra("ifopen", "true");
-                startActivityForResult(intent6, 2);
+            case R.id.cet_all_ping: loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                if (!loginStatus) {
+                    Intent intent1 = new Intent(activity, LoginActivity.class);
+                    startActivityForResult(intent1, 1);
+                } else {
+                    Intent intent6 = new Intent(activity, PingListActivity.class);
+                    intent6.putExtra("item_id", item_id);
+                    intent6.putExtra("ifopen", "true");
+                    startActivityForResult(intent6, 2);
+                }
                 break;
         }
     }

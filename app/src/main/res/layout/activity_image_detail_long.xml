@@ -76,6 +76,14 @@
         android:layout_toRightOf="@+id/bt_shiwu"
         android:text="识别颜色"/>
 
+    <ImageView
+        android:id="@+id/iv_xing"
+        android:layout_width="@dimen/font_30"
+        android:layout_height="@dimen/font_30"
+        android:layout_marginLeft="@dimen/font_10"
+        android:layout_below="@+id/common_navbar"
+        android:layout_toRightOf="@+id/bt_shise"
+        android:src="@drawable/xing" />
 
     <RelativeLayout
         android:id="@+id/rl_color"
