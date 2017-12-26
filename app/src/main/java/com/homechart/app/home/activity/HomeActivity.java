@@ -3,6 +3,7 @@ package com.homechart.app.home.activity;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -107,6 +108,10 @@ public class HomeActivity
     private RelativeLayout rl_shitu;
     private RelativeLayout rl_yindao2;
     private RelativeLayout rl_yindao1;
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     @Override
     protected int getLayoutResId() {
@@ -172,14 +177,28 @@ public class HomeActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+        int permission = ActivityCompat.checkSelfPermission(HomeActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(HomeActivity.this, PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE);
+        } else {
+            initFragmentData();
+        }
+    }
+
+    private void initFragmentData() {
         if (findViewById(R.id.main_content) != null) {
             if (null == mHomePicFragment) {
                 mHomePicFragment = new HomePicFragment(getSupportFragmentManager());
             }
             transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.main_content, mHomePicFragment).commitAllowingStateLoss();
+//            FragmentManager.executePendingTransactions();
         }
-        mRadioGroup.check(R.id.radio_btn_pic);
+        ((RadioButton)mRadioGroup.findViewById(R.id.radio_btn_pic)).setChecked(true);
+//        mRadioGroup.check(R.id.radio_btn_pic);
         mRadioGroup.setAlpha(0.96f);
         menuWindow = new SelectPicPopupWindow(HomeActivity.this, HomeActivity.this);
         upApkPopupWindow = new UpApkPopupWindow(this, this);
@@ -318,20 +337,14 @@ public class HomeActivity
         switch (v.getId()) {
             case R.id.tv_takephoto:
                 menuWindow.dismiss();
-                if (Build.VERSION.SDK_INT >= 23) {
-                    //android 6.0权限问题
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-                            ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
-                        ToastUtils.showCenter(this, "执行了权限请求");
-                    } else {
-                        takePhoto();
-                    }
+                //android 6.0权限问题
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                        ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
+                    ToastUtils.showCenter(this, "执行了权限请求");
                 } else {
                     takePhoto();
                 }
-
-
                 break;
             case R.id.tv_pic:
                 menuWindow.dismiss();
@@ -613,6 +626,9 @@ public class HomeActivity
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         switch (requestCode) {
+            case 1:
+                initFragmentData();
+                break;
             case 3:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     //获取到了权限
@@ -638,7 +654,7 @@ public class HomeActivity
         }
 
     }
-
     private List<String> list_up_toast = new ArrayList<>();
+
 }
 

@@ -56,20 +56,20 @@ public class WelcomeActivity extends BaseActivity implements WelcomePagerAdapter
     }
 
     protected void initData(Bundle savedInstanceState) {
-        StatusBarUtil.setTranslucentForImageView(this, 0, null);
-        if (getNextActivityToLaunch()) {
+//        StatusBarUtil.setTranslucentForImageView(this, 0, null);
+//        if (getNextActivityToLaunch()) {
             //跳转到广告页
             Intent intent = new Intent(this, AdvertisementActivity.class);
             startActivity(intent);
             finish();
-        } else {
-            WelcomePagerAdapter adapter = new WelcomePagerAdapter(WelcomeActivity.this, getAdData(), this);
-//            //初始化轮播图下面小点
-//            mWelcomeViewPager.updateIndicatorView(getAdData().size());
-            mWelcomeViewPager.setAdapter(adapter);
-            //设置权限
-            PublicUtils.verifyStoragePermissions(WelcomeActivity.this);
-        }
+//        } else {
+//            WelcomePagerAdapter adapter = new WelcomePagerAdapter(WelcomeActivity.this, getAdData(), this);
+////            //初始化轮播图下面小点
+////            mWelcomeViewPager.updateIndicatorView(getAdData().size());
+//            mWelcomeViewPager.setAdapter(adapter);
+//            //设置权限
+//            PublicUtils.verifyStoragePermissions(WelcomeActivity.this);
+//        }
     }
 
 
