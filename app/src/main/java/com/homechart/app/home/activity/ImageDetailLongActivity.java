@@ -114,7 +114,6 @@ public class ImageDetailLongActivity
     private ShangshabanChangeTextSpaceView tv_details_tital;
     private TextView tv_details_time;
     private ImageView iv_bang;
-    private ImageView iv_xing;
     private ImageView iv_ping;
     private ImageView iv_shared;
     private TextView tv_bang;
@@ -218,6 +217,10 @@ public class ImageDetailLongActivity
     private SearchSBean searchSBean;
     private ImageView bt_shiwu;
     private ImageView bt_shise;
+    private ImageView bt_shiwu2;
+    private ImageView bt_shise2;
+    private ImageView iv_xing2;
+    private ImageView iv_xing;
     private int screenWidth;
     private int screenHeight;
     private Rect rect;
@@ -333,6 +336,10 @@ public class ImageDetailLongActivity
         bt_shise = (ImageView) findViewById(R.id.bt_shise);
         iv_xing = (ImageView)findViewById(R.id.iv_xing);
 
+        bt_shiwu2 = (ImageView)  view.findViewById(R.id.bt_shiwu2);
+        bt_shise2 = (ImageView)  view.findViewById(R.id.bt_shise2);
+        iv_xing2 = (ImageView) view.findViewById(R.id.iv_xing2);
+
         rl_color = (RelativeLayout) findViewById(R.id.rl_color);
         iv_close_color = (ImageView) findViewById(R.id.iv_close_color);
         dgv_colorlist1 = (MyListView) findViewById(R.id.dgv_colorlist);
@@ -350,6 +357,7 @@ public class ImageDetailLongActivity
         tv_bang.setOnClickListener(this);
         iv_bang.setOnClickListener(this);
         iv_xing.setOnClickListener(this);
+        iv_xing2.setOnClickListener(this);
         tv_xing.setOnClickListener(this);
         iv_shared.setOnClickListener(this);
         tv_shared.setOnClickListener(this);
@@ -366,7 +374,9 @@ public class ImageDetailLongActivity
         iv_ifshow_color.setOnClickListener(this);
         nav_secondary_imageButton.setOnClickListener(this);
         bt_shiwu.setOnClickListener(this);
+        bt_shiwu2.setOnClickListener(this);
         bt_shise.setOnClickListener(this);
+        bt_shise2.setOnClickListener(this);
         iv_close_color.setOnClickListener(this);
         cet_all_ping.setOnClickListener(this);
         cet_clearedit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -462,11 +472,15 @@ public class ImageDetailLongActivity
             if (iv_details_image.getLocalVisibleRect(rect)) {/*rect.contains(ivRect)*/
                 //控件在屏幕可见区域-----显现
                 bt_shiwu.setVisibility(View.VISIBLE);
+                bt_shiwu2.setVisibility(View.VISIBLE);
                 bt_shise.setVisibility(View.VISIBLE);
+                bt_shise2.setVisibility(View.VISIBLE);
             } else {
                 //控件已不在屏幕可见区域（已滑出屏幕）-----隐去
                 bt_shiwu.setVisibility(View.GONE);
+                bt_shiwu2.setVisibility(View.GONE);
                 bt_shise.setVisibility(View.GONE);
+                bt_shise2.setVisibility(View.GONE);
             }
             handler.postDelayed(this, 200);
         }
@@ -508,6 +522,7 @@ public class ImageDetailLongActivity
                 }
                 break;
             case R.id.iv_xing:
+            case R.id.iv_xing2:
             case R.id.tv_xing:
                 if (ifShouCang) {
                     addShouCang();
@@ -674,6 +689,7 @@ public class ImageDetailLongActivity
 
                 break;
             case R.id.bt_shiwu:
+            case R.id.bt_shiwu2:
                 if (null != imageDetailBean && null != searchSBean) {
                     Intent intent1 = new Intent(ImageDetailLongActivity.this, NewSearchResultActivity.class);
                     intent1.putExtra("image_id", imageDetailBean.getItem_info().getImage().getImage_id());
@@ -691,13 +707,18 @@ public class ImageDetailLongActivity
                 }
                 break;
             case R.id.bt_shise:
+            case R.id.bt_shise2:
                 bt_shiwu.setClickable(false);
+                bt_shiwu2.setClickable(false);
                 bt_shise.setClickable(false);
+                bt_shise2.setClickable(false);
                 rl_color.setVisibility(View.VISIBLE);
                 break;
             case R.id.iv_close_color:
                 bt_shiwu.setClickable(true);
+                bt_shiwu2.setClickable(true);
                 bt_shise.setClickable(true);
+                bt_shise2.setClickable(true);
                 rl_color.setVisibility(View.GONE);
                 break;
             case R.id.cet_all_ping:
@@ -1491,6 +1512,7 @@ public class ImageDetailLongActivity
 
         if (imageDetailBean.getItem_info().getIs_collected().equals("1")) {//已收藏
             iv_xing.setImageResource(R.drawable.yishoucang2);
+            iv_xing2.setImageResource(R.drawable.yishoucang2);
             tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
             ifShouCang = false;
         } else {//未收藏
@@ -1929,6 +1951,7 @@ public class ImageDetailLongActivity
                 case 4:
                     ToastUtils.showCenter(ImageDetailLongActivity.this, "收藏成功");
                     iv_xing.setImageResource(R.drawable.yishoucang2);
+                    iv_xing2.setImageResource(R.drawable.yishoucang2);
                     collect_num++;
                     if (collect_num == 0) {
                         tv_xing.setText("");
@@ -1940,6 +1963,7 @@ public class ImageDetailLongActivity
                 case 5:
                     ToastUtils.showCenter(ImageDetailLongActivity.this, "取消收藏");
                     iv_xing.setImageResource(R.drawable.xing2);
+                    iv_xing2.setImageResource(R.drawable.xing2);
                     collect_num--;
                     if (collect_num == 0) {
                         tv_xing.setText("");

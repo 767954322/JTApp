@@ -215,6 +215,8 @@ public class ImageDetailFragment
     //    private TextView tv_toast_shoucang;
     private ImageView bt_shise;
     private ImageView bt_shiwu;
+    private ImageView bt_shise2;
+    private ImageView bt_shiwu2;
     private int screenWidth;
     private int screenHeight;
     private Rect rect;
@@ -231,6 +233,7 @@ public class ImageDetailFragment
     private ImageView iv_people_tag1;
     private View view_new_list;
     private int totalDy = 0;
+    private ImageView iv_xing2;
 
 
     public ImageDetailFragment() {
@@ -347,6 +350,9 @@ public class ImageDetailFragment
             cet_all_ping = (ClearEditText) view.findViewById(R.id.cet_all_ping);
             tv_shared = (TextView) view.findViewById(R.id.tv_shared);
             ll_color_lines = (LinearLayout) view.findViewById(R.id.ll_color_lines);
+            bt_shiwu2 = (ImageView) view.findViewById(R.id.bt_shiwu2);
+            bt_shise2 = (ImageView) view.findViewById(R.id.bt_shise2);
+            iv_xing2 = (ImageView) view.findViewById(R.id.iv_xing2);
 //            tv_toast_shoucang = (TextView) view.findViewById(R.id.tv_toast_shoucang);
         }
     }
@@ -383,11 +389,15 @@ public class ImageDetailFragment
             if (iv_details_image.getLocalVisibleRect(rect)) {/*rect.contains(ivRect)*/
                 //控件在屏幕可见区域-----显现
                 bt_shiwu.setVisibility(View.VISIBLE);
+                bt_shiwu2.setVisibility(View.VISIBLE);
                 bt_shise.setVisibility(View.VISIBLE);
+                bt_shise2.setVisibility(View.VISIBLE);
             } else {
                 //控件已不在屏幕可见区域（已滑出屏幕）-----隐去
                 bt_shiwu.setVisibility(View.GONE);
+                bt_shiwu2.setVisibility(View.GONE);
                 bt_shise.setVisibility(View.GONE);
+                bt_shise2.setVisibility(View.GONE);
             }
             handler.postDelayed(this, 200);
         }
@@ -403,6 +413,7 @@ public class ImageDetailFragment
         tv_bang.setOnClickListener(this);
         iv_bang.setOnClickListener(this);
         iv_xing.setOnClickListener(this);
+        iv_xing2.setOnClickListener(this);
         tv_xing.setOnClickListener(this);
         iv_shared.setOnClickListener(this);
         tv_shared.setOnClickListener(this);
@@ -420,7 +431,9 @@ public class ImageDetailFragment
         iv_ifshow_color.setOnClickListener(this);
         tv_color_tital.setOnClickListener(this);
         bt_shiwu.setOnClickListener(this);
+        bt_shiwu2.setOnClickListener(this);
         bt_shise.setOnClickListener(this);
+        bt_shise2.setOnClickListener(this);
         iv_close_color.setOnClickListener(this);
         cet_clearedit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -555,6 +568,7 @@ public class ImageDetailFragment
                 }
                 break;
             case R.id.iv_xing:
+            case R.id.iv_xing2:
             case R.id.tv_xing:
                 loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
                 if (!loginStatus) {
@@ -758,6 +772,7 @@ public class ImageDetailFragment
 //                tv_toast_shoucang.setVisibility(View.GONE);
 //                break;
             case R.id.bt_shiwu:
+            case R.id.bt_shiwu2:
                 if (null != imageDetailBean && null != searchSBean) {
                     Intent intent4 = new Intent(activity, NewSearchResultActivity.class);
                     intent4.putExtra("image_id", imageDetailBean.getItem_info().getImage().getImage_id());
@@ -775,14 +790,19 @@ public class ImageDetailFragment
                 }
                 break;
             case R.id.bt_shise:
+            case R.id.bt_shise2:
                 bt_shiwu.setClickable(false);
+                bt_shiwu2.setClickable(false);
                 bt_shise.setClickable(false);
+                bt_shise2.setClickable(false);
                 ((ImageDetailScrollActivity) activity).setTitalClickAble(false);
                 ((ImageDetailScrollActivity) activity).setViewPagerScrollAble(false);
                 rl_color.setVisibility(View.VISIBLE);
                 break;
             case R.id.iv_close_color:
+                bt_shiwu2.setClickable(true);
                 bt_shiwu.setClickable(true);
+                bt_shise2.setClickable(true);
                 bt_shise.setClickable(true);
                 ((ImageDetailScrollActivity) activity).setTitalClickAble(true);
                 ((ImageDetailScrollActivity) activity).setViewPagerScrollAble(true);
@@ -1573,6 +1593,7 @@ public class ImageDetailFragment
 
         if (imageDetailBean.getItem_info().getIs_collected().equals("1")) {//已收藏
             iv_xing.setImageResource(R.drawable.yishoucang2);
+            iv_xing2.setImageResource(R.drawable.yishoucang2);
             tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
             ifShouCang = false;
         } else {//未收藏
@@ -2326,6 +2347,7 @@ public class ImageDetailFragment
                 case 4:
                     ToastUtils.showCenter(activity, "收藏成功");
                     iv_xing.setImageResource(R.drawable.yishoucang2);
+                    iv_xing2.setImageResource(R.drawable.yishoucang2);
                     collect_num++;
                     if (collect_num == 0) {
                         tv_xing.setText("");
@@ -2337,6 +2359,7 @@ public class ImageDetailFragment
                 case 5:
                     ToastUtils.showCenter(activity, "取消收藏");
                     iv_xing.setImageResource(R.drawable.xing2);
+                    iv_xing2.setImageResource(R.drawable.xing2);
                     collect_num--;
                     if (collect_num == 0) {
                         tv_xing.setText("");

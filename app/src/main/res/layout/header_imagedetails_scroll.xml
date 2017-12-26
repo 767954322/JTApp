@@ -44,7 +44,6 @@
 
     </RelativeLayout>
 
-
     <TextView
         android:id="@+id/tv_people_details"
         android:layout_width="wrap_content"
@@ -81,6 +80,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white" />
+        <ImageView
+            android:id="@+id/bt_shiwu2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/iv_details_image"
+            android:layout_alignBottom="@+id/iv_details_image"
+            android:layout_marginRight="@dimen/font_10"
+            android:layout_marginBottom="@dimen/font_15"
+            android:src="@drawable/tongkuan2" />
+
+        <ImageView
+            android:id="@+id/bt_shise2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/bt_shiwu2"
+            android:layout_alignBottom="@+id/bt_shiwu2"
+            android:layout_marginRight="@dimen/font_10"
+            android:src="@drawable/secai2" />
+
+        <ImageView
+            android:id="@+id/iv_xing2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/bt_shiwu2"
+            android:layout_toLeftOf="@+id/bt_shise2"
+            android:layout_marginRight="@dimen/font_10"
+            android:src="@drawable/xing2" />
 
         <LinearLayout
             android:id="@+id/ll_color_lines"
