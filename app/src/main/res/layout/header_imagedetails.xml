@@ -75,8 +75,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/riv_people_header"
-        android:layout_marginLeft="@dimen/font_10"
-        android:layout_marginRight="@dimen/font_10"
         android:background="@drawable/image_details_backgroud">
 
         <com.homechart.app.hotposition.ImageLayout

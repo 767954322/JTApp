@@ -1213,7 +1213,7 @@ public class ImageDetailLongActivity
     }
 
     private void changeUI(ImageDetailBean imageDetailBean) {
-        int wide_num = PublicUtils.getScreenWidth(ImageDetailLongActivity.this) - UIUtils.getDimens(R.dimen.font_20);
+        int wide_num = PublicUtils.getScreenWidth(ImageDetailLongActivity.this) ;
         ViewGroup.LayoutParams layoutParams = iv_details_image.getLayoutParams();
         layoutParams.width = wide_num;
         layoutParams.height = (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio());
