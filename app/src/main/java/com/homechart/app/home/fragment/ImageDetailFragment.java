@@ -234,6 +234,9 @@ public class ImageDetailFragment
     private View view_new_list;
     private int totalDy = 0;
     private ImageView iv_xing2;
+    private boolean ifchange = false;
+    private View view_below_image;
+    private int height_pic = 0;
 
 
     public ImageDetailFragment() {
@@ -353,6 +356,7 @@ public class ImageDetailFragment
             bt_shiwu2 = (ImageView) view.findViewById(R.id.bt_shiwu2);
             bt_shise2 = (ImageView) view.findViewById(R.id.bt_shise2);
             iv_xing2 = (ImageView) view.findViewById(R.id.iv_xing2);
+            view_below_image = view.findViewById(R.id.view_below_image);
 //            tv_toast_shoucang = (TextView) view.findViewById(R.id.tv_toast_shoucang);
         }
     }
@@ -375,31 +379,29 @@ public class ImageDetailFragment
         screenHeight = PublicUtils.getScreenHeight(activity);
         rect = new Rect(0, 0, screenWidth, screenHeight);
         int[] location = new int[2];
-        iv_details_image.getLocationInWindow(location);
+        view_below_image.getLocationInWindow(location);
         // Rect ivRect=new Rect(imageView.getLeft(),imageView.getTop(),imageView.getRight(),imageView.getBottom());
-        handler2.postDelayed(runnable, 200);
+        handler2.postDelayed(runnable, 100);
     }
 
+    private int maxScroll = 0;
+    private boolean ifFirstScroll = false;
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            int top = mRecyclerView.getScrollY();
-            Log.d("test", totalDy + "");
-            //要做的事情，这里再次调用此Runnable对象，以实现每两秒实现一次的定时器操作
-            if (iv_details_image.getLocalVisibleRect(rect)) {/*rect.contains(ivRect)*/
-                //控件在屏幕可见区域-----显现
-//                bt_shiwu.setVisibility(View.VISIBLE);
-//                bt_shiwu2.setVisibility(View.VISIBLE);
-//                bt_shise.setVisibility(View.VISIBLE);
-//                bt_shise2.setVisibility(View.VISIBLE);
-            } else {
-                //控件已不在屏幕可见区域（已滑出屏幕）-----隐去
-//                bt_shiwu.setVisibility(View.GONE);
-//                bt_shiwu2.setVisibility(View.GONE);
-//                bt_shise.setVisibility(View.GONE);
-//                bt_shise2.setVisibility(View.GONE);
+            int top = Math.abs(totalDy);
+            if (height_pic != 0 && top >= height_pic) {
+                changeShiBieUI(true);
+            } else if (height_pic != 0 && top < height_pic) {
+                if (view_below_image.getLocalVisibleRect(rect)) {/*rect.contains(ivRect)*/
+                    //控件在屏幕可见区域-----显现
+                    changeShiBieUI(true);
+                } else {
+                    //控件已不在屏幕可见区域（已滑出屏幕）-----隐去
+                    changeShiBieUI(false);
+                }
             }
-            handler.postDelayed(this, 200);
+            handler.postDelayed(this, 100);
         }
     };
     Handler handler2 = new Handler() {
@@ -1374,14 +1376,16 @@ public class ImageDetailFragment
 
     private void changeUI(ImageDetailBean imageDetailBean) {
         int wide_num = PublicUtils.getScreenWidth(activity);
-        int height_pic = (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio());
+        height_pic = (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio());
         ViewGroup.LayoutParams layoutParams = iv_details_image.getLayoutParams();
         layoutParams.width = wide_num;
         layoutParams.height = height_pic;
         iv_details_image.setLayoutParams(layoutParams);
         if ((height_pic + UIUtils.getDimens(R.dimen.font_50)) < PublicUtils.getScreenHeight(activity)) {
+            ifchange = false;
             changeShiBieUI(true);
         } else {
+            ifchange = true;
             changeShiBieUI(false);
         }
         ImageUtils.displayRoundImage(imageDetailBean.getUser_info().getAvatar().getThumb(), riv_people_header);
@@ -2468,6 +2472,15 @@ public class ImageDetailFragment
         }
 
 
+    }
+
+    private void higeShiBieUI() {
+        iv_xing2.setVisibility(View.GONE);
+        bt_shiwu2.setVisibility(View.GONE);
+        bt_shise2.setVisibility(View.GONE);
+        iv_xing.setVisibility(View.GONE);
+        bt_shiwu.setVisibility(View.GONE);
+        bt_shise.setVisibility(View.GONE);
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.text.TextUtils;
@@ -236,6 +237,9 @@ public class ImageDetailLongActivity
     private ImageView iv_people_tag1;
     private View view_new_list;
     private ClearEditText cet_all_ping;
+    private int height_pic;
+    private int totalDy = 0;
+    private View view_below_image;
 
     @Override
     protected int getLayoutResId() {
@@ -339,6 +343,7 @@ public class ImageDetailLongActivity
         bt_shiwu2 = (ImageView)  view.findViewById(R.id.bt_shiwu2);
         bt_shise2 = (ImageView)  view.findViewById(R.id.bt_shise2);
         iv_xing2 = (ImageView) view.findViewById(R.id.iv_xing2);
+        view_below_image = view.findViewById(R.id.view_below_image);
 
         rl_color = (RelativeLayout) findViewById(R.id.rl_color);
         iv_close_color = (ImageView) findViewById(R.id.iv_close_color);
@@ -441,7 +446,13 @@ public class ImageDetailLongActivity
 
             }
         });
-
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                totalDy -= dy;
+            }
+        });
     }
 
     @Override
@@ -460,29 +471,27 @@ public class ImageDetailLongActivity
         screenHeight = PublicUtils.getScreenHeight(this);
         rect = new Rect(0, 0, screenWidth, screenHeight);
         int[] location = new int[2];
-        iv_details_image.getLocationInWindow(location);
+        view_below_image.getLocationInWindow(location);
         // Rect ivRect=new Rect(imageView.getLeft(),imageView.getTop(),imageView.getRight(),imageView.getBottom());
-        handler2.postDelayed(runnable, 200);
+        handler2.postDelayed(runnable, 100);
     }
 
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            //要做的事情，这里再次调用此Runnable对象，以实现每两秒实现一次的定时器操作
-            if (iv_details_image.getLocalVisibleRect(rect)) {/*rect.contains(ivRect)*/
-                //控件在屏幕可见区域-----显现
-//                bt_shiwu.setVisibility(View.VISIBLE);
-//                bt_shiwu2.setVisibility(View.VISIBLE);
-//                bt_shise.setVisibility(View.VISIBLE);
-//                bt_shise2.setVisibility(View.VISIBLE);
-            } else {
-                //控件已不在屏幕可见区域（已滑出屏幕）-----隐去
-//                bt_shiwu.setVisibility(View.GONE);
-//                bt_shiwu2.setVisibility(View.GONE);
-//                bt_shise.setVisibility(View.GONE);
-//                bt_shise2.setVisibility(View.GONE);
+            int top = Math.abs(totalDy);
+            if (height_pic != 0 && top >= height_pic) {
+                changeShiBieUI(true);
+            } else if (height_pic != 0 && top < height_pic) {
+                if (view_below_image.getLocalVisibleRect(rect)) {/*rect.contains(ivRect)*/
+                    //控件在屏幕可见区域-----显现
+                    changeShiBieUI(true);
+                } else {
+                    //控件已不在屏幕可见区域（已滑出屏幕）-----隐去
+                    changeShiBieUI(false);
+                }
             }
-            handler.postDelayed(this, 200);
+            handler.postDelayed(this, 100);
         }
     };
     Handler handler2 = new Handler() {
@@ -1310,7 +1319,7 @@ public class ImageDetailLongActivity
 
     private void changeUI(ImageDetailBean imageDetailBean) {
         int wide_num = PublicUtils.getScreenWidth(ImageDetailLongActivity.this);
-        int height_pic = (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio());
+        height_pic = (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio());
         ViewGroup.LayoutParams layoutParams = iv_details_image.getLayoutParams();
         layoutParams.width = wide_num;
         layoutParams.height = height_pic;
