@@ -74,6 +74,7 @@
             android:background="@drawable/bg_huifu"
             android:drawableLeft="@drawable/xie"
             android:drawablePadding="@dimen/font_10"
+            android:focusable="true"
             android:gravity="center_vertical"
             android:hint="评论"
             android:textColorHint="@color/bg_8f8f8f"

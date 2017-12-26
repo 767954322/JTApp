@@ -826,6 +826,7 @@ public class ImageDetailFragment
                     Intent intent6 = new Intent(activity, PingListActivity.class);
                     intent6.putExtra("item_id", item_id);
                     intent6.putExtra("ifopen", "true");
+                    intent6.putExtra("reply_id", "");
                     startActivityForResult(intent6, 2);
                 }
                 break;

@@ -119,6 +119,7 @@ public class PingListActivity
     }
 
     private boolean bol = true;
+    private boolean ifFirst = true;
     private boolean loginStatus;
 
     @Override
@@ -202,6 +203,14 @@ public class PingListActivity
         buildRecyclerView();
     }
 
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            huiFuPing("");
+        }
+    };
+    Handler handler = new Handler() {};
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -222,7 +231,6 @@ public class PingListActivity
             @Override
             public int getItemViewType(int position, CommentListBean itemMessageBean) {
                 return 0;
-
             }
         };
 
@@ -362,6 +370,10 @@ public class PingListActivity
                 } catch (JSONException e) {
 
                     ToastUtils.showCenter(PingListActivity.this, "评论数据获取失败");
+                }
+                if (ifFirst && !TextUtils.isEmpty(ifopen) && ifopen.equals("true")) {
+                    ifFirst = false;
+                    handler.postDelayed(runnable, 600);
                 }
             }
         };

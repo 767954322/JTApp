@@ -641,6 +641,8 @@ public class ImageDetailLongActivity
             case R.id.tv_ping:
                 Intent intent = new Intent(ImageDetailLongActivity.this, PingListActivity.class);
                 intent.putExtra("item_id", item_id);
+                intent.putExtra("ifopen", "false");
+                intent.putExtra("reply_id", "");
                 startActivityForResult(intent, 2);
                 break;
 
@@ -738,6 +740,7 @@ public class ImageDetailLongActivity
                     Intent intent6 = new Intent(ImageDetailLongActivity.this, PingListActivity.class);
                     intent6.putExtra("item_id", item_id);
                     intent6.putExtra("ifopen", "true");
+                    intent6.putExtra("reply_id", "");
                     startActivityForResult(intent6, 2);
                 }
                 break;
