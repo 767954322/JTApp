@@ -3,12 +3,15 @@ package com.homechart.app.home.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -211,6 +214,9 @@ public class ImageDetailFragment
     private TextView tv_toast_shoucang;
     private Button bt_shise;
     private Button bt_shiwu;
+    private int screenWidth;
+    private int screenHeight;
+    private Rect rect;
 
 
     public ImageDetailFragment() {
@@ -332,7 +338,32 @@ public class ImageDetailFragment
             tv_toast_shoucang.setVisibility(View.GONE);
         }
 
+        screenWidth = PublicUtils.getScreenWidth(activity);
+        screenHeight = PublicUtils.getScreenHeight(activity);
+        rect = new Rect(0, 0, screenWidth, screenHeight);
+        int[] location = new int[2];
+        iv_details_image.getLocationInWindow(location);
+        // Rect ivRect=new Rect(imageView.getLeft(),imageView.getTop(),imageView.getRight(),imageView.getBottom());
+        handler2.postDelayed(runnable, 200);
     }
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            //要做的事情，这里再次调用此Runnable对象，以实现每两秒实现一次的定时器操作
+            if (iv_details_image.getLocalVisibleRect(rect)) {/*rect.contains(ivRect)*/
+                //控件在屏幕可见区域-----显现
+                bt_shiwu.setVisibility(View.VISIBLE);
+                bt_shise.setVisibility(View.VISIBLE);
+            } else {
+                //控件已不在屏幕可见区域（已滑出屏幕）-----隐去
+                bt_shiwu.setVisibility(View.GONE);
+                bt_shise.setVisibility(View.GONE);
+            }
+            handler.postDelayed(this, 200);
+        }
+    };
+    Handler handler2 = new Handler() {};
 
     private boolean bol = true;
 
@@ -1203,6 +1234,7 @@ public class ImageDetailFragment
         layoutParams.height = (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio());
         iv_details_image.setLayoutParams(layoutParams);
         ImageUtils.displayRoundImage(imageDetailBean.getUser_info().getAvatar().getThumb(), riv_people_header);
+
         String nikeName = imageDetailBean.getUser_info().getNickname();
         if (nikeName.length() > 8) {
             nikeName = nikeName.substring(0, 8) + "...";
@@ -2252,4 +2284,9 @@ public class ImageDetailFragment
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        handler2.removeCallbacks(runnable);
+    }
 }
