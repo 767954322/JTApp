@@ -75,4 +75,99 @@
         android:layout_toRightOf="@+id/bt_shiwu"
         android:text="识别颜色"/>
 
+
+    <RelativeLayout
+        android:id="@+id/rl_color"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_80000000"
+        android:clickable="true"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_centerVertical="true">
+
+            <LinearLayout
+                android:id="@+id/ll_color_lines"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/font_30"
+                android:layout_marginTop="@dimen/font_3"
+                android:orientation="horizontal" />
+
+            <com.homechart.app.myview.MyListView
+                android:id="@+id/dgv_colorlist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_color_lines"
+                android:layout_marginTop="@dimen/font_25"
+                android:descendantFocusability="blocksDescendants"
+                android:divider="@null" />
+
+            <TextView
+                android:id="@+id/tv_color_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dgv_colorlist"
+                android:layout_marginLeft="@dimen/font_10"
+                android:layout_marginRight="@dimen/font_10"
+                android:lineSpacingExtra="@dimen/font_4"
+                android:text="Tips:因光线和显示原因，图中色彩可能与实际色彩有所偏差。"
+                android:textColor="@color/bg_8f8f8f"
+                android:textSize="@dimen/size_12" />
+
+            <RelativeLayout
+                android:id="@+id/rl_color_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/tv_color_tips"
+                android:layout_marginTop="@dimen/font_25">
+
+                <TextView
+                    android:id="@+id/tv_color_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="power by 码隆科技 "
+                    android:textColor="@color/bg_8f8f8f"
+                    android:textSize="@dimen/size_12" />
+
+                <ImageView
+                    android:id="@+id/iv_colot_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tv_color_start"
+                    android:src="@drawable/productai" />
+
+                <TextView
+                    android:id="@+id/tv_color_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/font_10"
+                    android:layout_toRightOf="@+id/iv_colot_icon"
+                    android:text="@string/color_end"
+                    android:textColor="@color/bg_8f8f8f"
+                    android:textSize="@dimen/size_12" />
+
+            </RelativeLayout>
+
+
+            <ImageView
+                android:id="@+id/iv_close_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_color_location"
+                android:layout_marginTop="@dimen/font_30"
+                android:layout_marginBottom="@dimen/font_10"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/close_back"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
 </com.homechart.app.myview.ResizeRelativeLayout>

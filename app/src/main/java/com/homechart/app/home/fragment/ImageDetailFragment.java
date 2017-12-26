@@ -689,11 +689,15 @@ public class ImageDetailFragment
                 }
                 break;
             case R.id.bt_shise:
+                bt_shiwu.setClickable(false);
+                bt_shise.setClickable(false);
                 ((ImageDetailScrollActivity) activity).setTitalClickAble(false);
                 ((ImageDetailScrollActivity) activity).setViewPagerScrollAble(false);
                 rl_color.setVisibility(View.VISIBLE);
                 break;
             case R.id.iv_close_color:
+                bt_shiwu.setClickable(true);
+                bt_shise.setClickable(true);
                 ((ImageDetailScrollActivity) activity).setTitalClickAble(true);
                 ((ImageDetailScrollActivity) activity).setViewPagerScrollAble(true);
                 rl_color.setVisibility(View.GONE);

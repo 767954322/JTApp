@@ -222,6 +222,13 @@ public class ImageDetailLongActivity
     private int screenHeight;
     private Rect rect;
 
+    private MyListView dgv_colorlist1;
+    private LinearLayout ll_color_lines1;
+    private TextView tv_color_tips1;
+    private RelativeLayout rl_color_location1;
+    private RelativeLayout rl_color;
+    private ImageView iv_close_color;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_image_detail_long;
@@ -315,6 +322,13 @@ public class ImageDetailLongActivity
         bt_shiwu = (Button) findViewById(R.id.bt_shiwu);
         bt_shise = (Button) findViewById(R.id.bt_shise);
 
+        rl_color = (RelativeLayout) findViewById(R.id.rl_color);
+        iv_close_color = (ImageView) findViewById(R.id.iv_close_color);
+        dgv_colorlist1 = (MyListView) findViewById(R.id.dgv_colorlist);
+        ll_color_lines1 = (LinearLayout) findViewById(R.id.ll_color_lines);
+        tv_color_tips1 = (TextView) findViewById(R.id.tv_color_tips);
+        rl_color_location1 = (RelativeLayout) findViewById(R.id.rl_color_location);
+
     }
 
     @Override
@@ -341,6 +355,7 @@ public class ImageDetailLongActivity
         nav_secondary_imageButton.setOnClickListener(this);
         bt_shiwu.setOnClickListener(this);
         bt_shise.setOnClickListener(this);
+        iv_close_color.setOnClickListener(this);
         cet_clearedit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
@@ -555,26 +570,26 @@ public class ImageDetailLongActivity
                 break;
             case R.id.iv_ifshow_color:
 
-                if (ifShowColorList) {
-                    //隐藏
-                    ifShowColorList = false;
-
-                    iv_ifshow_color.setVisibility(View.VISIBLE);
-                    iv_ifshow_color.setImageResource(R.drawable.zhankai);
-                    dgv_colorlist.setVisibility(View.GONE);
-                    tv_color_tips.setVisibility(View.GONE);
-                    rl_color_location.setVisibility(View.GONE);
-
-                } else {
-                    //显示
-                    ifShowColorList = true;
-
-                    iv_ifshow_color.setImageResource(R.drawable.shouqi);
-                    iv_ifshow_color.setVisibility(View.VISIBLE);
-                    dgv_colorlist.setVisibility(View.VISIBLE);
-                    tv_color_tips.setVisibility(View.VISIBLE);
-                    rl_color_location.setVisibility(View.VISIBLE);
-                }
+//                if (ifShowColorList) {
+//                    //隐藏
+//                    ifShowColorList = false;
+//
+//                    iv_ifshow_color.setVisibility(View.VISIBLE);
+//                    iv_ifshow_color.setImageResource(R.drawable.zhankai);
+//                    dgv_colorlist.setVisibility(View.GONE);
+//                    tv_color_tips.setVisibility(View.GONE);
+//                    rl_color_location.setVisibility(View.GONE);
+//
+//                } else {
+//                    //显示
+//                    ifShowColorList = true;
+//
+//                    iv_ifshow_color.setImageResource(R.drawable.shouqi);
+//                    iv_ifshow_color.setVisibility(View.VISIBLE);
+//                    dgv_colorlist.setVisibility(View.VISIBLE);
+//                    tv_color_tips.setVisibility(View.VISIBLE);
+//                    rl_color_location.setVisibility(View.VISIBLE);
+//                }
 
                 break;
             case R.id.iv_details_image:
@@ -604,7 +619,14 @@ public class ImageDetailLongActivity
                 }
                 break;
             case R.id.bt_shise:
-
+                bt_shiwu.setClickable(false);
+                bt_shise.setClickable(false);
+                rl_color.setVisibility(View.VISIBLE);
+                break;
+            case R.id.iv_close_color:
+                bt_shiwu.setClickable(true);
+                bt_shise.setClickable(true);
+                rl_color.setVisibility(View.GONE);
                 break;
         }
     }
@@ -1252,7 +1274,7 @@ public class ImageDetailLongActivity
         int width = iv_details_image.getLayoutParams().width;
         if (ifFirst) {
             if (listColor != null && listColor.size() > 0) {
-                ll_color_lines.setVisibility(View.VISIBLE);
+//                ll_color_lines.setVisibility(View.VISIBLE);
                 float float_talte = 0;
                 for (int i = 0; i < listColor.size(); i++) {
                     float wid = Float.parseFloat(listColor.get(i).getColor_percent().trim());
@@ -1271,24 +1293,26 @@ public class ImageDetailLongActivity
                     }
                     textView.setHeight(UIUtils.getDimens(R.dimen.font_30));
                     textView.setBackgroundColor(Color.parseColor("#" + listColor.get(i).getColor_value()));
-                    ll_color_lines.addView(textView);
+//                    ll_color_lines.addView(textView);
+                    ll_color_lines1.addView(textView);
                 }
-                dgv_colorlist.setAdapter(new MyColorGridAdapter(listColor, ImageDetailLongActivity.this));
+//                dgv_colorlist.setAdapter(new MyColorGridAdapter(listColor, ImageDetailLongActivity.this));
+                dgv_colorlist1.setAdapter(new MyColorGridAdapter(listColor, ImageDetailLongActivity.this));
 
-                iv_ifshow_color.setVisibility(View.VISIBLE);
-                if (ifShowColorList) {
-                    dgv_colorlist.setVisibility(View.VISIBLE);
-                    tv_color_tips.setVisibility(View.VISIBLE);
-                    rl_color_location.setVisibility(View.VISIBLE);
-                    iv_ifshow_color.setImageResource(R.drawable.shouqi);
-                } else {
-                    dgv_colorlist.setVisibility(View.GONE);
-                    iv_ifshow_color.setImageResource(R.drawable.zhankai);
-                    tv_color_tips.setVisibility(View.GONE);
-                    rl_color_location.setVisibility(View.GONE);
-                }
+//                iv_ifshow_color.setVisibility(View.VISIBLE);
+//                if (ifShowColorList) {
+//                    dgv_colorlist.setVisibility(View.VISIBLE);
+//                    tv_color_tips.setVisibility(View.VISIBLE);
+//                    rl_color_location.setVisibility(View.VISIBLE);
+//                    iv_ifshow_color.setImageResource(R.drawable.shouqi);
+//                } else {
+//                    dgv_colorlist.setVisibility(View.GONE);
+//                    iv_ifshow_color.setImageResource(R.drawable.zhankai);
+//                    tv_color_tips.setVisibility(View.GONE);
+//                    rl_color_location.setVisibility(View.GONE);
+//                }
             } else {
-                iv_ifshow_color.setVisibility(View.GONE);
+//                iv_ifshow_color.setVisibility(View.GONE);
             }
             ifFirst = false;
         }
