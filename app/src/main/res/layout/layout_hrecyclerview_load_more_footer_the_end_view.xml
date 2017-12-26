@@ -8,23 +8,25 @@
         android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:gravity="center"
+        android:textSize="@dimen/size_12"
+        android:textColor="@color/bg_8f8f8f"
         android:layout_centerInParent="true"
         android:text="没有更多数据了" />
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_centerVertical="true"
-        android:background="@color/view_line"
-        android:layout_marginLeft="@dimen/font_10"
-        android:layout_marginRight="@dimen/font_10"
+        android:background="@color/bg_eeeeee"
+        android:layout_marginLeft="@dimen/font_20"
+        android:layout_marginRight="@dimen/font_18"
         android:layout_toLeftOf="@+id/tvTheEnd"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_centerVertical="true"
-        android:background="@color/view_line"
-        android:layout_marginLeft="@dimen/font_10"
-        android:layout_marginRight="@dimen/font_10"
+        android:background="@color/bg_eeeeee"
+        android:layout_marginLeft="@dimen/font_18"
+        android:layout_marginRight="@dimen/font_20"
         android:layout_toRightOf="@+id/tvTheEnd"/>
 </RelativeLayout>
     <!--<TextView xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:id="@+id/tvTheEnd"--><!--android:layout_width="match_parent"--><!--android:layout_height="36dp"--><!--android:gravity="center"--><!--android:text="没有更多数据了"--><!--android:layout_gravity="center" />-->
