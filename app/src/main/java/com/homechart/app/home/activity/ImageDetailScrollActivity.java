@@ -130,6 +130,7 @@ public class ImageDetailScrollActivity
 
     int before_position = 0;
     boolean ifFirst = true;
+
     @Override
     protected void initListener() {
         super.initListener();
@@ -143,11 +144,11 @@ public class ImageDetailScrollActivity
 
             @Override
             public void onPageSelected(int position) {
-                if(ifFirst){
+                if (ifFirst) {
                     before_position = position;
                     ifFirst = false;
-                }else {
-                    if(position - before_position > 0){//向右滑动了
+                } else {
+                    if (position - before_position > 0) {//向右滑动了
                         //友盟统计
                         HashMap<String, String> map1 = new HashMap<String, String>();
                         map1.put("evenname", "右滑");
@@ -158,7 +159,7 @@ public class ImageDetailScrollActivity
                                 .setCategory("图片详情页")  //事件类别
                                 .setAction("右滑")      //事件操作
                                 .build());
-                    }else {//向左滑动了
+                    } else {//向左滑动了
                         //友盟统计
                         HashMap<String, String> map1 = new HashMap<String, String>();
                         map1.put("evenname", "左滑");
@@ -174,8 +175,8 @@ public class ImageDetailScrollActivity
 
 
                 ifShowColorList = false;
-                if (mItemIdList.size() >= position && (mItemIdList.size() - position) < 3 && !more_loding) {
-                    if (!TextUtils.isEmpty(type) && type.equals("筛选")) {
+                if (mItemIdList.size() >= position && (mItemIdList.size() - position) < 4 && !more_loding) {
+                    if (!TextUtils.isEmpty(type) && (type.equals("筛选") || type.equals("色彩"))) {
                         getMoreShaiXuan();
                     } else if (!TextUtils.isEmpty(type) && type.equals("你可能喜欢")) {
                         getMoreLikeMayBe();
@@ -225,6 +226,7 @@ public class ImageDetailScrollActivity
         getTypeData();
 
     }
+
     private void getTypeData() {
 
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
@@ -251,6 +253,7 @@ public class ImageDetailScrollActivity
         MyHttpManager.getInstance().getShopTypes(callBack);
 
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -378,7 +381,7 @@ public class ImageDetailScrollActivity
                         .setAction("分享图片")      //事件操作
                         .build());
             }
-        }else if (share_media == SHARE_MEDIA.QQ) {
+        } else if (share_media == SHARE_MEDIA.QQ) {
             //友盟统计
             HashMap<String, String> map1 = new HashMap<String, String>();
             map1.put("evenname", "分享图片");
@@ -577,18 +580,19 @@ public class ImageDetailScrollActivity
         this.typeNewBean = typeNewBean;
     }
 
-    public  void  setTitalClickAble(boolean boo){
-        if(boo){
+    public void setTitalClickAble(boolean boo) {
+        if (boo) {
             rl_back_unclick.setVisibility(View.GONE);
-        }else {
+        } else {
             rl_back_unclick.setVisibility(View.VISIBLE);
         }
 
     }
-    public  void  setViewPagerScrollAble(boolean boo){
-        if(boo){
+
+    public void setViewPagerScrollAble(boolean boo) {
+        if (boo) {
             mViewPager.setScanScroll(true);
-        }else {
+        } else {
             mViewPager.setScanScroll(false);
         }
 
