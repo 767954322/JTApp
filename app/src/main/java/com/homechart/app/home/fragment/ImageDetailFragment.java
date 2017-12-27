@@ -2003,6 +2003,8 @@ public class ImageDetailFragment
 
         if (item_list == null || item_list.size() == 0) {
             tv_maybe_like.setVisibility(View.GONE);
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view_more_like.getLayoutParams();
+            layoutParams.height = UIUtils.getDimens(R.dimen.font_45);
             mRecyclerView.setLoadMoreEnabled(false);
             mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
             mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
