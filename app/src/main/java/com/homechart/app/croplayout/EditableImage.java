@@ -107,20 +107,22 @@ public class EditableImage implements Serializable{
     public int[] getFitSize() {
         int[] fitSize = new int[2];
 
-        float ratio = originalImage.getWidth() / (float) originalImage.getHeight();
-        float viewRatio = viewWidth / (float) viewHeight;
+        if(originalImage!= null){
+            float ratio = originalImage.getWidth() / (float) originalImage.getHeight();
+            float viewRatio = viewWidth / (float) viewHeight;
 
-        //width dominate, fit w
-        if (ratio > viewRatio) {
-            float factor = viewWidth / (float) originalImage.getWidth();
-            fitSize[0] = viewWidth;
-            fitSize[1] = (int) (originalImage.getHeight() * factor);
+            //width dominate, fit w
+            if (ratio > viewRatio) {
+                float factor = viewWidth / (float) originalImage.getWidth();
+                fitSize[0] = viewWidth;
+                fitSize[1] = (int) (originalImage.getHeight() * factor);
 
-        } else {
-            //height dominate, fit h
-            float factor = viewHeight / (float) originalImage.getHeight();
-            fitSize[0] = (int) (originalImage.getWidth() * factor);
-            fitSize[1] = viewHeight;
+            } else {
+                //height dominate, fit h
+                float factor = viewHeight / (float) originalImage.getHeight();
+                fitSize[0] = (int) (originalImage.getWidth() * factor);
+                fitSize[1] = viewHeight;
+            }
         }
 
         return fitSize;

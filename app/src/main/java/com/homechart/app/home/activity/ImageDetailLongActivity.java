@@ -701,21 +701,28 @@ public class ImageDetailLongActivity
                 break;
             case R.id.bt_shiwu:
             case R.id.bt_shiwu2:
-                if (null != imageDetailBean && null != searchSBean) {
-                    Intent intent1 = new Intent(ImageDetailLongActivity.this, NewSearchResultActivity.class);
-                    intent1.putExtra("image_id", imageDetailBean.getItem_info().getImage().getImage_id());
-                    intent1.putExtra("imagePath", imageDetailBean.getItem_info().getImage().getImg0());
-                    intent1.putExtra("searchstatus", "0");
-                    intent1.putExtra("network", "true");
-//            intent.putExtra("clickposition", "true");
-//                intent.putExtra("position", pos);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("searchSBean", searchSBean);
-                    intent1.putExtras(bundle);
-                    startActivity(intent1);
+                if (PublicUtils.ifHasWriteQuan(ImageDetailLongActivity.this)) {
+                    //有权限
+                    if (null != imageDetailBean && null != searchSBean) {
+                        Intent intent4 = new Intent(ImageDetailLongActivity.this, NewSearchResultActivity.class);
+                        intent4.putExtra("image_id", imageDetailBean.getItem_info().getImage().getImage_id());
+                        intent4.putExtra("imagePath", imageDetailBean.getItem_info().getImage().getImg0());
+                        intent4.putExtra("searchstatus", "0");
+                        intent4.putExtra("network", "true");
+//                      intent.putExtra("clickposition", "true");
+//                      intent.putExtra("position", pos);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("searchSBean", searchSBean);
+                        intent4.putExtras(bundle);
+                        startActivity(intent4);
+                    } else {
+                        ToastUtils.showCenter(ImageDetailLongActivity.this, "正在识别中");
+                    }
                 } else {
-                    ToastUtils.showCenter(ImageDetailLongActivity.this, "正在识别中");
+                    //无权限
+                    ToastUtils.showCenter(ImageDetailLongActivity.this, "您没有授权该权限，请在设置中打开授权");
                 }
+
                 break;
             case R.id.bt_shise:
             case R.id.bt_shise2:

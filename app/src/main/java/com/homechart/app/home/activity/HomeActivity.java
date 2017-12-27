@@ -178,14 +178,14 @@ public class HomeActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
 
-        int permission = ActivityCompat.checkSelfPermission(HomeActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(HomeActivity.this, PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE);
-        } else {
-            initFragmentData();
-        }
+//        int permission = ActivityCompat.checkSelfPermission(HomeActivity.this,
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//        if (permission != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(HomeActivity.this, PERMISSIONS_STORAGE,
+//                    REQUEST_EXTERNAL_STORAGE);
+//        } else {
+        initFragmentData();
+//        }
     }
 
     private void initFragmentData() {
@@ -214,6 +214,12 @@ public class HomeActivity
 //            rl_yindao1.setVisibility(View.VISIBLE);
 //            rl_yindao2.setVisibility(View.GONE);
 //        }
+        int permission = ActivityCompat.checkSelfPermission(HomeActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(HomeActivity.this, PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE);
+        }
     }
 
     @Override
@@ -630,7 +636,7 @@ public class HomeActivity
 
         switch (requestCode) {
             case 1:
-                initFragmentData();
+
                 break;
             case 3:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {

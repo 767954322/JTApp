@@ -206,6 +206,21 @@ public class PublicUtils {
                     REQUEST_EXTERNAL_STORAGE);
         }
     }
+
+    /**
+     * 添加权限
+     *
+     * @param activity
+     */
+    public static boolean ifHasWriteQuan(Activity activity) {
+        int permission = ActivityCompat.checkSelfPermission(activity,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            return false;
+        }else {
+            return true;
+        }
+    }
     //8................................................................................................
 
     /**

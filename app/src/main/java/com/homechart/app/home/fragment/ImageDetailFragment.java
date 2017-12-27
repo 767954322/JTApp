@@ -74,6 +74,7 @@ import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
+import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
@@ -780,21 +781,29 @@ public class ImageDetailFragment
 //                break;
             case R.id.bt_shiwu:
             case R.id.bt_shiwu2:
-                if (null != imageDetailBean && null != searchSBean) {
-                    Intent intent4 = new Intent(activity, NewSearchResultActivity.class);
-                    intent4.putExtra("image_id", imageDetailBean.getItem_info().getImage().getImage_id());
-                    intent4.putExtra("imagePath", imageDetailBean.getItem_info().getImage().getImg0());
-                    intent4.putExtra("searchstatus", "0");
-                    intent4.putExtra("network", "true");
-//            intent.putExtra("clickposition", "true");
-//                intent.putExtra("position", pos);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("searchSBean", searchSBean);
-                    intent4.putExtras(bundle);
-                    startActivity(intent4);
+
+                if (PublicUtils.ifHasWriteQuan(activity)) {
+                    //有权限
+                    if (null != imageDetailBean && null != searchSBean) {
+                        Intent intent4 = new Intent(activity, NewSearchResultActivity.class);
+                        intent4.putExtra("image_id", imageDetailBean.getItem_info().getImage().getImage_id());
+                        intent4.putExtra("imagePath", imageDetailBean.getItem_info().getImage().getImg0());
+                        intent4.putExtra("searchstatus", "0");
+                        intent4.putExtra("network", "true");
+//                      intent.putExtra("clickposition", "true");
+//                      intent.putExtra("position", pos);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("searchSBean", searchSBean);
+                        intent4.putExtras(bundle);
+                        startActivity(intent4);
+                    } else {
+                        ToastUtils.showCenter(activity, "正在识别中");
+                    }
                 } else {
-                    ToastUtils.showCenter(activity, "正在识别中");
+                    //无权限
+                    ToastUtils.showCenter(activity, "您没有授权该权限，请在设置中打开授权");
                 }
+
                 break;
             case R.id.bt_shise:
             case R.id.bt_shise2:
@@ -1467,7 +1476,7 @@ public class ImageDetailFragment
             imageFirstTag = false;
         }
         listColor = imageDetailBean.getColor_info();
-        int width = PublicUtils.getScreenWidth(activity)-UIUtils.getDimens(R.dimen.font_40);
+        int width = PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_40);
         if (ifFirst) {
             if (listColor != null && listColor.size() > 0) {
                 float float_talte = 0;

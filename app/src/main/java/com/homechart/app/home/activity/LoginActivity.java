@@ -128,7 +128,7 @@ public class LoginActivity extends BaseActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
         //设置权限
-        PublicUtils.verifyStoragePermissions(LoginActivity.this);
+//        PublicUtils.verifyStoragePermissions(LoginActivity.this);
         boolean login_status = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
         if (login_status) {
 //            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
