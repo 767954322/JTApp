@@ -220,7 +220,7 @@ public class FlowLayoutBiaoQian extends ViewGroup {
         for (int i = 0; i < count; i++) {
             final TextView tv = (TextView) mInflater.inflate(R.layout.flowlayout_textview_biaoqian, this,
                     false);
-            tv.setText("# "+strings.get(i));
+            tv.setText("＃"+strings.get(i).trim());
             tv.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
