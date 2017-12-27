@@ -11,7 +11,7 @@
         android:textSize="@dimen/size_12"
         android:textColor="@color/bg_8f8f8f"
         android:layout_centerInParent="true"
-        android:text="没有更多数据了" />
+        android:text="已经到底啦" />
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
