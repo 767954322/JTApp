@@ -76,6 +76,7 @@ import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
+import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
@@ -983,11 +984,16 @@ public class ImageDetailLongActivity
                 ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
 
 
-                ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
-                        (ImageView) holder.getView(R.id.iv_imageview_one));
-
-                ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
-                        (ImageView) holder.getView(R.id.iv_header_pic));
+                if (PublicUtils.ifHasWriteQuan(ImageDetailLongActivity.this)) {
+                    //有权限
+                    ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
+                            (ImageView) holder.getView(R.id.iv_imageview_one));
+                    ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
+                            (ImageView) holder.getView(R.id.iv_header_pic));
+                } else {
+                    GlideImgManager.glideLoader(ImageDetailLongActivity.this, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
+                    GlideImgManager.glideLoader(ImageDetailLongActivity.this, mListData.get(position).getUser_info().getAvatar().getBig(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_header_pic), 0);
+                }
 
                 holder.getView(R.id.iv_header_pic).setOnClickListener(new View.OnClickListener() {
                     @Override

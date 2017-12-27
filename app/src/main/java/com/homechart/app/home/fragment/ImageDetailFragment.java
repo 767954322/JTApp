@@ -896,12 +896,16 @@ public class ImageDetailFragment
                 String str = mListData.get(position).getItem_info().getDescription() + " " + "<font color='#464646'>" + strTag + "</font>";
                 ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
 
-
-                ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
-                        (ImageView) holder.getView(R.id.iv_imageview_one));
-
-                ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
-                        (ImageView) holder.getView(R.id.iv_header_pic));
+                if (PublicUtils.ifHasWriteQuan(activity)) {
+                    //有权限
+                    ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
+                            (ImageView) holder.getView(R.id.iv_imageview_one));
+                    ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
+                            (ImageView) holder.getView(R.id.iv_header_pic));
+                } else {
+                    GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
+                    GlideImgManager.glideLoader(activity, mListData.get(position).getUser_info().getAvatar().getBig(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_header_pic), 0);
+                }
 
                 holder.getView(R.id.iv_header_pic).setOnClickListener(new View.OnClickListener() {
                     @Override

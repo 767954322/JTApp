@@ -6,7 +6,10 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
+import com.homechart.app.commont.PublicUtils;
+import com.homechart.app.utils.glide.GlideImgManager;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -88,8 +91,13 @@ public class ImageUtils {
      * @param imageView
      */
     public static void displayRoundImage(String imageUrl, ImageView imageView) {
-        if (imageView != null)
-            ImageLoader.getInstance().displayImage(imageUrl, imageView, roundOptions);
+        if (PublicUtils.ifHasWriteQuan1(MyApplication.getInstance())) {
+            //有权限
+            if (imageView != null)
+                ImageLoader.getInstance().displayImage(imageUrl, imageView, roundOptions);
+        } else {
+            GlideImgManager.glideLoader(MyApplication.getInstance(), imageUrl, R.color.white, R.color.white, imageView, 0);
+        }
     }
 
     /**
@@ -99,8 +107,13 @@ public class ImageUtils {
      * @param imageView
      */
     public static void displayFilletImage(String imageUrl, ImageView imageView) {
-        if (imageView != null)
-            ImageLoader.getInstance().displayImage(imageUrl, imageView, filletOptions);
+        if (PublicUtils.ifHasWriteQuan1(MyApplication.getInstance())) {
+            //有权限
+            if (imageView != null)
+                ImageLoader.getInstance().displayImage(imageUrl, imageView, filletOptions);
+        } else {
+            GlideImgManager.glideLoader(MyApplication.getInstance(), imageUrl, R.color.white, R.color.white, imageView, 1);
+        }
     }
 
     /**
@@ -110,8 +123,13 @@ public class ImageUtils {
      * @param imageView
      */
     public static void disRectangleImage(String imageUrl, ImageView imageView) {
-        if (imageView != null)
-            ImageLoader.getInstance().displayImage(imageUrl, imageView, rectangleoptions);
+        if (PublicUtils.ifHasWriteQuan1(MyApplication.getInstance())) {
+            //有权限
+            if (imageView != null)
+                ImageLoader.getInstance().displayImage(imageUrl, imageView, rectangleoptions);
+        } else {
+            GlideImgManager.glideLoader(MyApplication.getInstance(), imageUrl, R.color.white, R.color.white, imageView);
+        }
     }
 
     /**
@@ -121,8 +139,13 @@ public class ImageUtils {
      * @param imageView
      */
     public static void disRectangleImageTou(String imageUrl, ImageView imageView) {
-        if (imageView != null)
-            ImageLoader.getInstance().displayImage(imageUrl, imageView, rectangleoptionstou);
+        if (PublicUtils.ifHasWriteQuan1(MyApplication.getInstance())) {
+            //有权限
+            if (imageView != null)
+                ImageLoader.getInstance().displayImage(imageUrl, imageView, rectangleoptionstou);
+        } else {
+            GlideImgManager.glideLoader(MyApplication.getInstance(), imageUrl, R.color.white, R.color.white, imageView);
+        }
     }
 
     /**

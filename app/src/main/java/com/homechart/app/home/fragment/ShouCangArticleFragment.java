@@ -76,8 +76,10 @@ public class ShouCangArticleFragment
     private int guanli_tag = 0;//0:未打开管理   1:打开管理
     private int num_checked = 0; //选择的个数
     private LoadMoreFooterView mLoadMoreFooterView;
+
     public ShouCangArticleFragment() {
     }
+
     public ShouCangArticleFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
@@ -123,29 +125,24 @@ public class ShouCangArticleFragment
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
 
-                ((TextView)holder.getView(R.id.tv_article_name)).setText(mListData.get(position).getArticle_info().getTitle());
-                ((TextView)holder.getView(R.id.tv_article_details)).setText(mListData.get(position).getArticle_info().getSummary());
+                ((TextView) holder.getView(R.id.tv_article_name)).setText(mListData.get(position).getArticle_info().getTitle());
+                ((TextView) holder.getView(R.id.tv_article_details)).setText(mListData.get(position).getArticle_info().getSummary());
                 try {
-                    ((TextView)holder.getView(R.id.tv_youlan_num)).setText(mListSeeNumArticle.get(position)+"");
+                    ((TextView) holder.getView(R.id.tv_youlan_num)).setText(mListSeeNumArticle.get(position) + "");
 
-                }catch (Exception e){
-                    ((TextView)holder.getView(R.id.tv_youlan_num)).setText(0+"");
+                } catch (Exception e) {
+                    ((TextView) holder.getView(R.id.tv_youlan_num)).setText(0 + "");
 
                 }
-               final String item_id = mListData.get(position).getArticle_info().getArticle_id();
+                final String item_id = mListData.get(position).getArticle_info().getArticle_id();
                 if (guanli_tag == 0) {
                     holder.getView(R.id.cb_check).setVisibility(View.GONE);
                 } else {
                     holder.getView(R.id.cb_check).setVisibility(View.VISIBLE);
 
                 }
-                if (mListData.get(position).getArticle_info().getArticle_id().equals(holder.getView(R.id.iv_article_image).getTag())) {
-
-                } else {
-                    holder.getView(R.id.iv_article_image).setTag(mListData.get(position).getArticle_info().getArticle_id());
-                    ImageUtils.displayFilletImage(mListData.get(position).getArticle_info().getImage().getImg0(),
-                            (ImageView) holder.getView(R.id.iv_article_image));
-                }
+                ImageUtils.displayFilletImage(mListData.get(position).getArticle_info().getImage().getImg0(),
+                        (ImageView) holder.getView(R.id.iv_article_image));
                 ((CheckBox) holder.getView(R.id.cb_check)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -168,7 +165,7 @@ public class ShouCangArticleFragment
                     public void onClick(View v) {
 
                         if (guanli_tag == 0) {//未打开管理
-                            jumpImageDetail(mListData.get(position).getArticle_info().getArticle_id(),position);
+                            jumpImageDetail(mListData.get(position).getArticle_info().getArticle_id(), position);
                         } else {
                             if (((CheckBox) holder.getView(R.id.cb_check)).isChecked()) {
                                 ((CheckBox) holder.getView(R.id.cb_check)).setChecked(false);
@@ -269,11 +266,11 @@ public class ShouCangArticleFragment
 
 
     //查看图片详情
-    private void jumpImageDetail(String item_id,int position) {
+    private void jumpImageDetail(String item_id, int position) {
 
         try {
             mListSeeNumArticle.set(position, mListSeeNumArticle.get(position) + 1);
-        }catch (Exception e){
+        } catch (Exception e) {
         }
         Intent intent = new Intent(activity, ArticleDetailsActivity.class);
         intent.putExtra("article_id", item_id);
@@ -305,10 +302,10 @@ public class ShouCangArticleFragment
         }
     }
 
-    public boolean ifHasData(){
+    public boolean ifHasData() {
         if (mListData != null && mListData.size() > 0) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
@@ -404,6 +401,7 @@ public class ShouCangArticleFragment
     }
 
     private List<Integer> mListSeeNumArticle = new ArrayList<>();
+
     private void getSeeNum(List<ArticleBean> listData, String state) {
         try {
             switch (state) {
@@ -424,11 +422,12 @@ public class ShouCangArticleFragment
                     }
                     break;
             }
-        }catch (Exception e){
-            Log.d("test","检查下是不是本地代理掉线啦");
+        } catch (Exception e) {
+            Log.d("test", "检查下是不是本地代理掉线啦");
         }
 
     }
+
     private void updateViewFromData(List<ArticleBean> listData, String state) {
 
         switch (state) {
@@ -475,6 +474,7 @@ public class ShouCangArticleFragment
 
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();

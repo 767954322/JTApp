@@ -108,15 +108,9 @@ public class GuanZuListActivity
             public void convert(BaseViewHolder holder, int position) {
                 RoundImageView iv_fensi_header = (RoundImageView) holder.getView(R.id.iv_fensi_header);
                 holder.setText(R.id.tv_fensi_name, mListData.get(position).getNickname());
-                if (mListData.get(position).getId().equals(holder.getView(R.id.iv_fensi_header).getTag())) {
 
-                } else {
-                    holder.getView(R.id.iv_fensi_header).setTag(mListData.get(position).getId());
-
-                    ImageUtils.displayRoundImage(mListData.get(position).getAvatar().getBig(),
-                            (RoundImageView) holder.getView(R.id.iv_fensi_header));
-                }
-
+                ImageUtils.displayRoundImage(mListData.get(position).getAvatar().getBig(),
+                        (RoundImageView) holder.getView(R.id.iv_fensi_header));
 
                 if (!mListData.get(position).getProfession().equals("0")) {
                     holder.getView(R.id.iv_fensi_zhuanye).setVisibility(View.VISIBLE);

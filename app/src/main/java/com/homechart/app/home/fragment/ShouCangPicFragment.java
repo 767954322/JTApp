@@ -73,8 +73,10 @@ public class ShouCangPicFragment
     private int guanli_tag = 0;//0:未打开管理   1:打开管理
     private int num_checked = 0; //选择的个数
     private LoadMoreFooterView mLoadMoreFooterView;
+
     public ShouCangPicFragment() {
     }
+
     public ShouCangPicFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
@@ -128,14 +130,9 @@ public class ShouCangPicFragment
 
                 }
 
-                if (mListData.get(position).getItem_info().getItem_id().equals(holder.getView(R.id.iv_shoucang_image).getTag())) {
-
-                } else {
-                    holder.getView(R.id.iv_shoucang_image).setTag(mListData.get(position).getItem_info().getItem_id());
-                    ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(),
-                            (ImageView) holder.getView(R.id.iv_shoucang_image));
-                }
-
+//                holder.getView(R.id.iv_shoucang_image).setTag(mListData.get(position).getItem_info().getItem_id());
+                ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(),
+                        (ImageView) holder.getView(R.id.iv_shoucang_image));
                 ((CheckBox) holder.getView(R.id.cb_check)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -292,10 +289,10 @@ public class ShouCangPicFragment
         }
     }
 
-    public boolean ifHasData(){
+    public boolean ifHasData() {
         if (mListData != null && mListData.size() > 0) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }

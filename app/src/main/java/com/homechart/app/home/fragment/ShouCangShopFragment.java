@@ -135,12 +135,8 @@ public class ShouCangShopFragment
                 } else {
                     holder.getView(R.id.cb_check).setVisibility(View.VISIBLE);
                 }
-                if (mListData.get(position).getItem_info().getBuy_url().equals(holder.getView(R.id.iv_article_image).getTag())) {
-                } else {
-                    holder.getView(R.id.iv_article_image).setTag(mListData.get(position).getItem_info().getBuy_url());
-                    ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(),
+                 ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(),
                             (ImageView) holder.getView(R.id.iv_article_image));
-                }
                 ((TextView) holder.getView(R.id.tv_shop_item_tital)).setText(mListData.get(position).getItem_info().getTitle());
                 ((TextView) holder.getView(R.id.tv_shop_item_price)).setText("¥ " + mListData.get(position).getItem_info().getPrice());
                 ((CheckBox) holder.getView(R.id.cb_check)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

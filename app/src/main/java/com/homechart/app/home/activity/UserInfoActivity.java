@@ -290,16 +290,12 @@ public class UserInfoActivity
                     ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang1);
                 }
 
-                if (item_id.equals(holder.getView(R.id.iv_shoucang_image).getTag())) {
-                } else {
-                    holder.getView(R.id.iv_shoucang_image).setTag(item_id);
                     ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_shoucang_image).getLayoutParams();
                     layoutParams.width = width_Pic;
                     layoutParams.height = mListDataHeight.get(position);
                     holder.getView(R.id.iv_shoucang_image).setLayoutParams(layoutParams);
                     ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
                             (ImageView) holder.getView(R.id.iv_shoucang_image));
-                }
 
                 holder.getView(R.id.iv_shoucang_image).setOnClickListener(new View.OnClickListener() {
                     @Override

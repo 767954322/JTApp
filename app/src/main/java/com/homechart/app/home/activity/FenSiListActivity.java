@@ -107,16 +107,8 @@ public class FenSiListActivity
 
                 holder.setText(R.id.tv_fensi_name, mListData.get(position).getNickname());
 
-                if (mListData.get(position).getId().equals(holder.getView(R.id.iv_fensi_header).getTag())) {
-
-                } else {
-                    holder.getView(R.id.iv_fensi_header).setTag(mListData.get(position).getId());
-
-                    ImageUtils.displayRoundImage(mListData.get(position).getAvatar().getBig(),
-                            (RoundImageView) holder.getView(R.id.iv_fensi_header));
-                }
-
-
+                ImageUtils.displayRoundImage(mListData.get(position).getAvatar().getBig(),
+                        (RoundImageView) holder.getView(R.id.iv_fensi_header));
                 if (!mListData.get(position).getProfession().equals("0")) {
                     holder.getView(R.id.iv_fensi_zhuanye).setVisibility(View.VISIBLE);
                 } else {
@@ -258,6 +250,7 @@ public class FenSiListActivity
                 break;
         }
     }
+
     private void changeNone(int i) {
         if (i == 0) {
             rl_no_data.setVisibility(View.GONE);
@@ -270,6 +263,7 @@ public class FenSiListActivity
 
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -281,6 +275,7 @@ public class FenSiListActivity
         // Send a screen view.
         t.send(new HitBuilders.ScreenViewBuilder().build());
     }
+
     @Override
     public void onPause() {
         super.onPause();

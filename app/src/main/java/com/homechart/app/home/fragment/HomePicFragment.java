@@ -417,7 +417,7 @@ public class HomePicFragment
                     ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
                             (ImageView) holder.getView(R.id.iv_header_pic));
                 } else {
-                    GlideImgManager.glideLoader(activity, mListData.get(position).getUser_info().getAvatar().getBig(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_header_pic), 1);
+                    GlideImgManager.glideLoader(activity, mListData.get(position).getUser_info().getAvatar().getBig(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_header_pic), 0);
                 }
 
                 holder.getView(R.id.iv_header_pic).setOnClickListener(new View.OnClickListener() {
