@@ -241,6 +241,7 @@ public class ImageDetailLongActivity
     private int height_pic;
     private int totalDy = 0;
     private View view_below_image;
+    private TextView tv_maybe_like;
 
     @Override
     protected int getLayoutResId() {
@@ -284,6 +285,7 @@ public class ImageDetailLongActivity
         tv_people_guanzhu = (TextView) view.findViewById(R.id.tv_people_guanzhu);
         tv_people_name = (TextView) view.findViewById(R.id.tv_people_name);
         iv_people_tag = (ImageView) view.findViewById(R.id.iv_people_tag);
+        tv_maybe_like = (TextView)view.findViewById(R.id.tv_maybe_like);
         tv_people_details = (TextView) view.findViewById(R.id.tv_people_details);
         fl_tags_jubu = (FlowLayoutBiaoQian) view.findViewById(R.id.fl_tags_jubu);
         dgv_colorlist = (MyListView) view.findViewById(R.id.dgv_colorlist);
@@ -1906,9 +1908,13 @@ public class ImageDetailLongActivity
     private void updateViewFromData(List<ImageLikeItemBean> item_list) {
 
         if (item_list == null || item_list.size() == 0) {
+            tv_maybe_like.setVisibility(View.GONE);
             mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
             mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+            mRecyclerView.setLoadMoreEnabled(false);
         } else {
+            mRecyclerView.setLoadMoreEnabled(true);
+            tv_maybe_like.setVisibility(View.VISIBLE);
             page++;
             position = mListData.size();
             mListData.addAll(item_list);

@@ -240,6 +240,7 @@ public class ImageDetailFragment
     private int height_pic = 0;
     private boolean firstLoad = true;
     private View color_bottom;
+    private TextView tv_maybe_like;
 
     public ImageDetailFragment() {
 
@@ -302,6 +303,7 @@ public class ImageDetailFragment
             tv_people_name1 = (TextView) view.findViewById(R.id.tv_people_name1);
             iv_people_tag1 = (ImageView) view.findViewById(R.id.iv_people_tag1);
             view_new_list = view.findViewById(R.id.view_new_list);
+            tv_maybe_like = (TextView)view.findViewById(R.id.tv_maybe_like);
             tv_ping_tital = (TextView) view.findViewById(R.id.tv_ping_tital);
             view_more_like = view.findViewById(R.id.view_more_like);
             tv_people_guanzhu = (TextView) view.findViewById(R.id.tv_people_guanzhu);
@@ -1968,9 +1970,13 @@ public class ImageDetailFragment
     private void updateViewFromData(List<ImageLikeItemBean> item_list) {
 
         if (item_list == null || item_list.size() == 0) {
+            tv_maybe_like.setVisibility(View.GONE);
+            mRecyclerView.setLoadMoreEnabled(false);
             mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
             mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
         } else {
+            tv_maybe_like.setVisibility(View.VISIBLE);
+            mRecyclerView.setLoadMoreEnabled(true);
             page++;
             position = mListData.size();
             mListData.addAll(item_list);

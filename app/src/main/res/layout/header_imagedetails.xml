@@ -998,6 +998,7 @@
             android:visibility="gone" />
 
         <TextView
+            android:id="@+id/tv_maybe_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/view_more_like"
