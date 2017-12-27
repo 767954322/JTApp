@@ -984,7 +984,7 @@
             android:background="@drawable/bg_pinglun"
             android:drawablePadding="@dimen/font_6"
             android:gravity="center_vertical"
-            android:hint="有话要说"
+            android:hint="我不禁要点评一下......"
             android:paddingLeft="@dimen/font_10"
             android:textColorHint="@color/bg_b2b2b2"
             android:textSize="@dimen/size_14" />
