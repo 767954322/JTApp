@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_centerVertical="true"
-        android:background="@color/bg_eeeeee"
+        android:background="@color/view_line"
         android:layout_marginLeft="@dimen/font_20"
         android:layout_marginRight="@dimen/font_18"
         android:layout_toLeftOf="@+id/tvTheEnd"/>
@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_centerVertical="true"
-        android:background="@color/bg_eeeeee"
+        android:background="@color/view_line"
         android:layout_marginLeft="@dimen/font_18"
         android:layout_marginRight="@dimen/font_20"
         android:layout_toRightOf="@+id/tvTheEnd"/>
