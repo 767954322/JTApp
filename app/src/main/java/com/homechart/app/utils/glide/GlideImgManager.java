@@ -45,7 +45,7 @@ public class GlideImgManager {
         if (0 == tag) {
             Glide.with(context).load(url).placeholder(emptyImg).error(erroImg).transform(new GlideCircleTransform(context)).into(iv);
         } else if (1 == tag) {
-            Glide.with(context).load(url).placeholder(emptyImg).error(erroImg).transform(new GlideRoundTransform(context, 10)).into(iv);
+            Glide.with(context).load(url).placeholder(emptyImg).error(erroImg).transform(new GlideRoundTransform(context, 4)).into(iv);
         }
     }
 
@@ -58,7 +58,7 @@ public class GlideImgManager {
         if (0 == tag) {
             Glide.with(context).load(url).priority(Priority.HIGH).placeholder(emptyImg).error(erroImg).transform(new GlideCircleTransform(context)).into(iv);
         } else if (1 == tag) {
-            Glide.with(context).load(url).priority(Priority.HIGH).placeholder(emptyImg).error(erroImg).transform(new GlideRoundTransform(context, 10)).into(iv);
+            Glide.with(context).load(url).priority(Priority.HIGH).placeholder(emptyImg).error(erroImg).transform(new GlideRoundTransform(context, 4)).into(iv);
         }
     }
 }
