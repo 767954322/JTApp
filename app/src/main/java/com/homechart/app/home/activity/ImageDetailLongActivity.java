@@ -536,12 +536,48 @@ public class ImageDetailLongActivity
             case R.id.iv_xing:
             case R.id.iv_xing2:
             case R.id.tv_xing:
-                if (ifShouCang) {
-                    addShouCang();
-                    ifShouCang = false;
-                } else {
-                    removeShouCang();
-                    ifShouCang = true;
+                loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                if (!loginStatus) {
+                    //友盟统计
+                    HashMap<String, String> map4 = new HashMap<String, String>();
+                    map4.put("evenname", "登录入口");
+                    map4.put("even", "图片详情页进行图片收藏");
+                    MobclickAgent.onEvent(ImageDetailLongActivity.this, "shijian20", map4);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("图片详情页进行图片收藏")  //事件类别
+                            .setAction("登录入口")      //事件操作
+                            .build());
+                    Intent intent = new Intent(ImageDetailLongActivity.this, LoginActivity.class);
+                    startActivityForResult(intent, 1);
+                }else {
+                    if (ifShouCang) {
+                        //友盟统计
+                        HashMap<String, String> map4 = new HashMap<String, String>();
+                        map4.put("evenname", "收藏图片");
+                        map4.put("even", "图片详情页进行图片收藏");
+                        MobclickAgent.onEvent(ImageDetailLongActivity.this, "shijian2", map4);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("图片详情页进行图片收藏")  //事件类别
+                                .setAction("收藏图片")      //事件操作
+                                .build());
+                        addShouCang();
+                        ifShouCang = false;
+                    } else {
+                        //友盟统计
+                        HashMap<String, String> map4 = new HashMap<String, String>();
+                        map4.put("evenname", "取消收藏图片");
+                        map4.put("even", "图片详情页进行图片收藏");
+                        MobclickAgent.onEvent(ImageDetailLongActivity.this, "shijian3", map4);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("图片详情页进行图片收藏")  //事件类别
+                                .setAction("取消收藏图片")      //事件操作
+                                .build());
+                        removeShouCang();
+                        ifShouCang = true;
+                    }
                 }
                 break;
             case R.id.tv_people_guanzhu:
@@ -729,6 +765,17 @@ public class ImageDetailLongActivity
                 break;
             case R.id.bt_shise:
             case R.id.bt_shise2:
+
+                //友盟统计
+                HashMap<String, String> map6 = new HashMap<String, String>();
+                map6.put("evenname", "色彩详情");
+                map6.put("even", "用户点开色彩详情的次数");
+                MobclickAgent.onEvent(ImageDetailLongActivity.this, "shijian9", map6);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("用户点开色彩详情的次数")  //事件类别
+                        .setAction("色彩详情")      //事件操作
+                        .build());
                 bt_shiwu.setClickable(false);
                 bt_shiwu2.setClickable(false);
                 bt_shise.setClickable(false);
@@ -2262,9 +2309,31 @@ public class ImageDetailLongActivity
         if (ifClickShouCang) {
             ifClickShouCang = false;
             if (ifShouCang) {
+
+                //友盟统计
+                HashMap<String, String> map4 = new HashMap<String, String>();
+                map4.put("evenname", "收藏图片");
+                map4.put("even", "你可能喜欢");
+                MobclickAgent.onEvent(ImageDetailLongActivity.this, "shijian2", map4);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("你可能喜欢")  //事件类别
+                        .setAction("收藏图片")      //事件操作
+                        .build());
                 //未被收藏，去收藏
                 addShouCang(position, imageLikeItemBean.getItem_info().getItem_id());
             } else {
+
+                //友盟统计
+                HashMap<String, String> map4 = new HashMap<String, String>();
+                map4.put("evenname", "取消收藏图片");
+                map4.put("even", "你可能喜欢");
+                MobclickAgent.onEvent(ImageDetailLongActivity.this, "shijian3", map4);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("你可能喜欢")  //事件类别
+                        .setAction("取消收藏图片")      //事件操作
+                        .build());
                 //被收藏，去取消收藏
                 removeShouCang(position, imageLikeItemBean.getItem_info().getItem_id());
             }

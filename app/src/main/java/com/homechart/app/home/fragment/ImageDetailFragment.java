@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
@@ -241,6 +242,7 @@ public class ImageDetailFragment
     private boolean firstLoad = true;
     private View color_bottom;
     private TextView tv_maybe_like;
+    private ImageDetailScrollActivity imageScrollActivity;
 
     public ImageDetailFragment() {
 
@@ -278,6 +280,7 @@ public class ImageDetailFragment
 
     private void initView() {
 
+        imageScrollActivity = (ImageDetailScrollActivity) activity;
         tv_content_right = (TextView) activity.findViewById(R.id.tv_content_right);
         nav_secondary_imageButton = (ImageButton) activity.findViewById(R.id.nav_secondary_imageButton);
         homeSharedPopWinPublic = new HomeSharedPopWinPublic(activity, this);
@@ -303,7 +306,7 @@ public class ImageDetailFragment
             tv_people_name1 = (TextView) view.findViewById(R.id.tv_people_name1);
             iv_people_tag1 = (ImageView) view.findViewById(R.id.iv_people_tag1);
             view_new_list = view.findViewById(R.id.view_new_list);
-            tv_maybe_like = (TextView)view.findViewById(R.id.tv_maybe_like);
+            tv_maybe_like = (TextView) view.findViewById(R.id.tv_maybe_like);
             tv_ping_tital = (TextView) view.findViewById(R.id.tv_ping_tital);
             view_more_like = view.findViewById(R.id.view_more_like);
             tv_people_guanzhu = (TextView) view.findViewById(R.id.tv_people_guanzhu);
@@ -455,7 +458,7 @@ public class ImageDetailFragment
                     HashMap<String, String> map4 = new HashMap<String, String>();
                     map4.put("evenname", "登录入口");
                     map4.put("even", "图片详情页图片评论");
-                    MobclickAgent.onEvent(activity, "shijian20", map4);
+                    MobclickAgent.onEvent(imageScrollActivity, "shijian20", map4);
                     //ga统计
                     MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                             .setCategory("图片详情页图片评论")  //事件类别
@@ -559,13 +562,13 @@ public class ImageDetailFragment
                     HashMap<String, String> map4 = new HashMap<String, String>();
                     map4.put("evenname", "登录入口");
                     map4.put("even", "图片详情页图片点赞");
-                    MobclickAgent.onEvent(activity, "shijian20", map4);
+                    MobclickAgent.onEvent(imageScrollActivity, "shijian20", map4);
                     //ga统计
                     MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                             .setCategory("图片详情页图片点赞")  //事件类别
                             .setAction("登录入口")      //事件操作
                             .build());
-                    Intent intent = new Intent(activity, LoginActivity.class);
+                    Intent intent = new Intent(imageScrollActivity, LoginActivity.class);
                     startActivityForResult(intent, 1);
                 } else {
                     if (ifZan) {
@@ -586,19 +589,40 @@ public class ImageDetailFragment
                     HashMap<String, String> map4 = new HashMap<String, String>();
                     map4.put("evenname", "登录入口");
                     map4.put("even", "图片详情页进行图片收藏");
-                    MobclickAgent.onEvent(activity, "shijian20", map4);
+                    MobclickAgent.onEvent(imageScrollActivity, "shijian20", map4);
                     //ga统计
                     MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                             .setCategory("图片详情页进行图片收藏")  //事件类别
                             .setAction("登录入口")      //事件操作
                             .build());
-                    Intent intent = new Intent(activity, LoginActivity.class);
+                    Intent intent = new Intent(imageScrollActivity, LoginActivity.class);
                     startActivityForResult(intent, 1);
                 } else {
                     if (ifShouCang) {
+                        //友盟统计
+                        HashMap<String, String> map4 = new HashMap<String, String>();
+                        map4.put("evenname", "收藏图片");
+                        map4.put("even", "图片详情页进行图片收藏");
+                        MobclickAgent.onEvent(imageScrollActivity, "shijian2", map4);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("图片详情页进行图片收藏")  //事件类别
+                                .setAction("收藏图片")      //事件操作
+                                .build());
                         addShouCang();
                         ifShouCang = false;
                     } else {
+
+                        //友盟统计
+                        HashMap<String, String> map4 = new HashMap<String, String>();
+                        map4.put("evenname", "取消收藏图片");
+                        map4.put("even", "图片详情页进行图片收藏");
+                        MobclickAgent.onEvent(imageScrollActivity, "shijian3", map4);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("图片详情页进行图片收藏")  //事件类别
+                                .setAction("取消收藏图片")      //事件操作
+                                .build());
                         removeShouCang();
                         ifShouCang = true;
                     }
@@ -748,17 +772,6 @@ public class ImageDetailFragment
                     rl_color_location.setVisibility(View.GONE);
 
                 } else {
-
-                    //友盟统计
-                    HashMap<String, String> map6 = new HashMap<String, String>();
-                    map6.put("evenname", "色彩详情");
-                    map6.put("even", "用户点开色彩详情的次数");
-                    MobclickAgent.onEvent(activity, "shijian9", map6);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("用户点开色彩详情的次数")  //事件类别
-                            .setAction("色彩详情")      //事件操作
-                            .build());
                     //显示
                     mifShowColorList = true;
                     tv_color_tital.setVisibility(View.GONE);
@@ -787,6 +800,16 @@ public class ImageDetailFragment
                 if (PublicUtils.ifHasWriteQuan(activity)) {
                     //有权限
                     if (null != imageDetailBean && null != searchSBean) {
+                        //友盟统计
+                        HashMap<String, String> map6 = new HashMap<String, String>();
+                        map6.put("evenname", "识图入口");
+                        map6.put("even", "图片详情－图片详情物体识别");
+                        MobclickAgent.onEvent(imageScrollActivity, "shijian6", map6);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("图片详情－图片详情物体识别")  //事件类别
+                                .setAction("识图入口")      //事件操作
+                                .build());
                         Intent intent4 = new Intent(activity, NewSearchResultActivity.class);
                         intent4.putExtra("image_id", imageDetailBean.getItem_info().getImage().getImage_id());
                         intent4.putExtra("imagePath", imageDetailBean.getItem_info().getImage().getImg0());
@@ -809,6 +832,16 @@ public class ImageDetailFragment
                 break;
             case R.id.bt_shise:
             case R.id.bt_shise2:
+                //友盟统计
+                HashMap<String, String> map6 = new HashMap<String, String>();
+                map6.put("evenname", "色彩详情");
+                map6.put("even", "用户点开色彩详情的次数");
+                MobclickAgent.onEvent(imageScrollActivity, "shijian9", map6);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("用户点开色彩详情的次数")  //事件类别
+                        .setAction("色彩详情")      //事件操作
+                        .build());
                 bt_shiwu.setClickable(false);
                 bt_shiwu2.setClickable(false);
                 bt_shise.setClickable(false);
@@ -942,7 +975,7 @@ public class ImageDetailFragment
                             HashMap<String, String> map4 = new HashMap<String, String>();
                             map4.put("evenname", "登录入口");
                             map4.put("even", "猜你喜欢列表进行图片收藏");
-                            MobclickAgent.onEvent(activity, "shijian20", map4);
+                            MobclickAgent.onEvent(imageScrollActivity, "shijian20", map4);
                             //ga统计
                             MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                                     .setCategory("猜你喜欢列表进行图片收藏")  //事件类别
@@ -964,7 +997,7 @@ public class ImageDetailFragment
                             HashMap<String, String> map4 = new HashMap<String, String>();
                             map4.put("evenname", "登录入口");
                             map4.put("even", "猜你喜欢列表进行图片收藏");
-                            MobclickAgent.onEvent(activity, "shijian20", map4);
+                            MobclickAgent.onEvent(imageScrollActivity, "shijian20", map4);
                             //ga统计
                             MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                                     .setCategory("猜你喜欢列表进行图片收藏")  //事件类别
@@ -997,7 +1030,7 @@ public class ImageDetailFragment
                         HashMap<String, String> map6 = new HashMap<String, String>();
                         map6.put("evenname", "识图入口");
                         map6.put("even", "图片详情－图片识别");
-                        MobclickAgent.onEvent(activity, "shijian6", map6);
+                        MobclickAgent.onEvent(imageScrollActivity, "shijian6", map6);
                         //ga统计
                         MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                                 .setCategory("图片详情－图片识别")  //事件类别
@@ -1541,7 +1574,6 @@ public class ImageDetailFragment
                 rl_color_location.setVisibility(View.GONE);
             }
         }
-
 
         String tag = imageDetailBean.getItem_info().getTag().toString();
         String[] str_tag = tag.split(" ");
@@ -2092,7 +2124,7 @@ public class ImageDetailFragment
             } else {
                 map1.put("even", "图片详情+下+微信好友");
             }
-            MobclickAgent.onEvent(activity, "jtaction7", map1);
+            MobclickAgent.onEvent(imageScrollActivity, "jtaction7", map1);
             //ga统计
             if (wei == 0) {
                 MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
@@ -2116,7 +2148,7 @@ public class ImageDetailFragment
             } else {
                 map1.put("even", "图片详情+下+微信朋友圈");
             }
-            MobclickAgent.onEvent(activity, "jtaction7", map1);
+            MobclickAgent.onEvent(imageScrollActivity, "jtaction7", map1);
             //ga统计
             if (wei == 0) {
                 MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
@@ -2138,7 +2170,7 @@ public class ImageDetailFragment
             } else {
                 map1.put("even", "图片详情+下+新浪微博");
             }
-            MobclickAgent.onEvent(activity, "jtaction7", map1);
+            MobclickAgent.onEvent(imageScrollActivity, "jtaction7", map1);
             //ga统计
             if (wei == 0) {
                 MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
@@ -2160,7 +2192,7 @@ public class ImageDetailFragment
             } else {
                 map1.put("even", "图片详情+下+QQ");
             }
-            MobclickAgent.onEvent(activity, "jtaction7", map1);
+            MobclickAgent.onEvent(imageScrollActivity, "jtaction7", map1);
             //ga统计
             if (wei == 0) {
                 MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
@@ -2201,7 +2233,7 @@ public class ImageDetailFragment
                 HashMap<String, String> map4 = new HashMap<String, String>();
                 map4.put("evenname", "收藏图片");
                 map4.put("even", "你可能喜欢");
-                MobclickAgent.onEvent(activity, "shijian2", map4);
+                MobclickAgent.onEvent(imageScrollActivity, "shijian2", map4);
                 //ga统计
                 MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                         .setCategory("你可能喜欢")  //事件类别
@@ -2213,11 +2245,11 @@ public class ImageDetailFragment
                 //友盟统计
                 HashMap<String, String> map4 = new HashMap<String, String>();
                 map4.put("evenname", "取消收藏图片");
-                map4.put("even", "图片详情页");
-                MobclickAgent.onEvent(activity, "shijian3", map4);
+                map4.put("even", "你可能喜欢");
+                MobclickAgent.onEvent(imageScrollActivity, "shijian3", map4);
                 //ga统计
                 MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("图片详情页")  //事件类别
+                        .setCategory("你可能喜欢")  //事件类别
                         .setAction("取消收藏图片")      //事件操作
                         .build());
                 //被收藏，去取消收藏
@@ -2457,7 +2489,7 @@ public class ImageDetailFragment
             HashMap<String, String> map6 = new HashMap<String, String>();
             map6.put("evenname", "图片中商品点击");
             map6.put("even", "图片详情－圆点点击");
-            MobclickAgent.onEvent(activity, "shijian7", map6);
+            MobclickAgent.onEvent(imageScrollActivity, "shijian7", map6);
             //ga统计
             MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                     .setCategory("图片详情－圆点点击")  //事件类别
@@ -2516,4 +2548,5 @@ public class ImageDetailFragment
         super.onDestroy();
         handler2.removeCallbacks(runnable);
     }
+
 }
