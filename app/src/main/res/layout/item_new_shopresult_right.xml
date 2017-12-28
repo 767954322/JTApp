@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginRight="@dimen/font_4"
     android:layout_marginLeft="@dimen/font_4"
-    android:layout_marginTop="@dimen/font_8"
+    android:layout_marginTop="@dimen/font_13"
     android:background="@color/white">
 
     <ImageView
@@ -34,7 +34,7 @@
         android:layout_below="@+id/tv_tital"
         android:layout_marginLeft="@dimen/font_5"
         android:layout_marginRight="@dimen/font_5"
-        android:layout_marginTop="@dimen/font_8">
+        android:layout_marginTop="@dimen/font_3">
 
         <TextView
             android:id="@+id/tv_price"
@@ -59,20 +59,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_price"
-        android:layout_marginTop="@dimen/font_10"
+        android:layout_marginTop="@dimen/font_3"
         android:paddingBottom="@dimen/font_9"
         android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_goto_buy"
-            android:layout_width="@dimen/font_78"
-            android:gravity="center"
-            android:layout_height="@dimen/font_25"
-            android:layout_alignParentLeft="true"
-            android:textColor="@color/bg_e79056"
-            android:visibility="gone"
-            android:text="去购买"
-            android:background="@drawable/bg_goto_buy"/>
 
         <TextView
             android:id="@+id/tv_goto_shoucang"
