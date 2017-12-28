@@ -6,8 +6,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -212,6 +214,30 @@ public class PingListActivity
 
             }
         });
+        cet_clearedit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                String content = s.toString();
+
+                if(!TextUtils.isEmpty(content)){
+                    iv_send.setImageResource(R.drawable.fasong);
+                }else {
+                    iv_send.setImageResource(R.drawable.nofasong);
+                }
+
+            }
+        });
     }
 
     @Override
@@ -253,7 +279,7 @@ public class PingListActivity
                 //进行搜索操作的方法，在该方法中可以加入mEditSearchUser的非空判断
                 String searchContext = cet_clearedit.getText().toString().trim();
                 if (TextUtils.isEmpty(searchContext.trim())) {
-                    ToastUtils.showCenter(PingListActivity.this, "请添加内容");
+//                    ToastUtils.showCenter(PingListActivity.this, "请添加内容");
                 } else {
                     // 先隐藏键盘
                     ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
