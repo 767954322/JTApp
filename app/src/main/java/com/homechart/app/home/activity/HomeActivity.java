@@ -641,7 +641,17 @@ public class HomeActivity
             case 3:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //获取到了权限
-                    takePhoto();
+                    HashMap<String, String> map6 = new HashMap<String, String>();
+                    map6.put("evenname", "识图入口");
+                    map6.put("even", "首页识别入口－图片识别");
+                    MobclickAgent.onEvent(HomeActivity.this, "shijian6", map6);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("首页识别入口－图片识别")  //事件类别
+                            .setAction("识图入口")      //事件操作
+                            .build());
+                    Intent intent1 = new Intent(HomeActivity.this, PhotoActivity.class);
+                    startActivity(intent1);
                 } else {
 //                    getAppDetailSettingIntent(this);
                     ToastUtils.showCenter(HomeActivity.this, "您没有授权该权限，请在设置中打开授权");
