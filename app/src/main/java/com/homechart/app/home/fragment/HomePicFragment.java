@@ -394,6 +394,11 @@ public class HomePicFragment
                 }
 
                 String str = mListData.get(position).getItem_info().getDescription() + " " + "<font color='#464646'>" + strTag + "</font>";
+               if(TextUtils.isEmpty(mListData.get(position).getItem_info().getDescription().trim())&&TextUtils.isEmpty(strTag.trim())){
+                   ((TextView) holder.getView(R.id.tv_image_miaosu)).setVisibility(View.GONE);
+               }else {
+                   ((TextView) holder.getView(R.id.tv_image_miaosu)).setVisibility(View.VISIBLE);
+               }
                 ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
 
 
