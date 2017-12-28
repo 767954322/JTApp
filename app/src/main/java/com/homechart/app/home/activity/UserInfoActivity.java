@@ -326,6 +326,7 @@ public class UserInfoActivity
             }
         };
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
+        ((TextView)mRecyclerView.getLoadMoreFooterView().findViewById(R.id.tvTheEnd)).setText("暂无内容");
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setOnLoadMoreListener(this);
