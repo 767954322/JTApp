@@ -229,8 +229,8 @@ public class PingListActivity
             public void afterTextChanged(Editable s) {
 
                 String content = s.toString();
-
-                if(!TextUtils.isEmpty(content)){
+                content = content.replace("\n","");
+                if(!TextUtils.isEmpty(content.trim())){
                     iv_send.setImageResource(R.drawable.fasong);
                 }else {
                     iv_send.setImageResource(R.drawable.nofasong);
