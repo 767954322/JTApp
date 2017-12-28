@@ -134,6 +134,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/font_10"
             android:layout_toRightOf="@+id/tv_huifu_content_two1"
+            android:singleLine="true"
             android:ellipsize="end"
             android:textIsSelectable="true"
             android:includeFontPadding="false"
