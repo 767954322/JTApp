@@ -6,8 +6,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -130,6 +132,10 @@ public class PingListActivity
     protected void initListener() {
         super.initListener();
         nav_left_imageButton.setOnClickListener(this);
+//        //设置EditText的显示方式为多行文本输入
+//        cet_clearedit.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+//        //文本显示的位置在EditText的最上方
+        cet_clearedit.setGravity(Gravity.CENTER_VERTICAL);
         cet_clearedit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             @Override
