@@ -81,7 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_10"
         android:layout_below="@+id/tly_slidingtablayout"
-        android:background="@color/bg_eeeeee"/>
+        android:background="@color/white"/>
 
 
     <com.flyco.tablayout.CustomViewPagerTab
