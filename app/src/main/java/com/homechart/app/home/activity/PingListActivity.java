@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -93,6 +94,8 @@ public class PingListActivity
     private String ifopen;
     private String reply_id;
     private String nikename;
+    private ImageView iv_send;
+
 
     @Override
     protected int getLayoutResId() {
@@ -121,6 +124,7 @@ public class PingListActivity
         cet_clearedit = (ClearEditText) findViewById(R.id.cet_clearedit);
         menu_layout = (ResizeRelativeLayout) findViewById(R.id.menu_layout);
         rl_no_data = (RelativeLayout) findViewById(R.id.rl_no_data);
+        iv_send = (ImageView) findViewById(R.id.iv_send);
 
     }
 
@@ -131,6 +135,7 @@ public class PingListActivity
     @Override
     protected void initListener() {
         super.initListener();
+        iv_send.setOnClickListener(this);
         nav_left_imageButton.setOnClickListener(this);
 //        //设置EditText的显示方式为多行文本输入
 //        cet_clearedit.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
@@ -200,9 +205,9 @@ public class PingListActivity
                 }
 
                 if (!mIsKeyboardOpened) {
-                    cet_clearedit.setText("");
-                    cet_clearedit.setHint("评论");
-                    huifuTag = "";
+//                    cet_clearedit.setText("");
+//                    cet_clearedit.setHint("评论");
+//                    huifuTag = "";
                 }
 
             }
@@ -221,12 +226,21 @@ public class PingListActivity
             if (!TextUtils.isEmpty(reply_id) && !TextUtils.isEmpty(nikename)) {
                 cet_clearedit.setHint("回复：" + nikename);
                 huiFuPing(reply_id);
-            }else {
+            } else {
                 huiFuPing("");
             }
         }
     };
     Handler handler = new Handler() {
+    };
+    Handler handler1 = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            cet_clearedit.setText("");
+            cet_clearedit.setHint("评论");
+            huifuTag = "";
+        }
     };
 
     @Override
@@ -234,6 +248,26 @@ public class PingListActivity
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
                 PingListActivity.this.finish();
+                break;
+            case R.id.iv_send:
+                //进行搜索操作的方法，在该方法中可以加入mEditSearchUser的非空判断
+                String searchContext = cet_clearedit.getText().toString().trim();
+                if (TextUtils.isEmpty(searchContext.trim())) {
+                    ToastUtils.showCenter(PingListActivity.this, "请添加内容");
+                } else {
+                    // 先隐藏键盘
+                    ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+                            .hideSoftInputFromWindow(PingListActivity.this.getCurrentFocus()
+                                    .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    cet_clearedit.setText("");
+                    if (TextUtils.isEmpty(huifuTag)) {
+                        //回复图片
+                        pingImage(searchContext);
+                    } else {
+
+                        pingHuiFu(searchContext);
+                    }
+                }
                 break;
         }
     }
@@ -303,7 +337,9 @@ public class PingListActivity
 
                         reply_id = mListData.get(position).getComment_info().getComment_id();
                         nikename = mListData.get(position).getComment_info().getUser_info().getNickname();
+                        cet_clearedit.setText("");
                         cet_clearedit.setHint("回复：" + nikename);
+                        cet_clearedit.setText("");
                         huiFuPing(mListData.get(position).getComment_info().getComment_id());
 
                     }
@@ -464,6 +500,7 @@ public class PingListActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
+                        handler1.sendEmptyMessage(0);
                         getPingList(REFRESH_STATUS);
                         ToastUtils.showCenter(PingListActivity.this, "评论成功");
                     } else {
@@ -495,6 +532,7 @@ public class PingListActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
+                        handler1.sendEmptyMessage(0);
                         getPingList(REFRESH_STATUS);
                         ToastUtils.showCenter(PingListActivity.this, "评论回复成功");
                     } else {
