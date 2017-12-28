@@ -66,7 +66,9 @@
         android:roundIcon="@drawable/icon_app"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".home.activity.WelcomeActivity">
+
+        <activity android:name=".home.activity.AdvertisementActivity"
+            android:theme="@style/AppTheme1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -74,12 +76,13 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".home.activity.AdvertisementActivity"
-            android:alwaysRetainTaskState="true"
-            android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name=".home.activity.AdvertisementActivity"-->
+            <!--android:theme="@style/AppTheme1"-->
+            <!--android:alwaysRetainTaskState="true"-->
+            <!--android:configChanges="keyboardHidden|orientation|locale|layoutDirection"-->
+            <!--android:launchMode="singleTop"-->
+            <!--android:screenOrientation="portrait" />-->
         <activity
             android:name=".home.activity.LoginActivity"
             android:alwaysRetainTaskState="true"

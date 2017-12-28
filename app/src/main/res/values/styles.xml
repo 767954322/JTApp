@@ -6,11 +6,19 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <!-- Base application theme. -->
+    <style name="AppTheme1" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <!-- 将splash图片设置在这，这样这张图片取代白屏 -->
         <item name="android:windowBackground">@drawable/flush</item>
         <item name="android:windowFullscreen">true</item>
     </style>
-
 
     <!-- <item name="android:button">@null</item> -->
     <style name="main_tab_bottom">

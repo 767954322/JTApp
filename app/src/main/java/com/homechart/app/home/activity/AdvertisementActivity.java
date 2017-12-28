@@ -87,7 +87,7 @@ public class AdvertisementActivity extends BaseActivity implements View.OnClickL
 //        wv_webView.addJavascriptInterface(new AndroidJs(AdvertisementActivity.this), "AndroidJs");
 //        wv_webView.loadUrl(KeyConstans.ADVERTISEMENT_WEB);
 //        StatusBarUtil.setTranslucentForImageView(this, 0, null);
-        handler.postDelayed(runnable, 1500);
+        handler.postDelayed(runnable, 500);
     }
 
     class webViewClient extends WebViewClient {
