@@ -285,7 +285,7 @@ public class ImageDetailLongActivity
         tv_people_guanzhu = (TextView) view.findViewById(R.id.tv_people_guanzhu);
         tv_people_name = (TextView) view.findViewById(R.id.tv_people_name);
         iv_people_tag = (ImageView) view.findViewById(R.id.iv_people_tag);
-        tv_maybe_like = (TextView)view.findViewById(R.id.tv_maybe_like);
+        tv_maybe_like = (TextView) view.findViewById(R.id.tv_maybe_like);
         tv_people_details = (TextView) view.findViewById(R.id.tv_people_details);
         fl_tags_jubu = (FlowLayoutBiaoQian) view.findViewById(R.id.fl_tags_jubu);
         dgv_colorlist = (MyListView) view.findViewById(R.id.dgv_colorlist);
@@ -341,10 +341,10 @@ public class ImageDetailLongActivity
 
         bt_shiwu = (ImageView) findViewById(R.id.bt_shiwu);
         bt_shise = (ImageView) findViewById(R.id.bt_shise);
-        iv_xing = (ImageView)findViewById(R.id.iv_xing);
+        iv_xing = (ImageView) findViewById(R.id.iv_xing);
 
-        bt_shiwu2 = (ImageView)  view.findViewById(R.id.bt_shiwu2);
-        bt_shise2 = (ImageView)  view.findViewById(R.id.bt_shise2);
+        bt_shiwu2 = (ImageView) view.findViewById(R.id.bt_shiwu2);
+        bt_shise2 = (ImageView) view.findViewById(R.id.bt_shise2);
         iv_xing2 = (ImageView) view.findViewById(R.id.iv_xing2);
         view_below_image = view.findViewById(R.id.view_below_image);
 
@@ -550,7 +550,7 @@ public class ImageDetailLongActivity
                             .build());
                     Intent intent = new Intent(ImageDetailLongActivity.this, LoginActivity.class);
                     startActivityForResult(intent, 1);
-                }else {
+                } else {
                     if (ifShouCang) {
                         //友盟统计
                         HashMap<String, String> map4 = new HashMap<String, String>();
@@ -1412,7 +1412,8 @@ public class ImageDetailLongActivity
         }
         tv_people_details.setText(imageDetailBean.getUser_info().getSlogan());
 
-        if (null != imageDetailBean && null != imageDetailBean.getUser_info() && !TextUtils.isEmpty(imageDetailBean.getUser_info().getUser_id()) && !imageDetailBean.getUser_info().getUser_id().trim().equals(mUserId.trim())) {
+        if (null != imageDetailBean && null != imageDetailBean.getUser_info() && !TextUtils.isEmpty(imageDetailBean.getUser_info().getUser_id()) &&
+                null != imageDetailBean.getUser_info().getUser_id() && !TextUtils.isEmpty(mUserId) && !imageDetailBean.getUser_info().getUser_id().trim().equals(mUserId.trim())) {
             tv_content_right.setVisibility(View.GONE);
             tv_people_guanzhu.setVisibility(View.VISIBLE);
             nav_secondary_imageButton.setVisibility(View.VISIBLE);
@@ -1460,7 +1461,7 @@ public class ImageDetailLongActivity
             imageFirstTag = false;
         }
         listColor = imageDetailBean.getColor_info();
-        int width = PublicUtils.getScreenWidth(ImageDetailLongActivity.this)-UIUtils.getDimens(R.dimen.font_40);
+        int width = PublicUtils.getScreenWidth(ImageDetailLongActivity.this) - UIUtils.getDimens(R.dimen.font_40);
         if (ifFirst) {
             if (listColor != null && listColor.size() > 0) {
 //                ll_color_lines.setVisibility(View.VISIBLE);
@@ -2481,6 +2482,7 @@ public class ImageDetailLongActivity
         };
         MyHttpManager.getInstance().searchByImageIdUnRember(image_id, callback);
     }
+
     private void changeShiBieUI(boolean boo) {
 
         if (boo) {
