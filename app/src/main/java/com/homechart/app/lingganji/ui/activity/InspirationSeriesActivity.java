@@ -102,12 +102,12 @@ public class InspirationSeriesActivity extends BaseActivity
         if (i == R.id.iv_dismiss_pop) {
             this.finish();
             this.overridePendingTransition(R.anim.pop_exit_anim, 0);
-        }else if(i == R.id.rl_add_inspiration){
+        } else if (i == R.id.rl_add_inspiration) {
 
             Intent intent = new Intent(this, InspirationCreateActivity.class);
             intent.putExtra("userid", mUserId);
-            startActivity(intent);
-            this.overridePendingTransition(R.anim.pop_enter_anim,0);
+            startActivityForResult(intent, 1);
+            this.overridePendingTransition(R.anim.pop_enter_anim, 0);
 
         }
     }
@@ -247,6 +247,7 @@ public class InspirationSeriesActivity extends BaseActivity
 
     @Override
     public void onRefresh() {
+        defalsePosition = 0;
         page_num = 1;
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
         getInspirationsData(REFRESH_STATUS);
@@ -259,5 +260,11 @@ public class InspirationSeriesActivity extends BaseActivity
         getInspirationsData(LOADMORE_STATUS);
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == 1) {
+            onRefresh();
+        }
+    }
 }
