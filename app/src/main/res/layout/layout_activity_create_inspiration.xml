@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/rl_create_tital"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_dismiss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/font_17"
+            android:paddingLeft="@dimen/font_15"
+            android:paddingRight="@dimen/font_15"
+            android:paddingTop="@dimen/font_17"
+            android:src="@drawable/guandiao" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="创建灵感辑"
+            android:textColor="@color/bg_262626"
+            android:textSize="@dimen/size_17" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_15"
+            android:text="确定"
+            android:textColor="@color/bg_262626"
+            android:textSize="@dimen/size_17" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_name_tital"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_create_tital"
+        android:layout_marginLeft="@dimen/font_25"
+        android:layout_marginTop="@dimen/font_15"
+        android:text="灵感辑名称"
+        android:textColor="@color/bg_464646"
+        android:textSize="@dimen/size_14" />
+
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/tv_name_tital"
+        android:background="@drawable/bg_edittext"
+        android:gravity="center_vertical"
+        android:hint="输入灵感辑名称，不超过20个字"
+        android:maxLength="20"
+        android:singleLine="true"
+        android:lines="1"
+        android:paddingLeft="@dimen/font_10"
+        android:textColor="@color/bg_464646"
+        android:textColorHint="@color/bg_b2b2b2"
+        android:textCursorDrawable="@null"
+        android:textSize="@dimen/size_14" />
+
+    <TextView
+        android:id="@+id/tv_name_miaosu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_name"
+        android:layout_marginLeft="@dimen/font_25"
+        android:layout_marginTop="@dimen/font_30"
+        android:text="灵感辑描述"
+        android:textColor="@color/bg_464646"
+        android:textSize="@dimen/size_14" />
+
+    <EditText
+        android:id="@+id/et_miaosu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/tv_name_miaosu"
+        android:background="@drawable/bg_edittext"
+        android:gravity="top"
+        android:hint="为什么创建这个灵感辑呢？"
+        android:maxLength="2000"
+        android:paddingLeft="@dimen/font_10"
+        android:paddingTop="@dimen/font_6"
+        android:textColor="@color/bg_464646"
+        android:textColorHint="@color/bg_b2b2b2"
+        android:textCursorDrawable="@null"
+        android:textSize="@dimen/size_14"
+        android:layout_marginBottom="@dimen/font_40"/>
+
+</RelativeLayout>

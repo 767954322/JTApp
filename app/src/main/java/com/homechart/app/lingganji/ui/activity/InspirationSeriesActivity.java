@@ -1,6 +1,7 @@
 package com.homechart.app.lingganji.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -49,7 +50,7 @@ public class InspirationSeriesActivity extends BaseActivity
     private Context mContext;
     private String mUserId;
     private RelativeLayout mMain;
-    private ImageView mDismissPop;
+    private ImageView mDismiss;
     private ImageView mIVLingGan;
     private View mHeaderInspiration;
     private HRecyclerView mRecyclerView;
@@ -62,6 +63,7 @@ public class InspirationSeriesActivity extends BaseActivity
     private int page_num = 1;
     private int position;
     private int defalsePosition = 0;
+    private RelativeLayout mRLAddInspiration;
 
     @Override
     protected int getLayoutResId() {
@@ -80,16 +82,18 @@ public class InspirationSeriesActivity extends BaseActivity
         mContext = InspirationSeriesActivity.this;
         mHeaderInspiration = LayoutInflater.from(mContext).inflate(R.layout.header_inspiration, null);
         mMain = (RelativeLayout) this.findViewById(R.id.main);
-        mDismissPop = (ImageView) this.findViewById(R.id.iv_dismiss_pop);
+        mDismiss = (ImageView) this.findViewById(R.id.iv_dismiss_pop);
         mRecyclerView = (HRecyclerView) this.findViewById(R.id.rcy_recyclerview);
         mIVLingGan = (ImageView) mHeaderInspiration.findViewById(R.id.iv_linggan);
+        mRLAddInspiration = (RelativeLayout) mHeaderInspiration.findViewById(R.id.rl_add_inspiration);
     }
 
     @Override
     protected void initListener() {
         super.initListener();
 
-        mDismissPop.setOnClickListener(this);
+        mDismiss.setOnClickListener(this);
+        mRLAddInspiration.setOnClickListener(this);
     }
 
     @Override
@@ -98,6 +102,13 @@ public class InspirationSeriesActivity extends BaseActivity
         if (i == R.id.iv_dismiss_pop) {
             this.finish();
             this.overridePendingTransition(R.anim.pop_exit_anim, 0);
+        }else if(i == R.id.rl_add_inspiration){
+
+            Intent intent = new Intent(this, InspirationCreateActivity.class);
+            intent.putExtra("userid", mUserId);
+            startActivity(intent);
+            this.overridePendingTransition(R.anim.pop_enter_anim,0);
+
         }
     }
 

@@ -524,6 +524,7 @@ public class HomePicFragment
                             intent.putExtra("searchItemDataBean", mListData.get(position));
                             startActivity(intent);
                             activity.overridePendingTransition(R.anim.pop_enter_anim,0);
+
 //                            if (null != mInspirationSeriesPop) {
 //                                mInspirationSeriesPop = null;
 //                            }
