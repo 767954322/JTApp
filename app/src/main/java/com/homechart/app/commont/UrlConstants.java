@@ -91,5 +91,6 @@ public class UrlConstants {
     public static final String NEW_SEARCH_SHOPS = "https://api.idcool.com.cn/ai/ai/search";  //以图搜索图
     public static final String JUBAO = "https://api.idcool.com.cn/report/report/add";  //提交举报
     public static final String REMOVE_SHOP = "https://api.idcool.com.cn/product/product/remove";  //移除下架商品
+    public static final String INSPIRATION_SERIES = "https://api.idcool.com.cn/album/album/getListByUserId";  //获取用户专辑列表
 
 }

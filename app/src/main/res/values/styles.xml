@@ -64,6 +64,7 @@
     <style name="ShouCangRadioButtonStyles">
         <item name="android:button">@drawable/shoucang_checkbox_style</item>
     </style>
+
     <style name="ShouCangArticleRadioButtonStyles">
         <item name="android:button">@drawable/shoucang_article_checkbox_style</item>
     </style>
@@ -71,12 +72,14 @@
     <style name="TabLayOutTextSize">
         <item name="android:textSize">@dimen/size_14</item>
     </style>
+
     <style name="CommonText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
     <style name="CommonText.Chat" parent="CommonText">
         <item name="android:textSize">@dimen/size_15</item>
     </style>
@@ -133,5 +136,15 @@
         <item name="android:paddingLeft">3dp</item>
         <item name="android:paddingRight">3dp</item>
         <item name="android:background">@drawable/square_button_selector</item>
+    </style>
+
+    <style name="take_photo_anim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/pop_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/pop_exit_anim</item>
+    </style>
+
+    <style name="Transparent" parent="android:Theme.Light">
+        <!--将Activity的Theme设置成透明-->
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 </resources>

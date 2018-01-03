@@ -10,12 +10,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -26,8 +24,8 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,7 +38,6 @@ import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.LoginActivity;
-import com.homechart.app.home.activity.MessagesListActivity;
 import com.homechart.app.home.activity.SearchActivity;
 import com.homechart.app.home.activity.ShaiXuanResultActicity;
 import com.homechart.app.home.activity.UserInfoActivity;
@@ -52,10 +49,10 @@ import com.homechart.app.home.bean.pictag.TagDataBean;
 import com.homechart.app.home.bean.search.SearchDataBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.lingganji.common.view.InspirationSeriesPop;
+import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
 import com.homechart.app.myview.ClearEditText;
-import com.homechart.app.myview.HomeTabPopWin;
 import com.homechart.app.myview.NewHomeTabPopWin;
-import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.myview.SelectColorSeCaiWindow;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
@@ -85,7 +82,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
-import java.util.TimerTask;
 
 @SuppressLint("ValidFragment")
 public class HomePicFragment
@@ -149,6 +145,8 @@ public class HomePicFragment
     private View view_line_top;
     private ImageView iv_open_pop;
     private RelativeLayout rl_clickable_open;
+    private InspirationSeriesPop mInspirationSeriesPop;
+    private String userId;
 
     public HomePicFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -394,11 +392,11 @@ public class HomePicFragment
                 }
 
                 String str = mListData.get(position).getItem_info().getDescription() + " " + "<font color='#464646'>" + strTag + "</font>";
-               if(TextUtils.isEmpty(mListData.get(position).getItem_info().getDescription().trim())&&TextUtils.isEmpty(strTag.trim())){
-                   ((TextView) holder.getView(R.id.tv_image_miaosu)).setVisibility(View.GONE);
-               }else {
-                   ((TextView) holder.getView(R.id.tv_image_miaosu)).setVisibility(View.VISIBLE);
-               }
+                if (TextUtils.isEmpty(mListData.get(position).getItem_info().getDescription().trim()) && TextUtils.isEmpty(strTag.trim())) {
+                    ((TextView) holder.getView(R.id.tv_image_miaosu)).setVisibility(View.GONE);
+                } else {
+                    ((TextView) holder.getView(R.id.tv_image_miaosu)).setVisibility(View.VISIBLE);
+                }
                 ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
 
 
@@ -474,10 +472,38 @@ public class HomePicFragment
                         startActivity(intent1);
                     }
                 });
-                holder.getView(R.id.tv_shoucang_num).setOnClickListener(new View.OnClickListener() {
+//                holder.getView(R.id.tv_shoucang_num).setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+//                        if (!loginStatus) {
+//                            //友盟统计
+//                            HashMap<String, String> map4 = new HashMap<String, String>();
+//                            map4.put("evenname", "登录入口");
+//                            map4.put("even", "看图列表页进行图片收藏");
+//                            MobclickAgent.onEvent(activity, "shijian20", map4);
+//                            //ga统计
+//                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+//                                    .setCategory("看图列表页进行图片收藏")  //事件类别
+//                                    .setAction("登录入口")      //事件操作
+//                                    .build());
+//                            Intent intent = new Intent(activity, LoginActivity.class);
+//                            startActivityForResult(intent, 1);
+//                        } else {
+//                            if (null != mInspirationSeriesPop) {
+//                                mInspirationSeriesPop = null;
+//                            }
+//                            mInspirationSeriesPop = new InspirationSeriesPop(activity);
+//                            mInspirationSeriesPop.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+////                          onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
+//                        }
+//                    }
+//                });
+                holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                        userId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
                         if (!loginStatus) {
                             //友盟统计
                             HashMap<String, String> map4 = new HashMap<String, String>();
@@ -492,19 +518,20 @@ public class HomePicFragment
                             Intent intent = new Intent(activity, LoginActivity.class);
                             startActivityForResult(intent, 1);
                         } else {
-                            onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
-                        }
-                    }
-                });
-                holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
-                        if (!loginStatus) {
-                            Intent intent = new Intent(activity, LoginActivity.class);
-                            startActivityForResult(intent, 1);
-                        } else {
-                            onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
+
+                            Intent intent = new Intent(activity, InspirationSeriesActivity.class);
+                            intent.putExtra("userid", userId);
+                            intent.putExtra("searchItemDataBean", mListData.get(position));
+                            startActivity(intent);
+                            activity.overridePendingTransition(R.anim.pop_enter_anim,0);
+//                            if (null != mInspirationSeriesPop) {
+//                                mInspirationSeriesPop = null;
+//                            }
+//                            mInspirationSeriesPop = new InspirationSeriesPop(activity,mListData.get(position),userId);
+//                            mInspirationSeriesPop.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+//                            mInspirationSeriesPop.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+
+//                          onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
                         }
                     }
                 });
