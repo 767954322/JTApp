@@ -120,7 +120,7 @@ public class InspirationCreateActivity extends BaseActivity
             public void onErrorResponse(VolleyError volleyError) {
 
                 CustomProgress.cancelDialog();
-                Log.d("test", "失败");
+                ToastUtils.showCenter(InspirationCreateActivity.this, "灵感辑创建失败");
             }
 
             @Override

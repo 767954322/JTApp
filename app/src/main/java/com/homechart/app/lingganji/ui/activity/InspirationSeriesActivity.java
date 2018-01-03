@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
+import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
@@ -64,6 +67,8 @@ public class InspirationSeriesActivity extends BaseActivity
     private int position;
     private int defalsePosition = 0;
     private RelativeLayout mRLAddInspiration;
+    private TextView mTVSureAdd;
+    private EditText mRLWye;
 
     @Override
     protected int getLayoutResId() {
@@ -83,8 +88,10 @@ public class InspirationSeriesActivity extends BaseActivity
         mHeaderInspiration = LayoutInflater.from(mContext).inflate(R.layout.header_inspiration, null);
         mMain = (RelativeLayout) this.findViewById(R.id.main);
         mDismiss = (ImageView) this.findViewById(R.id.iv_dismiss_pop);
+        mTVSureAdd = (TextView) this.findViewById(R.id.tv_sure_add);
         mRecyclerView = (HRecyclerView) this.findViewById(R.id.rcy_recyclerview);
         mIVLingGan = (ImageView) mHeaderInspiration.findViewById(R.id.iv_linggan);
+        mRLWye = (EditText) mHeaderInspiration.findViewById(R.id.rt_linggan_content);
         mRLAddInspiration = (RelativeLayout) mHeaderInspiration.findViewById(R.id.rl_add_inspiration);
     }
 
@@ -94,6 +101,7 @@ public class InspirationSeriesActivity extends BaseActivity
 
         mDismiss.setOnClickListener(this);
         mRLAddInspiration.setOnClickListener(this);
+        mTVSureAdd.setOnClickListener(this);
     }
 
     @Override
@@ -109,6 +117,13 @@ public class InspirationSeriesActivity extends BaseActivity
             startActivityForResult(intent, 1);
             this.overridePendingTransition(R.anim.pop_enter_anim, 0);
 
+        } else if (i == R.id.tv_sure_add) {
+
+            if ( mListData.size() > 0 && null != mSearchItemDataBean) {
+                addInspiration();
+            }else {
+                ToastUtils.showCenter(mContext, "请先创建灵感辑");
+            }
         }
     }
 
@@ -259,6 +274,46 @@ public class InspirationSeriesActivity extends BaseActivity
         ++page_num;
         getInspirationsData(LOADMORE_STATUS);
     }
+
+
+    private void addInspiration() {
+        CustomProgress.show(InspirationSeriesActivity.this, "加入中...", false, null);
+        String strWhy = mRLWye.getText().toString();
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+                CustomProgress.cancelDialog();
+
+                ToastUtils.showCenter(InspirationSeriesActivity.this, "灵感辑创建失败");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(InspirationSeriesActivity.this, "加入灵感辑成功");
+                        InspirationSeriesActivity.this.finish();
+                    } else {
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(InspirationSeriesActivity.this, "加入灵感辑失败");
+                    }
+                } catch (JSONException e) {
+                    CustomProgress.cancelDialog();
+                    ToastUtils.showCenter(InspirationSeriesActivity.this, "加入灵感辑失败");
+                }
+            }
+        };
+        MyHttpManager.getInstance().addInpirationFromPic(mListData.get(defalsePosition).getAlbum_info().getAlbum_id(), mSearchItemDataBean.getItem_info().getItem_id(), strWhy, callBack);
+
+
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
