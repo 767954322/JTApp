@@ -3,6 +3,7 @@ package com.homechart.app.lingganji.ui.activity;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -77,6 +78,13 @@ public class InspirationDetailActivity extends BaseActivity
     private CoordinatorLayout mCoordinator;
     private RelativeLayout mTopRelative;
     private AppBarLayout mAppbar;
+    private RelativeLayout rl_check_pic1;
+    private RelativeLayout rl_check_pic;
+    private boolean curentListTag = false;
+    private ImageView iv_check_icon1;
+    private ImageView iv_check_icon;
+    private StaggeredGridLayoutManager staggeredGridLayoutManager;
+    private int widthPicList;
 
     @Override
     protected int getLayoutResId() {
@@ -102,6 +110,10 @@ public class InspirationDetailActivity extends BaseActivity
         mCoordinator = (CoordinatorLayout) this.findViewById(R.id.cl_coordinator);
         mTopRelative = (RelativeLayout) this.findViewById(R.id.rl_top_check);
         mAppbar = (AppBarLayout) this.findViewById(R.id.appbar);
+        rl_check_pic1 = (RelativeLayout) this.findViewById(R.id.rl_check_pic1);
+        rl_check_pic = (RelativeLayout) this.findViewById(R.id.rl_check_pic);
+        iv_check_icon1 = (ImageView) this.findViewById(R.id.iv_check_icon1);
+        iv_check_icon = (ImageView) this.findViewById(R.id.iv_check_icon);
     }
 
     @Override
@@ -109,6 +121,8 @@ public class InspirationDetailActivity extends BaseActivity
         super.initListener();
         mBack.setOnClickListener(this);
         mRightIcon.setOnClickListener(this);
+        rl_check_pic.setOnClickListener(this);
+        rl_check_pic1.setOnClickListener(this);
         mAppbar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
@@ -134,7 +148,9 @@ public class InspirationDetailActivity extends BaseActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
         mTital.setText("灵感辑");
+        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_30)) / 2;
+        widthPicList = PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_20);
         mAlbumId = mInspirationBean.getAlbum_info().getAlbum_id();
         buildRecyclerView();
         getInspirationDetail();
@@ -146,8 +162,20 @@ public class InspirationDetailActivity extends BaseActivity
         int id = v.getId();
         if (id == R.id.nav_left_imageButton) {
             InspirationDetailActivity.this.finish();
-        } else if (id == R.id.nav_secondary_imageButton) {
+        } else if (id == R.id.rl_check_pic || id == R.id.rl_check_pic1) {
 
+            if (curentListTag) {
+                curentListTag = false;
+                iv_check_icon1.setImageResource(R.drawable.pubuliu1);
+                iv_check_icon.setImageResource(R.drawable.pubuliu1);
+                mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+
+            } else {
+                curentListTag = true;
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(InspirationDetailActivity.this));
+                iv_check_icon1.setImageResource(R.drawable.changtu1);
+                iv_check_icon.setImageResource(R.drawable.changtu1);
+            }
         }
     }
 
@@ -185,11 +213,16 @@ public class InspirationDetailActivity extends BaseActivity
             @Override
             public int getLayoutId(int itemType) {
 
-                if (itemType == 0) {
-                    return R.layout.item_my_inspirationpic_left;
+                if (curentListTag) {
+                    return R.layout.item_my_inspirationpic_list;
                 } else {
-                    return R.layout.item_my_inspirationpic_right;
+                    if (itemType == 0) {
+                        return R.layout.item_my_inspirationpic_left;
+                    } else {
+                        return R.layout.item_my_inspirationpic_right;
+                    }
                 }
+
             }
 
             @Override
@@ -209,14 +242,20 @@ public class InspirationDetailActivity extends BaseActivity
 
                 ((TextView) holder.getView(R.id.tv_item_miaosu)).setText(mListData.get(position).getItem_info().getDescription());
                 ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_item_pic).getLayoutParams();
-                layoutParams.height = widthPic;
-                layoutParams.width = widthPic;
+                if (curentListTag) {
+                    layoutParams.height = widthPicList / 2;
+                    layoutParams.width = widthPicList;
+                } else {
+                    layoutParams.height = widthPic;
+                    layoutParams.width = widthPic;
+                }
+
                 holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
                 ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
             }
         };
 //        mRecyclerView.addHeaderView(mHeaderInspirationPic);
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setOnRefreshListener(this);
         mRecyclerView.setOnLoadMoreListener(this);
