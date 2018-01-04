@@ -50,7 +50,6 @@
         android:layout_alignParentRight="true"
         android:textColor="@color/bg_8f8f8f"
         android:layout_marginBottom="@dimen/font_10"
-        android:text="0订阅"
         android:textSize="@dimen/font_12" />
 
 
