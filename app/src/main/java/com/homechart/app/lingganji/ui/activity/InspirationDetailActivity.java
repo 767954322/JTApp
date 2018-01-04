@@ -96,6 +96,12 @@ public class InspirationDetailActivity extends BaseActivity
     private InputMethodManager imm;
     private MyDialog mDialog;
     private RelativeLayout id_main;
+    private TextView mInspirationName;
+    private TextView mInspirationMiaoSu;
+    private ImageView mUserHeader;
+    private TextView mUserName;
+    private TextView mUserDingYue;
+    private TextView mUserPicNum;
 
     @Override
     protected int getLayoutResId() {
@@ -126,6 +132,15 @@ public class InspirationDetailActivity extends BaseActivity
         rl_check_pic = (RelativeLayout) this.findViewById(R.id.rl_check_pic);
         iv_check_icon1 = (ImageView) this.findViewById(R.id.iv_check_icon1);
         iv_check_icon = (ImageView) this.findViewById(R.id.iv_check_icon);
+
+        mInspirationName = (TextView) this.findViewById(R.id.tv_inspiration_name);
+        mInspirationMiaoSu = (TextView) this.findViewById(R.id.tv_inspiration_miaosu);
+        mUserName = (TextView) this.findViewById(R.id.tv_user_name);
+        mUserDingYue = (TextView) this.findViewById(R.id.tv_user_dingyue);
+        mUserPicNum = (TextView) this.findViewById(R.id.tv_user_pic_num);
+        mUserHeader = (ImageView) this.findViewById(R.id.iv_user_header);
+
+
     }
 
     @Override
@@ -232,6 +247,7 @@ public class InspirationDetailActivity extends BaseActivity
                         String newData = "{\"info\": " + data_msg + "}";
                         InspirationDetailBean inspirationDetailBean = GsonUtil.jsonToBean(newData, InspirationDetailBean.class);
 
+                        changeTopUI(inspirationDetailBean);
                     } else {
                         ToastUtils.showCenter(InspirationDetailActivity.this, "专辑详情获取失败！");
                     }
@@ -240,6 +256,24 @@ public class InspirationDetailActivity extends BaseActivity
             }
         };
         MyHttpManager.getInstance().getInspirationDetail(mInspirationBean.getAlbum_info().getAlbum_id(), callBack);
+    }
+
+    private void changeTopUI(InspirationDetailBean inspirationDetailBean) {
+        if (null != inspirationDetailBean) {
+            mInspirationName.setText(inspirationDetailBean.getInfo().getAlbum_info().getAlbum_name());
+            mUserDingYue.setText(inspirationDetailBean.getInfo().getAlbum_info().getSubscribe_num() + " 订阅");
+            mUserPicNum.setText(inspirationDetailBean.getInfo().getAlbum_info().getItem_num() + " 张图");
+            if (TextUtils.isEmpty(inspirationDetailBean.getInfo().getAlbum_info().getDescription().trim())) {
+                mInspirationMiaoSu.setVisibility(View.GONE);
+            } else {
+                mInspirationMiaoSu.setVisibility(View.VISIBLE);
+                mInspirationMiaoSu.setText(inspirationDetailBean.getInfo().getAlbum_info().getDescription());
+            }
+            if (null != inspirationDetailBean.getInfo().getUser_info()) {
+                ImageUtils.displayRoundImage(inspirationDetailBean.getInfo().getUser_info().getAvatar().getThumb(), mUserHeader);
+                mUserName.setText(inspirationDetailBean.getInfo().getUser_info().getNickname());
+            }
+        }
     }
 
     private void buildRecyclerView() {

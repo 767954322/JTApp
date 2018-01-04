@@ -39,10 +39,10 @@
                         android:id="@+id/tv_inspiration_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/font_20"
                         android:layout_marginLeft="@dimen/font_10"
                         android:layout_marginRight="@dimen/font_10"
                         android:layout_marginTop="@dimen/font_21"
-                        android:text="你家的沙发有多好看？"
                         android:textColor="@color/bg_262626"
                         android:textSize="@dimen/size_18" />
 
@@ -51,21 +51,76 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_inspiration_name"
-                        android:layout_marginBottom="@dimen/font_10"
+                        android:layout_marginBottom="@dimen/font_18"
                         android:layout_marginLeft="@dimen/font_10"
                         android:layout_marginRight="@dimen/font_10"
-                        android:layout_marginTop="@dimen/font_21"
                         android:includeFontPadding="false"
                         android:lineSpacingExtra="@dimen/font_8"
-                        android:text="你家的沙发有多好看？"
                         android:textColor="@color/bg_707070"
                         android:textSize="@dimen/size_14" />
+
+
+                    <RelativeLayout
+                        android:id="@+id/rl_inspiration_userinfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_inspiration_miaosu"
+                        android:layout_marginBottom="@dimen/font_18">
+
+                        <ImageView
+                            android:id="@+id/iv_user_header"
+                            android:layout_width="@dimen/font_24"
+                            android:layout_height="@dimen/font_24"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/font_10" />
+
+                        <TextView
+                            android:id="@+id/tv_user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/font_10"
+                            android:layout_toRightOf="@+id/iv_user_header"
+                            android:textColor="@color/bg_464646"
+                            android:textSize="@dimen/size_12" />
+
+
+                        <TextView
+                            android:id="@+id/tv_user_dingyue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/font_10"
+                            android:textColor="@color/bg_464646"
+                            android:textSize="@dimen/size_12" />
+
+                        <com.homechart.app.myview.RoundImageView
+                            android:id="@+id/riv_round"
+                            android:layout_width="@dimen/font_2"
+                            android:layout_height="@dimen/font_2"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/font_7"
+                            android:layout_toLeftOf="@+id/tv_user_dingyue"
+                            android:background="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tv_user_pic_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/font_7"
+                            android:layout_toLeftOf="@+id/riv_round"
+                            android:textColor="@color/bg_464646"
+                            android:textSize="@dimen/size_12" />
+
+                    </RelativeLayout>
 
                     <RelativeLayout
                         android:id="@+id/rl_top_check1"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/font_45"
-                        android:layout_below="@+id/tv_inspiration_miaosu"
+                        android:layout_below="@+id/rl_inspiration_userinfo"
                         android:background="@color/white">
 
                         <RelativeLayout
