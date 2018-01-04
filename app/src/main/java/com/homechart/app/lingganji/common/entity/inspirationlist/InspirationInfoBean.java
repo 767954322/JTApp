@@ -15,9 +15,10 @@ public class InspirationInfoBean implements Serializable {
     private String item_num;
     private String update_time;
     private String is_default;
+    private String subscribe_num;
     private InspirationInfoImageBean cover_image;
 
-    public InspirationInfoBean(String album_id, String album_name, String tag, String description, String item_num, String update_time, String is_default, InspirationInfoImageBean cover_image) {
+    public InspirationInfoBean(String album_id, String album_name, String tag, String description, String item_num, String update_time, String is_default, String subscribe_num, InspirationInfoImageBean cover_image) {
         this.album_id = album_id;
         this.album_name = album_name;
         this.tag = tag;
@@ -25,10 +26,8 @@ public class InspirationInfoBean implements Serializable {
         this.item_num = item_num;
         this.update_time = update_time;
         this.is_default = is_default;
+        this.subscribe_num = subscribe_num;
         this.cover_image = cover_image;
-    }
-
-    public InspirationInfoBean() {
     }
 
     public String getAlbum_id() {
@@ -87,6 +86,14 @@ public class InspirationInfoBean implements Serializable {
         this.is_default = is_default;
     }
 
+    public String getSubscribe_num() {
+        return subscribe_num;
+    }
+
+    public void setSubscribe_num(String subscribe_num) {
+        this.subscribe_num = subscribe_num;
+    }
+
     public InspirationInfoImageBean getCover_image() {
         return cover_image;
     }
@@ -105,6 +112,7 @@ public class InspirationInfoBean implements Serializable {
                 ", item_num='" + item_num + '\'' +
                 ", update_time='" + update_time + '\'' +
                 ", is_default='" + is_default + '\'' +
+                ", subscribe_num='" + subscribe_num + '\'' +
                 ", cover_image=" + cover_image +
                 '}';
     }
