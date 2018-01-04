@@ -15,9 +15,10 @@ public class CounterBean implements Serializable{
     private int single_num;
     private int article_num;
     private int collect_product_num;
+    private int album_num;
+    private int subscribe_num;
 
-
-    public CounterBean(int fans_num, int follow_num, int collect_single_num, int collect_article_num, int single_num, int article_num, int collect_product_num) {
+    public CounterBean(int fans_num, int follow_num, int collect_single_num, int collect_article_num, int single_num, int article_num, int collect_product_num, int album_num, int subscribe_num) {
         this.fans_num = fans_num;
         this.follow_num = follow_num;
         this.collect_single_num = collect_single_num;
@@ -25,8 +26,9 @@ public class CounterBean implements Serializable{
         this.single_num = single_num;
         this.article_num = article_num;
         this.collect_product_num = collect_product_num;
+        this.album_num = album_num;
+        this.subscribe_num = subscribe_num;
     }
-
 
     public int getFans_num() {
         return fans_num;
@@ -84,6 +86,22 @@ public class CounterBean implements Serializable{
         this.collect_product_num = collect_product_num;
     }
 
+    public int getAlbum_num() {
+        return album_num;
+    }
+
+    public void setAlbum_num(int album_num) {
+        this.album_num = album_num;
+    }
+
+    public int getSubscribe_num() {
+        return subscribe_num;
+    }
+
+    public void setSubscribe_num(int subscribe_num) {
+        this.subscribe_num = subscribe_num;
+    }
+
     @Override
     public String toString() {
         return "CounterBean{" +
@@ -94,6 +112,8 @@ public class CounterBean implements Serializable{
                 ", single_num=" + single_num +
                 ", article_num=" + article_num +
                 ", collect_product_num=" + collect_product_num +
+                ", album_num=" + album_num +
+                ", subscribe_num=" + subscribe_num +
                 '}';
     }
 }
