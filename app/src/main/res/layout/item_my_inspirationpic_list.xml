@@ -3,9 +3,9 @@
     android:id="@+id/rl_item_inspiration"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/font_10"
     android:layout_marginLeft="@dimen/font_5"
     android:layout_marginRight="@dimen/font_5"
+    android:layout_marginTop="@dimen/font_10"
     android:background="@drawable/jubao_back">
 
     <ImageView
@@ -14,17 +14,58 @@
         android:layout_height="@dimen/font_96"
         android:scaleType="centerCrop" />
 
+    <ImageView
+        android:id="@+id/iv_item_delete1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/iv_item_pic"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/font_10"
+        android:layout_marginRight="@dimen/font_10"
+        android:visibility="gone"
+        android:src="@drawable/delete1" />
+
+    <ImageView
+        android:id="@+id/iv_item_edite1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/iv_item_delete1"
+        android:layout_marginRight="@dimen/font_15"
+        android:layout_toLeftOf="@+id/iv_item_delete1"
+        android:visibility="gone"
+        android:src="@drawable/bianji1" />
 
     <TextView
         android:id="@+id/tv_item_miaosu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_item_pic"
         android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/font_15"
         android:layout_marginLeft="@dimen/font_10"
         android:layout_marginRight="@dimen/font_10"
-        android:layout_below="@+id/iv_item_pic"
-        android:textColor="@color/bg_464646"
         android:layout_marginTop="@dimen/font_12"
+        android:textColor="@color/bg_464646"
         android:textSize="@dimen/font_14" />
+
+    <ImageView
+        android:id="@+id/iv_item_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tv_item_miaosu"
+        android:layout_marginBottom="@dimen/font_15"
+        android:layout_marginRight="@dimen/font_15"
+        android:src="@drawable/delete2" />
+
+    <ImageView
+        android:id="@+id/iv_item_edite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_item_miaosu"
+        android:layout_marginBottom="@dimen/font_15"
+        android:layout_marginRight="@dimen/font_30"
+        android:layout_toLeftOf="@+id/iv_item_delete"
+        android:src="@drawable/bianji2" />
 
 </RelativeLayout>

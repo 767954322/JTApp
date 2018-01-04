@@ -5,6 +5,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -160,23 +161,36 @@ public class InspirationDetailActivity extends BaseActivity
     public void onClick(View v) {
 
         int id = v.getId();
-        if (id == R.id.nav_left_imageButton) {
-            InspirationDetailActivity.this.finish();
-        } else if (id == R.id.rl_check_pic || id == R.id.rl_check_pic1) {
 
-            if (curentListTag) {
-                curentListTag = false;
-                iv_check_icon1.setImageResource(R.drawable.pubuliu1);
-                iv_check_icon.setImageResource(R.drawable.pubuliu1);
-                mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+        switch (id) {
+            case R.id.nav_left_imageButton:
+                InspirationDetailActivity.this.finish();
+                break;
+            case R.id.rl_check_pic:
+            case R.id.rl_check_pic1:
+                if (curentListTag) {
+                    curentListTag = false;
+                    iv_check_icon1.setImageResource(R.drawable.pubuliu1);
+                    iv_check_icon.setImageResource(R.drawable.pubuliu1);
+                    mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
-            } else {
-                curentListTag = true;
-                mRecyclerView.setLayoutManager(new LinearLayoutManager(InspirationDetailActivity.this));
-                iv_check_icon1.setImageResource(R.drawable.changtu1);
-                iv_check_icon.setImageResource(R.drawable.changtu1);
-            }
+                } else {
+                    curentListTag = true;
+                    mRecyclerView.setLayoutManager(new LinearLayoutManager(InspirationDetailActivity.this));
+                    iv_check_icon1.setImageResource(R.drawable.changtu1);
+                    iv_check_icon.setImageResource(R.drawable.changtu1);
+                }
+                break;
+            case R.id.iv_item_delete1:
+            case R.id.iv_item_delete:
+                ToastUtils.showCenter(InspirationDetailActivity.this,"删除");
+                break;
+            case R.id.iv_item_edite1:
+            case R.id.iv_item_edite:
+                ToastUtils.showCenter(InspirationDetailActivity.this,"编辑");
+                break;
         }
+
     }
 
     private void getInspirationDetail() {
@@ -213,25 +227,13 @@ public class InspirationDetailActivity extends BaseActivity
             @Override
             public int getLayoutId(int itemType) {
 
-                if (curentListTag) {
-                    return R.layout.item_my_inspirationpic_list;
-                } else {
-                    if (itemType == 0) {
-                        return R.layout.item_my_inspirationpic_left;
-                    } else {
-                        return R.layout.item_my_inspirationpic_right;
-                    }
-                }
+                return R.layout.item_my_inspirationpic_list;
 
             }
 
             @Override
             public int getItemViewType(int position, InsPicItemBean s) {
-                if (position % 2 == 0) {
-                    return 0;
-                } else {
-                    return 1;
-                }
+                return 0;
 
             }
         };
@@ -240,7 +242,23 @@ public class InspirationDetailActivity extends BaseActivity
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
 
-                ((TextView) holder.getView(R.id.tv_item_miaosu)).setText(mListData.get(position).getItem_info().getDescription());
+                if (curentListTag) {//线性
+                    holder.getView(R.id.iv_item_delete1).setVisibility(View.VISIBLE);
+                    holder.getView(R.id.iv_item_edite1).setVisibility(View.VISIBLE);
+                    holder.getView(R.id.iv_item_delete).setVisibility(View.GONE);
+                    holder.getView(R.id.iv_item_edite).setVisibility(View.GONE);
+                } else {//瀑布流
+                    holder.getView(R.id.iv_item_delete).setVisibility(View.VISIBLE);
+                    holder.getView(R.id.iv_item_edite).setVisibility(View.VISIBLE);
+                    holder.getView(R.id.iv_item_delete1).setVisibility(View.GONE);
+                    holder.getView(R.id.iv_item_edite1).setVisibility(View.GONE);
+                }
+                if (TextUtils.isEmpty(mListData.get(position).getItem_info().getDescription().trim())) {
+                    ((TextView) holder.getView(R.id.tv_item_miaosu)).setVisibility(View.GONE);
+                } else {
+                    ((TextView) holder.getView(R.id.tv_item_miaosu)).setVisibility(View.VISIBLE);
+                    ((TextView) holder.getView(R.id.tv_item_miaosu)).setText(mListData.get(position).getItem_info().getDescription());
+                }
                 ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_item_pic).getLayoutParams();
                 if (curentListTag) {
                     layoutParams.height = widthPicList / 2;
@@ -249,9 +267,13 @@ public class InspirationDetailActivity extends BaseActivity
                     layoutParams.height = widthPic;
                     layoutParams.width = widthPic;
                 }
-
                 holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
                 ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
+
+                holder.getView(R.id.iv_item_delete).setOnClickListener(InspirationDetailActivity.this);
+                holder.getView(R.id.iv_item_delete1).setOnClickListener(InspirationDetailActivity.this);
+                holder.getView(R.id.iv_item_edite).setOnClickListener(InspirationDetailActivity.this);
+                holder.getView(R.id.iv_item_edite1).setOnClickListener(InspirationDetailActivity.this);
             }
         };
 //        mRecyclerView.addHeaderView(mHeaderInspirationPic);
