@@ -1,19 +1,25 @@
 package com.homechart.app.lingganji.ui.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.commont.contract.InterDioalod;
+import com.homechart.app.commont.utils.MyDialog;
 import com.homechart.app.home.activity.IssueBackActivity;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.utils.CustomProgress;
@@ -32,13 +38,16 @@ import java.util.regex.Pattern;
  */
 
 public class InspirationCreateActivity extends BaseActivity
-        implements View.OnClickListener {
+        implements View.OnClickListener, InterDioalod {
 
     private String mUserId;
     private ImageView mDismiss;
     private EditText mETName;
     private EditText mETMiaoSu;
     private TextView mTVSure;
+    private MyDialog mDialog;
+    private RelativeLayout id_main;
+    private InputMethodManager imm;
 
     @Override
     protected int getLayoutResId() {
@@ -55,6 +64,7 @@ public class InspirationCreateActivity extends BaseActivity
     @Override
     protected void initView() {
 
+        id_main = (RelativeLayout) this.findViewById(R.id.id_main);
         mDismiss = (ImageView) this.findViewById(R.id.iv_dismiss);
         mETName = (EditText) this.findViewById(R.id.et_name);
         mETMiaoSu = (EditText) this.findViewById(R.id.et_miaosu);
@@ -71,6 +81,8 @@ public class InspirationCreateActivity extends BaseActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
 
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mDialog = new MyDialog(InspirationCreateActivity.this, "是否要保存灵感辑？", InspirationCreateActivity.this);
 
     }
 
@@ -78,8 +90,22 @@ public class InspirationCreateActivity extends BaseActivity
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.iv_dismiss) {
-            this.finish();
-            this.overridePendingTransition(R.anim.pop_exit_anim, 0);
+            String name = mETName.getText().toString();
+
+            if (TextUtils.isEmpty(name)) {
+                this.finish();
+                this.overridePendingTransition(R.anim.pop_exit_anim, 0);
+            } else {
+                //软键盘如果打开的话，关闭软键盘
+                boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+                if (isOpen) {
+                    if (getCurrentFocus() != null) {//强制关闭软键盘
+                        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+                }
+                mDialog.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+            }
+
         } else if (i == R.id.tv_sure) {
 
             ifAddInspiration();
@@ -157,4 +183,18 @@ public class InspirationCreateActivity extends BaseActivity
 
 
     }
+
+    @Override
+    public void onQuXiao() {
+        mDialog.dismiss();
+        this.finish();
+        this.overridePendingTransition(R.anim.pop_exit_anim, 0);
+    }
+
+    @Override
+    public void onQueRen() {
+        mDialog.dismiss();
+        ifAddInspiration();
+    }
+
 }
