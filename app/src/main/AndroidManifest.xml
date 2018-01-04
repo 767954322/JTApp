@@ -403,7 +403,7 @@
             android:alwaysRetainTaskState="true"
             android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
             android:screenOrientation="portrait"
-            android:theme="@style/Transparent"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <service android:name=".upapk.DownloadService">
             <intent-filter>

@@ -3,6 +3,8 @@ package com.homechart.app.lingganji.ui.activity;
 import android.os.Bundle;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -14,10 +16,10 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.home.base.BaseActivity1;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.entity.inspirationdetail.InspirationDetailBean;
 import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationBean;
-import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationListBean;
 import com.homechart.app.lingganji.common.entity.inspirationpics.InsPicItemBean;
 import com.homechart.app.lingganji.common.entity.inspirationpics.InsPicsBean;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
@@ -32,6 +34,8 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+
+import android.support.v7.widget.Toolbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,6 +68,7 @@ public class InspirationDetailActivity extends BaseActivity
     private int position;
     private String mAlbumId;
     private View mHeaderInspirationPic;
+    private Toolbar toolbar;
 
     @Override
     protected int getLayoutResId() {
@@ -82,6 +87,7 @@ public class InspirationDetailActivity extends BaseActivity
 
         mHeaderInspirationPic = LayoutInflater.from(InspirationDetailActivity.this).inflate(R.layout.header_inspiration_detail, null);
         mTital = (TextView) findViewById(R.id.tv_tital_comment);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         mRightIcon = (ImageButton) findViewById(R.id.nav_secondary_imageButton);
         mBack = (ImageButton) findViewById(R.id.nav_left_imageButton);
         mRecyclerView = (HRecyclerView) this.findViewById(R.id.rcy_recyclerview);
@@ -178,7 +184,7 @@ public class InspirationDetailActivity extends BaseActivity
                 ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
             }
         };
-        mRecyclerView.addHeaderView(mHeaderInspirationPic);
+//        mRecyclerView.addHeaderView(mHeaderInspirationPic);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setOnRefreshListener(this);
@@ -279,6 +285,31 @@ public class InspirationDetailActivity extends BaseActivity
                 }
                 break;
         }
+    }
+    private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem menuItem) {
+            String msg = "";
+            switch (menuItem.getItemId()) {
+                case R.id.action_edit:
+                    msg += "Click edit";
+                    break;
+                case R.id.action_share:
+                    msg += "Click share";
+                    break;
+                case R.id.action_settings:
+                    msg += "Click setting";
+                    break;
+            }
+
+            return true;
+        }
+    };
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // 為了讓 Toolbar 的 Menu 有作用，這邊的程式不可以拿掉
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
 }
