@@ -10,6 +10,7 @@
         layout="@layout/view_navigation_header" />
 
     <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/cl_coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/common_navbar">
@@ -59,14 +60,53 @@
                         android:text="你家的沙发有多好看？"
                         android:textColor="@color/bg_707070"
                         android:textSize="@dimen/size_14" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_top_check1"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/font_45"
+                        android:layout_below="@+id/tv_inspiration_miaosu"
+                        android:background="@color/white">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true">
+
+                            <TextView
+                                android:id="@+id/tv_check_name1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/font_10"
+                                android:text="大图"
+                                android:textColor="@color/bg_262626"
+                                android:textSize="@dimen/size_10" />
+
+                            <ImageView
+                                android:id="@+id/iv_check_icon1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/font_6"
+                                android:layout_toLeftOf="@+id/tv_check_name1"
+                                android:src="@drawable/pubuliu1" />
+
+
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+
                 </RelativeLayout>
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:visibility="gone"
                     android:layout_height="?attr/actionBarSize"
-                    app:popupTheme="@style/AppTheme.PopupOverlay"/>
+                    android:visibility="gone"
+                    app:popupTheme="@style/AppTheme.PopupOverlay" />
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -78,7 +118,6 @@
             android:background="#ffffff"
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
 
             <com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView
                 android:id="@+id/rcy_recyclerview"
@@ -95,6 +134,44 @@
         </LinearLayout>
 
     </android.support.design.widget.CoordinatorLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_top_check"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_45"
+        android:layout_below="@+id/common_navbar"
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:id="@+id/tv_check_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/font_10"
+                android:text="大图"
+                android:textColor="@color/bg_262626"
+                android:textSize="@dimen/size_10" />
+
+            <ImageView
+                android:id="@+id/iv_check_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/font_6"
+                android:layout_toLeftOf="@+id/tv_check_name"
+                android:src="@drawable/pubuliu1" />
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

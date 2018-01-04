@@ -1,7 +1,10 @@
 package com.homechart.app.lingganji.ui.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,12 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
+import com.homechart.app.commont.contract.AppBarStateChangeListener;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.base.BaseActivity1;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
@@ -69,6 +74,9 @@ public class InspirationDetailActivity extends BaseActivity
     private String mAlbumId;
     private View mHeaderInspirationPic;
     private Toolbar toolbar;
+    private CoordinatorLayout mCoordinator;
+    private RelativeLayout mTopRelative;
+    private AppBarLayout mAppbar;
 
     @Override
     protected int getLayoutResId() {
@@ -91,6 +99,9 @@ public class InspirationDetailActivity extends BaseActivity
         mRightIcon = (ImageButton) findViewById(R.id.nav_secondary_imageButton);
         mBack = (ImageButton) findViewById(R.id.nav_left_imageButton);
         mRecyclerView = (HRecyclerView) this.findViewById(R.id.rcy_recyclerview);
+        mCoordinator = (CoordinatorLayout) this.findViewById(R.id.cl_coordinator);
+        mTopRelative = (RelativeLayout) this.findViewById(R.id.rl_top_check);
+        mAppbar = (AppBarLayout) this.findViewById(R.id.appbar);
     }
 
     @Override
@@ -98,6 +109,26 @@ public class InspirationDetailActivity extends BaseActivity
         super.initListener();
         mBack.setOnClickListener(this);
         mRightIcon.setOnClickListener(this);
+        mAppbar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                if (state == State.EXPANDED) {
+                    //展开状态
+                    mTopRelative.setVisibility(View.GONE);
+                    Log.d("test", "展开状态");
+
+                } else if (state == State.COLLAPSED) {
+                    //折叠状态
+                    mTopRelative.setVisibility(View.VISIBLE);
+                    Log.d("test", "折叠状态");
+
+                } else {
+                    //中间状态
+                    mTopRelative.setVisibility(View.GONE);
+                    Log.d("test", "中间状态");
+                }
+            }
+        });
     }
 
     @Override
@@ -286,25 +317,7 @@ public class InspirationDetailActivity extends BaseActivity
                 break;
         }
     }
-    private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
-        @Override
-        public boolean onMenuItemClick(MenuItem menuItem) {
-            String msg = "";
-            switch (menuItem.getItemId()) {
-                case R.id.action_edit:
-                    msg += "Click edit";
-                    break;
-                case R.id.action_share:
-                    msg += "Click share";
-                    break;
-                case R.id.action_settings:
-                    msg += "Click setting";
-                    break;
-            }
 
-            return true;
-        }
-    };
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // 為了讓 Toolbar 的 Menu 有作用，這邊的程式不可以拿掉
