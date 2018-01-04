@@ -1,5 +1,6 @@
 package com.homechart.app.lingganji.ui.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -7,11 +8,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -22,6 +25,8 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.commont.contract.AppBarStateChangeListener;
+import com.homechart.app.commont.contract.InterDioalod;
+import com.homechart.app.commont.utils.MyDialog;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.base.BaseActivity1;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
@@ -35,6 +40,7 @@ import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
+import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
@@ -57,7 +63,8 @@ import java.util.List;
 public class InspirationDetailActivity extends BaseActivity
         implements View.OnClickListener,
         OnLoadMoreListener,
-        OnRefreshListener {
+        OnRefreshListener,
+        InterDioalod {
     private String mUserId;
     private InspirationBean mInspirationBean;
     private TextView mTital;
@@ -86,6 +93,9 @@ public class InspirationDetailActivity extends BaseActivity
     private ImageView iv_check_icon;
     private StaggeredGridLayoutManager staggeredGridLayoutManager;
     private int widthPicList;
+    private InputMethodManager imm;
+    private MyDialog mDialog;
+    private RelativeLayout id_main;
 
     @Override
     protected int getLayoutResId() {
@@ -103,6 +113,7 @@ public class InspirationDetailActivity extends BaseActivity
     protected void initView() {
 
         mHeaderInspirationPic = LayoutInflater.from(InspirationDetailActivity.this).inflate(R.layout.header_inspiration_detail, null);
+        id_main = (RelativeLayout) this.findViewById(R.id.id_main);
         mTital = (TextView) findViewById(R.id.tv_tital_comment);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         mRightIcon = (ImageButton) findViewById(R.id.nav_secondary_imageButton);
@@ -153,6 +164,8 @@ public class InspirationDetailActivity extends BaseActivity
         widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_30)) / 2;
         widthPicList = PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_20);
         mAlbumId = mInspirationBean.getAlbum_info().getAlbum_id();
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mDialog = new MyDialog(InspirationDetailActivity.this, "确定删除灵感辑图片么？", InspirationDetailActivity.this);
         buildRecyclerView();
         getInspirationDetail();
     }
@@ -183,11 +196,18 @@ public class InspirationDetailActivity extends BaseActivity
                 break;
             case R.id.iv_item_delete1:
             case R.id.iv_item_delete:
-                ToastUtils.showCenter(InspirationDetailActivity.this,"删除");
+                //软键盘如果打开的话，关闭软键盘
+                boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+                if (isOpen) {
+                    if (getCurrentFocus() != null) {//强制关闭软键盘
+                        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+                }
+                mDialog.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 break;
             case R.id.iv_item_edite1:
             case R.id.iv_item_edite:
-                ToastUtils.showCenter(InspirationDetailActivity.this,"编辑");
+                ToastUtils.showCenter(InspirationDetailActivity.this, "编辑");
                 break;
         }
 
@@ -386,4 +406,14 @@ public class InspirationDetailActivity extends BaseActivity
         return true;
     }
 
+    @Override
+    public void onQuXiao() {
+        mDialog.dismiss();
+    }
+
+    @Override
+    public void onQueRen() {
+        mDialog.dismiss();
+        CustomProgress.show(InspirationDetailActivity.this, "正在删除...", false, null);
+    }
 }
