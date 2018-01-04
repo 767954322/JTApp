@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/font_10"
+        android:layout_marginRight="@dimen/font_10"
         android:layout_below="@+id/iv_item_pic"
         android:textColor="@color/bg_464646"
         android:layout_marginTop="@dimen/font_12"

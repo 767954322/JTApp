@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_item_inspiration"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -8,6 +9,55 @@
         android:id="@+id/common_navbar"
         layout="@layout/view_navigation_header" />
 
+    <RelativeLayout
+        android:id="@+id/rl_top_check"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_45"
+        android:layout_below="@+id/common_navbar"
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:id="@+id/tv_check_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/font_10"
+                android:text="大图"
+                android:textSize="@dimen/size_10" />
+
+            <ImageView
+                android:id="@+id/iv_check_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/font_6"
+                android:layout_toLeftOf="@+id/tv_check_name"
+                android:src="@drawable/pubuliu1" />
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView
+        android:id="@+id/rcy_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_top_check"
+        android:paddingLeft="@dimen/font_5"
+        android:paddingRight="@dimen/font_5"
+        android:background="@color/white"
+        app:loadMoreEnabled="true"
+        app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer_huodong"
+        app:refreshEnabled="true"
+        app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
 
 
 </RelativeLayout>

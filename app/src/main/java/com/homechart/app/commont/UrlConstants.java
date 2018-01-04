@@ -92,6 +92,7 @@ public class UrlConstants {
     public static final String JUBAO = "https://api.idcool.com.cn/report/report/add";  //提交举报
     public static final String REMOVE_SHOP = "https://api.idcool.com.cn/product/product/remove";  //移除下架商品
     public static final String INSPIRATION_SERIES = "https://api.idcool.com.cn/album/album/getListByUserId";  //获取用户专辑列表
+    public static final String INSPIRATION_PICS = "https://api.idcool.com.cn/album/album/getItems";  //获取专辑图片列表
     public static final String CREATE_INSPIRATION = "https://api.idcool.com.cn/album/album/create";  //创建新专辑
     public static final String ADD_IMG_INSPIRATION = "https://api.idcool.com.cn/item/item/addToAlbum";  //将图片加入灵感辑
     public static final String INSPIRATION_DETAIL = "https://api.idcool.com.cn/album/album/getAlbumInfo";  //获取专辑详情

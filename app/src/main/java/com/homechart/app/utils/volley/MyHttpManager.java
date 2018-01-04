@@ -2549,6 +2549,39 @@ public class MyHttpManager {
 
 
     /**
+     * 获取专辑图片列表
+     *
+     * @param album_id
+     * @param s
+     * @param n
+     * @param callback
+     */
+    public void getUserInspirationPics(final String album_id, final String s, final String n, OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.INSPIRATION_PICS, callback) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                map.put("album_id", album_id);
+                map.put("s", s);
+                map.put("n", n);
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+
+        };
+        queue.add(okStringRequest);
+    }
+
+
+    /**
      * 创建新专辑
      *
      * @param album_name
