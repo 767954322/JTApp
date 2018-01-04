@@ -233,7 +233,7 @@
                     android:layout_below="@+id/tv_shoucang_num"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/font_13"
-                    android:text="收藏" />
+                    android:text="订阅" />
 
             </RelativeLayout>
 
@@ -259,7 +259,7 @@
                     android:layout_below="@+id/tv_shaijia_num"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/font_13"
-                    android:text="作品" />
+                    android:text="灵感辑" />
 
             </RelativeLayout>
         </LinearLayout>
@@ -319,10 +319,54 @@
         android:background="@color/view_line" />
 
     <RelativeLayout
-        android:id="@+id/rl_set"
+        android:id="@+id/rl_yugouqingdan"
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_55"
         android:layout_below="@+id/view_line"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_yugouqingdan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_15"
+            android:src="@drawable/wodeanli" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_15"
+            android:layout_toRightOf="@+id/iv_yugouqingdan"
+            android:text="@string/frag_center_yugou"
+            android:textColor="@color/bg_262626"
+            android:textSize="@dimen/size_16" />
+
+        <ImageView
+            android:id="@+id/iv_yugouqingdan_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_15"
+            android:src="@drawable/next" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_line1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_0.5"
+        android:layout_below="@+id/rl_yugouqingdan"
+        android:layout_marginLeft="@dimen/font_15"
+        android:background="@color/view_line" />
+
+    <RelativeLayout
+        android:id="@+id/rl_set"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_55"
+        android:layout_below="@+id/view_line1"
         android:background="@color/white">
 
         <ImageView

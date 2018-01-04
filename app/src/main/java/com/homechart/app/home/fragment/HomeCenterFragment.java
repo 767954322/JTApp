@@ -29,6 +29,7 @@ import com.homechart.app.home.activity.ShaiJiaListActivity;
 import com.homechart.app.home.activity.ShouCangListActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
+import com.homechart.app.lingganji.ui.activity.MyLingGanlistActivity;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
@@ -201,14 +202,19 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.rl_shoucang:
 
-                Intent intent_shoucang = new Intent(activity, ShouCangListActivity.class);
-                startActivity(intent_shoucang);
+//                Intent intent_shoucang = new Intent(activity, ShouCangListActivity.class);
+//                startActivity(intent_shoucang);
 
                 break;
             case R.id.rl_shaijia:
-                Intent intent_shaijia = new Intent(activity, ShaiJiaListActivity.class);
+
+                Intent intent_shaijia = new Intent(activity, MyLingGanlistActivity.class);
                 intent_shaijia.putExtra(ClassConstant.LoginSucces.USER_ID, mUserId);
                 startActivity(intent_shaijia);
+
+//                Intent intent_shaijia = new Intent(activity, ShaiJiaListActivity.class);
+//                intent_shaijia.putExtra(ClassConstant.LoginSucces.USER_ID, mUserId);
+//                startActivity(intent_shaijia);
 
                 break;
             case R.id.iv_center_header:
@@ -225,7 +231,7 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
             case R.id.rl_set:
 
                 Intent intent_set = new Intent(activity, SetActivity.class);
-                startActivityForResult(intent_set,3);
+                startActivityForResult(intent_set, 3);
 
                 break;
         }
@@ -359,10 +365,10 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
             getUserInfo();
         } else if (requestCode == 2) {
             getUnReaderMsg();
-        }else if(requestCode == 3){
+        } else if (requestCode == 3) {
             loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
-            if(!loginStatus){
-                ((HomeActivity)activity).changeShowPic();
+            if (!loginStatus) {
+                ((HomeActivity) activity).changeShowPic();
             }
         }
 
