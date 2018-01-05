@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -17,7 +16,6 @@ import com.android.volley.VolleyError;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.base.BaseActivity;
-import com.homechart.app.home.bean.search.SearchItemDataBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationBean;
 import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationListBean;
@@ -30,7 +28,6 @@ import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
-import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
@@ -59,7 +56,6 @@ public class InspirationSeriesActivity extends BaseActivity
     private ImageView mIVLingGan;
     private View mHeaderInspiration;
     private HRecyclerView mRecyclerView;
-    private SearchItemDataBean mSearchItemDataBean;
     private MultiItemCommonAdapter<InspirationBean> mAdapter;
     private List<InspirationBean> mListData = new ArrayList<>();
     private LoadMoreFooterView mLoadMoreFooterView;
@@ -71,6 +67,8 @@ public class InspirationSeriesActivity extends BaseActivity
     private RelativeLayout mRLAddInspiration;
     private TextView mTVSureAdd;
     private EditText mRLWye;
+    private String image_url;
+    private String item_id;
 
     @Override
     protected int getLayoutResId() {
@@ -81,7 +79,8 @@ public class InspirationSeriesActivity extends BaseActivity
     protected void initExtraBundle() {
         super.initExtraBundle();
         mUserId = getIntent().getStringExtra("userid");
-        mSearchItemDataBean = (SearchItemDataBean) getIntent().getSerializableExtra("searchItemDataBean");
+        image_url = getIntent().getStringExtra("image_url");
+        item_id = getIntent().getStringExtra("item_id");
     }
 
     @Override
@@ -121,7 +120,7 @@ public class InspirationSeriesActivity extends BaseActivity
 
         } else if (i == R.id.tv_sure_add) {
 
-            if (mListData.size() > 0 && null != mSearchItemDataBean) {
+            if (mListData.size() > 0 ) {
                 addInspiration();
             } else {
                 ToastUtils.showCenter(mContext, "请先创建灵感辑");
@@ -131,7 +130,7 @@ public class InspirationSeriesActivity extends BaseActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        ImageUtils.displayFilletImage(mSearchItemDataBean.getItem_info().getImage().getImg0(), mIVLingGan);
+        ImageUtils.displayFilletImage(image_url, mIVLingGan);
         buildRecyclerView();
 
     }
@@ -291,7 +290,7 @@ public class InspirationSeriesActivity extends BaseActivity
 
                 CustomProgress.cancelDialog();
 
-                ToastUtils.showCenter(InspirationSeriesActivity.this, "灵感辑创建失败");
+                ToastUtils.showCenter(InspirationSeriesActivity.this, "加入灵感辑失败");
             }
 
             @Override
@@ -315,7 +314,7 @@ public class InspirationSeriesActivity extends BaseActivity
                 }
             }
         };
-        MyHttpManager.getInstance().addInpirationFromPic(mListData.get(defalsePosition).getAlbum_info().getAlbum_id(), mSearchItemDataBean.getItem_info().getItem_id(), strWhy, callBack);
+        MyHttpManager.getInstance().addInpirationFromPic(mListData.get(defalsePosition).getAlbum_info().getAlbum_id(), item_id, strWhy, callBack);
 
 
     }
