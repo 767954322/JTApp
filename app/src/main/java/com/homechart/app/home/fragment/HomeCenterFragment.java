@@ -205,7 +205,8 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
 
                 break;
             case R.id.rl_shoucang:
-
+                Intent intent_shoucang = new Intent(activity, ShouCangListActivity.class);
+                startActivity(intent_shoucang);
                 break;
             case R.id.rl_shaijia:
 
@@ -237,8 +238,8 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.rl_yugouqingdan:
 
-                Intent intent_shoucang = new Intent(activity, YuGouQingDanActivity.class);
-                startActivity(intent_shoucang);
+                Intent intent_yugou = new Intent(activity, YuGouQingDanActivity.class);
+                startActivity(intent_yugou);
                 break;
         }
 
