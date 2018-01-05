@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -82,7 +83,6 @@ public class InspirationDetailActivity extends BaseActivity
     private int position;
     private String mAlbumId;
     private View mHeaderInspirationPic;
-    private Toolbar toolbar;
     private CoordinatorLayout mCoordinator;
     private RelativeLayout mTopRelative;
     private AppBarLayout mAppbar;
@@ -121,7 +121,6 @@ public class InspirationDetailActivity extends BaseActivity
         mHeaderInspirationPic = LayoutInflater.from(InspirationDetailActivity.this).inflate(R.layout.header_inspiration_detail, null);
         id_main = (RelativeLayout) this.findViewById(R.id.id_main);
         mTital = (TextView) findViewById(R.id.tv_tital_comment);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         mRightIcon = (ImageButton) findViewById(R.id.nav_secondary_imageButton);
         mBack = (ImageButton) findViewById(R.id.nav_left_imageButton);
         mRecyclerView = (HRecyclerView) this.findViewById(R.id.rcy_recyclerview);
@@ -155,18 +154,16 @@ public class InspirationDetailActivity extends BaseActivity
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state == State.EXPANDED) {
                     //展开状态
+//                    mRecyclerView.setPadding(UIUtils.getDimens(R.dimen.font_5), 0, UIUtils.getDimens(R.dimen.font_5), UIUtils.getDimens(R.dimen.font_5));
                     mTopRelative.setVisibility(View.GONE);
-                    Log.d("test", "展开状态");
-
                 } else if (state == State.COLLAPSED) {
                     //折叠状态
+//                    mRecyclerView.setPadding(UIUtils.getDimens(R.dimen.font_5), UIUtils.getDimens(R.dimen.font_45), UIUtils.getDimens(R.dimen.font_5), UIUtils.getDimens(R.dimen.font_5));
                     mTopRelative.setVisibility(View.VISIBLE);
-                    Log.d("test", "折叠状态");
-
                 } else {
                     //中间状态
+//                    mRecyclerView.setPadding(UIUtils.getDimens(R.dimen.font_5), 0, UIUtils.getDimens(R.dimen.font_5), UIUtils.getDimens(R.dimen.font_5));
                     mTopRelative.setVisibility(View.GONE);
-                    Log.d("test", "中间状态");
                 }
             }
         });
