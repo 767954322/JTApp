@@ -45,6 +45,7 @@ import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
+import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
@@ -101,6 +102,9 @@ public class InspirationDetailActivity extends BaseActivity
     private int deletePosition = -1;
     private TextView tv_check_name1;
     private TextView tv_check_name;
+    private RelativeLayout rl_dingyue;
+    private RelativeLayout rl_dingyue1;
+    private String mMyUserId;
 
     @Override
     protected int getLayoutResId() {
@@ -139,7 +143,8 @@ public class InspirationDetailActivity extends BaseActivity
         mUserDingYue = (TextView) this.findViewById(R.id.tv_user_dingyue);
         mUserPicNum = (TextView) this.findViewById(R.id.tv_user_pic_num);
         mUserHeader = (ImageView) this.findViewById(R.id.iv_user_header);
-
+        rl_dingyue = (RelativeLayout) this.findViewById(R.id.rl_dingyue);
+        rl_dingyue1 = (RelativeLayout) this.findViewById(R.id.rl_dingyue1);
 
     }
 
@@ -150,6 +155,8 @@ public class InspirationDetailActivity extends BaseActivity
         mRightIcon.setOnClickListener(this);
         rl_check_pic.setOnClickListener(this);
         rl_check_pic1.setOnClickListener(this);
+        rl_dingyue1.setOnClickListener(this);
+        rl_dingyue.setOnClickListener(this);
         mAppbar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
@@ -168,19 +175,6 @@ public class InspirationDetailActivity extends BaseActivity
                 }
             }
         });
-    }
-
-    @Override
-    protected void initData(Bundle savedInstanceState) {
-        mTital.setText("灵感辑");
-        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_30)) / 2;
-        widthPicList = PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_20);
-        mAlbumId = mInspirationBean.getAlbum_info().getAlbum_id();
-        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        mDialog = new MyDialog(InspirationDetailActivity.this, "确定删除灵感辑图片么？", InspirationDetailActivity.this);
-        buildRecyclerView();
-        getInspirationDetail();
     }
 
     @Override
@@ -212,14 +206,27 @@ public class InspirationDetailActivity extends BaseActivity
                     iv_check_icon.setImageResource(R.drawable.changtu1);
                 }
                 break;
-            case R.id.iv_item_delete1:
-            case R.id.iv_item_delete:
-                break;
-            case R.id.iv_item_edite1:
-            case R.id.iv_item_edite:
+            case R.id.rl_dingyue1:
+            case R.id.rl_dingyue:
+
+
                 break;
         }
 
+    }
+
+    @Override
+    protected void initData(Bundle savedInstanceState) {
+        mTital.setText("灵感辑");
+        mMyUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
+        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_30)) / 2;
+        widthPicList = PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_20);
+        mAlbumId = mInspirationBean.getAlbum_info().getAlbum_id();
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mDialog = new MyDialog(InspirationDetailActivity.this, "确定删除灵感辑图片么？", InspirationDetailActivity.this);
+        buildRecyclerView();
+        getInspirationDetail();
     }
 
     private void getInspirationDetail() {
@@ -254,6 +261,13 @@ public class InspirationDetailActivity extends BaseActivity
 
     private void changeTopUI(InspirationDetailBean inspirationDetailBean) {
         if (null != inspirationDetailBean) {
+            if (mMyUserId.equals(inspirationDetailBean.getInfo().getUser_info().getUser_id())) {
+                rl_dingyue1.setVisibility(View.GONE);
+                rl_dingyue.setVisibility(View.GONE);
+            } else {
+                rl_dingyue1.setVisibility(View.VISIBLE);
+                rl_dingyue.setVisibility(View.VISIBLE);
+            }
             mInspirationName.setText(inspirationDetailBean.getInfo().getAlbum_info().getAlbum_name());
             mUserDingYue.setText(inspirationDetailBean.getInfo().getAlbum_info().getSubscribe_num() + " 订阅");
             mUserPicNum.setText(inspirationDetailBean.getInfo().getAlbum_info().getItem_num() + " 张图");

@@ -35,29 +35,68 @@
                     android:background="@color/white"
                     app:layout_scrollFlags="scroll|enterAlways|snap">
 
-                    <TextView
-                        android:id="@+id/tv_inspiration_name"
+
+                    <RelativeLayout
+                        android:id="@+id/rl_inspiration_name"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/font_20"
-                        android:layout_marginLeft="@dimen/font_10"
-                        android:layout_marginRight="@dimen/font_10"
-                        android:layout_marginTop="@dimen/font_21"
-                        android:textColor="@color/bg_262626"
-                        android:textSize="@dimen/size_18" />
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_inspiration_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginBottom="@dimen/font_20"
+                            android:layout_marginLeft="@dimen/font_10"
+                            android:layout_marginRight="@dimen/font_10"
+                            android:layout_marginTop="@dimen/font_20"
+                            android:textColor="@color/bg_262626"
+                            android:textSize="@dimen/size_18" />
+
+                        <RelativeLayout
+                            android:id="@+id/rl_dingyue"
+                            android:layout_width="@dimen/font_55"
+                            android:layout_height="@dimen/font_24"
+                            android:layout_alignParentRight="true"
+                            android:visibility="gone"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/bt_login">
+
+                            <TextView
+                                android:id="@+id/tv_dingyue_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/font_7"
+                                android:text="订阅"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/size_12" />
+
+                            <ImageView
+                                android:id="@+id/imageView"
+                                android:layout_width="@dimen/font_10"
+                                android:layout_height="@dimen/font_10"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/font_7"
+                                android:src="@drawable/ic_delete" />
+
+                        </RelativeLayout>
+
+                    </RelativeLayout>
 
                     <TextView
                         android:id="@+id/tv_inspiration_miaosu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_inspiration_name"
+                        android:layout_below="@+id/rl_inspiration_name"
                         android:layout_marginBottom="@dimen/font_18"
                         android:layout_marginLeft="@dimen/font_10"
                         android:layout_marginRight="@dimen/font_10"
-                        android:includeFontPadding="false"
-                        android:maxLines="3"
                         android:ellipsize="end"
+                        android:includeFontPadding="false"
                         android:lineSpacingExtra="@dimen/font_8"
+                        android:maxLines="3"
                         android:textColor="@color/bg_707070"
                         android:textSize="@dimen/size_14" />
 
@@ -199,6 +238,38 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true">
+
+
+            <RelativeLayout
+                android:id="@+id/rl_dingyue1"
+                android:layout_width="@dimen/font_55"
+                android:layout_height="@dimen/font_24"
+                android:layout_centerVertical="true"
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/font_10"
+                android:background="@drawable/bt_login">
+
+                <TextView
+                    android:id="@+id/tv_dingyue_name1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/font_7"
+                    android:text="订阅"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size_12" />
+
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="@dimen/font_10"
+                    android:layout_height="@dimen/font_10"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/font_7"
+                    android:src="@drawable/ic_delete" />
+
+            </RelativeLayout>
+
 
             <TextView
                 android:id="@+id/tv_check_name"
