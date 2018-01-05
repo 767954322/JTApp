@@ -102,6 +102,7 @@ public class InspirationDetailActivity extends BaseActivity
     private RelativeLayout rl_dingyue;
     private RelativeLayout rl_dingyue1;
     private String mMyUserId;
+    private boolean ifHideEdit;
 
     @Override
     protected int getLayoutResId() {
@@ -113,6 +114,7 @@ public class InspirationDetailActivity extends BaseActivity
         super.initExtraBundle();
         mUserId = getIntent().getStringExtra("user_id");
         mAlbumId = getIntent().getStringExtra("album_id");
+        ifHideEdit = getIntent().getBooleanExtra("ifHideEdit", false);
     }
 
     @Override
@@ -301,17 +303,31 @@ public class InspirationDetailActivity extends BaseActivity
             public void convert(final BaseViewHolder holder, final int position) {
 
                 if (curentListTag) {//线性
-                    holder.getView(R.id.iv_item_delete1).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_item_edite1).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_item_delete).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_item_edite).setVisibility(View.GONE);
+                    if (ifHideEdit) {
+                        holder.getView(R.id.iv_item_delete1).setVisibility(View.GONE);
+                        holder.getView(R.id.iv_item_edite1).setVisibility(View.GONE);
+                        holder.getView(R.id.iv_item_delete).setVisibility(View.GONE);
+                        holder.getView(R.id.iv_item_edite).setVisibility(View.GONE);
+                    } else {
+                        holder.getView(R.id.iv_item_delete1).setVisibility(View.VISIBLE);
+                        holder.getView(R.id.iv_item_edite1).setVisibility(View.VISIBLE);
+                        holder.getView(R.id.iv_item_delete).setVisibility(View.GONE);
+                        holder.getView(R.id.iv_item_edite).setVisibility(View.GONE);
+                    }
                     holder.getView(R.id.tv_item_miaosu1).setVisibility(View.VISIBLE);
                     holder.getView(R.id.tv_item_miaosu).setVisibility(View.GONE);
                 } else {//瀑布流
-                    holder.getView(R.id.iv_item_delete).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_item_edite).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_item_delete1).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_item_edite1).setVisibility(View.GONE);
+                    if (ifHideEdit) {
+                        holder.getView(R.id.iv_item_delete).setVisibility(View.GONE);
+                        holder.getView(R.id.iv_item_edite).setVisibility(View.GONE);
+                        holder.getView(R.id.iv_item_delete1).setVisibility(View.GONE);
+                        holder.getView(R.id.iv_item_edite1).setVisibility(View.GONE);
+                    } else {
+                        holder.getView(R.id.iv_item_delete).setVisibility(View.VISIBLE);
+                        holder.getView(R.id.iv_item_edite).setVisibility(View.VISIBLE);
+                        holder.getView(R.id.iv_item_delete1).setVisibility(View.GONE);
+                        holder.getView(R.id.iv_item_edite1).setVisibility(View.GONE);
+                    }
                     holder.getView(R.id.tv_item_miaosu1).setVisibility(View.GONE);
                     holder.getView(R.id.tv_item_miaosu).setVisibility(View.VISIBLE);
                 }

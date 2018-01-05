@@ -45,6 +45,7 @@ import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.jaeger.library.StatusBarUtil;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,7 +59,7 @@ import java.util.List;
 public class UserInfoActivity
         extends BaseActivity
         implements View.OnClickListener,
-        OnLoadMoreListener ,
+        OnLoadMoreListener,
         OnRefreshListener {
 
     private UserCenterInfoBean userCenterInfoBean;
@@ -195,10 +196,11 @@ public class UserInfoActivity
                 holder.getView(R.id.rl_item_inspiration).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                            Intent intent = new Intent(UserInfoActivity.this, InspirationDetailActivity.class);
-                            intent.putExtra("user_id", user_id);
-                            intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
-                            startActivityForResult(intent, 2);
+                        Intent intent = new Intent(UserInfoActivity.this, InspirationDetailActivity.class);
+                        intent.putExtra("user_id", user_id);
+                        intent.putExtra("ifHideEdit", true);
+                        intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
+                        startActivityForResult(intent, 2);
                     }
                 });
             }
