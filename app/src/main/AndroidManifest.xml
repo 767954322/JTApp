@@ -408,6 +408,13 @@
             android:theme="@style/Transparent"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity
+            android:name=".home.activity.YuGouQingDanActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Transparent"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity
             android:name=".lingganji.ui.activity.InspirationDetailActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="keyboardHidden|orientation|locale|layoutDirection"

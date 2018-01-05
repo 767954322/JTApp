@@ -27,6 +27,7 @@ import com.homechart.app.home.activity.SearchActivity;
 import com.homechart.app.home.activity.SetActivity;
 import com.homechart.app.home.activity.ShaiJiaListActivity;
 import com.homechart.app.home.activity.ShouCangListActivity;
+import com.homechart.app.home.activity.YuGouQingDanActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
 import com.homechart.app.lingganji.ui.activity.MyLingGanlistActivity;
@@ -59,6 +60,7 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
     private RelativeLayout rl_shoucang;
     private RelativeLayout rl_shaijia;
     private RelativeLayout rl_wodeanli;
+    private RelativeLayout rl_yugouqingdan;
     private RelativeLayout rl_set;
     private TextView tv_center_name;
     private String mUserId;
@@ -136,6 +138,7 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
         rl_shoucang = (RelativeLayout) rootView.findViewById(R.id.rl_shoucang);
         rl_shaijia = (RelativeLayout) rootView.findViewById(R.id.rl_shaijia);
         rl_wodeanli = (RelativeLayout) rootView.findViewById(R.id.rl_wodeanli);
+        rl_yugouqingdan = (RelativeLayout) rootView.findViewById(R.id.rl_yugouqingdan);
         rl_set = (RelativeLayout) rootView.findViewById(R.id.rl_set);
         rl_unreader_msg_single = (RelativeLayout) rootView.findViewById(R.id.rl_unreader_msg_single);
         rl_unreader_msg_double = (RelativeLayout) rootView.findViewById(R.id.rl_unreader_msg_double);
@@ -157,6 +160,7 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
         rl_set.setOnClickListener(this);
         iv_center_header.setOnClickListener(this);
         iv_center_msgicon.setOnClickListener(this);
+        rl_yugouqingdan.setOnClickListener(this);
 
     }
 
@@ -202,9 +206,6 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.rl_shoucang:
 
-//                Intent intent_shoucang = new Intent(activity, ShouCangListActivity.class);
-//                startActivity(intent_shoucang);
-
                 break;
             case R.id.rl_shaijia:
 
@@ -233,6 +234,11 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
                 Intent intent_set = new Intent(activity, SetActivity.class);
                 startActivityForResult(intent_set, 3);
 
+                break;
+            case R.id.rl_yugouqingdan:
+
+                Intent intent_shoucang = new Intent(activity, YuGouQingDanActivity.class);
+                startActivity(intent_shoucang);
                 break;
         }
 
