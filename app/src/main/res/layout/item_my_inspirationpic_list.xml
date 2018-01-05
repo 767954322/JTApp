@@ -82,4 +82,11 @@
         android:layout_marginTop="@dimen/font_15"
         android:src="@drawable/bianji2" />
 
+    <View
+        android:id="@+id/view_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_15"
+        android:layout_below="@+id/iv_item_edite"
+        android:visibility="gone"/>
+
 </RelativeLayout>

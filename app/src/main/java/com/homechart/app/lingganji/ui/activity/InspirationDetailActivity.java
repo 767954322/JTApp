@@ -316,13 +316,17 @@ public class InspirationDetailActivity extends BaseActivity
                     }
                     holder.getView(R.id.tv_item_miaosu1).setVisibility(View.VISIBLE);
                     holder.getView(R.id.tv_item_miaosu).setVisibility(View.GONE);
+                    holder.getView(R.id.view_bottom).setVisibility(View.GONE);
                 } else {//瀑布流
                     if (ifHideEdit) {
+
+                        holder.getView(R.id.view_bottom).setVisibility(View.VISIBLE);
                         holder.getView(R.id.iv_item_delete).setVisibility(View.GONE);
                         holder.getView(R.id.iv_item_edite).setVisibility(View.GONE);
                         holder.getView(R.id.iv_item_delete1).setVisibility(View.GONE);
                         holder.getView(R.id.iv_item_edite1).setVisibility(View.GONE);
                     } else {
+                        holder.getView(R.id.view_bottom).setVisibility(View.GONE);
                         holder.getView(R.id.iv_item_delete).setVisibility(View.VISIBLE);
                         holder.getView(R.id.iv_item_edite).setVisibility(View.VISIBLE);
                         holder.getView(R.id.iv_item_delete1).setVisibility(View.GONE);
