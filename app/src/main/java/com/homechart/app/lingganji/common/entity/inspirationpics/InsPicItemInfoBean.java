@@ -11,12 +11,15 @@ public class InsPicItemInfoBean implements Serializable {
     private String item_id;
     private String tag;
     private String description;
+    private String update_time;
     private InsPicItemInfoImageBean image;
 
-    public InsPicItemInfoBean(String item_id, String tag, String description, InsPicItemInfoImageBean image) {
+
+    public InsPicItemInfoBean(String item_id, String tag, String description, String update_time, InsPicItemInfoImageBean image) {
         this.item_id = item_id;
         this.tag = tag;
         this.description = description;
+        this.update_time = update_time;
         this.image = image;
     }
 
@@ -44,6 +47,14 @@ public class InsPicItemInfoBean implements Serializable {
         this.description = description;
     }
 
+    public String getUpdate_time() {
+        return update_time;
+    }
+
+    public void setUpdate_time(String update_time) {
+        this.update_time = update_time;
+    }
+
     public InsPicItemInfoImageBean getImage() {
         return image;
     }
@@ -58,6 +69,7 @@ public class InsPicItemInfoBean implements Serializable {
                 "item_id='" + item_id + '\'' +
                 ", tag='" + tag + '\'' +
                 ", description='" + description + '\'' +
+                ", update_time='" + update_time + '\'' +
                 ", image=" + image +
                 '}';
     }

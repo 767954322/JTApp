@@ -22,7 +22,7 @@
         android:background="@drawable/bg_edittext"
         android:gravity="top"
         android:maxLength="1000"
-        android:hint="写写为什么收藏这张图片..."
+        android:hint="喜欢的理由，写下来如何？"
         android:paddingLeft="@dimen/font_10"
         android:paddingRight="@dimen/font_10"
         android:paddingTop="@dimen/font_12"

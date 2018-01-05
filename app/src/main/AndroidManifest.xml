@@ -7,15 +7,15 @@
         android:name="com.homechart.app.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.hardware.camera.autofocus"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.hardware.camera.autofocus" />
     <!--前置摄像头-->
     <uses-feature android:name="android.hardware.Camera.front" />
     <!--闪光灯-->
     <uses-feature android:name="android.hardware.Camera.flash" />
     <!-- 开启闪光灯权限 -->
     <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS"/>
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
     <!-- Required  一些系统要求的权限，如访问网络等-->
     <uses-permission android:name="com.homechart.app.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
@@ -67,7 +67,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".home.activity.AdvertisementActivity"
+        <activity
+            android:name=".home.activity.AdvertisementActivity"
             android:theme="@style/AppTheme1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -77,18 +78,17 @@
         </activity>
 
         <!--<activity-->
-            <!--android:name=".home.activity.AdvertisementActivity"-->
-            <!--android:theme="@style/AppTheme1"-->
-            <!--android:alwaysRetainTaskState="true"-->
-            <!--android:configChanges="keyboardHidden|orientation|locale|layoutDirection"-->
-            <!--android:launchMode="singleTop"-->
-            <!--android:screenOrientation="portrait" />-->
+        <!--android:name=".home.activity.AdvertisementActivity"-->
+        <!--android:theme="@style/AppTheme1"-->
+        <!--android:alwaysRetainTaskState="true"-->
+        <!--android:configChanges="keyboardHidden|orientation|locale|layoutDirection"-->
+        <!--android:launchMode="singleTop"-->
+        <!--android:screenOrientation="portrait" />-->
         <activity
             android:name=".home.activity.LoginActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".home.activity.RegisterActivity"
             android:alwaysRetainTaskState="true"
@@ -105,8 +105,10 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="photo"
 
@@ -289,8 +291,8 @@
         <activity
             android:name=".visearch.EditPhotoActivity"
             android:alwaysRetainTaskState="true"
-            android:exported="true"
             android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity
@@ -399,12 +401,20 @@
             android:theme="@style/Transparent"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity
+            android:name=".lingganji.ui.activity.InspirationDetailEditActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
+            android:screenOrientation="portrait"
+            android:theme="@style/Transparent"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity
             android:name=".lingganji.ui.activity.InspirationDetailActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+
         <service android:name=".upapk.DownloadService">
             <intent-filter>
                 <action android:name="com.test.intentservice" />

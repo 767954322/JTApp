@@ -12,7 +12,7 @@
         android:id="@+id/iv_item_pic"
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_96"
-        android:scaleType="centerCrop" />
+        android:scaleType="fitXY" />
 
     <ImageView
         android:id="@+id/iv_item_delete1"

@@ -1,6 +1,7 @@
 package com.homechart.app.lingganji.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -315,12 +316,16 @@ public class InspirationDetailActivity extends BaseActivity
                 if (curentListTag) {
                     layoutParams.width = widthPicList;
                     layoutParams.height = Math.round(widthPicList / mListData.get(position).getItem_info().getImage().getRatio());
+                    holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
+                    ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(), (ImageView) holder.getView(R.id.iv_item_pic));
+
                 } else {
                     layoutParams.width = widthPic;
                     layoutParams.height = Math.round(widthPic / mListData.get(position).getItem_info().getImage().getRatio());
+                    holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
+                    ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
+
                 }
-                holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
-                ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
 
                 holder.getView(R.id.iv_item_delete).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -355,14 +360,24 @@ public class InspirationDetailActivity extends BaseActivity
                     @Override
                     public void onClick(View v) {
 
-                        ToastUtils.showCenter(InspirationDetailActivity.this, "编辑");
+                        Intent intent = new Intent(InspirationDetailActivity.this, InspirationDetailEditActivity.class);
+                        intent.putExtra("url", mListData.get(position).getItem_info().getImage().getImg0());
+                        intent.putExtra("description", mListData.get(position).getItem_info().getDescription());
+                        intent.putExtra("updata_time", mListData.get(position).getItem_info().getUpdate_time());
+//                        intent.putExtra("time",mListData.get(position).getItem_info().g);
+                        startActivity(intent);
                     }
                 });
                 holder.getView(R.id.iv_item_edite1).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        ToastUtils.showCenter(InspirationDetailActivity.this, "编辑");
+                        Intent intent = new Intent(InspirationDetailActivity.this, InspirationDetailEditActivity.class);
+                        intent.putExtra("url", mListData.get(position).getItem_info().getImage().getImg0());
+                        intent.putExtra("description", mListData.get(position).getItem_info().getDescription());
+                        intent.putExtra("updata_time", mListData.get(position).getItem_info().getUpdate_time());
+//                        intent.putExtra("time",mListData.get(position).getItem_info().g);
+                        startActivity(intent);
                     }
                 });
             }
