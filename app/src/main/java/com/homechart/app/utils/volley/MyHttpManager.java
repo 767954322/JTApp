@@ -2701,4 +2701,34 @@ public class MyHttpManager {
         queue.add(okStringRequest);
     }
 
+    /**
+     * 编辑图片
+     *
+     * @param item_id
+     * @param description
+     * @param callback
+     */
+    public void editImage(final String item_id, final String description, OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.EDIT_IMAGE, callback) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                map.put("item_id", item_id);
+                map.put("description", description);
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+
+        };
+        queue.add(okStringRequest);
+    }
+
 }

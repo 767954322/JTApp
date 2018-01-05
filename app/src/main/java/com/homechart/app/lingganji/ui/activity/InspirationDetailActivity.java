@@ -364,8 +364,10 @@ public class InspirationDetailActivity extends BaseActivity
                         intent.putExtra("url", mListData.get(position).getItem_info().getImage().getImg0());
                         intent.putExtra("description", mListData.get(position).getItem_info().getDescription());
                         intent.putExtra("updata_time", mListData.get(position).getItem_info().getUpdate_time());
+                        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+                        intent.putExtra("position", position);
 //                        intent.putExtra("time",mListData.get(position).getItem_info().g);
-                        startActivity(intent);
+                        InspirationDetailActivity.this.startActivityForResult(intent, 1);
                     }
                 });
                 holder.getView(R.id.iv_item_edite1).setOnClickListener(new View.OnClickListener() {
@@ -376,8 +378,9 @@ public class InspirationDetailActivity extends BaseActivity
                         intent.putExtra("url", mListData.get(position).getItem_info().getImage().getImg0());
                         intent.putExtra("description", mListData.get(position).getItem_info().getDescription());
                         intent.putExtra("updata_time", mListData.get(position).getItem_info().getUpdate_time());
+                        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
 //                        intent.putExtra("time",mListData.get(position).getItem_info().g);
-                        startActivity(intent);
+                        InspirationDetailActivity.this.startActivityForResult(intent, 1);
                     }
                 });
             }
@@ -541,5 +544,20 @@ public class InspirationDetailActivity extends BaseActivity
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 1 && requestCode == 1) {
+            String description = data.getStringExtra("description");
+            int position = data.getIntExtra("position", -1);
+            if (position != -1) {
+                mListData.get(position).getItem_info().setDescription(description);
+                mAdapter.notifyDataSetChanged();
+            }
+
+        }
+
     }
 }
