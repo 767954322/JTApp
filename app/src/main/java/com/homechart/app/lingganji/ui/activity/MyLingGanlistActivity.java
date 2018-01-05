@@ -165,7 +165,7 @@ public class MyLingGanlistActivity
                         Intent intent = new Intent(MyLingGanlistActivity.this, InspirationDetailActivity.class);
                         intent.putExtra("InspirationBean", mListData.get(position));
                         intent.putExtra("user_id", mUserId);
-                        startActivity(intent);
+                        startActivityForResult(intent, 2);
                     }
                 });
             }
@@ -262,6 +262,8 @@ public class MyLingGanlistActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 1) {
+            onRefresh();
+        } else if (requestCode == 2 && resultCode == 2) {
             onRefresh();
         }
     }

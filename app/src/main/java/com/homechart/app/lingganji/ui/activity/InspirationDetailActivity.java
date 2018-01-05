@@ -9,6 +9,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,17 +50,11 @@ import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 
-import android.support.v7.widget.Toolbar;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by gumenghao on 18/1/4.
- */
 
 public class InspirationDetailActivity extends BaseActivity
         implements View.OnClickListener,
@@ -102,6 +97,7 @@ public class InspirationDetailActivity extends BaseActivity
     private TextView mUserName;
     private TextView mUserDingYue;
     private TextView mUserPicNum;
+    private int deletePosition = -1;
 
     @Override
     protected int getLayoutResId() {
@@ -189,6 +185,7 @@ public class InspirationDetailActivity extends BaseActivity
 
         switch (id) {
             case R.id.nav_left_imageButton:
+                InspirationDetailActivity.this.setResult(2, InspirationDetailActivity.this.getIntent());
                 InspirationDetailActivity.this.finish();
                 break;
             case R.id.rl_check_pic:
@@ -208,18 +205,9 @@ public class InspirationDetailActivity extends BaseActivity
                 break;
             case R.id.iv_item_delete1:
             case R.id.iv_item_delete:
-                //软键盘如果打开的话，关闭软键盘
-                boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
-                if (isOpen) {
-                    if (getCurrentFocus() != null) {//强制关闭软键盘
-                        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    }
-                }
-                mDialog.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 break;
             case R.id.iv_item_edite1:
             case R.id.iv_item_edite:
-                ToastUtils.showCenter(InspirationDetailActivity.this, "编辑");
                 break;
         }
 
@@ -321,10 +309,49 @@ public class InspirationDetailActivity extends BaseActivity
                 holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
                 ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
 
-                holder.getView(R.id.iv_item_delete).setOnClickListener(InspirationDetailActivity.this);
-                holder.getView(R.id.iv_item_delete1).setOnClickListener(InspirationDetailActivity.this);
-                holder.getView(R.id.iv_item_edite).setOnClickListener(InspirationDetailActivity.this);
-                holder.getView(R.id.iv_item_edite1).setOnClickListener(InspirationDetailActivity.this);
+                holder.getView(R.id.iv_item_delete).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deletePosition = position;
+                        //软键盘如果打开的话，关闭软键盘
+                        boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+                        if (isOpen) {
+                            if (getCurrentFocus() != null) {//强制关闭软键盘
+                                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                            }
+                        }
+                        mDialog.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+
+                    }
+                });
+                holder.getView(R.id.iv_item_delete1).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deletePosition = position;
+                        //软键盘如果打开的话，关闭软键盘
+                        boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+                        if (isOpen) {
+                            if (getCurrentFocus() != null) {//强制关闭软键盘
+                                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                            }
+                        }
+                        mDialog.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    }
+                });
+                holder.getView(R.id.iv_item_edite).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        ToastUtils.showCenter(InspirationDetailActivity.this, "编辑");
+                    }
+                });
+                holder.getView(R.id.iv_item_edite1).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        ToastUtils.showCenter(InspirationDetailActivity.this, "编辑");
+                    }
+                });
             }
         };
 //        mRecyclerView.addHeaderView(mHeaderInspirationPic);
@@ -439,6 +466,7 @@ public class InspirationDetailActivity extends BaseActivity
 
     @Override
     public void onQuXiao() {
+        deletePosition = -1;
         mDialog.dismiss();
     }
 
@@ -446,5 +474,44 @@ public class InspirationDetailActivity extends BaseActivity
     public void onQueRen() {
         mDialog.dismiss();
         CustomProgress.show(InspirationDetailActivity.this, "正在删除...", false, null);
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                CustomProgress.cancelDialog();
+                ToastUtils.showCenter(InspirationDetailActivity.this, "删除失败！");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        CustomProgress.cancelDialog();
+                        mListData.remove(deletePosition);
+                        mAdapter.notifyDataSetChanged();
+                        getInspirationDetail();
+                    } else {
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(InspirationDetailActivity.this, "删除失败！");
+                    }
+                } catch (JSONException e) {
+                    CustomProgress.cancelDialog();
+                    ToastUtils.showCenter(InspirationDetailActivity.this, "删除失败！");
+                }
+            }
+        };
+        MyHttpManager.getInstance().removePic(mListData.get(deletePosition).getItem_info().getItem_id(), callBack);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            InspirationDetailActivity.this.setResult(2, InspirationDetailActivity.this.getIntent());
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
