@@ -15,8 +15,9 @@ public class InsDetailsAlbumInfoBean implements Serializable {
     private String item_num;
     private String subscribe_num;
     private String update_time;
+    private String is_subscribed;
 
-    public InsDetailsAlbumInfoBean(String album_id, String album_name, String tag, String description, String item_num, String subscribe_num, String update_time) {
+    public InsDetailsAlbumInfoBean(String album_id, String album_name, String tag, String description, String item_num, String subscribe_num, String update_time, String is_subscribed) {
         this.album_id = album_id;
         this.album_name = album_name;
         this.tag = tag;
@@ -24,6 +25,7 @@ public class InsDetailsAlbumInfoBean implements Serializable {
         this.item_num = item_num;
         this.subscribe_num = subscribe_num;
         this.update_time = update_time;
+        this.is_subscribed = is_subscribed;
     }
 
     public String getAlbum_id() {
@@ -82,6 +84,14 @@ public class InsDetailsAlbumInfoBean implements Serializable {
         this.update_time = update_time;
     }
 
+    public String getIs_subscribed() {
+        return is_subscribed;
+    }
+
+    public void setIs_subscribed(String is_subscribed) {
+        this.is_subscribed = is_subscribed;
+    }
+
     @Override
     public String toString() {
         return "InsDetailsAlbumInfoBean{" +
@@ -92,6 +102,7 @@ public class InsDetailsAlbumInfoBean implements Serializable {
                 ", item_num='" + item_num + '\'' +
                 ", subscribe_num='" + subscribe_num + '\'' +
                 ", update_time='" + update_time + '\'' +
+                ", is_subscribed='" + is_subscribed + '\'' +
                 '}';
     }
 }

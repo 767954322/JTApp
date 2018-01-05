@@ -103,6 +103,8 @@ public class InspirationDetailActivity extends BaseActivity
     private RelativeLayout rl_dingyue1;
     private String mMyUserId;
     private boolean ifHideEdit;
+    private TextView tv_dingyue_name;
+    private TextView tv_dingyue_name1;
 
     @Override
     protected int getLayoutResId() {
@@ -144,6 +146,8 @@ public class InspirationDetailActivity extends BaseActivity
         mUserHeader = (ImageView) this.findViewById(R.id.iv_user_header);
         rl_dingyue = (RelativeLayout) this.findViewById(R.id.rl_dingyue);
         rl_dingyue1 = (RelativeLayout) this.findViewById(R.id.rl_dingyue1);
+        tv_dingyue_name = (TextView) this.findViewById(R.id.tv_dingyue_name);
+        tv_dingyue_name1 = (TextView) this.findViewById(R.id.tv_dingyue_name1);
 
     }
 
@@ -262,6 +266,13 @@ public class InspirationDetailActivity extends BaseActivity
             if (null != inspirationDetailBean.getInfo().getUser_info() && !mMyUserId.equals(inspirationDetailBean.getInfo().getUser_info().getUser_id())) {
                 rl_dingyue1.setVisibility(View.VISIBLE);
                 rl_dingyue.setVisibility(View.VISIBLE);
+                if (inspirationDetailBean.getInfo().getAlbum_info().getIs_subscribed().equals("1")) {
+                    //订阅了
+                    changeDingYueStatus(true);
+                } else {
+                    //未订阅了
+                    changeDingYueStatus(false);
+                }
             } else {
                 rl_dingyue1.setVisibility(View.GONE);
                 rl_dingyue.setVisibility(View.GONE);
@@ -515,6 +526,20 @@ public class InspirationDetailActivity extends BaseActivity
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
                 }
                 break;
+        }
+    }
+
+    private void changeDingYueStatus(boolean dingyue) {
+        if (dingyue) {
+            rl_dingyue.setBackgroundResource(R.drawable.bg_edittext_search_tag);
+            rl_dingyue1.setBackgroundResource(R.drawable.bg_edittext_search_tag);
+            tv_dingyue_name.setTextColor(UIUtils.getColor(R.color.black));
+            tv_dingyue_name1.setTextColor(UIUtils.getColor(R.color.black));
+        } else {
+            rl_dingyue.setBackgroundResource(R.drawable.bt_login);
+            rl_dingyue1.setBackgroundResource(R.drawable.bt_login);
+            tv_dingyue_name.setTextColor(UIUtils.getColor(R.color.white));
+            tv_dingyue_name1.setTextColor(UIUtils.getColor(R.color.white));
         }
     }
 
