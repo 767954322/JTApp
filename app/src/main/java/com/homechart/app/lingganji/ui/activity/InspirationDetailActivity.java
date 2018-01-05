@@ -313,11 +313,11 @@ public class InspirationDetailActivity extends BaseActivity
                 }
                 ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_item_pic).getLayoutParams();
                 if (curentListTag) {
-                    layoutParams.height = widthPicList / 2;
                     layoutParams.width = widthPicList;
+                    layoutParams.height = Math.round(widthPicList / mListData.get(position).getItem_info().getImage().getRatio());
                 } else {
-                    layoutParams.height = widthPic;
                     layoutParams.width = widthPic;
+                    layoutParams.height = Math.round(widthPic / mListData.get(position).getItem_info().getImage().getRatio());
                 }
                 holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
                 ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
