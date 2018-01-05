@@ -294,17 +294,22 @@ public class InspirationDetailActivity extends BaseActivity
                     holder.getView(R.id.iv_item_edite1).setVisibility(View.VISIBLE);
                     holder.getView(R.id.iv_item_delete).setVisibility(View.GONE);
                     holder.getView(R.id.iv_item_edite).setVisibility(View.GONE);
+                    holder.getView(R.id.tv_item_miaosu1).setVisibility(View.VISIBLE);
+                    holder.getView(R.id.tv_item_miaosu).setVisibility(View.GONE);
                 } else {//瀑布流
                     holder.getView(R.id.iv_item_delete).setVisibility(View.VISIBLE);
                     holder.getView(R.id.iv_item_edite).setVisibility(View.VISIBLE);
                     holder.getView(R.id.iv_item_delete1).setVisibility(View.GONE);
                     holder.getView(R.id.iv_item_edite1).setVisibility(View.GONE);
+                    holder.getView(R.id.tv_item_miaosu1).setVisibility(View.GONE);
+                    holder.getView(R.id.tv_item_miaosu).setVisibility(View.VISIBLE);
                 }
                 if (TextUtils.isEmpty(mListData.get(position).getItem_info().getDescription().trim())) {
                     ((TextView) holder.getView(R.id.tv_item_miaosu)).setVisibility(View.GONE);
+                    ((TextView) holder.getView(R.id.tv_item_miaosu1)).setVisibility(View.GONE);
                 } else {
-                    ((TextView) holder.getView(R.id.tv_item_miaosu)).setVisibility(View.VISIBLE);
                     ((TextView) holder.getView(R.id.tv_item_miaosu)).setText(mListData.get(position).getItem_info().getDescription());
+                    ((TextView) holder.getView(R.id.tv_item_miaosu1)).setText(mListData.get(position).getItem_info().getDescription());
                 }
                 ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_item_pic).getLayoutParams();
                 if (curentListTag) {
