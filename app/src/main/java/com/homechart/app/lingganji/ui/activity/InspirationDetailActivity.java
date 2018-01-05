@@ -105,6 +105,7 @@ public class InspirationDetailActivity extends BaseActivity
     private boolean ifHideEdit;
     private TextView tv_dingyue_name;
     private TextView tv_dingyue_name1;
+    private InspirationDetailBean inspirationDetailBean;
 
     @Override
     protected int getLayoutResId() {
@@ -212,6 +213,13 @@ public class InspirationDetailActivity extends BaseActivity
             case R.id.rl_dingyue1:
             case R.id.rl_dingyue:
 
+                if (null != inspirationDetailBean && inspirationDetailBean.getInfo().getAlbum_info().getIs_subscribed().equals("1")) {
+                    //取消订阅
+
+                } else if (null != inspirationDetailBean && inspirationDetailBean.getInfo().getAlbum_info().getIs_subscribed().equals("0")) {
+                    //订阅
+
+                }
 
                 break;
         }
@@ -248,7 +256,7 @@ public class InspirationDetailActivity extends BaseActivity
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
                         String newData = "{\"info\": " + data_msg + "}";
-                        InspirationDetailBean inspirationDetailBean = GsonUtil.jsonToBean(newData, InspirationDetailBean.class);
+                        inspirationDetailBean = GsonUtil.jsonToBean(newData, InspirationDetailBean.class);
 
                         changeTopUI(inspirationDetailBean);
                     } else {
