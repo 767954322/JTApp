@@ -3,6 +3,7 @@ package com.homechart.app.lingganji.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -158,7 +159,11 @@ public class MyLingGanlistActivity
                 layoutParams.height = widthPic;
                 layoutParams.width = widthPic;
                 holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
-                ImageUtils.displayFilletImage(mListData.get(position).getAlbum_info().getCover_image().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
+                if(TextUtils.isEmpty(mListData.get(position).getAlbum_info().getCover_image().getImg0())){
+                    ImageUtils.displayFilletDefaulImage("", (ImageView) holder.getView(R.id.iv_item_pic));
+                }else {
+                    ImageUtils.displayFilletImage(mListData.get(position).getAlbum_info().getCover_image().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
+                }
                 holder.getView(R.id.rl_item_inspiration).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

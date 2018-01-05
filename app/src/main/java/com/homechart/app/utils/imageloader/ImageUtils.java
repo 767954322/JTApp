@@ -84,6 +84,43 @@ public class ImageUtils {
             .resetViewBeforeLoading(true)
             .build();
 
+    //demo圆角的options
+    private static final DisplayImageOptions filletOptionsDefaul = new DisplayImageOptions.Builder()
+            .showStubImage(R.drawable.jia)
+            .showImageForEmptyUri(R.drawable.jia)
+            .showImageOnFail(R.drawable.jia)
+            .cacheInMemory(true)
+            .cacheOnDisc(true)
+            .bitmapConfig(Bitmap.Config.RGB_565)   //设置图片的解码类型
+            .displayer(new RoundedBitmapDisplayer(8))
+            .imageScaleType(ImageScaleType.EXACTLY)
+            .build();
+
+    //demo圆形的options
+    private static final DisplayImageOptions roundOptionsDefaul = new DisplayImageOptions.Builder()
+            .cacheInMemory(true)
+            .displayer(new RoundedBitmapDisplayer(360))
+            .cacheOnDisk(true)
+            .showImageOnFail(R.drawable.jia)
+            .showImageOnLoading(R.drawable.jia)
+            .showImageForEmptyUri(R.drawable.jia)
+            .bitmapConfig(Bitmap.Config.RGB_565)
+            .imageScaleType(ImageScaleType.EXACTLY)
+            .build();
+
+
+    //加载矩形大图的options
+    private static final DisplayImageOptions rectangleoptionsdefault = new DisplayImageOptions.Builder()
+            .showImageOnLoading(R.drawable.jia)
+            .showImageOnFail(R.drawable.jia)
+            .showImageForEmptyUri(R.drawable.jia)
+            .cacheInMemory(true)
+            .cacheOnDisk(true)
+            .bitmapConfig(Bitmap.Config.ALPHA_8)
+            .imageScaleType(ImageScaleType.EXACTLY)
+            .resetViewBeforeLoading(true)
+            .build();
+
     /**
      * 加载圆形图片
      *
@@ -198,5 +235,56 @@ public class ImageUtils {
     private static final String IMAGE_CACHE = "image_cache";
     public static final int DISPLAY_WIDTH = 720;
     public static final int DISPLAY_HEIGHT = 1280;
+
+
+    /**
+     * 加载圆角图片
+     *
+     * @param imageUrl
+     * @param imageView
+     */
+    public static void displayFilletDefaulImage(String imageUrl, ImageView imageView) {
+        if (PublicUtils.ifHasWriteQuan1(MyApplication.getInstance())) {
+            //有权限
+            if (imageView != null)
+                ImageLoader.getInstance().displayImage(imageUrl, imageView, filletOptionsDefaul);
+        } else {
+            GlideImgManager.glideLoader(MyApplication.getInstance(), imageUrl, R.drawable.jia, R.drawable.jia, imageView, 1);
+        }
+    }
+
+
+    /**
+     * 加载圆形图片
+     *
+     * @param imageUrl
+     * @param imageView
+     */
+    public static void displayRoundDefaultImage(String imageUrl, ImageView imageView) {
+        if (PublicUtils.ifHasWriteQuan1(MyApplication.getInstance())) {
+            //有权限
+            if (imageView != null)
+                ImageLoader.getInstance().displayImage(imageUrl, imageView, roundOptionsDefaul);
+        } else {
+            GlideImgManager.glideLoader(MyApplication.getInstance(), imageUrl, R.drawable.jia, R.drawable.jia, imageView, 0);
+        }
+    }
+
+    /**
+     * 加载矩形图片
+     *
+     * @param imageUrl
+     * @param imageView
+     */
+    public static void disRectangleDefaultImage(String imageUrl, ImageView imageView) {
+        if (PublicUtils.ifHasWriteQuan1(MyApplication.getInstance())) {
+            //有权限
+            if (imageView != null)
+                ImageLoader.getInstance().displayImage(imageUrl, imageView, rectangleoptionsdefault);
+        } else {
+            GlideImgManager.glideLoader(MyApplication.getInstance(), imageUrl, R.drawable.jia, R.drawable.jia, imageView);
+        }
+    }
+
 
 }
