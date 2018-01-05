@@ -1,21 +1,16 @@
 package com.homechart.app.home.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.TabLayout;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -29,22 +24,20 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
-import com.homechart.app.home.bean.searchartile.ArticleBean;
-import com.homechart.app.home.bean.searchartile.ArticleListBean;
-import com.homechart.app.home.bean.shaijia.ShaiJiaBean;
-import com.homechart.app.home.bean.shaijia.ShaiJiaItemBean;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationBean;
+import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationListBean;
+import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
+import com.homechart.app.lingganji.ui.activity.MyLingGanlistActivity;
 import com.homechart.app.myview.RoundImageView;
-import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
+import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
-import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
-import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
@@ -52,12 +45,10 @@ import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.jaeger.library.StatusBarUtil;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -67,17 +58,13 @@ import java.util.List;
 public class UserInfoActivity
         extends BaseActivity
         implements View.OnClickListener,
-        OnLoadMoreListener {
+        OnLoadMoreListener ,
+        OnRefreshListener {
 
-    private List<ShaiJiaItemBean> mListData = new ArrayList<>();
-    private List<ArticleBean> mListDataArticle = new ArrayList<>();
-    private List<Integer> mListDataHeight = new ArrayList<>();
-    private List<Integer> mListSeeNumArticle = new ArrayList<>();
     private UserCenterInfoBean userCenterInfoBean;
     private ImageButton mIBBack;
     private TextView mTVTital;
     private String user_id;
-    private int width_Pic;
     private int position;
     private RoundImageView iv_header_desiner_center;
     private ImageView iv_info_renzheng;
@@ -90,21 +77,19 @@ public class UserInfoActivity
     private RelativeLayout rl_info_guanzhu;
     private RelativeLayout rl_info_shaijia;
     private RelativeLayout rl_info_fensi;
-    private MultiItemCommonAdapter<ShaiJiaItemBean> mAdapter;
+    private MultiItemCommonAdapter<InspirationBean> mAdapter;
+    private List<InspirationBean> mListData = new ArrayList<>();
     private HRecyclerView mRecyclerView;
     private LoadMoreFooterView mLoadMoreFooterView;
-    private StaggeredGridLayoutManager staggeredGridLayoutManager;
-    private int page_num = 0;
-    private int TYPE_LEFT = 1;
-    private int TYPE_RIGHT = 2;
+    private int page_num = 1;
     private View headerView;
     private boolean first = true;
     private View view_tiop;
-    private TabLayout tl_tab;
-    private LinearLayoutManager linearLayoutManager;
-    private String sort = "pic";
-    private CommonAdapter<ArticleBean> mAdapterArticle;
     private TextView tv_jieshao;
+    private int widthPic;
+
+    private final String REFRESH_STATUS = "refresh";
+    private final String LOADMORE_STATUS = "loadmore";
 
     @Override
     protected int getLayoutResId() {
@@ -132,7 +117,6 @@ public class UserInfoActivity
         rl_info_fensi = (RelativeLayout) headerView.findViewById(R.id.rl_info_fensi);
         iv_info_renzheng = (ImageView) headerView.findViewById(R.id.iv_info_renzheng);
         iv_header_desiner_center = (RoundImageView) headerView.findViewById(R.id.iv_header_desiner_center);
-        tl_tab = (TabLayout) headerView.findViewById(R.id.tl_tab);
     }
 
     @Override
@@ -153,47 +137,12 @@ public class UserInfoActivity
         rl_info_shaijia.setOnClickListener(this);
         rl_info_fensi.setOnClickListener(this);
 
-        tl_tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                page_num = 0;
-                mListData.clear();
-                mListDataHeight.clear();
-//                mAdapter.notifyDataSetChanged();
-                if (tab.getText().equals("图片")) {
-                    sort = "pic";
-                    mListData.clear();
-                    mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
-                    mRecyclerView.setAdapter(mAdapter);
-                    getListData(sort);
-                } else if (tab.getText().equals("文章")) {
-                    sort = "artical";
-                    mListDataArticle.clear();
-                    mRecyclerView.setLayoutManager(linearLayoutManager);
-                    mRecyclerView.setAdapter(mAdapterArticle);
-                    getListDataArticle(sort);
-                }
-
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
 
-        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        linearLayoutManager = new LinearLayoutManager(this);
+        widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_30)) / 2;
         StatusBarUtil.setTranslucentForImageView(this, 0, null);
         int statusBarHeight = PublicUtils.getStatusBarHeight(this);
         ViewGroup.LayoutParams layoutParams = view_tiop.getLayoutParams();
@@ -202,138 +151,70 @@ public class UserInfoActivity
         view_tiop.setLayoutParams(layoutParams);
 
         mTVTital.setText("");
-        tl_tab.setTabMode(TabLayout.MODE_FIXED);
-        tl_tab.setSelectedTabIndicatorHeight(UIUtils.getDimens(R.dimen.font_3));
-        tl_tab.setSelectedTabIndicatorColor(UIUtils.getColor(R.color.bg_e79056));
-        tl_tab.addTab(tl_tab.newTab().setText("图片"));
-        tl_tab.addTab(tl_tab.newTab().setText("文章"));
-        PublicUtils.setIndicator(tl_tab, UIUtils.getDimens(R.dimen.font_15), UIUtils.getDimens(R.dimen.font_15));
 
-        width_Pic = PublicUtils.getScreenWidth(UserInfoActivity.this) / 2 - UIUtils.getDimens(R.dimen.font_14);
         getUserInfo();
 
-        MultiItemTypeSupport<ArticleBean> supportArticle = new MultiItemTypeSupport<ArticleBean>() {
+        MultiItemTypeSupport<InspirationBean> support = new MultiItemTypeSupport<InspirationBean>() {
             @Override
             public int getLayoutId(int itemType) {
-                return R.layout.item_search_article;
-            }
 
-            @Override
-            public int getItemViewType(int position, ArticleBean s) {
-                return 0;
-            }
-        };
-        mAdapterArticle = new MultiItemCommonAdapter<ArticleBean>(UserInfoActivity.this, mListDataArticle, supportArticle) {
-            @Override
-            public void convert(BaseViewHolder holder, final int position) {
-
-                ((TextView) holder.getView(R.id.tv_article_name)).setText(mListDataArticle.get(position).getArticle_info().getTitle());
-                ((TextView) holder.getView(R.id.tv_article_details)).setText(mListDataArticle.get(position).getArticle_info().getSummary());
-                try {
-                    ((TextView) holder.getView(R.id.tv_youlan_num)).setText(mListSeeNumArticle.get(position) + "");
-                } catch (Exception e) {
-                    ((TextView) holder.getView(R.id.tv_youlan_num)).setText(0 + "");
-                }
-
-                ImageUtils.disRectangleImage(mListDataArticle.get(position).getArticle_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_article_image));
-                holder.getView(R.id.rl_item_click).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            mListSeeNumArticle.add(position, mListSeeNumArticle.get(position) + 1);
-                        } catch (Exception e) {
-                        }
-                        Intent intent = new Intent(UserInfoActivity.this, ArticleDetailsActivity.class);
-                        intent.putExtra("article_id", mListDataArticle.get(position).getArticle_info().getArticle_id());
-                        startActivity(intent);
-                    }
-                });
-            }
-        };
-
-
-        MultiItemTypeSupport<ShaiJiaItemBean> support = new MultiItemTypeSupport<ShaiJiaItemBean>() {
-            @Override
-            public int getLayoutId(int itemType) {
-                if (itemType == TYPE_LEFT) {
-                    return R.layout.item_userinfo_left;
+                if (itemType == 0) {
+                    return R.layout.item_my_inspirationlist_left;
                 } else {
-                    return R.layout.item_userinfo_right;
+                    return R.layout.item_my_inspirationlist_right;
                 }
             }
 
             @Override
-            public int getItemViewType(int position, ShaiJiaItemBean itemMessageBean) {
+            public int getItemViewType(int position, InspirationBean s) {
                 if (position % 2 == 0) {
-                    return TYPE_LEFT;
+                    return 0;
                 } else {
-                    return TYPE_RIGHT;
+                    return 1;
                 }
 
             }
         };
 
-        mAdapter = new MultiItemCommonAdapter<ShaiJiaItemBean>(this, mListData, support) {
+        mAdapter = new MultiItemCommonAdapter<InspirationBean>(UserInfoActivity.this, mListData, support) {
             @Override
-            public void convert(BaseViewHolder holder, final int position) {
-                String item_id = mListData.get(position).getItem_info().getItem_id();
-                if(mListData.get(position).getItem_info().getCollect_num().trim().equals("0")){
-                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.INVISIBLE);
-                }else {
-                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.VISIBLE);
+            public void convert(final BaseViewHolder holder, final int position) {
+
+                ((TextView) holder.getView(R.id.tv_item_name)).setText(mListData.get(position).getAlbum_info().getAlbum_name());
+                ((TextView) holder.getView(R.id.tv_item_num_pic)).setText(mListData.get(position).getAlbum_info().getItem_num() + "张");
+                ((TextView) holder.getView(R.id.tv_item_num_dingyue)).setText(mListData.get(position).getAlbum_info().getSubscribe_num() + "订阅");
+                ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_item_pic).getLayoutParams();
+                layoutParams.height = widthPic;
+                layoutParams.width = widthPic;
+                holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
+                if (TextUtils.isEmpty(mListData.get(position).getAlbum_info().getCover_image().getImg0())) {
+                    ImageUtils.displayFilletDefaulImage("", (ImageView) holder.getView(R.id.iv_item_pic));
+                } else {
+                    ImageUtils.displayFilletImage(mListData.get(position).getAlbum_info().getCover_image().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
                 }
-                ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
-
-                if (mListData.get(position).getItem_info().getIs_collected().equals("0")) {//未被收藏
-                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang);
-                } else {//收藏
-                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.shoucang1);
-                }
-
-                    ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_shoucang_image).getLayoutParams();
-                    layoutParams.width = width_Pic;
-                    layoutParams.height = mListDataHeight.get(position);
-                    holder.getView(R.id.iv_shoucang_image).setLayoutParams(layoutParams);
-                    ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
-                            (ImageView) holder.getView(R.id.iv_shoucang_image));
-
-                holder.getView(R.id.iv_shoucang_image).setOnClickListener(new View.OnClickListener() {
+                holder.getView(R.id.rl_item_inspiration).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //查看单图详情
-                        Intent intent = new Intent(UserInfoActivity.this, ImageDetailLongActivity.class);
-                        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-                        startActivity(intent);
+                            Intent intent = new Intent(UserInfoActivity.this, InspirationDetailActivity.class);
+                            intent.putExtra("user_id", user_id);
+                            intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
+                            startActivityForResult(intent, 2);
                     }
                 });
-
-                holder.getView(R.id.tv_shoucang_num).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //收藏
-                        onShouCang(mListData.get(position).getItem_info().getIs_collected().equals("0"), position, mListData.get(position));
-
-                    }
-                });
-                holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //取消收藏
-                        onShouCang(mListData.get(position).getItem_info().getIs_collected().equals("0"), position, mListData.get(position));
-                    }
-                });
-
             }
         };
+
+
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
-        ((TextView)mRecyclerView.getLoadMoreFooterView().findViewById(R.id.tvTheEnd)).setText("暂无内容");
-        mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+        ((TextView) mRecyclerView.getLoadMoreFooterView().findViewById(R.id.tvTheEnd)).setText("暂无内容");
+        mRecyclerView.setLayoutManager(new GridLayoutManager(UserInfoActivity.this, 2));
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setOnLoadMoreListener(this);
+        mRecyclerView.setOnRefreshListener(this);
         mRecyclerView.addHeaderView(headerView);
         mRecyclerView.setAdapter(mAdapter);
 
-        getListData(sort);
+        onRefresh();
     }
 
     @Override
@@ -375,17 +256,6 @@ public class UserInfoActivity
                     startActivity(intent_guanzu);
                 }
                 break;
-            case R.id.rl_info_shaijia:
-//                tl_tab.setScrollPosition(0,1f,true);
-//                page_num = 0;
-//                mListData.clear();
-//                mListDataHeight.clear();
-//                sort = "pic";
-//                mListData.clear();
-//                mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
-//                mRecyclerView.setAdapter(mAdapter);
-//                getListData(sort);
-                break;
             case R.id.rl_info_fensi:
                 if (!TextUtils.isEmpty(user_id)) {
                     Intent intent_fensi = new Intent(UserInfoActivity.this, FenSiListActivity.class);
@@ -395,93 +265,6 @@ public class UserInfoActivity
                 break;
         }
 
-    }
-
-    boolean ifClickShouCang = true;
-
-    //收藏或者取消收藏，图片
-    public void onShouCang(boolean ifShouCang, int position, ShaiJiaItemBean shaiJiaItemBean) {
-
-        if (ifClickShouCang) {
-            ifClickShouCang = false;
-            if (ifShouCang) {
-                //未被收藏，去收藏
-                addShouCang(position, shaiJiaItemBean.getItem_info().getItem_id());
-            } else {
-                //被收藏，去取消收藏
-                removeShouCang(position, shaiJiaItemBean.getItem_info().getItem_id());
-            }
-        }
-
-    }
-
-    //收藏
-    private void addShouCang(final int position, String item_id) {
-        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                CustomProgress.cancelDialog();
-                ifClickShouCang = true;
-                ToastUtils.showCenter(UserInfoActivity.this, "收藏成功");
-            }
-
-            @Override
-            public void onResponse(String s) {
-                ifClickShouCang = true;
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                    if (error_code == 0) {
-                        mListData.get(position).getItem_info().setIs_collected("1");
-                        int num = Integer.parseInt(mListData.get(position).getItem_info().getCollect_num().trim());
-                        mListData.get(position).getItem_info().setCollect_num((++num) + "");
-                        mAdapter.notifyDataSetChanged();
-                    } else {
-                        ToastUtils.showCenter(UserInfoActivity.this, error_msg);
-                    }
-                } catch (JSONException e) {
-                    ToastUtils.showCenter(UserInfoActivity.this, "收藏失败");
-                }
-            }
-        };
-        MyHttpManager.getInstance().addShouCang(item_id, callBack);
-    }
-
-    //取消收藏
-    private void removeShouCang(final int position, String item_id) {
-
-        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                ifClickShouCang = true;
-                CustomProgress.cancelDialog();
-                ToastUtils.showCenter(UserInfoActivity.this, "取消收藏失败");
-            }
-
-            @Override
-            public void onResponse(String s) {
-                ifClickShouCang = true;
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                    if (error_code == 0) {
-                        mListData.get(position).getItem_info().setIs_collected("0");
-                        int num = Integer.parseInt(mListData.get(position).getItem_info().getCollect_num().trim());
-                        mListData.get(position).getItem_info().setCollect_num((--num) + "");
-                        mAdapter.notifyDataSetChanged();
-                    } else {
-                        ToastUtils.showCenter(UserInfoActivity.this, error_msg);
-                    }
-                } catch (JSONException e) {
-                    ToastUtils.showCenter(UserInfoActivity.this, "取消收藏失败");
-                }
-            }
-        };
-        MyHttpManager.getInstance().removeShouCang(item_id, callBack);
     }
 
     //关注用户
@@ -647,73 +430,32 @@ public class UserInfoActivity
     }
 
     @Override
+    public void onRefresh() {
+        page_num = 1;
+        mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+        getInspirationsData(REFRESH_STATUS);
+    }
+
+    @Override
     public void onLoadMore() {
-
-        if (sort.equals("pic")) {
-            getListData(sort);
-        } else if (sort.equals("artical")) {
-            getListDataArticle(sort);
-        }
-
-
-    }
-
-    private void getListData(String tag) {
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
         ++page_num;
-        OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-                ToastUtils.showCenter(UserInfoActivity.this, UIUtils.getString(R.string.error_shaijia));
-                --page_num;
-            }
-
-            @Override
-            public void onResponse(String response) {
-                try {
-                    if (response != null) {
-                        JSONObject jsonObject = new JSONObject(response);
-                        int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                        String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                        String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                        if (error_code == 0) {
-                            ShaiJiaBean shouCangBean = GsonUtil.jsonToBean(data_msg, ShaiJiaBean.class);
-                            //获取图片的高度
-                            getHeight(shouCangBean.getItem_list());
-                            updateViewFromData(shouCangBean.getItem_list());
-                        } else {
-                            mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-                            ToastUtils.showCenter(UserInfoActivity.this, error_msg);
-                        }
-                    } else {
-                        --page_num;
-                        mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-
-                    }
-                } catch (JSONException e) {
-                    --page_num;
-                    ToastUtils.showCenter(UserInfoActivity.this, UIUtils.getString(R.string.error_shaijia));
-                }
-            }
-        };
-//        MyHttpManager.getInstance().getShaiJiaList(user_id, (page_num - 1) * 20, "20", callback);
-        MyHttpManager.getInstance().getShaiJiaList(user_id, (page_num - 1) * 20, "20", callback);
-
+        getInspirationsData(LOADMORE_STATUS);
     }
 
-
-    private void getListDataArticle(final String state) {
-        mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
-        ++page_num;
+    private void getInspirationsData(final String state) {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
 
+                if (state.equals(LOADMORE_STATUS)) {
+                    --page_num;
+                } else {
+                    page_num = 1;
+                }
+                mRecyclerView.setRefreshing(false);//刷新完毕
                 mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-                --page_num;
-                ToastUtils.showCenter(UserInfoActivity.this, "文章数据加载失败！");
-
+                ToastUtils.showCenter(UserInfoActivity.this, "专辑列表获取失败！");
             }
 
             @Override
@@ -724,83 +466,59 @@ public class UserInfoActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
-                        ArticleListBean articleListBean = GsonUtil.jsonToBean(data_msg, ArticleListBean.class);
-                        if (null != articleListBean.getArticle_list() && 0 != articleListBean.getArticle_list().size()) {
-
-                            setYLNum(articleListBean.getArticle_list(), state);
-                            updateViewFromDataArticle(articleListBean.getArticle_list(), state);
+                        InspirationListBean inspirationListBean = GsonUtil.jsonToBean(data_msg, InspirationListBean.class);
+                        if (null != inspirationListBean.getAlbum_list() && 0 != inspirationListBean.getAlbum_list().size()) {
+                            updateViewFromData(inspirationListBean.getAlbum_list(), state);
                         } else {
-                            updateViewFromDataArticle(null, state);
+                            updateViewFromData(null, state);
                         }
                     } else {
-                        --page_num;
-                        //没有更多数据
-                        mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
-                        ToastUtils.showCenter(UserInfoActivity.this, error_msg);
+                        if (state.equals(LOADMORE_STATUS)) {
+                            --page_num;
+                            //没有更多数据
+                            mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+                        } else {
+                            page_num = 1;
+                            mRecyclerView.setRefreshing(false);//刷新完毕
+                        }
                     }
                 } catch (JSONException e) {
                 }
             }
         };
-
-        MyHttpManager.getInstance().getShaiJiaArticleList(user_id, (page_num - 1) * 20, "20", callBack);
-
+        MyHttpManager.getInstance().getUserInspirationSeries(user_id, (page_num - 1) * 20 + "", "20", callBack);
     }
 
-    private void getHeight(List<ShaiJiaItemBean> item_list) {
+    private void updateViewFromData(List<InspirationBean> listData, String state) {
 
-        if (item_list.size() > 0) {
-            for (int i = 0; i < item_list.size(); i++) {
-                mListDataHeight.add(Math.round(width_Pic / item_list.get(i).getItem_info().getImage().getRatio()));
-            }
-        }
-    }
+        switch (state) {
 
-    private void updateViewFromData(List<ShaiJiaItemBean> item_list) {
-
-        position = mListData.size();
-        mListData.addAll(item_list);
-        if (mListData == null || mListData.size() == 0) {
-
-            mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-            mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
-        } else {
-            mAdapter.notifyData(mListData);
-//            mAdapter.notifyItem(position, mListData, item_list);
-            mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-            if (item_list == null || item_list.size() == 0) {
-                mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
-            }
-        }
-
-
-    }
-
-    private void setYLNum(List<ArticleBean> listData, String state) {
-
-        try {
-            if (null != listData) {
-                for (int i = 0; i < listData.size(); i++) {
-                    mListSeeNumArticle.add(Integer.parseInt(listData.get(i).getArticle_info().getView_num().trim()));
+            case REFRESH_STATUS:
+                mListData.clear();
+                if (null != listData && listData.size() > 0) {
+                    mListData.addAll(listData);
+                } else {
+                    //没有更多数据
+                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+                    page_num = 1;
+                    mListData.clear();
                 }
-            }
-        } catch (Exception e) {
-            Log.d("test", "检查下是不是本地代理掉线啦");
-        }
-    }
+                mAdapter.notifyDataSetChanged();
+                mRecyclerView.setRefreshing(false);//刷新完毕
+                break;
 
-    private void updateViewFromDataArticle(List<ArticleBean> listData, String state) {
-
-        if (null != listData) {
-            position = mListDataArticle.size();
-            mListDataArticle.addAll(listData);
-            mAdapterArticle.notifyData(mListDataArticle);
-//            mAdapterArticle.notifyItem(position, mListDataArticle, listData);
-            mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-        } else {
-            --page_num;
-            //没有更多数据
-            mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+            case LOADMORE_STATUS:
+                if (null != listData && listData.size() > 0) {
+                    position = mListData.size();
+                    mListData.addAll(listData);
+                    mAdapter.notifyItem(position, mListData, listData);
+                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                } else {
+                    --page_num;
+                    //没有更多数据
+                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+                }
+                break;
         }
     }
 
@@ -814,7 +532,6 @@ public class UserInfoActivity
         t.setScreenName("个人主页");
         // Send a screen view.
         t.send(new HitBuilders.ScreenViewBuilder().build());
-        mAdapterArticle.notifyDataSetChanged();
     }
 
     @Override
@@ -835,5 +552,14 @@ public class UserInfoActivity
         }
     };
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == 1) {
+            onRefresh();
+        } else if (requestCode == 2 && resultCode == 2) {
+            onRefresh();
+        }
+    }
 
 }

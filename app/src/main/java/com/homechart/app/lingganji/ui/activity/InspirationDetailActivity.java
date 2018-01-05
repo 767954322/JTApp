@@ -112,7 +112,7 @@ public class InspirationDetailActivity extends BaseActivity
     protected void initExtraBundle() {
         super.initExtraBundle();
         mUserId = getIntent().getStringExtra("user_id");
-        mAlbumId =  getIntent().getStringExtra("album_id");
+        mAlbumId = getIntent().getStringExtra("album_id");
     }
 
     @Override
@@ -257,12 +257,12 @@ public class InspirationDetailActivity extends BaseActivity
 
     private void changeTopUI(InspirationDetailBean inspirationDetailBean) {
         if (null != inspirationDetailBean) {
-            if (mMyUserId.equals(inspirationDetailBean.getInfo().getUser_info().getUser_id())) {
-                rl_dingyue1.setVisibility(View.GONE);
-                rl_dingyue.setVisibility(View.GONE);
-            } else {
+            if (null != inspirationDetailBean.getInfo().getUser_info() && !mMyUserId.equals(inspirationDetailBean.getInfo().getUser_info().getUser_id())) {
                 rl_dingyue1.setVisibility(View.VISIBLE);
                 rl_dingyue.setVisibility(View.VISIBLE);
+            } else {
+                rl_dingyue1.setVisibility(View.GONE);
+                rl_dingyue.setVisibility(View.GONE);
             }
             mInspirationName.setText(inspirationDetailBean.getInfo().getAlbum_info().getAlbum_name());
             mUserDingYue.setText(inspirationDetailBean.getInfo().getAlbum_info().getSubscribe_num() + " 订阅");
