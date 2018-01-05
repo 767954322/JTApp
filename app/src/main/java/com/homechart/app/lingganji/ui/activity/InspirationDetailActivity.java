@@ -98,6 +98,8 @@ public class InspirationDetailActivity extends BaseActivity
     private TextView mUserDingYue;
     private TextView mUserPicNum;
     private int deletePosition = -1;
+    private TextView tv_check_name1;
+    private TextView tv_check_name;
 
     @Override
     protected int getLayoutResId() {
@@ -126,6 +128,8 @@ public class InspirationDetailActivity extends BaseActivity
         rl_check_pic1 = (RelativeLayout) this.findViewById(R.id.rl_check_pic1);
         rl_check_pic = (RelativeLayout) this.findViewById(R.id.rl_check_pic);
         iv_check_icon1 = (ImageView) this.findViewById(R.id.iv_check_icon1);
+        tv_check_name1 = (TextView) this.findViewById(R.id.tv_check_name1);
+        tv_check_name = (TextView) this.findViewById(R.id.tv_check_name);
         iv_check_icon = (ImageView) this.findViewById(R.id.iv_check_icon);
 
         mInspirationName = (TextView) this.findViewById(R.id.tv_inspiration_name);
@@ -191,12 +195,16 @@ public class InspirationDetailActivity extends BaseActivity
             case R.id.rl_check_pic:
             case R.id.rl_check_pic1:
                 if (curentListTag) {
+                    tv_check_name1.setText("大图");
+                    tv_check_name.setText("大图");
                     curentListTag = false;
                     iv_check_icon1.setImageResource(R.drawable.pubuliu1);
                     iv_check_icon.setImageResource(R.drawable.pubuliu1);
                     mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
                 } else {
+                    tv_check_name1.setText("小图");
+                    tv_check_name.setText("小图");
                     curentListTag = true;
                     mRecyclerView.setLayoutManager(new LinearLayoutManager(InspirationDetailActivity.this));
                     iv_check_icon1.setImageResource(R.drawable.changtu1);
