@@ -31,10 +31,8 @@ import com.homechart.app.commont.contract.AppBarStateChangeListener;
 import com.homechart.app.commont.contract.InterDioalod;
 import com.homechart.app.commont.utils.MyDialog;
 import com.homechart.app.home.base.BaseActivity;
-import com.homechart.app.home.base.BaseActivity1;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.entity.inspirationdetail.InspirationDetailBean;
-import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationBean;
 import com.homechart.app.lingganji.common.entity.inspirationpics.InsPicItemBean;
 import com.homechart.app.lingganji.common.entity.inspirationpics.InsPicsBean;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
@@ -64,7 +62,6 @@ public class InspirationDetailActivity extends BaseActivity
         OnRefreshListener,
         InterDioalod {
     private String mUserId;
-    private InspirationBean mInspirationBean;
     private TextView mTital;
     private TextView mRightCreate;
     private ImageButton mBack;
@@ -115,7 +112,7 @@ public class InspirationDetailActivity extends BaseActivity
     protected void initExtraBundle() {
         super.initExtraBundle();
         mUserId = getIntent().getStringExtra("user_id");
-        mInspirationBean = (InspirationBean) getIntent().getSerializableExtra("InspirationBean");
+        mAlbumId =  getIntent().getStringExtra("album_id");
     }
 
     @Override
@@ -222,7 +219,6 @@ public class InspirationDetailActivity extends BaseActivity
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_30)) / 2;
         widthPicList = PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_20);
-        mAlbumId = mInspirationBean.getAlbum_info().getAlbum_id();
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mDialog = new MyDialog(InspirationDetailActivity.this, "确定删除灵感辑图片么？", InspirationDetailActivity.this);
         buildRecyclerView();
@@ -256,7 +252,7 @@ public class InspirationDetailActivity extends BaseActivity
                 }
             }
         };
-        MyHttpManager.getInstance().getInspirationDetail(mInspirationBean.getAlbum_info().getAlbum_id(), callBack);
+        MyHttpManager.getInstance().getInspirationDetail(mAlbumId, callBack);
     }
 
     private void changeTopUI(InspirationDetailBean inspirationDetailBean) {

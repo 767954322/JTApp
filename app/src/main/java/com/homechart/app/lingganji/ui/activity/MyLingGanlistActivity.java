@@ -159,17 +159,17 @@ public class MyLingGanlistActivity
                 layoutParams.height = widthPic;
                 layoutParams.width = widthPic;
                 holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
-                if(TextUtils.isEmpty(mListData.get(position).getAlbum_info().getCover_image().getImg0())){
+                if (TextUtils.isEmpty(mListData.get(position).getAlbum_info().getCover_image().getImg0())) {
                     ImageUtils.displayFilletDefaulImage("", (ImageView) holder.getView(R.id.iv_item_pic));
-                }else {
+                } else {
                     ImageUtils.displayFilletImage(mListData.get(position).getAlbum_info().getCover_image().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
                 }
                 holder.getView(R.id.rl_item_inspiration).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(MyLingGanlistActivity.this, InspirationDetailActivity.class);
-                        intent.putExtra("InspirationBean", mListData.get(position));
                         intent.putExtra("user_id", mUserId);
+                        intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
                         startActivityForResult(intent, 2);
                     }
                 });
