@@ -106,6 +106,7 @@ public class InspirationDetailActivity extends BaseActivity
     private TextView tv_dingyue_name;
     private TextView tv_dingyue_name1;
     private InspirationDetailBean inspirationDetailBean;
+    boolean ifClickDingYue = true;
 
     @Override
     protected int getLayoutResId() {
@@ -212,13 +213,15 @@ public class InspirationDetailActivity extends BaseActivity
                 break;
             case R.id.rl_dingyue1:
             case R.id.rl_dingyue:
-
-                if (null != inspirationDetailBean && inspirationDetailBean.getInfo().getAlbum_info().getIs_subscribed().equals("1")) {
-                    //取消订阅
-
-                } else if (null != inspirationDetailBean && inspirationDetailBean.getInfo().getAlbum_info().getIs_subscribed().equals("0")) {
-                    //订阅
-
+                if (ifClickDingYue) {
+                    ifClickDingYue = false;
+                    if (null != inspirationDetailBean && inspirationDetailBean.getInfo().getAlbum_info().getIs_subscribed().equals("1")) {
+                        //取消订阅
+                        removeDingYue();
+                    } else if (null != inspirationDetailBean && inspirationDetailBean.getInfo().getAlbum_info().getIs_subscribed().equals("0")) {
+                        //订阅
+                        addDingYue();
+                    }
                 }
 
                 break;
@@ -622,5 +625,81 @@ public class InspirationDetailActivity extends BaseActivity
 
         }
 
+    }
+
+    private void addDingYue() {
+        CustomProgress.show(InspirationDetailActivity.this, "订阅中...", false, null);
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                CustomProgress.cancelDialog();
+                ToastUtils.showCenter(InspirationDetailActivity.this, "订阅失败！");
+                ifClickDingYue = true;
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        changeDingYueStatus(true);
+                        getInspirationDetail();
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(InspirationDetailActivity.this, "订阅成功！");
+                        ifClickDingYue = true;
+                    } else {
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(InspirationDetailActivity.this, "订阅失败！");
+                        ifClickDingYue = true;
+                    }
+                } catch (JSONException e) {
+                    CustomProgress.cancelDialog();
+                    ToastUtils.showCenter(InspirationDetailActivity.this, "订阅失败！");
+                    ifClickDingYue = true;
+                }
+            }
+        };
+        MyHttpManager.getInstance().addDingYue(mAlbumId, callBack);
+    }
+
+    private void removeDingYue() {
+        CustomProgress.show(InspirationDetailActivity.this, "取消订阅中...", false, null);
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ifClickDingYue = true;
+                CustomProgress.cancelDialog();
+                ToastUtils.showCenter(InspirationDetailActivity.this, "取消订阅失败！");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        changeDingYueStatus(false);
+                        getInspirationDetail();
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(InspirationDetailActivity.this, "取消订阅成功！");
+                        ifClickDingYue = true;
+                    } else {
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(InspirationDetailActivity.this, "取消订阅失败！");
+                        ifClickDingYue = true;
+                    }
+                } catch (JSONException e) {
+                    CustomProgress.cancelDialog();
+                    ToastUtils.showCenter(InspirationDetailActivity.this, "取消订阅失败！");
+                    ifClickDingYue = true;
+                }
+            }
+        };
+        MyHttpManager.getInstance().removeDingYue(mAlbumId, callBack);
     }
 }

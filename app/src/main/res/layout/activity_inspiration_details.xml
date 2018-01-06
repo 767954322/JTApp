@@ -69,17 +69,9 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="@dimen/font_7"
-                                android:text="订阅"
+                                android:text="＋ 订阅"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/size_12" />
-
-                            <ImageView
-                                android:id="@+id/imageView"
-                                android:layout_width="@dimen/font_10"
-                                android:layout_height="@dimen/font_10"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="@dimen/font_7"
-                                android:src="@drawable/ic_delete" />
 
                         </RelativeLayout>
 
@@ -256,17 +248,10 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/font_7"
-                    android:text="订阅"
+                    android:text="＋ 订阅"
                     android:textColor="@color/white"
                     android:textSize="@dimen/size_12" />
 
-                <ImageView
-                    android:id="@+id/imageView1"
-                    android:layout_width="@dimen/font_10"
-                    android:layout_height="@dimen/font_10"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/font_7"
-                    android:src="@drawable/ic_delete" />
 
             </RelativeLayout>
 

@@ -98,5 +98,7 @@ public class UrlConstants {
     public static final String INSPIRATION_DETAIL = "https://api.idcool.com.cn/album/album/getAlbumInfo";  //获取专辑详情
     public static final String REMOVE_PIC = "https://api.idcool.com.cn/item/item/remove";  //删除图片
     public static final String EDIT_IMAGE = "https://api.idcool.com.cn/item/item/modify";  //编辑图片
+    public static final String DINGYUE = "https://api.idcool.com.cn/subscribe/album/add";  //订阅一个专辑
+    public static final String DINGYUE_QUXIAO = "https://api.idcool.com.cn/subscribe/album/remove";  //批量取消订阅的专辑
 
 }
