@@ -11,11 +11,13 @@ public class InsPicItemInfoImageBean implements Serializable {
     private String img0;
     private String img1;
     private float ratio;
+    private String img2;
 
-    public InsPicItemInfoImageBean(String img0, String img1, float ratio) {
+    public InsPicItemInfoImageBean(String img0, String img1, float ratio, String img2) {
         this.img0 = img0;
         this.img1 = img1;
         this.ratio = ratio;
+        this.img2 = img2;
     }
 
     public String getImg0() {
@@ -42,12 +44,21 @@ public class InsPicItemInfoImageBean implements Serializable {
         this.ratio = ratio;
     }
 
+    public String getImg2() {
+        return img2;
+    }
+
+    public void setImg2(String img2) {
+        this.img2 = img2;
+    }
+
     @Override
     public String toString() {
         return "InsPicItemInfoImageBean{" +
                 "img0='" + img0 + '\'' +
                 ", img1='" + img1 + '\'' +
                 ", ratio=" + ratio +
+                ", img2='" + img2 + '\'' +
                 '}';
     }
 }

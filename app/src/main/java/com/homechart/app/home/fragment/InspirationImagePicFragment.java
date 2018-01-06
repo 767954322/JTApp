@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.commont.contract.InterDioalod;
 import com.homechart.app.commont.utils.MyDialog;
 import com.homechart.app.home.activity.ImageDetailLongActivity;
@@ -86,6 +88,7 @@ public class InspirationImagePicFragment
     private LoadMoreFooterView mLoadMoreFooterView;
     private MyDialog mDialog;
     private InputMethodManager imm;
+    private int widthPic;
 
     Handler handler = new Handler() {
         @Override
@@ -139,6 +142,7 @@ public class InspirationImagePicFragment
     @Override
     protected void initData(Bundle savedInstanceState) {
 
+        widthPic =  (PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_30)) / 2;
         imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         mDialog = new MyDialog(activity, "确认要删除图片吗？删了就没了哦？", this);
 
@@ -156,7 +160,11 @@ public class InspirationImagePicFragment
 
                 final String item_id = mListData.get(position).getItem_info().getItem_id();
                 holder.getView(R.id.cb_check).setVisibility(View.VISIBLE);
-                ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(),
+                ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_shoucang_image).getLayoutParams();
+                layoutParams.width = widthPic;
+                layoutParams.height = Math.round(widthPic / 1.33f);
+                holder.getView(R.id.iv_shoucang_image).setLayoutParams(layoutParams);
+                ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg2(),
                         (ImageView) holder.getView(R.id.iv_shoucang_image));
                 ((CheckBox) holder.getView(R.id.cb_check)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
