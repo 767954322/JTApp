@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -112,6 +113,10 @@ public class InspirationDetailActivity extends BaseActivity
     private boolean ifClickDingYue = true;
     private int ifUser = -1;// 1:不是本人  2:是本人
     private InspirationImageEditPop mInspirationImageEditPop;
+    private LinearLayout ll_bottom;
+    private TextView tv_none;
+    private RelativeLayout rl_none;
+    private RelativeLayout rl_top_check1;
 
     @Override
     protected int getLayoutResId() {
@@ -155,6 +160,11 @@ public class InspirationDetailActivity extends BaseActivity
         rl_dingyue1 = (RelativeLayout) this.findViewById(R.id.rl_dingyue1);
         tv_dingyue_name = (TextView) this.findViewById(R.id.tv_dingyue_name);
         tv_dingyue_name1 = (TextView) this.findViewById(R.id.tv_dingyue_name1);
+
+        ll_bottom = (LinearLayout) this.findViewById(R.id.ll_bottom);
+        tv_none = (TextView) this.findViewById(R.id.tv_none);
+        rl_none = (RelativeLayout) this.findViewById(R.id.rl_none);
+        rl_top_check1 = (RelativeLayout) this.findViewById(R.id.rl_top_check1);
 
     }
 
@@ -542,9 +552,14 @@ public class InspirationDetailActivity extends BaseActivity
             case REFRESH_STATUS:
                 mListData.clear();
                 if (null != listData && listData.size() > 0) {
+
+                    rl_top_check1.setVisibility(View.VISIBLE);
                     mListData.addAll(listData);
                 } else {
                     //没有更多数据
+                    rl_top_check1.setVisibility(View.GONE);
+                    rl_none.setVisibility(View.VISIBLE);
+                    ll_bottom.setVisibility(View.GONE);
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
                     page_num = 1;
                     mListData.clear();
@@ -555,6 +570,7 @@ public class InspirationDetailActivity extends BaseActivity
 
             case LOADMORE_STATUS:
                 if (null != listData && listData.size() > 0) {
+                    rl_top_check1.setVisibility(View.VISIBLE);
                     position = mListData.size();
                     mListData.addAll(listData);
                     mAdapter.notifyItem(position, mListData, listData);

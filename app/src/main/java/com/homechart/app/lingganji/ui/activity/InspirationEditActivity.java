@@ -134,7 +134,7 @@ public class InspirationEditActivity extends BaseActivity
         }
 
         String miaosu = mETMiaoSu.getText().toString();
-        CustomProgress.show(InspirationEditActivity.this, "创建中...", false, null);
+        CustomProgress.show(InspirationEditActivity.this, "编辑中...", false, null);
         addInspiration(name, miaosu);
     }
 
