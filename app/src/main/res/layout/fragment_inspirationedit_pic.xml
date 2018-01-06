@@ -9,10 +9,10 @@
         android:id="@+id/rcy_recyclerview_shoucang"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/rl_below"
+        android:background="@color/bg_f7f7f7"
         android:paddingLeft="@dimen/font_10"
         android:paddingRight="@dimen/font_10"
-        android:background="@color/bg_f7f7f7"
-        android:layout_above="@+id/rl_below"
         app:loadMoreEnabled="true"
         app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer"
         app:refreshEnabled="true"
@@ -21,10 +21,9 @@
     <RelativeLayout
         android:id="@+id/rl_below"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/font_44"
-        android:background="@color/white"
+        android:layout_height="@dimen/font_56"
         android:layout_alignParentBottom="true"
-        android:visibility="gone">
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/tv_shoucang_one"
@@ -58,16 +57,47 @@
             android:textColor="@color/bg_8f8f8f"
             android:textSize="@dimen/size_14" />
 
-        <ImageView
-            android:id="@+id/iv_delete_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <TextView
+            android:id="@+id/tv_delete_icon"
+            android:layout_width="@dimen/font_65"
+            android:layout_height="@dimen/font_30"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:paddingRight="@dimen/font_15"
-            android:paddingLeft="@dimen/font_15"
-            android:src="@drawable/litter" />
+            android:layout_marginRight="@dimen/font_10"
+            android:background="@drawable/bg_inspiration_delete"
+            android:gravity="center"
+            android:text="删除"
+            android:textColor="@color/bg_e79056"
+            android:textSize="@dimen/size_12" />
+
+        <TextView
+            android:id="@+id/tv_delete_copy"
+            android:layout_width="@dimen/font_65"
+            android:layout_height="@dimen/font_30"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_10"
+            android:layout_toLeftOf="@+id/tv_delete_icon"
+            android:background="@drawable/bg_inspiration_move"
+            android:gravity="center"
+            android:text="复制"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_12" />
+
+        <TextView
+            android:id="@+id/tv_delete_move"
+            android:layout_width="@dimen/font_65"
+            android:layout_height="@dimen/font_30"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_10"
+            android:layout_toLeftOf="@+id/tv_delete_copy"
+            android:background="@drawable/bg_inspiration_move"
+            android:gravity="center"
+            android:text="移动"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_12" />
+
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/rl_no_data"
         android:layout_width="match_parent"
@@ -89,7 +119,7 @@
             android:layout_below="@+id/iv_empty"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/font_20"
-            android:text="快去收藏你喜欢的图片呀！"
+            android:text="快去添加专辑的图片呀！"
             android:textColor="@color/bg_8f8f8f"
             android:textSize="@dimen/font_14" />
 

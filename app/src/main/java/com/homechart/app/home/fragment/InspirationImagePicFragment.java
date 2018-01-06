@@ -58,7 +58,7 @@ public class InspirationImagePicFragment
 
     private String mAlbumId;
     private FragmentManager fragmentManager;
-    private ImageView iv_delete_icon;
+    private TextView tv_delete_icon;
     private RelativeLayout rl_below;
     private RelativeLayout rl_no_data;
     private TextView tv_shoucang_two;
@@ -109,7 +109,7 @@ public class InspirationImagePicFragment
 
         rl_below = (RelativeLayout) rootView.findViewById(R.id.rl_below);
         rl_no_data = (RelativeLayout) rootView.findViewById(R.id.rl_no_data);
-        iv_delete_icon = (ImageView) rootView.findViewById(R.id.iv_delete_icon);
+        tv_delete_icon = (TextView) rootView.findViewById(R.id.tv_delete_icon);
         tv_shoucang_two = (TextView) rootView.findViewById(R.id.tv_shoucang_two);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_shoucang);
 
@@ -117,7 +117,7 @@ public class InspirationImagePicFragment
 
     @Override
     protected void initListener() {
-        iv_delete_icon.setOnClickListener(this);
+        tv_delete_icon.setOnClickListener(this);
     }
 
     @Override
@@ -187,8 +187,7 @@ public class InspirationImagePicFragment
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.iv_delete_icon:
-
+            case R.id.tv_delete_icon:
                 if (map_delete.size() > 0) {
                     CustomProgress.show(activity, "正在删除...", false, null);
                     String delete_items = "";
@@ -233,10 +232,7 @@ public class InspirationImagePicFragment
                         }
                     };
                     MyHttpManager.getInstance().removePic(delete_items, callBack);
-                } else {
-                    ToastUtils.showCenter(activity, "请选择删除项");
                 }
-
                 break;
         }
 
