@@ -225,8 +225,9 @@ public class InspirationDetailActivity extends BaseActivity
                 }
                 break;
             case R.id.nav_secondary_imageButton:
-                Intent intent = new Intent(InspirationDetailActivity.this, InspirationEditImageActivity.class);
+                Intent intent = new Intent(InspirationDetailActivity.this, EditInsprationImageListActivity.class);
                 startActivity(intent);
+                this.overridePendingTransition(R.anim.pop_enter_anim, 0);
                 break;
         }
 
