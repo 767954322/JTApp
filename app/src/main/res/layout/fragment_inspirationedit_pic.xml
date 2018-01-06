@@ -68,7 +68,7 @@
             android:background="@drawable/bg_inspiration_default"
             android:gravity="center"
             android:text="删除"
-            android:textColor="@color/bg_e79056"
+            android:textColor="@color/bg_fff"
             android:textSize="@dimen/size_12" />
 
         <TextView

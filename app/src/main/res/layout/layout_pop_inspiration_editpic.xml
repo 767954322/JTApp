@@ -10,16 +10,22 @@
     <RelativeLayout
         android:id="@+id/rl_quxiao"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/font_50"
+        android:layout_height="@dimen/font_60"
         android:layout_alignParentBottom="true"
         android:background="@color/white">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/view_line" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="取消"
-            android:textColor="@color/black"
+            android:textColor="@color/bg_262626"
             android:textSize="@dimen/size_14" />
 
     </RelativeLayout>
@@ -28,14 +34,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/rl_quxiao"
-        android:layout_marginBottom="@dimen/font_10"
-        android:background="@drawable/back_jubao"
+        android:background="@color/white"
         android:clickable="true"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/font_15"
+        android:paddingBottom="@dimen/font_29"
         android:paddingLeft="@dimen/font_10"
         android:paddingRight="@dimen/font_10"
-        android:paddingTop="@dimen/font_15">
+        android:paddingTop="@dimen/font_28">
 
         <TextView
             android:id="@+id/tv_lingganji"
@@ -43,8 +48,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawablePadding="@dimen/font_10"
-            android:drawableTop="@drawable/weibo"
+            android:drawableTop="@drawable/edit_1"
             android:gravity="center_horizontal"
+            android:textColor="@color/bg_464646"
+            android:textSize="@dimen/size_12"
             android:text="编辑灵感辑" />
 
         <TextView
@@ -53,8 +60,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawablePadding="@dimen/font_10"
-            android:drawableTop="@drawable/weibo"
+            android:drawableTop="@drawable/pic_1"
             android:gravity="center_horizontal"
+            android:textColor="@color/bg_464646"
+            android:textSize="@dimen/size_12"
             android:text="管理图片" />
 
         <TextView
@@ -63,8 +72,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawablePadding="@dimen/font_10"
-            android:drawableTop="@drawable/weibo"
+            android:drawableTop="@drawable/share_1"
             android:gravity="center_horizontal"
+            android:textColor="@color/bg_464646"
+            android:textSize="@dimen/size_12"
             android:text="分享灵感辑" />
 
         <TextView
@@ -73,8 +84,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawablePadding="@dimen/font_10"
-            android:drawableTop="@drawable/weibo"
+            android:drawableTop="@drawable/litter_1"
             android:gravity="center_horizontal"
+            android:textColor="@color/bg_464646"
+            android:textSize="@dimen/size_12"
             android:text="删除灵感辑" />
 
 
