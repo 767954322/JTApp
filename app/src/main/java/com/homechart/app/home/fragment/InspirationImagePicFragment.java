@@ -415,11 +415,90 @@ public class InspirationImagePicFragment
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1 && resultCode == 1) {
-            CustomProgress.show(activity, "正在移动中...", false, null);
+            String album_id = data.getStringExtra("album_id");
+            if (map_delete.size() > 0) {
+                CustomProgress.show(activity, "正在移动中...", false, null);
+                String delete_items = "";
+                for (String key : map_delete.keySet()) {
+                    delete_items = delete_items + key + ",";
+                }
+                delete_items = delete_items.substring(0, delete_items.length() - 1);
+                OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(activity, getString(R.string.error_delete_shaijia));
+                    }
 
+                    @Override
+                    public void onResponse(String s) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(s);
+                            int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                            String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                            String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                            if (error_code == 0) {
+                                for (String key : map_delete.keySet()) {
+                                    mListData.remove(map_delete.get(key));
+                                }
+                                map_delete.clear();
+                                upCheckedStatus();
+                                mAdapter.notifyDataSetChanged();
+                                if (mListData == null || mListData.size() == 0) {
+                                    handler.sendEmptyMessage(0);
+                                }
+                                CustomProgress.cancelDialog();
+                                ToastUtils.showCenter(activity, "移动成功");
+                            } else {
+                                CustomProgress.cancelDialog();
+                                ToastUtils.showCenter(activity, error_msg);
+                            }
+                        } catch (JSONException e) {
+                            CustomProgress.cancelDialog();
+                            ToastUtils.showCenter(activity, getString(R.string.error_delete_shaijia));
+                        }
+                    }
+                };
+                MyHttpManager.getInstance().movePic(delete_items, album_id, callBack);
+            }
         } else if (requestCode == 2 && resultCode == 2) {
-            CustomProgress.show(activity, "正在复制中...", false, null);
+            String album_id = data.getStringExtra("album_id");
+            if (map_delete.size() > 0) {
+                CustomProgress.show(activity, "正在复制中...", false, null);
+                String delete_items = "";
+                for (String key : map_delete.keySet()) {
+                    delete_items = delete_items + key + ",";
+                }
+                delete_items = delete_items.substring(0, delete_items.length() - 1);
+                OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(activity, getString(R.string.error_delete_shaijia));
+                    }
 
+                    @Override
+                    public void onResponse(String s) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(s);
+                            int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                            String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                            String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                            if (error_code == 0) {
+                                CustomProgress.cancelDialog();
+                                ToastUtils.showCenter(activity, "复制成功");
+                            } else {
+                                CustomProgress.cancelDialog();
+                                ToastUtils.showCenter(activity, error_msg);
+                            }
+                        } catch (JSONException e) {
+                            CustomProgress.cancelDialog();
+                            ToastUtils.showCenter(activity, getString(R.string.error_delete_shaijia));
+                        }
+                    }
+                };
+                MyHttpManager.getInstance().copyPic(delete_items, album_id, callBack);
+            }
         }
 
     }

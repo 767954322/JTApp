@@ -651,6 +651,8 @@ public class InspirationDetailActivity extends BaseActivity
                 mAdapter.notifyDataSetChanged();
             }
 
+        }else if(resultCode == 2 && requestCode == 2){
+            onRefresh();
         }
 
     }
@@ -746,7 +748,8 @@ public class InspirationDetailActivity extends BaseActivity
         mInspirationImageEditPop.dismiss();
         Intent intent = new Intent(InspirationDetailActivity.this, EditInsprationImageListActivity.class);
         intent.putExtra("albumId", mAlbumId);
-        startActivity(intent);
+        startActivityForResult(intent,2);
         this.overridePendingTransition(R.anim.pop_enter_anim, 0);
     }
+
 }

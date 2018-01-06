@@ -38,7 +38,7 @@ public class EditInsprationImageListActivity extends BaseActivity
 
     private ImageButton mIBBack;
     private TextView mTVTital;
-    private final String[] mTitles = {"晒家"};
+    private final String[] mTitles = {""};
     private CustomViewPagerTab mViewPager;
     private SlidingTabLayout mTabLayout;
     //页卡标题集合
@@ -134,6 +134,7 @@ public class EditInsprationImageListActivity extends BaseActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nav_left_textView:
+                EditInsprationImageListActivity.this.setResult(2,getIntent());
                 EditInsprationImageListActivity.this.finish();
                 this.overridePendingTransition(R.anim.pop_exit_anim, 0);
                 break;
