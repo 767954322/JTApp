@@ -1,6 +1,7 @@
 package com.homechart.app.home.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,7 +11,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -20,6 +23,8 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.commont.contract.InterDioalod;
+import com.homechart.app.commont.utils.MyDialog;
 import com.homechart.app.home.activity.ImageDetailLongActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.shoucang.ShouCangBean;
@@ -55,7 +60,8 @@ public class InspirationImagePicFragment
         extends BaseFragment
         implements View.OnClickListener,
         OnLoadMoreListener,
-        OnRefreshListener {
+        OnRefreshListener,
+        InterDioalod {
 
     private String mUserId;
     private String mAlbumId;
@@ -78,6 +84,8 @@ public class InspirationImagePicFragment
     private int guanli_tag = 0;//0:未打开管理   1:打开管理
     private int num_checked = 0; //选择的个数
     private LoadMoreFooterView mLoadMoreFooterView;
+    private MyDialog mDialog;
+    private InputMethodManager imm;
 
     Handler handler = new Handler() {
         @Override
@@ -130,6 +138,10 @@ public class InspirationImagePicFragment
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+        imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        mDialog = new MyDialog(activity, "确认要删除图片吗？删了就没了哦？", this);
+
         tv_shoucang_two.setText(num_checked + "");
         rl_below.setVisibility(View.VISIBLE);
         buildRecyclerView();
@@ -201,7 +213,16 @@ public class InspirationImagePicFragment
 
         switch (v.getId()) {
             case R.id.tv_delete_icon:
-                deletePic();
+                if (map_delete.size() > 0) {
+                    //软键盘如果打开的话，关闭软键盘
+                    boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+                    if (isOpen) {
+                        if (activity.getCurrentFocus() != null) {//强制关闭软键盘
+                            imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                        }
+                    }
+                    mDialog.showAtLocation(rootView.findViewById(R.id.main), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                }
                 break;
             case R.id.tv_delete_copy:
                 copyPic();
@@ -501,5 +522,16 @@ public class InspirationImagePicFragment
             }
         }
 
+    }
+
+    @Override
+    public void onQuXiao() {
+        mDialog.dismiss();
+    }
+
+    @Override
+    public void onQueRen() {
+        mDialog.dismiss();
+        deletePic();
     }
 }
