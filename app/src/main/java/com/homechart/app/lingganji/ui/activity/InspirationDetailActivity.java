@@ -749,7 +749,6 @@ public class InspirationDetailActivity extends BaseActivity
         Intent intent = new Intent(InspirationDetailActivity.this, EditInsprationImageListActivity.class);
         intent.putExtra("albumId", mAlbumId);
         startActivityForResult(intent,2);
-        this.overridePendingTransition(R.anim.pop_enter_anim, 0);
     }
 
 }

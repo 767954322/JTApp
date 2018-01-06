@@ -136,7 +136,6 @@ public class EditInsprationImageListActivity extends BaseActivity
             case R.id.nav_left_textView:
                 EditInsprationImageListActivity.this.setResult(2,getIntent());
                 EditInsprationImageListActivity.this.finish();
-                this.overridePendingTransition(R.anim.pop_exit_anim, 0);
                 break;
         }
     }

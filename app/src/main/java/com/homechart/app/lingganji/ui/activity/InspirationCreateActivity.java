@@ -187,7 +187,6 @@ public class InspirationCreateActivity extends BaseActivity
     public void onQuXiao() {
         mDialog.dismiss();
         this.finish();
-        this.overridePendingTransition(R.anim.pop_exit_anim, 0);
     }
 
     @Override

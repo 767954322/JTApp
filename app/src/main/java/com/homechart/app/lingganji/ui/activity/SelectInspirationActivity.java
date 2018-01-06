@@ -105,13 +105,11 @@ public class SelectInspirationActivity extends BaseActivity
         int i = v.getId();
         if (i == R.id.iv_dismiss_pop) {
             this.finish();
-            this.overridePendingTransition(R.anim.pop_exit_anim, 0);
         } else if (i == R.id.rl_add_inspiration) {
 
             Intent intent = new Intent(this, InspirationCreateActivity.class);
             intent.putExtra("userid", mUserId);
             startActivityForResult(intent, 1);
-            this.overridePendingTransition(R.anim.pop_enter_anim, 0);
 
         } else if (i == R.id.tv_sure_add) {
             if (mListData.size() > 0) {

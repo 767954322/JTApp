@@ -524,7 +524,6 @@ public class HomePicFragment
                             intent.putExtra("image_url",mListData.get(position).getItem_info().getImage().getImg0());
                             intent.putExtra("item_id",mListData.get(position).getItem_info().getItem_id());
                             startActivity(intent);
-                            activity.overridePendingTransition(R.anim.pop_enter_anim,0);
 
 //                            if (null != mInspirationSeriesPop) {
 //                                mInspirationSeriesPop = null;
