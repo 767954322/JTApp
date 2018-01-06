@@ -76,6 +76,29 @@ public class InspirationCreateActivity extends BaseActivity
         super.initListener();
         mDismiss.setOnClickListener(this);
         mTVSure.setOnClickListener(this);
+
+        mETName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                String str = s.toString();
+                if (str.length() > 20) {
+                    ToastUtils.showCenter(InspirationCreateActivity.this, "灵感辑名称最多只能输入20个字哦");
+                    mETName.setText(str.substring(0, 20));
+                    mETName.setSelection(20);
+                }
+            }
+        });
     }
 
     @Override
