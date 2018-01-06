@@ -35,6 +35,8 @@ import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.entity.inspirationdetail.InspirationDetailBean;
 import com.homechart.app.lingganji.common.entity.inspirationpics.InsPicItemBean;
 import com.homechart.app.lingganji.common.entity.inspirationpics.InsPicsBean;
+import com.homechart.app.lingganji.common.view.InspirationImageEditPop;
+import com.homechart.app.lingganji.contract.InterPopBottom;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
@@ -60,7 +62,8 @@ public class InspirationDetailActivity extends BaseActivity
         implements View.OnClickListener,
         OnLoadMoreListener,
         OnRefreshListener,
-        InterDioalod {
+        InterDioalod,
+        InterPopBottom {
     private String mUserId;
     private TextView mTital;
     private TextView mRightCreate;
@@ -108,6 +111,7 @@ public class InspirationDetailActivity extends BaseActivity
     private InspirationDetailBean inspirationDetailBean;
     private boolean ifClickDingYue = true;
     private int ifUser = -1;// 1:不是本人  2:是本人
+    private InspirationImageEditPop mInspirationImageEditPop;
 
     @Override
     protected int getLayoutResId() {
@@ -229,10 +233,14 @@ public class InspirationDetailActivity extends BaseActivity
                 if (ifUser == 1) {//不是本人
 
                 } else if (ifUser == 2) {//本人
-                    Intent intent = new Intent(InspirationDetailActivity.this, EditInsprationImageListActivity.class);
-                    intent.putExtra("albumId", mAlbumId);
-                    startActivity(intent);
-                    this.overridePendingTransition(R.anim.pop_enter_anim, 0);
+                    //软键盘如果打开的话，关闭软键盘
+                    boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+                    if (isOpen) {
+                        if (getCurrentFocus() != null) {//强制关闭软键盘
+                            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                        }
+                    }
+                    mInspirationImageEditPop.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 }
 
                 break;
@@ -251,6 +259,7 @@ public class InspirationDetailActivity extends BaseActivity
         widthPicList = PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_20);
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mDialog = new MyDialog(InspirationDetailActivity.this, "确定删除灵感辑图片么？", InspirationDetailActivity.this);
+        mInspirationImageEditPop = new InspirationImageEditPop(InspirationDetailActivity.this, "确定删除灵感辑图片么？", InspirationDetailActivity.this);
         buildRecyclerView();
         getInspirationDetail();
 
@@ -720,5 +729,24 @@ public class InspirationDetailActivity extends BaseActivity
             }
         };
         MyHttpManager.getInstance().removeDingYue(mAlbumId, callBack);
+    }
+
+    @Override
+    public void onClose() {
+        mInspirationImageEditPop.dismiss();
+    }
+
+    @Override
+    public void onBianJi() {
+        mInspirationImageEditPop.dismiss();
+    }
+
+    @Override
+    public void onGuanLi() {
+        mInspirationImageEditPop.dismiss();
+        Intent intent = new Intent(InspirationDetailActivity.this, EditInsprationImageListActivity.class);
+        intent.putExtra("albumId", mAlbumId);
+        startActivity(intent);
+        this.overridePendingTransition(R.anim.pop_enter_anim, 0);
     }
 }

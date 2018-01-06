@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/text_view_border2">
+
+
+    <RelativeLayout
+        android:id="@+id/rl_quxiao"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_50"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="取消"
+            android:textColor="@color/black"
+            android:textSize="@dimen/size_14" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rl_quxiao"
+        android:layout_marginBottom="@dimen/font_10"
+        android:background="@drawable/back_jubao"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/font_15"
+        android:paddingLeft="@dimen/font_10"
+        android:paddingRight="@dimen/font_10"
+        android:paddingTop="@dimen/font_15">
+
+        <TextView
+            android:id="@+id/tv_lingganji"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/font_10"
+            android:drawableTop="@drawable/weibo"
+            android:gravity="center_horizontal"
+            android:text="编辑灵感辑" />
+
+        <TextView
+            android:id="@+id/tv_guanli"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/font_10"
+            android:drawableTop="@drawable/weibo"
+            android:gravity="center_horizontal"
+            android:text="管理图片" />
+
+        <TextView
+            android:id="@+id/tv_shared"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/font_10"
+            android:drawableTop="@drawable/weibo"
+            android:gravity="center_horizontal"
+            android:text="分享灵感辑" />
+
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/font_10"
+            android:drawableTop="@drawable/weibo"
+            android:gravity="center_horizontal"
+            android:text="删除灵感辑" />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
