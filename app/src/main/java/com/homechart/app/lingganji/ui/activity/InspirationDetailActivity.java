@@ -223,7 +223,10 @@ public class InspirationDetailActivity extends BaseActivity
                         addDingYue();
                     }
                 }
-
+                break;
+            case R.id.nav_secondary_imageButton:
+                Intent intent = new Intent(InspirationDetailActivity.this, InspirationEditImageActivity.class);
+                startActivity(intent);
                 break;
         }
 
@@ -232,6 +235,7 @@ public class InspirationDetailActivity extends BaseActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
         mTital.setText("灵感辑");
+        mRightIcon.setImageResource(R.drawable.gengduo);
         mMyUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_30)) / 2;
