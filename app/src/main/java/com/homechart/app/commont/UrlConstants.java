@@ -100,5 +100,7 @@ public class UrlConstants {
     public static final String EDIT_IMAGE = "https://api.idcool.com.cn/item/item/modify";  //编辑图片
     public static final String DINGYUE = "https://api.idcool.com.cn/subscribe/album/add";  //订阅一个专辑
     public static final String DINGYUE_QUXIAO = "https://api.idcool.com.cn/subscribe/album/remove";  //批量取消订阅的专辑
+    public static final String COPY_INSPIRATION_PIC = "https://api.idcool.com.cn/item/item/copyToAlbum";  //将图片复制到其他灵感辑
+    public static final String MOVE_INSPIRATION_PIC = "https://api.idcool.com.cn/item/item/moveToAlbum";  //将图片移动到其他灵感辑
 
 }

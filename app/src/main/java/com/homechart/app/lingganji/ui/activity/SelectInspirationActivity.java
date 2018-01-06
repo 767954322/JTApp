@@ -66,6 +66,7 @@ public class SelectInspirationActivity extends BaseActivity
     private RelativeLayout mRLAddInspiration;
     private TextView mTVSureAdd;
     private String item_id;
+    private String mType;
 
     @Override
     protected int getLayoutResId() {
@@ -76,6 +77,7 @@ public class SelectInspirationActivity extends BaseActivity
     protected void initExtraBundle() {
         super.initExtraBundle();
         mUserId = getIntent().getStringExtra("userid");
+        mType = getIntent().getStringExtra("type");
     }
 
     @Override
@@ -112,9 +114,12 @@ public class SelectInspirationActivity extends BaseActivity
             this.overridePendingTransition(R.anim.pop_enter_anim, 0);
 
         } else if (i == R.id.tv_sure_add) {
-
-            if (mListData.size() > 0 ) {
-                ToastUtils.showCenter(mContext, "点击了");
+            if (mListData.size() > 0) {
+                if (mType.equals("copy")) {
+                    copePic(mListData.get(defalsePosition).getAlbum_info().getAlbum_id());
+                } else if (mType.equals("move")) {
+                    movePic(mListData.get(defalsePosition).getAlbum_info().getAlbum_id());
+                }
             } else {
                 ToastUtils.showCenter(mContext, "请先创建灵感辑");
             }
@@ -279,4 +284,19 @@ public class SelectInspirationActivity extends BaseActivity
             onRefresh();
         }
     }
+
+    private void copePic(String album_id) {
+        Intent intent = getIntent();
+        intent.putExtra("album_id", album_id);
+        SelectInspirationActivity.this.setResult(2, intent);
+        SelectInspirationActivity.this.finish();
+    }
+
+    private void movePic(String album_id) {
+        Intent intent = getIntent();
+        intent.putExtra("album_id", album_id);
+        SelectInspirationActivity.this.setResult(1, intent);
+        SelectInspirationActivity.this.finish();
+    }
+
 }

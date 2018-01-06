@@ -97,7 +97,7 @@ public class InspirationImagePicFragment
         this.fragmentManager = fragmentManager;
     }
 
-    public InspirationImagePicFragment(String albumId ,String userid) {
+    public InspirationImagePicFragment(String albumId, String userid) {
 
         this.mAlbumId = albumId;
         this.mUserId = userid;
@@ -394,16 +394,33 @@ public class InspirationImagePicFragment
         if (map_delete.size() > 0) {
 
             Intent intent = new Intent(activity, SelectInspirationActivity.class);
-            intent.putExtra("userid",mUserId);
-            startActivity(intent);
+            intent.putExtra("userid", mUserId);
+            intent.putExtra("type", "copy");
+            startActivityForResult(intent, 2);
 
         }
     }
 
     private void movePic() {
         if (map_delete.size() > 0) {
-
+            Intent intent = new Intent(activity, SelectInspirationActivity.class);
+            intent.putExtra("userid", mUserId);
+            intent.putExtra("type", "move");
+            startActivityForResult(intent, 1);
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == 1) {
+            CustomProgress.show(activity, "正在移动中...", false, null);
+
+        } else if (requestCode == 2 && resultCode == 2) {
+            CustomProgress.show(activity, "正在复制中...", false, null);
+
+        }
+
+    }
 }
