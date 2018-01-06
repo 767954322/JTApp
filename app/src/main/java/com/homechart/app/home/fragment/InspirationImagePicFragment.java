@@ -28,6 +28,7 @@ import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.entity.inspirationpics.InsPicItemBean;
 import com.homechart.app.lingganji.common.entity.inspirationpics.InsPicsBean;
 import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
+import com.homechart.app.lingganji.ui.activity.SelectInspirationActivity;
 import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
@@ -56,6 +57,7 @@ public class InspirationImagePicFragment
         OnLoadMoreListener,
         OnRefreshListener {
 
+    private String mUserId;
     private String mAlbumId;
     private FragmentManager fragmentManager;
     private TextView tv_delete_icon;
@@ -65,7 +67,6 @@ public class InspirationImagePicFragment
     private RelativeLayout rl_no_data;
     private TextView tv_shoucang_two;
     private HRecyclerView mRecyclerView;
-    private String user_id;
     private List<InsPicItemBean> mListData = new ArrayList<>();
     private Map<String, InsPicItemBean> map_delete = new HashMap<>();//选择的唯一标示
     private CommonAdapter<InsPicItemBean> mAdapter;
@@ -96,9 +97,10 @@ public class InspirationImagePicFragment
         this.fragmentManager = fragmentManager;
     }
 
-    public InspirationImagePicFragment(String albumId) {
+    public InspirationImagePicFragment(String albumId ,String userid) {
 
         this.mAlbumId = albumId;
+        this.mUserId = userid;
     }
 
     @Override
@@ -390,6 +392,10 @@ public class InspirationImagePicFragment
 
     private void copyPic() {
         if (map_delete.size() > 0) {
+
+            Intent intent = new Intent(activity, SelectInspirationActivity.class);
+            intent.putExtra("userid",mUserId);
+            startActivity(intent);
 
         }
     }

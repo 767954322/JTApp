@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_add_inspiration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_icon_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/font_15"
+            android:layout_marginTop="@dimen/font_17"
+            android:layout_marginBottom="@dimen/font_17"
+            android:src="@drawable/chuangjian"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_14"
+            android:layout_toRightOf="@+id/iv_icon_add"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_11"
+            android:text="创建灵感辑"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -34,7 +34,7 @@ import java.util.List;
  */
 
 public class EditInsprationImageListActivity extends BaseActivity
-        implements View.OnClickListener{
+        implements View.OnClickListener {
 
     private ImageButton mIBBack;
     private TextView mTVTital;
@@ -58,6 +58,7 @@ public class EditInsprationImageListActivity extends BaseActivity
 
     @Override
     protected void initView() {
+        mMyUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
         mIBBack = (ImageButton) findViewById(R.id.nav_left_imageButton);
         tv_content_right = (TextView) findViewById(R.id.tv_content_right);
         mLeftText = (TextView) findViewById(R.id.nav_left_textView);
@@ -79,7 +80,7 @@ public class EditInsprationImageListActivity extends BaseActivity
     }
 
     private void initFragment() {
-        inspirationImagePicFragment = new InspirationImagePicFragment(mAlbumId);
+        inspirationImagePicFragment = new InspirationImagePicFragment(mAlbumId, mMyUserId);
         mFragmentsList.add(inspirationImagePicFragment);
     }
 
@@ -122,7 +123,6 @@ public class EditInsprationImageListActivity extends BaseActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
 
-        mMyUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
 
         mIBBack.setVisibility(View.GONE);
         mLeftText.setVisibility(View.VISIBLE);
