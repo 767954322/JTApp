@@ -70,7 +70,7 @@ public class SelectInspirationActivity extends BaseActivity
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.layout_activity_inspiration;
+        return R.layout.layout_activity_select;
     }
 
     @Override

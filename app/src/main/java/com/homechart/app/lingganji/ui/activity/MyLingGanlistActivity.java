@@ -106,7 +106,6 @@ public class MyLingGanlistActivity
             Intent intent = new Intent(MyLingGanlistActivity.this, InspirationCreateActivity.class);
             intent.putExtra("userid", mUserId);
             startActivityForResult(intent, 1);
-            this.overridePendingTransition(R.anim.pop_enter_anim, 0);
         }
 
     }

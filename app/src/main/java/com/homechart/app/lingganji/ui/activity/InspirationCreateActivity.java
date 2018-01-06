@@ -94,7 +94,6 @@ public class InspirationCreateActivity extends BaseActivity
 
             if (TextUtils.isEmpty(name)) {
                 this.finish();
-                this.overridePendingTransition(R.anim.pop_exit_anim, 0);
             } else {
                 //软键盘如果打开的话，关闭软键盘
                 boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
