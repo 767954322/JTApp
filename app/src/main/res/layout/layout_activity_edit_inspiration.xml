@@ -32,7 +32,6 @@
         android:background="@drawable/bg_edittext"
         android:gravity="center_vertical"
         android:hint="输入灵感辑名称，不超过20个字"
-        android:maxLength="20"
         android:singleLine="true"
         android:lines="1"
         android:paddingLeft="@dimen/font_10"

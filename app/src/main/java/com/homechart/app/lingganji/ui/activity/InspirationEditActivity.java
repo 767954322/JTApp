@@ -2,7 +2,9 @@ package com.homechart.app.lingganji.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -78,6 +80,28 @@ public class InspirationEditActivity extends BaseActivity
         super.initListener();
         mBack.setOnClickListener(this);
         mTVSure.setOnClickListener(this);
+        mETName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                String str = s.toString();
+                if (str.length() > 20) {
+                    ToastUtils.showCenter(InspirationEditActivity.this, "灵感辑名称最多只能输入20个字哦");
+                    mETName.setText(str.substring(0, 20));
+                    mETName.setSelection(20);
+                }
+            }
+        });
     }
 
     @Override
