@@ -95,9 +95,9 @@ public class InspirationEditActivity extends BaseActivity
     @Override
     public void onClick(View v) {
         int i = v.getId();
+        String name = mETName.getText().toString();
+        String miaosu = mETMiaoSu.getText().toString();
         if (i == R.id.nav_left_imageButton) {
-            String name = mETName.getText().toString();
-            String miaosu = mETMiaoSu.getText().toString();
             if (name.equals(mName) && miaosu.equals(mDescription)) {
                 this.setResult(3, this.getIntent());
                 this.finish();
@@ -113,9 +113,11 @@ public class InspirationEditActivity extends BaseActivity
             }
 
         } else if (i == R.id.tv_content_right) {
-
-            ifAddInspiration();
-
+            if (name.equals(mName) && miaosu.equals(mDescription)) {
+                this.finish();
+            }else {
+                ifAddInspiration();
+            }
         }
     }
 
