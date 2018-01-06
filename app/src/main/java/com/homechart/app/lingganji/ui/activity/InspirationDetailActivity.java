@@ -570,15 +570,19 @@ public class InspirationDetailActivity extends BaseActivity
 
     private void changeDingYueStatus(boolean dingyue) {
         if (dingyue) {
-            rl_dingyue.setBackgroundResource(R.drawable.bg_edittext_search_tag);
-            rl_dingyue1.setBackgroundResource(R.drawable.bg_edittext_search_tag);
-            tv_dingyue_name.setTextColor(UIUtils.getColor(R.color.black));
-            tv_dingyue_name1.setTextColor(UIUtils.getColor(R.color.black));
+            rl_dingyue.setBackgroundResource(R.drawable.bg_dingyue);
+            rl_dingyue1.setBackgroundResource(R.drawable.bg_dingyue);
+            tv_dingyue_name.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+            tv_dingyue_name1.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+            tv_dingyue_name.setText("已订阅");
+            tv_dingyue_name1.setText("已订阅");
         } else {
-            rl_dingyue.setBackgroundResource(R.drawable.bt_login);
-            rl_dingyue1.setBackgroundResource(R.drawable.bt_login);
+            rl_dingyue.setBackgroundResource(R.drawable.bg_dingyue_quxiao);
+            rl_dingyue1.setBackgroundResource(R.drawable.bg_dingyue_quxiao);
             tv_dingyue_name.setTextColor(UIUtils.getColor(R.color.white));
             tv_dingyue_name1.setTextColor(UIUtils.getColor(R.color.white));
+            tv_dingyue_name.setText("＋ 订阅");
+            tv_dingyue_name1.setText("＋ 订阅");
         }
     }
 

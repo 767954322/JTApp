@@ -58,9 +58,9 @@
                             android:layout_width="@dimen/font_55"
                             android:layout_height="@dimen/font_24"
                             android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
                             android:layout_marginRight="@dimen/font_10"
-                            android:visibility="gone"
-                            android:layout_centerVertical="true">
+                            android:visibility="gone">
 
                             <TextView
                                 android:id="@+id/tv_dingyue_name"
@@ -69,7 +69,6 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="@dimen/font_7"
-                                android:text="＋ 订阅"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/size_12" />
 
@@ -237,9 +236,9 @@
                 android:layout_width="@dimen/font_55"
                 android:layout_height="@dimen/font_24"
                 android:layout_centerVertical="true"
-                android:visibility="gone"
                 android:layout_marginLeft="@dimen/font_10"
-                android:background="@drawable/bt_login">
+                android:background="@drawable/bt_login"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_dingyue_name1"
@@ -248,7 +247,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/font_7"
-                    android:text="＋ 订阅"
+                    android:gravity="center"
                     android:textColor="@color/white"
                     android:textSize="@dimen/size_12" />
 
