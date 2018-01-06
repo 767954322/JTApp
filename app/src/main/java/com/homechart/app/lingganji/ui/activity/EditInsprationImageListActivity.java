@@ -44,11 +44,12 @@ public class EditInsprationImageListActivity extends BaseActivity
     //页卡标题集合
     private List<Fragment> mFragmentsList = new ArrayList<>();//页卡视图集合
     private TextView tv_content_right;
-    private String user_id;
     private MyPagerAdapter mViewPagerAdapter;
     private boolean ifAllowScroll = true;
     private InspirationImagePicFragment inspirationImagePicFragment;
     private TextView mLeftText;
+    private String mAlbumId;
+    private String mMyUserId;
 
     @Override
     protected int getLayoutResId() {
@@ -78,7 +79,7 @@ public class EditInsprationImageListActivity extends BaseActivity
     }
 
     private void initFragment() {
-        inspirationImagePicFragment = new InspirationImagePicFragment(user_id);
+        inspirationImagePicFragment = new InspirationImagePicFragment(mAlbumId);
         mFragmentsList.add(inspirationImagePicFragment);
     }
 
@@ -107,7 +108,7 @@ public class EditInsprationImageListActivity extends BaseActivity
     @Override
     protected void initExtraBundle() {
         super.initExtraBundle();
-        user_id = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
+        mAlbumId = getIntent().getStringExtra("albumId");
     }
 
     @Override
@@ -120,6 +121,9 @@ public class EditInsprationImageListActivity extends BaseActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+        mMyUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
+
         mIBBack.setVisibility(View.GONE);
         mLeftText.setVisibility(View.VISIBLE);
         mTVTital.setText("管理图片");

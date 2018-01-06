@@ -2674,7 +2674,7 @@ public class MyHttpManager {
     }
 
     /**
-     * 获取专辑详情
+     * 删除图片
      *
      * @param item_ids(图片ID 多个用,分割)
      * @param callback

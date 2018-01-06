@@ -25,6 +25,9 @@ import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.shoucang.ShouCangBean;
 import com.homechart.app.home.bean.shoucang.ShouCangItemBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.lingganji.common.entity.inspirationpics.InsPicItemBean;
+import com.homechart.app.lingganji.common.entity.inspirationpics.InsPicsBean;
+import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
 import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
@@ -53,6 +56,7 @@ public class InspirationImagePicFragment
         OnLoadMoreListener,
         OnRefreshListener {
 
+    private String mAlbumId;
     private FragmentManager fragmentManager;
     private ImageView iv_delete_icon;
     private RelativeLayout rl_below;
@@ -60,9 +64,9 @@ public class InspirationImagePicFragment
     private TextView tv_shoucang_two;
     private HRecyclerView mRecyclerView;
     private String user_id;
-    private List<ShouCangItemBean> mListData = new ArrayList<>();
-    private Map<String, ShouCangItemBean> map_delete = new HashMap<>();//选择的唯一标示
-    private CommonAdapter<ShouCangItemBean> mAdapter;
+    private List<InsPicItemBean> mListData = new ArrayList<>();
+    private Map<String, InsPicItemBean> map_delete = new HashMap<>();//选择的唯一标示
+    private CommonAdapter<InsPicItemBean> mAdapter;
 
     private final String REFRESH_STATUS = "refresh";
     private final String LOADMORE_STATUS = "loadmore";
@@ -72,6 +76,17 @@ public class InspirationImagePicFragment
     private int num_checked = 0; //选择的个数
     private LoadMoreFooterView mLoadMoreFooterView;
 
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            //关闭管理
+            rl_no_data.setVisibility(View.VISIBLE);
+            map_delete.clear();
+            rl_below.setVisibility(View.GONE);
+        }
+    };
+
     public InspirationImagePicFragment() {
     }
 
@@ -79,9 +94,9 @@ public class InspirationImagePicFragment
         this.fragmentManager = fragmentManager;
     }
 
-    public InspirationImagePicFragment(String user_id) {
+    public InspirationImagePicFragment(String albumId) {
 
-        this.user_id = user_id;
+        this.mAlbumId = albumId;
     }
 
     @Override
@@ -115,7 +130,7 @@ public class InspirationImagePicFragment
 
     private void buildRecyclerView() {
 
-        mAdapter = new CommonAdapter<ShouCangItemBean>(activity, R.layout.item_shoucang, mListData) {
+        mAdapter = new CommonAdapter<InsPicItemBean>(activity, R.layout.item_shoucang, mListData) {
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
 
@@ -143,11 +158,11 @@ public class InspirationImagePicFragment
                 holder.getView(R.id.iv_shoucang_image).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                            if (((CheckBox) holder.getView(R.id.cb_check)).isChecked()) {
-                                ((CheckBox) holder.getView(R.id.cb_check)).setChecked(false);
-                            } else {
-                                ((CheckBox) holder.getView(R.id.cb_check)).setChecked(true);
-                            }
+                        if (((CheckBox) holder.getView(R.id.cb_check)).isChecked()) {
+                            ((CheckBox) holder.getView(R.id.cb_check)).setChecked(false);
+                        } else {
+                            ((CheckBox) holder.getView(R.id.cb_check)).setChecked(true);
+                        }
                     }
                 });
 
@@ -166,8 +181,6 @@ public class InspirationImagePicFragment
         mRecyclerView.setOnLoadMoreListener(this);
         mRecyclerView.setAdapter(mAdapter);
         onRefresh();
-
-
     }
 
     @Override
@@ -219,7 +232,7 @@ public class InspirationImagePicFragment
                             }
                         }
                     };
-                    MyHttpManager.getInstance().deleteShouCang(delete_items, callBack);
+                    MyHttpManager.getInstance().removePic(delete_items, callBack);
                 } else {
                     ToastUtils.showCenter(activity, "请选择删除项");
                 }
@@ -233,66 +246,50 @@ public class InspirationImagePicFragment
         tv_shoucang_two.setText(map_delete.size() + "");
     }
 
-
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            //关闭管理
-            rl_no_data.setVisibility(View.VISIBLE);
-            map_delete.clear();
-            rl_below.setVisibility(View.GONE);
-        }
-    };
-
     @Override
     public void onRefresh() {
         page_num = 1;
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-        getListData(REFRESH_STATUS);
+        getInspirationPicsData(REFRESH_STATUS);
     }
 
     @Override
     public void onLoadMore() {
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
         ++page_num;
-        getListData(LOADMORE_STATUS);
+        getInspirationPicsData(LOADMORE_STATUS);
     }
 
-    private void getListData(final String state) {
-
-        OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
+    private void getInspirationPicsData(final String state) {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                mRecyclerView.setRefreshing(false);//刷新完毕
-                mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-                ToastUtils.showCenter(activity, UIUtils.getString(R.string.error_shoucang));
+            public void onErrorResponse(VolleyError volleyError) {
+
                 if (state.equals(LOADMORE_STATUS)) {
                     --page_num;
                 } else {
                     page_num = 1;
                 }
+                mRecyclerView.setRefreshing(false);//刷新完毕
+                mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                ToastUtils.showCenter(activity, "专辑图片列表获取失败！");
             }
 
             @Override
-            public void onResponse(String response) {
+            public void onResponse(String s) {
                 try {
-                    if (response != null) {
-                        JSONObject jsonObject = new JSONObject(response);
-                        int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                        String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                        String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                        if (error_code == 0) {
-                            ShouCangBean shouCangBean = GsonUtil.jsonToBean(data_msg, ShouCangBean.class);
-                            if (null != shouCangBean.getItem_list() && 0 != shouCangBean.getItem_list().size()) {
-                                changeNone(0);
-                                updateViewFromData(shouCangBean.getItem_list(), state);
-                            } else {
-                                changeNone(1);
-                                updateViewFromData(null, state);
-                            }
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        InsPicsBean insPicsBean = GsonUtil.jsonToBean(data_msg, InsPicsBean.class);
+                        if (null != insPicsBean.getItem_list() && 0 != insPicsBean.getItem_list().size()) {
+                            changeNone(0);
+                            updateViewFromData(insPicsBean.getItem_list(), state);
                         } else {
-                            ToastUtils.showCenter(activity, error_msg);
+                            changeNone(1);
+                            updateViewFromData(null, state);
                         }
                     } else {
                         if (state.equals(LOADMORE_STATUS)) {
@@ -305,14 +302,13 @@ public class InspirationImagePicFragment
                         }
                     }
                 } catch (JSONException e) {
-                    ToastUtils.showCenter(activity, UIUtils.getString(R.string.error_shoucang));
                 }
             }
         };
-        MyHttpManager.getInstance().getShouCangList(user_id, (page_num - 1) * 20, "20", callback);
+        MyHttpManager.getInstance().getUserInspirationPics(mAlbumId, (page_num - 1) * 20 + "", "20", callBack);
     }
 
-    private void updateViewFromData(List<ShouCangItemBean> listData, String state) {
+    private void updateViewFromData(List<InsPicItemBean> listData, String state) {
 
         switch (state) {
 
@@ -340,7 +336,7 @@ public class InspirationImagePicFragment
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
                 } else {
                     --page_num;
-                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
                 }
                 break;
         }

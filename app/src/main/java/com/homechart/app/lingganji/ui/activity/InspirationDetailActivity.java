@@ -106,7 +106,8 @@ public class InspirationDetailActivity extends BaseActivity
     private TextView tv_dingyue_name;
     private TextView tv_dingyue_name1;
     private InspirationDetailBean inspirationDetailBean;
-    boolean ifClickDingYue = true;
+    private boolean ifClickDingYue = true;
+    private int ifUser = -1;// 1:不是本人  2:是本人
 
     @Override
     protected int getLayoutResId() {
@@ -225,9 +226,15 @@ public class InspirationDetailActivity extends BaseActivity
                 }
                 break;
             case R.id.nav_secondary_imageButton:
-                Intent intent = new Intent(InspirationDetailActivity.this, EditInsprationImageListActivity.class);
-                startActivity(intent);
-                this.overridePendingTransition(R.anim.pop_enter_anim, 0);
+                if (ifUser == 1) {//不是本人
+
+                } else if (ifUser == 2) {//本人
+                    Intent intent = new Intent(InspirationDetailActivity.this, EditInsprationImageListActivity.class);
+                    intent.putExtra("albumId", mAlbumId);
+                    startActivity(intent);
+                    this.overridePendingTransition(R.anim.pop_enter_anim, 0);
+                }
+
                 break;
         }
 
@@ -237,6 +244,7 @@ public class InspirationDetailActivity extends BaseActivity
     protected void initData(Bundle savedInstanceState) {
         mTital.setText("灵感辑");
         mRightIcon.setImageResource(R.drawable.gengduo);
+        mRightIcon.setVisibility(View.GONE);
         mMyUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_30)) / 2;
@@ -245,6 +253,7 @@ public class InspirationDetailActivity extends BaseActivity
         mDialog = new MyDialog(InspirationDetailActivity.this, "确定删除灵感辑图片么？", InspirationDetailActivity.this);
         buildRecyclerView();
         getInspirationDetail();
+
     }
 
     private void getInspirationDetail() {
@@ -280,6 +289,8 @@ public class InspirationDetailActivity extends BaseActivity
     private void changeTopUI(InspirationDetailBean inspirationDetailBean) {
         if (null != inspirationDetailBean) {
             if (null != inspirationDetailBean.getInfo().getUser_info() && !mMyUserId.equals(inspirationDetailBean.getInfo().getUser_info().getUser_id())) {
+                mRightIcon.setImageResource(R.drawable.shared_icon);
+                ifUser = 1;
                 rl_dingyue1.setVisibility(View.VISIBLE);
                 rl_dingyue.setVisibility(View.VISIBLE);
                 if (inspirationDetailBean.getInfo().getAlbum_info().getIs_subscribed().equals("1")) {
@@ -290,9 +301,12 @@ public class InspirationDetailActivity extends BaseActivity
                     changeDingYueStatus(false);
                 }
             } else {
+                ifUser = 2;
+                mRightIcon.setImageResource(R.drawable.gengduo);
                 rl_dingyue1.setVisibility(View.GONE);
                 rl_dingyue.setVisibility(View.GONE);
             }
+            mRightIcon.setVisibility(View.VISIBLE);
             mInspirationName.setText(inspirationDetailBean.getInfo().getAlbum_info().getAlbum_name());
             mUserDingYue.setText(inspirationDetailBean.getInfo().getAlbum_info().getSubscribe_num() + " 订阅");
             mUserPicNum.setText(inspirationDetailBean.getInfo().getAlbum_info().getItem_num() + " 张图");
