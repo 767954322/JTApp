@@ -10,6 +10,149 @@
         android:id="@+id/common_navbar"
         layout="@layout/view_navigation_header" />
 
+
+    <RelativeLayout
+        android:id="@+id/rl_nodata"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/common_navbar"
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/rl_inspiration_name_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_inspiration_name_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="@dimen/font_20"
+                android:layout_marginLeft="@dimen/font_10"
+                android:layout_marginRight="@dimen/font_10"
+                android:layout_marginTop="@dimen/font_20"
+                android:textColor="@color/bg_262626"
+                android:textSize="@dimen/size_18" />
+
+            <RelativeLayout
+                android:id="@+id/rl_dingyue_no"
+                android:layout_width="@dimen/font_55"
+                android:layout_height="@dimen/font_24"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/font_10"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_dingyue_name_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/font_7"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size_12" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_inspiration_miaosu_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_inspiration_name_no"
+            android:layout_marginBottom="@dimen/font_18"
+            android:layout_marginLeft="@dimen/font_10"
+            android:layout_marginRight="@dimen/font_10"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:lineSpacingExtra="@dimen/font_8"
+            android:maxLines="3"
+            android:textColor="@color/bg_707070"
+            android:textSize="@dimen/size_14" />
+
+
+        <RelativeLayout
+            android:id="@+id/rl_inspiration_userinfo_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_inspiration_miaosu_no"
+            android:layout_marginBottom="@dimen/font_18">
+
+            <ImageView
+                android:id="@+id/iv_user_header_no"
+                android:layout_width="@dimen/font_24"
+                android:layout_height="@dimen/font_24"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/font_10" />
+
+            <TextView
+                android:id="@+id/tv_user_name_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/font_10"
+                android:layout_toRightOf="@+id/iv_user_header_no"
+                android:textColor="@color/bg_464646"
+                android:textSize="@dimen/size_12" />
+
+
+            <TextView
+                android:id="@+id/tv_user_dingyue_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/font_10"
+                android:textColor="@color/bg_464646"
+                android:textSize="@dimen/size_12" />
+
+            <com.homechart.app.myview.RoundImageView
+                android:id="@+id/riv_round_no"
+                android:layout_width="@dimen/font_2"
+                android:layout_height="@dimen/font_2"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/font_7"
+                android:layout_toLeftOf="@+id/tv_user_dingyue_no"
+                android:background="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_user_pic_num_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/font_7"
+                android:layout_toLeftOf="@+id/riv_round_no"
+                android:textColor="@color/bg_464646"
+                android:textSize="@dimen/size_12" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_none"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/font_120"
+            android:layout_below="@+id/rl_inspiration_userinfo_no"
+            android:background="@color/bg_f2f2f2">
+
+            <TextView
+                android:id="@+id/tv_none"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="Ta的灵感辑中空空如也..."
+                android:textColor="@color/bg_8f8f8f"
+                android:textSize="@dimen/size_14" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/cl_coordinator"
         android:layout_width="match_parent"
@@ -154,9 +297,9 @@
                         android:id="@+id/rl_top_check1"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/font_45"
-                        android:visibility="gone"
                         android:layout_below="@+id/rl_inspiration_userinfo"
-                        android:background="@color/white">
+                        android:background="@color/white"
+                        android:visibility="gone">
 
                         <RelativeLayout
                             android:id="@+id/rl_check_pic1"
@@ -186,25 +329,6 @@
 
 
                         </RelativeLayout>
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/rl_none"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/font_120"
-                        android:layout_below="@+id/rl_top_check1"
-                        android:background="@color/bg_f2f2f2"
-                        android:visibility="gone">
-                        <TextView
-                            android:id="@+id/tv_none"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_alignParentBottom="true"
-                            android:text="Ta的灵感辑中空空如也..."
-                            android:textColor="@color/bg_8f8f8f"
-                            android:textSize="@dimen/size_14" />
 
                     </RelativeLayout>
 

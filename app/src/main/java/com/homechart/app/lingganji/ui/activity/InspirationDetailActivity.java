@@ -113,10 +113,16 @@ public class InspirationDetailActivity extends BaseActivity
     private boolean ifClickDingYue = true;
     private int ifUser = -1;// 1:不是本人  2:是本人
     private InspirationImageEditPop mInspirationImageEditPop;
-    private LinearLayout ll_bottom;
-    private TextView tv_none;
-    private RelativeLayout rl_none;
     private RelativeLayout rl_top_check1;
+    private RelativeLayout rl_nodata;
+    private TextView mInspirationNameNo;
+    private RelativeLayout rl_dingyueno;
+    private TextView tv_dingyue_name_no;
+    private TextView mInspirationMiaoSuNo;
+    private ImageView mUserHeaderNo;
+    private TextView mUserNameNo;
+    private TextView mUserDingYueNo;
+    private TextView mUserPicNumNo;
 
     @Override
     protected int getLayoutResId() {
@@ -151,20 +157,26 @@ public class InspirationDetailActivity extends BaseActivity
         iv_check_icon = (ImageView) this.findViewById(R.id.iv_check_icon);
 
         mInspirationName = (TextView) this.findViewById(R.id.tv_inspiration_name);
+        mInspirationNameNo = (TextView) this.findViewById(R.id.tv_inspiration_name_no);
         mInspirationMiaoSu = (TextView) this.findViewById(R.id.tv_inspiration_miaosu);
+        mInspirationMiaoSuNo = (TextView) this.findViewById(R.id.tv_inspiration_miaosu_no);
         mUserName = (TextView) this.findViewById(R.id.tv_user_name);
+        mUserNameNo = (TextView) this.findViewById(R.id.tv_user_name_no);
         mUserDingYue = (TextView) this.findViewById(R.id.tv_user_dingyue);
+        mUserDingYueNo = (TextView) this.findViewById(R.id.tv_user_dingyue_no);
         mUserPicNum = (TextView) this.findViewById(R.id.tv_user_pic_num);
+        mUserPicNumNo = (TextView) this.findViewById(R.id.tv_user_pic_num_no);
         mUserHeader = (ImageView) this.findViewById(R.id.iv_user_header);
+        mUserHeaderNo = (ImageView) this.findViewById(R.id.iv_user_header_no);
         rl_dingyue = (RelativeLayout) this.findViewById(R.id.rl_dingyue);
         rl_dingyue1 = (RelativeLayout) this.findViewById(R.id.rl_dingyue1);
+        rl_dingyueno = (RelativeLayout) this.findViewById(R.id.rl_dingyue_no);
         tv_dingyue_name = (TextView) this.findViewById(R.id.tv_dingyue_name);
         tv_dingyue_name1 = (TextView) this.findViewById(R.id.tv_dingyue_name1);
+        tv_dingyue_name_no = (TextView) this.findViewById(R.id.tv_dingyue_name_no);
 
-        ll_bottom = (LinearLayout) this.findViewById(R.id.ll_bottom);
-        tv_none = (TextView) this.findViewById(R.id.tv_none);
-        rl_none = (RelativeLayout) this.findViewById(R.id.rl_none);
         rl_top_check1 = (RelativeLayout) this.findViewById(R.id.rl_top_check1);
+        rl_nodata = (RelativeLayout) this.findViewById(R.id.rl_nodata);
 
     }
 
@@ -176,6 +188,7 @@ public class InspirationDetailActivity extends BaseActivity
         rl_check_pic.setOnClickListener(this);
         rl_check_pic1.setOnClickListener(this);
         rl_dingyue1.setOnClickListener(this);
+        rl_dingyueno.setOnClickListener(this);
         rl_dingyue.setOnClickListener(this);
         mAppbar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
@@ -228,6 +241,7 @@ public class InspirationDetailActivity extends BaseActivity
                 break;
             case R.id.rl_dingyue1:
             case R.id.rl_dingyue:
+            case R.id.rl_dingyue_no:
                 if (ifClickDingYue) {
                     ifClickDingYue = false;
                     if (null != inspirationDetailBean && inspirationDetailBean.getInfo().getAlbum_info().getIs_subscribed().equals("1")) {
@@ -311,6 +325,7 @@ public class InspirationDetailActivity extends BaseActivity
                 mRightIcon.setImageResource(R.drawable.shared_icon);
                 ifUser = 1;
                 rl_dingyue1.setVisibility(View.VISIBLE);
+                rl_dingyueno.setVisibility(View.VISIBLE);
                 rl_dingyue.setVisibility(View.VISIBLE);
                 if (inspirationDetailBean.getInfo().getAlbum_info().getIs_subscribed().equals("1")) {
                     //订阅了
@@ -323,21 +338,30 @@ public class InspirationDetailActivity extends BaseActivity
                 ifUser = 2;
                 mRightIcon.setImageResource(R.drawable.gengduo);
                 rl_dingyue1.setVisibility(View.GONE);
+                rl_dingyueno.setVisibility(View.GONE);
                 rl_dingyue.setVisibility(View.GONE);
             }
             mRightIcon.setVisibility(View.VISIBLE);
             mInspirationName.setText(inspirationDetailBean.getInfo().getAlbum_info().getAlbum_name());
+            mInspirationNameNo.setText(inspirationDetailBean.getInfo().getAlbum_info().getAlbum_name());
             mUserDingYue.setText(inspirationDetailBean.getInfo().getAlbum_info().getSubscribe_num() + " 订阅");
+            mUserDingYueNo.setText(inspirationDetailBean.getInfo().getAlbum_info().getSubscribe_num() + " 订阅");
             mUserPicNum.setText(inspirationDetailBean.getInfo().getAlbum_info().getItem_num() + " 张图");
+            mUserPicNumNo.setText(inspirationDetailBean.getInfo().getAlbum_info().getItem_num() + " 张图");
             if (TextUtils.isEmpty(inspirationDetailBean.getInfo().getAlbum_info().getDescription().trim())) {
                 mInspirationMiaoSu.setVisibility(View.GONE);
+                mInspirationMiaoSuNo.setVisibility(View.GONE);
             } else {
                 mInspirationMiaoSu.setVisibility(View.VISIBLE);
+                mInspirationMiaoSuNo.setVisibility(View.VISIBLE);
                 mInspirationMiaoSu.setText(inspirationDetailBean.getInfo().getAlbum_info().getDescription());
+                mInspirationMiaoSuNo.setText(inspirationDetailBean.getInfo().getAlbum_info().getDescription());
             }
             if (null != inspirationDetailBean.getInfo().getUser_info()) {
                 ImageUtils.displayRoundImage(inspirationDetailBean.getInfo().getUser_info().getAvatar().getThumb(), mUserHeader);
+                ImageUtils.displayRoundImage(inspirationDetailBean.getInfo().getUser_info().getAvatar().getThumb(), mUserHeaderNo);
                 mUserName.setText(inspirationDetailBean.getInfo().getUser_info().getNickname());
+                mUserNameNo.setText(inspirationDetailBean.getInfo().getUser_info().getNickname());
             }
         }
     }
@@ -555,12 +579,15 @@ public class InspirationDetailActivity extends BaseActivity
                 if (null != listData && listData.size() > 0) {
 
                     rl_top_check1.setVisibility(View.VISIBLE);
+                    mCoordinator.setVisibility(View.VISIBLE);
+                    rl_nodata.setVisibility(View.GONE);
                     mListData.addAll(listData);
                 } else {
                     //没有更多数据
+                    rl_nodata.setVisibility(View.VISIBLE);
+                    mCoordinator.setVisibility(View.GONE);
                     rl_top_check1.setVisibility(View.GONE);
-                    rl_none.setVisibility(View.VISIBLE);
-                    ll_bottom.setVisibility(View.GONE);
+                    mTopRelative.setVisibility(View.GONE);
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
                     page_num = 1;
                     mListData.clear();
@@ -572,11 +599,19 @@ public class InspirationDetailActivity extends BaseActivity
             case LOADMORE_STATUS:
                 if (null != listData && listData.size() > 0) {
                     rl_top_check1.setVisibility(View.VISIBLE);
+                    mCoordinator.setVisibility(View.VISIBLE);
+                    rl_nodata.setVisibility(View.GONE);
                     position = mListData.size();
                     mListData.addAll(listData);
                     mAdapter.notifyItem(position, mListData, listData);
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
                 } else {
+                    if (mListData.size() == 0) {
+                        rl_nodata.setVisibility(View.VISIBLE);
+                        mCoordinator.setVisibility(View.GONE);
+                        mTopRelative.setVisibility(View.GONE);
+                        rl_top_check1.setVisibility(View.GONE);
+                    }
                     --page_num;
                     //没有更多数据
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
@@ -587,18 +622,24 @@ public class InspirationDetailActivity extends BaseActivity
 
     private void changeDingYueStatus(boolean dingyue) {
         if (dingyue) {
+            rl_dingyueno.setBackgroundResource(R.drawable.bg_dingyue);
             rl_dingyue.setBackgroundResource(R.drawable.bg_dingyue);
             rl_dingyue1.setBackgroundResource(R.drawable.bg_dingyue);
             tv_dingyue_name.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+            tv_dingyue_name_no.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
             tv_dingyue_name1.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
             tv_dingyue_name.setText("已订阅");
+            tv_dingyue_name_no.setText("已订阅");
             tv_dingyue_name1.setText("已订阅");
         } else {
+            rl_dingyueno.setBackgroundResource(R.drawable.bg_dingyue_quxiao);
             rl_dingyue.setBackgroundResource(R.drawable.bg_dingyue_quxiao);
             rl_dingyue1.setBackgroundResource(R.drawable.bg_dingyue_quxiao);
             tv_dingyue_name.setTextColor(UIUtils.getColor(R.color.white));
+            tv_dingyue_name_no.setTextColor(UIUtils.getColor(R.color.white));
             tv_dingyue_name1.setTextColor(UIUtils.getColor(R.color.white));
             tv_dingyue_name.setText("＋ 订阅");
+            tv_dingyue_name_no.setText("＋ 订阅");
             tv_dingyue_name1.setText("＋ 订阅");
         }
     }
