@@ -64,10 +64,10 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/font_10"
-            android:background="@drawable/bg_inspiration_delete"
+            android:background="@drawable/bg_inspiration_default"
             android:gravity="center"
             android:text="删除"
-            android:textColor="@color/bg_e79056"
+            android:textColor="@color/bg_fff"
             android:textSize="@dimen/size_12" />
 
         <TextView
@@ -77,10 +77,10 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/font_10"
             android:layout_toLeftOf="@+id/tv_delete_icon"
-            android:background="@drawable/bg_inspiration_move"
+            android:background="@drawable/bg_inspiration_default"
             android:gravity="center"
             android:text="复制"
-            android:textColor="@color/white"
+            android:textColor="@color/bg_fff"
             android:textSize="@dimen/size_12" />
 
         <TextView
@@ -90,10 +90,10 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/font_10"
             android:layout_toLeftOf="@+id/tv_delete_copy"
-            android:background="@drawable/bg_inspiration_move"
+            android:background="@drawable/bg_inspiration_default"
             android:gravity="center"
             android:text="移动"
-            android:textColor="@color/white"
+            android:textColor="@color/bg_fff"
             android:textSize="@dimen/size_12" />
 
     </RelativeLayout>

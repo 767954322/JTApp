@@ -93,6 +93,7 @@
     <color name="bg_99000000">#99000000</color>
     <color name="bg_b3000000">#b3000000</color>
     <color name="bg_4dfc7700">#4Dfc7700</color>
+    <color name="bg_fff">#fff</color>
 
     <color name="bg_4d34A350">#4D34A350</color>
     <color name="white">#ffffff</color>

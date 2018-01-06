@@ -59,6 +59,8 @@ public class InspirationImagePicFragment
     private String mAlbumId;
     private FragmentManager fragmentManager;
     private TextView tv_delete_icon;
+    private TextView tv_delete_copy;
+    private TextView tv_delete_move;
     private RelativeLayout rl_below;
     private RelativeLayout rl_no_data;
     private TextView tv_shoucang_two;
@@ -110,6 +112,8 @@ public class InspirationImagePicFragment
         rl_below = (RelativeLayout) rootView.findViewById(R.id.rl_below);
         rl_no_data = (RelativeLayout) rootView.findViewById(R.id.rl_no_data);
         tv_delete_icon = (TextView) rootView.findViewById(R.id.tv_delete_icon);
+        tv_delete_copy = (TextView) rootView.findViewById(R.id.tv_delete_copy);
+        tv_delete_move = (TextView) rootView.findViewById(R.id.tv_delete_move);
         tv_shoucang_two = (TextView) rootView.findViewById(R.id.tv_shoucang_two);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_shoucang);
 
@@ -118,6 +122,8 @@ public class InspirationImagePicFragment
     @Override
     protected void initListener() {
         tv_delete_icon.setOnClickListener(this);
+        tv_delete_copy.setOnClickListener(this);
+        tv_delete_move.setOnClickListener(this);
     }
 
     @Override
@@ -151,6 +157,11 @@ public class InspirationImagePicFragment
                                 map_delete.remove(item_id);
                             }
                             --num_checked;
+                        }
+                        if (map_delete.size() > 0) {
+                            selectPic(true);
+                        } else {
+                            selectPic(false);
                         }
                         upCheckedStatus();
                     }
@@ -188,51 +199,13 @@ public class InspirationImagePicFragment
 
         switch (v.getId()) {
             case R.id.tv_delete_icon:
-                if (map_delete.size() > 0) {
-                    CustomProgress.show(activity, "正在删除...", false, null);
-                    String delete_items = "";
-                    for (String key : map_delete.keySet()) {
-                        delete_items = delete_items + key + ",";
-                    }
-                    delete_items = delete_items.substring(0, delete_items.length() - 1);
-                    OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-                            CustomProgress.cancelDialog();
-                            ToastUtils.showCenter(activity, getString(R.string.error_delete_shaijia));
-                        }
-
-                        @Override
-                        public void onResponse(String s) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(s);
-                                int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                                String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                                String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                                if (error_code == 0) {
-                                    for (String key : map_delete.keySet()) {
-                                        mListData.remove(map_delete.get(key));
-                                    }
-                                    map_delete.clear();
-                                    upCheckedStatus();
-                                    mAdapter.notifyDataSetChanged();
-                                    if (mListData == null || mListData.size() == 0) {
-                                        handler.sendEmptyMessage(0);
-                                    }
-                                    CustomProgress.cancelDialog();
-                                    ToastUtils.showCenter(activity, getString(R.string.succes_delete_shaijia));
-                                } else {
-                                    CustomProgress.cancelDialog();
-                                    ToastUtils.showCenter(activity, error_msg);
-                                }
-                            } catch (JSONException e) {
-                                CustomProgress.cancelDialog();
-                                ToastUtils.showCenter(activity, getString(R.string.error_delete_shaijia));
-                            }
-                        }
-                    };
-                    MyHttpManager.getInstance().removePic(delete_items, callBack);
-                }
+                deletePic();
+                break;
+            case R.id.tv_delete_copy:
+                copyPic();
+                break;
+            case R.id.tv_delete_move:
+                movePic();
                 break;
         }
 
@@ -350,4 +323,81 @@ public class InspirationImagePicFragment
 
         }
     }
+
+    private void selectPic(boolean boo) {
+
+        if (boo) {
+            tv_delete_icon.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+            tv_delete_copy.setBackgroundResource(R.drawable.bg_inspiration_move);
+            tv_delete_move.setBackgroundResource(R.drawable.bg_inspiration_move);
+            tv_delete_icon.setBackgroundResource(R.drawable.bg_inspiration_delete);
+        } else {
+            tv_delete_icon.setTextColor(UIUtils.getColor(R.color.bg_fff));
+            tv_delete_copy.setBackgroundResource(R.drawable.bg_inspiration_default);
+            tv_delete_move.setBackgroundResource(R.drawable.bg_inspiration_default);
+            tv_delete_icon.setBackgroundResource(R.drawable.bg_inspiration_default);
+        }
+
+    }
+
+    private void deletePic() {
+        if (map_delete.size() > 0) {
+            CustomProgress.show(activity, "正在删除...", false, null);
+            String delete_items = "";
+            for (String key : map_delete.keySet()) {
+                delete_items = delete_items + key + ",";
+            }
+            delete_items = delete_items.substring(0, delete_items.length() - 1);
+            OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    CustomProgress.cancelDialog();
+                    ToastUtils.showCenter(activity, getString(R.string.error_delete_shaijia));
+                }
+
+                @Override
+                public void onResponse(String s) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(s);
+                        int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                        String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                        String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                        if (error_code == 0) {
+                            for (String key : map_delete.keySet()) {
+                                mListData.remove(map_delete.get(key));
+                            }
+                            map_delete.clear();
+                            upCheckedStatus();
+                            mAdapter.notifyDataSetChanged();
+                            if (mListData == null || mListData.size() == 0) {
+                                handler.sendEmptyMessage(0);
+                            }
+                            CustomProgress.cancelDialog();
+                            ToastUtils.showCenter(activity, getString(R.string.succes_delete_shaijia));
+                        } else {
+                            CustomProgress.cancelDialog();
+                            ToastUtils.showCenter(activity, error_msg);
+                        }
+                    } catch (JSONException e) {
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(activity, getString(R.string.error_delete_shaijia));
+                    }
+                }
+            };
+            MyHttpManager.getInstance().removePic(delete_items, callBack);
+        }
+    }
+
+    private void copyPic() {
+        if (map_delete.size() > 0) {
+
+        }
+    }
+
+    private void movePic() {
+        if (map_delete.size() > 0) {
+
+        }
+    }
+
 }
