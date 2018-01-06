@@ -103,5 +103,6 @@ public class UrlConstants {
     public static final String COPY_INSPIRATION_PIC = "https://api.idcool.com.cn/item/item/copyToAlbum";  //将图片复制到其他灵感辑
     public static final String MOVE_INSPIRATION_PIC = "https://api.idcool.com.cn/item/item/moveToAlbum";  //将图片移动到其他灵感辑
     public static final String REMOVE_INSPIRATION = "https://api.idcool.com.cn/album/album/remove";  //删除专辑
+    public static final String EDIT_INSPIRATION = "https://api.idcool.com.cn/album/album/modify";  //编辑专辑
 
 }

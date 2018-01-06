@@ -653,6 +653,8 @@ public class InspirationDetailActivity extends BaseActivity
 
         } else if (resultCode == 2 && requestCode == 2) {
             onRefresh();
+        } else if (resultCode == 3 && requestCode == 3) {
+            getInspirationDetail();
         }
 
     }
@@ -741,6 +743,12 @@ public class InspirationDetailActivity extends BaseActivity
     @Override
     public void onBianJi() {
         mInspirationImageEditPop.dismiss();
+        Intent intent = new Intent(this, InspirationEditActivity.class);
+        intent.putExtra("userid", mMyUserId);
+        intent.putExtra("album_id", mAlbumId);
+        intent.putExtra("name", inspirationDetailBean.getInfo().getAlbum_info().getAlbum_name());
+        intent.putExtra("description", inspirationDetailBean.getInfo().getAlbum_info().getDescription());
+        startActivityForResult(intent, 3);
     }
 
     @Override

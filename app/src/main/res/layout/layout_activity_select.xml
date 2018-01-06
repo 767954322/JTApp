@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="加入灵感辑"
+            android:text="选择灵感辑"
             android:textColor="@color/bg_262626"
             android:textSize="@dimen/size_17" />
 
