@@ -651,7 +651,7 @@ public class InspirationDetailActivity extends BaseActivity
                 mAdapter.notifyDataSetChanged();
             }
 
-        }else if(resultCode == 2 && requestCode == 2){
+        } else if (resultCode == 2 && requestCode == 2) {
             onRefresh();
         }
 
@@ -748,7 +748,43 @@ public class InspirationDetailActivity extends BaseActivity
         mInspirationImageEditPop.dismiss();
         Intent intent = new Intent(InspirationDetailActivity.this, EditInsprationImageListActivity.class);
         intent.putExtra("albumId", mAlbumId);
-        startActivityForResult(intent,2);
+        startActivityForResult(intent, 2);
+    }
+
+    @Override
+    public void onDeleteInspiration() {
+        mInspirationImageEditPop.dismiss();
+        CustomProgress.show(InspirationDetailActivity.this, "删除中...", false, null);
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                CustomProgress.cancelDialog();
+                ToastUtils.showCenter(InspirationDetailActivity.this, "删除失败！");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(InspirationDetailActivity.this, "删除成功！");
+                        InspirationDetailActivity.this.setResult(2, InspirationDetailActivity.this.getIntent());
+                        InspirationDetailActivity.this.finish();
+                    } else {
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(InspirationDetailActivity.this, "删除失败！");
+                    }
+                } catch (JSONException e) {
+                    CustomProgress.cancelDialog();
+                    ToastUtils.showCenter(InspirationDetailActivity.this, "删除失败！");
+                }
+            }
+        };
+        MyHttpManager.getInstance().removeInspiration(mAlbumId, callBack);
     }
 
 }

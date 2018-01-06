@@ -12,4 +12,6 @@ public interface InterPopBottom {
 
     void onGuanLi();
 
+    void onDeleteInspiration();
+
 }

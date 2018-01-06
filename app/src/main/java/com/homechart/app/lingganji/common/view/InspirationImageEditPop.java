@@ -91,6 +91,7 @@ public class InspirationImageEditPop extends PopupWindow implements View.OnClick
             case R.id.tv_shared:
                 break;
             case R.id.tv_delete:
+                mInterDioalod.onDeleteInspiration();
                 break;
         }
 
