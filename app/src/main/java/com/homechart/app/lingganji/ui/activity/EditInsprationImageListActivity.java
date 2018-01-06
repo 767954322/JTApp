@@ -34,8 +34,7 @@ import java.util.List;
  */
 
 public class EditInsprationImageListActivity extends BaseActivity
-        implements View.OnClickListener,
-        InspirationImagePicFragment.ChangeUI{
+        implements View.OnClickListener{
 
     private ImageButton mIBBack;
     private TextView mTVTital;
@@ -79,24 +78,10 @@ public class EditInsprationImageListActivity extends BaseActivity
     }
 
     private void initFragment() {
-        inspirationImagePicFragment = new InspirationImagePicFragment(user_id, this);
+        inspirationImagePicFragment = new InspirationImagePicFragment(user_id);
         mFragmentsList.add(inspirationImagePicFragment);
     }
 
-    @Override
-    public void ifShowDelete(boolean bool) {
-        if (bool) {
-            //打开管理
-            tv_content_right.setText("取消");
-            mViewPager.setScanScroll(false);
-            mTabLayout.setCanScrool(false);
-        } else {
-            //关闭管理
-            tv_content_right.setText("管理");
-            mViewPager.setScanScroll(true);
-            mTabLayout.setCanScrool(true);
-        }
-    }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
         public MyPagerAdapter(FragmentManager fm) {
@@ -138,7 +123,6 @@ public class EditInsprationImageListActivity extends BaseActivity
         mIBBack.setVisibility(View.GONE);
         mLeftText.setVisibility(View.VISIBLE);
         mTVTital.setText("管理图片");
-//        tv_content_right.setText("管理");
         mLeftText.setText("取消");
     }
 
@@ -149,30 +133,6 @@ public class EditInsprationImageListActivity extends BaseActivity
                 EditInsprationImageListActivity.this.finish();
                 this.overridePendingTransition(R.anim.pop_exit_anim, 0);
                 break;
-            case R.id.tv_content_right:
-                if (mViewPager.getCurrentItem() == 0) {
-                    if (ifAllowScroll) {
-                        if (inspirationImagePicFragment.ifHasData()) {
-                            mViewPager.setScanScroll(false);
-                            mTabLayout.setCanScrool(false);
-                            ifAllowScroll = false;
-                            inspirationImagePicFragment.clickRightGuanLi();
-                        } else {
-                            ToastUtils.showCenter(EditInsprationImageListActivity.this, "先去收藏一些图片吧");
-                        }
-                    } else {
-                        mViewPager.setScanScroll(true);
-                        mTabLayout.setCanScrool(true);
-                        ifAllowScroll = true;
-                        inspirationImagePicFragment.clickRightGuanLi();
-                    }
-                } else if (mViewPager.getCurrentItem() == 1) {
-
-                } else if (mViewPager.getCurrentItem() == 2) {
-
-                }
-
-                break;
         }
     }
 
@@ -180,10 +140,10 @@ public class EditInsprationImageListActivity extends BaseActivity
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        MobclickAgent.onPageStart("个人中心收藏列表页");
+        MobclickAgent.onPageStart("管理专辑图片页");
         Tracker t = MyApplication.getInstance().getDefaultTracker();
         // Set screen name.
-        t.setScreenName("个人中心收藏列表页");
+        t.setScreenName("管理专辑图片页");
         // Send a screen view.
         t.send(new HitBuilders.ScreenViewBuilder().build());
     }
@@ -191,7 +151,7 @@ public class EditInsprationImageListActivity extends BaseActivity
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("个人中心收藏列表页");
+        MobclickAgent.onPageEnd("管理专辑图片页");
         MobclickAgent.onPause(this);
     }
 

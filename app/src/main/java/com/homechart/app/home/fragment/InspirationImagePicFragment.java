@@ -50,7 +50,6 @@ import java.util.Map;
 public class InspirationImagePicFragment
         extends BaseFragment
         implements View.OnClickListener,
-        CommonAdapter.OnItemClickListener,
         OnLoadMoreListener,
         OnRefreshListener {
 
@@ -63,7 +62,6 @@ public class InspirationImagePicFragment
     private String user_id;
     private List<ShouCangItemBean> mListData = new ArrayList<>();
     private Map<String, ShouCangItemBean> map_delete = new HashMap<>();//选择的唯一标示
-    private ChangeUI mChangeUI;
     private CommonAdapter<ShouCangItemBean> mAdapter;
 
     private final String REFRESH_STATUS = "refresh";
@@ -81,11 +79,9 @@ public class InspirationImagePicFragment
         this.fragmentManager = fragmentManager;
     }
 
-    public InspirationImagePicFragment(String user_id, ChangeUI changeUI) {
+    public InspirationImagePicFragment(String user_id) {
 
         this.user_id = user_id;
-        this.mChangeUI = changeUI;
-
     }
 
     @Override
@@ -111,7 +107,8 @@ public class InspirationImagePicFragment
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
+        tv_shoucang_two.setText(num_checked + "");
+        rl_below.setVisibility(View.VISIBLE);
         buildRecyclerView();
 
     }
@@ -123,14 +120,7 @@ public class InspirationImagePicFragment
             public void convert(final BaseViewHolder holder, final int position) {
 
                 final String item_id = mListData.get(position).getItem_info().getItem_id();
-                if (guanli_tag == 0) {
-                    holder.getView(R.id.cb_check).setVisibility(View.GONE);
-                } else {
-                    holder.getView(R.id.cb_check).setVisibility(View.VISIBLE);
-
-                }
-
-//                holder.getView(R.id.iv_shoucang_image).setTag(mListData.get(position).getItem_info().getItem_id());
+                holder.getView(R.id.cb_check).setVisibility(View.VISIBLE);
                 ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(),
                         (ImageView) holder.getView(R.id.iv_shoucang_image));
                 ((CheckBox) holder.getView(R.id.cb_check)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -153,17 +143,11 @@ public class InspirationImagePicFragment
                 holder.getView(R.id.iv_shoucang_image).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        if (guanli_tag == 0) {//未打开管理
-                            jumpImageDetail(mListData.get(position).getItem_info().getItem_id());
-                        } else {
                             if (((CheckBox) holder.getView(R.id.cb_check)).isChecked()) {
                                 ((CheckBox) holder.getView(R.id.cb_check)).setChecked(false);
                             } else {
                                 ((CheckBox) holder.getView(R.id.cb_check)).setChecked(true);
                             }
-                        }
-
                     }
                 });
 
@@ -178,11 +162,6 @@ public class InspirationImagePicFragment
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
         mRecyclerView.setLayoutManager(new GridLayoutManager(activity, 2));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-//        ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(mAdapter);
-//        scaleAdapter.setFirstOnly(false);
-//        scaleAdapter.setDuration(500);
-
         mRecyclerView.setOnRefreshListener(this);
         mRecyclerView.setOnLoadMoreListener(this);
         mRecyclerView.setAdapter(mAdapter);
@@ -252,50 +231,8 @@ public class InspirationImagePicFragment
 
     public void upCheckedStatus() {
         tv_shoucang_two.setText(map_delete.size() + "");
-        Log.d("test", "个数：" + map_delete.size());
-        Log.d("test", "数据：" + map_delete.toString());
     }
 
-
-    //查看图片详情
-    private void jumpImageDetail(String item_id) {
-        Intent intent = new Intent(activity, ImageDetailLongActivity.class);
-        intent.putExtra("item_id", item_id);
-        startActivity(intent);
-
-    }
-
-    public void clickRightGuanLi() {
-        if (mListData != null && mListData.size() > 0) {
-            if (guanli_tag == 0) {
-                //打开管理
-                mChangeUI.ifShowDelete(true);
-                map_delete.clear();
-                guanli_tag = 1;
-                num_checked = 0;
-                tv_shoucang_two.setText(num_checked + "");
-                rl_below.setVisibility(View.VISIBLE);
-                mAdapter.notifyDataSetChanged();
-            } else {
-                //关闭管理
-                mChangeUI.ifShowDelete(false);
-                map_delete.clear();
-                guanli_tag = 0;
-                rl_below.setVisibility(View.GONE);
-                mAdapter.notifyDataSetChanged();
-            }
-        } else {
-            ToastUtils.showCenter(activity, "先去发布一些图片吧");
-        }
-    }
-
-    public boolean ifHasData() {
-        if (mListData != null && mListData.size() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     Handler handler = new Handler() {
         @Override
@@ -305,7 +242,6 @@ public class InspirationImagePicFragment
             rl_no_data.setVisibility(View.VISIBLE);
             map_delete.clear();
             rl_below.setVisibility(View.GONE);
-            mChangeUI.ifShowDelete(false);
         }
     };
 
@@ -321,15 +257,6 @@ public class InspirationImagePicFragment
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
         ++page_num;
         getListData(LOADMORE_STATUS);
-    }
-
-    @Override
-    public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-
-    }
-
-    public interface ChangeUI {
-        public void ifShowDelete(boolean bool);
     }
 
     private void getListData(final String state) {
@@ -349,7 +276,6 @@ public class InspirationImagePicFragment
 
             @Override
             public void onResponse(String response) {
-
                 try {
                     if (response != null) {
                         JSONObject jsonObject = new JSONObject(response);
