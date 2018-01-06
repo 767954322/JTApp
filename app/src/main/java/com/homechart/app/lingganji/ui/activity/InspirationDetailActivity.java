@@ -469,6 +469,7 @@ public class InspirationDetailActivity extends BaseActivity
                         intent.putExtra("description", mListData.get(position).getItem_info().getDescription());
                         intent.putExtra("updata_time", mListData.get(position).getItem_info().getUpdate_time());
                         intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+                        intent.putExtra("position", position);
 //                        intent.putExtra("time",mListData.get(position).getItem_info().g);
                         InspirationDetailActivity.this.startActivityForResult(intent, 1);
                     }
