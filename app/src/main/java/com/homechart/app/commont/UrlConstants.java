@@ -105,5 +105,6 @@ public class UrlConstants {
     public static final String REMOVE_INSPIRATION = "https://api.idcool.com.cn/album/album/remove";  //删除专辑
     public static final String EDIT_INSPIRATION = "https://api.idcool.com.cn/album/album/modify";  //编辑专辑
     public static final String DINGYUE_LIST = "https://api.idcool.com.cn/subscribe/album/getListByUserId";  //用户订阅专辑列表
+    public static final String DELETE_DINGYUE = " https://api.idcool.com.cn/subscribe/album/remove";  //批量取消订阅的专辑
 
 }

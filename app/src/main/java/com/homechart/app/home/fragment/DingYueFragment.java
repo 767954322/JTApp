@@ -27,6 +27,7 @@ import com.homechart.app.home.bean.dingyue.DingYueItemBean;
 import com.homechart.app.home.bean.shoucang.ShouCangBean;
 import com.homechart.app.home.bean.shoucang.ShouCangItemBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
 import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
@@ -124,7 +125,7 @@ public class DingYueFragment
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
 
-                final String item_id = mListData.get(position).getAlbum_info().getAlbum_id();
+                final String album_id = mListData.get(position).getAlbum_info().getAlbum_id();
                 if (guanli_tag == 0) {
                     holder.getView(R.id.cb_check).setVisibility(View.GONE);
                 } else {
@@ -142,12 +143,12 @@ public class DingYueFragment
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked) {
                             ++num_checked;
-                            if (!map_delete.containsKey(item_id)) {
-                                map_delete.put(item_id, mListData.get(position));
+                            if (!map_delete.containsKey(album_id)) {
+                                map_delete.put(album_id, mListData.get(position));
                             }
                         } else {
-                            if (map_delete.containsKey(item_id)) {
-                                map_delete.remove(item_id);
+                            if (map_delete.containsKey(album_id)) {
+                                map_delete.remove(album_id);
                             }
                             --num_checked;
                         }
@@ -165,7 +166,11 @@ public class DingYueFragment
                     public void onClick(View v) {
 
                         if (guanli_tag == 0) {//未打开管理
-//                            jumpImageDetail(mListData.get(position).getItem_info().getItem_id());
+                            Intent intent = new Intent(activity, InspirationDetailActivity.class);
+                            intent.putExtra("user_id", user_id);
+                            intent.putExtra("ifHideEdit", true);
+                            intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
+                            startActivityForResult(intent, 2);
                         } else {
                             if (((CheckBox) holder.getView(R.id.cb_check)).isChecked()) {
                                 ((CheckBox) holder.getView(R.id.cb_check)).setChecked(false);
@@ -177,7 +182,7 @@ public class DingYueFragment
                     }
                 });
 
-                if (map_delete.containsKey(item_id)) {
+                if (map_delete.containsKey(album_id)) {
                     ((CheckBox) holder.getView(R.id.cb_check)).setChecked(true);
                 } else {
                     ((CheckBox) holder.getView(R.id.cb_check)).setChecked(false);
@@ -188,11 +193,6 @@ public class DingYueFragment
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
         mRecyclerView.setLayoutManager(new GridLayoutManager(activity, 2));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-//        ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(mAdapter);
-//        scaleAdapter.setFirstOnly(false);
-//        scaleAdapter.setDuration(500);
-
         mRecyclerView.setOnRefreshListener(this);
         mRecyclerView.setOnLoadMoreListener(this);
         mRecyclerView.setAdapter(mAdapter);
@@ -250,7 +250,7 @@ public class DingYueFragment
                             }
                         }
                     };
-                    MyHttpManager.getInstance().deleteShouCang(delete_items, callBack);
+                    MyHttpManager.getInstance().deleteDingYue(delete_items, callBack);
                 }
                 break;
         }
@@ -421,7 +421,7 @@ public class DingYueFragment
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
                 } else {
                     --page_num;
-                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
                 }
                 break;
         }
@@ -451,5 +451,13 @@ public class DingYueFragment
             tv_delete_icon.setBackgroundResource(R.drawable.bg_inspiration_default);
         }
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2 && resultCode == 2) {
+            onRefresh();
+        }
     }
 }

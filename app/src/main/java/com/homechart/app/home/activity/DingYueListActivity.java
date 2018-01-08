@@ -152,7 +152,7 @@ public class DingYueListActivity extends BaseActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        mTVTital.setText("收藏");
+        mTVTital.setText("订阅");
         tv_content_right.setText("管理");
     }
 
