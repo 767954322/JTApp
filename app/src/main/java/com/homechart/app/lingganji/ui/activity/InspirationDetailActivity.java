@@ -123,6 +123,9 @@ public class InspirationDetailActivity extends BaseActivity
     private TextView mUserNameNo;
     private TextView mUserDingYueNo;
     private TextView mUserPicNumNo;
+    private TextView tv_test;
+    private ImageView iv_more_miaosu;
+    private ImageView iv_more_miaosu_no;
 
     @Override
     protected int getLayoutResId() {
@@ -174,6 +177,9 @@ public class InspirationDetailActivity extends BaseActivity
         tv_dingyue_name = (TextView) this.findViewById(R.id.tv_dingyue_name);
         tv_dingyue_name1 = (TextView) this.findViewById(R.id.tv_dingyue_name1);
         tv_dingyue_name_no = (TextView) this.findViewById(R.id.tv_dingyue_name_no);
+        tv_test = (TextView) this.findViewById(R.id.tv_test);
+        iv_more_miaosu = (ImageView) this.findViewById(R.id.iv_more_miaosu);
+        iv_more_miaosu_no = (ImageView) this.findViewById(R.id.iv_more_miaosu_no);
 
         rl_top_check1 = (RelativeLayout) this.findViewById(R.id.rl_top_check1);
         rl_nodata = (RelativeLayout) this.findViewById(R.id.rl_nodata);
@@ -190,6 +196,8 @@ public class InspirationDetailActivity extends BaseActivity
         rl_dingyue1.setOnClickListener(this);
         rl_dingyueno.setOnClickListener(this);
         rl_dingyue.setOnClickListener(this);
+        iv_more_miaosu.setOnClickListener(this);
+        iv_more_miaosu_no.setOnClickListener(this);
         mAppbar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
@@ -266,6 +274,11 @@ public class InspirationDetailActivity extends BaseActivity
                     }
                     mInspirationImageEditPop.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 }
+
+                break;
+            case R.id.iv_more_miaosu_no:
+            case R.id.iv_more_miaosu:
+
 
                 break;
         }
@@ -354,8 +367,18 @@ public class InspirationDetailActivity extends BaseActivity
             } else {
                 mInspirationMiaoSu.setVisibility(View.VISIBLE);
                 mInspirationMiaoSuNo.setVisibility(View.VISIBLE);
+                tv_test.setText(inspirationDetailBean.getInfo().getAlbum_info().getDescription());
                 mInspirationMiaoSu.setText(inspirationDetailBean.getInfo().getAlbum_info().getDescription());
                 mInspirationMiaoSuNo.setText(inspirationDetailBean.getInfo().getAlbum_info().getDescription());
+                int count = tv_test.getLineCount();
+                if (count > 3) {
+                    iv_more_miaosu.setVisibility(View.VISIBLE);
+                    iv_more_miaosu_no.setVisibility(View.VISIBLE);
+                } else {
+                    iv_more_miaosu.setVisibility(View.GONE);
+                    iv_more_miaosu_no.setVisibility(View.GONE);
+                }
+
             }
             if (null != inspirationDetailBean.getInfo().getUser_info()) {
                 ImageUtils.displayRoundImage(inspirationDetailBean.getInfo().getUser_info().getAvatar().getThumb(), mUserHeader);
