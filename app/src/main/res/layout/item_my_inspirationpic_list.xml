@@ -69,7 +69,7 @@
         android:layout_marginLeft="@dimen/font_10"
         android:layout_marginRight="@dimen/font_25"
         android:layout_marginTop="@dimen/font_12"
-        android:maxLines="5"
+        android:maxLines="1"
         android:textColor="@color/bg_464646"
         android:textSize="@dimen/font_14" />
 
