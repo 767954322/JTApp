@@ -22,6 +22,8 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.activity.ImageDetailLongActivity;
 import com.homechart.app.home.base.BaseFragment;
+import com.homechart.app.home.bean.dingyue.DingYueBean;
+import com.homechart.app.home.bean.dingyue.DingYueItemBean;
 import com.homechart.app.home.bean.shoucang.ShouCangBean;
 import com.homechart.app.home.bean.shoucang.ShouCangItemBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
@@ -61,10 +63,10 @@ public class DingYueFragment
     private TextView tv_shoucang_two;
     private HRecyclerView mRecyclerView;
     private String user_id;
-    private List<ShouCangItemBean> mListData = new ArrayList<>();
-    private Map<String, ShouCangItemBean> map_delete = new HashMap<>();//选择的唯一标示
+    private List<DingYueItemBean> mListData = new ArrayList<>();
+    private Map<String, DingYueItemBean> map_delete = new HashMap<>();//选择的唯一标示
     private ChangeUI mChangeUI;
-    private CommonAdapter<ShouCangItemBean> mAdapter;
+    private CommonAdapter<DingYueItemBean> mAdapter;
 
     private final String REFRESH_STATUS = "refresh";
     private final String LOADMORE_STATUS = "loadmore";
@@ -118,20 +120,22 @@ public class DingYueFragment
 
     private void buildRecyclerView() {
 
-        mAdapter = new CommonAdapter<ShouCangItemBean>(activity, R.layout.item_dingyue_list, mListData) {
+        mAdapter = new CommonAdapter<DingYueItemBean>(activity, R.layout.item_dingyue_list, mListData) {
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
 
-                final String item_id = mListData.get(position).getItem_info().getItem_id();
+                final String item_id = mListData.get(position).getAlbum_info().getAlbum_id();
                 if (guanli_tag == 0) {
                     holder.getView(R.id.cb_check).setVisibility(View.GONE);
                 } else {
                     holder.getView(R.id.cb_check).setVisibility(View.VISIBLE);
 
                 }
+                ((TextView) holder.getView(R.id.tv_item_name)).setText(mListData.get(position).getAlbum_info().getAlbum_name());
+                ((TextView) holder.getView(R.id.tv_item_num_pic)).setText(mListData.get(position).getAlbum_info().getItem_num() + "张");
+                ((TextView) holder.getView(R.id.tv_item_num_dingyue)).setText(mListData.get(position).getAlbum_info().getSubscribe_num() + "订阅");
 
-//                holder.getView(R.id.iv_shoucang_image).setTag(mListData.get(position).getItem_info().getItem_id());
-                ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(),
+                ImageUtils.displayFilletImage(mListData.get(position).getAlbum_info().getCover_image().getImg0(),
                         (ImageView) holder.getView(R.id.iv_shoucang_image));
                 ((CheckBox) holder.getView(R.id.cb_check)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
@@ -150,12 +154,12 @@ public class DingYueFragment
                         upCheckedStatus();
                     }
                 });
-                holder.getView(R.id.iv_shoucang_image).setOnClickListener(new View.OnClickListener() {
+                holder.getView(R.id.rl_item_dingyue).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                         if (guanli_tag == 0) {//未打开管理
-                            jumpImageDetail(mListData.get(position).getItem_info().getItem_id());
+//                            jumpImageDetail(mListData.get(position).getItem_info().getItem_id());
                         } else {
                             if (((CheckBox) holder.getView(R.id.cb_check)).isChecked()) {
                                 ((CheckBox) holder.getView(R.id.cb_check)).setChecked(false);
@@ -357,10 +361,10 @@ public class DingYueFragment
                         String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                         String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                         if (error_code == 0) {
-                            ShouCangBean shouCangBean = GsonUtil.jsonToBean(data_msg, ShouCangBean.class);
-                            if (null != shouCangBean.getItem_list() && 0 != shouCangBean.getItem_list().size()) {
+                            DingYueBean dingYueBean = GsonUtil.jsonToBean(data_msg, DingYueBean.class);
+                            if (null != dingYueBean.getAlbum_list() && 0 != dingYueBean.getAlbum_list().size()) {
                                 changeNone(0);
-                                updateViewFromData(shouCangBean.getItem_list(), state);
+                                updateViewFromData(dingYueBean.getAlbum_list(), state);
                             } else {
                                 changeNone(1);
                                 updateViewFromData(null, state);
@@ -383,10 +387,10 @@ public class DingYueFragment
                 }
             }
         };
-        MyHttpManager.getInstance().getShouCangList(user_id, (page_num - 1) * 20, "20", callback);
+        MyHttpManager.getInstance().getDingYueList(user_id, (page_num - 1) * 20, "20", callback);
     }
 
-    private void updateViewFromData(List<ShouCangItemBean> listData, String state) {
+    private void updateViewFromData(List<DingYueItemBean> listData, String state) {
 
         switch (state) {
 
