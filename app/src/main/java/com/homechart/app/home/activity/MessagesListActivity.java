@@ -57,6 +57,7 @@ public class MessagesListActivity extends BaseActivity
     private int collect_notice;
     private int comment_notice;
     private int system_notice;
+    private int subscribe_notice;
 
     @Override
     protected int getLayoutResId() {
@@ -72,6 +73,7 @@ public class MessagesListActivity extends BaseActivity
         collect_notice = getIntent().getIntExtra("collect_notice", 0);
         comment_notice = getIntent().getIntExtra("comment_notice", 0);
         system_notice = getIntent().getIntExtra("system_notice", 0);
+        subscribe_notice = getIntent().getIntExtra("subscribe_notice", 0);
 
     }
 
@@ -121,16 +123,19 @@ public class MessagesListActivity extends BaseActivity
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         vp_viewpager.setAdapter(myPagerAdapter);
         stl_tab.setViewPager(vp_viewpager);
-        stl_tab.setCurrentTab(3);
+        stl_tab.setCurrentTab(4);
         if (notice_num > 0) {
             if (follow_notice > 0) {
                 stl_tab.showMsg(0, follow_notice);
             }
+            if (subscribe_notice > 0) {
+                stl_tab.showMsg(1, subscribe_notice);
+            }
             if (collect_notice > 0) {
-                stl_tab.showMsg(1, collect_notice);
+                stl_tab.showMsg(2, collect_notice);
             }
             if (comment_notice > 0) {
-                stl_tab.showMsg(2, comment_notice);
+                stl_tab.showMsg(3, comment_notice);
             }
 //            if (system_notice > 0) {
 //                stl_tab.showMsg(3, system_notice);

@@ -42,6 +42,7 @@ public class UnreadMsgUtils {
                 msgView.setPadding((int) (6 * dm.density), 0, (int) (6 * dm.density), 0);
                 msgView.setText("99+");
             }
+            lp.setMargins(5,0,15,0);
             msgView.setLayoutParams(lp);
         }
     }
