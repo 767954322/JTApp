@@ -20,6 +20,7 @@ import com.homechart.app.home.bean.msgdingyue.MsgDingYue;
 import com.homechart.app.home.bean.msgguanzhu.MsgGZBean;
 import com.homechart.app.home.bean.msgguanzhu.MsgNoticeBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
@@ -115,13 +116,22 @@ public class XXDingYueFragment
         };
         mAdapter = new MultiItemCommonAdapter<DingYueItemBean>(activity, mListData, support) {
             @Override
-            public void convert(BaseViewHolder holder, int position) {
+            public void convert(BaseViewHolder holder, final int position) {
 
                 ImageUtils.displayRoundImage(mListData.get(position).getUser_info().getAvatar(), (RoundImageView) holder.getView(R.id.riv_header));
                 ImageUtils.disRectangleImage(mListData.get(position).getImage().getImg0(), (ImageView) holder.getView(R.id.iv_imageview));
                 ((TextView) holder.getView(R.id.tv_name)).setText(mListData.get(position).getUser_info().getNickname());
                 ((TextView) holder.getView(R.id.tv_content)).setText(mListData.get(position).getContent());
                 ((TextView) holder.getView(R.id.tv_time)).setText(mListData.get(position).getAdd_time());
+
+                holder.getView(R.id.riv_header).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(activity, UserInfoActivity.class);
+                        intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+                        startActivity(intent);
+                    }
+                });
 
             }
         };
@@ -154,9 +164,12 @@ public class XXDingYueFragment
 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-        Intent intent = new Intent(activity, UserInfoActivity.class);
-        intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+        Intent intent = new Intent(activity, InspirationDetailActivity.class);
+        intent.putExtra("user_id", user_id);
+        intent.putExtra("ifHideEdit", true);
+        intent.putExtra("album_id", mListData.get(position).getObject_id());
         startActivity(intent);
+
     }
 
     private void getListData(final String state) {
