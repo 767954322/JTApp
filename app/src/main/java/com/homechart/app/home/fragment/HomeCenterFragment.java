@@ -17,6 +17,7 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.home.activity.DingYueListActivity;
 import com.homechart.app.home.activity.FenSiListActivity;
 import com.homechart.app.home.activity.GuanZuListActivity;
 import com.homechart.app.home.activity.HomeActivity;
@@ -205,8 +206,9 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
 
                 break;
             case R.id.rl_shoucang:
-                Intent intent_shoucang = new Intent(activity, ShouCangListActivity.class);
+                Intent intent_shoucang = new Intent(activity, DingYueListActivity.class);
                 startActivity(intent_shoucang);
+
                 break;
             case R.id.rl_shaijia:
 
