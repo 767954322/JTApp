@@ -130,6 +130,8 @@ public class InspirationDetailActivity extends BaseActivity
     private ImageView iv_more_miaosu_no;
     private ImageView iv_item_miaosu_more;
     private ImageView iv_item_miaosu_more1;
+    private TextView tv_test_list;
+    private TextView tv_test_list_pubu;
 
     @Override
     protected int getLayoutResId() {
@@ -182,6 +184,8 @@ public class InspirationDetailActivity extends BaseActivity
         tv_dingyue_name1 = (TextView) this.findViewById(R.id.tv_dingyue_name1);
         tv_dingyue_name_no = (TextView) this.findViewById(R.id.tv_dingyue_name_no);
         tv_test = (TextView) this.findViewById(R.id.tv_test);
+        tv_test_list = (TextView) this.findViewById(R.id.tv_test_list);
+        tv_test_list_pubu = (TextView) this.findViewById(R.id.tv_test_list_pubu);
         iv_more_miaosu = (ImageView) this.findViewById(R.id.iv_more_miaosu);
         iv_more_miaosu_no = (ImageView) this.findViewById(R.id.iv_more_miaosu_no);
 
@@ -438,8 +442,8 @@ public class InspirationDetailActivity extends BaseActivity
                     }
                     holder.getView(R.id.tv_item_miaosu1).setVisibility(View.VISIBLE);
                     holder.getView(R.id.tv_item_miaosu).setVisibility(View.GONE);
-//                    holder.getView(R.id.iv_item_miaosu_more).setVisibility(View.GONE);
-//                    holder.getView(R.id.iv_item_miaosu_more1).setVisibility(View.VISIBLE);
+                    holder.getView(R.id.iv_item_miaosu_more).setVisibility(View.GONE);
+                    holder.getView(R.id.iv_item_miaosu_more1).setVisibility(View.VISIBLE);
                     holder.getView(R.id.view_bottom).setVisibility(View.GONE);
                 } else {//瀑布流
                     if (ifHideEdit) {
@@ -457,29 +461,38 @@ public class InspirationDetailActivity extends BaseActivity
                     }
                     holder.getView(R.id.tv_item_miaosu1).setVisibility(View.GONE);
                     holder.getView(R.id.tv_item_miaosu).setVisibility(View.VISIBLE);
-//                    holder.getView(R.id.iv_item_miaosu_more).setVisibility(View.VISIBLE);
-//                    holder.getView(R.id.iv_item_miaosu_more1).setVisibility(View.GONE);
+                    holder.getView(R.id.iv_item_miaosu_more).setVisibility(View.VISIBLE);
+                    holder.getView(R.id.iv_item_miaosu_more1).setVisibility(View.GONE);
                 }
                 if (TextUtils.isEmpty(mListData.get(position).getItem_info().getDescription().trim())) {
                     ((TextView) holder.getView(R.id.tv_item_miaosu)).setVisibility(View.GONE);
                     ((TextView) holder.getView(R.id.tv_item_miaosu1)).setVisibility(View.GONE);
-//                    ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
-//                    ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
+                    ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
+                    ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
                 } else {
                     ((TextView) holder.getView(R.id.tv_item_miaosu)).setText(mListData.get(position).getItem_info().getDescription());
                     ((TextView) holder.getView(R.id.tv_item_miaosu1)).setText(mListData.get(position).getItem_info().getDescription());
-//                    if (!strMiao.equals(mListData.get(position).getItem_info().getDescription())){
-//                        if (curentListTag) {
-//                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
-//                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.VISIBLE);
-//                        } else {
-//                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.VISIBLE);
-//                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
-//                        }
-//                    } else{
-//                        ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
-//                        ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
-//                    }
+                   int countList = getListTextLines(mListData.get(position).getItem_info().getDescription());
+                   int countPuBu = getPuBuTextLines(mListData.get(position).getItem_info().getDescription());
+
+                   if(curentListTag){
+                       if(countList > 1){
+                           ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.VISIBLE);
+                           ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
+                       }else {
+                           ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
+                           ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
+                       }
+                   }else {
+                       if(countPuBu > 1){
+                           ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
+                           ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.VISIBLE);
+                       }else {
+                           ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
+                           ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
+                       }
+                   }
+
                 }
                 ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_item_pic).getLayoutParams();
                 if (curentListTag) {
@@ -940,6 +953,19 @@ public class InspirationDetailActivity extends BaseActivity
             }
         };
         MyHttpManager.getInstance().removeInspiration(mAlbumId, callBack);
+    }
+
+    public int getListTextLines(String str) {
+
+        tv_test_list.setText(str);
+        int count = tv_test_list.getLineCount();
+        return count;
+    }
+
+    public int getPuBuTextLines(String str) {
+        tv_test_list_pubu.setText(str);
+        int count = tv_test_list_pubu.getLineCount();
+        return count;
     }
 
 }
