@@ -57,7 +57,7 @@ public class DingYueFragment
         OnRefreshListener {
 
     private FragmentManager fragmentManager;
-    private ImageView iv_delete_icon;
+    private TextView tv_delete_icon;
     private RelativeLayout rl_below;
     private RelativeLayout rl_no_data;
     private TextView tv_shoucang_two;
@@ -92,7 +92,7 @@ public class DingYueFragment
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_shoucang_pic;
+        return R.layout.fragment_dingyue;
     }
 
     @Override
@@ -100,7 +100,7 @@ public class DingYueFragment
 
         rl_below = (RelativeLayout) rootView.findViewById(R.id.rl_below);
         rl_no_data = (RelativeLayout) rootView.findViewById(R.id.rl_no_data);
-        iv_delete_icon = (ImageView) rootView.findViewById(R.id.iv_delete_icon);
+        tv_delete_icon = (TextView) rootView.findViewById(R.id.tv_delete_icon);
         tv_shoucang_two = (TextView) rootView.findViewById(R.id.tv_shoucang_two);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_shoucang);
 
@@ -108,7 +108,7 @@ public class DingYueFragment
 
     @Override
     protected void initListener() {
-        iv_delete_icon.setOnClickListener(this);
+        tv_delete_icon.setOnClickListener(this);
     }
 
     @Override
@@ -152,6 +152,12 @@ public class DingYueFragment
                             --num_checked;
                         }
                         upCheckedStatus();
+
+                        if (map_delete.size() > 0) {
+                            selectPic(true);
+                        } else {
+                            selectPic(false);
+                        }
                     }
                 });
                 holder.getView(R.id.rl_item_dingyue).setOnClickListener(new View.OnClickListener() {
@@ -199,7 +205,7 @@ public class DingYueFragment
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.iv_delete_icon:
+            case R.id.tv_delete_icon:
 
                 if (map_delete.size() > 0) {
                     CustomProgress.show(activity, "正在删除...", false, null);
@@ -245,10 +251,7 @@ public class DingYueFragment
                         }
                     };
                     MyHttpManager.getInstance().deleteShouCang(delete_items, callBack);
-                } else {
-                    ToastUtils.showCenter(activity, "请选择删除项");
                 }
-
                 break;
         }
 
@@ -289,7 +292,7 @@ public class DingYueFragment
                 mAdapter.notifyDataSetChanged();
             }
         } else {
-            ToastUtils.showCenter(activity, "先去发布一些图片吧");
+            ToastUtils.showCenter(activity, "先去订阅一些专辑吧");
         }
     }
 
@@ -435,5 +438,18 @@ public class DingYueFragment
             }
 
         }
+    }
+
+
+    private void selectPic(boolean boo) {
+
+        if (boo) {
+            tv_delete_icon.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+            tv_delete_icon.setBackgroundResource(R.drawable.bg_inspiration_delete);
+        } else {
+            tv_delete_icon.setTextColor(UIUtils.getColor(R.color.bg_fff));
+            tv_delete_icon.setBackgroundResource(R.drawable.bg_inspiration_default);
+        }
+
     }
 }
