@@ -4,73 +4,83 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="@dimen/font_50"
+    android:paddingBottom="@dimen/font_50"
     android:background="@drawable/text_view_border3">
-
-    <ScrollView
-        android:id="@+id/sv_content"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/font_430"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="@dimen/font_15"
-        android:layout_marginRight="@dimen/font_15"
-        android:background="@drawable/back_jubao">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-            <RelativeLayout
-                android:id="@+id/rl_inspiration_userinfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/font_20"
-                android:layout_marginRight="@dimen/font_20"
-                android:layout_marginTop="@dimen/font_20">
-
-                <ImageView
-                    android:id="@+id/iv_user_header"
-                    android:layout_width="@dimen/font_24"
-                    android:layout_height="@dimen/font_24"
-                    android:layout_centerVertical="true" />
-
-                <TextView
-                    android:id="@+id/tv_user_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/font_10"
-                    android:layout_toRightOf="@+id/iv_user_header"
-                    android:textColor="@color/bg_464646"
-                    android:textSize="@dimen/size_12" />
-
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/tv_inspiration_miaosu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rl_inspiration_userinfo"
-                android:layout_marginBottom="@dimen/font_20"
-                android:layout_marginLeft="@dimen/font_20"
-                android:layout_marginRight="@dimen/font_20"
-                android:layout_marginTop="@dimen/font_15"
-                android:includeFontPadding="false"
-                android:lineSpacingExtra="@dimen/font_8"
-                android:textColor="@color/bg_464646"
-                android:textSize="@dimen/size_14" />
-
-        </RelativeLayout>
-
-    </ScrollView>
 
     <ImageView
         android:id="@+id/iv_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sv_content"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/font_25"
+        android:layout_marginTop="@dimen/font_30"
         android:src="@drawable/gaunbitankuang" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/iv_close">
+        <ScrollView
+            android:id="@+id/sv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/font_15"
+            android:layout_marginRight="@dimen/font_15"
+            android:layout_centerVertical="true"
+            android:background="@drawable/back_jubao">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <RelativeLayout
+                    android:id="@+id/rl_inspiration_userinfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/font_20"
+                    android:layout_marginRight="@dimen/font_20"
+                    android:layout_marginTop="@dimen/font_20">
+
+                    <ImageView
+                        android:id="@+id/iv_user_header"
+                        android:layout_width="@dimen/font_24"
+                        android:layout_height="@dimen/font_24"
+                        android:layout_centerVertical="true" />
+
+                    <TextView
+                        android:id="@+id/tv_user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/font_10"
+                        android:layout_toRightOf="@+id/iv_user_header"
+                        android:textColor="@color/bg_464646"
+                        android:textSize="@dimen/size_12" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_inspiration_miaosu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rl_inspiration_userinfo"
+                    android:layout_marginBottom="@dimen/font_20"
+                    android:layout_marginLeft="@dimen/font_20"
+                    android:layout_marginRight="@dimen/font_20"
+                    android:layout_marginTop="@dimen/font_15"
+                    android:includeFontPadding="false"
+                    android:lineSpacingExtra="@dimen/font_8"
+                    android:textColor="@color/bg_464646"
+                    android:textSize="@dimen/size_14" />
+
+            </RelativeLayout>
+
+        </ScrollView>
+    </RelativeLayout>
+
+
+
 
 </RelativeLayout>

@@ -72,11 +72,6 @@ public class InspritionPop extends PopupWindow implements View.OnClickListener {
 
     private void initData() {
 
-        width = PublicUtils.getScreenWidth(mContext) - UIUtils.getDimens(R.dimen.font_30);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) sv_content.getLayoutParams();
-        layoutParams.width = width;
-        layoutParams.height = (int) (PublicUtils.getScreenHeight(mContext) * 0.6);
-        sv_content.setLayoutParams(layoutParams);
         tv_inspiration_miaosu.setText(mInsPicItemBean.getItem_info().getDescription());
         ImageUtils.displayFilletImage(mInsPicItemBean.getItem_info().getImage().getImg0(), iv_pic);
     }

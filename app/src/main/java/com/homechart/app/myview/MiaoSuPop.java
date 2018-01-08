@@ -73,11 +73,7 @@ public class MiaoSuPop extends PopupWindow implements View.OnClickListener {
     }
 
     private void initData() {
-        width = PublicUtils.getScreenWidth(mContext) - UIUtils.getDimens(R.dimen.font_30);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) sv_content.getLayoutParams();
-        layoutParams.width = width;
-        layoutParams.height = (int) (PublicUtils.getScreenHeight(mContext) * 0.6);
-        sv_content.setLayoutParams(layoutParams);
+
         tv_user_name.setText(mInspirationDetailBean.getInfo().getUser_info().getNickname());
         tv_inspiration_miaosu.setText(mInspirationDetailBean.getInfo().getAlbum_info().getDescription());
         ImageUtils.displayRoundImage(mInspirationDetailBean.getInfo().getUser_info().getAvatar().getThumb(), iv_user_header);
