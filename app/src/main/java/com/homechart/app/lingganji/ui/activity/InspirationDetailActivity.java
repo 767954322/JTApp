@@ -437,9 +437,9 @@ public class InspirationDetailActivity extends BaseActivity
                         holder.getView(R.id.iv_item_edite).setVisibility(View.GONE);
                     }
                     holder.getView(R.id.tv_item_miaosu1).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_item_miaosu_more1).setVisibility(View.VISIBLE);
                     holder.getView(R.id.tv_item_miaosu).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_item_miaosu_more).setVisibility(View.GONE);
+//                    holder.getView(R.id.iv_item_miaosu_more).setVisibility(View.GONE);
+//                    holder.getView(R.id.iv_item_miaosu_more1).setVisibility(View.VISIBLE);
                     holder.getView(R.id.view_bottom).setVisibility(View.GONE);
                 } else {//瀑布流
                     if (ifHideEdit) {
@@ -456,15 +456,15 @@ public class InspirationDetailActivity extends BaseActivity
                         holder.getView(R.id.iv_item_edite1).setVisibility(View.GONE);
                     }
                     holder.getView(R.id.tv_item_miaosu1).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_item_miaosu_more1).setVisibility(View.GONE);
                     holder.getView(R.id.tv_item_miaosu).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_item_miaosu_more).setVisibility(View.VISIBLE);
+//                    holder.getView(R.id.iv_item_miaosu_more).setVisibility(View.VISIBLE);
+//                    holder.getView(R.id.iv_item_miaosu_more1).setVisibility(View.GONE);
                 }
                 if (TextUtils.isEmpty(mListData.get(position).getItem_info().getDescription().trim())) {
                     ((TextView) holder.getView(R.id.tv_item_miaosu)).setVisibility(View.GONE);
                     ((TextView) holder.getView(R.id.tv_item_miaosu1)).setVisibility(View.GONE);
-                    ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
-                    ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
+//                    ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
+//                    ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
                 } else {
                     ((TextView) holder.getView(R.id.tv_item_miaosu)).setText(mListData.get(position).getItem_info().getDescription());
                     ((TextView) holder.getView(R.id.tv_item_miaosu1)).setText(mListData.get(position).getItem_info().getDescription());
