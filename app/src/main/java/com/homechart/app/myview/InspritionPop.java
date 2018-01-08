@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.homechart.app.R;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.lingganji.common.entity.inspirationdetail.InspirationDetailBean;
+import com.homechart.app.lingganji.common.entity.inspirationpics.InsPicItemBean;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 
@@ -23,18 +24,17 @@ public class InspritionPop extends PopupWindow implements View.OnClickListener {
 
 
     private View view;
-    private InspirationDetailBean mInspirationDetailBean;
+    private InsPicItemBean mInsPicItemBean;
     private Context mContext;
     private ScrollView sv_content;
     private int width;
     private ImageView iv_pic;
-    private TextView tv_user_name;
     private TextView tv_inspiration_miaosu;
     private ImageView iv_close;
 
-    public InspritionPop(Context context, InspirationDetailBean inspirationDetailBean) {
+    public InspritionPop(Context context, InsPicItemBean insPicItemBean) {
         this.mContext = context;
-        this.mInspirationDetailBean = inspirationDetailBean;
+        this.mInsPicItemBean = insPicItemBean;
         this.view = LayoutInflater.from(mContext).inflate(R.layout.layout_pop_pic_miaosu, null);
         initView();
         initListener();
@@ -71,14 +71,14 @@ public class InspritionPop extends PopupWindow implements View.OnClickListener {
     }
 
     private void initData() {
+
         width = PublicUtils.getScreenWidth(mContext) - UIUtils.getDimens(R.dimen.font_30);
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) sv_content.getLayoutParams();
         layoutParams.width = width;
         layoutParams.height = (int) (PublicUtils.getScreenHeight(mContext) * 0.6);
         sv_content.setLayoutParams(layoutParams);
-        tv_user_name.setText(mInspirationDetailBean.getInfo().getUser_info().getNickname());
-        tv_inspiration_miaosu.setText(mInspirationDetailBean.getInfo().getAlbum_info().getDescription());
-        ImageUtils.displayRoundImage(mInspirationDetailBean.getInfo().getUser_info().getAvatar().getThumb(), iv_pic);
+        tv_inspiration_miaosu.setText(mInsPicItemBean.getItem_info().getDescription());
+        ImageUtils.displayFilletImage(mInsPicItemBean.getItem_info().getImage().getImg0(), iv_pic);
     }
 
     @Override
