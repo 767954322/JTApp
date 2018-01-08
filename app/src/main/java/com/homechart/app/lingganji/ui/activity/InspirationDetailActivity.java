@@ -38,6 +38,7 @@ import com.homechart.app.lingganji.common.entity.inspirationpics.InsPicItemBean;
 import com.homechart.app.lingganji.common.entity.inspirationpics.InsPicsBean;
 import com.homechart.app.lingganji.common.view.InspirationImageEditPop;
 import com.homechart.app.lingganji.contract.InterPopBottom;
+import com.homechart.app.myview.MiaoSuPop;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
@@ -278,8 +279,17 @@ public class InspirationDetailActivity extends BaseActivity
                 break;
             case R.id.iv_more_miaosu_no:
             case R.id.iv_more_miaosu:
-
-
+                if (null != inspirationDetailBean) {
+                    MiaoSuPop miaoSuPop = new MiaoSuPop(InspirationDetailActivity.this, inspirationDetailBean);
+                    //软键盘如果打开的话，关闭软键盘
+                    boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+                    if (isOpen) {
+                        if (getCurrentFocus() != null) {//强制关闭软键盘
+                            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                        }
+                    }
+                    miaoSuPop.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                }
                 break;
         }
 
