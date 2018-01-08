@@ -159,14 +159,17 @@ public class InspirationSeriesActivity extends BaseActivity
 
                 if (defalsePosition == position) {
                     holder.getView(R.id.rl_item_inspiration_content).setBackgroundResource(R.drawable.bg_item_inspiration);
+                    holder.getView(R.id.iv_choose).setVisibility(View.VISIBLE);
                 } else {
                     holder.getView(R.id.rl_item_inspiration_content).setBackgroundResource(R.drawable.bg_item_inspiration_null);
+                    holder.getView(R.id.iv_choose).setVisibility(View.GONE);
                 }
 
                 holder.getView(R.id.rl_item_inspiration).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         holder.getView(R.id.rl_item_inspiration_content).setBackgroundResource(R.drawable.bg_item_inspiration);
+                        holder.getView(R.id.iv_choose).setVisibility(View.VISIBLE);
                         int beforePosition = defalsePosition;
                         defalsePosition = position;
                         mAdapter.notifyItemChanged(beforePosition);

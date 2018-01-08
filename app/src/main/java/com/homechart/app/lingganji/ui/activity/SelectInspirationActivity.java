@@ -62,7 +62,7 @@ public class SelectInspirationActivity extends BaseActivity
     private final String LOADMORE_STATUS = "loadmore";
     private int page_num = 1;
     private int position;
-    private int defalsePosition = 0;
+    private int defalsePosition = -1;
     private RelativeLayout mRLAddInspiration;
     private TextView mTVSureAdd;
     private String item_id;
@@ -112,14 +112,14 @@ public class SelectInspirationActivity extends BaseActivity
             startActivityForResult(intent, 1);
 
         } else if (i == R.id.tv_sure_add) {
-            if (mListData.size() > 0) {
+            if (mListData.size() > 0 && defalsePosition != -1) {
                 if (mType.equals("copy")) {
                     copePic(mListData.get(defalsePosition).getAlbum_info().getAlbum_id());
                 } else if (mType.equals("move")) {
                     movePic(mListData.get(defalsePosition).getAlbum_info().getAlbum_id());
                 }
             } else {
-                ToastUtils.showCenter(mContext, "请先创建灵感辑");
+                ToastUtils.showCenter(mContext, "请先选择灵感辑");
             }
         }
     }
@@ -156,17 +156,22 @@ public class SelectInspirationActivity extends BaseActivity
 
                 if (defalsePosition == position) {
                     holder.getView(R.id.rl_item_inspiration_content).setBackgroundResource(R.drawable.bg_item_inspiration);
+                    holder.getView(R.id.iv_choose).setVisibility(View.VISIBLE);
                 } else {
                     holder.getView(R.id.rl_item_inspiration_content).setBackgroundResource(R.drawable.bg_item_inspiration_null);
+                    holder.getView(R.id.iv_choose).setVisibility(View.GONE);
                 }
 
                 holder.getView(R.id.rl_item_inspiration).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         holder.getView(R.id.rl_item_inspiration_content).setBackgroundResource(R.drawable.bg_item_inspiration);
+                        holder.getView(R.id.iv_choose).setVisibility(View.VISIBLE);
                         int beforePosition = defalsePosition;
                         defalsePosition = position;
-                        mAdapter.notifyItemChanged(beforePosition);
+                        if (beforePosition != -1) {
+                            mAdapter.notifyItemChanged(beforePosition);
+                        }
                     }
                 });
 
@@ -262,7 +267,7 @@ public class SelectInspirationActivity extends BaseActivity
 
     @Override
     public void onRefresh() {
-        defalsePosition = 0;
+        defalsePosition = -1;
         page_num = 1;
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
         getInspirationsData(REFRESH_STATUS);
