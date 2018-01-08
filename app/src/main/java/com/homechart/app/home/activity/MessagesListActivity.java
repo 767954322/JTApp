@@ -19,6 +19,7 @@ import com.homechart.app.R;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.fragment.ShouCangArticleFragment;
 import com.homechart.app.home.fragment.ShouCangPicFragment;
+import com.homechart.app.home.fragment.XXDingYueFragment;
 import com.homechart.app.home.fragment.XXGuanZhuFragment;
 import com.homechart.app.home.fragment.XXMessageFragment;
 import com.homechart.app.home.fragment.XXPingLunFragment;
@@ -41,11 +42,12 @@ public class MessagesListActivity extends BaseActivity
     private TextView mTVTital;
     private SlidingTabLayout stl_tab;
     //页卡标题集合
-    private final String[] mTitles = {"关注", "收藏", "评论", "系统消息"};
+    private final String[] mTitles = {"关注", "订阅", "＋图", "评论", "系统消息"};
     //页卡视图集合
     private List<Fragment> mFragmentsList = new ArrayList<>();
     private CustomViewPagerTab vp_viewpager;
     private XXGuanZhuFragment xxGuanZhuFragment;
+    private XXDingYueFragment xxDingYueFragment;
     private MyPagerAdapter myPagerAdapter;
     private XXShouCangFragment xxShouCangFragment;
     private XXPingLunFragment xxPingLunFragment;
@@ -121,7 +123,7 @@ public class MessagesListActivity extends BaseActivity
         stl_tab.setViewPager(vp_viewpager);
         stl_tab.setCurrentTab(3);
         if (notice_num > 0) {
-            if(follow_notice > 0){
+            if (follow_notice > 0) {
                 stl_tab.showMsg(0, follow_notice);
             }
             if (collect_notice > 0) {
@@ -149,10 +151,12 @@ public class MessagesListActivity extends BaseActivity
 
     private void initFragment() {
         xxGuanZhuFragment = new XXGuanZhuFragment(getSupportFragmentManager());
+        xxDingYueFragment = new XXDingYueFragment(getSupportFragmentManager());
         xxShouCangFragment = new XXShouCangFragment(getSupportFragmentManager());
         xxPingLunFragment = new XXPingLunFragment(getSupportFragmentManager());
         xxMessageFragment = new XXMessageFragment(getSupportFragmentManager());
         mFragmentsList.add(xxGuanZhuFragment);
+        mFragmentsList.add(xxDingYueFragment);
         mFragmentsList.add(xxShouCangFragment);
         mFragmentsList.add(xxPingLunFragment);
         mFragmentsList.add(xxMessageFragment);
@@ -181,9 +185,9 @@ public class MessagesListActivity extends BaseActivity
     @Override
     public void onTabSelect(int position) {
 
-        if(position == 0){
-        }else if(position == 1){
-        }else if(position == 2){
+        if (position == 0) {
+        } else if (position == 1) {
+        } else if (position == 2) {
         }
 
         stl_tab.hideMsg(position);
