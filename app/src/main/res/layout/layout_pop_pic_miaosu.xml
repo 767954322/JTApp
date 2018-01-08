@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/text_view_border3">
+
+    <ScrollView
+        android:id="@+id/sv_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_430"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/font_15"
+        android:layout_marginRight="@dimen/font_15"
+        android:background="@drawable/back_jubao">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <ImageView
+                android:id="@+id/iv_pic"
+                android:layout_width="@dimen/font_56"
+                android:layout_height="@dimen/font_56"
+                android:layout_marginTop="@dimen/font_25"
+                android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:id="@+id/tv_inspiration_miaosu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_pic"
+                android:layout_marginBottom="@dimen/font_20"
+                android:layout_marginLeft="@dimen/font_20"
+                android:layout_marginRight="@dimen/font_20"
+                android:layout_marginTop="@dimen/font_25"
+                android:includeFontPadding="false"
+                android:lineSpacingExtra="@dimen/font_8"
+                android:textColor="@color/bg_464646"
+                android:textSize="@dimen/size_14" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sv_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/font_25"
+        android:src="@drawable/gaunbitankuang" />
+
+</RelativeLayout>

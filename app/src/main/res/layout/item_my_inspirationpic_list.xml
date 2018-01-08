@@ -22,8 +22,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="@dimen/font_10"
         android:layout_marginRight="@dimen/font_10"
-        android:visibility="gone"
-        android:src="@drawable/delete1" />
+        android:src="@drawable/delete1"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/iv_item_edite1"
@@ -32,8 +32,8 @@
         android:layout_alignBottom="@+id/iv_item_delete1"
         android:layout_marginRight="@dimen/font_15"
         android:layout_toLeftOf="@+id/iv_item_delete1"
-        android:visibility="gone"
-        android:src="@drawable/bianji1" />
+        android:src="@drawable/bianji1"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_item_miaosu"
@@ -42,10 +42,22 @@
         android:layout_below="@+id/iv_item_pic"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/font_10"
-        android:layout_marginRight="@dimen/font_10"
+        android:layout_marginRight="@dimen/font_25"
         android:layout_marginTop="@dimen/font_12"
+        android:maxLines="1"
         android:textColor="@color/bg_464646"
         android:textSize="@dimen/font_14" />
+
+    <ImageView
+        android:id="@+id/iv_item_miaosu_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_item_miaosu"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/font_10"
+        android:src="@drawable/tupianjs"
+        android:visibility="gone" />
+
 
     <TextView
         android:id="@+id/tv_item_miaosu1"
@@ -53,12 +65,23 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_item_pic"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/font_10"
-        android:layout_marginRight="@dimen/font_10"
-        android:layout_marginTop="@dimen/font_12"
         android:layout_marginBottom="@dimen/font_15"
+        android:layout_marginLeft="@dimen/font_10"
+        android:layout_marginRight="@dimen/font_25"
+        android:layout_marginTop="@dimen/font_12"
+        android:maxLines="5"
         android:textColor="@color/bg_464646"
         android:textSize="@dimen/font_14" />
+
+    <ImageView
+        android:id="@+id/iv_item_miaosu_more1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_item_miaosu1"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/font_10"
+        android:src="@drawable/tupianjs"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/iv_item_delete"
@@ -66,9 +89,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/tv_item_miaosu"
-        android:layout_marginTop="@dimen/font_15"
         android:layout_marginBottom="@dimen/font_15"
         android:layout_marginRight="@dimen/font_15"
+        android:layout_marginTop="@dimen/font_15"
         android:src="@drawable/delete2" />
 
     <ImageView
@@ -78,8 +101,8 @@
         android:layout_below="@+id/tv_item_miaosu"
         android:layout_marginBottom="@dimen/font_15"
         android:layout_marginRight="@dimen/font_30"
-        android:layout_toLeftOf="@+id/iv_item_delete"
         android:layout_marginTop="@dimen/font_15"
+        android:layout_toLeftOf="@+id/iv_item_delete"
         android:src="@drawable/bianji2" />
 
     <View
@@ -87,6 +110,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_15"
         android:layout_below="@+id/iv_item_edite"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </RelativeLayout>
