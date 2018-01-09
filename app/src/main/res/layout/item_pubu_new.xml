@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:text=" "
             android:textSize="@dimen/size_14"
-            android:layout_alignParentRight="true"
+            android:visibility="gone"
             android:layout_centerVertical="true"
             android:textColor="@color/bg_8f8f8f"/>
 
@@ -78,7 +78,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:paddingRight="@dimen/font_5"
+            android:layout_alignParentRight="true"
+            android:paddingRight="@dimen/font_10"
+            android:paddingLeft="@dimen/font_10"
             android:layout_toLeftOf="@+id/tv_shoucang_num"
             android:src="@drawable/datuxing"/>
 

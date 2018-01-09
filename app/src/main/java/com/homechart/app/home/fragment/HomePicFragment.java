@@ -537,26 +537,26 @@ public class HomePicFragment
                     }
                 });
 
-                if (mListData.get(position).getItem_info().getCollect_num().trim().equals("0")) {
-                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.INVISIBLE);
-                } else {
-                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.VISIBLE);
-                }
-                ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
+//                if (mListData.get(position).getItem_info().getCollect_num().trim().equals("0")) {
+//                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.INVISIBLE);
+//                } else {
+//                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.VISIBLE);
+//                }
+//                ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
 
-                if (curentListTag) {
-                    if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
-                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.datuxing);
-                    } else {//收藏
-                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.datuxing1);
-                    }
-                } else {
-                    if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
-                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing);
-                    } else {//收藏
-                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing1);
-                    }
-                }
+//                if (curentListTag) {
+//                    if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
+//                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.datuxing);
+//                    } else {//收藏
+//                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.datuxing1);
+//                    }
+//                } else {
+//                    if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
+//                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing);
+//                    } else {//收藏
+//                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing1);
+//                    }
+//                }
             }
         };
 
