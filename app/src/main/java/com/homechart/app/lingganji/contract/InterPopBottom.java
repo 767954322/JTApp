@@ -14,4 +14,6 @@ public interface InterPopBottom {
 
     void onDeleteInspiration();
 
+    void onSharedInspiration();
+
 }

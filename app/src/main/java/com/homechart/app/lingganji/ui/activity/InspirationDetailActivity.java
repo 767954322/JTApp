@@ -34,6 +34,7 @@ import com.homechart.app.commont.contract.AppBarStateChangeListener;
 import com.homechart.app.commont.contract.InterDioalod;
 import com.homechart.app.commont.utils.MyDialog;
 import com.homechart.app.home.activity.ImageDetailLongActivity;
+import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.entity.inspirationdetail.InspirationDetailBean;
@@ -222,6 +223,10 @@ public class InspirationDetailActivity extends BaseActivity
         rl_dingyue.setOnClickListener(this);
         iv_more_miaosu.setOnClickListener(this);
         iv_more_miaosu_no.setOnClickListener(this);
+        mUserHeader.setOnClickListener(this);
+        mUserHeaderNo.setOnClickListener(this);
+        mUserNameNo.setOnClickListener(this);
+        mUserName.setOnClickListener(this);
         mAppbar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
@@ -317,6 +322,16 @@ public class InspirationDetailActivity extends BaseActivity
                         }
                     }
                     miaoSuPop.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                }
+                break;
+            case R.id.iv_user_header:
+            case R.id.iv_user_header_no:
+            case R.id.tv_user_name_no:
+            case R.id.tv_user_name:
+                if (null != inspirationDetailBean) {
+                    Intent intent = new Intent(InspirationDetailActivity.this, UserInfoActivity.class);
+                    intent.putExtra(ClassConstant.LoginSucces.USER_ID, inspirationDetailBean.getInfo().getUser_info().getUser_id());
+                    startActivity(intent);
                 }
                 break;
         }
@@ -973,6 +988,17 @@ public class InspirationDetailActivity extends BaseActivity
             }
         };
         MyHttpManager.getInstance().removeInspiration(mAlbumId, callBack);
+    }
+
+    @Override
+    public void onSharedInspiration() {
+        mInspirationImageEditPop.dismiss();
+        if (inspirationDetailBean != null) {
+            homeSharedPopWinPublic.showAtLocation(InspirationDetailActivity.this.findViewById(R.id.id_main),
+                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
+                    0,
+                    0); //设置layout在PopupWindow中显示的位置
+        }
     }
 
     public int getListTextLines(String str) {
