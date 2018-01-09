@@ -44,8 +44,6 @@
         android:layout_marginLeft="@dimen/font_10"
         android:layout_marginRight="@dimen/font_10"
         android:layout_marginTop="@dimen/font_12"
-        android:layout_toLeftOf="@+id/iv_item_miaosu_more"
-        android:lines="1"
         android:textColor="@color/bg_464646"
         android:textSize="@dimen/font_14" />
 

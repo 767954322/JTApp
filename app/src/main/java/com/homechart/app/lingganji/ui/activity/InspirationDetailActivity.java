@@ -498,7 +498,7 @@ public class InspirationDetailActivity extends BaseActivity
                     }
                     holder.getView(R.id.tv_item_miaosu1).setVisibility(View.VISIBLE);
                     holder.getView(R.id.tv_item_miaosu).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_item_miaosu_more).setVisibility(View.GONE);
+//                    holder.getView(R.id.iv_item_miaosu_more).setVisibility(View.GONE);
 //                    holder.getView(R.id.iv_item_miaosu_more1).setVisibility(View.VISIBLE);
                     holder.getView(R.id.view_bottom).setVisibility(View.GONE);
                 } else {//瀑布流
@@ -517,38 +517,37 @@ public class InspirationDetailActivity extends BaseActivity
                     }
                     holder.getView(R.id.tv_item_miaosu1).setVisibility(View.GONE);
                     holder.getView(R.id.tv_item_miaosu).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_item_miaosu_more).setVisibility(View.VISIBLE);
+//                    holder.getView(R.id.iv_item_miaosu_more).setVisibility(View.VISIBLE);
 //                    holder.getView(R.id.iv_item_miaosu_more1).setVisibility(View.GONE);
                 }
                 if (TextUtils.isEmpty(mListData.get(position).getItem_info().getDescription().trim())) {
                     ((TextView) holder.getView(R.id.tv_item_miaosu)).setVisibility(View.GONE);
                     ((TextView) holder.getView(R.id.tv_item_miaosu1)).setVisibility(View.GONE);
 //                    ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
-                    ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
+//                    ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
                 } else {
                     ((TextView) holder.getView(R.id.tv_item_miaosu)).setText(mListData.get(position).getItem_info().getDescription());
                     ((TextView) holder.getView(R.id.tv_item_miaosu1)).setText(mListData.get(position).getItem_info().getDescription());
                     int countList = getListTextLines(mListData.get(position).getItem_info().getDescription());
                     int countPuBu = getPuBuTextLines(mListData.get(position).getItem_info().getDescription());
 
-                    if (curentListTag) {
-                        if (countList > 1) {
+//                    if (curentListTag) {
+//                        if (countList > 1) {
 //                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.VISIBLE);
-                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
-                        } else {
+//                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
+//                        } else {
 //                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
-                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
-                        }
-                    } else {
-                        if (countPuBu > 1) {
+//                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
+//                        }
+//                    } else {
+//                        if (countPuBu > 1) {
 //                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
-                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.VISIBLE);
-                        } else {
+//                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.VISIBLE);
+//                        } else {
 //                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
-                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
-                        }
-                    }
-
+//                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
+//                }
+//                    }
                 }
                 ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_item_pic).getLayoutParams();
                 if (curentListTag) {
