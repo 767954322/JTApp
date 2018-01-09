@@ -74,7 +74,7 @@ public class UserInfoActivity
     private TextView tv_info_guanzhu_num;
     private TextView tv_info_shaijia_num;
     private TextView tv_info_fensi_num;
-    private Button btn_guanzhu_demand;
+    private TextView btn_guanzhu_demand;
     private RelativeLayout rl_info_guanzhu;
     private RelativeLayout rl_info_shaijia;
     private RelativeLayout rl_info_fensi;
@@ -111,7 +111,7 @@ public class UserInfoActivity
         tv_info_guanzhu_num = (TextView) headerView.findViewById(R.id.tv_info_guanzhu_num);
         tv_info_shaijia_num = (TextView) headerView.findViewById(R.id.tv_info_shaijia_num);
         tv_info_fensi_num = (TextView) headerView.findViewById(R.id.tv_info_fensi_num);
-        btn_guanzhu_demand = (Button) headerView.findViewById(R.id.btn_guanzhu_demand);
+        btn_guanzhu_demand = (TextView) headerView.findViewById(R.id.btn_guanzhu_demand);
         rl_info_zhunaye = (RelativeLayout) headerView.findViewById(R.id.rl_info_zhunaye);
         rl_info_guanzhu = (RelativeLayout) headerView.findViewById(R.id.rl_info_guanzhu);
         rl_info_shaijia = (RelativeLayout) headerView.findViewById(R.id.rl_info_shaijia);
@@ -394,8 +394,8 @@ public class UserInfoActivity
             }
 
             if (userCenterInfoBean.getUser_info().getRelation().equals("0")) {//未关注
-
-                btn_guanzhu_demand.setBackgroundResource(R.drawable.bt_guanzu);
+                btn_guanzhu_demand.setVisibility(View.VISIBLE);
+                btn_guanzhu_demand.setBackgroundResource(R.drawable.bt_guanzu1);
                 btn_guanzhu_demand.setTextColor(UIUtils.getColor(R.color.white));
                 btn_guanzhu_demand.setText("关注Ta");
                 if (first) {
@@ -405,7 +405,8 @@ public class UserInfoActivity
                 }
 
             } else if (userCenterInfoBean.getUser_info().getRelation().equals("1")) {//已关注
-                btn_guanzhu_demand.setBackgroundResource(R.drawable.bt_guanzhu);
+                btn_guanzhu_demand.setVisibility(View.VISIBLE);
+                btn_guanzhu_demand.setBackgroundResource(R.drawable.bt_guanzhu1);
                 btn_guanzhu_demand.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                 btn_guanzhu_demand.setText("已关注");
                 if (first) {
@@ -415,7 +416,8 @@ public class UserInfoActivity
                 }
 
             } else if (userCenterInfoBean.getUser_info().getRelation().equals("2")) {//互相关注
-                btn_guanzhu_demand.setBackgroundResource(R.drawable.bt_guanzhu);
+                btn_guanzhu_demand.setVisibility(View.VISIBLE);
+                btn_guanzhu_demand.setBackgroundResource(R.drawable.bt_guanzhu1);
                 btn_guanzhu_demand.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                 btn_guanzhu_demand.setText("互相关注");
                 if (first) {

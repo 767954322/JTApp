@@ -172,16 +172,18 @@
 
         </RelativeLayout>
 
-        <Button
+        <TextView
             android:id="@+id/btn_guanzhu_demand"
             android:layout_width="@dimen/font_90"
             android:layout_height="@dimen/font_30"
             android:layout_below="@+id/rl_info_num"
             android:layout_centerHorizontal="true"
             android:textAllCaps="false"
+            android:gravity="center"
             android:layout_marginTop="@dimen/font_30"
             android:layout_marginBottom="@dimen/font_30"
             android:background="@drawable/bt_guanzu1"
+            android:visibility="invisible"
             android:textColor="@color/white"
             android:textSize="@dimen/font_13" />
 
