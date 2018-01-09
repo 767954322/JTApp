@@ -43,7 +43,7 @@ public class MessagesListActivity extends BaseActivity
     private TextView mTVTital;
     private SlidingTabLayout stl_tab;
     //页卡标题集合
-    private final String[] mTitles = {"关注", "订阅", "＋图", "评论", "系统消息"};
+    private final String[] mTitles = {"关注", "订阅", "收藏", "评论", "系统消息"};
     //页卡视图集合
     private List<Fragment> mFragmentsList = new ArrayList<>();
     private CustomViewPagerTab vp_viewpager;
