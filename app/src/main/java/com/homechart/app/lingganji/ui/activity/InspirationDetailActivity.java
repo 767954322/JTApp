@@ -25,12 +25,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.google.android.gms.analytics.HitBuilders;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.commont.contract.AppBarStateChangeListener;
 import com.homechart.app.commont.contract.InterDioalod;
 import com.homechart.app.commont.utils.MyDialog;
+import com.homechart.app.home.activity.ImageDetailLongActivity;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.entity.inspirationdetail.InspirationDetailBean;
@@ -38,6 +41,7 @@ import com.homechart.app.lingganji.common.entity.inspirationpics.InsPicItemBean;
 import com.homechart.app.lingganji.common.entity.inspirationpics.InsPicsBean;
 import com.homechart.app.lingganji.common.view.InspirationImageEditPop;
 import com.homechart.app.lingganji.contract.InterPopBottom;
+import com.homechart.app.myview.HomeSharedPopWinPublic;
 import com.homechart.app.myview.InspritionPop;
 import com.homechart.app.myview.MiaoSuPop;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
@@ -54,11 +58,18 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class InspirationDetailActivity extends BaseActivity
@@ -66,7 +77,8 @@ public class InspirationDetailActivity extends BaseActivity
         OnLoadMoreListener,
         OnRefreshListener,
         InterDioalod,
-        InterPopBottom {
+        InterPopBottom,
+        HomeSharedPopWinPublic.ClickInter {
     private String mUserId;
     private TextView mTital;
     private TextView mRightCreate;
@@ -132,6 +144,7 @@ public class InspirationDetailActivity extends BaseActivity
     private ImageView iv_item_miaosu_more1;
     private TextView tv_test_list;
     private TextView tv_test_list_pubu;
+    private HomeSharedPopWinPublic homeSharedPopWinPublic;
 
     @Override
     protected int getLayoutResId() {
@@ -274,7 +287,12 @@ public class InspirationDetailActivity extends BaseActivity
                 break;
             case R.id.nav_secondary_imageButton:
                 if (ifUser == 1) {//不是本人
-
+                    if (inspirationDetailBean != null) {
+                        homeSharedPopWinPublic.showAtLocation(InspirationDetailActivity.this.findViewById(R.id.id_main),
+                                Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
+                                0,
+                                0); //设置layout在PopupWindow中显示的位置
+                    }
                 } else if (ifUser == 2) {//本人
                     //软键盘如果打开的话，关闭软键盘
                     boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
@@ -307,6 +325,8 @@ public class InspirationDetailActivity extends BaseActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+        homeSharedPopWinPublic = new HomeSharedPopWinPublic(InspirationDetailActivity.this, InspirationDetailActivity.this);
         mTital.setText("灵感辑");
         mRightIcon.setImageResource(R.drawable.gengduo);
         mRightIcon.setVisibility(View.GONE);
@@ -472,26 +492,26 @@ public class InspirationDetailActivity extends BaseActivity
                 } else {
                     ((TextView) holder.getView(R.id.tv_item_miaosu)).setText(mListData.get(position).getItem_info().getDescription());
                     ((TextView) holder.getView(R.id.tv_item_miaosu1)).setText(mListData.get(position).getItem_info().getDescription());
-                   int countList = getListTextLines(mListData.get(position).getItem_info().getDescription());
-                   int countPuBu = getPuBuTextLines(mListData.get(position).getItem_info().getDescription());
+                    int countList = getListTextLines(mListData.get(position).getItem_info().getDescription());
+                    int countPuBu = getPuBuTextLines(mListData.get(position).getItem_info().getDescription());
 
-                   if(curentListTag){
-                       if(countList > 1){
-                           ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.VISIBLE);
-                           ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
-                       }else {
-                           ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
-                           ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
-                       }
-                   }else {
-                       if(countPuBu > 1){
-                           ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
-                           ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.VISIBLE);
-                       }else {
-                           ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
-                           ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
-                       }
-                   }
+                    if (curentListTag) {
+                        if (countList > 1) {
+                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.VISIBLE);
+                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
+                        } else {
+                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
+                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
+                        }
+                    } else {
+                        if (countPuBu > 1) {
+                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
+                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.VISIBLE);
+                        } else {
+                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
+                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
+                        }
+                    }
 
                 }
                 ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_item_pic).getLayoutParams();
@@ -967,5 +987,102 @@ public class InspirationDetailActivity extends BaseActivity
         int count = tv_test_list_pubu.getLineCount();
         return count;
     }
+
+    @Override
+    public void onClickWeiXin() {
+        sharedItemOpen(SHARE_MEDIA.WEIXIN);
+    }
+
+    @Override
+    public void onClickPYQ() {
+        sharedItemOpen(SHARE_MEDIA.WEIXIN_CIRCLE);
+    }
+
+    @Override
+    public void onClickWeiBo() {
+        sharedItemOpen(SHARE_MEDIA.SINA);
+    }
+
+    @Override
+    public void onClickQQ() {
+
+        sharedItemOpen(SHARE_MEDIA.QQ);
+    }
+
+    private void sharedItemOpen(SHARE_MEDIA share_media) {
+
+        UMImage image;
+        if (mListData != null && mListData.size() > 0) {
+            image = new UMImage(InspirationDetailActivity.this, mListData.get(0).getItem_info().getImage().getImg1());
+        } else {
+            image = new UMImage(InspirationDetailActivity.this, R.drawable.icon_app);
+        }
+        image.compressStyle = UMImage.CompressStyle.SCALE;//大小压缩，默认为大小压缩，适合普通很大的图
+        UMWeb web = new UMWeb("http://h5.idcool.com.cn/album/" + inspirationDetailBean.getInfo().getAlbum_info().getAlbum_id());
+
+        if (share_media == SHARE_MEDIA.WEIXIN) {
+            web.setTitle("我正在看「" + inspirationDetailBean.getInfo().getUser_info().getNickname() + "」的灵感专辑「" + inspirationDetailBean.getInfo().getAlbum_info().getAlbum_name() + "」");//标题
+        } else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
+            web.setTitle("我正在看「" + inspirationDetailBean.getInfo().getUser_info().getNickname() + "」的灵感专辑「" + inspirationDetailBean.getInfo().getAlbum_info().getAlbum_name() + "」");//标题
+        } else if (share_media == SHARE_MEDIA.SINA) {
+            web.setTitle("我正在看「" + inspirationDetailBean.getInfo().getUser_info().getNickname() + "」的灵感专辑「" + inspirationDetailBean.getInfo().getAlbum_info().getAlbum_name() + "」" +
+                    "http://h5.idcool.com.cn/album/" + inspirationDetailBean.getInfo().getAlbum_info().getAlbum_id());//标题
+        } else if (share_media == SHARE_MEDIA.QQ) {
+            web.setTitle("OMG！「" + inspirationDetailBean.getInfo().getUser_info().getNickname() + "」的家图灵感辑撩到我了！");//标题
+        }
+        web.setThumb(image);  //缩略图
+        String desi = "";
+        if (share_media == SHARE_MEDIA.WEIXIN) {
+            desi = inspirationDetailBean.getInfo().getAlbum_info().getDescription();
+        } else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
+            desi = "我正在看「" + inspirationDetailBean.getInfo().getUser_info().getNickname() + "」的家图灵感辑「" + inspirationDetailBean.getInfo().getAlbum_info().getAlbum_name() + "」";
+        } else if (share_media == SHARE_MEDIA.SINA) {
+            desi = inspirationDetailBean.getInfo().getAlbum_info().getDescription();
+        } else if (share_media == SHARE_MEDIA.QQ) {
+            desi = inspirationDetailBean.getInfo().getAlbum_info().getDescription();
+        }
+        if (desi.length() > 160) {
+            desi = desi.substring(0, 160) + "...";
+        }
+        web.setDescription(desi);//描述
+        new ShareAction(InspirationDetailActivity.this).
+                setPlatform(share_media).
+                withMedia(web).
+                setCallback(umShareListener).share();
+    }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+//            //分享开始的回调
+//            Log.d("tset","sdsds");
+//            addShared();
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            if (platform == SHARE_MEDIA.WEIXIN) {
+                ToastUtils.showCenter(InspirationDetailActivity.this, "微信好友分享成功啦");
+            } else if (platform == SHARE_MEDIA.WEIXIN_CIRCLE) {
+                ToastUtils.showCenter(InspirationDetailActivity.this, "微信朋友圈分享成功啦");
+            } else if (platform == SHARE_MEDIA.SINA) {
+                ToastUtils.showCenter(InspirationDetailActivity.this, "新浪微博分享成功啦");
+            } else if (platform == SHARE_MEDIA.QQ) {
+                ToastUtils.showCenter(InspirationDetailActivity.this, "QQ分享成功啦");
+            }
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            ToastUtils.showCenter(InspirationDetailActivity.this, "分享失败啦");
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            ToastUtils.showCenter(InspirationDetailActivity.this, "分享取消了");
+        }
+    };
+
 
 }
