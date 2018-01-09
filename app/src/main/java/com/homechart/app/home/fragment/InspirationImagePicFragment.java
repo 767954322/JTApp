@@ -425,6 +425,7 @@ public class InspirationImagePicFragment
             Intent intent = new Intent(activity, SelectInspirationActivity.class);
             intent.putExtra("userid", mUserId);
             intent.putExtra("type", "copy");
+            intent.putExtra("album_id", mAlbumId);
             startActivityForResult(intent, 2);
 
         }
@@ -435,6 +436,7 @@ public class InspirationImagePicFragment
             Intent intent = new Intent(activity, SelectInspirationActivity.class);
             intent.putExtra("userid", mUserId);
             intent.putExtra("type", "move");
+            intent.putExtra("album_id", mAlbumId);
             startActivityForResult(intent, 1);
         }
     }

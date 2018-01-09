@@ -67,6 +67,7 @@ public class SelectInspirationActivity extends BaseActivity
     private TextView mTVSureAdd;
     private String item_id;
     private String mType;
+    private String album_id;
 
     @Override
     protected int getLayoutResId() {
@@ -78,6 +79,7 @@ public class SelectInspirationActivity extends BaseActivity
         super.initExtraBundle();
         mUserId = getIntent().getStringExtra("userid");
         mType = getIntent().getStringExtra("type");
+        album_id = getIntent().getStringExtra("album_id");
     }
 
     @Override
@@ -239,6 +241,11 @@ public class SelectInspirationActivity extends BaseActivity
             case REFRESH_STATUS:
                 mListData.clear();
                 if (null != listData && listData.size() > 0) {
+                    for (int i = 0; i < listData.size(); i++) {
+                        if (listData.get(i).getAlbum_info().getAlbum_id().equals(album_id)) {
+                            listData.remove(i);
+                        }
+                    }
                     mListData.addAll(listData);
                 } else {
                     //没有更多数据
