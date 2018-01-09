@@ -52,9 +52,7 @@
                     android:id="@+id/tv_dingyue_name_no"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/font_7"
+                    android:layout_centerInParent="true"
                     android:textColor="@color/white"
                     android:textSize="@dimen/size_12" />
 
@@ -227,9 +225,7 @@
                                 android:id="@+id/tv_dingyue_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="@dimen/font_7"
+                                android:layout_centerInParent="true"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/size_12" />
 
@@ -416,10 +412,7 @@
                     android:id="@+id/tv_dingyue_name1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/font_7"
-                    android:gravity="center"
+                    android:layout_centerInParent="true"
                     android:textColor="@color/white"
                     android:textSize="@dimen/size_12" />
 
