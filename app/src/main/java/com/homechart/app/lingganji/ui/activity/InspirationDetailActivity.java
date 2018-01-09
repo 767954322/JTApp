@@ -32,7 +32,9 @@ import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.commont.contract.AppBarStateChangeListener;
 import com.homechart.app.commont.contract.InterDioalod;
+import com.homechart.app.commont.contract.InterDioalod1;
 import com.homechart.app.commont.utils.MyDialog;
+import com.homechart.app.commont.utils.MyDialog1;
 import com.homechart.app.home.activity.ImageDetailLongActivity;
 import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.base.BaseActivity;
@@ -78,6 +80,7 @@ public class InspirationDetailActivity extends BaseActivity
         OnLoadMoreListener,
         OnRefreshListener,
         InterDioalod,
+        InterDioalod1,
         InterPopBottom,
         HomeSharedPopWinPublic.ClickInter {
     private String mUserId;
@@ -146,6 +149,7 @@ public class InspirationDetailActivity extends BaseActivity
     private TextView tv_test_list;
     private TextView tv_test_list_pubu;
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
+    private MyDialog1 mDialog1;
 
     @Override
     protected int getLayoutResId() {
@@ -351,6 +355,7 @@ public class InspirationDetailActivity extends BaseActivity
         widthPicList = PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_20);
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mDialog = new MyDialog(InspirationDetailActivity.this, "确定删除灵感辑图片么？", InspirationDetailActivity.this);
+        mDialog1 = new MyDialog1(InspirationDetailActivity.this, "确认要删除选中灵感辑？删除后其中所有图片也没有啦", InspirationDetailActivity.this);
         mInspirationImageEditPop = new InspirationImageEditPop(InspirationDetailActivity.this, "确定删除灵感辑图片么？", InspirationDetailActivity.this);
         buildRecyclerView();
         getInspirationDetail();
@@ -827,6 +832,46 @@ public class InspirationDetailActivity extends BaseActivity
     }
 
     @Override
+    public void onQuXiao1() {
+        mDialog1.dismiss();
+    }
+
+    @Override
+    public void onQueRen1() {
+        CustomProgress.show(InspirationDetailActivity.this, "删除中...", false, null);
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                CustomProgress.cancelDialog();
+                ToastUtils.showCenter(InspirationDetailActivity.this, "删除失败！");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(InspirationDetailActivity.this, "删除成功！");
+                        InspirationDetailActivity.this.setResult(2, InspirationDetailActivity.this.getIntent());
+                        InspirationDetailActivity.this.finish();
+                    } else {
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(InspirationDetailActivity.this, "删除失败！");
+                    }
+                } catch (JSONException e) {
+                    CustomProgress.cancelDialog();
+                    ToastUtils.showCenter(InspirationDetailActivity.this, "删除失败！");
+                }
+            }
+        };
+        MyHttpManager.getInstance().removeInspiration(mAlbumId, callBack);
+    }
+
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
             InspirationDetailActivity.this.setResult(2, InspirationDetailActivity.this.getIntent());
@@ -957,37 +1002,15 @@ public class InspirationDetailActivity extends BaseActivity
     @Override
     public void onDeleteInspiration() {
         mInspirationImageEditPop.dismiss();
-        CustomProgress.show(InspirationDetailActivity.this, "删除中...", false, null);
-        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                CustomProgress.cancelDialog();
-                ToastUtils.showCenter(InspirationDetailActivity.this, "删除失败！");
+        //软键盘如果打开的话，关闭软键盘
+        boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+        if (isOpen) {
+            if (getCurrentFocus() != null) {//强制关闭软键盘
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
+        }
+        mDialog1.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 
-            @Override
-            public void onResponse(String s) {
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                    if (error_code == 0) {
-                        CustomProgress.cancelDialog();
-                        ToastUtils.showCenter(InspirationDetailActivity.this, "删除成功！");
-                        InspirationDetailActivity.this.setResult(2, InspirationDetailActivity.this.getIntent());
-                        InspirationDetailActivity.this.finish();
-                    } else {
-                        CustomProgress.cancelDialog();
-                        ToastUtils.showCenter(InspirationDetailActivity.this, "删除失败！");
-                    }
-                } catch (JSONException e) {
-                    CustomProgress.cancelDialog();
-                    ToastUtils.showCenter(InspirationDetailActivity.this, "删除失败！");
-                }
-            }
-        };
-        MyHttpManager.getInstance().removeInspiration(mAlbumId, callBack);
     }
 
     @Override
