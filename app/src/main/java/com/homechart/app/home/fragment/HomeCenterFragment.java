@@ -189,6 +189,17 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
 
         switch (v.getId()) {
             case R.id.iv_center_msgicon:
+                //友盟统计
+                HashMap<String, String> map5 = new HashMap<String, String>();
+                map5.put("evenname", "点击消息中心");
+                map5.put("even", "点击消息中心查看消息的次数");
+                MobclickAgent.onEvent(activity, "shijian29", map5);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("点击消息中心查看消息的次数")  //事件类别
+                        .setAction("点击消息中心")      //事件操作
+                        .build());
+
                 Intent intent_messages = new Intent(activity, MessagesListActivity.class);
                 intent_messages.putExtra("notice_num", notice_num);
                 intent_messages.putExtra("follow_notice", follow_notice);

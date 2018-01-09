@@ -172,6 +172,7 @@ public class MyLingGanlistActivity
                     public void onClick(View v) {
                         Intent intent = new Intent(MyLingGanlistActivity.this, InspirationDetailActivity.class);
                         intent.putExtra("user_id", mUserId);
+                        intent.putExtra("tag", "true");
                         intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
                         startActivityForResult(intent, 2);
                     }

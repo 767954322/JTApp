@@ -151,6 +151,7 @@ public class InspirationDetailActivity extends BaseActivity
     private TextView tv_test_list_pubu;
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
     private MyDialog1 mDialog1;
+    private String tag;
 
     @Override
     protected int getLayoutResId() {
@@ -160,6 +161,7 @@ public class InspirationDetailActivity extends BaseActivity
     @Override
     protected void initExtraBundle() {
         super.initExtraBundle();
+        tag = getIntent().getStringExtra("tag");
         mUserId = getIntent().getStringExtra("user_id");
         mAlbumId = getIntent().getStringExtra("album_id");
         ifHideEdit = getIntent().getBooleanExtra("ifHideEdit", false);
@@ -304,14 +306,23 @@ public class InspirationDetailActivity extends BaseActivity
                                 0); //设置layout在PopupWindow中显示的位置
                     }
                 } else if (ifUser == 2) {//本人
-                    //软键盘如果打开的话，关闭软键盘
-                    boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
-                    if (isOpen) {
-                        if (getCurrentFocus() != null) {//强制关闭软键盘
-                            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    if (!TextUtils.isEmpty(tag) && tag.equals("true")) {
+                        //软键盘如果打开的话，关闭软键盘
+                        boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+                        if (isOpen) {
+                            if (getCurrentFocus() != null) {//强制关闭软键盘
+                                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                            }
+                        }
+                        mInspirationImageEditPop.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    } else {
+                        if (inspirationDetailBean != null) {
+                            homeSharedPopWinPublic.showAtLocation(InspirationDetailActivity.this.findViewById(R.id.id_main),
+                                    Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
+                                    0,
+                                    0); //设置layout在PopupWindow中显示的位置
                         }
                     }
-                    mInspirationImageEditPop.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 }
 
                 break;
@@ -410,7 +421,11 @@ public class InspirationDetailActivity extends BaseActivity
                 }
             } else {
                 ifUser = 2;
-                mRightIcon.setImageResource(R.drawable.gengduo);
+                if (!TextUtils.isEmpty(tag) && tag.equals("true")) {
+                    mRightIcon.setImageResource(R.drawable.gengduo);
+                } else {
+                    mRightIcon.setImageResource(R.drawable.shared_icon);
+                }
                 rl_dingyue1.setVisibility(View.GONE);
                 rl_dingyueno.setVisibility(View.GONE);
                 rl_dingyue.setVisibility(View.GONE);
@@ -1047,21 +1062,142 @@ public class InspirationDetailActivity extends BaseActivity
 
     @Override
     public void onClickWeiXin() {
+
+        boolean bool = false;
+        if (!TextUtils.isEmpty(tag) && tag.equals(true)) {
+            bool = true;//我的
+        } else {
+            bool = false;//主页
+        }
+
+        //友盟统计
+        HashMap<String, String> map4 = new HashMap<String, String>();
+        map4.put("evenname", " 分享灵感辑");
+        if (bool) {
+            map4.put("even", "微信" + "我的");
+        } else {
+            map4.put("even", "微信" + "主页");
+        }
+        MobclickAgent.onEvent(InspirationDetailActivity.this, "shijian28", map4);
+        if (bool) {
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("微信" + "我的")  //事件类别
+                    .setAction(" 分享灵感辑")      //事件操作
+                    .build());
+        } else {
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("微信" + "主页")  //事件类别
+                    .setAction(" 分享灵感辑")      //事件操作
+                    .build());
+        }
+
         sharedItemOpen(SHARE_MEDIA.WEIXIN);
     }
 
     @Override
     public void onClickPYQ() {
+        boolean bool = false;
+        if (!TextUtils.isEmpty(tag) && tag.equals(true)) {
+            bool = true;//我的
+        } else {
+            bool = false;//主页
+        }
+
+        //友盟统计
+        HashMap<String, String> map4 = new HashMap<String, String>();
+        map4.put("evenname", " 分享灵感辑");
+        if (bool) {
+            map4.put("even", "朋友圈" + "我的");
+        } else {
+            map4.put("even", "朋友圈" + "主页");
+        }
+        MobclickAgent.onEvent(InspirationDetailActivity.this, "shijian28", map4);
+        if (bool) {
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("朋友圈" + "我的")  //事件类别
+                    .setAction(" 分享灵感辑")      //事件操作
+                    .build());
+        } else {
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("朋友圈" + "主页")  //事件类别
+                    .setAction(" 分享灵感辑")      //事件操作
+                    .build());
+        }
+
         sharedItemOpen(SHARE_MEDIA.WEIXIN_CIRCLE);
     }
 
     @Override
     public void onClickWeiBo() {
+
+        boolean bool = false;
+        if (!TextUtils.isEmpty(tag) && tag.equals(true)) {
+            bool = true;//我的
+        } else {
+            bool = false;//主页
+        }
+
+        //友盟统计
+        HashMap<String, String> map4 = new HashMap<String, String>();
+        map4.put("evenname", " 分享灵感辑");
+        if (bool) {
+            map4.put("even", "新浪微博" + "我的");
+        } else {
+            map4.put("even", "新浪微博" + "主页");
+        }
+        MobclickAgent.onEvent(InspirationDetailActivity.this, "shijian28", map4);
+        if (bool) {
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("新浪微博" + "我的")  //事件类别
+                    .setAction(" 分享灵感辑")      //事件操作
+                    .build());
+        } else {
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("新浪微博" + "主页")  //事件类别
+                    .setAction(" 分享灵感辑")      //事件操作
+                    .build());
+        }
+
         sharedItemOpen(SHARE_MEDIA.SINA);
     }
 
     @Override
     public void onClickQQ() {
+        boolean bool = false;
+        if (!TextUtils.isEmpty(tag) && tag.equals(true)) {
+            bool = true;//我的
+        } else {
+            bool = false;//主页
+        }
+
+        //友盟统计
+        HashMap<String, String> map4 = new HashMap<String, String>();
+        map4.put("evenname", " 分享灵感辑");
+        if (bool) {
+            map4.put("even", "QQ" + "我的");
+        } else {
+            map4.put("even", "QQ" + "主页");
+        }
+        MobclickAgent.onEvent(InspirationDetailActivity.this, "shijian28", map4);
+        if (bool) {
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("QQ" + "我的")  //事件类别
+                    .setAction(" 分享灵感辑")      //事件操作
+                    .build());
+        } else {
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("QQ" + "主页")  //事件类别
+                    .setAction(" 分享灵感辑")      //事件操作
+                    .build());
+        }
 
         sharedItemOpen(SHARE_MEDIA.QQ);
     }
