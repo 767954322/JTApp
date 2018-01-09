@@ -340,7 +340,7 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="@dimen/font_10"
-                                android:text="大图"
+                                android:text="小图"
                                 android:textColor="@color/bg_262626"
                                 android:textSize="@dimen/size_10" />
 
@@ -434,7 +434,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/font_10"
-                android:text="大图"
+                android:text="小图"
                 android:textColor="@color/bg_262626"
                 android:textSize="@dimen/size_10" />
 

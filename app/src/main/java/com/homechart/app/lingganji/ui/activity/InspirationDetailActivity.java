@@ -264,16 +264,16 @@ public class InspirationDetailActivity extends BaseActivity
             case R.id.rl_check_pic:
             case R.id.rl_check_pic1:
                 if (curentListTag) {
-                    tv_check_name1.setText("大图");
-                    tv_check_name.setText("大图");
+                    tv_check_name1.setText("小图");
+                    tv_check_name.setText("小图");
                     curentListTag = false;
                     iv_check_icon1.setImageResource(R.drawable.pubuliu1);
                     iv_check_icon.setImageResource(R.drawable.pubuliu1);
                     mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
                 } else {
-                    tv_check_name1.setText("小图");
-                    tv_check_name.setText("小图");
+                    tv_check_name1.setText("大图");
+                    tv_check_name.setText("大图");
                     curentListTag = true;
                     mRecyclerView.setLayoutManager(new LinearLayoutManager(InspirationDetailActivity.this));
                     iv_check_icon1.setImageResource(R.drawable.changtu1);
@@ -548,7 +548,14 @@ public class InspirationDetailActivity extends BaseActivity
                     ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
 
                 }
-
+                holder.getView(R.id.iv_item_pic).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(InspirationDetailActivity.this, ImageDetailLongActivity.class);
+                        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+                        startActivity(intent);
+                    }
+                });
                 holder.getView(R.id.iv_item_delete).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
