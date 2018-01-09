@@ -885,14 +885,14 @@ public class NewShopDetailsActivity
                         String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                         String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                         if (error_code == 0) {
-                            ToastUtils.showCenter(NewShopDetailsActivity.this, "收藏成功！");
+                            ToastUtils.showCenter(NewShopDetailsActivity.this, "已加入预购清单！");
                             mListData.get(position).getItem_info().setIs_collected("1");
                             mAdapter.notifyItemChanged(position);
                         } else {
                             ToastUtils.showCenter(NewShopDetailsActivity.this, error_msg);
                         }
                     } else {
-                        ToastUtils.showCenter(NewShopDetailsActivity.this, "收藏失败！");
+                        ToastUtils.showCenter(NewShopDetailsActivity.this, "商品收藏失败！");
                     }
                 } catch (JSONException e) {
                     ToastUtils.showCenter(NewShopDetailsActivity.this, "商品收藏失败！");
