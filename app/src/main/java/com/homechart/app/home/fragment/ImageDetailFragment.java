@@ -57,6 +57,7 @@ import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.hotposition.ImageLayout;
 import com.homechart.app.hotposition.PointSimple;
 import com.homechart.app.hotposition.PositionClickImp;
+import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
 import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.myview.FlowLayoutBiaoQian;
 import com.homechart.app.myview.HomeSharedPopWinPublic;
@@ -355,7 +356,6 @@ public class ImageDetailFragment
             tv_details_tital = (ShangshabanChangeTextSpaceView) view.findViewById(R.id.tv_details_tital);
             tv_details_time = (TextView) view.findViewById(R.id.tv_details_time);
             iv_bang = (ImageView) view.findViewById(R.id.iv_bang);
-//            iv_xing = (ImageView) view.findViewById(R.id.iv_xing);
             iv_ping = (ImageView) view.findViewById(R.id.iv_ping);
             iv_shared = (ImageView) view.findViewById(R.id.iv_shared);
             tv_bang = (TextView) view.findViewById(R.id.tv_bang);
@@ -368,7 +368,6 @@ public class ImageDetailFragment
             bt_shise2 = (ImageView) view.findViewById(R.id.bt_shise2);
             iv_xing2 = (ImageView) view.findViewById(R.id.iv_xing2);
             view_below_image = view.findViewById(R.id.view_below_image);
-//            tv_toast_shoucang = (TextView) view.findViewById(R.id.tv_toast_shoucang);
         }
     }
 
@@ -598,33 +597,12 @@ public class ImageDetailFragment
                     Intent intent = new Intent(imageScrollActivity, LoginActivity.class);
                     startActivityForResult(intent, 1);
                 } else {
-                    if (ifShouCang) {
-                        //友盟统计
-                        HashMap<String, String> map4 = new HashMap<String, String>();
-                        map4.put("evenname", "收藏图片");
-                        map4.put("even", "图片详情页进行图片收藏");
-                        MobclickAgent.onEvent(imageScrollActivity, "shijian2", map4);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("图片详情页进行图片收藏")  //事件类别
-                                .setAction("收藏图片")      //事件操作
-                                .build());
-                        addShouCang();
-                        ifShouCang = false;
-                    } else {
-
-                        //友盟统计
-                        HashMap<String, String> map4 = new HashMap<String, String>();
-                        map4.put("evenname", "取消收藏图片");
-                        map4.put("even", "图片详情页进行图片收藏");
-                        MobclickAgent.onEvent(imageScrollActivity, "shijian3", map4);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("图片详情页进行图片收藏")  //事件类别
-                                .setAction("取消收藏图片")      //事件操作
-                                .build());
-                        removeShouCang();
-                        ifShouCang = true;
+                    if(null != imageDetailBean) {
+                        Intent intent = new Intent(activity, InspirationSeriesActivity.class);
+                        intent.putExtra("userid", mUserId);
+                        intent.putExtra("image_url", imageDetailBean.getItem_info().getImage().getImg0());
+                        intent.putExtra("item_id", imageDetailBean.getItem_info().getItem_id());
+                        startActivity(intent);
                     }
                 }
                 break;
@@ -672,9 +650,6 @@ public class ImageDetailFragment
                         startActivityForResult(intent1, 2);
                     }
                 }
-//                cet_clearedit.requestFocus();
-//                InputMethodManager imm = (InputMethodManager) cet_clearedit.getContext().getSystemService(activity.INPUT_METHOD_SERVICE);
-//                imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
                 break;
             case R.id.ll_huifu_two:
                 loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
@@ -698,9 +673,6 @@ public class ImageDetailFragment
                         startActivityForResult(intent1, 2);
                     }
                 }
-//                cet_clearedit.requestFocus();
-//                InputMethodManager imm1 = (InputMethodManager) cet_clearedit.getContext().getSystemService(activity.INPUT_METHOD_SERVICE);
-//                imm1.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
                 break;
             case R.id.ll_huifu_three:
                 loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
@@ -724,9 +696,6 @@ public class ImageDetailFragment
                         startActivityForResult(intent1, 2);
                     }
                 }
-//                cet_clearedit.requestFocus();
-//                InputMethodManager imm2 = (InputMethodManager) cet_clearedit.getContext().getSystemService(activity.INPUT_METHOD_SERVICE);
-//                imm2.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
                 break;
             case R.id.rl_ping_four:
             case R.id.iv_ping:
@@ -791,9 +760,6 @@ public class ImageDetailFragment
                     startActivityForResult(intent5, 1);
                 }
                 break;
-//            case R.id.tv_toast_shoucang:
-//                tv_toast_shoucang.setVisibility(View.GONE);
-//                break;
             case R.id.bt_shiwu:
             case R.id.bt_shiwu2:
 
@@ -1658,14 +1624,14 @@ public class ImageDetailFragment
             tv_xing.setText(collect_num + "");
         }
 
-        if (imageDetailBean.getItem_info().getIs_collected().equals("1")) {//已收藏
-            iv_xing.setImageResource(R.drawable.yishoucang2);
-            iv_xing2.setImageResource(R.drawable.yishoucang2);
-            tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
-            ifShouCang = false;
-        } else {//未收藏
-            ifShouCang = true;
-        }
+//        if (imageDetailBean.getItem_info().getIs_collected().equals("1")) {//已收藏
+//            iv_xing.setImageResource(R.drawable.yishoucang2);
+//            iv_xing2.setImageResource(R.drawable.yishoucang2);
+//            tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+//            ifShouCang = false;
+//        } else {//未收藏
+//            ifShouCang = true;
+//        }
         if (comment_num == 0) {
             tv_ping_tital.setText("评论");
             tv_ping.setText("");
@@ -2416,30 +2382,6 @@ public class ImageDetailFragment
                     }
 
                     tv_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-                    break;
-                case 4:
-                    ToastUtils.showCenter(activity, "收藏成功");
-                    iv_xing.setImageResource(R.drawable.yishoucang2);
-                    iv_xing2.setImageResource(R.drawable.yishoucang2);
-                    collect_num++;
-                    if (collect_num == 0) {
-                        tv_xing.setText("");
-                    } else {
-                        tv_xing.setText(collect_num + "");
-                    }
-                    tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
-                    break;
-                case 5:
-                    ToastUtils.showCenter(activity, "取消收藏");
-                    iv_xing.setImageResource(R.drawable.xing2);
-                    iv_xing2.setImageResource(R.drawable.xing2);
-                    collect_num--;
-                    if (collect_num == 0) {
-                        tv_xing.setText("");
-                    } else {
-                        tv_xing.setText(collect_num + "");
-                    }
-                    tv_xing.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                     break;
                 case 6:
                     String pinglist = "{\"data\": " + (String) msg.obj + "}";
