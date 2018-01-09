@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -45,7 +46,8 @@ import java.util.List;
 public class InspirationSeriesActivity extends BaseActivity
         implements View.OnClickListener,
         OnLoadMoreListener,
-        OnRefreshListener {
+        OnRefreshListener ,
+        View.OnTouchListener{
 
 
     private View view;
@@ -103,6 +105,7 @@ public class InspirationSeriesActivity extends BaseActivity
         mDismiss.setOnClickListener(this);
         mRLAddInspiration.setOnClickListener(this);
         mTVSureAdd.setOnClickListener(this);
+        mRLWye.setOnTouchListener(this);
     }
 
     @Override
@@ -118,7 +121,7 @@ public class InspirationSeriesActivity extends BaseActivity
 
         } else if (i == R.id.tv_sure_add) {
 
-            if (mListData.size() > 0 ) {
+            if (mListData.size() > 0) {
                 addInspiration();
             } else {
                 ToastUtils.showCenter(mContext, "请先创建灵感辑");
@@ -303,7 +306,7 @@ public class InspirationSeriesActivity extends BaseActivity
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
                         CustomProgress.cancelDialog();
-                        ToastUtils.showCenter(InspirationSeriesActivity.this, "图片已经加入“"+mListData.get(defalsePosition).getAlbum_info().getAlbum_name()+"”");
+                        ToastUtils.showCenter(InspirationSeriesActivity.this, "图片已经加入“" + mListData.get(defalsePosition).getAlbum_info().getAlbum_name() + "”");
                         InspirationSeriesActivity.this.finish();
                     } else {
                         CustomProgress.cancelDialog();
@@ -322,10 +325,45 @@ public class InspirationSeriesActivity extends BaseActivity
 
 
     @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        //触摸的是EditText并且当前EditText可以滚动则将事件交给EditText处理；否则将事件交由其父类处理
+        if ((view.getId() == R.id.rt_linggan_content && canVerticalScroll(mRLWye))) {
+            view.getParent().requestDisallowInterceptTouchEvent(true);
+            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                view.getParent().requestDisallowInterceptTouchEvent(false);
+            }
+        }
+        return false;
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 1) {
             onRefresh();
         }
+    }
+
+    /**
+     * EditText竖直方向是否可以滚动
+     *
+     * @param editText 需要判断的EditText
+     * @return true：可以滚动   false：不可以滚动
+     */
+    private boolean canVerticalScroll(EditText editText) {
+        //滚动的距离
+        int scrollY = editText.getScrollY();
+        //控件内容的总高度
+        int scrollRange = editText.getLayout().getHeight();
+        //控件实际显示的高度
+        int scrollExtent = editText.getHeight() - editText.getCompoundPaddingTop() - editText.getCompoundPaddingBottom();
+        //控件内容总高度与实际显示高度的差值
+        int scrollDifference = scrollRange - scrollExtent;
+
+        if (scrollDifference == 0) {
+            return false;
+        }
+
+        return (scrollY > 0) || (scrollY < scrollDifference - 1);
     }
 }
