@@ -382,9 +382,7 @@ public class UserInfoActivity
             tv_userinfo_nikename.setText(userCenterInfoBean.getUser_info().getNickname());
             tv_info_guanzhu_num.setText(userCenterInfoBean.getCounter().getFollow_num() + "");
             tv_jieshao.setText(userCenterInfoBean.getUser_info().getSlogan());
-            int num1 = userCenterInfoBean.getCounter().getSingle_num();
-            int num2 = userCenterInfoBean.getCounter().getArticle_num();
-            tv_info_shaijia_num.setText((num1 + num2) + "");
+            tv_info_shaijia_num.setText(userCenterInfoBean.getCounter().getAlbum_num() + "");
             tv_info_fensi_num.setText(userCenterInfoBean.getCounter().getFans_num() + "");
 
             if (!userCenterInfoBean.getUser_info().getProfession().trim().equals("0")) {//专业用户

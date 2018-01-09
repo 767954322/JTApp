@@ -195,7 +195,7 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
                 intent_messages.putExtra("comment_notice", comment_notice);
                 intent_messages.putExtra("system_notice", system_notice);
                 intent_messages.putExtra("subscribe_notice", subscribe_notice);
-                intent_messages.putExtra("subscribe_notice", addToAlbum_notice);
+                intent_messages.putExtra("addToAlbum_notice", addToAlbum_notice);
                 startActivityForResult(intent_messages, 2);
 
                 break;
