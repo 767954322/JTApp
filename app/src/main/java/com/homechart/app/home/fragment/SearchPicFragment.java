@@ -255,7 +255,15 @@ public class SearchPicFragment
                             Intent intent = new Intent(activity, LoginActivity.class);
                             startActivityForResult(intent, 1);
                         } else {
-
+                            HashMap<String, String> map4 = new HashMap<String, String>();
+                            map4.put("evenname", "加图");
+                            map4.put("even", "搜索结果页");
+                            MobclickAgent.onEvent(activity, "shijian23", map4);
+                            //ga统计
+                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                    .setCategory("搜索结果页")  //事件类别
+                                    .setAction("加图")      //事件操作
+                                    .build());
                             Intent intent = new Intent(activity, InspirationSeriesActivity.class);
                             intent.putExtra("userid", userid);
                             intent.putExtra("image_url",mListData.get(position).getItem_info().getImage().getImg0());

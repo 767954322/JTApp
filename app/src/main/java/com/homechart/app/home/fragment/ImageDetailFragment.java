@@ -598,6 +598,18 @@ public class ImageDetailFragment
                     startActivityForResult(intent, 1);
                 } else {
                     if(null != imageDetailBean) {
+
+                        //友盟统计
+                        HashMap<String, String> map4 = new HashMap<String, String>();
+                        map4.put("evenname", "加图");
+                        map4.put("even", "图片详情");
+                        MobclickAgent.onEvent(activity, "shijian23", map4);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("图片详情")  //事件类别
+                                .setAction("加图")      //事件操作
+                                .build());
+
                         Intent intent = new Intent(activity, InspirationSeriesActivity.class);
                         intent.putExtra("userid", mUserId);
                         intent.putExtra("image_url", imageDetailBean.getItem_info().getImage().getImg0());
@@ -949,7 +961,17 @@ public class ImageDetailFragment
                                     .build());
                             Intent intent = new Intent(activity, LoginActivity.class);
                             startActivityForResult(intent, 1);
-                        } else {
+                        } else {//友盟统计
+                            HashMap<String, String> map4 = new HashMap<String, String>();
+                            map4.put("evenname", "加图");
+                            map4.put("even", "你可能喜欢");
+                            MobclickAgent.onEvent(activity, "shijian23", map4);
+                            //ga统计
+                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                    .setCategory("你可能喜欢")  //事件类别
+                                    .setAction("加图")      //事件操作
+                                    .build());
+
                             Intent intent = new Intent(activity, InspirationSeriesActivity.class);
                             intent.putExtra("userid", mUserId);
                             intent.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg0());

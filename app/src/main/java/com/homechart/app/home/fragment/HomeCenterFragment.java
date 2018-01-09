@@ -27,6 +27,7 @@ import com.homechart.app.home.activity.MyInfoActivity;
 import com.homechart.app.home.activity.SearchActivity;
 import com.homechart.app.home.activity.SetActivity;
 import com.homechart.app.home.activity.ShaiJiaListActivity;
+import com.homechart.app.home.activity.ShaiXuanResultActicity;
 import com.homechart.app.home.activity.ShouCangListActivity;
 import com.homechart.app.home.activity.YuGouQingDanActivity;
 import com.homechart.app.home.base.BaseFragment;
@@ -245,6 +246,16 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
 
                 break;
             case R.id.rl_yugouqingdan:
+                //友盟统计
+                HashMap<String, String> map4 = new HashMap<String, String>();
+                map4.put("evenname", "收藏商品查看");
+                map4.put("even", "用户查看预购清单的次数");
+                MobclickAgent.onEvent(activity, "shijian24", map4);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("用户查看预购清单的次数")  //事件类别
+                        .setAction("收藏商品查看")      //事件操作
+                        .build());
 
                 Intent intent_yugou = new Intent(activity, YuGouQingDanActivity.class);
                 startActivity(intent_yugou);

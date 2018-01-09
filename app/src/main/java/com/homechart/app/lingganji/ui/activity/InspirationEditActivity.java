@@ -32,6 +32,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 /**
@@ -193,6 +194,18 @@ public class InspirationEditActivity extends BaseActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
+
+                        //友盟统计
+                        HashMap<String, String> map4 = new HashMap<String, String>();
+                        map4.put("evenname", " 编辑图片描述");
+                        map4.put("even", "点击编辑图片描述并完成的次数");
+                        MobclickAgent.onEvent(InspirationEditActivity.this, "shijian25", map4);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("点击编辑图片描述并完成的次数")  //事件类别
+                                .setAction(" 编辑图片描述")      //事件操作
+                                .build());
+
                         CustomProgress.cancelDialog();
                         InspirationEditActivity.this.setResult(3, InspirationEditActivity.this.getIntent());
                         InspirationEditActivity.this.finish();

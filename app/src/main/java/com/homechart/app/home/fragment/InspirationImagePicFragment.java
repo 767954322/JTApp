@@ -22,6 +22,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.google.android.gms.analytics.HitBuilders;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
@@ -35,6 +37,7 @@ import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.entity.inspirationpics.InsPicItemBean;
 import com.homechart.app.lingganji.common.entity.inspirationpics.InsPicsBean;
 import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
+import com.homechart.app.lingganji.ui.activity.InspirationEditActivity;
 import com.homechart.app.lingganji.ui.activity.SelectInspirationActivity;
 import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
@@ -48,6 +51,7 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -469,6 +473,16 @@ public class InspirationImagePicFragment
                             String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                             String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                             if (error_code == 0) {
+                                //友盟统计
+                                HashMap<String, String> map4 = new HashMap<String, String>();
+                                map4.put("evenname", " 移动图片");
+                                map4.put("even", "移动图片");
+                                MobclickAgent.onEvent(activity, "shijian26", map4);
+                                //ga统计
+                                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                        .setCategory("移动图片")  //事件类别
+                                        .setAction(" 移动图片")      //事件操作
+                                        .build());
                                 for (String key : map_delete.keySet()) {
                                     mListData.remove(map_delete.get(key));
                                 }
@@ -516,6 +530,16 @@ public class InspirationImagePicFragment
                             String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                             String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                             if (error_code == 0) {
+                                //友盟统计
+                                HashMap<String, String> map4 = new HashMap<String, String>();
+                                map4.put("evenname", " 复制图片");
+                                map4.put("even", "复制图片");
+                                MobclickAgent.onEvent(activity, "shijian27", map4);
+                                //ga统计
+                                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                        .setCategory("复制图片")  //事件类别
+                                        .setAction(" 复制图片")      //事件操作
+                                        .build());
                                 CustomProgress.cancelDialog();
                                 ToastUtils.showCenter(activity, "复制成功");
                             } else {
