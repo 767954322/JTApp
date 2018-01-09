@@ -554,13 +554,13 @@ public class InspirationDetailActivity extends BaseActivity
                     layoutParams.width = widthPicList;
                     layoutParams.height = Math.round(widthPicList / mListData.get(position).getItem_info().getImage().getRatio());
                     holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
-                    ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(), (ImageView) holder.getView(R.id.iv_item_pic));
+                    ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg1(), (ImageView) holder.getView(R.id.iv_item_pic));
 
                 } else {
                     layoutParams.width = widthPic;
                     layoutParams.height = Math.round(widthPic / mListData.get(position).getItem_info().getImage().getRatio());
                     holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
-                    ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
+                    ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
 
                 }
                 holder.getView(R.id.iv_item_pic).setOnClickListener(new View.OnClickListener() {

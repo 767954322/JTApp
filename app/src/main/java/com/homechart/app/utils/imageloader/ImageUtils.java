@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
+import com.homechart.app.commont.FlexibleRoundedBitmapDisplayer;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.utils.glide.GlideImgManager;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
@@ -69,6 +70,18 @@ public class ImageUtils {
             .cacheOnDisc(true)
             .bitmapConfig(Bitmap.Config.RGB_565)   //设置图片的解码类型
             .displayer(new RoundedBitmapDisplayer(8))
+            .imageScaleType(ImageScaleType.EXACTLY)
+            .build();
+
+    //demo半个圆角的options
+    private static final DisplayImageOptions filletOptionsHalf = new DisplayImageOptions.Builder()
+            .showStubImage(R.color.white)
+            .showImageForEmptyUri(R.color.white)
+            .showImageOnFail(R.color.white)
+            .cacheInMemory(true)
+            .cacheOnDisc(true)
+            .bitmapConfig(Bitmap.Config.RGB_565)   //设置图片的解码类型
+            .displayer(new FlexibleRoundedBitmapDisplayer(8,FlexibleRoundedBitmapDisplayer.CORNER_TOP_LEFT | FlexibleRoundedBitmapDisplayer.CORNER_TOP_RIGHT))
             .imageScaleType(ImageScaleType.EXACTLY)
             .build();
 
@@ -148,6 +161,21 @@ public class ImageUtils {
             //有权限
             if (imageView != null)
                 ImageLoader.getInstance().displayImage(imageUrl, imageView, filletOptions);
+        } else {
+            GlideImgManager.glideLoader(MyApplication.getInstance(), imageUrl, R.color.white, R.color.white, imageView, 1);
+        }
+    }
+    /**
+     * 加载圆角图片
+     *
+     * @param imageUrl
+     * @param imageView
+     */
+    public static void displayFilletHalfImage(String imageUrl, ImageView imageView) {
+        if (PublicUtils.ifHasWriteQuan1(MyApplication.getInstance())) {
+            //有权限
+            if (imageView != null)
+                ImageLoader.getInstance().displayImage(imageUrl, imageView, filletOptionsHalf);
         } else {
             GlideImgManager.glideLoader(MyApplication.getInstance(), imageUrl, R.color.white, R.color.white, imageView, 1);
         }

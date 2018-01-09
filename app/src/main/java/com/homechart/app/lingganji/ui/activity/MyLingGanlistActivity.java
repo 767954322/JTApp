@@ -166,7 +166,7 @@ public class MyLingGanlistActivity
                 if (TextUtils.isEmpty(mListData.get(position).getAlbum_info().getCover_image().getImg0())) {
                     GlideImgManager.glideLoader(MyLingGanlistActivity.this, "", R.drawable.moren, R.drawable.moren,  (ImageView) holder.getView(R.id.iv_item_pic));
                 } else {
-                    ImageUtils.displayFilletImage(mListData.get(position).getAlbum_info().getCover_image().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
+                    ImageUtils.displayFilletHalfImage(mListData.get(position).getAlbum_info().getCover_image().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
                 }
                 holder.getView(R.id.rl_item_inspiration).setOnClickListener(new View.OnClickListener() {
                     @Override
