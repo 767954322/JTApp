@@ -389,8 +389,8 @@ public class UserInfoActivity
                 iv_info_renzheng.setVisibility(View.VISIBLE);
                 rl_info_zhunaye.setVisibility(View.VISIBLE);
             } else {
-                iv_info_renzheng.setVisibility(View.INVISIBLE);
-                rl_info_zhunaye.setVisibility(View.INVISIBLE);
+                iv_info_renzheng.setVisibility(View.GONE);
+                rl_info_zhunaye.setVisibility(View.GONE);
             }
 
             if (userCenterInfoBean.getUser_info().getRelation().equals("0")) {//未关注
