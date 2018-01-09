@@ -303,7 +303,7 @@ public class InspirationSeriesActivity extends BaseActivity
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
                         CustomProgress.cancelDialog();
-                        ToastUtils.showCenter(InspirationSeriesActivity.this, "加入灵感辑成功");
+                        ToastUtils.showCenter(InspirationSeriesActivity.this, "图片已经加入“"+mListData.get(defalsePosition).getAlbum_info().getAlbum_name()+"”");
                         InspirationSeriesActivity.this.finish();
                     } else {
                         CustomProgress.cancelDialog();
