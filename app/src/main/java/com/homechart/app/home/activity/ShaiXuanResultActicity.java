@@ -37,6 +37,7 @@ import com.homechart.app.home.bean.search.SearchItemDataBean;
 import com.homechart.app.home.bean.shaixuan.ShaiXuanBean;
 import com.homechart.app.home.bean.shouye.SYDataBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
 import com.homechart.app.myview.FlowLayoutShaiXuan;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.myview.SelectColorPopupWindow;
@@ -109,6 +110,7 @@ public class ShaiXuanResultActicity
     private TextView bt_tag_page_item;
     private boolean islist;
     private boolean loginStatus;
+    private String mUserId;
 
     //取消收藏
     private void removeShouCang(final int position, String item_id) {
@@ -561,61 +563,24 @@ public class ShaiXuanResultActicity
                     }
                 });
 
-                holder.getView(R.id.tv_shoucang_num).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
-                        if (!loginStatus) {
-                            //友盟统计
-                            HashMap<String, String> map4 = new HashMap<String, String>();
-                            map4.put("evenname", "登录入口");
-                            map4.put("even", "标签列表页进行图片收藏");
-                            MobclickAgent.onEvent(ShaiXuanResultActicity.this, "shijian20", map4);
-                            //ga统计
-                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("标签列表页进行图片收藏")  //事件类别
-                                    .setAction("登录入口")      //事件操作
-                                    .build());
-                            Intent intent = new Intent(ShaiXuanResultActicity.this, LoginActivity.class);
-                            startActivityForResult(intent, 1);
-                        } else {
-                            onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
-                        }
-                    }
-                });
                 holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                        mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
                         if (!loginStatus) {
                             Intent intent = new Intent(ShaiXuanResultActicity.this, LoginActivity.class);
                             startActivityForResult(intent, 1);
                         } else {
-                            onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
+                            Intent intent = new Intent(ShaiXuanResultActicity.this, InspirationSeriesActivity.class);
+                            intent.putExtra("userid", mUserId);
+                            intent.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg0());
+                            intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+                            startActivity(intent);
                         }
                     }
                 });
 
-                if (mListData.get(position).getItem_info().getCollect_num().trim().equals("0")) {
-                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.INVISIBLE);
-                } else {
-                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.VISIBLE);
-                }
-                ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
-
-                if (curentListTag) {
-                    if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
-                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.datuxing);
-                    } else {//收藏
-                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.datuxing1);
-                    }
-                } else {
-                    if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
-                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing);
-                    } else {//收藏
-                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing1);
-                    }
-                }
                 holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
