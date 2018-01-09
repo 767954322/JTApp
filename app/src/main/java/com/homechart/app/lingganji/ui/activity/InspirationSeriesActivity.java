@@ -376,10 +376,10 @@ public class InspirationSeriesActivity extends BaseActivity
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        MobclickAgent.onPageStart("加入灵感辑");
+        MobclickAgent.onPageStart("");
         Tracker t = MyApplication.getInstance().getDefaultTracker();
         // Set screen name.
-        t.setScreenName("加入灵感辑");
+        t.setScreenName("个人主页");
         // Send a screen view.
         t.send(new HitBuilders.ScreenViewBuilder().build());
     }
@@ -387,7 +387,7 @@ public class InspirationSeriesActivity extends BaseActivity
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("加入灵感辑");
+        MobclickAgent.onPageEnd("个人主页");
         MobclickAgent.onPause(this);
     }
 
