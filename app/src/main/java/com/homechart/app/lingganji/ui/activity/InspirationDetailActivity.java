@@ -483,7 +483,7 @@ public class InspirationDetailActivity extends BaseActivity
                     holder.getView(R.id.tv_item_miaosu1).setVisibility(View.VISIBLE);
                     holder.getView(R.id.tv_item_miaosu).setVisibility(View.GONE);
                     holder.getView(R.id.iv_item_miaosu_more).setVisibility(View.GONE);
-                    holder.getView(R.id.iv_item_miaosu_more1).setVisibility(View.VISIBLE);
+//                    holder.getView(R.id.iv_item_miaosu_more1).setVisibility(View.VISIBLE);
                     holder.getView(R.id.view_bottom).setVisibility(View.GONE);
                 } else {//瀑布流
                     if (ifHideEdit) {
@@ -502,12 +502,12 @@ public class InspirationDetailActivity extends BaseActivity
                     holder.getView(R.id.tv_item_miaosu1).setVisibility(View.GONE);
                     holder.getView(R.id.tv_item_miaosu).setVisibility(View.VISIBLE);
                     holder.getView(R.id.iv_item_miaosu_more).setVisibility(View.VISIBLE);
-                    holder.getView(R.id.iv_item_miaosu_more1).setVisibility(View.GONE);
+//                    holder.getView(R.id.iv_item_miaosu_more1).setVisibility(View.GONE);
                 }
                 if (TextUtils.isEmpty(mListData.get(position).getItem_info().getDescription().trim())) {
                     ((TextView) holder.getView(R.id.tv_item_miaosu)).setVisibility(View.GONE);
                     ((TextView) holder.getView(R.id.tv_item_miaosu1)).setVisibility(View.GONE);
-                    ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
+//                    ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
                     ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
                 } else {
                     ((TextView) holder.getView(R.id.tv_item_miaosu)).setText(mListData.get(position).getItem_info().getDescription());
@@ -517,18 +517,18 @@ public class InspirationDetailActivity extends BaseActivity
 
                     if (curentListTag) {
                         if (countList > 1) {
-                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.VISIBLE);
+//                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.VISIBLE);
                             ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
                         } else {
-                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
+//                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
                             ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
                         }
                     } else {
                         if (countPuBu > 1) {
-                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
+//                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
                             ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.VISIBLE);
                         } else {
-                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
+//                            ((ImageView) holder.getView(R.id.iv_item_miaosu_more1)).setVisibility(View.GONE);
                             ((ImageView) holder.getView(R.id.iv_item_miaosu_more)).setVisibility(View.GONE);
                         }
                     }
@@ -614,20 +614,20 @@ public class InspirationDetailActivity extends BaseActivity
                     }
                 });
 
-                holder.getView(R.id.iv_item_miaosu_more1).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        InspritionPop inspritionPop = new InspritionPop(InspirationDetailActivity.this, mListData.get(position));
-                        //软键盘如果打开的话，关闭软键盘
-                        boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
-                        if (isOpen) {
-                            if (getCurrentFocus() != null) {//强制关闭软键盘
-                                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                            }
-                        }
-                        inspritionPop.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    }
-                });
+//                holder.getView(R.id.iv_item_miaosu_more1).setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        InspritionPop inspritionPop = new InspritionPop(InspirationDetailActivity.this, mListData.get(position));
+//                        //软键盘如果打开的话，关闭软键盘
+//                        boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+//                        if (isOpen) {
+//                            if (getCurrentFocus() != null) {//强制关闭软键盘
+//                                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+//                            }
+//                        }
+//                        inspritionPop.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+//                    }
+//                });
                 holder.getView(R.id.iv_item_miaosu_more).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

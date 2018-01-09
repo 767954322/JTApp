@@ -42,8 +42,9 @@
         android:layout_below="@+id/iv_item_pic"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/font_10"
-        android:layout_marginRight="@dimen/font_25"
+        android:layout_marginRight="@dimen/font_10"
         android:layout_marginTop="@dimen/font_12"
+        android:layout_toLeftOf="@+id/iv_item_miaosu_more"
         android:lines="1"
         android:textColor="@color/bg_464646"
         android:textSize="@dimen/font_14" />
@@ -68,7 +69,6 @@
         android:layout_marginBottom="@dimen/font_15"
         android:layout_marginLeft="@dimen/font_10"
         android:layout_marginRight="@dimen/font_25"
-        android:lines="1"
         android:layout_marginTop="@dimen/font_12"
         android:textColor="@color/bg_464646"
         android:textSize="@dimen/font_14" />
