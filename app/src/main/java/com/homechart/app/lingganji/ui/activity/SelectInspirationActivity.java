@@ -31,6 +31,7 @@ import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
+import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
@@ -155,7 +156,7 @@ public class SelectInspirationActivity extends BaseActivity
 
                 ((TextView) holder.getView(R.id.tv_item_name)).setText(mListData.get(position).getAlbum_info().getAlbum_name());
                 if (TextUtils.isEmpty(mListData.get(position).getAlbum_info().getCover_image().getImg0())) {
-                    ImageUtils.displayFilletDefaulImage("", (ImageView) holder.getView(R.id.iv_item_pic));
+                    GlideImgManager.glideLoader(SelectInspirationActivity.this, "", R.drawable.moren2, R.drawable.moren2, (ImageView) holder.getView(R.id.iv_item_pic));
                 } else {
                     ImageUtils.displayFilletImage(mListData.get(position).getAlbum_info().getCover_image().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
                 }

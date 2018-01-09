@@ -20,7 +20,8 @@
             android:layout_marginBottom="@dimen/font_5"
             android:layout_marginLeft="@dimen/font_5"
             android:layout_marginTop="@dimen/font_5"
-            android:scaleType="centerCrop" />
+            android:background="@color/white"
+            android:scaleType="fitXY"/>
 
 
         <TextView
