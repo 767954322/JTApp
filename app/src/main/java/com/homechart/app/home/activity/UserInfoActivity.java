@@ -40,6 +40,7 @@ import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
+import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
@@ -143,7 +144,7 @@ public class UserInfoActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
 
-        widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_3)) / 2- UIUtils.getDimens(R.dimen.font_1);
+        widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_3)) / 2 - UIUtils.getDimens(R.dimen.font_1);
         StatusBarUtil.setTranslucentForImageView(this, 0, null);
         int statusBarHeight = PublicUtils.getStatusBarHeight(this);
         ViewGroup.LayoutParams layoutParams = view_tiop.getLayoutParams();
@@ -190,7 +191,7 @@ public class UserInfoActivity
                 layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
                 holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
                 if (TextUtils.isEmpty(mListData.get(position).getAlbum_info().getCover_image().getImg0())) {
-                    ImageUtils.displayFilletDefaulImage("", (ImageView) holder.getView(R.id.iv_item_pic));
+                    GlideImgManager.glideLoader(UserInfoActivity.this, "", R.drawable.moren, R.drawable.moren, (ImageView) holder.getView(R.id.iv_item_pic));
                 } else {
                     ImageUtils.displayFilletHalfImage(mListData.get(position).getAlbum_info().getCover_image().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
                 }
