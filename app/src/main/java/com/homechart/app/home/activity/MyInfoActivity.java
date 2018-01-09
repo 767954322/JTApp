@@ -572,6 +572,7 @@ public class MyInfoActivity
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
                         getUserInfo();
+                        imageChange = false;
                         CustomProgress.cancelDialog();
                         ToastUtils.showCenter(MyInfoActivity.this, "保存成功");
                         getUserInfo();
