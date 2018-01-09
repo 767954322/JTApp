@@ -81,6 +81,7 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
     private int comment_notice = 0;
     private int system_notice = 0;
     private int subscribe_notice = 0;
+    private int addToAlbum_notice = 0;
     private Boolean loginStatus;
 
     Handler handler = new Handler() {
@@ -102,6 +103,7 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
                     comment_notice = jsonObject.getInt("comment_notice");
                     system_notice = jsonObject.getInt("system_notice");
                     subscribe_notice = jsonObject.getInt("subscribe_notice");
+                    addToAlbum_notice = jsonObject.getInt("addToAlbum_notice");
                     changeUnReaderMsg(num);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -193,6 +195,7 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
                 intent_messages.putExtra("comment_notice", comment_notice);
                 intent_messages.putExtra("system_notice", system_notice);
                 intent_messages.putExtra("subscribe_notice", subscribe_notice);
+                intent_messages.putExtra("addToAlbum_notice", addToAlbum_notice);
                 startActivityForResult(intent_messages, 2);
 
                 break;

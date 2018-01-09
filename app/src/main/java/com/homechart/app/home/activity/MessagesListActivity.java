@@ -19,6 +19,7 @@ import com.homechart.app.R;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.fragment.ShouCangArticleFragment;
 import com.homechart.app.home.fragment.ShouCangPicFragment;
+import com.homechart.app.home.fragment.XXAlbumFragment;
 import com.homechart.app.home.fragment.XXDingYueFragment;
 import com.homechart.app.home.fragment.XXGuanZhuFragment;
 import com.homechart.app.home.fragment.XXMessageFragment;
@@ -49,7 +50,7 @@ public class MessagesListActivity extends BaseActivity
     private XXGuanZhuFragment xxGuanZhuFragment;
     private XXDingYueFragment xxDingYueFragment;
     private MyPagerAdapter myPagerAdapter;
-    private XXShouCangFragment xxShouCangFragment;
+    private XXAlbumFragment xxAlbumFragment;
     private XXPingLunFragment xxPingLunFragment;
     private XXMessageFragment xxMessageFragment;
     private int notice_num;
@@ -58,6 +59,7 @@ public class MessagesListActivity extends BaseActivity
     private int comment_notice;
     private int system_notice;
     private int subscribe_notice;
+    private int addToAlbum_notice;
 
     @Override
     protected int getLayoutResId() {
@@ -74,6 +76,7 @@ public class MessagesListActivity extends BaseActivity
         comment_notice = getIntent().getIntExtra("comment_notice", 0);
         system_notice = getIntent().getIntExtra("system_notice", 0);
         subscribe_notice = getIntent().getIntExtra("subscribe_notice", 0);
+        addToAlbum_notice = getIntent().getIntExtra("addToAlbum_notice", 0);
 
     }
 
@@ -131,8 +134,8 @@ public class MessagesListActivity extends BaseActivity
             if (subscribe_notice > 0) {
                 stl_tab.showMsg(1, subscribe_notice);
             }
-            if (collect_notice > 0) {
-                stl_tab.showMsg(2, collect_notice);
+            if (addToAlbum_notice > 0) {
+                stl_tab.showMsg(2, addToAlbum_notice);
             }
             if (comment_notice > 0) {
                 stl_tab.showMsg(3, comment_notice);
@@ -157,12 +160,12 @@ public class MessagesListActivity extends BaseActivity
     private void initFragment() {
         xxGuanZhuFragment = new XXGuanZhuFragment(getSupportFragmentManager());
         xxDingYueFragment = new XXDingYueFragment(getSupportFragmentManager());
-        xxShouCangFragment = new XXShouCangFragment(getSupportFragmentManager());
+        xxAlbumFragment = new XXAlbumFragment(getSupportFragmentManager());
         xxPingLunFragment = new XXPingLunFragment(getSupportFragmentManager());
         xxMessageFragment = new XXMessageFragment(getSupportFragmentManager());
         mFragmentsList.add(xxGuanZhuFragment);
         mFragmentsList.add(xxDingYueFragment);
-        mFragmentsList.add(xxShouCangFragment);
+        mFragmentsList.add(xxAlbumFragment);
         mFragmentsList.add(xxPingLunFragment);
         mFragmentsList.add(xxMessageFragment);
     }

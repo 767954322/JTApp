@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -14,10 +13,10 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.home.activity.ArticleDetailsActivity;
+import com.homechart.app.home.activity.ImageDetailLongActivity;
 import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.base.LazyLoadFragment;
-import com.homechart.app.home.bean.msgdingyue.DingYueItemBean;
-import com.homechart.app.home.bean.msgdingyue.MsgDingYue;
 import com.homechart.app.home.bean.msgguanzhu.MsgGZBean;
 import com.homechart.app.home.bean.msgguanzhu.MsgNoticeBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
@@ -45,16 +44,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressLint("ValidFragment")
-public class XXDingYueFragment
+public class XXAlbumFragment
         extends LazyLoadFragment
         implements OnLoadMoreListener,
         OnRefreshListener,
         CommonAdapter.OnItemClickListener {
 
-
-    private List<DingYueItemBean> mListData = new ArrayList<>();
+    private List<MsgNoticeBean> mListData = new ArrayList<>();
     private LoadMoreFooterView mLoadMoreFooterView;
-    private MultiItemCommonAdapter<DingYueItemBean> mAdapter;
+    private MultiItemCommonAdapter<MsgNoticeBean> mAdapter;
     private HRecyclerView mRecyclerView;
     private final String REFRESH_STATUS = "refresh";
     private final String LOADMORE_STATUS = "loadmore";
@@ -64,16 +62,16 @@ public class XXDingYueFragment
     private RelativeLayout rl_no_data;
     private FragmentManager fragmentManager;
 
-    public XXDingYueFragment() {
+    public XXAlbumFragment() {
     }
 
-    public XXDingYueFragment(FragmentManager fragmentManager) {
+    public XXAlbumFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
 
     @Override
     protected int setContentView() {
-        return R.layout.fragment_xx_dingyue;
+        return R.layout.fragment_xx_album;
     }
 
     @Override
@@ -83,7 +81,6 @@ public class XXDingYueFragment
     }
 
     protected void initView() {
-
         rl_no_data = (RelativeLayout) rootView.findViewById(R.id.rl_no_data);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_pic);
     }
@@ -92,39 +89,26 @@ public class XXDingYueFragment
         buildRecyclerView();
     }
 
+
     private void buildRecyclerView() {
 
-        MultiItemTypeSupport<DingYueItemBean> support = new MultiItemTypeSupport<DingYueItemBean>() {
+        MultiItemTypeSupport<MsgNoticeBean> support = new MultiItemTypeSupport<MsgNoticeBean>() {
             @Override
             public int getLayoutId(int itemType) {
-
-                if (itemType == 0) {
-                    return R.layout.item_message_dingyue1;
-                } else {
-                    return R.layout.item_message_dingyue;
-                }
+                return R.layout.item_message_shoucang;
             }
 
             @Override
-            public int getItemViewType(int position, DingYueItemBean itemMessageBean) {
-
-                if (itemMessageBean.getNotice_class().equals("albumUpdate")) {//订阅的灵感辑更新消息
-                    return 0;
-                } else {//加入到灵感辑消息
-                    return 1;
-                }
+            public int getItemViewType(int position, MsgNoticeBean itemMessageBean) {
+                return 0;
             }
         };
-        mAdapter = new MultiItemCommonAdapter<DingYueItemBean>(activity, mListData, support) {
+        mAdapter = new MultiItemCommonAdapter<MsgNoticeBean>(activity, mListData, support) {
             @Override
             public void convert(BaseViewHolder holder, final int position) {
 
                 ImageUtils.displayRoundImage(mListData.get(position).getUser_info().getAvatar(), (RoundImageView) holder.getView(R.id.riv_header));
-                if (TextUtils.isEmpty(mListData.get(position).getImage().getImg0())) {
-                    ImageUtils.disRectangleDefaultImage("", (ImageView) holder.getView(R.id.iv_imageview));
-                } else {
-                    ImageUtils.disRectangleImage(mListData.get(position).getImage().getImg0(), (ImageView) holder.getView(R.id.iv_imageview));
-                }
+                ImageUtils.disRectangleImage(mListData.get(position).getImage().getImg0(), (ImageView) holder.getView(R.id.iv_imageview));
                 ((TextView) holder.getView(R.id.tv_name)).setText(mListData.get(position).getUser_info().getNickname());
                 ((TextView) holder.getView(R.id.tv_content)).setText(mListData.get(position).getContent());
                 ((TextView) holder.getView(R.id.tv_time)).setText(mListData.get(position).getAdd_time());
@@ -137,7 +121,6 @@ public class XXDingYueFragment
                         startActivity(intent);
                     }
                 });
-
             }
         };
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
@@ -169,6 +152,7 @@ public class XXDingYueFragment
 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+
         Intent intent = new Intent(activity, InspirationDetailActivity.class);
         intent.putExtra("user_id", user_id);
         intent.putExtra("ifHideEdit", true);
@@ -194,8 +178,8 @@ public class XXDingYueFragment
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
-                        MsgDingYue msgDingYue = GsonUtil.jsonToBean(data_msg, MsgDingYue.class);
-                        List<DingYueItemBean> list = msgDingYue.getNotice_list();
+                        MsgGZBean msgGZBean = GsonUtil.jsonToBean(data_msg, MsgGZBean.class);
+                        List<MsgNoticeBean> list = msgGZBean.getNotice_list();
                         if (null != list && 0 != list.size()) {
                             changeNone(0);
                             updateViewFromData(list, state);
@@ -213,11 +197,11 @@ public class XXDingYueFragment
                 }
             }
         };
-        MyHttpManager.getInstance().dingYueMSGList(page_num, 20, callback);
+        MyHttpManager.getInstance().albumMSGList(page_num, 20, callback);
 
     }
 
-    private void updateViewFromData(List<DingYueItemBean> listData, String state) {
+    private void updateViewFromData(List<MsgNoticeBean> listData, String state) {
         switch (state) {
             case REFRESH_STATUS:
                 mListData.clear();
@@ -254,6 +238,5 @@ public class XXDingYueFragment
 
         }
     }
-
 
 }

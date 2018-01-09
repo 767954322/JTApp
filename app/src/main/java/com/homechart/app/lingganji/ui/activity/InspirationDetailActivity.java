@@ -363,7 +363,7 @@ public class InspirationDetailActivity extends BaseActivity
 
                         changeTopUI(inspirationDetailBean);
                     } else {
-                        ToastUtils.showCenter(InspirationDetailActivity.this, "专辑详情获取失败！");
+                        ToastUtils.showCenter(InspirationDetailActivity.this, error_msg);
                     }
                 } catch (JSONException e) {
                 }
