@@ -54,6 +54,7 @@ import com.homechart.app.home.bean.shouye.SYDataColorBean;
 import com.homechart.app.home.bean.shouye.SYDataObjectBean;
 import com.homechart.app.home.bean.shouye.SYDataObjectImgBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
 import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.myview.HomeTabPopWin;
 import com.homechart.app.myview.RoundImageView;
@@ -245,44 +246,26 @@ public class SearchPicFragment
                         startActivity(intent);
                     }
                 });
-
-                holder.getView(R.id.tv_shoucang_num).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
-                        if (!loginStatus) {
-                            Intent intent = new Intent(activity, LoginActivity.class);
-                            startActivityForResult(intent, 1);
-                        } else {
-                            onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
-                        }
-                    }
-                });
                 holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                        String userid  = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
                         if (!loginStatus) {
                             Intent intent = new Intent(activity, LoginActivity.class);
                             startActivityForResult(intent, 1);
                         } else {
-                            onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
+
+                            Intent intent = new Intent(activity, InspirationSeriesActivity.class);
+                            intent.putExtra("userid", userid);
+                            intent.putExtra("image_url",mListData.get(position).getItem_info().getImage().getImg0());
+                            intent.putExtra("item_id",mListData.get(position).getItem_info().getItem_id());
+                            startActivity(intent);
+
                         }
                     }
                 });
 
-                if (mListData.get(position).getItem_info().getCollect_num().trim().equals("0")) {
-                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.INVISIBLE);
-                } else {
-                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.VISIBLE);
-                }
-                ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
-
-                if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
-                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing);
-                } else {//收藏
-                    ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing1);
-                }
                 holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -297,7 +280,6 @@ public class SearchPicFragment
                                 .setAction("识图入口")      //事件操作
                                 .build());
                         Intent intent1 = new Intent(activity, SearchLoadingActivity.class);
-//                        Intent intent1 = new Intent(ShiBieActivity.this, TestActivity.class);
                         intent1.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg1());
                         intent1.putExtra("type", "lishi");
                         intent1.putExtra("image_id", mListData.get(position).getItem_info().getImage().getImage_id());

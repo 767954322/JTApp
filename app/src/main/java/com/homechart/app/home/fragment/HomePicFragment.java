@@ -472,33 +472,6 @@ public class HomePicFragment
                         startActivity(intent1);
                     }
                 });
-//                holder.getView(R.id.tv_shoucang_num).setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
-//                        if (!loginStatus) {
-//                            //友盟统计
-//                            HashMap<String, String> map4 = new HashMap<String, String>();
-//                            map4.put("evenname", "登录入口");
-//                            map4.put("even", "看图列表页进行图片收藏");
-//                            MobclickAgent.onEvent(activity, "shijian20", map4);
-//                            //ga统计
-//                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-//                                    .setCategory("看图列表页进行图片收藏")  //事件类别
-//                                    .setAction("登录入口")      //事件操作
-//                                    .build());
-//                            Intent intent = new Intent(activity, LoginActivity.class);
-//                            startActivityForResult(intent, 1);
-//                        } else {
-//                            if (null != mInspirationSeriesPop) {
-//                                mInspirationSeriesPop = null;
-//                            }
-//                            mInspirationSeriesPop = new InspirationSeriesPop(activity);
-//                            mInspirationSeriesPop.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-////                          onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
-//                        }
-//                    }
-//                });
                 holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -521,42 +494,12 @@ public class HomePicFragment
 
                             Intent intent = new Intent(activity, InspirationSeriesActivity.class);
                             intent.putExtra("userid", userId);
-                            intent.putExtra("image_url",mListData.get(position).getItem_info().getImage().getImg0());
-                            intent.putExtra("item_id",mListData.get(position).getItem_info().getItem_id());
+                            intent.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg0());
+                            intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
                             startActivity(intent);
-
-//                            if (null != mInspirationSeriesPop) {
-//                                mInspirationSeriesPop = null;
-//                            }
-//                            mInspirationSeriesPop = new InspirationSeriesPop(activity,mListData.get(position),userId);
-//                            mInspirationSeriesPop.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-//                            mInspirationSeriesPop.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-
-//                          onShouCang(!mListData.get(position).getItem_info().getIs_collected().trim().equals("1"), position, mListData.get(position));
                         }
                     }
                 });
-
-//                if (mListData.get(position).getItem_info().getCollect_num().trim().equals("0")) {
-//                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.INVISIBLE);
-//                } else {
-//                    holder.getView(R.id.tv_shoucang_num).setVisibility(View.VISIBLE);
-//                }
-//                ((TextView) holder.getView(R.id.tv_shoucang_num)).setText(mListData.get(position).getItem_info().getCollect_num());
-
-//                if (curentListTag) {
-//                    if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
-//                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.datuxing);
-//                    } else {//收藏
-//                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.datuxing1);
-//                    }
-//                } else {
-//                    if (!mListData.get(position).getItem_info().getIs_collected().equals("1")) {//未收藏
-//                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing);
-//                    } else {//收藏
-//                        ((ImageView) holder.getView(R.id.iv_if_shoucang)).setImageResource(R.drawable.xiaotuxing1);
-//                    }
-//                }
             }
         };
 

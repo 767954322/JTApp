@@ -42,7 +42,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_image_miaosu"
-        android:layout_alignRight="@+id/iv_imageview_one"
         android:layout_marginBottom="@dimen/font_9"
         android:layout_marginTop="@dimen/font_10">
 
@@ -51,7 +50,7 @@
             android:layout_width="@dimen/font_25"
             android:layout_height="@dimen/font_25"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/font_4" />
+            android:layout_marginLeft="@dimen/font_10" />
 
         <TextView
             android:id="@+id/tv_name_pic"
@@ -79,10 +78,9 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:paddingRight="@dimen/font_10"
             android:paddingLeft="@dimen/font_10"
-            android:layout_toLeftOf="@+id/tv_shoucang_num"
-            android:src="@drawable/datuxing"/>
+            android:layout_marginRight="@dimen/font_10"
+            android:src="@drawable/xiaotuxing"/>
 
     </RelativeLayout>
 
