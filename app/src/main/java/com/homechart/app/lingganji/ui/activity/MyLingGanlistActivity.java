@@ -98,7 +98,7 @@ public class MyLingGanlistActivity
     protected void initData(Bundle savedInstanceState) {
         mTital.setText("我的灵感辑");
         mRightCreate.setText("新建");
-        widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_30)) / 2;
+        widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_30)) / 2 - UIUtils.getDimens(R.dimen.font_1);
         buildRecyclerView();
     }
 
@@ -164,7 +164,7 @@ public class MyLingGanlistActivity
                 layoutParams.width = widthPic;
                 holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
                 if (TextUtils.isEmpty(mListData.get(position).getAlbum_info().getCover_image().getImg0())) {
-                    GlideImgManager.glideLoader(MyLingGanlistActivity.this, "", R.drawable.moren, R.drawable.moren,  (ImageView) holder.getView(R.id.iv_item_pic));
+                    GlideImgManager.glideLoader(MyLingGanlistActivity.this, "", R.drawable.moren, R.drawable.moren, (ImageView) holder.getView(R.id.iv_item_pic));
                 } else {
                     ImageUtils.displayFilletHalfImage(mListData.get(position).getAlbum_info().getCover_image().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
                 }

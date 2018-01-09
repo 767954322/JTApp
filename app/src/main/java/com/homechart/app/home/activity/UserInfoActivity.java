@@ -143,7 +143,7 @@ public class UserInfoActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
 
-        widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_30)) / 2;
+        widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_3)) / 2- UIUtils.getDimens(R.dimen.font_1);
         StatusBarUtil.setTranslucentForImageView(this, 0, null);
         int statusBarHeight = PublicUtils.getStatusBarHeight(this);
         ViewGroup.LayoutParams layoutParams = view_tiop.getLayoutParams();
