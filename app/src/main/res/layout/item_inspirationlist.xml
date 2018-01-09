@@ -30,6 +30,10 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/font_11"
             android:layout_toRightOf="@+id/iv_item_pic"
+            android:layout_marginRight="@dimen/font_10"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_toLeftOf="@+id/iv_choose"
             android:textColor="@color/bg_464646"
             android:textSize="@dimen/font_14" />
 
