@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.ImageDetailLongActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.dingyue.DingYueBean;
@@ -79,6 +80,7 @@ public class DingYueFragment
     private int guanli_tag = 0;//0:未打开管理   1:打开管理
     private int num_checked = 0; //选择的个数
     private LoadMoreFooterView mLoadMoreFooterView;
+    private int widthPic;
 
     public DingYueFragment() {
     }
@@ -118,6 +120,8 @@ public class DingYueFragment
     @Override
     protected void initData(Bundle savedInstanceState) {
 
+        widthPic = (PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_30))/2;
+
         buildRecyclerView();
 
     }
@@ -139,10 +143,14 @@ public class DingYueFragment
                 ((TextView) holder.getView(R.id.tv_item_num_pic)).setText(mListData.get(position).getAlbum_info().getItem_num() + "张");
                 ((TextView) holder.getView(R.id.tv_item_num_dingyue)).setText(mListData.get(position).getAlbum_info().getSubscribe_num() + "订阅");
 
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.getView(R.id.iv_shoucang_image).getLayoutParams();
+                layoutParams.width = widthPic;
+                layoutParams.height = widthPic;
+                holder.getView(R.id.iv_shoucang_image).setLayoutParams(layoutParams);
                 if (TextUtils.isEmpty(mListData.get(position).getAlbum_info().getCover_image().getImg0())) {
                     GlideImgManager.glideLoader(activity, "", R.drawable.moren, R.drawable.moren, (ImageView) holder.getView(R.id.iv_shoucang_image));
 
-                }else {
+                } else {
                     ImageUtils.displayFilletHalfImage(mListData.get(position).getAlbum_info().getCover_image().getImg0(),
                             (ImageView) holder.getView(R.id.iv_shoucang_image));
                 }
