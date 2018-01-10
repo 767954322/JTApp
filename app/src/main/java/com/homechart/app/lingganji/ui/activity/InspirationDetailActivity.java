@@ -37,6 +37,7 @@ import com.homechart.app.commont.contract.InterDioalod1;
 import com.homechart.app.commont.utils.MyDialog;
 import com.homechart.app.commont.utils.MyDialog1;
 import com.homechart.app.home.activity.ImageDetailLongActivity;
+import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
@@ -152,6 +153,7 @@ public class InspirationDetailActivity extends BaseActivity
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
     private MyDialog1 mDialog1;
     private String tag;
+    private Boolean loginStatus;
 
     @Override
     protected int getLayoutResId() {
@@ -286,14 +288,23 @@ public class InspirationDetailActivity extends BaseActivity
             case R.id.rl_dingyue1:
             case R.id.rl_dingyue:
             case R.id.rl_dingyue_no:
-                if (ifClickDingYue) {
-                    ifClickDingYue = false;
-                    if (null != inspirationDetailBean && inspirationDetailBean.getInfo().getAlbum_info().getIs_subscribed().equals("1")) {
-                        //取消订阅
-                        removeDingYue();
-                    } else if (null != inspirationDetailBean && inspirationDetailBean.getInfo().getAlbum_info().getIs_subscribed().equals("0")) {
-                        //订阅
-                        addDingYue();
+
+                loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                if (!loginStatus) {
+
+                    Intent intent = new Intent(InspirationDetailActivity.this, LoginActivity.class);
+                    startActivityForResult(intent, 4);
+
+                } else {
+                    if (ifClickDingYue) {
+                        ifClickDingYue = false;
+                        if (null != inspirationDetailBean && inspirationDetailBean.getInfo().getAlbum_info().getIs_subscribed().equals("1")) {
+                            //取消订阅
+                            removeDingYue();
+                        } else if (null != inspirationDetailBean && inspirationDetailBean.getInfo().getAlbum_info().getIs_subscribed().equals("0")) {
+                            //订阅
+                            addDingYue();
+                        }
                     }
                 }
                 break;
@@ -362,6 +373,9 @@ public class InspirationDetailActivity extends BaseActivity
         mRightIcon.setImageResource(R.drawable.gengduo);
         mRightIcon.setVisibility(View.GONE);
         mMyUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
+        if (mMyUserId == null) {
+            mMyUserId = "";
+        }
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_30)) / 2;
         widthPicList = PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_20);
@@ -917,6 +931,8 @@ public class InspirationDetailActivity extends BaseActivity
             onRefresh();
         } else if (resultCode == 3 && requestCode == 3) {
             getInspirationDetail();
+        } else if (resultCode == 4) {
+
         }
 
     }
