@@ -989,9 +989,9 @@ public class ImageDetailLongActivity
                 holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
 
                 String nikeName = mListData.get(position).getUser_info().getNickname();
-                if (nikeName != null && nikeName.length() > 5) {
-                    nikeName = nikeName.substring(0, 5) + "...";
-                }
+//                if (nikeName != null && nikeName.length() > 5) {
+//                    nikeName = nikeName.substring(0, 5) + "...";
+//                }
                 ((TextView) holder.getView(R.id.tv_name_pic)).setText(nikeName);
 
 
