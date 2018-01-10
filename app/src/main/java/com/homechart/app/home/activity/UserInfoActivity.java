@@ -38,6 +38,7 @@ import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.GsonUtil;
+import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.glide.GlideImgManager;
@@ -92,6 +93,7 @@ public class UserInfoActivity
 
     private final String REFRESH_STATUS = "refresh";
     private final String LOADMORE_STATUS = "loadmore";
+    private boolean loginStatus;
 
     @Override
     protected int getLayoutResId() {
@@ -236,18 +238,25 @@ public class UserInfoActivity
                 break;
             case R.id.btn_guanzhu_demand:
 
-                if (userCenterInfoBean != null) {
-                    if (userCenterInfoBean.getUser_info().getRelation().equals("0")) {//未关注（去关注）
-                        getGuanZhu();
-                    } else if (userCenterInfoBean.getUser_info().getRelation().equals("1")) {//已关注
-                        getQuXiao();
-                    } else if (userCenterInfoBean.getUser_info().getRelation().equals("2")) {//相互关注
-                        getQuXiao();
-                    }
-                } else {
-                    ToastUtils.showCenter(UserInfoActivity.this, "个人信息获取失败");
-                }
 
+                loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                if (!loginStatus) {
+                    first = true;
+                    Intent intent1 = new Intent(UserInfoActivity.this, LoginActivity.class);
+                    startActivityForResult(intent1, 3);
+                } else {
+                    if (userCenterInfoBean != null) {
+                        if (userCenterInfoBean.getUser_info().getRelation().equals("0")) {//未关注（去关注）
+                            getGuanZhu();
+                        } else if (userCenterInfoBean.getUser_info().getRelation().equals("1")) {//已关注
+                            getQuXiao();
+                        } else if (userCenterInfoBean.getUser_info().getRelation().equals("2")) {//相互关注
+                            getQuXiao();
+                        }
+                    } else {
+                        ToastUtils.showCenter(UserInfoActivity.this, "个人信息获取失败");
+                    }
+                }
                 break;
             case R.id.iv_header_desiner_center:
 
@@ -572,6 +581,8 @@ public class UserInfoActivity
             onRefresh();
         } else if (requestCode == 2 && resultCode == 2) {
             onRefresh();
+        } else if (requestCode == 3) {
+            getUserInfo();
         }
     }
 
