@@ -278,9 +278,11 @@ public class ImageEditActvity
     private void buildListTag() {
         String tagStr = imageDetailBean.getItem_info().getTag().toString();
         String[] strArray = tagStr.split(" ");
-        for (int i = 0; i < strArray.length; i++) {
-            listTag.add(strArray[i]);
-            selectTags.put(strArray[i], strArray[i]);
+        if(!TextUtils.isEmpty(tagStr)){
+            for (int i = 0; i < strArray.length; i++) {
+                listTag.add(strArray[i]);
+                selectTags.put(strArray[i], strArray[i]);
+            }
         }
     }
 
