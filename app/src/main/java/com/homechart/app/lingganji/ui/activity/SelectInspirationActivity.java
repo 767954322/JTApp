@@ -313,6 +313,7 @@ public class SelectInspirationActivity extends BaseActivity
         SelectInspirationActivity.this.setResult(1, intent);
         SelectInspirationActivity.this.finish();
     }
+
     @Override
     protected void onResume() {
         super.onResume();

@@ -236,10 +236,10 @@ public class InspirationEditActivity extends BaseActivity
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        MobclickAgent.onPageStart("灵感辑详情编辑页");
+        MobclickAgent.onPageStart("灵感辑详情描述编辑页");
         Tracker t = MyApplication.getInstance().getDefaultTracker();
         // Set screen name.
-        t.setScreenName("灵感辑详情编辑页");
+        t.setScreenName("灵感辑详情描述编辑页");
         // Send a screen view.
         t.send(new HitBuilders.ScreenViewBuilder().build());
     }
@@ -247,7 +247,7 @@ public class InspirationEditActivity extends BaseActivity
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("灵感辑详情编辑页");
+        MobclickAgent.onPageEnd("灵感辑详情描述编辑页");
         MobclickAgent.onPause(this);
     }
 }

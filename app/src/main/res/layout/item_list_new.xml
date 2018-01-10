@@ -62,7 +62,9 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/font_10"
             android:layout_toRightOf="@+id/iv_header_pic"
-            android:text="小明"
+            android:layout_toLeftOf="@+id/iv_if_shoucang"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:textSize="@dimen/size_13" />
 
         <ImageView
@@ -93,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:paddingLeft="@dimen/font_10"
+            android:paddingLeft="@dimen/font_25"
             android:paddingRight="@dimen/font_10"
             android:src="@drawable/datuxing" />
 

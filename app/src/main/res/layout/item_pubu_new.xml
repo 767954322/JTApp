@@ -3,40 +3,42 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white">
+
     <ImageView
         android:id="@+id/iv_imageview_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY"
         android:layout_marginLeft="@dimen/font_4"
-        android:layout_marginRight="@dimen/font_4"/>
+        android:layout_marginRight="@dimen/font_4"
+        android:scaleType="fitXY" />
 
     <ImageView
         android:id="@+id/iv_shibie_pic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:layout_alignTop="@+id/iv_imageview_one"
         android:layout_alignRight="@+id/iv_imageview_one"
-        android:layout_marginTop="@dimen/font_7"
+        android:layout_alignTop="@+id/iv_imageview_one"
         android:layout_marginRight="@dimen/font_7"
-        android:visibility="gone"
-        android:src="@drawable/xiaotushibie"/>
+        android:layout_marginTop="@dimen/font_7"
+        android:clickable="true"
+        android:src="@drawable/xiaotushibie"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_image_miaosu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_imageview_one"
         android:layout_marginLeft="@dimen/font_10"
         android:layout_marginRight="@dimen/font_10"
         android:layout_marginTop="@dimen/font_12"
-        android:textSize="@dimen/size_13"
-        android:includeFontPadding="false"
-        android:textColor="@color/bg_464646"
-        android:maxLines="2"
         android:ellipsize="end"
-        android:layout_below="@+id/iv_imageview_one"
-        android:lineSpacingExtra="@dimen/font_3"/>
+        android:includeFontPadding="false"
+        android:lineSpacingExtra="@dimen/font_3"
+        android:maxLines="2"
+        android:textColor="@color/bg_464646"
+        android:textSize="@dimen/size_13" />
+
     <RelativeLayout
         android:id="@+id/rl_test"
         android:layout_width="match_parent"
@@ -58,29 +60,31 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/font_5"
+            android:layout_toLeftOf="@+id/iv_if_shoucang"
             android:layout_toRightOf="@+id/iv_header_pic"
-            android:text="小明"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:textSize="@dimen/font_11" />
 
         <TextView
             android:id="@+id/tv_shoucang_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" "
-            android:textSize="@dimen/size_14"
-            android:visibility="gone"
             android:layout_centerVertical="true"
-            android:textColor="@color/bg_8f8f8f"/>
+            android:text=" "
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_14"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/iv_if_shoucang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:paddingLeft="@dimen/font_10"
+            android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/font_10"
-            android:src="@drawable/xiaotuxing"/>
+            android:paddingLeft="@dimen/font_25"
+            android:src="@drawable/xiaotuxing" />
 
     </RelativeLayout>
 
@@ -88,5 +92,5 @@
         android:id="@+id/view_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_10"
-        android:layout_below="@+id/rl_test"/>
+        android:layout_below="@+id/rl_test" />
 </RelativeLayout>
