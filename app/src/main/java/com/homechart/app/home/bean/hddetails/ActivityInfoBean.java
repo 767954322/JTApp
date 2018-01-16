@@ -3,6 +3,7 @@ package com.homechart.app.home.bean.hddetails;
 import android.app.Activity;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by gumenghao on 17/6/29.
@@ -18,8 +19,11 @@ public class ActivityInfoBean implements Serializable{
     private String state_id;
     private String join_user_num;
     private ActivityImageBean image;
+    private ActivityStepImageBean step_image;
+    private List<ActivityPrizeItemBean> prize_info;
 
-    public ActivityInfoBean(String activity_id, String title, String description, String start_time, String end_time, String state_id, String join_user_num, ActivityImageBean image) {
+
+    public ActivityInfoBean(String activity_id, String title, String description, String start_time, String end_time, String state_id, String join_user_num, ActivityImageBean image, ActivityStepImageBean step_image, List<ActivityPrizeItemBean> prize_info) {
         this.activity_id = activity_id;
         this.title = title;
         this.description = description;
@@ -28,6 +32,8 @@ public class ActivityInfoBean implements Serializable{
         this.state_id = state_id;
         this.join_user_num = join_user_num;
         this.image = image;
+        this.step_image = step_image;
+        this.prize_info = prize_info;
     }
 
     public String getActivity_id() {
@@ -94,6 +100,22 @@ public class ActivityInfoBean implements Serializable{
         this.image = image;
     }
 
+    public ActivityStepImageBean getStep_image() {
+        return step_image;
+    }
+
+    public void setStep_image(ActivityStepImageBean step_image) {
+        this.step_image = step_image;
+    }
+
+    public List<ActivityPrizeItemBean> getPrize_info() {
+        return prize_info;
+    }
+
+    public void setPrize_info(List<ActivityPrizeItemBean> prize_info) {
+        this.prize_info = prize_info;
+    }
+
     @Override
     public String toString() {
         return "ActivityInfoBean{" +
@@ -105,6 +127,8 @@ public class ActivityInfoBean implements Serializable{
                 ", state_id='" + state_id + '\'' +
                 ", join_user_num='" + join_user_num + '\'' +
                 ", image=" + image +
+                ", step_image=" + step_image +
+                ", prize_info=" + prize_info +
                 '}';
     }
 }

@@ -87,7 +87,7 @@ public class NewHuoDongDetailsActivity
     private String activity_id;
     private int n = 20;
     private int page = 1;
-    private Button tv_add_activity;
+    private ImageView iv_add_activity;
     private List<ItemHuoDataBean> mListData = new ArrayList<>();
     private MultiItemCommonAdapter<ItemHuoDataBean> mAdapter;
     private View headerView;
@@ -167,7 +167,7 @@ public class NewHuoDongDetailsActivity
         iv_huodong_start = (ImageView) headerView.findViewById(R.id.iv_huodong_start);
 
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
-        tv_add_activity = (Button) findViewById(R.id.tv_add_activity);
+        iv_add_activity = (ImageView) findViewById(R.id.iv_add_activity);
         nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
         mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview_info);
 
@@ -178,7 +178,7 @@ public class NewHuoDongDetailsActivity
     protected void initListener() {
         super.initListener();
         nav_left_imageButton.setOnClickListener(this);
-        tv_add_activity.setOnClickListener(this);
+        iv_add_activity.setOnClickListener(this);
         rl_zhankai.setOnClickListener(this);
     }
 
@@ -199,7 +199,7 @@ public class NewHuoDongDetailsActivity
             case R.id.nav_left_imageButton:
                 NewHuoDongDetailsActivity.this.finish();
                 break;
-            case R.id.tv_add_activity:
+            case R.id.iv_add_activity:
 
                 break;
             case R.id.rl_zhankai:

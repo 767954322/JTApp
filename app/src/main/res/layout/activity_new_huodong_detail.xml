@@ -21,17 +21,13 @@
         app:refreshEnabled="false"
         app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
 
-    <Button
-        android:id="@+id/tv_add_activity"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/font_40"
+    <ImageView
+        android:id="@+id/iv_add_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="7dp"
-        android:background="@drawable/bt_add_activity"
-        android:gravity="center"
-        android:text="报名夺奖"
-        android:textColor="@color/white"
-        android:textSize="@dimen/font_14" />
+        android:src="@drawable/baoming"/>
 
 </RelativeLayout>
