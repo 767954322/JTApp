@@ -326,10 +326,73 @@
         android:layout_below="@+id/rl_jiangpin_tital"/>
 
     <RelativeLayout
-        android:id="@+id/rl_lingganji_tital"
+        android:id="@+id/rl_shuoming_tital"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lv_jiangpin_list"
+        android:layout_marginBottom="@dimen/font_27"
+        android:layout_marginTop="@dimen/font_40">
+
+        <com.homechart.app.myview.RoundImageView
+            android:layout_width="@dimen/font_5"
+            android:layout_height="@dimen/font_5"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_6"
+            android:layout_toLeftOf="@+id/tv_shuoming_tital"
+            android:background="@color/view_line" />
+
+        <com.homechart.app.myview.RoundImageView
+            android:layout_width="@dimen/font_5"
+            android:layout_height="@dimen/font_5"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_6"
+            android:layout_toRightOf="@+id/tv_shuoming_tital"
+            android:background="@color/view_line" />
+
+        <TextView
+            android:id="@+id/tv_shuoming_tital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="活动说明"
+            android:textColor="@color/bg_464646"
+            android:textSize="@dimen/size_16" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_huodong_shuoming"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_shuoming_tital"
+        android:textColor="@color/bg_707070"
+        android:includeFontPadding="false"
+        android:lineSpacingExtra="@dimen/font_8"
+        android:layout_marginLeft="@dimen/font_15"
+        android:layout_marginRight="@dimen/font_15"
+        android:textSize="@dimen/size_14"/>
+
+    <TextView
+        android:id="@+id/tv_huodong_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_huodong_shuoming"
+        android:textColor="@color/bg_8f8f8f"
+        android:includeFontPadding="false"
+        android:lineSpacingExtra="@dimen/font_4"
+        android:layout_marginLeft="@dimen/font_15"
+        android:layout_marginRight="@dimen/font_15"
+        android:layout_marginTop="@dimen/font_25"
+        android:text="活动最终解释权归家图网所有，点击参加活动的用户视同同意"
+        android:textSize="@dimen/size_12"/>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_lingganji_tital"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_huodong_hint"
         android:layout_marginBottom="@dimen/font_17"
         android:layout_marginTop="@dimen/font_40">
 

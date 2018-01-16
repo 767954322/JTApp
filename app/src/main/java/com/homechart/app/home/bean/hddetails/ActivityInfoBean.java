@@ -14,6 +14,7 @@ public class ActivityInfoBean implements Serializable{
     private String activity_id;
     private String title;
     private String description;
+    private String details;
     private String start_time;
     private String end_time;
     private String state_id;
@@ -23,10 +24,11 @@ public class ActivityInfoBean implements Serializable{
     private List<ActivityPrizeItemBean> prize_info;
 
 
-    public ActivityInfoBean(String activity_id, String title, String description, String start_time, String end_time, String state_id, String join_user_num, ActivityImageBean image, ActivityStepImageBean step_image, List<ActivityPrizeItemBean> prize_info) {
+    public ActivityInfoBean(String activity_id, String title, String description, String details, String start_time, String end_time, String state_id, String join_user_num, ActivityImageBean image, ActivityStepImageBean step_image, List<ActivityPrizeItemBean> prize_info) {
         this.activity_id = activity_id;
         this.title = title;
         this.description = description;
+        this.details = details;
         this.start_time = start_time;
         this.end_time = end_time;
         this.state_id = state_id;
@@ -58,6 +60,14 @@ public class ActivityInfoBean implements Serializable{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     public String getStart_time() {
@@ -122,6 +132,7 @@ public class ActivityInfoBean implements Serializable{
                 "activity_id='" + activity_id + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
+                ", details='" + details + '\'' +
                 ", start_time='" + start_time + '\'' +
                 ", end_time='" + end_time + '\'' +
                 ", state_id='" + state_id + '\'' +

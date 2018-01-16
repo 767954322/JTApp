@@ -127,6 +127,7 @@ public class NewHuoDongDetailsActivity
     private ImageView iv_huodong_start;
     private MyListView lv_jiangpin_list;
     private MyHuoDongJiangAdapter myHuoDongJiangAdapter;
+    private TextView tv_huodong_shuoming;
 
     @Override
     protected int getLayoutResId() {
@@ -171,6 +172,7 @@ public class NewHuoDongDetailsActivity
         tv_show_num_people = (TextView) headerView.findViewById(R.id.tv_show_num_people);
         iv_huodong_start = (ImageView) headerView.findViewById(R.id.iv_huodong_start);
         lv_jiangpin_list = (MyListView) headerView.findViewById(R.id.lv_jiangpin_list);
+        tv_huodong_shuoming = (TextView) headerView.findViewById(R.id.tv_huodong_shuoming);
 
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
         iv_add_activity = (ImageView) findViewById(R.id.iv_add_activity);
@@ -460,7 +462,7 @@ public class NewHuoDongDetailsActivity
         List<ActivityPrizeItemBean> listPrize = activityInfoBean.getPrize_info();
         myHuoDongJiangAdapter = new MyHuoDongJiangAdapter(listPrize, NewHuoDongDetailsActivity.this);
         lv_jiangpin_list.setAdapter(myHuoDongJiangAdapter);
-
+        tv_huodong_shuoming.setText(activityInfoBean.getDetails());
     }
 
     //获取热图片／最新
