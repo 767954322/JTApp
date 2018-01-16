@@ -128,6 +128,7 @@ public class NewHuoDongDetailsActivity
     private MyListView lv_jiangpin_list;
     private MyHuoDongJiangAdapter myHuoDongJiangAdapter;
     private TextView tv_huodong_shuoming;
+    private RelativeLayout rl_header;
 
     @Override
     protected int getLayoutResId() {
@@ -173,6 +174,7 @@ public class NewHuoDongDetailsActivity
         iv_huodong_start = (ImageView) headerView.findViewById(R.id.iv_huodong_start);
         lv_jiangpin_list = (MyListView) headerView.findViewById(R.id.lv_jiangpin_list);
         tv_huodong_shuoming = (TextView) headerView.findViewById(R.id.tv_huodong_shuoming);
+        rl_header = (RelativeLayout) headerView.findViewById(R.id.rl_header);
 
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
         iv_add_activity = (ImageView) findViewById(R.id.iv_add_activity);
@@ -333,7 +335,7 @@ public class NewHuoDongDetailsActivity
 
     //获得活动详情，更新ui
     private void changeTopUI(HDDetailsBean hdDetailsBean) {
-
+        rl_header.setVisibility(View.VISIBLE);
         activityInfoBean = hdDetailsBean.getData().getActivity_info();
         ViewGroup.LayoutParams layoutParams = iv_huodong_image.getLayoutParams();
         layoutParams.width = width_activity;
