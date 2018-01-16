@@ -282,12 +282,54 @@
         android:layout_below="@+id/rl_center_perple"
         android:layout_marginTop="@dimen/font_40" />
 
+    <RelativeLayout
+        android:id="@+id/rl_jiangpin_tital"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_huodong_start"
+        android:layout_marginBottom="@dimen/font_27"
+        android:layout_marginTop="@dimen/font_40">
+
+        <com.homechart.app.myview.RoundImageView
+            android:layout_width="@dimen/font_5"
+            android:layout_height="@dimen/font_5"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_6"
+            android:layout_toLeftOf="@+id/tv_jiangpin_tital"
+            android:background="@color/view_line" />
+
+        <com.homechart.app.myview.RoundImageView
+            android:layout_width="@dimen/font_5"
+            android:layout_height="@dimen/font_5"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_6"
+            android:layout_toRightOf="@+id/tv_jiangpin_tital"
+            android:background="@color/view_line" />
+
+        <TextView
+            android:id="@+id/tv_jiangpin_tital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="奖品介绍"
+            android:textColor="@color/bg_464646"
+            android:textSize="@dimen/size_16" />
+
+
+    </RelativeLayout>
+
+    <com.homechart.app.myview.MyListView
+        android:id="@+id/lv_jiangpin_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@null"
+        android:layout_below="@+id/rl_jiangpin_tital"/>
 
     <RelativeLayout
         android:id="@+id/rl_lingganji_tital"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/iv_huodong_start"
+        android:layout_below="@+id/lv_jiangpin_list"
         android:layout_marginBottom="@dimen/font_17"
         android:layout_marginTop="@dimen/font_40">
 

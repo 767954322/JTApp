@@ -38,6 +38,7 @@ import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.LoginActivity;
+import com.homechart.app.home.activity.NewHuoDongDetailsActivity;
 import com.homechart.app.home.activity.SearchActivity;
 import com.homechart.app.home.activity.ShaiXuanResultActicity;
 import com.homechart.app.home.activity.UserInfoActivity;
@@ -260,20 +261,21 @@ public class HomePicFragment
 
                 break;
             case R.id.iv_change_frag:
-
-                if (curentListTag) {
-                    curentListTag = false;
-                    mRecyclerView.setPadding(UIUtils.getDimens(R.dimen.font_6), 0, UIUtils.getDimens(R.dimen.font_6), 0);
-                    iv_change_frag.setImageResource(R.drawable.changtu);
-                    mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
-
-                } else {
-                    curentListTag = true;
-                    mRecyclerView.setPadding(0, 0, 0, 0);
-                    mRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
-                    iv_change_frag.setImageResource(R.drawable.pubuliu);
-
-                }
+                Intent intent20 = new Intent(activity, NewHuoDongDetailsActivity.class);
+                startActivity(intent20);
+//                if (curentListTag) {
+//                    curentListTag = false;
+//                    mRecyclerView.setPadding(UIUtils.getDimens(R.dimen.font_6), 0, UIUtils.getDimens(R.dimen.font_6), 0);
+//                    iv_change_frag.setImageResource(R.drawable.changtu);
+//                    mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+//
+//                } else {
+//                    curentListTag = true;
+//                    mRecyclerView.setPadding(0, 0, 0, 0);
+//                    mRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
+//                    iv_change_frag.setImageResource(R.drawable.pubuliu);
+//
+//                }
                 break;
             case R.id.rl_shibie:
                 if (ContextCompat.checkSelfPermission(activity,

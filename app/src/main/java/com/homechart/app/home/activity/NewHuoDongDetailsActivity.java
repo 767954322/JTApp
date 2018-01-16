@@ -24,8 +24,10 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
+import com.homechart.app.home.adapter.MyHuoDongJiangAdapter;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.hddetails.ActivityInfoBean;
+import com.homechart.app.home.bean.hddetails.ActivityPrizeItemBean;
 import com.homechart.app.home.bean.hddetails.HDDetailsBean;
 import com.homechart.app.home.bean.hddetails.ItemUserBean;
 import com.homechart.app.home.bean.huodong.HuoDongDataBean;
@@ -36,6 +38,7 @@ import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
 import com.homechart.app.lingganji.ui.activity.MyLingGanlistActivity;
 import com.homechart.app.myview.HomeSharedPopWinPublic;
+import com.homechart.app.myview.MyListView;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.myview.SelectPicPopupWindow;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
@@ -122,6 +125,8 @@ public class NewHuoDongDetailsActivity
     private int widthPic;
     private String mUserId;
     private ImageView iv_huodong_start;
+    private MyListView lv_jiangpin_list;
+    private MyHuoDongJiangAdapter myHuoDongJiangAdapter;
 
     @Override
     protected int getLayoutResId() {
@@ -165,6 +170,7 @@ public class NewHuoDongDetailsActivity
         riv_one = (RoundImageView) headerView.findViewById(R.id.riv_one);
         tv_show_num_people = (TextView) headerView.findViewById(R.id.tv_show_num_people);
         iv_huodong_start = (ImageView) headerView.findViewById(R.id.iv_huodong_start);
+        lv_jiangpin_list = (MyListView) headerView.findViewById(R.id.lv_jiangpin_list);
 
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
         iv_add_activity = (ImageView) findViewById(R.id.iv_add_activity);
@@ -449,6 +455,11 @@ public class NewHuoDongDetailsActivity
         layoutParams1.height = (int) (PublicUtils.getScreenWidth(NewHuoDongDetailsActivity.this) / 0.5357);
         iv_huodong_start.setLayoutParams(layoutParams1);
         ImageUtils.disRectangleImageHuoDong("", iv_huodong_start);
+
+
+        List<ActivityPrizeItemBean> listPrize = activityInfoBean.getPrize_info();
+        myHuoDongJiangAdapter = new MyHuoDongJiangAdapter(listPrize, NewHuoDongDetailsActivity.this);
+        lv_jiangpin_list.setAdapter(myHuoDongJiangAdapter);
 
     }
 
