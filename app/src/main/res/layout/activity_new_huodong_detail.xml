@@ -20,19 +20,18 @@
         app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer_huodong"
         app:refreshEnabled="false"
         app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
-    
+
     <Button
         android:id="@+id/tv_add_activity"
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_40"
-        android:textSize="@dimen/font_14"
-        android:textColor="@color/white"
-        android:gravity="center"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/font_10"
-        android:layout_marginLeft="@dimen/font_30"
-        android:layout_marginRight="@dimen/font_30"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="7dp"
         android:background="@drawable/bt_add_activity"
-        android:text="报名夺奖"/>
+        android:gravity="center"
+        android:text="报名夺奖"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_14" />
 
 </RelativeLayout>

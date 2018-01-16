@@ -82,20 +82,14 @@ public class NewHuoDongDetailsActivity
 
     private TextView tv_tital_comment;
     private ImageButton nav_left_imageButton;
-    private ImageButton nav_secondary_imageButton;
     private HRecyclerView mRecyclerView;
     private LoadMoreFooterView mLoadMoreFooterView;
-    private List<Integer> mListDataHeight = new ArrayList<>();
-
     private String activity_id;
     private int n = 20;
     private int page = 1;
-    private String sort = "hot";// hot：热度 new:最新
     private Button tv_add_activity;
-    private SelectPicPopupWindow menuWindow;
     private List<ItemHuoDataBean> mListData = new ArrayList<>();
     private MultiItemCommonAdapter<ItemHuoDataBean> mAdapter;
-    private int width_Pic;
     private View headerView;
     private ImageView iv_huodong_image;
     private int width_activity;
@@ -116,7 +110,6 @@ public class NewHuoDongDetailsActivity
     private RoundImageView riv_one;
     private TextView tv_show_num_people;
     private HDDetailsBean hdDetailsBean;
-    private TextView tv_content_right;
     private RelativeLayout rl_zhankai;
     private TextView tv_zhankai;
     private ImageView iv_zhankai;
@@ -128,6 +121,7 @@ public class NewHuoDongDetailsActivity
     private TextView tv_data_last1;
     private int widthPic;
     private String mUserId;
+    private ImageView iv_huodong_start;
 
     @Override
     protected int getLayoutResId() {
@@ -170,12 +164,11 @@ public class NewHuoDongDetailsActivity
         riv_two = (RoundImageView) headerView.findViewById(R.id.riv_two);
         riv_one = (RoundImageView) headerView.findViewById(R.id.riv_one);
         tv_show_num_people = (TextView) headerView.findViewById(R.id.tv_show_num_people);
+        iv_huodong_start = (ImageView) headerView.findViewById(R.id.iv_huodong_start);
 
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
         tv_add_activity = (Button) findViewById(R.id.tv_add_activity);
         nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
-        tv_content_right = (TextView) findViewById(R.id.tv_content_right);
-        nav_secondary_imageButton = (ImageButton) findViewById(R.id.nav_secondary_imageButton);
         mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview_info);
 
 
@@ -185,7 +178,6 @@ public class NewHuoDongDetailsActivity
     protected void initListener() {
         super.initListener();
         nav_left_imageButton.setOnClickListener(this);
-        tv_content_right.setOnClickListener(this);
         tv_add_activity.setOnClickListener(this);
         rl_zhankai.setOnClickListener(this);
     }
@@ -196,13 +188,8 @@ public class NewHuoDongDetailsActivity
         widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_30)) / 2;
         tv_tital_comment.setText("主题活动");
         width_activity = PublicUtils.getScreenWidth(NewHuoDongDetailsActivity.this) - UIUtils.getDimens(R.dimen.font_30);
-        width_Pic = PublicUtils.getScreenWidth(NewHuoDongDetailsActivity.this) / 2 - UIUtils.getDimens(R.dimen.font_14);
-        menuWindow = new SelectPicPopupWindow(NewHuoDongDetailsActivity.this, NewHuoDongDetailsActivity.this);
         buildRecycler();
         getHuoDongData();
-    }
-
-    private void fabu() {
     }
 
     @Override
@@ -213,19 +200,7 @@ public class NewHuoDongDetailsActivity
                 NewHuoDongDetailsActivity.this.finish();
                 break;
             case R.id.tv_add_activity:
-                fabu();
-                //参与
-                menuWindow.showAtLocation(NewHuoDongDetailsActivity.this.findViewById(R.id.main),
-                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
-                        0,
-                        0); //设置layout在PopupWindow中显示的位置
-                break;
 
-            case R.id.rl_pop_main:
-                menuWindow.dismiss();
-                break;
-            case R.id.iv_bufabu:
-                menuWindow.dismiss();
                 break;
             case R.id.rl_zhankai:
 
@@ -356,7 +331,6 @@ public class NewHuoDongDetailsActivity
         layoutParams.width = width_activity;
         layoutParams.height = (int) (width_activity / 2.36);
         iv_huodong_image.setLayoutParams(layoutParams);
-
         ImageUtils.displayFilletImage(activityInfoBean.getImage().getImg0(), iv_huodong_image);
         tv_tital_huodong.setText(activityInfoBean.getTitle());
 
@@ -417,7 +391,7 @@ public class NewHuoDongDetailsActivity
             rl_people_list.setVisibility(View.GONE);
             tv_no_people.setVisibility(View.VISIBLE);
         } else {
-            tv_show_num_people.setText(activityInfoBean.getJoin_user_num() + "人参与晒图");
+            tv_show_num_people.setText(activityInfoBean.getJoin_user_num() + "人参与夺奖");
             rl_people_list.setVisibility(View.VISIBLE);
             tv_no_people.setVisibility(View.GONE);
             if (list_user.size() == 1) {
@@ -469,6 +443,12 @@ public class NewHuoDongDetailsActivity
                 ImageUtils.displayRoundImage(list_user.get(4).getAvatar().getThumb(), riv_five);
             }
         }
+
+        ViewGroup.LayoutParams layoutParams1 = iv_huodong_start.getLayoutParams();
+        layoutParams1.width = PublicUtils.getScreenWidth(NewHuoDongDetailsActivity.this);
+        layoutParams1.height = (int) (PublicUtils.getScreenWidth(NewHuoDongDetailsActivity.this) / 0.5357);
+        iv_huodong_start.setLayoutParams(layoutParams1);
+        ImageUtils.disRectangleImageHuoDong("", iv_huodong_start);
 
     }
 
@@ -522,11 +502,6 @@ public class NewHuoDongDetailsActivity
         mListData.addAll(item_list);
         mAdapter.notifyData(mListData);
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

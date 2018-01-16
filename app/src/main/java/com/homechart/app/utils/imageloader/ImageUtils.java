@@ -37,6 +37,18 @@ public class ImageUtils {
             .resetViewBeforeLoading(true)
             .build();
 
+    //加载矩形大图的options
+    private static final DisplayImageOptions rectangleoptionshuodong = new DisplayImageOptions.Builder()
+            .showImageOnLoading(R.drawable.datu)
+            .showImageOnFail(R.drawable.datu)
+            .showImageForEmptyUri(R.drawable.datu)
+            .cacheInMemory(true)
+            .cacheOnDisk(true)
+            .bitmapConfig(Bitmap.Config.ALPHA_8)
+            .imageScaleType(ImageScaleType.EXACTLY)
+            .resetViewBeforeLoading(true)
+            .build();
+
     //加载矩形大图的options(加载中为透明)
     private static final DisplayImageOptions rectangleoptionstou = new DisplayImageOptions.Builder()
             .showImageOnLoading(R.color.touming)
@@ -81,7 +93,7 @@ public class ImageUtils {
             .cacheInMemory(true)
             .cacheOnDisc(true)
             .bitmapConfig(Bitmap.Config.RGB_565)   //设置图片的解码类型
-            .displayer(new FlexibleRoundedBitmapDisplayer(8,FlexibleRoundedBitmapDisplayer.CORNER_TOP_LEFT | FlexibleRoundedBitmapDisplayer.CORNER_TOP_RIGHT))
+            .displayer(new FlexibleRoundedBitmapDisplayer(8, FlexibleRoundedBitmapDisplayer.CORNER_TOP_LEFT | FlexibleRoundedBitmapDisplayer.CORNER_TOP_RIGHT))
             .imageScaleType(ImageScaleType.EXACTLY)
             .build();
 
@@ -165,6 +177,7 @@ public class ImageUtils {
             GlideImgManager.glideLoader(MyApplication.getInstance(), imageUrl, R.color.white, R.color.white, imageView, 1);
         }
     }
+
     /**
      * 加载圆角图片
      *
@@ -195,6 +208,17 @@ public class ImageUtils {
         } else {
             GlideImgManager.glideLoader(MyApplication.getInstance(), imageUrl, R.color.white, R.color.white, imageView);
         }
+    }
+
+    /**
+     * 加载矩形图片
+     *
+     * @param imageUrl
+     * @param imageView
+     */
+    public static void disRectangleImageHuoDong(String imageUrl, ImageView imageView) {
+        if (imageView != null)
+            ImageLoader.getInstance().displayImage(imageUrl, imageView, rectangleoptionshuodong);
     }
 
     /**

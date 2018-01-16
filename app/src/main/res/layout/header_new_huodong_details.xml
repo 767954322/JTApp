@@ -257,7 +257,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/view_num_perple"
-                android:text="0人参与晒图"
                 android:textColor="@color/bg_8f8f8f"
                 android:textSize="@dimen/size_12" />
 
@@ -276,12 +275,48 @@
     </RelativeLayout>
 
 
-    <View
-        android:id="@+id/view_up_hot_new"
+    <ImageView
+        android:id="@+id/iv_huodong_start"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/rl_center_perple"
-        android:layout_marginTop="@dimen/font_30"
-        android:background="@color/view_line" />
+        android:layout_marginTop="@dimen/font_40" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_lingganji_tital"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_huodong_start"
+        android:layout_marginBottom="@dimen/font_17"
+        android:layout_marginTop="@dimen/font_40">
+
+        <com.homechart.app.myview.RoundImageView
+            android:layout_width="@dimen/font_5"
+            android:layout_height="@dimen/font_5"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_6"
+            android:layout_toLeftOf="@+id/tv_lingganji_tital"
+            android:background="@color/view_line" />
+
+        <com.homechart.app.myview.RoundImageView
+            android:layout_width="@dimen/font_5"
+            android:layout_height="@dimen/font_5"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_6"
+            android:layout_toRightOf="@+id/tv_lingganji_tital"
+            android:background="@color/view_line" />
+
+        <TextView
+            android:id="@+id/tv_lingganji_tital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="活动灵感辑展示"
+            android:textColor="@color/bg_464646"
+            android:textSize="@dimen/size_16" />
+
+
+    </RelativeLayout>
 
 </RelativeLayout>
