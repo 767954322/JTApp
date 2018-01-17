@@ -21,13 +21,19 @@
         app:refreshEnabled="false"
         app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
 
-    <ImageView
-        android:id="@+id/iv_add_activity"
+
+    <Button
+        android:id="@+id/bt_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="7dp"
-        android:src="@drawable/baoming"/>
+        android:text="报名夺奖"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_14"
+        android:background="@drawable/keyidianji"/>
 
 </RelativeLayout>

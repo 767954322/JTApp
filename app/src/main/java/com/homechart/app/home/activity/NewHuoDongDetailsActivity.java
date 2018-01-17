@@ -90,7 +90,7 @@ public class NewHuoDongDetailsActivity
     private String activity_id;
     private int n = 20;
     private int page = 1;
-    private ImageView iv_add_activity;
+    private Button bt_add;
     private List<ItemHuoDataBean> mListData = new ArrayList<>();
     private MultiItemCommonAdapter<ItemHuoDataBean> mAdapter;
     private View headerView;
@@ -129,6 +129,7 @@ public class NewHuoDongDetailsActivity
     private MyHuoDongJiangAdapter myHuoDongJiangAdapter;
     private TextView tv_huodong_shuoming;
     private RelativeLayout rl_header;
+    private Boolean loginStatus;
 
     @Override
     protected int getLayoutResId() {
@@ -177,7 +178,7 @@ public class NewHuoDongDetailsActivity
         rl_header = (RelativeLayout) headerView.findViewById(R.id.rl_header);
 
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
-        iv_add_activity = (ImageView) findViewById(R.id.iv_add_activity);
+        bt_add = (Button) findViewById(R.id.bt_add);
         nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
         mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview_info);
 
@@ -188,7 +189,7 @@ public class NewHuoDongDetailsActivity
     protected void initListener() {
         super.initListener();
         nav_left_imageButton.setOnClickListener(this);
-        iv_add_activity.setOnClickListener(this);
+        bt_add.setOnClickListener(this);
         rl_zhankai.setOnClickListener(this);
     }
 
@@ -209,11 +210,21 @@ public class NewHuoDongDetailsActivity
             case R.id.nav_left_imageButton:
                 NewHuoDongDetailsActivity.this.finish();
                 break;
-            case R.id.iv_add_activity:
-                Intent intent = new Intent(NewHuoDongDetailsActivity.this,ZhongJiangListActivity.class);
-                intent.putExtra("activity_id",activity_id);
-                startActivity(intent);
-//                addHuoDong();
+            case R.id.bt_add:
+
+                loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                if (!loginStatus) {
+                    Intent intent = new Intent(NewHuoDongDetailsActivity.this, LoginActivity.class);
+                    startActivityForResult(intent, 1);
+                } else {
+                    if (activityInfoBean != null && activityInfoBean.getState_id().equals("3") && !activityInfoBean.isIs_joined()) {
+                        addHuoDong();
+                    } else if (activityInfoBean != null && activityInfoBean.getState_id().equals("4")) {
+                        Intent intent = new Intent(NewHuoDongDetailsActivity.this, ZhongJiangListActivity.class);
+                        intent.putExtra("activity_id", activity_id);
+                        startActivity(intent);
+                    }
+                }
                 break;
             case R.id.rl_zhankai:
 
@@ -338,11 +349,12 @@ public class NewHuoDongDetailsActivity
 
     //获得活动详情，更新ui
     private void changeTopUI(HDDetailsBean hdDetailsBean) {
+        bt_add.setVisibility(View.VISIBLE);
         rl_header.setVisibility(View.VISIBLE);
         activityInfoBean = hdDetailsBean.getData().getActivity_info();
         ViewGroup.LayoutParams layoutParams = iv_huodong_image.getLayoutParams();
         layoutParams.width = width_activity;
-        layoutParams.height = (int) (width_activity / 2.36);
+        layoutParams.height = (int) (width_activity / activityInfoBean.getImage().getRatio());
         iv_huodong_image.setLayoutParams(layoutParams);
         ImageUtils.displayFilletImage(activityInfoBean.getImage().getImg0(), iv_huodong_image);
         tv_tital_huodong.setText(activityInfoBean.getTitle());
@@ -360,12 +372,26 @@ public class NewHuoDongDetailsActivity
                 iv_data_last_icon1.setVisibility(View.VISIBLE);
                 tv_data_last1.setVisibility(View.VISIBLE);
                 tv_data_last1.setText("已结束");
+
+                bt_add.setBackgroundResource(R.drawable.bukedianji);
+                bt_add.setText("报名夺奖");
+                bt_add.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
             } else {
                 iv_data_last_icon.setVisibility(View.VISIBLE);
                 tv_data_last.setVisibility(View.VISIBLE);
                 iv_data_last_icon1.setVisibility(View.GONE);
                 tv_data_last1.setVisibility(View.GONE);
                 tv_data_last.setText("还剩" + Math.abs(data) + "天");
+
+                if (activityInfoBean.isIs_joined()) {
+                    bt_add.setBackgroundResource(R.drawable.bukedianji);
+                    bt_add.setText("报名夺奖");
+                    bt_add.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                } else {
+                    bt_add.setBackgroundResource(R.drawable.keyidianji);
+                    bt_add.setText("报名夺奖");
+                    bt_add.setTextColor(UIUtils.getColor(R.color.white));
+                }
             }
 
         } else if (activityInfoBean.getState_id().equals("2")) {
@@ -374,12 +400,20 @@ public class NewHuoDongDetailsActivity
             iv_data_last_icon1.setVisibility(View.GONE);
             tv_data_last1.setVisibility(View.GONE);
             tv_data_last.setText("敬请期待");
-        } else if (activityInfoBean.getState_id().equals("1")) {
+
+            bt_add.setBackgroundResource(R.drawable.bukedianji);
+            bt_add.setText("报名夺奖");
+            bt_add.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+        } else if (activityInfoBean.getState_id().equals("1") || activityInfoBean.getState_id().equals("4")) {
             iv_data_last_icon.setVisibility(View.GONE);
             tv_data_last.setVisibility(View.GONE);
             iv_data_last_icon1.setVisibility(View.VISIBLE);
             tv_data_last1.setVisibility(View.VISIBLE);
             tv_data_last1.setText("已结束");
+
+            bt_add.setBackgroundResource(R.drawable.bukedianji);
+            bt_add.setText("报名夺奖");
+            bt_add.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
         }
         TextPaint textPaint = tv_huodong_miaoshu.getPaint();
         float mTextViewPaint = textPaint.measureText(activityInfoBean.getDescription());
@@ -459,9 +493,9 @@ public class NewHuoDongDetailsActivity
 
         ViewGroup.LayoutParams layoutParams1 = iv_huodong_start.getLayoutParams();
         layoutParams1.width = PublicUtils.getScreenWidth(NewHuoDongDetailsActivity.this);
-        layoutParams1.height = (int) (PublicUtils.getScreenWidth(NewHuoDongDetailsActivity.this) / 0.5357);
+        layoutParams1.height = (int) (PublicUtils.getScreenWidth(NewHuoDongDetailsActivity.this) / activityInfoBean.getStep_image().getRatio());
         iv_huodong_start.setLayoutParams(layoutParams1);
-        ImageUtils.disRectangleImageHuoDong("", iv_huodong_start);
+        ImageUtils.disRectangleImageHuoDong(activityInfoBean.getStep_image().getImg0(), iv_huodong_start);
 
 
         List<ActivityPrizeItemBean> listPrize = activityInfoBean.getPrize_info();
@@ -558,6 +592,7 @@ public class NewHuoDongDetailsActivity
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
                         ToastUtils.showCenter(NewHuoDongDetailsActivity.this, "报名成功，赶快收藏图片加入你的灵感辑吧～");
+                        getHuoDongData();
                     } else {
                         ToastUtils.showCenter(NewHuoDongDetailsActivity.this, error_msg);
                     }
@@ -569,4 +604,12 @@ public class NewHuoDongDetailsActivity
         MyHttpManager.getInstance().joinHuoDong(activity_id, callBack);
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            getHuoDongData();
+        }
+    }
 }

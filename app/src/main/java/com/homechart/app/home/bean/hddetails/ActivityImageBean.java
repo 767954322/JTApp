@@ -8,14 +8,21 @@ import java.io.Serializable;
 
 public class ActivityImageBean implements Serializable{
 
+    private float ratio;
     private String img0;
-    private String img1_ratio;
-    private String img1;
 
-    public ActivityImageBean(String img0, String img1_ratio, String img1) {
+
+    public ActivityImageBean(float ratio, String img0) {
+        this.ratio = ratio;
         this.img0 = img0;
-        this.img1_ratio = img1_ratio;
-        this.img1 = img1;
+    }
+
+    public float getRatio() {
+        return ratio;
+    }
+
+    public void setRatio(float ratio) {
+        this.ratio = ratio;
     }
 
     public String getImg0() {
@@ -26,28 +33,11 @@ public class ActivityImageBean implements Serializable{
         this.img0 = img0;
     }
 
-    public String getImg1_ratio() {
-        return img1_ratio;
-    }
-
-    public void setImg1_ratio(String img1_ratio) {
-        this.img1_ratio = img1_ratio;
-    }
-
-    public String getImg1() {
-        return img1;
-    }
-
-    public void setImg1(String img1) {
-        this.img1 = img1;
-    }
-
     @Override
     public String toString() {
         return "ActivityImageBean{" +
-                "img0='" + img0 + '\'' +
-                ", img1_ratio='" + img1_ratio + '\'' +
-                ", img1='" + img1 + '\'' +
+                "ratio=" + ratio +
+                ", img0='" + img0 + '\'' +
                 '}';
     }
 }

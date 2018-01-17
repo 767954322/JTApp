@@ -18,13 +18,14 @@ public class ActivityInfoBean implements Serializable{
     private String start_time;
     private String end_time;
     private String state_id;
+    private boolean is_joined;
     private String join_user_num;
     private ActivityImageBean image;
     private ActivityStepImageBean step_image;
     private List<ActivityPrizeItemBean> prize_info;
 
 
-    public ActivityInfoBean(String activity_id, String title, String description, String details, String start_time, String end_time, String state_id, String join_user_num, ActivityImageBean image, ActivityStepImageBean step_image, List<ActivityPrizeItemBean> prize_info) {
+    public ActivityInfoBean(String activity_id, String title, String description, String details, String start_time, String end_time, String state_id, boolean is_joined, String join_user_num, ActivityImageBean image, ActivityStepImageBean step_image, List<ActivityPrizeItemBean> prize_info) {
         this.activity_id = activity_id;
         this.title = title;
         this.description = description;
@@ -32,6 +33,7 @@ public class ActivityInfoBean implements Serializable{
         this.start_time = start_time;
         this.end_time = end_time;
         this.state_id = state_id;
+        this.is_joined = is_joined;
         this.join_user_num = join_user_num;
         this.image = image;
         this.step_image = step_image;
@@ -94,6 +96,14 @@ public class ActivityInfoBean implements Serializable{
         this.state_id = state_id;
     }
 
+    public boolean isIs_joined() {
+        return is_joined;
+    }
+
+    public void setIs_joined(boolean is_joined) {
+        this.is_joined = is_joined;
+    }
+
     public String getJoin_user_num() {
         return join_user_num;
     }
@@ -136,6 +146,7 @@ public class ActivityInfoBean implements Serializable{
                 ", start_time='" + start_time + '\'' +
                 ", end_time='" + end_time + '\'' +
                 ", state_id='" + state_id + '\'' +
+                ", is_joined=" + is_joined +
                 ", join_user_num='" + join_user_num + '\'' +
                 ", image=" + image +
                 ", step_image=" + step_image +
