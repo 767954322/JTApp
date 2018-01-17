@@ -422,7 +422,7 @@ public class NewHuoDongDetailsActivity
             bt_add.setBackgroundResource(R.drawable.bukedianji);
             bt_add.setText("报名夺奖");
             bt_add.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-        } else if (activityInfoBean.getState_id().equals("1") || activityInfoBean.getState_id().equals("4")) {
+        } else if (activityInfoBean.getState_id().equals("1")) {
             iv_data_last_icon.setVisibility(View.GONE);
             tv_data_last.setVisibility(View.GONE);
             iv_data_last_icon1.setVisibility(View.VISIBLE);
@@ -432,6 +432,17 @@ public class NewHuoDongDetailsActivity
             bt_add.setBackgroundResource(R.drawable.bukedianji);
             bt_add.setText("报名夺奖");
             bt_add.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+        }else if(activityInfoBean.getState_id().equals("4")){
+
+            iv_data_last_icon.setVisibility(View.GONE);
+            tv_data_last.setVisibility(View.GONE);
+            iv_data_last_icon1.setVisibility(View.VISIBLE);
+            tv_data_last1.setVisibility(View.VISIBLE);
+            tv_data_last1.setText("公布奖品");
+
+            bt_add.setBackgroundResource(R.drawable.keyidianji);
+            bt_add.setText("中奖名单");
+            bt_add.setTextColor(UIUtils.getColor(R.color.white));
         }
         TextPaint textPaint = tv_huodong_miaoshu.getPaint();
         float mTextViewPaint = textPaint.measureText(activityInfoBean.getDescription());
