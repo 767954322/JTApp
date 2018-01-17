@@ -60,6 +60,7 @@ import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
+import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
@@ -568,14 +569,22 @@ public class InspirationDetailActivity extends BaseActivity
                     layoutParams.width = widthPicList;
                     layoutParams.height = Math.round(widthPicList / mListData.get(position).getItem_info().getImage().getRatio());
                     holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
-                    ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg1(), (ImageView) holder.getView(R.id.iv_item_pic));
+                    if (mListData.get(position).getItem_info().getImage().getRatio() > 0.5) {
+                        ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg1(), (ImageView) holder.getView(R.id.iv_item_pic));
+                    } else {
+                        GlideImgManager.glideLoader(InspirationDetailActivity.this, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_item_pic), 1);
+                    }
 
                 } else {
                     layoutParams.width = widthPic;
                     layoutParams.height = Math.round(widthPic / mListData.get(position).getItem_info().getImage().getRatio());
                     holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
-                    ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
 
+                    if (mListData.get(position).getItem_info().getImage().getRatio() > 0.5) {
+                        ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
+                    } else {
+                        GlideImgManager.glideLoader(InspirationDetailActivity.this, mListData.get(position).getItem_info().getImage().getImg0(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_item_pic), 1);
+                    }
                 }
                 holder.getView(R.id.iv_item_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
