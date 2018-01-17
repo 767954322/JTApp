@@ -14,6 +14,6 @@
     <View
         android:id="@+id/view_top"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/font_10"
+        android:layout_height="@dimen/font_19"
         android:layout_below="@+id/iv_imageview_one" />
 </RelativeLayout>
