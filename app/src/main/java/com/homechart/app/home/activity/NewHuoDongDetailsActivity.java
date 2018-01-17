@@ -430,7 +430,7 @@ public class NewHuoDongDetailsActivity
             tv_data_last1.setText("已结束");
 
             bt_add.setBackgroundResource(R.drawable.bukedianji);
-            bt_add.setText("报名夺奖");
+            bt_add.setText("已结束");
             bt_add.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
         }else if(activityInfoBean.getState_id().equals("4")){
 
