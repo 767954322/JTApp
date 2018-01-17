@@ -465,10 +465,15 @@ public class HomePicFragment
                     holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+
                             //查看单图详情
                             Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
                             intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-                            intent.putExtra("position", position);
+                            if (mListData.get(0).getItem_info().getTag().equals("活动")) {
+                                intent.putExtra("position", position - 1);
+                            } else {
+                                intent.putExtra("position", position);
+                            }
                             intent.putExtra("type", "色彩");
                             intent.putExtra("if_click_color", false);
                             intent.putExtra("mSelectListData", (Serializable) mSelectListData);
@@ -727,7 +732,9 @@ public class HomePicFragment
                 if (null != listData && listData.size() > 0) {
                     mListData.addAll(listData);
                     for (int i = 0; i < listData.size(); i++) {
-                        mItemIdList.add(listData.get(i).getItem_info().getItem_id());
+                        if (!listData.get(i).getItem_info().getTag().equals("活动")) {
+                            mItemIdList.add(listData.get(i).getItem_info().getItem_id());
+                        }
                     }
                 } else {
                     //没有更多数据
@@ -746,7 +753,9 @@ public class HomePicFragment
                     mAdapter.notifyItem(position, mListData, listData);
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
                     for (int i = 0; i < listData.size(); i++) {
-                        mItemIdList.add(listData.get(i).getItem_info().getItem_id());
+                        if (!listData.get(i).getItem_info().getTag().equals("活动")) {
+                            mItemIdList.add(listData.get(i).getItem_info().getItem_id());
+                        }
                     }
                 } else {
                     --page_num;
