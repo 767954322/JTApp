@@ -1470,7 +1470,7 @@ public class ImageDetailFragment
                 }
                 iv_details_image.setPoints(pointSimples);
             }
-            iv_details_image.setImgBg(wide_num, (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()), imageDetailBean.getItem_info().getImage().getImg0(), this);
+            iv_details_image.setImgBg(wide_num, (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()), imageDetailBean.getItem_info().getImage().getImg0(), this ,imageDetailBean.getItem_info().getImage().getRatio());
             imageFirstTag = false;
         }
         listColor = imageDetailBean.getColor_info();

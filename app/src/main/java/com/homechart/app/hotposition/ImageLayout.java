@@ -17,6 +17,7 @@ import com.homechart.app.R;
 import com.homechart.app.croplayout.EditPhotoViewMore;
 import com.homechart.app.croplayout.EditableImage;
 import com.homechart.app.utils.UIUtils;
+import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
 
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class ImageLayout extends FrameLayout implements View.OnClickListener {
         super.onSizeChanged(w, h, oldw, oldh);
     }
 
-    public void setImgBg(int width, int height, String imgUrl, PositionClickImp positionClickImp) {
+    public void setImgBg(int width, int height, String imgUrl, PositionClickImp positionClickImp,float ratio) {
 
         this.mPositionClickImp = positionClickImp;
         ViewGroup.LayoutParams lp = imgBg.getLayoutParams();
@@ -87,7 +88,11 @@ public class ImageLayout extends FrameLayout implements View.OnClickListener {
         layouPoints.setLayoutParams(lp1);
 
         if(!TextUtils.isEmpty(imgUrl)){
-            ImageUtils.disRectangleImage(imgUrl,imgBg);
+            if(ratio > 0.5){
+                ImageUtils.disRectangleImage(imgUrl,imgBg);
+            }else {
+                GlideImgManager.glideLoader(mContext,imgUrl , R.color.white, R.color.white, imgBg);
+            }
         }
         if(TextUtils.isEmpty(imgUrl)){
             addPoints(width, height);
