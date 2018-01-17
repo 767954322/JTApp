@@ -97,7 +97,7 @@ public class MyApplication extends Application {
         PlatformConfig.setWeixin("wx9f5d6adeded62a61", "a32cd3c376f0881d7f6a5679a473a5bc");
         PlatformConfig.setQQZone("101164104", "28e0959303e8960b06bfa217f959f1d7");
         PlatformConfig.setSinaWeibo("3994674331", "7450446dd1d555532d14982a13f70408", "http://sns.whalecloud.com/sina2/callback");
-        Config.DEBUG = false;
+        Config.DEBUG = true;
     }
 
     public static synchronized MyApplication getInstance() {

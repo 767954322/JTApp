@@ -69,6 +69,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.finalteam.galleryfinal.GalleryFinal;
@@ -81,7 +82,8 @@ import cn.finalteam.galleryfinal.model.PhotoInfo;
 public class NewHuoDongDetailsActivity
         extends BaseActivity
         implements View.OnClickListener,
-        OnLoadMoreListener {
+        OnLoadMoreListener,
+        HomeSharedPopWinPublic.ClickInter {
 
     private TextView tv_tital_comment;
     private ImageButton nav_left_imageButton;
@@ -130,6 +132,8 @@ public class NewHuoDongDetailsActivity
     private TextView tv_huodong_shuoming;
     private RelativeLayout rl_header;
     private Boolean loginStatus;
+    private ImageButton nav_secondary_imageButton;
+    private HomeSharedPopWinPublic homeSharedPopWinPublic;
 
     @Override
     protected int getLayoutResId() {
@@ -180,6 +184,7 @@ public class NewHuoDongDetailsActivity
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
         bt_add = (Button) findViewById(R.id.bt_add);
         nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
+        nav_secondary_imageButton = (ImageButton) findViewById(R.id.nav_secondary_imageButton);
         mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview_info);
 
 
@@ -191,11 +196,13 @@ public class NewHuoDongDetailsActivity
         nav_left_imageButton.setOnClickListener(this);
         bt_add.setOnClickListener(this);
         rl_zhankai.setOnClickListener(this);
+        nav_secondary_imageButton.setOnClickListener(this);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
+        homeSharedPopWinPublic = new HomeSharedPopWinPublic(NewHuoDongDetailsActivity.this, NewHuoDongDetailsActivity.this);
+        nav_secondary_imageButton.setImageResource(R.drawable.shared_icon);
         widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_30)) / 2;
         tv_tital_comment.setText("主题活动");
         width_activity = PublicUtils.getScreenWidth(NewHuoDongDetailsActivity.this) - UIUtils.getDimens(R.dimen.font_30);
@@ -248,6 +255,17 @@ public class NewHuoDongDetailsActivity
                         tv_huodong_miaoshu.setText(activityInfoBean.getDescription());
                     }
                     ifZhanKai = true;
+                }
+
+                break;
+            case R.id.nav_secondary_imageButton:
+
+                if (null != activityInfoBean) {
+                    homeSharedPopWinPublic.showAtLocation(NewHuoDongDetailsActivity.this.findViewById(R.id.main),
+                            Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
+                            0,
+                            0); //设置layout在PopupWindow中显示的位置
+
                 }
 
                 break;
@@ -604,12 +622,94 @@ public class NewHuoDongDetailsActivity
         MyHttpManager.getInstance().joinHuoDong(activity_id, callBack);
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             getHuoDongData();
         }
     }
+
+    @Override
+    public void onClickWeiXin() {
+        sharedItemOpen(SHARE_MEDIA.WEIXIN);
+    }
+
+    @Override
+    public void onClickPYQ() {
+        sharedItemOpen(SHARE_MEDIA.WEIXIN_CIRCLE);
+    }
+
+    @Override
+    public void onClickWeiBo() {
+        sharedItemOpen(SHARE_MEDIA.SINA);
+    }
+
+    @Override
+    public void onClickQQ() {
+        sharedItemOpen(SHARE_MEDIA.QQ);
+    }
+
+    private void sharedItemOpen(SHARE_MEDIA share_media) {
+        UMImage image = new UMImage(NewHuoDongDetailsActivity.this, activityInfoBean.getImage().getImg0());
+        image.compressStyle = UMImage.CompressStyle.SCALE;//大小压缩，默认为大小压缩，适合普通很大的图
+        UMWeb web = new UMWeb("http://h5.idcool.com.cn/activity/" + activityInfoBean.getActivity_id());
+        if (share_media == SHARE_MEDIA.WEIXIN) {
+            web.setTitle("小米空气净化器免费送！");//标题
+        } else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
+            web.setTitle("收藏图片赢取小米空气净化器！家图app“点亮灵感·创造梦想之家”大赛等你来参加！");//标题
+        } else if (share_media == SHARE_MEDIA.SINA) {
+            web.setTitle("点亮灵感·创造梦想之家” 来家图APP收藏图片赢取小米空气净化器，快来抢吧！" + "http://h5.idcool.com.cn/activity/" + activityInfoBean.getActivity_id());//标题
+        } else {
+            web.setTitle("小米空气净化器免费送！");//标题
+        }
+        web.setThumb(image);  //缩略图
+        if (share_media == SHARE_MEDIA.WEIXIN) {
+            web.setDescription("“点亮灵感·创造梦想之家” 来家图APP收藏图片赢取小米空气净化器，快来抢吧！");//描述
+        } else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
+            web.setDescription("收藏图片赢取小米空气净化器！家图app“点亮灵感·创造梦想之家”大赛等你来参加！");//描述
+        } else if (share_media == SHARE_MEDIA.SINA) {
+            web.setDescription("收藏图片赢取小米空气净化器！家图app“点亮灵感·创造梦想之家”大赛等你来参加！");//描述
+        } else {
+            web.setDescription("家图app“点亮灵感·创造梦想之家”，动手收藏图片赢取小米空气净化器，快来抢吧！");//标题
+        }
+
+        new ShareAction(NewHuoDongDetailsActivity.this).
+                setPlatform(share_media).
+                withMedia(web).
+                setCallback(umShareListener).share();
+    }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            if (platform == SHARE_MEDIA.WEIXIN) {
+                ToastUtils.showCenter(NewHuoDongDetailsActivity.this, "微信好友分享成功啦");
+            } else if (platform == SHARE_MEDIA.WEIXIN_CIRCLE) {
+                ToastUtils.showCenter(NewHuoDongDetailsActivity.this, "微信朋友圈分享成功啦");
+            } else if (platform == SHARE_MEDIA.SINA) {
+                ToastUtils.showCenter(NewHuoDongDetailsActivity.this, "新浪微博分享成功啦");
+            } else if (platform == SHARE_MEDIA.QQ) {
+                ToastUtils.showCenter(NewHuoDongDetailsActivity.this, "QQ分享成功啦");
+            }
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            ToastUtils.showCenter(NewHuoDongDetailsActivity.this, "分享失败啦");
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            ToastUtils.showCenter(NewHuoDongDetailsActivity.this, "分享取消了");
+        }
+    };
+
+
 }
