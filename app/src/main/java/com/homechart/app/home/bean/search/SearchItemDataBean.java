@@ -18,6 +18,9 @@ public class SearchItemDataBean implements Serializable{
     private List<SearchDataColorBean> color_info;
     private SearchDataUserBean user_info;
 
+    public SearchItemDataBean() {
+    }
+
     public SearchItemDataBean(SearchItemInfoDataBean item_info, List<SearchDataColorBean> color_info, SearchDataUserBean user_info) {
         this.item_info = item_info;
         this.color_info = color_info;

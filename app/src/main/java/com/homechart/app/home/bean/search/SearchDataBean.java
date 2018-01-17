@@ -13,10 +13,11 @@ import java.util.List;
 public class SearchDataBean implements Serializable{
 
     private List<SearchItemDataBean> item_list;
+    private ActivityInfoBean ad_info;
 
-
-    public SearchDataBean(List<SearchItemDataBean> item_list) {
+    public SearchDataBean(List<SearchItemDataBean> item_list, ActivityInfoBean ad_info) {
         this.item_list = item_list;
+        this.ad_info = ad_info;
     }
 
     public List<SearchItemDataBean> getItem_list() {
@@ -27,10 +28,19 @@ public class SearchDataBean implements Serializable{
         this.item_list = item_list;
     }
 
+    public ActivityInfoBean getAd_info() {
+        return ad_info;
+    }
+
+    public void setAd_info(ActivityInfoBean ad_info) {
+        this.ad_info = ad_info;
+    }
+
     @Override
     public String toString() {
         return "SearchDataBean{" +
                 "item_list=" + item_list +
+                ", ad_info=" + ad_info +
                 '}';
     }
 }

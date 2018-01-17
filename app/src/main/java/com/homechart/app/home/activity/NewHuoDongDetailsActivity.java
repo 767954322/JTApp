@@ -138,7 +138,7 @@ public class NewHuoDongDetailsActivity
     @Override
     protected void initExtraBundle() {
         super.initExtraBundle();
-        activity_id = "5";
+        activity_id = getIntent().getStringExtra("activity_id");
     }
 
     @Override

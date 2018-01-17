@@ -8,59 +8,12 @@
         android:id="@+id/iv_imageview_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/font_15"
         android:layout_marginLeft="@dimen/font_4"
-        android:layout_marginRight="@dimen/font_4" />
-
-
-    <RelativeLayout
+        android:layout_marginRight="@dimen/font_4"
+        android:scaleType="fitXY" />
+    <View
+        android:id="@+id/view_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/bg_4d000000"
-        android:layout_alignLeft="@+id/iv_imageview_one"
-        android:layout_alignRight="@+id/iv_imageview_one"
-        android:layout_alignBottom="@+id/iv_imageview_one">
-
-        <TextView
-            android:id="@+id/tv_name_pic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:lineSpacingExtra="@dimen/font_7"
-            android:includeFontPadding="false"
-            android:layout_marginTop="@dimen/font_10"
-            android:layout_marginBottom="@dimen/font_10"
-            android:layout_marginRight="@dimen/font_10"
-            android:layout_marginLeft="@dimen/font_10"
-            android:text="小明"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_14" />
-
-    </RelativeLayout>
-
-
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/iv_imageview_one"
-        android:layout_alignTop="@+id/iv_imageview_one">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/huodong" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:includeFontPadding="false"
-            android:text="本周活动"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_14" />
-    </RelativeLayout>
-
+        android:layout_height="@dimen/font_10"
+        android:layout_below="@+id/iv_imageview_one" />
 </RelativeLayout>

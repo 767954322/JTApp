@@ -47,8 +47,10 @@ import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.color.ColorBean;
 import com.homechart.app.home.bean.color.ColorItemBean;
 import com.homechart.app.home.bean.pictag.TagDataBean;
+import com.homechart.app.home.bean.search.ActivityInfoBean;
 import com.homechart.app.home.bean.search.SearchDataBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
+import com.homechart.app.home.bean.search.SearchItemInfoDataBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.view.InspirationSeriesPop;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
@@ -148,6 +150,7 @@ public class HomePicFragment
     private RelativeLayout rl_clickable_open;
     private InspirationSeriesPop mInspirationSeriesPop;
     private String userId;
+    private ActivityInfoBean mActivityInfoBean;
 
     public HomePicFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -261,8 +264,6 @@ public class HomePicFragment
 
                 break;
             case R.id.iv_change_frag:
-//                Intent intent20 = new Intent(activity, NewHuoDongDetailsActivity.class);
-//                startActivity(intent20);
                 if (curentListTag) {
                     curentListTag = false;
                     mRecyclerView.setPadding(UIUtils.getDimens(R.dimen.font_6), 0, UIUtils.getDimens(R.dimen.font_6), 0);
@@ -343,6 +344,12 @@ public class HomePicFragment
             public int getLayoutId(int itemType) {
                 if (itemType == TYPE_ONE) {
                     return R.layout.item_list_new;
+                } else if (itemType == TYPE_TWO) {
+                    return R.layout.item_pubu_new;
+                } else if (itemType == TYPE_THREE) {
+                    return R.layout.item_test_huodong_list;
+                } else if (itemType == TYPE_FOUR) {
+                    return R.layout.item_test_huodong_pubu;
                 } else {
                     return R.layout.item_pubu_new;
                 }
@@ -351,9 +358,17 @@ public class HomePicFragment
             @Override
             public int getItemViewType(int position, SearchItemDataBean s) {
                 if (curentListTag) {
-                    return TYPE_ONE;
+                    if (s.getItem_info().getTag().equals("活动")) {
+                        return TYPE_THREE;
+                    } else {
+                        return TYPE_ONE;
+                    }
                 } else {
-                    return TYPE_TWO;
+                    if (s.getItem_info().getTag().equals("活动")) {
+                        return TYPE_FOUR;
+                    } else {
+                        return TYPE_TWO;
+                    }
                 }
             }
         };
@@ -362,154 +377,170 @@ public class HomePicFragment
             @Override
             public void convert(BaseViewHolder holder, final int position) {
                 scroll_position = position;
-                ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
-
-//                layoutParams.width = (curentListTag ? width_Pic_List : width_Pic_Staggered);
-                layoutParams.height = (curentListTag ? mLListDataHeight.get(position) : mSListDataHeight.get(position));
-                holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
-                String nikeName = mListData.get(position).getUser_info().getNickname();
-//                if (nikeName != null && curentListTag && nikeName.length() > 8) {
-//                    nikeName = nikeName.substring(0, 8) + "...";
-//                }
-//                if (nikeName != null && !curentListTag && nikeName.length() > 5) {
-//                    nikeName = nikeName.substring(0, 5) + "...";
-//                }
-                ((TextView) holder.getView(R.id.tv_name_pic)).setText(nikeName);
-
-
-                String strTag = "";
-                String tag = mListData.get(position).getItem_info().getTag();
-                if (!TextUtils.isEmpty(tag)) {
-                    String[] str_tag = tag.split(" ");
-                    listTag.clear();
-                    for (int i = 0; i < str_tag.length; i++) {
-                        if (!TextUtils.isEmpty(str_tag[i].trim())) {
-                            listTag.add(str_tag[i]);
-                        }
-                    }
-                    for (int i = 0; i < listTag.size(); i++) {
-                        strTag = strTag + "#" + listTag.get(i) + "  ";
-                    }
-                }
-
-                String str = mListData.get(position).getItem_info().getDescription() + " " + "<font color='#464646'>" + strTag + "</font>";
-                if (TextUtils.isEmpty(mListData.get(position).getItem_info().getDescription().trim()) && TextUtils.isEmpty(strTag.trim())) {
-                    ((TextView) holder.getView(R.id.tv_image_miaosu)).setVisibility(View.GONE);
-                } else {
-                    ((TextView) holder.getView(R.id.tv_image_miaosu)).setVisibility(View.VISIBLE);
-                }
-                ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
-
-
-                if (curentListTag) {
-                    if (PublicUtils.ifHasWriteQuan(activity)) {
-                        ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(),
-                                (ImageView) holder.getView(R.id.iv_imageview_one));
+                if (position == 0 && mListData.get(position).getItem_info().getTag().equals("活动") && null != mActivityInfoBean) {
+                    ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
+                    if (curentListTag) {
+                        layoutParams.height = (int) (width_Pic_List / mActivityInfoBean.getBig_image().getRatio());
+                        holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
+                        ImageUtils.displayFilletImage(mActivityInfoBean.getBig_image().getImg0(), (ImageView) holder.getView(R.id.iv_imageview_one));
                     } else {
-                        GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg0(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
+                        layoutParams.height = (int) (width_Pic_Staggered / mActivityInfoBean.getSmall_image().getRatio());
+                        holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
+                        ImageUtils.displayFilletImage(mActivityInfoBean.getSmall_image().getImg0(), (ImageView) holder.getView(R.id.iv_imageview_one));
                     }
-                } else {
-                    if (PublicUtils.ifHasWriteQuan(activity)) {
-                        ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
-                                (ImageView) holder.getView(R.id.iv_imageview_one));
-                    } else {
-                        GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
-                    }
-                }
-
-                if (PublicUtils.ifHasWriteQuan(activity)) {
-                    ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
-                            (ImageView) holder.getView(R.id.iv_header_pic));
-                } else {
-                    GlideImgManager.glideLoader(activity, mListData.get(position).getUser_info().getAvatar().getBig(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_header_pic), 0);
-                }
-
-                holder.getView(R.id.iv_header_pic).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(activity, UserInfoActivity.class);
-                        intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-                        startActivity(intent);
-                    }
-                });
-
-                holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //查看单图详情
-                        Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
-                        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-                        intent.putExtra("position", position);
-                        intent.putExtra("type", "色彩");
-                        intent.putExtra("if_click_color", false);
-                        intent.putExtra("mSelectListData", (Serializable) mSelectListData);
-                        intent.putExtra("shaixuan_tag", "");
-                        intent.putExtra("page_num", page_num + 1);
-                        intent.putExtra("item_id_list", (Serializable) mItemIdList);
-                        startActivity(intent);
-                    }
-                });
-
-                holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //友盟统计
-                        HashMap<String, String> map4 = new HashMap<String, String>();
-                        map4.put("evenname", "识图入口");
-                        map4.put("even", "看图列表页－图片识别");
-                        MobclickAgent.onEvent(activity, "shijian6", map4);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("看图列表页－图片识别")  //事件类别
-                                .setAction("识图入口")      //事件操作
-                                .build());
-                        Intent intent1 = new Intent(activity, SearchLoadingActivity.class);
-//                        Intent intent1 = new Intent(ShiBieActivity.this, TestActivity.class);
-                        intent1.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg1());
-                        intent1.putExtra("type", "lishi");
-                        intent1.putExtra("image_id", mListData.get(position).getItem_info().getImage().getImage_id());
-                        intent1.putExtra("image_type", "network");
-                        intent1.putExtra("image_ratio", mListData.get(position).getItem_info().getImage().getRatio());
-                        startActivity(intent1);
-                    }
-                });
-                holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
-                        userId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
-                        if (!loginStatus) {
-                            //友盟统计
-                            HashMap<String, String> map4 = new HashMap<String, String>();
-                            map4.put("evenname", "登录入口");
-                            map4.put("even", "看图列表页进行图片收藏");
-                            MobclickAgent.onEvent(activity, "shijian20", map4);
-                            //ga统计
-                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("看图列表页进行图片收藏")  //事件类别
-                                    .setAction("登录入口")      //事件操作
-                                    .build());
-                            Intent intent = new Intent(activity, LoginActivity.class);
-                            startActivityForResult(intent, 1);
-                        } else {
-                            //友盟统计
-                            HashMap<String, String> map4 = new HashMap<String, String>();
-                            map4.put("evenname", "加图");
-                            map4.put("even", "看图列表页");
-                            MobclickAgent.onEvent(activity, "shijian23", map4);
-                            //ga统计
-                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("看图列表页")  //事件类别
-                                    .setAction("加图")      //事件操作
-                                    .build());
-                            Intent intent = new Intent(activity, InspirationSeriesActivity.class);
-                            intent.putExtra("userid", userId);
-                            intent.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg0());
-                            intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+                    holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(activity, NewHuoDongDetailsActivity.class);
+                            intent.putExtra("activity_id", mActivityInfoBean.getObject_id());
                             startActivity(intent);
                         }
+                    });
+                } else {
+                    ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
+                    if (null != mActivityInfoBean && mListData.get(0).getItem_info().getTag().equals("活动")) {
+                        layoutParams.height = (curentListTag ? mLListDataHeight.get(position - 1) : mSListDataHeight.get(position - 1));
+                    } else {
+                        layoutParams.height = (curentListTag ? mLListDataHeight.get(position) : mSListDataHeight.get(position));
                     }
-                });
+                    holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
+                    String nikeName = mListData.get(position).getUser_info().getNickname();
+                    ((TextView) holder.getView(R.id.tv_name_pic)).setText(nikeName);
+                    String strTag = "";
+                    String tag = mListData.get(position).getItem_info().getTag();
+                    if (!TextUtils.isEmpty(tag)) {
+                        String[] str_tag = tag.split(" ");
+                        listTag.clear();
+                        for (int i = 0; i < str_tag.length; i++) {
+                            if (!TextUtils.isEmpty(str_tag[i].trim())) {
+                                listTag.add(str_tag[i]);
+                            }
+                        }
+                        for (int i = 0; i < listTag.size(); i++) {
+                            strTag = strTag + "#" + listTag.get(i) + "  ";
+                        }
+                    }
+
+                    String str = mListData.get(position).getItem_info().getDescription() + " " + "<font color='#464646'>" + strTag + "</font>";
+                    if (TextUtils.isEmpty(mListData.get(position).getItem_info().getDescription().trim()) && TextUtils.isEmpty(strTag.trim())) {
+                        ((TextView) holder.getView(R.id.tv_image_miaosu)).setVisibility(View.GONE);
+                    } else {
+                        ((TextView) holder.getView(R.id.tv_image_miaosu)).setVisibility(View.VISIBLE);
+                    }
+                    ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
+
+
+                    if (curentListTag) {
+                        if (PublicUtils.ifHasWriteQuan(activity)) {
+                            ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(),
+                                    (ImageView) holder.getView(R.id.iv_imageview_one));
+                        } else {
+                            GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg0(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
+                        }
+                    } else {
+                        if (PublicUtils.ifHasWriteQuan(activity)) {
+                            ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
+                                    (ImageView) holder.getView(R.id.iv_imageview_one));
+                        } else {
+                            GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
+                        }
+                    }
+
+                    if (PublicUtils.ifHasWriteQuan(activity)) {
+                        ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
+                                (ImageView) holder.getView(R.id.iv_header_pic));
+                    } else {
+                        GlideImgManager.glideLoader(activity, mListData.get(position).getUser_info().getAvatar().getBig(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_header_pic), 0);
+                    }
+
+                    holder.getView(R.id.iv_header_pic).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(activity, UserInfoActivity.class);
+                            intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+                            startActivity(intent);
+                        }
+                    });
+
+                    holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //查看单图详情
+                            Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
+                            intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+                            intent.putExtra("position", position);
+                            intent.putExtra("type", "色彩");
+                            intent.putExtra("if_click_color", false);
+                            intent.putExtra("mSelectListData", (Serializable) mSelectListData);
+                            intent.putExtra("shaixuan_tag", "");
+                            intent.putExtra("page_num", page_num + 1);
+                            intent.putExtra("item_id_list", (Serializable) mItemIdList);
+                            startActivity(intent);
+                        }
+                    });
+
+                    holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //友盟统计
+                            HashMap<String, String> map4 = new HashMap<String, String>();
+                            map4.put("evenname", "识图入口");
+                            map4.put("even", "看图列表页－图片识别");
+                            MobclickAgent.onEvent(activity, "shijian6", map4);
+                            //ga统计
+                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                    .setCategory("看图列表页－图片识别")  //事件类别
+                                    .setAction("识图入口")      //事件操作
+                                    .build());
+                            Intent intent1 = new Intent(activity, SearchLoadingActivity.class);
+//                        Intent intent1 = new Intent(ShiBieActivity.this, TestActivity.class);
+                            intent1.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg1());
+                            intent1.putExtra("type", "lishi");
+                            intent1.putExtra("image_id", mListData.get(position).getItem_info().getImage().getImage_id());
+                            intent1.putExtra("image_type", "network");
+                            intent1.putExtra("image_ratio", mListData.get(position).getItem_info().getImage().getRatio());
+                            startActivity(intent1);
+                        }
+                    });
+                    holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                            userId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
+                            if (!loginStatus) {
+                                //友盟统计
+                                HashMap<String, String> map4 = new HashMap<String, String>();
+                                map4.put("evenname", "登录入口");
+                                map4.put("even", "看图列表页进行图片收藏");
+                                MobclickAgent.onEvent(activity, "shijian20", map4);
+                                //ga统计
+                                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                        .setCategory("看图列表页进行图片收藏")  //事件类别
+                                        .setAction("登录入口")      //事件操作
+                                        .build());
+                                Intent intent = new Intent(activity, LoginActivity.class);
+                                startActivityForResult(intent, 1);
+                            } else {
+                                //友盟统计
+                                HashMap<String, String> map4 = new HashMap<String, String>();
+                                map4.put("evenname", "加图");
+                                map4.put("even", "看图列表页");
+                                MobclickAgent.onEvent(activity, "shijian23", map4);
+                                //ga统计
+                                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                        .setCategory("看图列表页")  //事件类别
+                                        .setAction("加图")      //事件操作
+                                        .build());
+                                Intent intent = new Intent(activity, InspirationSeriesActivity.class);
+                                intent.putExtra("userid", userId);
+                                intent.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg0());
+                                intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+                                startActivity(intent);
+                            }
+                        }
+                    });
+                }
+
             }
         };
 
@@ -650,6 +681,17 @@ public class HomePicFragment
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
                         SearchDataBean searchDataBean = GsonUtil.jsonToBean(data_msg, SearchDataBean.class);
+                        if (state.equals(REFRESH_STATUS)) {
+                            mListData.clear();
+                            mActivityInfoBean = searchDataBean.getAd_info();
+                            if (null != mActivityInfoBean) {
+                                SearchItemDataBean searchItemDataBean = new SearchItemDataBean();
+                                SearchItemInfoDataBean searchItemInfoDataBean = new SearchItemInfoDataBean();
+                                searchItemInfoDataBean.setTag("活动");
+                                searchItemDataBean.setItem_info(searchItemInfoDataBean);
+                                mListData.add(searchItemDataBean);
+                            }
+                        }
                         if (null != searchDataBean.getItem_list() && 0 != searchDataBean.getItem_list().size()) {
                             getHeight(searchDataBean.getItem_list(), state);
                             updateViewFromData(searchDataBean.getItem_list(), state);
@@ -681,7 +723,6 @@ public class HomePicFragment
         switch (state) {
 
             case REFRESH_STATUS:
-                mListData.clear();
                 mItemIdList.clear();
                 if (null != listData && listData.size() > 0) {
                     mListData.addAll(listData);
