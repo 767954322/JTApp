@@ -541,7 +541,7 @@ public class HomeActivity
                                 intent.putExtra("item_id", photo_id);
                                 startActivity(intent);
                             } else if (!TextUtils.isEmpty(activity_id)) {
-                                Intent intent = new Intent(HomeActivity.this, HuoDongDetailsActivity.class);
+                                Intent intent = new Intent(HomeActivity.this, NewHuoDongDetailsActivity.class);
                                 intent.putExtra("activity_id", activity_id);
                                 startActivity(intent);
                             } else if (!TextUtils.isEmpty(article_id)) {
