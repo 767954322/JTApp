@@ -211,6 +211,7 @@ public class NewHuoDongDetailsActivity
                 break;
             case R.id.iv_add_activity:
                 Intent intent = new Intent(NewHuoDongDetailsActivity.this,ZhongJiangListActivity.class);
+                intent.putExtra("activity_id",activity_id);
                 startActivity(intent);
 //                addHuoDong();
                 break;

@@ -12,6 +12,13 @@ import com.homechart.app.home.base.BaseActivity;
 
 public class ZhongJiangListActivity extends BaseActivity {
     private TextView tv_tital_comment;
+    private String activity_id;
+
+    @Override
+    protected void initExtraBundle() {
+        super.initExtraBundle();
+        activity_id =  getIntent().getStringExtra("activity_id");
+    }
 
     @Override
     protected int getLayoutResId() {
@@ -21,6 +28,11 @@ public class ZhongJiangListActivity extends BaseActivity {
     @Override
     protected void initView() {
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
+    }
+
+    @Override
+    protected void initListener() {
+        super.initListener();
     }
 
     @Override
