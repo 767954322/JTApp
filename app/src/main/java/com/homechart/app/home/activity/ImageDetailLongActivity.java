@@ -1016,7 +1016,7 @@ public class ImageDetailLongActivity
                 if (PublicUtils.ifHasWriteQuan(ImageDetailLongActivity.this)) {
                     //有权限
 
-                    if (mListData.get(position).getItem_info().getImage().getRatio() > 0.6) {
+                    if (mListData.get(position).getItem_info().getImage().getRatio() > 0.5) {
                         ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
                                 (ImageView) holder.getView(R.id.iv_imageview_one));
                     }else {
