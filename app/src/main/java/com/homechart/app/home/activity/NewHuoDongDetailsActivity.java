@@ -435,7 +435,7 @@ public class NewHuoDongDetailsActivity
         }
         TextPaint textPaint = tv_huodong_miaoshu.getPaint();
         float mTextViewPaint = textPaint.measureText(activityInfoBean.getDescription());
-
+        activityInfoBean.setDescription(activityInfoBean.getDescription().trim());
         if (ifFirst) {
             if (mTextViewPaint - (PublicUtils.getScreenWidth(NewHuoDongDetailsActivity.this) - UIUtils.getDimens(R.dimen.font_30)) * 4 > 0) {
                 //超过四行
