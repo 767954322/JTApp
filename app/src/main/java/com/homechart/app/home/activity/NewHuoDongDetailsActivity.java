@@ -210,7 +210,9 @@ public class NewHuoDongDetailsActivity
                 NewHuoDongDetailsActivity.this.finish();
                 break;
             case R.id.iv_add_activity:
-
+                Intent intent = new Intent(NewHuoDongDetailsActivity.this,ZhongJiangListActivity.class);
+                startActivity(intent);
+//                addHuoDong();
                 break;
             case R.id.rl_zhankai:
 
@@ -532,12 +534,38 @@ public class NewHuoDongDetailsActivity
         t.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
-
     @Override
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd("活动页");
         MobclickAgent.onPause(this);
+    }
+
+    public void addHuoDong() {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtils.showCenter(NewHuoDongDetailsActivity.this, "参加活动失败，请重新尝试");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        ToastUtils.showCenter(NewHuoDongDetailsActivity.this, "报名成功，赶快收藏图片加入你的灵感辑吧～");
+                    } else {
+                        ToastUtils.showCenter(NewHuoDongDetailsActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(NewHuoDongDetailsActivity.this, "参加活动失败，请重新尝试");
+                }
+            }
+        };
+        MyHttpManager.getInstance().joinHuoDong(activity_id, callBack);
     }
 
 }

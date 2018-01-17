@@ -320,6 +320,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity
+            android:name=".home.activity.ZhongJiangListActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity
             android:name=".home.activity.ArticleDetailsActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
