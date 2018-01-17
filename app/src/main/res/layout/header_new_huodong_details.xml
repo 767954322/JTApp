@@ -277,18 +277,11 @@
     </RelativeLayout>
 
 
-    <ImageView
-        android:id="@+id/iv_huodong_start"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_center_perple"
-        android:layout_marginTop="@dimen/font_40" />
-
     <RelativeLayout
         android:id="@+id/rl_jiangpin_tital"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/iv_huodong_start"
+        android:layout_below="@+id/rl_center_perple"
         android:layout_marginBottom="@dimen/font_27"
         android:layout_marginTop="@dimen/font_40">
 
@@ -327,11 +320,20 @@
         android:divider="@null"
         android:layout_below="@+id/rl_jiangpin_tital"/>
 
+
+    <ImageView
+        android:id="@+id/iv_huodong_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lv_jiangpin_list"
+        android:layout_marginTop="@dimen/font_40" />
+
+
     <RelativeLayout
         android:id="@+id/rl_shuoming_tital"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lv_jiangpin_list"
+        android:layout_below="@+id/iv_huodong_start"
         android:layout_marginBottom="@dimen/font_27"
         android:layout_marginTop="@dimen/font_40">
 
