@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/font_25">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/mingci" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:id="@+id/tv_mingci"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="一等奖"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_14" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/font_17"
+                android:layout_toRightOf="@+id/tv_mingci"
+                android:text="小米空气净化器一个"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_12" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    <com.homechart.app.myview.NoScrollGridView
+        android:id="@+id/sgv_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/font_35"
+        android:layout_marginBottom="@dimen/font_25"
+        android:layout_marginLeft="@dimen/font_20"
+        android:layout_marginRight="@dimen/font_20"
+        android:verticalSpacing="@dimen/font_27"
+        android:horizontalSpacing="@dimen/font_10"
+        android:numColumns="2"
+        android:listSelector="@null"
+        android:layout_below="@+id/rl_top"/>
+
+</RelativeLayout>

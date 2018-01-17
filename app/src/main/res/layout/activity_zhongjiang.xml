@@ -9,5 +9,11 @@
         android:id="@+id/common_navbar"
         layout="@layout/view_navigation_header" />
 
+    <ListView
+        android:id="@+id/lv_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/common_navbar"
+        android:divider="@null"/>
 
 </RelativeLayout>
