@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
@@ -34,8 +35,10 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
+import com.homechart.app.home.activity.ArticleDetailsActivity;
 import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.activity.HuoDongDetailsActivity;
+import com.homechart.app.home.activity.ImageDetailActivity;
 import com.homechart.app.home.activity.ImageDetailLongActivity;
 import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.ImageEditActvity;
@@ -57,6 +60,7 @@ import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.hotposition.ImageLayout;
 import com.homechart.app.hotposition.PointSimple;
 import com.homechart.app.hotposition.PositionClickImp;
+import com.homechart.app.imagedetail.ImageDetailsActivity;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
 import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.myview.FlowLayoutBiaoQian;
@@ -447,6 +451,7 @@ public class ImageDetailFragment
         bt_shise.setOnClickListener(this);
         bt_shise2.setOnClickListener(this);
         iv_close_color.setOnClickListener(this);
+        iv_details_image.setOnClickListener(this);
         cet_clearedit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -597,7 +602,7 @@ public class ImageDetailFragment
                     Intent intent = new Intent(imageScrollActivity, LoginActivity.class);
                     startActivityForResult(intent, 1);
                 } else {
-                    if(null != imageDetailBean) {
+                    if (null != imageDetailBean) {
 
                         //友盟统计
                         HashMap<String, String> map4 = new HashMap<String, String>();
@@ -852,6 +857,9 @@ public class ImageDetailFragment
                     startActivityForResult(intent6, 2);
                 }
                 break;
+            case R.id.iv_details_image:
+//                ToastUtils.showCenter(activity, "速度速度");
+                break;
         }
     }
 
@@ -914,7 +922,7 @@ public class ImageDetailFragment
                     if (mListData.get(position).getItem_info().getImage().getRatio() > 0.5) {
                         ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
                                 (ImageView) holder.getView(R.id.iv_imageview_one));
-                    }else {
+                    } else {
                         GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
                     }
                     ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
@@ -1474,7 +1482,7 @@ public class ImageDetailFragment
                 }
                 iv_details_image.setPoints(pointSimples);
             }
-            iv_details_image.setImgBg(wide_num, (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()), imageDetailBean.getItem_info().getImage().getImg0(), this ,imageDetailBean.getItem_info().getImage().getRatio());
+            iv_details_image.setImgBg(wide_num, (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()), imageDetailBean.getItem_info().getImage().getImg0(), this, imageDetailBean.getItem_info().getImage().getRatio());
             imageFirstTag = false;
         }
         listColor = imageDetailBean.getColor_info();

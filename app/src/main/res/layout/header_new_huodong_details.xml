@@ -388,7 +388,7 @@
         android:layout_marginLeft="@dimen/font_15"
         android:layout_marginRight="@dimen/font_15"
         android:layout_marginTop="@dimen/font_25"
-        android:text="活动最终解释权归家图网所有，点击参加活动的用户视同同意"
+        android:text="活动最终解释权归家图网所有，点击报名夺奖即视为同意以上规则"
         android:textSize="@dimen/size_12"/>
 
 

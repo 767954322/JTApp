@@ -403,7 +403,7 @@ public class NewHuoDongDetailsActivity
 
                 if (activityInfoBean.isIs_joined()) {
                     bt_add.setBackgroundResource(R.drawable.bukedianji);
-                    bt_add.setText("报名夺奖");
+                    bt_add.setText("已报名");
                     bt_add.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
                 } else {
                     bt_add.setBackgroundResource(R.drawable.keyidianji);
@@ -430,7 +430,7 @@ public class NewHuoDongDetailsActivity
             tv_data_last1.setText("已结束");
 
             bt_add.setBackgroundResource(R.drawable.bukedianji);
-            bt_add.setText("已结束");
+            bt_add.setText("中奖统计中");
             bt_add.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
         }else if(activityInfoBean.getState_id().equals("4")){
 
@@ -620,7 +620,7 @@ public class NewHuoDongDetailsActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
-                        ToastUtils.showCenter(NewHuoDongDetailsActivity.this, "报名成功，赶快收藏图片加入你的灵感辑吧～");
+                        ToastUtils.showCenter(NewHuoDongDetailsActivity.this, "报名成功！返回首页收藏图片吧～");
                         getHuoDongData();
                     } else {
                         ToastUtils.showCenter(NewHuoDongDetailsActivity.this, error_msg);
