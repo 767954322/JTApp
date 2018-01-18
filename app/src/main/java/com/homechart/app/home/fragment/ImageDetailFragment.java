@@ -859,6 +859,17 @@ public class ImageDetailFragment
                 break;
             case R.id.iv_details_image:
 //                ToastUtils.showCenter(activity, "速度速度");
+                if(null != imageDetailBean){
+                    List<String> listUrl = new ArrayList<>();
+                    listUrl.add(imageDetailBean.getItem_info().getImage().getImg0());
+                    Intent intent1 = new Intent(activity, ImageDetailsActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("pic_url_list", (Serializable) listUrl);
+                    bundle.putInt("click_position", 0);
+                    intent1.putExtras(bundle);
+                    startActivity(intent1);
+                }
+
                 break;
         }
     }
