@@ -866,6 +866,7 @@ public class ImageDetailFragment
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("pic_url_list", (Serializable) listUrl);
                     bundle.putInt("click_position", 0);
+                    bundle.putInt("ifhinttital", 2);
                     intent1.putExtras(bundle);
                     startActivity(intent1);
                 }

@@ -21,6 +21,7 @@ public class ImageDetailsActivity extends BaseActivity implements View.OnClickLi
     private ArrayList<String> mImageUrl = new ArrayList<>();
     private ImageButton nav_left_imageButton;
     private TextView tv_tital_comment;
+    private int ifhinttital;
 
     @Override
     protected int getLayoutResId() {
@@ -48,6 +49,7 @@ public class ImageDetailsActivity extends BaseActivity implements View.OnClickLi
         super.initExtraBundle();
         imageLists = (List<String>) getIntent().getSerializableExtra("pic_url_list");
         intExtra = getIntent().getIntExtra("click_position", 0);//获得点击的位置
+        ifhinttital = getIntent().getIntExtra("ifhinttital", 0);//获得点击的位置
     }
 
     int load_position = 0;
@@ -80,6 +82,9 @@ public class ImageDetailsActivity extends BaseActivity implements View.OnClickLi
 
     protected void initData(Bundle savedInstanceState) {
         updateViewFromData();
+        if(ifhinttital == 2){
+            tv_tital_comment.setVisibility(View.GONE);
+        }
         if (imageLists != null) {
             mViewPager.setAdapter(new SamplePagerAdapter(mImageUrl));
             mViewPager.setCurrentItem(intExtra);

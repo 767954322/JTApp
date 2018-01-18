@@ -56,6 +56,7 @@ import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.hotposition.ImageLayout;
 import com.homechart.app.hotposition.PointSimple;
 import com.homechart.app.hotposition.PositionClickImp;
+import com.homechart.app.imagedetail.ImageDetailsActivity;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
 import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.myview.CustomGridView;
@@ -551,7 +552,7 @@ public class ImageDetailLongActivity
                     Intent intent = new Intent(ImageDetailLongActivity.this, LoginActivity.class);
                     startActivityForResult(intent, 1);
                 } else {
-                    if(null != imageDetailBean){
+                    if (null != imageDetailBean) {
                         Intent intent = new Intent(ImageDetailLongActivity.this, InspirationSeriesActivity.class);
                         intent.putExtra("userid", mUserId);
                         intent.putExtra("image_url", imageDetailBean.getItem_info().getImage().getImg0());
@@ -712,9 +713,15 @@ public class ImageDetailLongActivity
             case R.id.iv_details_image:
 
                 if (imageDetailBean != null) {
-//                    Intent intent1 = new Intent(ImageDetailLongActivity.this, EditPhotoActivity.class);
-//                    intent1.putExtra("image_url", imageDetailBean.getItem_info().getImage().getImg0());
-//                    startActivity(intent1);
+                    List<String> listUrl = new ArrayList<>();
+                    listUrl.add(imageDetailBean.getItem_info().getImage().getImg0());
+                    Intent intent1 = new Intent(ImageDetailLongActivity.this, ImageDetailsActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("pic_url_list", (Serializable) listUrl);
+                    bundle.putInt("click_position", 0);
+                    bundle.putInt("ifhinttital", 2);
+                    intent1.putExtras(bundle);
+                    startActivity(intent1);
                 }
 
                 break;
@@ -1019,7 +1026,7 @@ public class ImageDetailLongActivity
                     if (mListData.get(position).getItem_info().getImage().getRatio() > 0.5) {
                         ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
                                 (ImageView) holder.getView(R.id.iv_imageview_one));
-                    }else {
+                    } else {
                         GlideImgManager.glideLoader(ImageDetailLongActivity.this, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
                     }
                     ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
@@ -1428,7 +1435,7 @@ public class ImageDetailLongActivity
                 }
                 iv_details_image.setPoints(pointSimples);
             }
-            iv_details_image.setImgBg(wide_num, (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()), imageDetailBean.getItem_info().getImage().getImg0(), this,imageDetailBean.getItem_info().getImage().getRatio());
+            iv_details_image.setImgBg(wide_num, (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()), imageDetailBean.getItem_info().getImage().getImg0(), this, imageDetailBean.getItem_info().getImage().getRatio());
             imageFirstTag = false;
         }
         listColor = imageDetailBean.getColor_info();
