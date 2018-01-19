@@ -114,4 +114,6 @@ public class UrlConstants {
     public static final String PRIZE_USER = "https://api.idcool.com.cn/activity/activity/getPrizeUser";  //获取获奖名单
     public static final String SEARCH_IMAGE = "https://api.idcool.com.cn/ai/ai/searchItem";  //搜索相似图片
 
+    public static final String IMAGE_USER = "https://api.idcool.com.cn/item/item/getListByUserId";  //获取一个用户的所有图片
+
 }

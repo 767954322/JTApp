@@ -168,7 +168,6 @@ public class UserInfoActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
         widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_3)) / 2 - UIUtils.getDimens(R.dimen.font_1);
         StatusBarUtil.setTranslucentForImageView(this, 0, null);
         int statusBarHeight = PublicUtils.getStatusBarHeight(this);
@@ -527,6 +526,31 @@ public class UserInfoActivity
             }
         };
         MyHttpManager.getInstance().getUserInspirationSeries(user_id, (page_num - 1) * 20 + "", "20", callBack);
+    }
+
+    private void getImageByUserId(final String state) {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+
+                    } else {
+
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().getImageByUserId(user_id, (page_num - 1) * 20 + "", "20", callBack);
     }
 
     private void updateViewFromData(List<InspirationBean> listData, String state) {
