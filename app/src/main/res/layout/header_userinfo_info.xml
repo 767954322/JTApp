@@ -214,7 +214,31 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/tv_info_zhanye_back"
                 android:src="@drawable/next" />
-        </RelativeLayout>
 
+        </RelativeLayout>
+        <View
+            android:id="@+id/view_up_hot_new"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/rl_info_zhunaye"
+            android:layout_marginTop="@dimen/font_30"
+            android:background="@color/view_line" />
+
+        <RelativeLayout
+            android:id="@+id/rly_slidingtablayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/font_49"
+            android:layout_below="@+id/view_up_hot_new">
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tl_tab"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/font_49"
+                app:tabTextColor="@color/bg_8f8f8f"
+                app:tabSelectedTextColor="@color/bg_262626"
+                app:tabTextAppearance="@style/TabLayOutTextSize"
+                android:background="@color/white" />
+
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

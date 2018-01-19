@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.TabLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
@@ -94,6 +95,7 @@ public class UserInfoActivity
     private final String REFRESH_STATUS = "refresh";
     private final String LOADMORE_STATUS = "loadmore";
     private boolean loginStatus;
+    private TabLayout tl_tab;
 
     @Override
     protected int getLayoutResId() {
@@ -121,6 +123,7 @@ public class UserInfoActivity
         rl_info_fensi = (RelativeLayout) headerView.findViewById(R.id.rl_info_fensi);
         iv_info_renzheng = (ImageView) headerView.findViewById(R.id.iv_info_renzheng);
         iv_header_desiner_center = (RoundImageView) headerView.findViewById(R.id.iv_header_desiner_center);
+        tl_tab = (TabLayout) headerView.findViewById(R.id.tl_tab);
     }
 
     @Override
@@ -140,6 +143,26 @@ public class UserInfoActivity
         rl_info_guanzhu.setOnClickListener(this);
         rl_info_shaijia.setOnClickListener(this);
         rl_info_fensi.setOnClickListener(this);
+        tl_tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getText().equals("图片")) {
+                    ToastUtils.showCenter(UserInfoActivity.this, "图片");
+                } else if (tab.getText().equals("文章")) {
+                    ToastUtils.showCenter(UserInfoActivity.this, "文章");
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
     }
 
@@ -155,7 +178,12 @@ public class UserInfoActivity
         view_tiop.setLayoutParams(layoutParams);
 
         mTVTital.setText("");
-
+        tl_tab.setTabMode(TabLayout.MODE_FIXED);
+        tl_tab.setSelectedTabIndicatorHeight(UIUtils.getDimens(R.dimen.font_3));
+        tl_tab.setSelectedTabIndicatorColor(UIUtils.getColor(R.color.bg_e79056));
+        tl_tab.addTab(tl_tab.newTab().setText("图片"));
+        tl_tab.addTab(tl_tab.newTab().setText("文章"));
+        PublicUtils.setIndicator(tl_tab, UIUtils.getDimens(R.dimen.font_15), UIUtils.getDimens(R.dimen.font_15));
         getUserInfo();
 
         MultiItemTypeSupport<InspirationBean> support = new MultiItemTypeSupport<InspirationBean>() {
