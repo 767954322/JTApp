@@ -266,30 +266,33 @@ public class PhotoActivity
         photoManager.setMediaCallback(new IMediaCallback() {
             @Override
             public void Error(MediaErrorCode errorCode) {
-                if (photoManager.getCamera() != null) {
-                    Camera.Parameters parameters = photoManager.getCamera().getParameters();
-                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                    photoManager.getCamera().setParameters(parameters);
-                }
-                switch (errorCode) {
-                    case TAKEPICTURE_FAIL:
-                        Toast.makeText(PhotoActivity.this, "拍照失败", Toast.LENGTH_SHORT).show();
-                        break;
-                    case NO_CAMERA:
-                        Toast.makeText(PhotoActivity.this, "没有摄像头", Toast.LENGTH_SHORT).show();
-                        break;
-                    case NO_FRONT_CAMERA:
-                        Toast.makeText(PhotoActivity.this, "没有前置摄像头", Toast.LENGTH_SHORT).show();
-                        break;
-                    case OPEN_CAMERA_FAIL:
-                        Toast.makeText(PhotoActivity.this, "打开摄像头失败", Toast.LENGTH_SHORT).show();
-                        break;
-                    case OPEN_PREVIEW_FAIL:
-                        Toast.makeText(PhotoActivity.this, "打开预览界面失败", Toast.LENGTH_SHORT).show();
-                        break;
-                    case START_RECORD_FAIL:
-                        Toast.makeText(PhotoActivity.this, "启动录制视频失败", Toast.LENGTH_SHORT).show();
-                        break;
+                try {
+                    if (photoManager.getCamera() != null) {
+                        Camera.Parameters parameters = photoManager.getCamera().getParameters();
+                        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                        photoManager.getCamera().setParameters(parameters);
+                    }
+                    switch (errorCode) {
+                        case TAKEPICTURE_FAIL:
+                            Toast.makeText(PhotoActivity.this, "拍照失败", Toast.LENGTH_SHORT).show();
+                            break;
+                        case NO_CAMERA:
+                            Toast.makeText(PhotoActivity.this, "没有摄像头", Toast.LENGTH_SHORT).show();
+                            break;
+                        case NO_FRONT_CAMERA:
+                            Toast.makeText(PhotoActivity.this, "没有前置摄像头", Toast.LENGTH_SHORT).show();
+                            break;
+                        case OPEN_CAMERA_FAIL:
+                            Toast.makeText(PhotoActivity.this, "打开摄像头失败", Toast.LENGTH_SHORT).show();
+                            break;
+                        case OPEN_PREVIEW_FAIL:
+                            Toast.makeText(PhotoActivity.this, "打开预览界面失败", Toast.LENGTH_SHORT).show();
+                            break;
+                        case START_RECORD_FAIL:
+                            Toast.makeText(PhotoActivity.this, "启动录制视频失败", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }catch (Exception e){
                 }
             }
 
