@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.text.TextUtils;
@@ -101,8 +102,6 @@ public class HomePicFragment
     private HRecyclerView mRecyclerView;
 
     private List<SearchItemDataBean> mListData = new ArrayList<>();
-    private List<Integer> mLListDataHeight = new ArrayList<>();
-    private List<Integer> mSListDataHeight = new ArrayList<>();
     private LoadMoreFooterView mLoadMoreFooterView;
     private MultiItemCommonAdapter<SearchItemDataBean> mAdapter;
     private int page_num = 1;
@@ -207,6 +206,13 @@ public class HomePicFragment
         tv_color_tital.setOnClickListener(this);
         iv_color_icon.setOnClickListener(this);
         bt_tag_page_item.setOnClickListener(this);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+//                staggeredGridLayoutManager.invalidateSpanAssignments();
+            }
+        });
         mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -244,6 +250,7 @@ public class HomePicFragment
 
 
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_20);
         width_Pic_List = PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_14);
         buildRecyclerView();
@@ -375,7 +382,7 @@ public class HomePicFragment
 
         mAdapter = new MultiItemCommonAdapter<SearchItemDataBean>(activity, mListData, support) {
             @Override
-            public void convert(BaseViewHolder holder, final int position) {
+            public void convert(final BaseViewHolder holder, final int position) {
                 scroll_position = position;
                 if (position == 0 && mListData.get(position).getItem_info().getTag().equals("活动") && null != mActivityInfoBean) {
                     ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
@@ -397,13 +404,7 @@ public class HomePicFragment
                         }
                     });
                 } else {
-                    ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
-                    if (null != mActivityInfoBean && mListData.get(0).getItem_info().getTag().equals("活动")) {
-                        layoutParams.height = (curentListTag ? mLListDataHeight.get(position - 1) : mSListDataHeight.get(position - 1));
-                    } else {
-                        layoutParams.height = (curentListTag ? mLListDataHeight.get(position) : mSListDataHeight.get(position));
-                    }
-                    holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
+
                     String nikeName = mListData.get(position).getUser_info().getNickname();
                     ((TextView) holder.getView(R.id.tv_name_pic)).setText(nikeName);
                     String strTag = "";
@@ -429,6 +430,9 @@ public class HomePicFragment
                     }
                     ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
 
+                    ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
+                    layoutParams.height = (curentListTag ? (int) (width_Pic_List / 1.333333f) : Math.round(width_Pic_Staggered / mListData.get(position).getItem_info().getImage().getRatio()));
+                    holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
 
                     if (curentListTag) {
                         if (PublicUtils.ifHasWriteQuan(activity)) {
@@ -492,27 +496,14 @@ public class HomePicFragment
                         }
                     });
 
+                    if (!curentListTag) {
+                        ((ImageView) holder.getView(R.id.iv_shibie_pic)).setImageResource(R.drawable.xiaotushibie);
+                    }
                     holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //友盟统计
-                            HashMap<String, String> map4 = new HashMap<String, String>();
-                            map4.put("evenname", "识图入口");
-                            map4.put("even", "看图列表页－图片识别");
-                            MobclickAgent.onEvent(activity, "shijian6", map4);
-                            //ga统计
-                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("看图列表页－图片识别")  //事件类别
-                                    .setAction("识图入口")      //事件操作
-                                    .build());
-                            Intent intent1 = new Intent(activity, SearchLoadingActivity.class);
-//                        Intent intent1 = new Intent(ShiBieActivity.this, TestActivity.class);
-                            intent1.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg1());
-                            intent1.putExtra("type", "lishi");
-                            intent1.putExtra("image_id", mListData.get(position).getItem_info().getImage().getImage_id());
-                            intent1.putExtra("image_type", "network");
-                            intent1.putExtra("image_ratio", mListData.get(position).getItem_info().getImage().getRatio());
-                            startActivity(intent1);
+                            ((ImageView) holder.getView(R.id.iv_shibie_pic)).setImageResource(R.drawable.xing);
+                            getSearchImage(mListData.get(position).getItem_info().getItem_id(), position);
                         }
                     });
                     holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
@@ -706,7 +697,6 @@ public class HomePicFragment
                             }
                         }
                         if (null != searchDataBean.getItem_list() && 0 != searchDataBean.getItem_list().size()) {
-                            getHeight(searchDataBean.getItem_list(), state);
                             updateViewFromData(searchDataBean.getItem_list(), state);
                         } else {
                             updateViewFromData(null, state);
@@ -771,24 +761,6 @@ public class HomePicFragment
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
                 }
                 break;
-        }
-    }
-
-    private void getHeight(List<SearchItemDataBean> item_list, String state) {
-        if (state.equals(REFRESH_STATUS)) {
-            mLListDataHeight.clear();
-            mSListDataHeight.clear();
-        }
-
-        if (item_list.size() > 0) {
-            for (int i = 0; i < item_list.size(); i++) {
-                mLListDataHeight.add(Math.round(width_Pic_List / 1.333333f));
-                if (item_list.get(i).getItem_info().getImage().getRatio() == 0) {
-                    mSListDataHeight.add(width_Pic_Staggered);
-                } else {
-                    mSListDataHeight.add(Math.round(width_Pic_Staggered / item_list.get(i).getItem_info().getImage().getRatio()));
-                }
-            }
         }
     }
 
@@ -1077,6 +1049,30 @@ public class HomePicFragment
                 String info = (String) msg.obj;
                 colorBean = GsonUtil.jsonToBean(info, ColorBean.class);
                 Log.d("test", colorBean.toString());
+            } else if (msg.what == 4) {
+                int clickPosition = msg.getData().getInt("position");
+                SearchDataBean searchDataBean = (SearchDataBean) msg.obj;
+                List<SearchItemDataBean> listSearch = searchDataBean.getItem_list();
+                List<SearchItemDataBean> list = new ArrayList();
+                list.addAll(listSearch);
+                List<String> listId = new ArrayList();
+                for (int i = 0; i < listSearch.size(); i++) {
+                    listId.add(listSearch.get(i).getItem_info().getItem_id());
+                }
+                mListData.addAll(clickPosition + 1, list);
+                mItemIdList.addAll(clickPosition, listId);
+
+                if (!curentListTag) {
+                    int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+                    staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
+//                mAdapter.notifyItemRangeInserted(clickPosition, listSearch.size());
+                    if ((lastPositions[0] - 2) <= clickPosition || (lastPositions[1] - 2) <= clickPosition) {
+                        mAdapter.notifyItemRangeChanged(clickPosition, mListData.size() - clickPosition);
+                    } else {
+                        mAdapter.notifyItemChanged(clickPosition);
+                    }
+                }
+
             }
         }
     };
@@ -1138,5 +1134,43 @@ public class HomePicFragment
         }
     }
 
+
+    private void getSearchImage(String item_id, final int clickPosition) {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtils.showCenter(activity, getString(R.string.search_result_error));
+
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        SearchDataBean searchDataBean = GsonUtil.jsonToBean(data_msg, SearchDataBean.class);
+                        Message message = new Message();
+                        message.obj = searchDataBean;
+                        message.what = 4;
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("position", clickPosition);
+                        message.setData(bundle);
+                        mHandler.sendMessage(message);
+                    } else {
+
+                        ToastUtils.showCenter(activity, error_msg);
+
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().getSearchImage(item_id, (page_search - 1) * 5 + "", "5", callBack);
+    }
+
+    private int page_search = 1;
 
 }

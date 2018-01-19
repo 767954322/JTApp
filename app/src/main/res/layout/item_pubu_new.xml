@@ -21,8 +21,7 @@
         android:layout_marginRight="@dimen/font_7"
         android:layout_marginTop="@dimen/font_7"
         android:clickable="true"
-        android:src="@drawable/xiaotushibie"
-        android:visibility="gone" />
+        android:src="@drawable/xiaotushibie" />
 
     <TextView
         android:id="@+id/tv_image_miaosu"

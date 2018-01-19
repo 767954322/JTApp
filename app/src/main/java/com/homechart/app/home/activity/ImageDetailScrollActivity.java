@@ -218,9 +218,9 @@ public class ImageDetailScrollActivity
                 mSelectListData = (Map<Integer, ColorItemBean>) getIntent().getSerializableExtra("mSelectListData");
                 shaixuan_tag = getIntent().getStringExtra("shaixuan_tag");
                 shuaixuan_page_num = getIntent().getIntExtra("page_num", 2);
-                if (mItemIdList.size() == 20 * (shuaixuan_page_num - 1)) {
+//                if (mItemIdList.size() == 20 * (shuaixuan_page_num - 1)) {
                     getMoreShaiXuan();
-                }
+//                }
             }
         }
         getTypeData();

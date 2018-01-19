@@ -112,5 +112,6 @@ public class UrlConstants {
     public static final String ZHUANJI_LIST = "https://api.idcool.com.cn/activity/activity/getAlbumList";  //获取参与活动的专辑列表
     public static final String ADD_HUODONG = "https://api.idcool.com.cn/activity/activity/join";  //报名参加活动
     public static final String PRIZE_USER = "https://api.idcool.com.cn/activity/activity/getPrizeUser";  //获取获奖名单
+    public static final String SEARCH_IMAGE = "https://api.idcool.com.cn/ai/ai/searchItem";  //搜索相似图片
 
 }
