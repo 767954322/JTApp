@@ -502,8 +502,16 @@ public class HomePicFragment
                     holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            ((ImageView) holder.getView(R.id.iv_shibie_pic)).setImageResource(R.drawable.xing);
-                            getSearchImage(mListData.get(position).getItem_info().getItem_id(), position);
+                            if (ifClickAble) {
+                                ifClickAble = false;
+                                if (mapSearch.containsKey(mListData.get(position).getItem_info().getItem_id())) {
+                                    mapSearch.put(mListData.get(position).getItem_info().getItem_id(), mapSearch.get(mListData.get(position).getItem_info().getItem_id()) + 1);
+                                } else {
+                                    mapSearch.put(mListData.get(position).getItem_info().getItem_id(), 1);
+                                }
+                                ((ImageView) holder.getView(R.id.iv_shibie_pic)).setImageResource(R.drawable.xing);
+                                getSearchImage(mListData.get(position).getItem_info().getItem_id(), position);
+                            }
                         }
                     });
                     holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
@@ -572,6 +580,7 @@ public class HomePicFragment
                 .setAction("看图列表页加载次数")      //事件操作
                 .build());
 
+        mapSearch.clear();
         page_num = 1;
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
         getListData(REFRESH_STATUS);
@@ -1065,14 +1074,13 @@ public class HomePicFragment
                 if (!curentListTag) {
                     int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
                     staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
-//                mAdapter.notifyItemRangeInserted(clickPosition, listSearch.size());
                     if ((lastPositions[0] - 2) <= clickPosition || (lastPositions[1] - 2) <= clickPosition) {
                         mAdapter.notifyItemRangeChanged(clickPosition, mListData.size() - clickPosition);
                     } else {
                         mAdapter.notifyItemChanged(clickPosition);
                     }
                 }
-
+                ifClickAble = true;
             }
         }
     };
@@ -1139,8 +1147,7 @@ public class HomePicFragment
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                ToastUtils.showCenter(activity, getString(R.string.search_result_error));
-
+                ifClickAble = true;
             }
 
             @Override
@@ -1160,17 +1167,20 @@ public class HomePicFragment
                         message.setData(bundle);
                         mHandler.sendMessage(message);
                     } else {
-
+                        ifClickAble = true;
                         ToastUtils.showCenter(activity, error_msg);
 
                     }
                 } catch (JSONException e) {
+                    ifClickAble = true;
                 }
             }
         };
-        MyHttpManager.getInstance().getSearchImage(item_id, (page_search - 1) * 5 + "", "5", callBack);
+        MyHttpManager.getInstance().getSearchImage(item_id, (mapSearch.get(item_id) - 1) * 5 + "", "5", callBack);
     }
 
+    private boolean ifClickAble = true;
     private int page_search = 1;
+    private Map<String, Integer> mapSearch = new HashMap<>();
 
 }
