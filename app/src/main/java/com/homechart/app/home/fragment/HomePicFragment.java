@@ -394,6 +394,7 @@ public class HomePicFragment
                     } else {
                         layoutParams.height = (int) (width_Pic_Staggered / mActivityInfoBean.getSmall_image().getRatio());
                         holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
+
                         ImageUtils.displayFilletImage(mActivityInfoBean.getSmall_image().getImg0(), (ImageView) holder.getView(R.id.iv_imageview_one));
                     }
                     holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
@@ -449,7 +450,7 @@ public class HomePicFragment
                     } else {
                         if (PublicUtils.ifHasWriteQuan(activity)) {
                             if (mListData.get(position).getItem_info().getImage().getRatio() > 0.6) {
-                                ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
+                                ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg1(),
                                         (ImageView) holder.getView(R.id.iv_imageview_one));
                             } else {
                                 GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);

@@ -1024,7 +1024,7 @@ public class ImageDetailLongActivity
                     //有权限
 
                     if (mListData.get(position).getItem_info().getImage().getRatio() > 0.5) {
-                        ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
+                        ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg1(),
                                 (ImageView) holder.getView(R.id.iv_imageview_one));
                     } else {
                         GlideImgManager.glideLoader(ImageDetailLongActivity.this, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
