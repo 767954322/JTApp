@@ -589,7 +589,7 @@ public class ShaiXuanResultActicity
                         }
                     }
                 });
-
+                holder.getView(R.id.iv_shibie_pic).setVisibility(View.GONE);
                 holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
