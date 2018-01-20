@@ -30,7 +30,7 @@
             android:layout_marginRight="@dimen/font_7"
             android:layout_marginTop="@dimen/font_7"
             android:clickable="true"
-            android:src="@drawable/xiaotushibie" />
+            android:src="@drawable/quan" />
 
 
         <TextView

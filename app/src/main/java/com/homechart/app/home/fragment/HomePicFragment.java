@@ -26,6 +26,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -150,6 +155,8 @@ public class HomePicFragment
     private InspirationSeriesPop mInspirationSeriesPop;
     private String userId;
     private ActivityInfoBean mActivityInfoBean;
+    private AnimationSet animationSet;
+    private boolean ifScroll = false;
 
     public HomePicFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -210,6 +217,7 @@ public class HomePicFragment
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+
 //                staggeredGridLayoutManager.invalidateSpanAssignments();
             }
         });
@@ -228,6 +236,7 @@ public class HomePicFragment
                         mMoveY = event.getY();
                         break;
                     case MotionEvent.ACTION_UP:
+
                         move_tag = true;
                         mMoveY = event.getY();
                         Log.e("UP", "Y" + mMoveY);
@@ -248,7 +257,7 @@ public class HomePicFragment
     @Override
     protected void initData(Bundle savedInstanceState) {
 
-
+        initAnimation();
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_20);
@@ -475,7 +484,6 @@ public class HomePicFragment
                             startActivity(intent);
                         }
                     });
-
                     holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -498,20 +506,27 @@ public class HomePicFragment
                         }
                     });
 
-                    if (!curentListTag) {
-                        ((ImageView) holder.getView(R.id.iv_shibie_pic)).setImageResource(R.drawable.xiaotushibie);
+                    if(!ifScroll){
+                        holder.getView(R.id.iv_shibie_pic).setAlpha(1);
+                    }else {
+                        holder.getView(R.id.iv_shibie_pic).setAlpha(0.3f);
                     }
+                    if (!curentListTag) {
+                        ((ImageView) holder.getView(R.id.iv_shibie_pic)).setVisibility(View.VISIBLE);
+                    }
+
+//                    holder.getView(R.id.iv_shibie_pic).setAlpha(0.3f);
                     holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (ifClickAble) {
+                                holder.getView(R.id.iv_shibie_pic).startAnimation(animationSet);
                                 ifClickAble = false;
                                 if (mapSearch.containsKey(mListData.get(position).getItem_info().getItem_id())) {
                                     mapSearch.put(mListData.get(position).getItem_info().getItem_id(), mapSearch.get(mListData.get(position).getItem_info().getItem_id()) + 1);
                                 } else {
                                     mapSearch.put(mListData.get(position).getItem_info().getItem_id(), 1);
                                 }
-                                ((ImageView) holder.getView(R.id.iv_shibie_pic)).setImageResource(R.drawable.xing);
                                 getSearchImage(mListData.get(position).getItem_info().getItem_id(), position);
                             }
                         }
@@ -919,7 +934,6 @@ public class HomePicFragment
         t.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
-
     @Override
     public void onPause() {
         super.onPause();
@@ -1153,6 +1167,7 @@ public class HomePicFragment
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 ifClickAble = true;
+                mAdapter.notifyItemChanged(clickPosition);
             }
 
             @Override
@@ -1172,6 +1187,8 @@ public class HomePicFragment
                         message.setData(bundle);
                         mHandler.sendMessage(message);
                     } else {
+
+                        mAdapter.notifyItemChanged(clickPosition);
                         ifClickAble = true;
                         ToastUtils.showCenter(activity, error_msg);
 
@@ -1182,6 +1199,28 @@ public class HomePicFragment
             }
         };
         MyHttpManager.getInstance().getSearchImage(item_id, (mapSearch.get(item_id) - 1) * 5 + "", "5", callBack);
+    }
+
+    private void initAnimation() {
+        //1.AnimationSet
+        animationSet = new AnimationSet(true);
+        animationSet.setInterpolator(new LinearInterpolator());
+        //透明度
+        AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0.5f);
+        alphaAnimation.setRepeatCount(100);
+
+        //缩放（以某个点为中心缩放）
+        ScaleAnimation scaleAnimation = new ScaleAnimation(1, 0.8f, 1, 0.8f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scaleAnimation.setRepeatCount(100);
+        //添加动画
+        animationSet.setFillAfter(true);
+        animationSet.addAnimation(alphaAnimation);
+        animationSet.addAnimation(scaleAnimation);
+        animationSet.setDuration(500);
+        animationSet.setStartOffset(0);
+        animationSet.setRepeatCount(Animation.INFINITE);
+        animationSet.setRepeatMode(Animation.REVERSE);
     }
 
     private boolean ifClickAble = true;
