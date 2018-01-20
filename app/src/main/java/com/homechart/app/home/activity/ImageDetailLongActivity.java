@@ -1083,6 +1083,7 @@ public class ImageDetailLongActivity
                     holder.getView(R.id.tv_shoucang_num).setVisibility(View.VISIBLE);
                 }
 
+                holder.getView(R.id.iv_shibie_pic).setVisibility(View.GONE);
                 holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
