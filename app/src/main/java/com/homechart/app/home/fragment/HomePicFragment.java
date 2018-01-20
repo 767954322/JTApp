@@ -1185,7 +1185,6 @@ public class HomePicFragment
     }
 
     private boolean ifClickAble = true;
-    private int page_search = 1;
     private Map<String, Integer> mapSearch = new HashMap<>();
 
 }
