@@ -639,7 +639,7 @@ public class HomeActivity
 
                 break;
             case 3:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //获取到了权限
                     HashMap<String, String> map6 = new HashMap<String, String>();
                     map6.put("evenname", "识图入口");
