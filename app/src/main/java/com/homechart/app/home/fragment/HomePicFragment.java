@@ -218,6 +218,18 @@ public class HomePicFragment
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
+                if(newState == 0){
+//                    ifScroll = false;
+//                    mAdapter.notifyDataSetChanged();
+                    Log.d("test","0");
+                }else if(newState == 1){
+//                    ifScroll = true;
+//                    mAdapter.notifyDataSetChanged();
+                    Log.d("test","1");
+                }else if(newState == 2){
+                    Log.d("test","2");
+                }
+
 //                staggeredGridLayoutManager.invalidateSpanAssignments();
             }
         });
@@ -394,8 +406,10 @@ public class HomePicFragment
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
                 scroll_position = position;
+
                 if (position == 0 && mListData.get(position).getItem_info().getTag().equals("活动") && null != mActivityInfoBean) {
                     ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
+
                     if (curentListTag) {
                         layoutParams.height = (int) (width_Pic_List / mActivityInfoBean.getBig_image().getRatio());
                         holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
