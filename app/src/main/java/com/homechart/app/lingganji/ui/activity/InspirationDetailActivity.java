@@ -155,6 +155,7 @@ public class InspirationDetailActivity extends BaseActivity
     private MyDialog1 mDialog1;
     private String tag;
     private Boolean loginStatus;
+    private TextView tv_shoucang;
 
     @Override
     protected int getLayoutResId() {
@@ -177,6 +178,7 @@ public class InspirationDetailActivity extends BaseActivity
         id_main = (RelativeLayout) this.findViewById(R.id.id_main);
         mTital = (TextView) findViewById(R.id.tv_tital_comment);
         mRightIcon = (ImageButton) findViewById(R.id.nav_secondary_imageButton);
+        tv_shoucang = (TextView) findViewById(R.id.tv_shoucang);
         mBack = (ImageButton) findViewById(R.id.nav_left_imageButton);
         mRecyclerView = (HRecyclerView) this.findViewById(R.id.rcy_recyclerview);
         mCoordinator = (CoordinatorLayout) this.findViewById(R.id.cl_coordinator);
@@ -231,6 +233,7 @@ public class InspirationDetailActivity extends BaseActivity
         rl_dingyue1.setOnClickListener(this);
         rl_dingyueno.setOnClickListener(this);
         rl_dingyue.setOnClickListener(this);
+        tv_shoucang.setOnClickListener(this);
         iv_more_miaosu.setOnClickListener(this);
         iv_more_miaosu_no.setOnClickListener(this);
         mUserHeader.setOnClickListener(this);
@@ -288,6 +291,7 @@ public class InspirationDetailActivity extends BaseActivity
                 break;
             case R.id.rl_dingyue1:
             case R.id.rl_dingyue:
+            case R.id.tv_shoucang:
             case R.id.rl_dingyue_no:
 
                 loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
@@ -424,9 +428,10 @@ public class InspirationDetailActivity extends BaseActivity
             if (null != inspirationDetailBean.getInfo().getUser_info() && !mMyUserId.equals(inspirationDetailBean.getInfo().getUser_info().getUser_id())) {
                 mRightIcon.setImageResource(R.drawable.shared_icon);
                 ifUser = 1;
-                rl_dingyue1.setVisibility(View.VISIBLE);
-                rl_dingyueno.setVisibility(View.VISIBLE);
-                rl_dingyue.setVisibility(View.VISIBLE);
+//                rl_dingyue1.setVisibility(View.VISIBLE);
+//                rl_dingyueno.setVisibility(View.VISIBLE);
+//                rl_dingyue.setVisibility(View.VISIBLE);
+                tv_shoucang.setVisibility(View.VISIBLE);
                 if (inspirationDetailBean.getInfo().getAlbum_info().getIs_subscribed().equals("1")) {
                     //订阅了
                     changeDingYueStatus(true);
@@ -444,6 +449,7 @@ public class InspirationDetailActivity extends BaseActivity
                 rl_dingyue1.setVisibility(View.GONE);
                 rl_dingyueno.setVisibility(View.GONE);
                 rl_dingyue.setVisibility(View.GONE);
+                tv_shoucang.setVisibility(View.GONE);
             }
             mRightIcon.setVisibility(View.VISIBLE);
             mInspirationName.setText(inspirationDetailBean.getInfo().getAlbum_info().getAlbum_name());
@@ -805,25 +811,31 @@ public class InspirationDetailActivity extends BaseActivity
 
     private void changeDingYueStatus(boolean dingyue) {
         if (dingyue) {
-            rl_dingyueno.setBackgroundResource(R.drawable.bg_dingyue);
-            rl_dingyue.setBackgroundResource(R.drawable.bg_dingyue);
-            rl_dingyue1.setBackgroundResource(R.drawable.bg_dingyue);
-            tv_dingyue_name.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-            tv_dingyue_name_no.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-            tv_dingyue_name1.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-            tv_dingyue_name.setText("已订阅");
-            tv_dingyue_name_no.setText("已订阅");
-            tv_dingyue_name1.setText("已订阅");
+//            rl_dingyueno.setBackgroundResource(R.drawable.bg_dingyue);
+//            rl_dingyue.setBackgroundResource(R.drawable.bg_dingyue);
+//            rl_dingyue1.setBackgroundResource(R.drawable.bg_dingyue);
+            tv_shoucang.setBackgroundResource(R.drawable.bt_shoucang_no);
+//            tv_dingyue_name.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+//            tv_dingyue_name_no.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+//            tv_dingyue_name1.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+            tv_shoucang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+//            tv_dingyue_name.setText("已订阅");
+//            tv_dingyue_name_no.setText("已订阅");
+//            tv_dingyue_name1.setText("已订阅");
+            tv_shoucang.setText("已收藏");
         } else {
-            rl_dingyueno.setBackgroundResource(R.drawable.bg_dingyue_quxiao);
-            rl_dingyue.setBackgroundResource(R.drawable.bg_dingyue_quxiao);
-            rl_dingyue1.setBackgroundResource(R.drawable.bg_dingyue_quxiao);
-            tv_dingyue_name.setTextColor(UIUtils.getColor(R.color.white));
-            tv_dingyue_name_no.setTextColor(UIUtils.getColor(R.color.white));
-            tv_dingyue_name1.setTextColor(UIUtils.getColor(R.color.white));
-            tv_dingyue_name.setText("＋ 订阅");
-            tv_dingyue_name_no.setText("＋ 订阅");
-            tv_dingyue_name1.setText("＋ 订阅");
+//            rl_dingyueno.setBackgroundResource(R.drawable.bg_dingyue_quxiao);
+//            rl_dingyue.setBackgroundResource(R.drawable.bg_dingyue_quxiao);
+//            rl_dingyue1.setBackgroundResource(R.drawable.bg_dingyue_quxiao);
+            tv_shoucang.setBackgroundResource(R.drawable.bt_shoucang);
+//            tv_dingyue_name.setTextColor(UIUtils.getColor(R.color.white));
+//            tv_dingyue_name_no.setTextColor(UIUtils.getColor(R.color.white));
+//            tv_dingyue_name1.setTextColor(UIUtils.getColor(R.color.white));
+            tv_shoucang.setTextColor(UIUtils.getColor(R.color.white));
+//            tv_dingyue_name.setText("＋ 订阅");
+//            tv_dingyue_name_no.setText("＋ 订阅");
+//            tv_dingyue_name1.setText("＋ 订阅");
+            tv_shoucang.setText("＋ 收藏");
         }
     }
 
@@ -947,12 +959,12 @@ public class InspirationDetailActivity extends BaseActivity
     }
 
     private void addDingYue() {
-        CustomProgress.show(InspirationDetailActivity.this, "订阅中...", false, null);
+//        CustomProgress.show(InspirationDetailActivity.this, "收藏中...", false, null);
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 CustomProgress.cancelDialog();
-                ToastUtils.showCenter(InspirationDetailActivity.this, "订阅失败！");
+                ToastUtils.showCenter(InspirationDetailActivity.this, "收藏失败！");
                 ifClickDingYue = true;
             }
 
@@ -967,16 +979,16 @@ public class InspirationDetailActivity extends BaseActivity
                         changeDingYueStatus(true);
                         getInspirationDetail();
                         CustomProgress.cancelDialog();
-                        ToastUtils.showCenter(InspirationDetailActivity.this, "订阅成功！");
+                        ToastUtils.showCenter(InspirationDetailActivity.this, "收藏成功！");
                         ifClickDingYue = true;
                     } else {
                         CustomProgress.cancelDialog();
-                        ToastUtils.showCenter(InspirationDetailActivity.this, "订阅失败！");
+                        ToastUtils.showCenter(InspirationDetailActivity.this, "收藏失败！");
                         ifClickDingYue = true;
                     }
                 } catch (JSONException e) {
                     CustomProgress.cancelDialog();
-                    ToastUtils.showCenter(InspirationDetailActivity.this, "订阅失败！");
+                    ToastUtils.showCenter(InspirationDetailActivity.this, "收藏失败！");
                     ifClickDingYue = true;
                 }
             }
@@ -985,13 +997,13 @@ public class InspirationDetailActivity extends BaseActivity
     }
 
     private void removeDingYue() {
-        CustomProgress.show(InspirationDetailActivity.this, "取消订阅中...", false, null);
+//        CustomProgress.show(InspirationDetailActivity.this, "取消收藏中...", false, null);
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 ifClickDingYue = true;
                 CustomProgress.cancelDialog();
-                ToastUtils.showCenter(InspirationDetailActivity.this, "取消订阅失败！");
+                ToastUtils.showCenter(InspirationDetailActivity.this, "取消收藏失败！");
             }
 
             @Override
@@ -1005,16 +1017,16 @@ public class InspirationDetailActivity extends BaseActivity
                         changeDingYueStatus(false);
                         getInspirationDetail();
                         CustomProgress.cancelDialog();
-                        ToastUtils.showCenter(InspirationDetailActivity.this, "取消订阅成功！");
+                        ToastUtils.showCenter(InspirationDetailActivity.this, "取消收藏成功！");
                         ifClickDingYue = true;
                     } else {
                         CustomProgress.cancelDialog();
-                        ToastUtils.showCenter(InspirationDetailActivity.this, "取消订阅失败！");
+                        ToastUtils.showCenter(InspirationDetailActivity.this, "取消收藏失败！");
                         ifClickDingYue = true;
                     }
                 } catch (JSONException e) {
                     CustomProgress.cancelDialog();
-                    ToastUtils.showCenter(InspirationDetailActivity.this, "取消订阅失败！");
+                    ToastUtils.showCenter(InspirationDetailActivity.this, "取消收藏失败！");
                     ifClickDingYue = true;
                 }
             }

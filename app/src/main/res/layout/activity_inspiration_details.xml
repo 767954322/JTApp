@@ -71,8 +71,7 @@
                 android:background="@drawable/bt_shoucang"
                 android:layout_marginLeft="@dimen/font_10"
                 android:visibility="gone"
-                android:gravity="center"
-                android:text="+ 收藏" />
+                android:gravity="center"/>
         </RelativeLayout>
 
         <TextView
