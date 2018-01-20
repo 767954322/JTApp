@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="@dimen/font_11"
     android:background="@color/white">
 
     <ImageView
@@ -19,9 +20,4 @@
         android:layout_below="@+id/iv_imageview_one"
         android:background="@color/bg_f2f2f2" />
 
-    <View
-        android:id="@+id/view_top"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/font_10"
-        android:layout_below="@+id/view_test" />
 </RelativeLayout>
