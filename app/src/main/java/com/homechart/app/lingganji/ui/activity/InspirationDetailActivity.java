@@ -156,6 +156,7 @@ public class InspirationDetailActivity extends BaseActivity
     private String tag;
     private Boolean loginStatus;
     private TextView tv_shoucang;
+    private ImageButton mRightIcon1;
 
     @Override
     protected int getLayoutResId() {
@@ -178,6 +179,7 @@ public class InspirationDetailActivity extends BaseActivity
         id_main = (RelativeLayout) this.findViewById(R.id.id_main);
         mTital = (TextView) findViewById(R.id.tv_tital_comment);
         mRightIcon = (ImageButton) findViewById(R.id.nav_secondary_imageButton);
+        mRightIcon1 = (ImageButton) findViewById(R.id.nav_secondary_imageButton1);
         tv_shoucang = (TextView) findViewById(R.id.tv_shoucang);
         mBack = (ImageButton) findViewById(R.id.nav_left_imageButton);
         mRecyclerView = (HRecyclerView) this.findViewById(R.id.rcy_recyclerview);
@@ -228,6 +230,7 @@ public class InspirationDetailActivity extends BaseActivity
         super.initListener();
         mBack.setOnClickListener(this);
         mRightIcon.setOnClickListener(this);
+        mRightIcon1.setOnClickListener(this);
         rl_check_pic.setOnClickListener(this);
         rl_check_pic1.setOnClickListener(this);
         rl_dingyue1.setOnClickListener(this);
@@ -314,6 +317,7 @@ public class InspirationDetailActivity extends BaseActivity
                 }
                 break;
             case R.id.nav_secondary_imageButton:
+            case R.id.nav_secondary_imageButton1:
                 if (ifUser == 1) {//不是本人
                     if (inspirationDetailBean != null) {
                         homeSharedPopWinPublic.showAtLocation(InspirationDetailActivity.this.findViewById(R.id.id_main),
@@ -374,9 +378,11 @@ public class InspirationDetailActivity extends BaseActivity
     protected void initData(Bundle savedInstanceState) {
 
         homeSharedPopWinPublic = new HomeSharedPopWinPublic(InspirationDetailActivity.this, InspirationDetailActivity.this);
-        mTital.setText("灵感辑");
+//        mTital.setText("灵感辑");
         mRightIcon.setImageResource(R.drawable.gengduo);
+        mRightIcon1.setImageResource(R.drawable.gengduo);
         mRightIcon.setVisibility(View.GONE);
+        mRightIcon1.setVisibility(View.GONE);
         mMyUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
         if (mMyUserId == null) {
             mMyUserId = "";
@@ -426,7 +432,11 @@ public class InspirationDetailActivity extends BaseActivity
     private void changeTopUI(InspirationDetailBean inspirationDetailBean) {
         if (null != inspirationDetailBean) {
             if (null != inspirationDetailBean.getInfo().getUser_info() && !mMyUserId.equals(inspirationDetailBean.getInfo().getUser_info().getUser_id())) {
+                mRightIcon.setVisibility(View.VISIBLE);
+                mRightIcon1.setVisibility(View.GONE);
                 mRightIcon.setImageResource(R.drawable.shared_icon);
+                mRightIcon1.setImageResource(R.drawable.shared_icon);
+
                 ifUser = 1;
 //                rl_dingyue1.setVisibility(View.VISIBLE);
 //                rl_dingyueno.setVisibility(View.VISIBLE);
@@ -443,15 +453,18 @@ public class InspirationDetailActivity extends BaseActivity
                 ifUser = 2;
                 if (!TextUtils.isEmpty(tag) && tag.equals("true")) {
                     mRightIcon.setImageResource(R.drawable.gengduo);
+                    mRightIcon.setVisibility(View.GONE);
+                    mRightIcon1.setVisibility(View.VISIBLE);
                 } else {
                     mRightIcon.setImageResource(R.drawable.shared_icon);
+                    mRightIcon.setVisibility(View.VISIBLE);
+                    mRightIcon1.setVisibility(View.GONE);
                 }
                 rl_dingyue1.setVisibility(View.GONE);
                 rl_dingyueno.setVisibility(View.GONE);
                 rl_dingyue.setVisibility(View.GONE);
                 tv_shoucang.setVisibility(View.GONE);
             }
-            mRightIcon.setVisibility(View.VISIBLE);
             mInspirationName.setText(inspirationDetailBean.getInfo().getAlbum_info().getAlbum_name());
             mInspirationNameNo.setText(inspirationDetailBean.getInfo().getAlbum_info().getAlbum_name());
             mUserDingYue.setText(inspirationDetailBean.getInfo().getAlbum_info().getSubscribe_num() + " 订阅");
