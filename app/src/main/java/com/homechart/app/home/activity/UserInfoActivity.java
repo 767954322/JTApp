@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,9 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.home.bean.searchartile.ArticleBean;
+import com.homechart.app.home.bean.userimage.ImageDataBean;
+import com.homechart.app.home.bean.userimage.UserImageBean;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationBean;
@@ -82,7 +86,9 @@ public class UserInfoActivity
     private RelativeLayout rl_info_shaijia;
     private RelativeLayout rl_info_fensi;
     private MultiItemCommonAdapter<InspirationBean> mAdapter;
+    private MultiItemCommonAdapter<ImageDataBean> mAdapterImage;
     private List<InspirationBean> mListData = new ArrayList<>();
+    private List<ImageDataBean> mListDataImage = new ArrayList<>();
     private HRecyclerView mRecyclerView;
     private LoadMoreFooterView mLoadMoreFooterView;
     private int page_num = 1;
@@ -91,11 +97,15 @@ public class UserInfoActivity
     private View view_tiop;
     private TextView tv_jieshao;
     private int widthPic;
+    private int widthImage;
 
     private final String REFRESH_STATUS = "refresh";
     private final String LOADMORE_STATUS = "loadmore";
     private boolean loginStatus;
     private TabLayout tl_tab;
+    private String sort = "zhuanji";
+    private GridLayoutManager gridLayoutManager;
+    private StaggeredGridLayoutManager staggeredGridLayoutManager;
 
     @Override
     protected int getLayoutResId() {
@@ -146,10 +156,24 @@ public class UserInfoActivity
         tl_tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getText().equals("图片")) {
-                    ToastUtils.showCenter(UserInfoActivity.this, "图片");
-                } else if (tab.getText().equals("文章")) {
-                    ToastUtils.showCenter(UserInfoActivity.this, "文章");
+                page_num = 1;
+                mListData.clear();
+                if (tab.getText().equals("专辑")) {
+                    sort = "zhuanji";
+                    mListDataImage.clear();
+                    mListData.clear();
+                    mAdapterImage.notifyDataSetChanged();
+                    mRecyclerView.setLayoutManager(new GridLayoutManager(UserInfoActivity.this, 2));
+                    mRecyclerView.setAdapter(mAdapter);
+                    onRefresh();
+                } else if (tab.getText().equals("图片")) {
+                    sort = "image";
+                    mListData.clear();
+                    mListDataImage.clear();
+                    mAdapter.notifyDataSetChanged();
+                    mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+                    mRecyclerView.setAdapter(mAdapterImage);
+                    onRefresh();
                 }
             }
 
@@ -168,7 +192,10 @@ public class UserInfoActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        gridLayoutManager = new GridLayoutManager(UserInfoActivity.this, 2);
         widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_3)) / 2 - UIUtils.getDimens(R.dimen.font_1);
+        widthImage = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_24)) / 2;
         StatusBarUtil.setTranslucentForImageView(this, 0, null);
         int statusBarHeight = PublicUtils.getStatusBarHeight(this);
         ViewGroup.LayoutParams layoutParams = view_tiop.getLayoutParams();
@@ -180,10 +207,43 @@ public class UserInfoActivity
         tl_tab.setTabMode(TabLayout.MODE_FIXED);
         tl_tab.setSelectedTabIndicatorHeight(UIUtils.getDimens(R.dimen.font_3));
         tl_tab.setSelectedTabIndicatorColor(UIUtils.getColor(R.color.bg_e79056));
+        tl_tab.addTab(tl_tab.newTab().setText("专辑"));
         tl_tab.addTab(tl_tab.newTab().setText("图片"));
-        tl_tab.addTab(tl_tab.newTab().setText("文章"));
         PublicUtils.setIndicator(tl_tab, UIUtils.getDimens(R.dimen.font_15), UIUtils.getDimens(R.dimen.font_15));
         getUserInfo();
+
+        MultiItemTypeSupport<ImageDataBean> supportImage = new MultiItemTypeSupport<ImageDataBean>() {
+            @Override
+            public int getLayoutId(int itemType) {
+                return R.layout.item_userinfo_image;
+            }
+
+            @Override
+            public int getItemViewType(int position, ImageDataBean s) {
+                return 0;
+            }
+        };
+        mAdapterImage = new MultiItemCommonAdapter<ImageDataBean>(UserInfoActivity.this, mListDataImage, supportImage) {
+            @Override
+            public void convert(BaseViewHolder holder, final int position) {
+
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.getView(R.id.iv_item_pic).getLayoutParams();
+                layoutParams.height = (int) (widthImage/mListDataImage.get(position).getItem_info().getImage().getRatio());
+                layoutParams.width = widthImage;
+                layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
+                ImageUtils.displayFilletImage(mListDataImage.get(position).getItem_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
+                holder.getView(R.id.iv_item_pic).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(UserInfoActivity.this,ImageDetailLongActivity.class);
+                        intent.putExtra("item_id", mListDataImage.get(position).getItem_info().getItem_id());
+                        startActivity(intent);
+
+                    }
+                });
+            }
+        };
 
         MultiItemTypeSupport<InspirationBean> support = new MultiItemTypeSupport<InspirationBean>() {
             @Override
@@ -206,7 +266,6 @@ public class UserInfoActivity
 
             }
         };
-
         mAdapter = new MultiItemCommonAdapter<InspirationBean>(UserInfoActivity.this, mListData, support) {
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
@@ -237,9 +296,8 @@ public class UserInfoActivity
             }
         };
 
-
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
-        mRecyclerView.setLayoutManager(new GridLayoutManager(UserInfoActivity.this, 2));
+        mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setOnLoadMoreListener(this);
         mRecyclerView.setOnRefreshListener(this);
@@ -472,14 +530,22 @@ public class UserInfoActivity
     public void onRefresh() {
         page_num = 1;
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-        getInspirationsData(REFRESH_STATUS);
+        if (sort.equals("zhuanji")) {
+            getInspirationsData(REFRESH_STATUS);
+        } else if (sort.equals("image")) {
+            getImageByUserId(REFRESH_STATUS);
+        }
     }
 
     @Override
     public void onLoadMore() {
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
         ++page_num;
-        getInspirationsData(LOADMORE_STATUS);
+        if (sort.equals("zhuanji")) {
+            getInspirationsData(LOADMORE_STATUS);
+        } else if (sort.equals("image")) {
+            getImageByUserId(LOADMORE_STATUS);
+        }
     }
 
     private void getInspirationsData(final String state) {
@@ -542,9 +608,15 @@ public class UserInfoActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
-
+                        String newData = "{\"data\": " + data_msg + "}";
+                        UserImageBean userImageBean = GsonUtil.jsonToBean(newData, UserImageBean.class);
+                        if (null != userImageBean.getData().getItem_list() && 0 != userImageBean.getData().getItem_list().size()) {
+                            updateViewFromDataImage(userImageBean.getData().getItem_list(), state);
+                        } else {
+                            updateViewFromDataImage(null, state);
+                        }
                     } else {
-
+                        ToastUtils.showCenter(UserInfoActivity.this, error_msg);
                     }
                 } catch (JSONException e) {
                 }
@@ -556,7 +628,6 @@ public class UserInfoActivity
     private void updateViewFromData(List<InspirationBean> listData, String state) {
 
         switch (state) {
-
             case REFRESH_STATUS:
                 mListData.clear();
                 if (null != listData && listData.size() > 0) {
@@ -584,6 +655,49 @@ public class UserInfoActivity
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
                 } else {
                     if (mListData.size() == 0) {
+                        ((TextView) mRecyclerView.getLoadMoreFooterView().findViewById(R.id.tvTheEnd)).setText("暂无内容");
+                    } else {
+                        ((TextView) mRecyclerView.getLoadMoreFooterView().findViewById(R.id.tvTheEnd)).setText("已经到底啦");
+                    }
+                    --page_num;
+                    //没有更多数据
+                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+                }
+                break;
+        }
+    }
+
+    private void updateViewFromDataImage(List<ImageDataBean> listData, String state) {
+
+
+        switch (state) {
+            case REFRESH_STATUS:
+                mListDataImage.clear();
+                if (null != listData && listData.size() > 0) {
+                    mListDataImage.addAll(listData);
+                } else {
+                    if (mListDataImage.size() == 0) {
+                        ((TextView) mRecyclerView.getLoadMoreFooterView().findViewById(R.id.tvTheEnd)).setText("暂无内容");
+                    } else {
+                        ((TextView) mRecyclerView.getLoadMoreFooterView().findViewById(R.id.tvTheEnd)).setText("已经到底啦");
+                    }
+                    //没有更多数据
+                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+                    page_num = 1;
+                    mListDataImage.clear();
+                }
+                mAdapterImage.notifyDataSetChanged();
+                mRecyclerView.setRefreshing(false);//刷新完毕
+                break;
+
+            case LOADMORE_STATUS:
+                if (null != listData && listData.size() > 0) {
+                    position = mListDataImage.size();
+                    mListDataImage.addAll(listData);
+                    mAdapterImage.notifyItem(position, mListDataImage, listData);
+                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                } else {
+                    if (mListDataImage.size() == 0) {
                         ((TextView) mRecyclerView.getLoadMoreFooterView().findViewById(R.id.tvTheEnd)).setText("暂无内容");
                     } else {
                         ((TextView) mRecyclerView.getLoadMoreFooterView().findViewById(R.id.tvTheEnd)).setText("已经到底啦");
