@@ -6,16 +6,109 @@
     android:layout_height="match_parent"
     android:background="@color/bg_f2f2f2">
 
-    <include
-        android:id="@+id/common_navbar"
-        layout="@layout/view_navigation_header" />
+    <RelativeLayout
+        android:id="@+id/rl_navr_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_50"
+        android:background="@color/bg_f9"
+        android:gravity="center_vertical">
 
+        <RelativeLayout
+            android:id="@+id/backButton_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/nav_left_imageButton"
+                android:layout_width="@dimen/size_40"
+                android:layout_height="@dimen/size_40"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/size_10"
+                android:background="@drawable/transparent"
+                android:padding="@dimen/size_8"
+                android:scaleType="centerInside"
+                android:src="@drawable/tital_back"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/nav_left_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:textSize="@dimen/font_17"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/font_10"
+            android:layout_alignParentRight="true">
+
+
+            <ImageButton
+                android:id="@+id/nav_secondary_imageButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/transparent"
+                android:layout_alignParentLeft="true"
+                android:padding="@dimen/size_8"
+                android:src="@drawable/shared_icon"
+                android:scaleType="centerInside" />
+
+            <TextView
+                android:id="@+id/tv_shoucang"
+                android:layout_width="@dimen/font_56"
+                android:layout_height="@dimen/font_28"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_12"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/nav_secondary_imageButton"
+                android:background="@drawable/bt_shoucang"
+                android:layout_marginLeft="@dimen/font_10"
+                android:visibility="gone"
+                android:gravity="center"
+                android:text="+ 收藏" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_tital_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/case_text_tital_name"
+            android:textSize="@dimen/font_18" />
+
+        <View
+            android:id="@+id/view_navigation_header_view"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/navbar_bottom_border_color" />
+
+        <TextView
+            android:id="@+id/tv_content_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="@dimen/font_15"
+            android:paddingLeft="@dimen/font_15"
+            android:paddingRight="@dimen/font_15"
+            android:paddingTop="@dimen/font_15"
+            android:textColor="@color/case_text_tital_name"
+            android:textSize="@dimen/font_14" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_nodata"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/common_navbar"
+        android:layout_below="@+id/rl_navr_header"
         android:background="@color/white"
         android:visibility="gone">
 
@@ -33,9 +126,9 @@
                 android:layout_marginLeft="@dimen/font_10"
                 android:layout_marginRight="@dimen/font_10"
                 android:layout_marginTop="@dimen/font_20"
-                android:maxLines="2"
-                android:ellipsize="end"
                 android:layout_toLeftOf="@+id/rl_dingyue_no"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:textColor="@color/bg_262626"
                 android:textSize="@dimen/size_18" />
 
@@ -168,7 +261,7 @@
         android:id="@+id/cl_coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/common_navbar">
+        android:layout_below="@+id/rl_navr_header">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
@@ -206,10 +299,10 @@
                             android:layout_marginLeft="@dimen/font_10"
                             android:layout_marginRight="@dimen/font_10"
                             android:layout_marginTop="@dimen/font_20"
-                            android:textColor="@color/bg_262626"
-                            android:maxLines="2"
-                            android:ellipsize="end"
                             android:layout_toLeftOf="@+id/rl_dingyue"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:textColor="@color/bg_262626"
                             android:textSize="@dimen/size_18" />
 
                         <RelativeLayout
@@ -388,7 +481,7 @@
         android:id="@+id/rl_top_check"
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_45"
-        android:layout_below="@+id/common_navbar"
+        android:layout_below="@+id/rl_navr_header"
         android:background="@color/white"
         android:visibility="gone">
 
