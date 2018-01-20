@@ -302,6 +302,7 @@ public class HomePicFragment
                 bt_tag_page_item.setVisibility(View.GONE);
                 iv_chongzhi.setVisibility(View.GONE);
                 tv_color_tital.setVisibility(View.VISIBLE);
+                mRecyclerView.scrollToPosition(0);
                 onRefresh();
                 break;
             case R.id.tv_color_tital:
@@ -881,6 +882,7 @@ public class HomePicFragment
                         }
                     }
                 }
+                mRecyclerView.scrollToPosition(0);
                 onRefresh();
             } else {
                 onClearColor();
@@ -895,6 +897,7 @@ public class HomePicFragment
         bt_tag_page_item.setVisibility(View.GONE);
         iv_chongzhi.setVisibility(View.GONE);
         tv_color_tital.setVisibility(View.VISIBLE);
+        mRecyclerView.scrollToPosition(0);
         onRefresh();
     }
 
@@ -1134,6 +1137,7 @@ public class HomePicFragment
                         .setCategory("看图列表页-" + mColorClick.getColor_name())  //事件类别
                         .setAction("色彩选择")      //事件操作
                         .build());
+                mRecyclerView.scrollToPosition(0);
                 onRefresh();
             } else {
                 qingkong();
