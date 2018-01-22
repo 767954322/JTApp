@@ -217,10 +217,11 @@ public class PublicUtils {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (permission != PackageManager.PERMISSION_GRANTED) {
             return false;
-        }else {
+        } else {
             return true;
         }
     }
+
     /**
      * 添加权限
      *
@@ -231,7 +232,7 @@ public class PublicUtils {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (permission != PackageManager.PERMISSION_GRANTED) {
             return false;
-        }else {
+        } else {
             return true;
         }
     }
@@ -451,6 +452,8 @@ public class PublicUtils {
         SharedPreferencesUtils.clear(context, ClassConstant.LoginSucces.EMAIL);
         SharedPreferencesUtils.clear(context, ClassConstant.LoginSucces.MOBILE);
         SharedPreferencesUtils.clear(context, ClassConstant.LoginSucces.PROFESSION);
+
+        SharedPreferencesUtils.writeString(ClassConstant.LoginSucces.USER_ID, "");
     }
 
     //14................................................................................................
@@ -653,7 +656,7 @@ public class PublicUtils {
      */
     public static String getChinaTab(String enName) {
         Map<String, String> map = getTabNameMap();
-        String enName1 = enName.trim().replace(" ","");
+        String enName1 = enName.trim().replace(" ", "");
         String chiName = map.get(enName1);
         return chiName;
     }

@@ -28,6 +28,7 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.ImageDetailScrollActivity;
+import com.homechart.app.home.activity.ImageEditActvity;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.ShaiXuanResultActicity;
 import com.homechart.app.home.activity.UserInfoActivity;
@@ -181,6 +182,7 @@ public class ImageDetaiScrollFragment
         bt_shise2.setOnClickListener(this);
         iv_close_color.setOnClickListener(this);
         iv_details_image.setOnClickListener(this);
+        tv_content_right.setOnClickListener(this);
         riv_people_header.setOnClickListener(this);
         nav_secondary_imageButton.setOnClickListener(this);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -195,6 +197,13 @@ public class ImageDetaiScrollFragment
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_content_right:
+                if (imageDetailBean != null) {
+                    Intent intent = new Intent(activity, ImageEditActvity.class);
+                    intent.putExtra("image_value", imageDetailBean);
+                    startActivityForResult(intent, 1);
+                }
+                break;
             case R.id.iv_details_image:
                 if (null != imageDetailBean) {
                     List<String> listUrl = new ArrayList<>();
@@ -617,10 +626,6 @@ public class ImageDetaiScrollFragment
         }
     }
 
-    public interface UserInfo {
-        void getUserInfo(ImageDetailBean imageDetailBean);
-    }
-
     private void changeUI(ImageDetailBean imageDetailBean) {
         //......详情图片.........
         int wide_num = PublicUtils.getScreenWidth(activity);
@@ -847,6 +852,14 @@ public class ImageDetaiScrollFragment
     };
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            getImageDetail();
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacks(runnable);
@@ -904,5 +917,8 @@ public class ImageDetaiScrollFragment
     private int totalDy = 0;
     private Rect rect;
 
+    public interface UserInfo {
+        void getUserInfo(ImageDetailBean imageDetailBean);
+    }
 
 }

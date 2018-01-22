@@ -99,9 +99,7 @@ public class ImageDetailScrollActivity
         type = getIntent().getStringExtra("type");
         mPosition = getIntent().getIntExtra("position", -1);
         mItemIdList = (List<String>) getIntent().getSerializableExtra("item_id_list");
-        mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
         if_click_color = getIntent().getBooleanExtra("if_click_color", false);
-
     }
 
     @Override
@@ -179,6 +177,7 @@ public class ImageDetailScrollActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
 
+        mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
         tv_tital_comment.setText("图片详情");
         mAdapter = new MyImagePageAdater(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
@@ -203,9 +202,7 @@ public class ImageDetailScrollActivity
                 mSelectListData = (Map<Integer, ColorItemBean>) getIntent().getSerializableExtra("mSelectListData");
                 shaixuan_tag = getIntent().getStringExtra("shaixuan_tag");
                 shuaixuan_page_num = getIntent().getIntExtra("page_num", 2);
-//                if (mItemIdList.size() == 20 * (shuaixuan_page_num - 1)) {
                 getMoreShaiXuan();
-//                }
             }
         }
         getTypeData();
@@ -277,9 +274,13 @@ public class ImageDetailScrollActivity
     //回调
     @Override
     public void getUserInfo(ImageDetailBean imageDetailBean) {
-
+        mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
         this.mImageDetailBean = imageDetailBean;
-        if (!TextUtils.isEmpty(mUserId) && null != imageDetailBean && null != imageDetailBean.getUser_info() && null != imageDetailBean.getUser_info().getUser_id()) {
+        if (!TextUtils.isEmpty(mUserId)
+                && null != imageDetailBean
+                && null != imageDetailBean.getUser_info()
+                && null != imageDetailBean.getUser_info().getUser_id()
+                && imageDetailBean.getUser_info().getUser_id().equals(mUserId)) {
             tv_content_right.setVisibility(View.VISIBLE);
             nav_secondary_imageButton.setVisibility(View.GONE);
             tv_content_right.setText("编辑");
