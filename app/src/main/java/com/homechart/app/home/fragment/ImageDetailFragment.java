@@ -3,7 +3,6 @@ package com.homechart.app.home.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -20,26 +18,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
-import com.homechart.app.home.activity.ArticleDetailsActivity;
-import com.homechart.app.home.activity.HomeActivity;
-import com.homechart.app.home.activity.HuoDongDetailsActivity;
-import com.homechart.app.home.activity.ImageDetailActivity;
-import com.homechart.app.home.activity.ImageDetailLongActivity;
 import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.ImageEditActvity;
 import com.homechart.app.home.activity.LoginActivity;
@@ -55,7 +45,6 @@ import com.homechart.app.home.bean.imagedetail.ImageDetailBean;
 import com.homechart.app.home.bean.pinglun.CommentListBean;
 import com.homechart.app.home.bean.pinglun.PingBean;
 import com.homechart.app.home.bean.searchfservice.SearchSBean;
-import com.homechart.app.home.bean.shouye.SYDataBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.hotposition.ImageLayout;
 import com.homechart.app.hotposition.PointSimple;
@@ -127,13 +116,7 @@ public class ImageDetailFragment
     private TextView tv_shared;
     private String item_id;
     private ImageDetailBean imageDetailBean;
-    private boolean ifZan = true;
-    private boolean ifShouCang = true;
-    private boolean ifPingLun = true;
-    private int like_num;
-    private int collect_num;
     private int comment_num;
-    private int share_num;
     private boolean ifFirst = true;
     private View view;
     private HRecyclerView mRecyclerView;
@@ -198,7 +181,6 @@ public class ImageDetailFragment
     private boolean mIsKeyboardOpened = false;
     private int mMenuOpenedHeight = 0;
     private MyListView dgv_colorlist;
-    private TextView tv_color_tips;
     private RelativeLayout rl_color_location;
     private ImageView iv_ifshow_color;
     private LinearLayout ll_color_lines;
@@ -230,8 +212,6 @@ public class ImageDetailFragment
 
     private MyListView dgv_colorlist1;
     private LinearLayout ll_color_lines1;
-    private TextView tv_color_tips1;
-    private RelativeLayout rl_color_location1;
     private RelativeLayout rl_color;
     private ImageView iv_close_color;
     private ClearEditText cet_all_ping;
@@ -300,8 +280,6 @@ public class ImageDetailFragment
         iv_close_color = (ImageView) rootView.findViewById(R.id.iv_close_color);
         dgv_colorlist1 = (MyListView) rootView.findViewById(R.id.dgv_colorlist);
         ll_color_lines1 = (LinearLayout) rootView.findViewById(R.id.ll_color_lines);
-        tv_color_tips1 = (TextView) rootView.findViewById(R.id.tv_color_tips);
-        rl_color_location1 = (RelativeLayout) rootView.findViewById(R.id.rl_color_location);
         color_bottom = rootView.findViewById(R.id.color_bottom);
 
         if (!ifHasHeader) {
@@ -320,7 +298,6 @@ public class ImageDetailFragment
             tv_people_details = (TextView) view.findViewById(R.id.tv_people_details);
             fl_tags_jubu = (FlowLayoutBiaoQian) view.findViewById(R.id.fl_tags_jubu);
             dgv_colorlist = (MyListView) view.findViewById(R.id.dgv_colorlist);
-            tv_color_tips = (TextView) view.findViewById(R.id.tv_color_tips);
             iv_ifshow_color = (ImageView) view.findViewById(R.id.iv_ifshow_color);
             tv_color_tital = (TextView) view.findViewById(R.id.tv_color_tital);
             rl_color_location = (RelativeLayout) view.findViewById(R.id.rl_color_location);
@@ -390,8 +367,6 @@ public class ImageDetailFragment
         handler2.postDelayed(runnable, 100);
     }
 
-    private int maxScroll = 0;
-    private boolean ifFirstScroll = false;
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -410,7 +385,8 @@ public class ImageDetailFragment
             handler.postDelayed(this, 100);
         }
     };
-    Handler handler2 = new Handler() {};
+    Handler handler2 = new Handler() {
+    };
 
     private boolean bol = true;
 
@@ -658,7 +634,6 @@ public class ImageDetailFragment
                     iv_ifshow_color.setImageResource(R.drawable.zhankai);
                     dgv_colorlist.setVisibility(View.GONE);
                     ll_color_lines.setVisibility(View.GONE);
-                    tv_color_tips.setVisibility(View.GONE);
                     rl_color_location.setVisibility(View.GONE);
 
                 } else {
@@ -669,7 +644,6 @@ public class ImageDetailFragment
                     iv_ifshow_color.setVisibility(View.VISIBLE);
                     dgv_colorlist.setVisibility(View.VISIBLE);
                     ll_color_lines.setVisibility(View.VISIBLE);
-                    tv_color_tips.setVisibility(View.VISIBLE);
                     rl_color_location.setVisibility(View.VISIBLE);
                 }
 
@@ -748,7 +722,11 @@ public class ImageDetailFragment
                         intent4.putExtras(bundle);
                         startActivity(intent4);
                     } else {
+                        if (null != imageDetailBean) {
+                            getSearchPosition(imageDetailBean.getItem_info().getImage().getImage_id());
+                        }
                         ToastUtils.showCenter(activity, "正在识别中");
+
                     }
                 } else {
                     //无权限
@@ -802,7 +780,7 @@ public class ImageDetailFragment
                 break;
             case R.id.iv_details_image:
 //                ToastUtils.showCenter(activity, "速度速度");
-                if(null != imageDetailBean){
+                if (null != imageDetailBean) {
                     List<String> listUrl = new ArrayList<>();
                     listUrl.add(imageDetailBean.getItem_info().getImage().getImg0());
                     Intent intent6 = new Intent(activity, ImageDetailsActivity.class);
@@ -1184,59 +1162,9 @@ public class ImageDetailFragment
             iv_people_tag1.setVisibility(View.GONE);
         }
         tv_people_details.setText(imageDetailBean.getUser_info().getSlogan());
-
-        if (null != imageDetailBean && null != imageDetailBean.getUser_info() && !TextUtils.isEmpty(mUserId)
-                && !imageDetailBean.getUser_info().getUser_id().trim().equals(mUserId.trim())) {
-            tv_people_guanzhu.setVisibility(View.VISIBLE);
-            if (imageDetailBean.getUser_info().getRelation().equals("0")) {//未关注
-                guanzhuTag = 1;
-                tv_people_guanzhu.setText("关注");
-                tv_people_guanzhu.setBackgroundResource(R.drawable.tv_guanzhu_no);
-                tv_people_guanzhu.setTextColor(UIUtils.getColor(R.color.bg_e79056));
-
-            } else if (imageDetailBean.getUser_info().getRelation().equals("1")) {//已关注
-                guanzhuTag = 2;
-
-                tv_people_guanzhu.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-                tv_people_guanzhu.setText("已关注");
-                tv_people_guanzhu.setBackgroundResource(R.drawable.tv_guanzhu_has);
-            } else if (imageDetailBean.getUser_info().getRelation().equals("2")) {//相互关注
-                guanzhuTag = 3;
-                tv_people_guanzhu.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-                tv_people_guanzhu.setText("相互关注");
-                tv_people_guanzhu.setBackgroundResource(R.drawable.tv_guanzhu_xianghu);
-            }
-        } else {
-            loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
-            if (!loginStatus) {
-                tv_people_guanzhu.setText("关注");
-                tv_people_guanzhu.setBackgroundResource(R.drawable.tv_guanzhu_no);
-                tv_people_guanzhu.setTextColor(UIUtils.getColor(R.color.bg_e79056));
-            } else {
-                tv_people_guanzhu.setVisibility(View.GONE);
-            }
-
-        }
-
-        if (imageFirstTag) {
-            if (null != imageDetailBean.getObject_list() && imageDetailBean.getObject_list().size() > 0) {
-                ArrayList<PointSimple> pointSimples = new ArrayList<>();
-                for (int i = 0; i < imageDetailBean.getObject_list().size(); i++) {
-                    PointSimple pointSimple = new PointSimple();
-                    float width = Float.parseFloat(imageDetailBean.getObject_list().get(i).getObject_info().getX().trim());
-                    float height = Float.parseFloat(imageDetailBean.getObject_list().get(i).getObject_info().getY().trim());
-                    pointSimple.width_scale = width;
-                    pointSimple.height_scale = height;
-                    pointSimple.width_object = Double.parseDouble(imageDetailBean.getObject_list().get(i).getObject_info().getWidth().trim());
-                    pointSimple.height_object = Double.parseDouble(imageDetailBean.getObject_list().get(i).getObject_info().getHeight().trim());
-                    pointSimples.add(pointSimple);
-                }
-                iv_details_image.setPoints(pointSimples);
-            }
-            iv_details_image.setImgBg(wide_num, (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()), imageDetailBean.getItem_info().getImage().getImg0(), this, imageDetailBean.getItem_info().getImage().getRatio());
-            imageFirstTag = false;
-        }
+        iv_details_image.setImgBg(wide_num, (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()), imageDetailBean.getItem_info().getImage().getImg0(), this, imageDetailBean.getItem_info().getImage().getRatio());
         listColor = imageDetailBean.getColor_info();
+
         int width = PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_40);
         if (ifFirst) {
             if (listColor != null && listColor.size() > 0) {
@@ -1261,20 +1189,17 @@ public class ImageDetailFragment
 //                    ll_color_lines.addView(textView);
                     ll_color_lines1.addView(textView);
                 }
-                dgv_colorlist.setAdapter(new MyColorGridAdapter(listColor, activity));
                 dgv_colorlist1.setAdapter(new MyColorGridAdapter(listColor, activity));
                 iv_ifshow_color.setVisibility(View.VISIBLE);
                 if (mifShowColorList) {
                     ll_color_lines.setVisibility(View.VISIBLE);
                     dgv_colorlist.setVisibility(View.VISIBLE);
-                    tv_color_tips.setVisibility(View.VISIBLE);
                     rl_color_location.setVisibility(View.VISIBLE);
                     iv_ifshow_color.setImageResource(R.drawable.shouqi);
                 } else {
                     ll_color_lines.setVisibility(View.GONE);
                     dgv_colorlist.setVisibility(View.GONE);
                     iv_ifshow_color.setImageResource(R.drawable.zhankai);
-                    tv_color_tips.setVisibility(View.GONE);
                     rl_color_location.setVisibility(View.GONE);
                 }
             } else {
@@ -1285,14 +1210,12 @@ public class ImageDetailFragment
             if (mifShowColorList) {
                 ll_color_lines.setVisibility(View.VISIBLE);
                 dgv_colorlist.setVisibility(View.VISIBLE);
-                tv_color_tips.setVisibility(View.VISIBLE);
                 rl_color_location.setVisibility(View.VISIBLE);
                 iv_ifshow_color.setImageResource(R.drawable.shouqi);
             } else {
                 ll_color_lines.setVisibility(View.GONE);
                 dgv_colorlist.setVisibility(View.GONE);
                 iv_ifshow_color.setImageResource(R.drawable.zhankai);
-                tv_color_tips.setVisibility(View.GONE);
                 rl_color_location.setVisibility(View.GONE);
             }
         }
@@ -1352,53 +1275,12 @@ public class ImageDetailFragment
             tv_details_time.setText("1月以前" + " 发布");
         }
 
-//        tv_details_time.setText(fabuTime + " 发布");
-        like_num = imageDetailBean.getCounter().getLike_num();
-        collect_num = imageDetailBean.getCounter().getCollect_num();
         comment_num = imageDetailBean.getCounter().getComment_num();
-        share_num = imageDetailBean.getCounter().getShare_num();
 
-        if (like_num == 0) {
-            tv_bang.setText("");
-        } else {
-            tv_bang.setText(like_num + "");
-        }
-
-        if (imageDetailBean.getItem_info().getIs_liked().equals("1")) {//已赞
-            iv_bang.setImageResource(R.drawable.bang1);
-            tv_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
-            ifZan = false;
-
-        } else {//未赞
-            iv_bang.setImageResource(R.drawable.bang);
-            tv_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-            ifZan = true;
-        }
-        if (collect_num == 0) {
-            tv_xing.setText("");
-        } else {
-            tv_xing.setText(collect_num + "");
-        }
-
-//        if (imageDetailBean.getItem_info().getIs_collected().equals("1")) {//已收藏
-//            iv_xing.setImageResource(R.drawable.yishoucang2);
-//            iv_xing2.setImageResource(R.drawable.yishoucang2);
-//            tv_xing.setTextColor(UIUtils.getColor(R.color.bg_e79056));
-//            ifShouCang = false;
-//        } else {//未收藏
-//            ifShouCang = true;
-//        }
         if (comment_num == 0) {
             tv_ping_tital.setText("评论");
-            tv_ping.setText("");
         } else {
             tv_ping_tital.setText("评论（" + comment_num + "）");
-            tv_ping.setText(comment_num + "");
-        }
-        if (share_num == 0) {
-            tv_shared.setText("");
-        } else {
-            tv_shared.setText(share_num + "");
         }
 
     }
@@ -1475,11 +1357,6 @@ public class ImageDetailFragment
                 } else {
                     tv_time_one.setText("1月以前");
                 }
-//                if (nian1.equals("2017")) {
-//                    tv_time_one.setText(yue1 + "  " + shi1);
-//                } else {
-//                    tv_time_one.setText(nian1 + "年" + yue1 + "  " + shi1);
-//                }
                 ImageUtils.displayRoundImage(commentListBean.getComment_info().getUser_info().getAvatar().getThumb(), riv_one);
                 //........
                 CommentListBean commentListBean1 = pingBean.getData().getComment_list().get(1);
@@ -1515,11 +1392,6 @@ public class ImageDetailFragment
                 } else {
                     tv_time_two.setText("1月以前");
                 }
-//                if (nian2.equals("2017")) {
-//                    tv_time_two.setText(yue2 + "  " + shi2);
-//                } else {
-//                    tv_time_two.setText(nian2 + "年" + yue2 + "  " + shi2);
-//                }
                 ImageUtils.displayRoundImage(commentListBean1.getComment_info().getUser_info().getAvatar().getThumb(), riv_two);
                 //........
                 CommentListBean commentListBean2 = pingBean.getData().getComment_list().get(2);
@@ -1554,11 +1426,6 @@ public class ImageDetailFragment
                 } else {
                     tv_time_three.setText("1月以前");
                 }
-//                if (nian3.equals("2017")) {
-//                    tv_time_three.setText(yue3 + "  " + shi3);
-//                } else {
-//                    tv_time_three.setText(nian3 + "年" + yue3 + "  " + shi3);
-//                }
                 ImageUtils.displayRoundImage(commentListBean2.getComment_info().getUser_info().getAvatar().getThumb(), riv_three);
 
             } else if (pingBean.getData().getComment_list().size() == 2) {
@@ -1607,12 +1474,6 @@ public class ImageDetailFragment
                 } else {
                     tv_time_one.setText("1月以前");
                 }
-
-//                if (nian1.equals("2017")) {
-//                    tv_time_one.setText(yue1 + "  " + shi1);
-//                } else {
-//                    tv_time_one.setText(nian1 + "年" + yue1 + "  " + shi1);
-//                }
                 ImageUtils.displayRoundImage(commentListBean.getComment_info().getUser_info().getAvatar().getThumb(), riv_one);
                 //........
                 CommentListBean commentListBean1 = pingBean.getData().getComment_list().get(1);
@@ -1649,11 +1510,6 @@ public class ImageDetailFragment
                 } else {
                     tv_time_two.setText("1月以前");
                 }
-//                if (nian2.equals("2017")) {
-//                    tv_time_two.setText(yue2 + "  " + shi2);
-//                } else {
-//                    tv_time_two.setText(nian2 + "年" + yue2 + "  " + shi2);
-//                }
                 ImageUtils.displayRoundImage(commentListBean1.getComment_info().getUser_info().getAvatar().getThumb(), riv_two);
 
 
@@ -1700,12 +1556,6 @@ public class ImageDetailFragment
                 } else {
                     tv_time_one.setText("1月以前");
                 }
-//                if (nian1.equals("2017")) {
-//                    tv_time_one.setText(yue1 + "  " + shi1);
-//                } else {
-//                    tv_time_one.setText(nian1 + "年" + yue1 + "  " + shi1);
-//                }
-
                 tv_content_one.setText(commentListBean.getComment_info().getContent());
                 ImageUtils.displayRoundImage(commentListBean.getComment_info().getUser_info().getAvatar().getThumb(), riv_one);
             }
@@ -1763,19 +1613,14 @@ public class ImageDetailFragment
             addShared();
 
             if (platform == SHARE_MEDIA.WEIXIN) {
-                tv_shared.setText(++share_num + "");
                 ToastUtils.showCenter(activity, "微信好友分享成功啦");
             } else if (platform == SHARE_MEDIA.WEIXIN_CIRCLE) {
 
-                tv_shared.setText(++share_num + "");
                 ToastUtils.showCenter(activity, "微信朋友圈分享成功啦");
             } else if (platform == SHARE_MEDIA.SINA) {
 
-                tv_shared.setText(++share_num + "");
                 ToastUtils.showCenter(activity, "新浪微博分享成功啦");
             } else if (platform == SHARE_MEDIA.QQ) {
-
-                tv_shared.setText(++share_num + "");
                 ToastUtils.showCenter(activity, "QQ分享成功啦");
             }
 
@@ -1946,156 +1791,8 @@ public class ImageDetailFragment
                 setCallback(umShareListener).share();
     }
 
-    boolean ifClickShouCang = true;
-
-    //收藏或者取消收藏，图片
-    public void onShouCang(boolean ifShouCang, int position, ImageLikeItemBean imageLikeItemBean) {
-        if (ifClickShouCang) {
-            ifClickShouCang = false;
-            if (ifShouCang) {
-                //友盟统计
-                HashMap<String, String> map4 = new HashMap<String, String>();
-                map4.put("evenname", "收藏图片");
-                map4.put("even", "你可能喜欢");
-                MobclickAgent.onEvent(imageScrollActivity, "shijian2", map4);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("你可能喜欢")  //事件类别
-                        .setAction("收藏图片")      //事件操作
-                        .build());
-                //未被收藏，去收藏
-                addShouCang(position, imageLikeItemBean.getItem_info().getItem_id());
-            } else {
-                //友盟统计
-                HashMap<String, String> map4 = new HashMap<String, String>();
-                map4.put("evenname", "取消收藏图片");
-                map4.put("even", "你可能喜欢");
-                MobclickAgent.onEvent(imageScrollActivity, "shijian3", map4);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("你可能喜欢")  //事件类别
-                        .setAction("取消收藏图片")      //事件操作
-                        .build());
-                //被收藏，去取消收藏
-                removeShouCang(position, imageLikeItemBean.getItem_info().getItem_id());
-            }
-
-        }
-    }
-
-    //收藏
-    private void addShouCang(final int position, String item_id) {
-        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                ifClickShouCang = true;
-                CustomProgress.cancelDialog();
-                ToastUtils.showCenter(activity, "收藏成功");
-            }
-
-            @Override
-            public void onResponse(String s) {
-                ifClickShouCang = true;
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                    if (error_code == 0) {
-                        ToastUtils.showCenter(activity, "收藏成功");
-                        mListData.get(position).getItem_info().setIs_collected("1");
-                        try {
-                            int collect_num = Integer.parseInt(mListData.get(position).getItem_info().getCollect_num().trim());
-                            mListData.get(position).getItem_info().setCollect_num(++collect_num + "");
-                        } catch (Exception e) {
-                        }
-                        mAdapter.notifyItemChanged(position);
-                    } else {
-                        ToastUtils.showCenter(activity, error_msg);
-                    }
-                } catch (JSONException e) {
-                    ToastUtils.showCenter(activity, "收藏失败");
-                }
-            }
-        };
-        MyHttpManager.getInstance().addShouCang(item_id, callBack);
-    }
-
-    //取消收藏
-    private void removeShouCang(final int position, String item_id) {
-
-        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                ifClickShouCang = true;
-                CustomProgress.cancelDialog();
-                ToastUtils.showCenter(activity, "取消收藏失败");
-            }
-
-            @Override
-            public void onResponse(String s) {
-                ifClickShouCang = true;
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                    if (error_code == 0) {
-                        ToastUtils.showCenter(activity, "取消收藏成功");
-                        mListData.get(position).getItem_info().setIs_collected("0");
-                        try {
-                            int collect_num = Integer.parseInt(mListData.get(position).getItem_info().getCollect_num().trim());
-                            mListData.get(position).getItem_info().setCollect_num(--collect_num + "");
-                        } catch (Exception e) {
-                        }
-                        mAdapter.notifyItemChanged(position);
-                    } else {
-                        ToastUtils.showCenter(activity, error_msg);
-                    }
-                } catch (JSONException e) {
-                    ToastUtils.showCenter(activity, "取消收藏失败");
-                }
-            }
-        };
-        MyHttpManager.getInstance().removeShouCang(item_id, callBack);
-    }
-
-
     public interface UserInfo {
         void getUserInfo(ImageDetailBean imageDetailBean);
-    }
-
-    private void getSearchPosition(String image_id) {
-        OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-
-            @Override
-            public void onResponse(String response) {
-                try {
-                    if (response != null) {
-                        JSONObject jsonObject = new JSONObject(response);
-                        int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                        String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                        String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                        if (error_code == 0) {
-                            searchSBean = GsonUtil.jsonToBean(data_msg, SearchSBean.class);
-                            if (null != searchSBean.getObject_list() && searchSBean.getObject_list().size() > 0) {
-                                Message message = new Message();
-                                message.what = 8;
-                                mHandler.sendMessage(message);
-                            }
-                        } else {
-                            ToastUtils.showCenter(activity, error_msg);
-                        }
-                    }
-                } catch (JSONException e) {
-                }
-            }
-        };
-        MyHttpManager.getInstance().searchByImageIdUnRember(image_id, callback);
     }
 
     Handler mHandler = new Handler() {
@@ -2116,53 +1813,10 @@ public class ImageDetailFragment
                     changeUI(imageDetailBean);
                     userInfo.getUserInfo(imageDetailBean);
                     break;
-                case 2:
-                    ToastUtils.showCenter(activity, "你很棒棒哦");
-                    iv_bang.setImageResource(R.drawable.bang1);
-                    like_num++;
-                    if (like_num == 0) {
-                        tv_bang.setText("");
-                    } else {
-                        tv_bang.setText(like_num + "");
-                    }
-                    tv_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
-                    break;
-                case 3:
-                    ToastUtils.showCenter(activity, "已取消点赞");
-                    iv_bang.setImageResource(R.drawable.bang);
-                    like_num--;
-                    if (like_num == 0) {
-                        tv_bang.setText("");
-                    } else {
-                        tv_bang.setText(like_num + "");
-                    }
-
-                    tv_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-                    break;
                 case 6:
                     String pinglist = "{\"data\": " + (String) msg.obj + "}";
                     pingBean = GsonUtil.jsonToBean(pinglist, PingBean.class);
                     changePingUI();
-                    break;
-                case 8:
-                    if (null != searchSBean && null != searchSBean.getObject_list() && searchSBean.getObject_list().size() > 0) {
-
-                        int wide_num = PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_20);
-                        ArrayList<PointSimple> pointSimples = new ArrayList<>();
-                        for (int i = 0; i < searchSBean.getObject_list().size(); i++) {
-                            PointSimple pointSimple = new PointSimple();
-                            float width = searchSBean.getObject_list().get(i).getObject_info().getX();
-                            float height = searchSBean.getObject_list().get(i).getObject_info().getY();
-                            pointSimple.width_scale = width;
-                            pointSimple.height_scale = height;
-                            pointSimple.width_object = searchSBean.getObject_list().get(i).getObject_info().getWidth();
-                            pointSimple.height_object = searchSBean.getObject_list().get(i).getObject_info().getHeight();
-                            pointSimples.add(pointSimple);
-                        }
-//                        iv_details_image.setPoints(pointSimples);
-//                        iv_details_image.setImgBg(wide_num, (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()), "", ImageDetailFragment.this);
-
-                    }
                     break;
             }
         }
@@ -2206,13 +1860,32 @@ public class ImageDetailFragment
 
     }
 
-    private void higeShiBieUI() {
-        iv_xing2.setVisibility(View.GONE);
-        bt_shiwu2.setVisibility(View.GONE);
-        bt_shise2.setVisibility(View.GONE);
-        iv_xing.setVisibility(View.GONE);
-        bt_shiwu.setVisibility(View.GONE);
-        bt_shise.setVisibility(View.GONE);
+    private void getSearchPosition(String image_id) {
+        OkStringRequest.OKResponseCallback callback = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    if (response != null) {
+                        JSONObject jsonObject = new JSONObject(response);
+                        int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                        String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                        String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                        if (error_code == 0) {
+                            searchSBean = GsonUtil.jsonToBean(data_msg, SearchSBean.class);
+                        } else {
+                            ToastUtils.showCenter(activity, error_msg);
+                        }
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().searchByImageIdUnRember(image_id, callback);
     }
 
     @Override

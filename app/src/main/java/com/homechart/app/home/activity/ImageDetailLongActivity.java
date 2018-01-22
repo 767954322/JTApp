@@ -464,7 +464,6 @@ public class ImageDetailLongActivity
 
         tv_tital_comment.setText("图片详情");
         tv_content_right.setText("编辑");
-        getColorData();
         width_Pic = PublicUtils.getScreenWidth(ImageDetailLongActivity.this) / 2 - UIUtils.getDimens(R.dimen.font_14);
         getImageDetail();
         getPingList();
@@ -1689,7 +1688,6 @@ public class ImageDetailLongActivity
         }
     };
 
-    private ColorBean colorBean;
     private boolean getPosition = true;
     Handler mHandler = new Handler() {
 
@@ -1709,39 +1707,12 @@ public class ImageDetailLongActivity
                     }
                     changeUI(imageDetailBean);
                     break;
-                case 2:
-                    ToastUtils.showCenter(ImageDetailLongActivity.this, "你很棒棒哦");
-                    iv_bang.setImageResource(R.drawable.bang1);
-                    like_num++;
-                    if (like_num == 0) {
-                        tv_bang.setText("");
-                    } else {
-                        tv_bang.setText(like_num + "");
-                    }
-                    tv_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
-                    break;
-                case 3:
-                    ToastUtils.showCenter(ImageDetailLongActivity.this, "已取消点赞");
-                    iv_bang.setImageResource(R.drawable.bang);
-                    like_num--;
-                    if (like_num == 0) {
-                        tv_bang.setText("");
-                    } else {
-                        tv_bang.setText(like_num + "");
-                    }
-
-                    tv_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-                    break;
                 case 6:
                     String pinglist = "{\"data\": " + (String) msg.obj + "}";
                     pingBean = GsonUtil.jsonToBean(pinglist, PingBean.class);
                     changePingUI();
                     break;
                 case 7:
-                    break;
-                case 8:
-                    String info = (String) msg.obj;
-                    colorBean = GsonUtil.jsonToBean(info, ColorBean.class);
                     break;
                 case 9:
                     if (null != searchSBean && null != searchSBean.getObject_list() && searchSBean.getObject_list().size() > 0) {
@@ -1757,9 +1728,7 @@ public class ImageDetailLongActivity
                             pointSimple.height_object = searchSBean.getObject_list().get(i).getObject_info().getHeight();
                             pointSimples.add(pointSimple);
                         }
-//                        iv_details_image.setPoints(pointSimples);
-//                        iv_details_image.setImgBg(wide_num, (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()), "", ImageDetailLongActivity.this);
-                    }
+                   }
                     break;
             }
         }
@@ -1947,39 +1916,6 @@ public class ImageDetailLongActivity
                 setPlatform(share_media).
                 withMedia(web).
                 setCallback(umShareListener).share();
-    }
-
-    boolean ifClickShouCang = true;
-
-    private void getColorData() {
-        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                ToastUtils.showCenter(ImageDetailLongActivity.this, getString(R.string.color_get_error));
-            }
-
-            @Override
-            public void onResponse(String s) {
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                    if (error_code == 0) {
-                        Message msg = new Message();
-                        msg.obj = data_msg;
-                        msg.what = 8;
-                        mHandler.sendMessage(msg);
-                    } else {
-                        ToastUtils.showCenter(ImageDetailLongActivity.this, error_msg);
-                    }
-                } catch (JSONException e) {
-                    ToastUtils.showCenter(ImageDetailLongActivity.this, getString(R.string.color_get_error));
-                }
-            }
-        };
-        MyHttpManager.getInstance().getColorListData(callBack);
-
     }
 
     private void changeShiBieUI(boolean boo) {
