@@ -16,6 +16,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -111,6 +116,8 @@ public class ShaiXuanResultActicity
     private boolean islist;
     private boolean loginStatus;
     private String mUserId;
+    private boolean ifScroll = false;
+    private AnimationSet animationSet;
 
     //取消收藏
     private void removeShouCang(final int position, String item_id) {
@@ -251,7 +258,7 @@ public class ShaiXuanResultActicity
     @Override
     protected void initData(Bundle savedInstanceState) {
         tv_tital_comment.setText(shaixuan_tag);
-
+        initAnimation();
         if (mSelectListData != null && mSelectListData.size() > 0) {
             iv_chongzhi.setVisibility(View.VISIBLE);
             bt_tag_page_item.setVisibility(View.VISIBLE);
@@ -449,6 +456,7 @@ public class ShaiXuanResultActicity
                     int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
                     staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
                     if ((lastPositions[0] - 2) <= clickPosition || (lastPositions[1] - 2) <= clickPosition) {
+
                         mAdapter.notifyItemRangeChanged(clickPosition, mListData.size() - clickPosition);
                     } else {
                         mAdapter.notifyItemChanged(clickPosition);
@@ -614,20 +622,32 @@ public class ShaiXuanResultActicity
                         }
                     }
                 });
-                if (!curentListTag) {
-                    ((ImageView) holder.getView(R.id.iv_shibie_pic)).setImageResource(R.drawable.xiaotushibie);
+
+                if(!ifScroll){
+                    holder.getView(R.id.iv_shibie_pic).setAlpha(1);
+                }else {
+                    holder.getView(R.id.iv_shibie_pic).setAlpha(0.3f);
                 }
+                if (!curentListTag) {
+                    ((ImageView) holder.getView(R.id.iv_shibie_pic)).setImageDrawable(UIUtils.getDrawable(R.drawable.quan));
+                    ((ImageView) holder.getView(R.id.iv_shibie_pic)).setVisibility(View.VISIBLE);
+                }
+               Animation animation = holder.getView(R.id.iv_shibie_pic).getAnimation();
+                if(animation != null){
+                    holder.getView(R.id.iv_shibie_pic).clearAnimation();
+                }
+//                    holder.getView(R.id.iv_shibie_pic).setAlpha(0.3f);
                 holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (ifClickAble) {
+                            holder.getView(R.id.iv_shibie_pic).startAnimation(animationSet);
                             ifClickAble = false;
                             if (mapSearch.containsKey(mListData.get(position).getItem_info().getItem_id())) {
                                 mapSearch.put(mListData.get(position).getItem_info().getItem_id(), mapSearch.get(mListData.get(position).getItem_info().getItem_id()) + 1);
                             } else {
                                 mapSearch.put(mListData.get(position).getItem_info().getItem_id(), 1);
                             }
-                            ((ImageView) holder.getView(R.id.iv_shibie_pic)).setImageResource(R.drawable.xing);
                             getSearchImage(mListData.get(position).getItem_info().getItem_id(), position);
                         }
                     }
@@ -655,6 +675,27 @@ public class ShaiXuanResultActicity
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
         mRecyclerView.setAdapter(mAdapter);
         onRefresh();
+    }
+    private void initAnimation() {
+        //1.AnimationSet
+        animationSet = new AnimationSet(true);
+        animationSet.setInterpolator(new LinearInterpolator());
+        //透明度
+        AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0.5f);
+        alphaAnimation.setRepeatCount(100);
+
+        //缩放（以某个点为中心缩放）
+        ScaleAnimation scaleAnimation = new ScaleAnimation(1, 0.8f, 1, 0.8f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scaleAnimation.setRepeatCount(100);
+        //添加动画
+        animationSet.setFillAfter(true);
+        animationSet.addAnimation(alphaAnimation);
+        animationSet.addAnimation(scaleAnimation);
+        animationSet.setDuration(500);
+        animationSet.setStartOffset(0);
+        animationSet.setRepeatCount(Animation.INFINITE);
+        animationSet.setRepeatMode(Animation.REVERSE);
     }
 
     private void getListData(final String state) {
@@ -877,6 +918,7 @@ public class ShaiXuanResultActicity
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 ifClickAble = true;
+                mAdapter.notifyItemChanged(clickPosition);
             }
 
             @Override
@@ -896,11 +938,15 @@ public class ShaiXuanResultActicity
                         message.setData(bundle);
                         mHandler.sendMessage(message);
                     } else {
+
+                        mAdapter.notifyItemChanged(clickPosition);
                         ifClickAble = true;
                         ToastUtils.showCenter(ShaiXuanResultActicity.this, error_msg);
 
                     }
                 } catch (JSONException e) {
+
+                    mAdapter.notifyItemChanged(clickPosition);
                     ifClickAble = true;
                 }
             }

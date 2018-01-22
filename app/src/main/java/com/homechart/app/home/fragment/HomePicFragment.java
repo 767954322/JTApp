@@ -528,7 +528,10 @@ public class HomePicFragment
                     if (!curentListTag) {
                         ((ImageView) holder.getView(R.id.iv_shibie_pic)).setVisibility(View.VISIBLE);
                     }
-
+                    Animation animation = holder.getView(R.id.iv_shibie_pic).getAnimation();
+                    if(animation != null){
+                        holder.getView(R.id.iv_shibie_pic).clearAnimation();
+                    }
 //                    holder.getView(R.id.iv_shibie_pic).setAlpha(0.3f);
                     holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -1208,6 +1211,8 @@ public class HomePicFragment
 
                     }
                 } catch (JSONException e) {
+
+                    mAdapter.notifyItemChanged(clickPosition);
                     ifClickAble = true;
                 }
             }
