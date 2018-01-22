@@ -246,6 +246,7 @@ public class ImageDetailScrollActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
+            case R.id.nav_left_imageButton_tital:
                 ImageDetailScrollActivity.this.finish();
                 break;
         }

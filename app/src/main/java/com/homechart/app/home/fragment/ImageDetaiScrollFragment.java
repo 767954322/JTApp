@@ -494,26 +494,6 @@ public class ImageDetaiScrollFragment
     }
 
     @Override
-    public void onClickWeiXin() {
-        sharedItemOpen(SHARE_MEDIA.WEIXIN);
-    }
-
-    @Override
-    public void onClickPYQ() {
-        sharedItemOpen(SHARE_MEDIA.WEIXIN_CIRCLE);
-    }
-
-    @Override
-    public void onClickWeiBo() {
-        sharedItemOpen(SHARE_MEDIA.SINA);
-    }
-
-    @Override
-    public void onClickQQ() {
-        sharedItemOpen(SHARE_MEDIA.QQ);
-    }
-
-    @Override
     public void onLoadMore() {
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
         getImageListData();
@@ -758,6 +738,100 @@ public class ImageDetaiScrollFragment
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            getImageDetail();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacks(runnable);
+    }
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            int top = Math.abs(totalDy);
+            if (height_pic != 0 && top >= height_pic) {
+                updateShiBieUI(true);
+            } else if (height_pic != 0 && top < height_pic) {
+                if (view_below_image.getLocalVisibleRect(rect)) {/*rect.contains(ivRect)*/
+                    //控件在屏幕可见区域-----显现
+                    updateShiBieUI(true);
+                } else {
+                    //控件已不在屏幕可见区域（已滑出屏幕）-----隐去
+                    updateShiBieUI(false);
+                }
+            }
+            if (imageScrollActivity.getmItemIdList().size() > 1) {
+
+                String currentItemId = imageScrollActivity.getCurrentItemId();
+
+                if (currentItemId.equals(item_id)) {
+                    int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+                    staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
+                    if (lastPositions != null && lastPositions.length == 2 && lastPositions[0] == 1 && lastPositions[1] == 1) {
+                        rl_navbar.setVisibility(View.VISIBLE);
+                        rl_navbar_tital.setVisibility(View.INVISIBLE);
+                    } else {
+                        rl_navbar.setVisibility(View.INVISIBLE);
+                        rl_navbar_tital.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+            mHandler.postDelayed(this, 100);
+        }
+    };
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            int code = msg.what;
+            switch (code) {
+                case 1:
+                    String data = (String) msg.obj;
+                    imageDetailBean = GsonUtil.jsonToBean(data, ImageDetailBean.class);
+                    if (null != imageDetailBean
+                            && null != imageDetailBean.getItem_info()
+                            && null != imageDetailBean.getItem_info().getItem_id()) {
+                        getSearchPosition(imageDetailBean.getItem_info().getImage().getImage_id());
+                    }
+                    changeUI(imageDetailBean);
+                    mUserInfo.getUserInfo(imageDetailBean);
+                    break;
+            }
+        }
+    };
+
+    public interface UserInfo {
+        void getUserInfo(ImageDetailBean imageDetailBean);
+    }
+
+    @Override
+    public void onClickWeiXin() {
+        sharedItemOpen(SHARE_MEDIA.WEIXIN);
+    }
+
+    @Override
+    public void onClickPYQ() {
+        sharedItemOpen(SHARE_MEDIA.WEIXIN_CIRCLE);
+    }
+
+    @Override
+    public void onClickWeiBo() {
+        sharedItemOpen(SHARE_MEDIA.SINA);
+    }
+
+    @Override
+    public void onClickQQ() {
+        sharedItemOpen(SHARE_MEDIA.QQ);
+    }
+
     private void sharedItemOpen(SHARE_MEDIA share_media) {
 
         if (share_media == SHARE_MEDIA.WEIXIN) {
@@ -853,80 +927,6 @@ public class ImageDetaiScrollFragment
             ToastUtils.showCenter(activity, "分享取消了");
         }
     };
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            getImageDetail();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mHandler.removeCallbacks(runnable);
-    }
-
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            int top = Math.abs(totalDy);
-            if (height_pic != 0 && top >= height_pic) {
-                updateShiBieUI(true);
-            } else if (height_pic != 0 && top < height_pic) {
-                if (view_below_image.getLocalVisibleRect(rect)) {/*rect.contains(ivRect)*/
-                    //控件在屏幕可见区域-----显现
-                    updateShiBieUI(true);
-                } else {
-                    //控件已不在屏幕可见区域（已滑出屏幕）-----隐去
-                    updateShiBieUI(false);
-                }
-            }
-            if (imageScrollActivity.getmItemIdList().size() > 1) {
-
-                String currentItemId = imageScrollActivity.getCurrentItemId();
-
-                if (currentItemId.equals(item_id)) {
-                    int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
-                    staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
-                    if (lastPositions != null && lastPositions.length == 2 && lastPositions[0] == 1 && lastPositions[1] == 1) {
-                        rl_navbar.setVisibility(View.VISIBLE);
-                        rl_navbar_tital.setVisibility(View.INVISIBLE);
-                    } else {
-                        rl_navbar.setVisibility(View.INVISIBLE);
-                        rl_navbar_tital.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-            mHandler.postDelayed(this, 100);
-        }
-    };
-
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            int code = msg.what;
-            switch (code) {
-                case 1:
-                    String data = (String) msg.obj;
-                    imageDetailBean = GsonUtil.jsonToBean(data, ImageDetailBean.class);
-                    if (null != imageDetailBean
-                            && null != imageDetailBean.getItem_info()
-                            && null != imageDetailBean.getItem_info().getItem_id()) {
-                        getSearchPosition(imageDetailBean.getItem_info().getImage().getImage_id());
-                    }
-                    changeUI(imageDetailBean);
-                    mUserInfo.getUserInfo(imageDetailBean);
-                    break;
-            }
-        }
-    };
-
-    public interface UserInfo {
-        void getUserInfo(ImageDetailBean imageDetailBean);
-    }
 
     private boolean firstLoad = true;
     private boolean ifHasHeader = false;
