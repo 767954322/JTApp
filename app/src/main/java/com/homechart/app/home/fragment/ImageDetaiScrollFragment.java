@@ -91,26 +91,6 @@ public class ImageDetaiScrollFragment
         View.OnClickListener,
         OnLoadMoreListener {
 
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            int code = msg.what;
-            switch (code) {
-                case 1:
-                    String data = (String) msg.obj;
-                    imageDetailBean = GsonUtil.jsonToBean(data, ImageDetailBean.class);
-                    if (null != imageDetailBean
-                            && null != imageDetailBean.getItem_info()
-                            && null != imageDetailBean.getItem_info().getItem_id()) {
-                        getSearchPosition(imageDetailBean.getItem_info().getImage().getImage_id());
-                    }
-                    changeUI(imageDetailBean);
-                    mUserInfo.getUserInfo(imageDetailBean);
-                    break;
-            }
-        }
-    };
 
     public ImageDetaiScrollFragment() {
 
@@ -144,6 +124,7 @@ public class ImageDetaiScrollFragment
 
     private void initView() {
         imageScrollActivity = (ImageDetailScrollActivity) activity;
+        tv_lingganji = (TextView) activity.findViewById(R.id.tv_lingganji);
         iv_edit_image = (ImageButton) activity.findViewById(R.id.iv_edit_image);
         iv_shared_image = (ImageButton) activity.findViewById(R.id.iv_shared_image);
 
@@ -180,6 +161,7 @@ public class ImageDetaiScrollFragment
         bt_shiwu2.setOnClickListener(this);
         bt_shise.setOnClickListener(this);
         bt_shise2.setOnClickListener(this);
+        tv_lingganji.setOnClickListener(this);
         iv_close_color.setOnClickListener(this);
         iv_details_image.setOnClickListener(this);
         iv_edit_image.setOnClickListener(this);
@@ -197,6 +179,42 @@ public class ImageDetaiScrollFragment
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_lingganji:
+                loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                if (!loginStatus) {
+                    //友盟统计
+                    HashMap<String, String> map4 = new HashMap<String, String>();
+                    map4.put("evenname", "登录入口");
+                    map4.put("even", "图片详情页进行图片收藏");
+                    MobclickAgent.onEvent(imageScrollActivity, "shijian20", map4);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("图片详情页进行图片收藏")  //事件类别
+                            .setAction("登录入口")      //事件操作
+                            .build());
+                    Intent intent = new Intent(imageScrollActivity, LoginActivity.class);
+                    startActivityForResult(intent, 1);
+                } else {
+                    if (null != imageDetailBean) {
+                        //友盟统计
+                        HashMap<String, String> map4 = new HashMap<String, String>();
+                        map4.put("evenname", "加图");
+                        map4.put("even", "图片详情");
+                        MobclickAgent.onEvent(activity, "shijian23", map4);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("图片详情")  //事件类别
+                                .setAction("加图")      //事件操作
+                                .build());
+
+                        Intent intent = new Intent(activity, InspirationSeriesActivity.class);
+                        intent.putExtra("userid", mUserId);
+                        intent.putExtra("image_url", imageDetailBean.getItem_info().getImage().getImg0());
+                        intent.putExtra("item_id", imageDetailBean.getItem_info().getItem_id());
+                        startActivity(intent);
+                    }
+                }
+                break;
             case R.id.iv_edit_image:
                 if (imageDetailBean != null) {
                     Intent intent = new Intent(activity, ImageEditActvity.class);
@@ -832,6 +850,20 @@ public class ImageDetaiScrollFragment
         }
     };
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            getImageDetail();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacks(runnable);
+    }
+
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -851,18 +883,29 @@ public class ImageDetaiScrollFragment
         }
     };
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            getImageDetail();
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            int code = msg.what;
+            switch (code) {
+                case 1:
+                    String data = (String) msg.obj;
+                    imageDetailBean = GsonUtil.jsonToBean(data, ImageDetailBean.class);
+                    if (null != imageDetailBean
+                            && null != imageDetailBean.getItem_info()
+                            && null != imageDetailBean.getItem_info().getItem_id()) {
+                        getSearchPosition(imageDetailBean.getItem_info().getImage().getImage_id());
+                    }
+                    changeUI(imageDetailBean);
+                    mUserInfo.getUserInfo(imageDetailBean);
+                    break;
+            }
         }
-    }
+    };
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mHandler.removeCallbacks(runnable);
+    public interface UserInfo {
+        void getUserInfo(ImageDetailBean imageDetailBean);
     }
 
     private boolean firstLoad = true;
@@ -874,6 +917,7 @@ public class ImageDetaiScrollFragment
     private ImageDetailBean imageDetailBean;
     private ImageDetailScrollActivity imageScrollActivity;
     //全局
+    private TextView tv_lingganji;
     private ImageButton iv_edit_image;
     private ImageButton iv_shared_image;
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
@@ -901,7 +945,6 @@ public class ImageDetaiScrollFragment
     private TextView tv_maybe_like;
     private int width_Pic;
 
-
     private int height_pic = 0;
     private boolean ifchange = false;
     private boolean loginStatus = false;
@@ -916,9 +959,5 @@ public class ImageDetaiScrollFragment
     private int page = 1;
     private int totalDy = 0;
     private Rect rect;
-
-    public interface UserInfo {
-        void getUserInfo(ImageDetailBean imageDetailBean);
-    }
 
 }

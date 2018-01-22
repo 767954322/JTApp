@@ -70,8 +70,6 @@ public class ImageDetailScrollActivity
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
     private String type;
     private int wei = 0;
-
-
     //公用的判断是否正在加载中
     private boolean more_loding = false;
     //筛选
@@ -81,12 +79,12 @@ public class ImageDetailScrollActivity
     //你可能喜欢
     private String like_maybe_id = "";
     private int like_maybe_page_num = 2;
-    private boolean if_click_color;
     private TypeNewBean typeNewBean;
     private RelativeLayout rl_back_unclick;
     private ImageButton iv_edit_image;
     private ImageButton iv_shared_image;
     private ImageButton iv_more_image;
+    private TextView tv_lingganji;
 
     @Override
     protected int getLayoutResId() {
@@ -100,7 +98,6 @@ public class ImageDetailScrollActivity
         type = getIntent().getStringExtra("type");
         mPosition = getIntent().getIntExtra("position", -1);
         mItemIdList = (List<String>) getIntent().getSerializableExtra("item_id_list");
-        if_click_color = getIntent().getBooleanExtra("if_click_color", false);
     }
 
     @Override
@@ -112,6 +109,7 @@ public class ImageDetailScrollActivity
         iv_edit_image = (ImageButton) findViewById(R.id.iv_edit_image);
         iv_shared_image = (ImageButton) findViewById(R.id.iv_shared_image);
         iv_more_image = (ImageButton) findViewById(R.id.iv_more_image);
+        tv_lingganji = (TextView) findViewById(R.id.tv_lingganji);
         mViewPager = (CustomViewPager) findViewById(R.id.vp_viewpager);
     }
 
@@ -285,10 +283,12 @@ public class ImageDetailScrollActivity
             iv_edit_image.setVisibility(View.VISIBLE);
             iv_shared_image.setVisibility(View.VISIBLE);
             iv_more_image.setVisibility(View.VISIBLE);
+            tv_lingganji.setVisibility(View.VISIBLE);
         } else {
             iv_edit_image.setVisibility(View.GONE);
             iv_shared_image.setVisibility(View.VISIBLE);
             iv_more_image.setVisibility(View.VISIBLE);
+            tv_lingganji.setVisibility(View.VISIBLE);
         }
     }
 
