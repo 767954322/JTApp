@@ -58,6 +58,7 @@ import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
+import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
@@ -525,19 +526,10 @@ public class ShaiXuanResultActicity
                 scroll_position = position;
                 ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
 
-//                layoutParams.width = (curentListTag ? width_Pic_List : width_Pic_Staggered);
                 layoutParams.height = (curentListTag ? (int) (width_Pic_List / 1.333333f) : Math.round(width_Pic_Staggered / mListData.get(position).getItem_info().getImage().getRatio()));
                 holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
                 String nikeName = mListData.get(position).getUser_info().getNickname();
-//
-//                if (nikeName != null && curentListTag && nikeName.length() > 8) {
-//                    nikeName = nikeName.substring(0, 8) + "...";
-//                }
-//                if (nikeName != null && !curentListTag && nikeName.length() > 5) {
-//                    nikeName = nikeName.substring(0, 5) + "...";
-//                }
                 ((TextView) holder.getView(R.id.tv_name_pic)).setText(nikeName);
-
 
                 String strTag = "";
                 String tag = mListData.get(position).getItem_info().getTag();
@@ -557,18 +549,35 @@ public class ShaiXuanResultActicity
                 String str = mListData.get(position).getItem_info().getDescription() + " " + "<font color='#464646'>" + strTag + "</font>";
                 ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
 
-
                 if (curentListTag) {
-                    ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(),
-                            (ImageView) holder.getView(R.id.iv_imageview_one));
+                    if (PublicUtils.ifHasWriteQuan(ShaiXuanResultActicity.this)) {
+                        if (mListData.get(position).getItem_info().getImage().getRatio() > 0.6) {
+                            ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(),
+                                    (ImageView) holder.getView(R.id.iv_imageview_one));
+                        } else {
+                            GlideImgManager.glideLoader(ShaiXuanResultActicity.this, mListData.get(position).getItem_info().getImage().getImg0(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
+                        }
+                    } else {
+                        GlideImgManager.glideLoader(ShaiXuanResultActicity.this, mListData.get(position).getItem_info().getImage().getImg0(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
+                    }
                 } else {
-                    ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
-                            (ImageView) holder.getView(R.id.iv_imageview_one));
-
+                    if (PublicUtils.ifHasWriteQuan(ShaiXuanResultActicity.this)) {
+                        if (mListData.get(position).getItem_info().getImage().getRatio() > 0.6) {
+                            ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg1(),
+                                    (ImageView) holder.getView(R.id.iv_imageview_one));
+                        } else {
+                            GlideImgManager.glideLoader(ShaiXuanResultActicity.this, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
+                        }
+                    } else {
+                        GlideImgManager.glideLoader(ShaiXuanResultActicity.this, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
+                    }
                 }
-
-                ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
-                        (ImageView) holder.getView(R.id.iv_header_pic));
+                if (PublicUtils.ifHasWriteQuan(ShaiXuanResultActicity.this)) {
+                    ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
+                            (ImageView) holder.getView(R.id.iv_header_pic));
+                } else {
+                    GlideImgManager.glideLoader(ShaiXuanResultActicity.this, mListData.get(position).getUser_info().getAvatar().getBig(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_header_pic), 0);
+                }
 
                 holder.getView(R.id.iv_header_pic).setOnClickListener(new View.OnClickListener() {
                     @Override

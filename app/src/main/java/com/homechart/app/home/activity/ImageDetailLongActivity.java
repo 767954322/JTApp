@@ -524,16 +524,6 @@ public class ImageDetailLongActivity
                     startActivityForResult(intent, 1);
                 }
                 break;
-            case R.id.iv_bang:
-            case R.id.tv_bang:
-                if (ifZan) {
-                    addZan();
-                    ifZan = false;
-                } else {
-                    removeZan();
-                    ifZan = true;
-                }
-                break;
             case R.id.iv_xing:
             case R.id.iv_xing2:
             case R.id.tv_xing:
@@ -600,9 +590,6 @@ public class ImageDetailLongActivity
                         startActivityForResult(intent1, 2);
                     }
                 }
-//                cet_clearedit.requestFocus();
-//                InputMethodManager imm = (InputMethodManager) cet_clearedit.getContext().getSystemService(ImageDetailLongActivity.this.INPUT_METHOD_SERVICE);
-//                imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
                 break;
             case R.id.ll_huifu_two:
                 loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
@@ -626,9 +613,6 @@ public class ImageDetailLongActivity
                         startActivityForResult(intent1, 2);
                     }
                 }
-//                cet_clearedit.requestFocus();
-//                InputMethodManager imm1 = (InputMethodManager) cet_clearedit.getContext().getSystemService(ImageDetailLongActivity.this.INPUT_METHOD_SERVICE);
-//                imm1.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
                 break;
             case R.id.ll_huifu_three:
                 loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
@@ -652,9 +636,6 @@ public class ImageDetailLongActivity
                         startActivityForResult(intent1, 2);
                     }
                 }
-//                cet_clearedit.requestFocus();
-//                InputMethodManager imm2 = (InputMethodManager) cet_clearedit.getContext().getSystemService(ImageDetailLongActivity.this.INPUT_METHOD_SERVICE);
-//                imm2.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
                 break;
             case R.id.rl_ping_four:
             case R.id.iv_ping:
@@ -684,30 +665,6 @@ public class ImageDetailLongActivity
                             0,
                             0); //设置layout在PopupWindow中显示的位置
                 }
-
-                break;
-            case R.id.iv_ifshow_color:
-
-//                if (ifShowColorList) {
-//                    //隐藏
-//                    ifShowColorList = false;
-//
-//                    iv_ifshow_color.setVisibility(View.VISIBLE);
-//                    iv_ifshow_color.setImageResource(R.drawable.zhankai);
-//                    dgv_colorlist.setVisibility(View.GONE);
-//                    tv_color_tips.setVisibility(View.GONE);
-//                    rl_color_location.setVisibility(View.GONE);
-//
-//                } else {
-//                    //显示
-//                    ifShowColorList = true;
-//
-//                    iv_ifshow_color.setImageResource(R.drawable.shouqi);
-//                    iv_ifshow_color.setVisibility(View.VISIBLE);
-//                    dgv_colorlist.setVisibility(View.VISIBLE);
-//                    tv_color_tips.setVisibility(View.VISIBLE);
-//                    rl_color_location.setVisibility(View.VISIBLE);
-//                }
 
                 break;
             case R.id.iv_details_image:
@@ -1108,19 +1065,6 @@ public class ImageDetailLongActivity
         getImageListData();
     }
 
-    private void tongjiQiu(int position) {
-        //查看单图详情
-        Intent intent = new Intent(ImageDetailLongActivity.this, ImageDetailScrollActivity.class);
-        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-        intent.putExtra("position", position);
-        intent.putExtra("like_id", item_id);
-        intent.putExtra("type", "你可能喜欢");
-        intent.putExtra("page_num", page);
-        intent.putExtra("if_click_color", true);
-        intent.putExtra("item_id_list", (Serializable) mItemIdList);
-        startActivity(intent);
-    }
-
     private void getImageListData() {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
@@ -1214,105 +1158,6 @@ public class ImageDetailLongActivity
         MyHttpManager.getInstance().removeShouCang(item_id, callBack);
     }
 
-    //收藏
-    private void addShouCang() {
-        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                CustomProgress.cancelDialog();
-                ToastUtils.showCenter(ImageDetailLongActivity.this, "收藏成功");
-            }
-
-            @Override
-            public void onResponse(String s) {
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                    if (error_code == 0) {
-                        Message msg = new Message();
-                        msg.what = 4;
-                        mHandler.sendMessage(msg);
-                    } else {
-                        ToastUtils.showCenter(ImageDetailLongActivity.this, error_msg);
-                    }
-                } catch (JSONException e) {
-                    ToastUtils.showCenter(ImageDetailLongActivity.this, "收藏失败");
-                }
-            }
-        };
-        MyHttpManager.getInstance().addShouCang(item_id, callBack);
-    }
-
-    //取消点赞
-    private void removeZan() {
-
-
-        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                CustomProgress.cancelDialog();
-                ToastUtils.showCenter(ImageDetailLongActivity.this, "取消点赞失败");
-            }
-
-            @Override
-            public void onResponse(String s) {
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                    if (error_code == 0) {
-                        Message msg = new Message();
-                        msg.what = 3;
-                        mHandler.sendMessage(msg);
-                    } else {
-                        ToastUtils.showCenter(ImageDetailLongActivity.this, error_msg);
-                    }
-                } catch (JSONException e) {
-                    ToastUtils.showCenter(ImageDetailLongActivity.this, "取消点赞失败");
-                }
-            }
-        };
-        MyHttpManager.getInstance().removeZan(item_id, callBack);
-
-
-    }
-
-    //点赞
-    private void addZan() {
-
-        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                CustomProgress.cancelDialog();
-                ToastUtils.showCenter(ImageDetailLongActivity.this, "点赞失败");
-            }
-
-            @Override
-            public void onResponse(String s) {
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                    if (error_code == 0) {
-                        Message msg = new Message();
-                        msg.what = 2;
-                        mHandler.sendMessage(msg);
-                    } else {
-                        ToastUtils.showCenter(ImageDetailLongActivity.this, error_msg);
-                    }
-                } catch (JSONException e) {
-                    ToastUtils.showCenter(ImageDetailLongActivity.this, "点赞失败");
-                }
-            }
-        };
-        MyHttpManager.getInstance().addZan(item_id, callBack);
-
-    }
-
     boolean ifDelete = false;
 
     private void getImageDetail() {
@@ -1397,59 +1242,22 @@ public class ImageDetailLongActivity
             tv_people_guanzhu.setVisibility(View.VISIBLE);
             nav_secondary_imageButton.setVisibility(View.VISIBLE);
             nav_secondary_imageButton.setImageResource(R.drawable.shared_icon);
-            if (imageDetailBean.getUser_info().getRelation().equals("0")) {//未关注
-                guanzhuTag = 1;
-                tv_people_guanzhu.setText("关注");
-                tv_people_guanzhu.setBackgroundResource(R.drawable.tv_guanzhu_no);
-                tv_people_guanzhu.setTextColor(UIUtils.getColor(R.color.bg_e79056));
-
-            } else if (imageDetailBean.getUser_info().getRelation().equals("1")) {//已关注
-                guanzhuTag = 2;
-
-                tv_people_guanzhu.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-                tv_people_guanzhu.setText("已关注");
-                tv_people_guanzhu.setBackgroundResource(R.drawable.tv_guanzhu_has);
-            } else if (imageDetailBean.getUser_info().getRelation().equals("2")) {//相互关注
-                guanzhuTag = 3;
-                tv_people_guanzhu.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-                tv_people_guanzhu.setText("相互关注");
-                tv_people_guanzhu.setBackgroundResource(R.drawable.tv_guanzhu_xianghu);
-            }
         } else {
             tv_content_right.setVisibility(View.VISIBLE);
             tv_people_guanzhu.setVisibility(View.GONE);
             nav_secondary_imageButton.setVisibility(View.GONE);
         }
 
-        if (imageFirstTag) {
-            if (null != imageDetailBean.getObject_list() && imageDetailBean.getObject_list().size() > 0) {
-                ArrayList<PointSimple> pointSimples = new ArrayList<>();
-                for (int i = 0; i < imageDetailBean.getObject_list().size(); i++) {
-                    PointSimple pointSimple = new PointSimple();
-                    float width = Float.parseFloat(imageDetailBean.getObject_list().get(i).getObject_info().getX().trim());
-                    float height = Float.parseFloat(imageDetailBean.getObject_list().get(i).getObject_info().getY().trim());
-                    pointSimple.width_scale = width;
-                    pointSimple.height_scale = height;
-                    pointSimple.width_object = Double.parseDouble(imageDetailBean.getObject_list().get(i).getObject_info().getWidth().trim());
-                    pointSimple.height_object = Double.parseDouble(imageDetailBean.getObject_list().get(i).getObject_info().getHeight().trim());
-                    pointSimples.add(pointSimple);
-                }
-                iv_details_image.setPoints(pointSimples);
-            }
-            iv_details_image.setImgBg(wide_num, (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()), imageDetailBean.getItem_info().getImage().getImg0(), this, imageDetailBean.getItem_info().getImage().getRatio());
-            imageFirstTag = false;
-        }
+        iv_details_image.setImgBg(wide_num, (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio()), imageDetailBean.getItem_info().getImage().getImg0(), this, imageDetailBean.getItem_info().getImage().getRatio());
         listColor = imageDetailBean.getColor_info();
         int width = PublicUtils.getScreenWidth(ImageDetailLongActivity.this) - UIUtils.getDimens(R.dimen.font_40);
         if (ifFirst) {
             if (listColor != null && listColor.size() > 0) {
-//                ll_color_lines.setVisibility(View.VISIBLE);
                 float float_talte = 0;
                 for (int i = 0; i < listColor.size(); i++) {
                     float wid = Float.parseFloat(listColor.get(i).getColor_percent().trim());
                     float_talte = float_talte + wid;
                 }
-
                 for (int i = 0; i < listColor.size(); i++) {
                     TextView textView = new TextView(this);
                     float wid = Float.parseFloat(listColor.get(i).getColor_percent().trim());
@@ -1462,30 +1270,13 @@ public class ImageDetailLongActivity
                     }
                     textView.setHeight(UIUtils.getDimens(R.dimen.font_30));
                     textView.setBackgroundColor(Color.parseColor("#" + listColor.get(i).getColor_value()));
-//                    ll_color_lines.addView(textView);
                     ll_color_lines1.addView(textView);
                 }
-//                dgv_colorlist.setAdapter(new MyColorGridAdapter(listColor, ImageDetailLongActivity.this));
                 dgv_colorlist1.setAdapter(new MyColorGridAdapter(listColor, ImageDetailLongActivity.this));
 
-//                iv_ifshow_color.setVisibility(View.VISIBLE);
-//                if (ifShowColorList) {
-//                    dgv_colorlist.setVisibility(View.VISIBLE);
-//                    tv_color_tips.setVisibility(View.VISIBLE);
-//                    rl_color_location.setVisibility(View.VISIBLE);
-//                    iv_ifshow_color.setImageResource(R.drawable.shouqi);
-//                } else {
-//                    dgv_colorlist.setVisibility(View.GONE);
-//                    iv_ifshow_color.setImageResource(R.drawable.zhankai);
-//                    tv_color_tips.setVisibility(View.GONE);
-//                    rl_color_location.setVisibility(View.GONE);
-//                }
-            } else {
-//                iv_ifshow_color.setVisibility(View.GONE);
             }
             ifFirst = false;
         }
-
 
         String tag = imageDetailBean.getItem_info().getTag().toString();
         String[] str_tag = tag.split(" ");
@@ -1495,14 +1286,12 @@ public class ImageDetailLongActivity
                 list.add(str_tag[i]);
             }
         }
-
         fl_tags_jubu.cleanTag();
         fl_tags_jubu.setColorful(false);
         fl_tags_jubu.setData(list);
         fl_tags_jubu.setOnTagClickListener(new FlowLayoutBiaoQian.OnTagClickListener() {
             @Override
             public void TagClick(String text) {
-
                 // 跳转搜索结果页
                 Intent intent = new Intent(ImageDetailLongActivity.this, ShaiXuanResultActicity.class);
                 String tag = text.replace("#", "");
@@ -1516,12 +1305,10 @@ public class ImageDetailLongActivity
             tv_details_tital.setVisibility(View.GONE);
         } else {
             tv_details_tital.setVisibility(View.VISIBLE);
-//            tv_details_tital.setSpacing(2);
             String detital = imageDetailBean.getItem_info().getDescription().trim().replace("ن", "");
             tv_details_tital.setText(detital);
 
         }
-
         //处理时间
         String[] str = imageDetailBean.getItem_info().getAdd_time().split(" ");
         String fabuTime = str[0].replace("-", "/");
@@ -1535,78 +1322,17 @@ public class ImageDetailLongActivity
         if (data <= 7) {
             if (str1.length == 3) {
                 tv_details_time.setText(str1[0] + "年" + str1[1] + "月" + str1[2] + "日 " + " 发布");
-            } else {
-//                tv_details_time.setText("1月以前" + " 发布");
             }
         } else if (data > 7 && data <= 30) {
             tv_details_time.setText("1周以前" + " 发布");
         } else {
             tv_details_time.setText("1月以前" + " 发布");
         }
-//        tv_details_time.setText(fabuTime + " 发布");
-        like_num = imageDetailBean.getCounter().getLike_num();
-        collect_num = imageDetailBean.getCounter().getCollect_num();
-        comment_num = imageDetailBean.getCounter().getComment_num();
-        share_num = imageDetailBean.getCounter().getShare_num();
-
-        if (like_num == 0) {
-            tv_bang.setText("");
-        } else {
-            tv_bang.setText(like_num + "");
-        }
-
-        if (imageDetailBean.getItem_info().getIs_liked().equals("1")) {//已赞
-            iv_bang.setImageResource(R.drawable.bang1);
-            tv_bang.setTextColor(UIUtils.getColor(R.color.bg_e79056));
-            ifZan = false;
-
-        } else {//未赞
-            iv_bang.setImageResource(R.drawable.bang);
-            tv_bang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-            ifZan = true;
-        }
-        if (collect_num == 0) {
-            tv_xing.setText("");
-        } else {
-            tv_xing.setText(collect_num + "");
-        }
-
-        if (comment_num == 0) {
-            tv_ping.setText("");
-            tv_ping_tital.setText("评论");
-        } else {
-            tv_ping.setText(comment_num + "");
-            tv_ping_tital.setText("评论（" + comment_num + "）");
-        }
-        if (share_num == 0) {
-            tv_shared.setText("");
-        } else {
-            tv_shared.setText(share_num + "");
-        }
 
     }
 
     @Override
     public void onClickPosition(int pos) {
-
-        if (null != searchSBean &&
-                null != searchSBean.getObject_list() &&
-                searchSBean.getObject_list().size() > 0 &&
-                searchSBean.getObject_list().size() > pos) {
-            Intent intent = new Intent(ImageDetailLongActivity.this, NewSearchResultActivity.class);
-            intent.putExtra("image_id", imageDetailBean.getItem_info().getImage().getImage_id());
-            intent.putExtra("imagePath", imageDetailBean.getItem_info().getImage().getImg0());
-            intent.putExtra("searchstatus", "0");
-            intent.putExtra("network", "true");
-            intent.putExtra("clickposition", "true");
-            intent.putExtra("position", pos);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("searchSBean", searchSBean);
-            intent.putExtras(bundle);
-            startActivity(intent);
-
-        }
-
     }
 
     @Override
@@ -1976,6 +1702,7 @@ public class ImageDetailLongActivity
                 case 1:
                     String data = (String) msg.obj;
                     imageDetailBean = GsonUtil.jsonToBean(data, ImageDetailBean.class);
+                    imageDetailBean = GsonUtil.jsonToBean(data, ImageDetailBean.class);
                     if (getPosition && null != imageDetailBean && null != imageDetailBean.getItem_info()) {
                         getPosition = false;
                         getSearchPosition(imageDetailBean.getItem_info().getImage().getImage_id());
@@ -2041,14 +1768,11 @@ public class ImageDetailLongActivity
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
         public void onStart(SHARE_MEDIA platform) {
-//            //分享开始的回调
-//            Log.d("tset","sdsds");
-//            addShared();
+
         }
 
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            addShared();
             if (platform == SHARE_MEDIA.WEIXIN) {
                 tv_shared.setText(++share_num + "");
                 ToastUtils.showCenter(ImageDetailLongActivity.this, "微信好友分享成功啦");
@@ -2075,30 +1799,6 @@ public class ImageDetailLongActivity
             ToastUtils.showCenter(ImageDetailLongActivity.this, "分享取消了");
         }
     };
-
-    private void addShared() {
-        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-            }
-
-            @Override
-            public void onResponse(String s) {
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                    if (error_code == 0) {
-//                        getImageDetail();
-                    } else {
-                    }
-                } catch (JSONException e) {
-                }
-            }
-        };
-        MyHttpManager.getInstance().addShared(imageDetailBean.getItem_info().getItem_id(), "item", callBack);
-    }
 
     @Override
     protected void onResume() {
@@ -2251,121 +1951,6 @@ public class ImageDetailLongActivity
 
     boolean ifClickShouCang = true;
 
-    //收藏或者取消收藏，图片
-    public void onShouCang(boolean ifShouCang, int position, ImageLikeItemBean imageLikeItemBean) {
-
-        if (ifClickShouCang) {
-            ifClickShouCang = false;
-            if (ifShouCang) {
-
-                //友盟统计
-                HashMap<String, String> map4 = new HashMap<String, String>();
-                map4.put("evenname", "收藏图片");
-                map4.put("even", "你可能喜欢");
-                MobclickAgent.onEvent(ImageDetailLongActivity.this, "shijian2", map4);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("你可能喜欢")  //事件类别
-                        .setAction("收藏图片")      //事件操作
-                        .build());
-                //未被收藏，去收藏
-                addShouCang(position, imageLikeItemBean.getItem_info().getItem_id());
-            } else {
-
-                //友盟统计
-                HashMap<String, String> map4 = new HashMap<String, String>();
-                map4.put("evenname", "取消收藏图片");
-                map4.put("even", "你可能喜欢");
-                MobclickAgent.onEvent(ImageDetailLongActivity.this, "shijian3", map4);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("你可能喜欢")  //事件类别
-                        .setAction("取消收藏图片")      //事件操作
-                        .build());
-                //被收藏，去取消收藏
-                removeShouCang(position, imageLikeItemBean.getItem_info().getItem_id());
-            }
-        }
-
-    }
-
-    //收藏
-    private void addShouCang(final int position, String item_id) {
-        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                CustomProgress.cancelDialog();
-                ifClickShouCang = true;
-                ToastUtils.showCenter(ImageDetailLongActivity.this, "收藏成功");
-            }
-
-            @Override
-            public void onResponse(String s) {
-                ifClickShouCang = true;
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                    if (error_code == 0) {
-                        ToastUtils.showCenter(ImageDetailLongActivity.this, "收藏成功");
-                        mListData.get(position).getItem_info().setIs_collected("1");
-                        try {
-                            int collect_num = Integer.parseInt(mListData.get(position).getItem_info().getCollect_num().trim());
-                            mListData.get(position).getItem_info().setCollect_num(++collect_num + "");
-                        } catch (Exception e) {
-                        }
-                        mAdapter.notifyItemChanged(position);
-                    } else {
-                        ToastUtils.showCenter(ImageDetailLongActivity.this, error_msg);
-                    }
-                } catch (JSONException e) {
-                    ToastUtils.showCenter(ImageDetailLongActivity.this, "收藏失败");
-                }
-            }
-        };
-        MyHttpManager.getInstance().addShouCang(item_id, callBack);
-    }
-
-    //取消收藏
-    private void removeShouCang(final int position, String item_id) {
-
-        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                CustomProgress.cancelDialog();
-                ifClickShouCang = true;
-                ToastUtils.showCenter(ImageDetailLongActivity.this, "取消收藏失败");
-            }
-
-            @Override
-            public void onResponse(String s) {
-                ifClickShouCang = true;
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                    if (error_code == 0) {
-                        ToastUtils.showCenter(ImageDetailLongActivity.this, "取消收藏成功");
-                        mListData.get(position).getItem_info().setIs_collected("0");
-                        try {
-                            int collect_num = Integer.parseInt(mListData.get(position).getItem_info().getCollect_num().trim());
-                            mListData.get(position).getItem_info().setCollect_num(--collect_num + "");
-                        } catch (Exception e) {
-                        }
-                        mAdapter.notifyItemChanged(position);
-                    } else {
-                        ToastUtils.showCenter(ImageDetailLongActivity.this, error_msg);
-                    }
-                } catch (JSONException e) {
-                    ToastUtils.showCenter(ImageDetailLongActivity.this, "取消收藏失败");
-                }
-            }
-        };
-        MyHttpManager.getInstance().removeShouCang(item_id, callBack);
-    }
-
     private void getColorData() {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
@@ -2394,6 +1979,29 @@ public class ImageDetailLongActivity
             }
         };
         MyHttpManager.getInstance().getColorListData(callBack);
+
+    }
+
+    private void changeShiBieUI(boolean boo) {
+
+        if (boo) {
+            //在图片上面显示
+            iv_xing2.setVisibility(View.VISIBLE);
+            bt_shiwu2.setVisibility(View.VISIBLE);
+            bt_shise2.setVisibility(View.VISIBLE);
+            iv_xing.setVisibility(View.GONE);
+            bt_shiwu.setVisibility(View.GONE);
+            bt_shise.setVisibility(View.GONE);
+        } else {
+            //在页面上面显示
+            iv_xing2.setVisibility(View.GONE);
+            bt_shiwu2.setVisibility(View.GONE);
+            bt_shise2.setVisibility(View.GONE);
+            iv_xing.setVisibility(View.VISIBLE);
+            bt_shiwu.setVisibility(View.VISIBLE);
+            bt_shise.setVisibility(View.VISIBLE);
+        }
+
 
     }
 
@@ -2428,29 +2036,6 @@ public class ImageDetailLongActivity
             }
         };
         MyHttpManager.getInstance().searchByImageIdUnRember(image_id, callback);
-    }
-
-    private void changeShiBieUI(boolean boo) {
-
-        if (boo) {
-            //在图片上面显示
-            iv_xing2.setVisibility(View.VISIBLE);
-            bt_shiwu2.setVisibility(View.VISIBLE);
-            bt_shise2.setVisibility(View.VISIBLE);
-            iv_xing.setVisibility(View.GONE);
-            bt_shiwu.setVisibility(View.GONE);
-            bt_shise.setVisibility(View.GONE);
-        } else {
-            //在页面上面显示
-            iv_xing2.setVisibility(View.GONE);
-            bt_shiwu2.setVisibility(View.GONE);
-            bt_shise2.setVisibility(View.GONE);
-            iv_xing.setVisibility(View.VISIBLE);
-            bt_shiwu.setVisibility(View.VISIBLE);
-            bt_shise.setVisibility(View.VISIBLE);
-        }
-
-
     }
 
 
