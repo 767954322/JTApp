@@ -153,8 +153,9 @@ public class ImageDetaiScrollFragment
             fl_tags_jubu = (FlowLayoutBiaoQian) view.findViewById(R.id.fl_tags_jubu);
             riv_people_header = (RoundImageView) view.findViewById(R.id.riv_people_header);
             tv_people_name = (TextView) view.findViewById(R.id.tv_people_name);
-            iv_people_tag = (ImageView) view.findViewById(R.id.iv_people_tag);
+            tv_album_name = (TextView) view.findViewById(R.id.tv_album_name);
             tv_details_time = (TextView) view.findViewById(R.id.tv_details_time);
+            tv_from_where = (TextView) view.findViewById(R.id.tv_from_where);
             tv_maybe_like = (TextView) view.findViewById(R.id.tv_maybe_like);
         }
     }
@@ -650,16 +651,16 @@ public class ImageDetaiScrollFragment
 
         //......nikename.........
         String nikeName = imageDetailBean.getUser_info().getNickname();
-        if (nikeName.length() > 8) {
-            nikeName = nikeName.substring(0, 8) + "...";
+        if (nikeName.length() > 6) {
+            nikeName = nikeName.substring(0, 6) + "...";
         }
         tv_people_name.setText(nikeName);
-        //......专业用户，非专业用户标识.........
-        if (!imageDetailBean.getUser_info().getProfession().equals("0")) {
-            iv_people_tag.setVisibility(View.VISIBLE);
-        } else {
-            iv_people_tag.setVisibility(View.GONE);
+        //......albumName.........
+        String albumName = imageDetailBean.getAlbum_info().getAlbum_name();
+        if (albumName.length() > 6) {
+            albumName = albumName.substring(0, 6) + "...";
         }
+        tv_album_name.setText(albumName);
         //图片时间
         String[] str = imageDetailBean.getItem_info().getAdd_time().split(" ");
         String fabuTime = str[0].replace("-", "/");
@@ -965,8 +966,9 @@ public class ImageDetaiScrollFragment
     private FlowLayoutBiaoQian fl_tags_jubu;
     private RoundImageView riv_people_header;
     private TextView tv_people_name;
-    private ImageView iv_people_tag;
+    private TextView tv_album_name;
     private TextView tv_details_time;
+    private TextView tv_from_where;
     private TextView tv_maybe_like;
     private int width_Pic;
 

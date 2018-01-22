@@ -45,87 +45,109 @@
 
     </RelativeLayout>
 
-    <com.homechart.app.myview.ShangshabanChangeTextSpaceView
-        android:id="@+id/tv_details_tital"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_details_image"
-        android:layout_marginLeft="@dimen/font_10"
-        android:layout_marginRight="@dimen/font_10"
-        android:layout_marginTop="@dimen/font_15"
-        android:background="@color/white"
-        android:lineSpacingExtra="@dimen/font_9"
-        android:textColor="@color/bg_262626"
-        android:textIsSelectable="true"
-        android:textSize="@dimen/size_14" />
-
     <com.homechart.app.myview.FlowLayoutBiaoQian
         android:id="@+id/fl_tags_jubu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_details_tital"
-        android:layout_marginTop="@dimen/font_13"
+        android:layout_below="@+id/rl_details_image"
+        android:layout_marginTop="@dimen/font_15"
         android:background="@color/white" />
 
-    <RelativeLayout
-        android:id="@+id/rl_time"
-        android:layout_width="match_parent"
+
+    <TextView
+        android:id="@+id/tv_details_time"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/fl_tags_jubu"
-        android:layout_marginBottom="@dimen/font_10">
+        android:layout_marginLeft="@dimen/font_12"
+        android:layout_marginTop="@dimen/font_15"
+        android:background="@color/white"
+        android:textColor="@color/bg_8f8f8f"
+        android:textSize="@dimen/font_12" />
+
+    <TextView
+        android:id="@+id/tv_from_where"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fl_tags_jubu"
+        android:layout_marginLeft="@dimen/font_5"
+        android:layout_toRightOf="@+id/tv_details_time"
+        android:background="@color/white"
+        android:textColor="@color/bg_262626"
+        android:textSize="@dimen/font_12" />
+
+    <RelativeLayout
+        android:id="@+id/rl_user_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_details_time"
+        android:layout_marginTop="@dimen/font_27">
 
         <com.homechart.app.myview.RoundImageView
             android:id="@+id/riv_people_header"
-            android:layout_width="@dimen/font_20"
-            android:layout_height="@dimen/font_20"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/font_10" />
+            android:layout_width="@dimen/font_40"
+            android:layout_height="@dimen/font_40"
+            android:layout_marginLeft="@dimen/font_12" />
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/rl_album_tital"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/font_6"
+            android:layout_marginLeft="@dimen/font_15"
             android:layout_toRightOf="@+id/riv_people_header">
 
             <TextView
                 android:id="@+id/tv_people_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:gravity="top"
+                android:layout_alignParentBottom="true"
                 android:textColor="@color/bg_262626"
                 android:textSize="@dimen/size_14" />
 
-
-            <ImageView
-                android:id="@+id/iv_people_tag"
+            <TextView
+                android:id="@+id/tv_from"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_alignParentBottom="true"
                 android:layout_marginLeft="@dimen/font_10"
                 android:layout_toRightOf="@+id/tv_people_name"
-                android:src="@drawable/fensi"
-                android:visibility="gone" />
+                android:text="上传至"
+                android:textColor="@color/bg_8f8f8f"
+                android:textSize="@dimen/size_12" />
+
+            <TextView
+                android:id="@+id/tv_album_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/font_10"
+                android:layout_toRightOf="@+id/tv_from"
+                android:textColor="@color/bg_262626"
+                android:textSize="@dimen/size_14" />
 
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_details_time"
-            android:layout_width="wrap_content"
+        <com.homechart.app.myview.ShangshabanChangeTextSpaceView
+            android:id="@+id/tv_details_tital"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="@dimen/font_10"
-            android:layout_marginRight="@dimen/font_10"
+            android:layout_alignLeft="@+id/rl_album_tital"
+            android:layout_below="@+id/rl_album_tital"
+            android:layout_marginRight="@dimen/font_12"
+            android:layout_marginTop="@dimen/font_15"
             android:background="@color/white"
-            android:textColor="@color/bg_8f8f8f"
-            android:textSize="@dimen/font_12" />
+            android:lineSpacingExtra="@dimen/font_9"
+            android:textColor="@color/bg_262626"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/size_12" />
+
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_time"
+        android:layout_below="@+id/rl_user_info"
+        android:layout_marginTop="@dimen/font_10"
         android:background="@color/bg_f2f2f2">
 
         <TextView
