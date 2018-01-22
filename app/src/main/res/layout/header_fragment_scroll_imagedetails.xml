@@ -147,13 +147,14 @@
             android:layout_height="@dimen/font_36"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/tv_details_tital"
+            android:layout_marginLeft="@dimen/font_8"
             android:layout_marginRight="@dimen/font_19"
             android:layout_marginTop="@dimen/font_20"
             android:background="@color/bg_f2f2f2"
             android:scaleType="centerInside"
             android:src="@drawable/next" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/rl_album_tital"
@@ -161,8 +162,118 @@
             android:layout_marginTop="@dimen/font_20"
             android:layout_toLeftOf="@+id/iv_more_album">
 
+            <RelativeLayout
+                android:id="@+id/rl_images_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/bt_imgdetails_album">
 
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_img1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+
+                <ImageView
+                    android:id="@+id/iv_img2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true" />
+
+                <ImageView
+                    android:id="@+id/iv_img3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true" />
+
+                <ImageView
+                    android:id="@+id/iv_img4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_images_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/bt_imgdetails_album">
+
+                <ImageView
+                    android:id="@+id/iv_img5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+
+                <ImageView
+                    android:id="@+id/iv_img6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true" />
+
+                <ImageView
+                    android:id="@+id/iv_img7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true" />
+
+                <ImageView
+                    android:id="@+id/iv_img8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_images_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/bt_imgdetails_album">
+
+                <ImageView
+                    android:id="@+id/iv_img9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+
+                <ImageView
+                    android:id="@+id/iv_img10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true" />
+
+                <ImageView
+                    android:id="@+id/iv_img11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true" />
+
+                <ImageView
+                    android:id="@+id/iv_img12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true" />
+            </RelativeLayout>
+
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

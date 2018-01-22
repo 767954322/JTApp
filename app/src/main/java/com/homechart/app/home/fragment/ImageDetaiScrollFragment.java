@@ -70,6 +70,7 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+import com.visenze.visearch.android.model.Image;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -157,6 +158,22 @@ public class ImageDetaiScrollFragment
             tv_details_time = (TextView) view.findViewById(R.id.tv_details_time);
             tv_from_where = (TextView) view.findViewById(R.id.tv_from_where);
             tv_maybe_like = (TextView) view.findViewById(R.id.tv_maybe_like);
+
+            rl_images_one = (RelativeLayout) view.findViewById(R.id.rl_images_one);
+            rl_images_two = (RelativeLayout) view.findViewById(R.id.rl_images_two);
+            rl_images_three = (RelativeLayout) view.findViewById(R.id.rl_images_three);
+            iv_img1 = (ImageView) view.findViewById(R.id.iv_img1);
+            iv_img2 = (ImageView) view.findViewById(R.id.iv_img2);
+            iv_img3 = (ImageView) view.findViewById(R.id.iv_img3);
+            iv_img4 = (ImageView) view.findViewById(R.id.iv_img4);
+            iv_img5 = (ImageView) view.findViewById(R.id.iv_img5);
+            iv_img6 = (ImageView) view.findViewById(R.id.iv_img6);
+            iv_img7 = (ImageView) view.findViewById(R.id.iv_img7);
+            iv_img8 = (ImageView) view.findViewById(R.id.iv_img8);
+            iv_img9 = (ImageView) view.findViewById(R.id.iv_img9);
+            iv_img10 = (ImageView) view.findViewById(R.id.iv_img10);
+            iv_img11 = (ImageView) view.findViewById(R.id.iv_img11);
+            iv_img12 = (ImageView) view.findViewById(R.id.iv_img12);
         }
     }
 
@@ -327,6 +344,25 @@ public class ImageDetaiScrollFragment
 
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         width_Pic = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_14);
+        width_Imgs = (PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_146)) / 3;
+        RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) rl_images_one.getLayoutParams();
+        layoutParams1.width = width_Imgs;
+        layoutParams1.height = width_Imgs;
+        layoutParams1.alignWithParent = true;
+        layoutParams1.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+        RelativeLayout.LayoutParams layoutParams2 = (RelativeLayout.LayoutParams) rl_images_two.getLayoutParams();
+        layoutParams2.width = width_Imgs;
+        layoutParams2.height = width_Imgs;
+        layoutParams2.alignWithParent = true;
+        layoutParams2.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        RelativeLayout.LayoutParams layoutParams3 = (RelativeLayout.LayoutParams) rl_images_three.getLayoutParams();
+        layoutParams3.width = width_Imgs;
+        layoutParams3.height = width_Imgs;
+        layoutParams3.alignWithParent = true;
+        layoutParams3.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+        rl_images_one.setLayoutParams(layoutParams1);
+        rl_images_two.setLayoutParams(layoutParams2);
+        rl_images_three.setLayoutParams(layoutParams3);
         rect = new Rect(0, 0, PublicUtils.getScreenWidth(activity), PublicUtils.getScreenHeight(activity));
         getImageDetail();
         buildRecyclerView();
@@ -737,6 +773,74 @@ public class ImageDetaiScrollFragment
                 dgv_colorlist.setAdapter(new MyColorGridAdapter(listColor, activity));
             }
         }
+        //设置图片
+        RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) iv_img1.getLayoutParams();
+        layoutParams1.width = width_Imgs / 2 - UIUtils.getDimens(R.dimen.font_2);
+        layoutParams1.height = width_Imgs / 2 - UIUtils.getDimens(R.dimen.font_2);
+        layoutParams1.alignWithParent = true;
+
+        RelativeLayout.LayoutParams layoutParams2 = (RelativeLayout.LayoutParams) iv_img2.getLayoutParams();
+        layoutParams2.width = width_Imgs / 2 - UIUtils.getDimens(R.dimen.font_2);
+        layoutParams2.height = width_Imgs / 2 - UIUtils.getDimens(R.dimen.font_2);
+        layoutParams2.alignWithParent = true;
+        layoutParams2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+
+        RelativeLayout.LayoutParams layoutParams3 = (RelativeLayout.LayoutParams) iv_img3.getLayoutParams();
+        layoutParams3.width = width_Imgs / 2 - UIUtils.getDimens(R.dimen.font_2);
+        layoutParams3.height = width_Imgs / 2 - UIUtils.getDimens(R.dimen.font_2);
+        layoutParams3.alignWithParent = true;
+        layoutParams3.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+
+        RelativeLayout.LayoutParams layoutParams4 = (RelativeLayout.LayoutParams) iv_img4.getLayoutParams();
+        layoutParams4.width = width_Imgs / 2 - UIUtils.getDimens(R.dimen.font_2);
+        layoutParams4.height = width_Imgs / 2 - UIUtils.getDimens(R.dimen.font_2);
+        layoutParams4.alignWithParent = true;
+        layoutParams4.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM | RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+
+        iv_img1.setLayoutParams(layoutParams1);
+        iv_img2.setLayoutParams(layoutParams2);
+        iv_img3.setLayoutParams(layoutParams3);
+        iv_img4.setLayoutParams(layoutParams4);
+        iv_img5.setLayoutParams(layoutParams1);
+        iv_img6.setLayoutParams(layoutParams2);
+        iv_img7.setLayoutParams(layoutParams3);
+        iv_img8.setLayoutParams(layoutParams4);
+        iv_img9.setLayoutParams(layoutParams1);
+        iv_img10.setLayoutParams(layoutParams2);
+        iv_img11.setLayoutParams(layoutParams3);
+        iv_img12.setLayoutParams(layoutParams4);
+
+        if (imageDetailBean != null && imageDetailBean.getRelated_albums() != null && imageDetailBean.getRelated_albums().size() > 0) {
+
+            ImageUtils.displayFilletLeftTopImage(imageDetailBean.getRelated_albums().get(0).getData_info().getImages().get(0), iv_img1);
+            ImageUtils.displayFilletRightTopImage(imageDetailBean.getRelated_albums().get(0).getData_info().getImages().get(0), iv_img2);
+            ImageUtils.displayFilletLeftBottomImage(imageDetailBean.getRelated_albums().get(0).getData_info().getImages().get(0), iv_img3);
+            ImageUtils.displayFilletRightBottomImage(imageDetailBean.getRelated_albums().get(0).getData_info().getImages().get(0), iv_img4);
+            ImageUtils.displayFilletLeftTopImage("drawable://"+R.drawable.test_color, iv_img5);
+            ImageUtils.displayFilletRightTopImage("drawable://"+R.drawable.test_color, iv_img6);
+            ImageUtils.displayFilletLeftBottomImage("drawable://"+R.drawable.test_color, iv_img7);
+            ImageUtils.displayFilletRightBottomImage("drawable://"+R.drawable.test_color, iv_img8);
+            ImageUtils.displayFilletLeftTopImage("drawable://"+R.drawable.test_color, iv_img9);
+            ImageUtils.displayFilletRightTopImage("drawable://"+R.drawable.test_color, iv_img10);
+            ImageUtils.displayFilletLeftBottomImage("drawable://"+R.drawable.test_color, iv_img11);
+            ImageUtils.displayFilletRightBottomImage("drawable://"+R.drawable.test_color, iv_img12);
+
+        } else {
+            ImageUtils.displayFilletLeftTopImage("drawable://"+R.drawable.test_color, iv_img1);
+            ImageUtils.displayFilletRightTopImage("drawable://"+R.drawable.test_color, iv_img2);
+            ImageUtils.displayFilletLeftBottomImage("drawable://"+R.drawable.test_color, iv_img3);
+            ImageUtils.displayFilletRightBottomImage("drawable://"+R.drawable.test_color, iv_img4);
+            ImageUtils.displayFilletLeftTopImage("drawable://"+R.drawable.test_color, iv_img5);
+            ImageUtils.displayFilletRightTopImage("drawable://"+R.drawable.test_color, iv_img6);
+            ImageUtils.displayFilletLeftBottomImage("drawable://"+R.drawable.test_color, iv_img7);
+            ImageUtils.displayFilletRightBottomImage("drawable://"+R.drawable.test_color, iv_img8);
+            ImageUtils.displayFilletLeftTopImage("drawable://"+R.drawable.test_color, iv_img9);
+            ImageUtils.displayFilletRightTopImage("drawable://"+R.drawable.test_color, iv_img10);
+            ImageUtils.displayFilletLeftBottomImage("drawable://"+R.drawable.test_color, iv_img11);
+            ImageUtils.displayFilletRightBottomImage("drawable://"+R.drawable.test_color, iv_img12);
+        }
+
+
     }
 
     @Override
@@ -970,7 +1074,23 @@ public class ImageDetaiScrollFragment
     private TextView tv_details_time;
     private TextView tv_from_where;
     private TextView tv_maybe_like;
+    private RelativeLayout rl_images_one;
+    private RelativeLayout rl_images_two;
+    private RelativeLayout rl_images_three;
+    private ImageView iv_img1;
+    private ImageView iv_img2;
+    private ImageView iv_img3;
+    private ImageView iv_img4;
+    private ImageView iv_img5;
+    private ImageView iv_img6;
+    private ImageView iv_img7;
+    private ImageView iv_img8;
+    private ImageView iv_img9;
+    private ImageView iv_img10;
+    private ImageView iv_img11;
+    private ImageView iv_img12;
     private int width_Pic;
+    private int width_Imgs;
 
     private int height_pic = 0;
     private boolean ifchange = false;

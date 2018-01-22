@@ -146,6 +146,56 @@ public class ImageUtils {
             .resetViewBeforeLoading(true)
             .build();
 
+
+
+    //demo半个圆角的options(左上边圆角)
+    private static final DisplayImageOptions filletOptionsLeftTop = new DisplayImageOptions.Builder()
+            .showStubImage(R.color.bg_b2b2b2)
+            .showImageForEmptyUri(R.color.bg_b2b2b2)
+            .showImageOnFail(R.color.bg_b2b2b2)
+            .cacheInMemory(true)
+            .cacheOnDisc(true)
+            .bitmapConfig(Bitmap.Config.RGB_565)   //设置图片的解码类型
+            .displayer(new FlexibleRoundedBitmapDisplayer(15, FlexibleRoundedBitmapDisplayer.CORNER_TOP_LEFT ))
+            .imageScaleType(ImageScaleType.EXACTLY)
+            .build();
+
+    //demo半个圆角的options(右上边圆角)
+    private static final DisplayImageOptions filletOptionsRightTop = new DisplayImageOptions.Builder()
+            .showStubImage(R.color.bg_b2b2b2)
+            .showImageForEmptyUri(R.color.bg_b2b2b2)
+            .showImageOnFail(R.color.bg_b2b2b2)
+            .cacheInMemory(true)
+            .cacheOnDisc(true)
+            .bitmapConfig(Bitmap.Config.RGB_565)   //设置图片的解码类型
+            .displayer(new FlexibleRoundedBitmapDisplayer(15, FlexibleRoundedBitmapDisplayer.CORNER_TOP_RIGHT ))
+            .imageScaleType(ImageScaleType.EXACTLY)
+            .build();
+
+    //demo半个圆角的options(左下边圆角)
+    private static final DisplayImageOptions filletOptionsLeftBottom = new DisplayImageOptions.Builder()
+            .showStubImage(R.color.bg_b2b2b2)
+            .showImageForEmptyUri(R.color.bg_b2b2b2)
+            .showImageOnFail(R.color.bg_b2b2b2)
+            .cacheInMemory(true)
+            .cacheOnDisc(true)
+            .bitmapConfig(Bitmap.Config.RGB_565)   //设置图片的解码类型
+            .displayer(new FlexibleRoundedBitmapDisplayer(15, FlexibleRoundedBitmapDisplayer.CORNER_BOTTOM_LEFT ))
+            .imageScaleType(ImageScaleType.EXACTLY)
+            .build();
+
+    //demo半个圆角的options(右下边圆角)
+    private static final DisplayImageOptions filletOptionsRightBottom = new DisplayImageOptions.Builder()
+            .showStubImage(R.color.bg_b2b2b2)
+            .showImageForEmptyUri(R.color.bg_b2b2b2)
+            .showImageOnFail(R.color.bg_b2b2b2)
+            .cacheInMemory(true)
+            .cacheOnDisc(true)
+            .bitmapConfig(Bitmap.Config.RGB_565)   //设置图片的解码类型
+            .displayer(new FlexibleRoundedBitmapDisplayer(15, FlexibleRoundedBitmapDisplayer.CORNER_BOTTOM_RIGHT ))
+            .imageScaleType(ImageScaleType.EXACTLY)
+            .build();
+
     /**
      * 加载圆形图片
      *
@@ -191,6 +241,46 @@ public class ImageUtils {
                 ImageLoader.getInstance().displayImage(imageUrl, imageView, filletOptionsHalf);
         } else {
             GlideImgManager.glideLoader(MyApplication.getInstance(), imageUrl, R.color.white, R.color.white, imageView, 1);
+        }
+    }
+
+    public static void displayFilletLeftTopImage(String imageUrl, ImageView imageView) {
+        if (PublicUtils.ifHasWriteQuan1(MyApplication.getInstance())) {
+            //有权限
+            if (imageView != null)
+                ImageLoader.getInstance().displayImage(imageUrl, imageView, filletOptionsLeftTop);
+        } else {
+            GlideImgManager.glideLoader(MyApplication.getInstance(), imageUrl, R.color.bg_b2b2b2, R.color.bg_b2b2b2, imageView, 1);
+        }
+    }
+
+    public static void displayFilletRightTopImage(String imageUrl, ImageView imageView) {
+        if (PublicUtils.ifHasWriteQuan1(MyApplication.getInstance())) {
+            //有权限
+            if (imageView != null)
+                ImageLoader.getInstance().displayImage(imageUrl, imageView, filletOptionsRightTop);
+        } else {
+            GlideImgManager.glideLoader(MyApplication.getInstance(), imageUrl, R.color.bg_b2b2b2, R.color.bg_b2b2b2, imageView, 1);
+        }
+    }
+
+    public static void displayFilletLeftBottomImage(String imageUrl, ImageView imageView) {
+        if (PublicUtils.ifHasWriteQuan1(MyApplication.getInstance())) {
+            //有权限
+            if (imageView != null)
+                ImageLoader.getInstance().displayImage(imageUrl, imageView, filletOptionsLeftBottom);
+        } else {
+            GlideImgManager.glideLoader(MyApplication.getInstance(), imageUrl, R.color.bg_b2b2b2, R.color.bg_b2b2b2, imageView, 1);
+        }
+    }
+
+    public static void displayFilletRightBottomImage(String imageUrl, ImageView imageView) {
+        if (PublicUtils.ifHasWriteQuan1(MyApplication.getInstance())) {
+            //有权限
+            if (imageView != null)
+                ImageLoader.getInstance().displayImage(imageUrl, imageView, filletOptionsRightBottom);
+        } else {
+            GlideImgManager.glideLoader(MyApplication.getInstance(), imageUrl, R.color.bg_b2b2b2, R.color.bg_b2b2b2, imageView, 1);
         }
     }
 
