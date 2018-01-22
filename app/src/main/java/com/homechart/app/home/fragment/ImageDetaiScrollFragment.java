@@ -144,8 +144,8 @@ public class ImageDetaiScrollFragment
 
     private void initView() {
         imageScrollActivity = (ImageDetailScrollActivity) activity;
-        tv_content_right = (TextView) activity.findViewById(R.id.tv_content_right);
-        nav_secondary_imageButton = (ImageButton) activity.findViewById(R.id.nav_secondary_imageButton);
+        iv_edit_image = (ImageButton) activity.findViewById(R.id.iv_edit_image);
+        iv_shared_image = (ImageButton) activity.findViewById(R.id.iv_shared_image);
 
         homeSharedPopWinPublic = new HomeSharedPopWinPublic(activity, this);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_info);
@@ -182,9 +182,9 @@ public class ImageDetaiScrollFragment
         bt_shise2.setOnClickListener(this);
         iv_close_color.setOnClickListener(this);
         iv_details_image.setOnClickListener(this);
-        tv_content_right.setOnClickListener(this);
+        iv_edit_image.setOnClickListener(this);
         riv_people_header.setOnClickListener(this);
-        nav_secondary_imageButton.setOnClickListener(this);
+        iv_shared_image.setOnClickListener(this);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -197,7 +197,7 @@ public class ImageDetaiScrollFragment
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_content_right:
+            case R.id.iv_edit_image:
                 if (imageDetailBean != null) {
                     Intent intent = new Intent(activity, ImageEditActvity.class);
                     intent.putExtra("image_value", imageDetailBean);
@@ -290,7 +290,7 @@ public class ImageDetaiScrollFragment
                     startActivityForResult(intent_info, 3);
                 }
                 break;
-            case R.id.nav_secondary_imageButton:
+            case R.id.iv_shared_image:
                 if (imageDetailBean != null) {
                     homeSharedPopWinPublic.showAtLocation(activity.findViewById(R.id.menu_layout),
                             Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
@@ -874,8 +874,8 @@ public class ImageDetaiScrollFragment
     private ImageDetailBean imageDetailBean;
     private ImageDetailScrollActivity imageScrollActivity;
     //全局
-    private TextView tv_content_right;
-    private ImageButton nav_secondary_imageButton;
+    private ImageButton iv_edit_image;
+    private ImageButton iv_shared_image;
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
     private HRecyclerView mRecyclerView;
     private ResizeRelativeLayout menu_layout;

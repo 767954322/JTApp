@@ -86,6 +86,8 @@ public class ImageDetailScrollActivity
     private boolean if_click_color;
     private TypeNewBean typeNewBean;
     private RelativeLayout rl_back_unclick;
+    private ImageButton iv_edit_image;
+    private ImageButton iv_shared_image;
 
     @Override
     protected int getLayoutResId() {
@@ -108,8 +110,8 @@ public class ImageDetailScrollActivity
         nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
         rl_back_unclick = (RelativeLayout) findViewById(R.id.rl_back_unclick);
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
-        tv_content_right = (TextView) findViewById(R.id.tv_content_right);
-        nav_secondary_imageButton = (ImageButton) findViewById(R.id.nav_secondary_imageButton);
+        iv_edit_image = (ImageButton) findViewById(R.id.iv_edit_image);
+        iv_shared_image = (ImageButton) findViewById(R.id.iv_shared_image);
         mViewPager = (CustomViewPager) findViewById(R.id.vp_viewpager);
     }
 
@@ -178,7 +180,6 @@ public class ImageDetailScrollActivity
     protected void initData(Bundle savedInstanceState) {
 
         mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
-        tv_tital_comment.setText("图片详情");
         mAdapter = new MyImagePageAdater(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(mPosition);
@@ -281,13 +282,11 @@ public class ImageDetailScrollActivity
                 && null != imageDetailBean.getUser_info()
                 && null != imageDetailBean.getUser_info().getUser_id()
                 && imageDetailBean.getUser_info().getUser_id().equals(mUserId)) {
-            tv_content_right.setVisibility(View.VISIBLE);
-            nav_secondary_imageButton.setVisibility(View.GONE);
-            tv_content_right.setText("编辑");
+            iv_edit_image.setVisibility(View.VISIBLE);
+            iv_shared_image.setVisibility(View.VISIBLE);
         } else {
-            nav_secondary_imageButton.setVisibility(View.VISIBLE);
-            tv_content_right.setVisibility(View.GONE);
-            nav_secondary_imageButton.setImageResource(R.drawable.shared_icon);
+            iv_edit_image.setVisibility(View.GONE);
+            iv_shared_image.setVisibility(View.VISIBLE);
         }
     }
 

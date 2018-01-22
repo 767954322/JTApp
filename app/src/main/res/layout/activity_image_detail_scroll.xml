@@ -6,23 +6,109 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <include
-        android:id="@+id/common_navbar"
-        layout="@layout/view_navigation_header" />
+    <RelativeLayout
+        android:id="@+id/rl_navbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_50"
+        android:background="@color/bg_f9"
+        android:gravity="center_vertical">
+
+
+        <ImageButton
+            android:id="@+id/nav_left_imageButton"
+            android:layout_width="@dimen/size_40"
+            android:layout_height="@dimen/size_40"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/size_10"
+            android:layout_marginRight="@dimen/font_15"
+            android:background="@drawable/transparent"
+            android:padding="@dimen/size_8"
+            android:scaleType="centerInside"
+            android:src="@drawable/tital_back"
+            android:visibility="visible" />
+
+        <ImageButton
+            android:id="@+id/iv_edit_image"
+            android:layout_width="@dimen/size_40"
+            android:layout_height="@dimen/size_40"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_15"
+            android:layout_toRightOf="@+id/nav_left_imageButton"
+            android:background="@drawable/transparent"
+            android:padding="@dimen/size_8"
+            android:scaleType="centerInside"
+            android:src="@drawable/bjlgj"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/iv_shared_image"
+            android:layout_width="@dimen/size_40"
+            android:layout_height="@dimen/size_40"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_15"
+            android:layout_toRightOf="@+id/iv_edit_image"
+            android:background="@drawable/transparent"
+            android:padding="@dimen/size_8"
+            android:scaleType="centerInside"
+            android:src="@drawable/shared_icon"
+            android:visibility="gone" />
+
+
+        <ImageButton
+            android:id="@+id/iv_more_image"
+            android:layout_width="@dimen/size_40"
+            android:layout_height="@dimen/size_40"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_15"
+            android:layout_toRightOf="@+id/iv_shared_image"
+            android:background="@drawable/transparent"
+            android:padding="@dimen/size_8"
+            android:scaleType="centerInside"
+            android:src="@drawable/gengduo"
+            android:visibility="gone" />
+
+
+        <ImageButton
+            android:id="@+id/nav_secondary_imageButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/transparent"
+            android:padding="@dimen/size_8"
+            android:scaleType="centerInside" />
+
+        <TextView
+            android:id="@+id/tv_tital_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/case_text_tital_name"
+            android:textSize="@dimen/font_18" />
+
+        <View
+            android:id="@+id/view_navigation_header_view"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/navbar_bottom_border_color" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_back_unclick"
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_50"
         android:background="@color/bg_80000000"
-        android:visibility="gone"
-        android:clickable="true"/>
+        android:clickable="true"
+        android:visibility="gone" />
 
 
     <com.homechart.app.myview.CustomViewPager
         android:id="@+id/vp_viewpager"
-        android:layout_below="@+id/common_navbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_navbar" />
 
 </com.homechart.app.myview.ResizeRelativeLayout>
