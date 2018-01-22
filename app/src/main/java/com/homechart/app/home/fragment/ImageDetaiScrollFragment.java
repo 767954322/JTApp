@@ -91,7 +91,6 @@ public class ImageDetaiScrollFragment
         View.OnClickListener,
         OnLoadMoreListener {
 
-
     public ImageDetaiScrollFragment() {
 
     }
@@ -124,9 +123,13 @@ public class ImageDetaiScrollFragment
 
     private void initView() {
         imageScrollActivity = (ImageDetailScrollActivity) activity;
+        rl_navbar = (RelativeLayout) activity.findViewById(R.id.rl_navbar);
+        rl_navbar_tital = (RelativeLayout) activity.findViewById(R.id.rl_navbar_tital);
         tv_lingganji = (TextView) activity.findViewById(R.id.tv_lingganji);
         iv_edit_image = (ImageButton) activity.findViewById(R.id.iv_edit_image);
         iv_shared_image = (ImageButton) activity.findViewById(R.id.iv_shared_image);
+        iv_more_image = (ImageButton) activity.findViewById(R.id.iv_more_image);
+        tv_tital_comment = (TextView) activity.findViewById(R.id.tv_tital_comment);
 
         homeSharedPopWinPublic = new HomeSharedPopWinPublic(activity, this);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_info);
@@ -321,6 +324,7 @@ public class ImageDetaiScrollFragment
 
     private void initData() {
 
+        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         width_Pic = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_14);
         rect = new Rect(0, 0, PublicUtils.getScreenWidth(activity), PublicUtils.getScreenHeight(activity));
         getImageDetail();
@@ -481,7 +485,7 @@ public class ImageDetaiScrollFragment
             mRecyclerView.addHeaderView(view);
             ifHasHeader = true;
         }
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setOnLoadMoreListener(this);
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
@@ -879,6 +883,22 @@ public class ImageDetaiScrollFragment
                     updateShiBieUI(false);
                 }
             }
+            if (imageScrollActivity.getmItemIdList().size() > 1) {
+
+                String currentItemId = imageScrollActivity.getCurrentItemId();
+
+                if (currentItemId.equals(item_id)) {
+                    int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+                    staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
+                    if (lastPositions != null && lastPositions.length == 2 && lastPositions[0] == 1 && lastPositions[1] == 1) {
+                        rl_navbar.setVisibility(View.VISIBLE);
+                        rl_navbar_tital.setVisibility(View.INVISIBLE);
+                    } else {
+                        rl_navbar.setVisibility(View.INVISIBLE);
+                        rl_navbar_tital.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
             mHandler.postDelayed(this, 100);
         }
     };
@@ -916,10 +936,15 @@ public class ImageDetaiScrollFragment
     private UserInfo mUserInfo;
     private ImageDetailBean imageDetailBean;
     private ImageDetailScrollActivity imageScrollActivity;
+    private StaggeredGridLayoutManager staggeredGridLayoutManager;
     //全局
     private TextView tv_lingganji;
+    private TextView tv_tital_comment;
+    private RelativeLayout rl_navbar;
+    private RelativeLayout rl_navbar_tital;
     private ImageButton iv_edit_image;
     private ImageButton iv_shared_image;
+    private ImageButton iv_more_image;
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
     private HRecyclerView mRecyclerView;
     private ResizeRelativeLayout menu_layout;

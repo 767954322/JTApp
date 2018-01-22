@@ -85,6 +85,8 @@ public class ImageDetailScrollActivity
     private ImageButton iv_shared_image;
     private ImageButton iv_more_image;
     private TextView tv_lingganji;
+    private ImageButton nav_left_imageButton_tital;
+    private TextView tv_tital;
 
     @Override
     protected int getLayoutResId() {
@@ -104,8 +106,10 @@ public class ImageDetailScrollActivity
     protected void initView() {
 
         nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
+        nav_left_imageButton_tital = (ImageButton) findViewById(R.id.nav_left_imageButton_tital);
         rl_back_unclick = (RelativeLayout) findViewById(R.id.rl_back_unclick);
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
+        tv_tital = (TextView) findViewById(R.id.tv_tital);
         iv_edit_image = (ImageButton) findViewById(R.id.iv_edit_image);
         iv_shared_image = (ImageButton) findViewById(R.id.iv_shared_image);
         iv_more_image = (ImageButton) findViewById(R.id.iv_more_image);
@@ -120,6 +124,7 @@ public class ImageDetailScrollActivity
     protected void initListener() {
         super.initListener();
         nav_left_imageButton.setOnClickListener(this);
+        nav_left_imageButton_tital.setOnClickListener(this);
         mViewPager.setScanScroll(true);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -134,6 +139,7 @@ public class ImageDetailScrollActivity
                     ifFirst = false;
                 } else {
                     if (position - before_position > 0) {//向右滑动了
+                        ++mPosition;
                         //友盟统计
                         HashMap<String, String> map1 = new HashMap<String, String>();
                         map1.put("evenname", "右滑");
@@ -145,6 +151,7 @@ public class ImageDetailScrollActivity
                                 .setAction("右滑")      //事件操作
                                 .build());
                     } else {//向左滑动了
+                        --mPosition;
                         //友盟统计
                         HashMap<String, String> map1 = new HashMap<String, String>();
                         map1.put("evenname", "左滑");
@@ -176,7 +183,7 @@ public class ImageDetailScrollActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
+        tv_tital.setText("你可能喜欢");
         mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
         mAdapter = new MyImagePageAdater(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
@@ -385,6 +392,14 @@ public class ImageDetailScrollActivity
         public int getCount() {
             return mItemIdList.size();
         }
+    }
+
+    public String getCurrentItemId() {
+        return mItemIdList.get(mViewPager.getCurrentItem());
+    }
+
+    public List<String> getmItemIdList() {
+        return mItemIdList;
     }
 
     public TypeNewBean getTypeNewBean() {
