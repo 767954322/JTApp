@@ -812,32 +812,116 @@ public class ImageDetaiScrollFragment
 
         if (imageDetailBean != null && imageDetailBean.getRelated_albums() != null && imageDetailBean.getRelated_albums().size() > 0) {
 
-            ImageUtils.displayFilletLeftTopImage(imageDetailBean.getRelated_albums().get(0).getData_info().getImages().get(0), iv_img1);
-            ImageUtils.displayFilletRightTopImage(imageDetailBean.getRelated_albums().get(0).getData_info().getImages().get(0), iv_img2);
-            ImageUtils.displayFilletLeftBottomImage(imageDetailBean.getRelated_albums().get(0).getData_info().getImages().get(0), iv_img3);
-            ImageUtils.displayFilletRightBottomImage(imageDetailBean.getRelated_albums().get(0).getData_info().getImages().get(0), iv_img4);
-            ImageUtils.displayFilletLeftTopImage("drawable://"+R.drawable.test_color, iv_img5);
-            ImageUtils.displayFilletRightTopImage("drawable://"+R.drawable.test_color, iv_img6);
-            ImageUtils.displayFilletLeftBottomImage("drawable://"+R.drawable.test_color, iv_img7);
-            ImageUtils.displayFilletRightBottomImage("drawable://"+R.drawable.test_color, iv_img8);
-            ImageUtils.displayFilletLeftTopImage("drawable://"+R.drawable.test_color, iv_img9);
-            ImageUtils.displayFilletRightTopImage("drawable://"+R.drawable.test_color, iv_img10);
-            ImageUtils.displayFilletLeftBottomImage("drawable://"+R.drawable.test_color, iv_img11);
-            ImageUtils.displayFilletRightBottomImage("drawable://"+R.drawable.test_color, iv_img12);
+            if (imageDetailBean.getRelated_albums().size() > 0 &&
+                    null != imageDetailBean.getRelated_albums().get(0).getData_info() &&
+                    null != imageDetailBean.getRelated_albums().get(0).getData_info().getImages() &&
+                    imageDetailBean.getRelated_albums().get(0).getData_info().getImages().size() > 0) {
+                ImageUtils.displayFilletLeftTopImage(imageDetailBean.getRelated_albums().get(0).getData_info().getImages().get(0), iv_img1);
+            } else {
+                ImageUtils.displayFilletLeftTopImage("drawable://" + R.drawable.test_color, iv_img1);
+            }
+            if (imageDetailBean.getRelated_albums().size() > 0 &&
+                    null != imageDetailBean.getRelated_albums().get(0).getData_info() &&
+                    null != imageDetailBean.getRelated_albums().get(0).getData_info().getImages() &&
+                    imageDetailBean.getRelated_albums().get(0).getData_info().getImages().size() > 1) {
+                ImageUtils.displayFilletRightTopImage(imageDetailBean.getRelated_albums().get(0).getData_info().getImages().get(1), iv_img2);
+            } else {
+                ImageUtils.displayFilletRightTopImage("drawable://" + R.drawable.test_color, iv_img2);
+            }
+            if (imageDetailBean.getRelated_albums().size() > 0 &&
+                    null != imageDetailBean.getRelated_albums().get(0).getData_info() &&
+                    null != imageDetailBean.getRelated_albums().get(0).getData_info().getImages() &&
+                    imageDetailBean.getRelated_albums().get(0).getData_info().getImages().size() > 2) {
+                ImageUtils.displayFilletLeftBottomImage(imageDetailBean.getRelated_albums().get(0).getData_info().getImages().get(2), iv_img3);
+            } else {
+                ImageUtils.displayFilletLeftBottomImage("drawable://" + R.drawable.test_color, iv_img3);
+            }
+            if (imageDetailBean.getRelated_albums().size() > 0 &&
+                    null != imageDetailBean.getRelated_albums().get(0).getData_info() &&
+                    null != imageDetailBean.getRelated_albums().get(0).getData_info().getImages() &&
+                    imageDetailBean.getRelated_albums().get(0).getData_info().getImages().size() > 3) {
+                ImageUtils.displayFilletRightBottomImage(imageDetailBean.getRelated_albums().get(0).getData_info().getImages().get(3), iv_img4);
+            } else {
+                ImageUtils.displayFilletRightBottomImage("drawable://" + R.drawable.test_color, iv_img4);
+            }
+            if (imageDetailBean.getRelated_albums().size() > 1 &&
+                    null != imageDetailBean.getRelated_albums().get(1).getData_info() &&
+                    null != imageDetailBean.getRelated_albums().get(1).getData_info().getImages() &&
+                    imageDetailBean.getRelated_albums().get(1).getData_info().getImages().size() > 0) {
+                ImageUtils.displayFilletLeftTopImage(imageDetailBean.getRelated_albums().get(1).getData_info().getImages().get(0), iv_img5);
+            } else {
+                ImageUtils.displayFilletLeftTopImage("drawable://" + R.drawable.test_color, iv_img5);
+            }
+            if (imageDetailBean.getRelated_albums().size() > 1 &&
+                    null != imageDetailBean.getRelated_albums().get(1).getData_info() &&
+                    null != imageDetailBean.getRelated_albums().get(1).getData_info().getImages() &&
+                    imageDetailBean.getRelated_albums().get(1).getData_info().getImages().size() > 1) {
+                ImageUtils.displayFilletRightTopImage(imageDetailBean.getRelated_albums().get(1).getData_info().getImages().get(1), iv_img6);
+            } else {
+                ImageUtils.displayFilletRightTopImage("drawable://" + R.drawable.test_color, iv_img6);
+            }
+            if (imageDetailBean.getRelated_albums().size() > 1 &&
+                    null != imageDetailBean.getRelated_albums().get(1).getData_info() &&
+                    null != imageDetailBean.getRelated_albums().get(1).getData_info().getImages() &&
+                    imageDetailBean.getRelated_albums().get(1).getData_info().getImages().size() > 2) {
+                ImageUtils.displayFilletLeftBottomImage(imageDetailBean.getRelated_albums().get(1).getData_info().getImages().get(2), iv_img7);
+            } else {
+                ImageUtils.displayFilletLeftBottomImage("drawable://" + R.drawable.test_color, iv_img7);
+            }
+            if (imageDetailBean.getRelated_albums().size() > 1 &&
+                    null != imageDetailBean.getRelated_albums().get(1).getData_info() &&
+                    null != imageDetailBean.getRelated_albums().get(1).getData_info().getImages() &&
+                    imageDetailBean.getRelated_albums().get(1).getData_info().getImages().size() > 3) {
+                ImageUtils.displayFilletRightBottomImage(imageDetailBean.getRelated_albums().get(1).getData_info().getImages().get(3), iv_img8);
+            } else {
+                ImageUtils.displayFilletRightBottomImage("drawable://" + R.drawable.test_color, iv_img8);
+            }
+            if (imageDetailBean.getRelated_albums().size() > 2 &&
+                    null != imageDetailBean.getRelated_albums().get(2).getData_info() &&
+                    null != imageDetailBean.getRelated_albums().get(2).getData_info().getImages() &&
+                    imageDetailBean.getRelated_albums().get(2).getData_info().getImages().size() > 0) {
+                ImageUtils.displayFilletLeftTopImage(imageDetailBean.getRelated_albums().get(2).getData_info().getImages().get(0), iv_img9);
+            } else {
+                ImageUtils.displayFilletLeftTopImage("drawable://" + R.drawable.test_color, iv_img9);
+            }
+            if (imageDetailBean.getRelated_albums().size() > 2 &&
+                    null != imageDetailBean.getRelated_albums().get(2).getData_info() &&
+                    null != imageDetailBean.getRelated_albums().get(2).getData_info().getImages() &&
+                    imageDetailBean.getRelated_albums().get(2).getData_info().getImages().size() > 1) {
+                ImageUtils.displayFilletRightTopImage(imageDetailBean.getRelated_albums().get(2).getData_info().getImages().get(1), iv_img10);
+            } else {
+                ImageUtils.displayFilletRightTopImage("drawable://" + R.drawable.test_color, iv_img10);
+            }
+            if (imageDetailBean.getRelated_albums().size() > 2 &&
+                    null != imageDetailBean.getRelated_albums().get(2).getData_info() &&
+                    null != imageDetailBean.getRelated_albums().get(2).getData_info().getImages() &&
+                    imageDetailBean.getRelated_albums().get(2).getData_info().getImages().size() > 2) {
+                ImageUtils.displayFilletLeftBottomImage(imageDetailBean.getRelated_albums().get(2).getData_info().getImages().get(2), iv_img11);
+            } else {
+                ImageUtils.displayFilletLeftBottomImage("drawable://" + R.drawable.test_color, iv_img11);
+            }
+            if (imageDetailBean.getRelated_albums().size() > 2 &&
+                    null != imageDetailBean.getRelated_albums().get(2).getData_info() &&
+                    null != imageDetailBean.getRelated_albums().get(2).getData_info().getImages() &&
+                    imageDetailBean.getRelated_albums().get(2).getData_info().getImages().size() > 3) {
+                ImageUtils.displayFilletRightBottomImage(imageDetailBean.getRelated_albums().get(2).getData_info().getImages().get(3), iv_img12);
+            } else {
+                ImageUtils.displayFilletRightBottomImage("drawable://" + R.drawable.test_color, iv_img12);
+            }
 
         } else {
-            ImageUtils.displayFilletLeftTopImage("drawable://"+R.drawable.test_color, iv_img1);
-            ImageUtils.displayFilletRightTopImage("drawable://"+R.drawable.test_color, iv_img2);
-            ImageUtils.displayFilletLeftBottomImage("drawable://"+R.drawable.test_color, iv_img3);
-            ImageUtils.displayFilletRightBottomImage("drawable://"+R.drawable.test_color, iv_img4);
-            ImageUtils.displayFilletLeftTopImage("drawable://"+R.drawable.test_color, iv_img5);
-            ImageUtils.displayFilletRightTopImage("drawable://"+R.drawable.test_color, iv_img6);
-            ImageUtils.displayFilletLeftBottomImage("drawable://"+R.drawable.test_color, iv_img7);
-            ImageUtils.displayFilletRightBottomImage("drawable://"+R.drawable.test_color, iv_img8);
-            ImageUtils.displayFilletLeftTopImage("drawable://"+R.drawable.test_color, iv_img9);
-            ImageUtils.displayFilletRightTopImage("drawable://"+R.drawable.test_color, iv_img10);
-            ImageUtils.displayFilletLeftBottomImage("drawable://"+R.drawable.test_color, iv_img11);
-            ImageUtils.displayFilletRightBottomImage("drawable://"+R.drawable.test_color, iv_img12);
+            ImageUtils.displayFilletLeftTopImage("drawable://" + R.drawable.test_color, iv_img1);
+            ImageUtils.displayFilletRightTopImage("drawable://" + R.drawable.test_color, iv_img2);
+            ImageUtils.displayFilletLeftBottomImage("drawable://" + R.drawable.test_color, iv_img3);
+            ImageUtils.displayFilletRightBottomImage("drawable://" + R.drawable.test_color, iv_img4);
+            ImageUtils.displayFilletLeftTopImage("drawable://" + R.drawable.test_color, iv_img5);
+            ImageUtils.displayFilletRightTopImage("drawable://" + R.drawable.test_color, iv_img6);
+            ImageUtils.displayFilletLeftBottomImage("drawable://" + R.drawable.test_color, iv_img7);
+            ImageUtils.displayFilletRightBottomImage("drawable://" + R.drawable.test_color, iv_img8);
+            ImageUtils.displayFilletLeftTopImage("drawable://" + R.drawable.test_color, iv_img9);
+            ImageUtils.displayFilletRightTopImage("drawable://" + R.drawable.test_color, iv_img10);
+            ImageUtils.displayFilletLeftBottomImage("drawable://" + R.drawable.test_color, iv_img11);
+            ImageUtils.displayFilletRightBottomImage("drawable://" + R.drawable.test_color, iv_img12);
         }
 
 
