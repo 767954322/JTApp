@@ -18,46 +18,6 @@
         app:refreshEnabled="false"
         app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
 
-    <RelativeLayout
-        android:id="@+id/et_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/white"
-        android:visibility="gone">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_alignParentTop="true"
-            android:background="@color/view_line" />
-
-        <com.homechart.app.myview.ClearEditText
-            android:id="@+id/cet_clearedit"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/font_35"
-            android:layout_marginBottom="@dimen/font_8"
-            android:layout_marginLeft="@dimen/font_10"
-            android:layout_marginRight="@dimen/font_10"
-            android:layout_marginTop="@dimen/font_8"
-            android:layout_toLeftOf="@+id/tv_quxiao"
-            android:background="@drawable/bg_huifu"
-            android:drawableLeft="@drawable/xie"
-            android:drawablePadding="@dimen/font_10"
-            android:gravity="center_vertical"
-            android:hint="评论"
-            android:imeOptions="actionSend"
-            android:maxLength="300"
-            android:paddingLeft="@dimen/font_10"
-            android:singleLine="true"
-            android:textColorHint="@color/bg_8f8f8f"
-            android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="@dimen/size_14" />
-
-
-    </RelativeLayout>
-
-
     <ImageView
         android:id="@+id/bt_shiwu"
         android:layout_width="wrap_content"
@@ -198,7 +158,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_50"
         android:layout_alignParentBottom="true"
-        android:visibility="gone"
         android:background="@color/bg_80000000"
-        android:clickable="true" />
+        android:clickable="true"
+        android:visibility="gone" />
 </com.homechart.app.myview.ResizeRelativeLayout>

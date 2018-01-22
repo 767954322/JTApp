@@ -65,6 +65,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -537,8 +538,13 @@ public class HomeActivity
                             shouPop(download_url);
                         } else {
                             if (!TextUtils.isEmpty(photo_id)) {
-                                Intent intent = new Intent(HomeActivity.this, ImageDetailLongActivity.class);
+                                List<String> item_id_list = new ArrayList<>();
+                                item_id_list.add(photo_id);
+                                Intent intent = new Intent(HomeActivity.this, ImageDetailScrollActivity.class);
                                 intent.putExtra("item_id", photo_id);
+                                intent.putExtra("type", "single");
+                                intent.putExtra("position", 0);
+                                intent.putExtra("item_id_list", (Serializable) item_id_list);
                                 startActivity(intent);
                             } else if (!TextUtils.isEmpty(activity_id)) {
                                 Intent intent = new Intent(HomeActivity.this, NewHuoDongDetailsActivity.class);

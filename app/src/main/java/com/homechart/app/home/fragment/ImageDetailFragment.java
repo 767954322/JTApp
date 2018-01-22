@@ -246,7 +246,7 @@ public class ImageDetailFragment
 
     @Override
     protected void lazyLoad() {
-        mifShowColorList = ((ImageDetailScrollActivity) activity).ifShowColorList;
+//        mifShowColorList = ((ImageDetailScrollActivity) activity).ifShowColorList;
         if (userInfo != null) {
             userInfo.getUserInfo(imageDetailBean);
         }

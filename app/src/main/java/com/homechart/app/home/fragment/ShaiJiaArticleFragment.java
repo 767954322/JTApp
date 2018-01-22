@@ -19,18 +19,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.google.android.gms.analytics.HitBuilders;
-import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.activity.ArticleDetailsActivity;
-import com.homechart.app.home.activity.ImageDetailLongActivity;
-import com.homechart.app.home.activity.ShaiJiaListActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.searchartile.ArticleBean;
 import com.homechart.app.home.bean.searchartile.ArticleListBean;
-import com.homechart.app.home.bean.shoucang.ShouCangBean;
-import com.homechart.app.home.bean.shoucang.ShouCangItemBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
@@ -44,8 +38,6 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
-import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/rl_details_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_details_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white" />
+
+        <View
+            android:id="@+id/view_below_image"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@id/iv_details_image" />
+
+        <ImageView
+            android:id="@+id/bt_shiwu2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/iv_details_image"
+            android:layout_alignRight="@+id/iv_details_image"
+            android:layout_marginBottom="@dimen/font_15"
+            android:layout_marginRight="@dimen/font_10"
+            android:src="@drawable/tongkuan2"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/bt_shise2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/bt_shiwu2"
+            android:layout_marginRight="@dimen/font_10"
+            android:layout_toLeftOf="@+id/bt_shiwu2"
+            android:src="@drawable/secai2"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <com.homechart.app.myview.ShangshabanChangeTextSpaceView
+        android:id="@+id/tv_details_tital"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_details_image"
+        android:layout_marginLeft="@dimen/font_10"
+        android:layout_marginRight="@dimen/font_10"
+        android:layout_marginTop="@dimen/font_15"
+        android:background="@color/white"
+        android:lineSpacingExtra="@dimen/font_9"
+        android:textColor="@color/bg_262626"
+        android:textIsSelectable="true"
+        android:textSize="@dimen/size_14" />
+
+    <com.homechart.app.myview.FlowLayoutBiaoQian
+        android:id="@+id/fl_tags_jubu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_details_tital"
+        android:layout_marginTop="@dimen/font_13"
+        android:background="@color/white" />
+
+    <RelativeLayout
+        android:id="@+id/rl_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fl_tags_jubu"
+        android:layout_marginBottom="@dimen/font_10">
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/riv_people_header"
+            android:layout_width="@dimen/font_20"
+            android:layout_height="@dimen/font_20"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_10" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/font_6"
+            android:layout_toRightOf="@+id/riv_people_header">
+
+            <TextView
+                android:id="@+id/tv_people_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="top"
+                android:textColor="@color/bg_262626"
+                android:textSize="@dimen/size_14" />
+
+
+            <ImageView
+                android:id="@+id/iv_people_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/font_10"
+                android:layout_toRightOf="@+id/tv_people_name"
+                android:src="@drawable/fensi"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_details_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/font_10"
+            android:layout_marginRight="@dimen/font_10"
+            android:background="@color/white"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/font_12" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_time"
+        android:background="@color/bg_f2f2f2">
+
+        <TextView
+            android:id="@+id/tv_maybe_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/font_20"
+            android:layout_marginLeft="@dimen/font_10"
+            android:layout_marginTop="@dimen/font_20"
+            android:text="你可能还喜欢"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_14" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

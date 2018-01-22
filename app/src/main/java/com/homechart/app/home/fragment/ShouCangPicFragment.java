@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
-import com.homechart.app.home.activity.ImageDetailLongActivity;
+import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.shoucang.ShouCangBean;
 import com.homechart.app.home.bean.shoucang.ShouCangItemBean;
@@ -41,6 +41,7 @@ import com.homechart.app.utils.volley.OkStringRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -259,10 +260,14 @@ public class ShouCangPicFragment
 
     //查看图片详情
     private void jumpImageDetail(String item_id) {
-        Intent intent = new Intent(activity, ImageDetailLongActivity.class);
+        List<String> item_id_list = new ArrayList<>();
+        item_id_list.add(item_id);
+        Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
         intent.putExtra("item_id", item_id);
+        intent.putExtra("type", "single");
+        intent.putExtra("position", 0);
+        intent.putExtra("item_id_list", (Serializable) item_id_list);
         startActivity(intent);
-
     }
 
     public void clickRightGuanLi() {

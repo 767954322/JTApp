@@ -22,15 +22,11 @@ import com.android.volley.VolleyError;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
-import com.homechart.app.home.activity.ImageDetailLongActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.dingyue.DingYueBean;
 import com.homechart.app.home.bean.dingyue.DingYueItemBean;
-import com.homechart.app.home.bean.shoucang.ShouCangBean;
-import com.homechart.app.home.bean.shoucang.ShouCangItemBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
-import com.homechart.app.lingganji.ui.activity.MyLingGanlistActivity;
 import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
@@ -278,15 +274,6 @@ public class DingYueFragment
         tv_shoucang_two.setText(map_delete.size() + "");
         Log.d("test", "个数：" + map_delete.size());
         Log.d("test", "数据：" + map_delete.toString());
-    }
-
-
-    //查看图片详情
-    private void jumpImageDetail(String item_id) {
-        Intent intent = new Intent(activity, ImageDetailLongActivity.class);
-        intent.putExtra("item_id", item_id);
-        startActivity(intent);
-
     }
 
     public void clickRightGuanLi() {

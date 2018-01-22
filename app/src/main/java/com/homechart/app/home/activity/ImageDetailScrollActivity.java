@@ -4,22 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-import com.homechart.app.MyApplication;
-import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.cailike.ImageLikeItemBean;
@@ -28,11 +21,9 @@ import com.homechart.app.home.bean.color.ColorItemBean;
 import com.homechart.app.home.bean.imagedetail.ImageDetailBean;
 import com.homechart.app.home.bean.search.SearchDataBean;
 import com.homechart.app.home.bean.searchfservice.TypeNewBean;
-import com.homechart.app.home.fragment.ImageDetailFragment;
-import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.home.fragment.ImageDetaiScrollFragment;
 import com.homechart.app.myview.CustomViewPager;
 import com.homechart.app.myview.HomeSharedPopWinPublic;
-import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
@@ -49,10 +40,15 @@ import com.umeng.socialize.media.UMWeb;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.android.volley.VolleyError;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.homechart.app.MyApplication;
+import com.homechart.app.R;
 
 /**
  * Created by gumenghao on 17/6/26.
@@ -61,8 +57,7 @@ import java.util.Map;
 public class ImageDetailScrollActivity
         extends BaseActivity
         implements View.OnClickListener,
-        ImageDetailFragment.UserInfo,
-        HomeSharedPopWinPublic.ClickInter {
+        ImageDetaiScrollFragment.UserInfo {
     private String item_id;
     private String mUserId;
     private ImageButton nav_left_imageButton;
@@ -89,7 +84,6 @@ public class ImageDetailScrollActivity
     private String like_maybe_id = "";
     private int like_maybe_page_num = 2;
     private boolean if_click_color;
-    public boolean ifShowColorList = true;
     private TypeNewBean typeNewBean;
     private RelativeLayout rl_back_unclick;
 
@@ -108,11 +102,6 @@ public class ImageDetailScrollActivity
         mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
         if_click_color = getIntent().getBooleanExtra("if_click_color", false);
 
-        if (if_click_color) {
-            ifShowColorList = true;
-        } else {
-            ifShowColorList = false;
-        }
     }
 
     @Override
@@ -124,8 +113,6 @@ public class ImageDetailScrollActivity
         tv_content_right = (TextView) findViewById(R.id.tv_content_right);
         nav_secondary_imageButton = (ImageButton) findViewById(R.id.nav_secondary_imageButton);
         mViewPager = (CustomViewPager) findViewById(R.id.vp_viewpager);
-        homeSharedPopWinPublic = new HomeSharedPopWinPublic(ImageDetailScrollActivity.this, ImageDetailScrollActivity.this);
-
     }
 
     int before_position = 0;
@@ -173,8 +160,6 @@ public class ImageDetailScrollActivity
                     }
                 }
 
-
-                ifShowColorList = false;
                 if (mItemIdList.size() >= position && (mItemIdList.size() - position) < 4 && !more_loding) {
                     if (!TextUtils.isEmpty(type) && (type.equals("筛选") || type.equals("色彩"))) {
                         getMoreShaiXuan();
@@ -219,7 +204,7 @@ public class ImageDetailScrollActivity
                 shaixuan_tag = getIntent().getStringExtra("shaixuan_tag");
                 shuaixuan_page_num = getIntent().getIntExtra("page_num", 2);
 //                if (mItemIdList.size() == 20 * (shuaixuan_page_num - 1)) {
-                    getMoreShaiXuan();
+                getMoreShaiXuan();
 //                }
             }
         }
@@ -283,198 +268,26 @@ public class ImageDetailScrollActivity
         MobclickAgent.onPause(this);
     }
 
-    //分享
-    @Override
-    public void onClickWeiXin() {
-
-        sharedItemOpen(SHARE_MEDIA.WEIXIN);
-    }
-
-    //分享
-    @Override
-    public void onClickPYQ() {
-
-        sharedItemOpen(SHARE_MEDIA.WEIXIN_CIRCLE);
-    }
-
-    //分享
-    @Override
-    public void onClickWeiBo() {
-
-        sharedItemOpen(SHARE_MEDIA.SINA);
-    }
-
-    @Override
-    public void onClickQQ() {
-
-        sharedItemOpen(SHARE_MEDIA.QQ);
-    }
-
-    //分享
-    private void sharedItemOpen(SHARE_MEDIA share_media) {
-
-        if (share_media == SHARE_MEDIA.WEIXIN) {
-            //友盟统计
-            HashMap<String, String> map1 = new HashMap<String, String>();
-            map1.put("evenname", "分享图片");
-            if (wei == 0) {
-                map1.put("even", "图片详情+上+微信好友");
-            } else {
-                map1.put("even", "图片详情+下+微信好友");
-            }
-            MobclickAgent.onEvent(ImageDetailScrollActivity.this, "jtaction7", map1);
-            //ga统计
-            if (wei == 0) {
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("图片详情+上+微信好友")  //事件类别
-                        .setAction("分享图片")      //事件操作
-                        .build());
-            } else {
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("图片详情+下+微信好友")  //事件类别
-                        .setAction("分享图片")      //事件操作
-                        .build());
-            }
-
-
-        } else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
-            //友盟统计
-            HashMap<String, String> map1 = new HashMap<String, String>();
-            map1.put("evenname", "分享图片");
-            if (wei == 0) {
-                map1.put("even", "图片详情+上+微信朋友圈");
-            } else {
-                map1.put("even", "图片详情+下+微信朋友圈");
-            }
-            MobclickAgent.onEvent(ImageDetailScrollActivity.this, "jtaction7", map1);
-            //ga统计
-            if (wei == 0) {
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("图片详情+上+微信朋友圈")  //事件类别
-                        .setAction("分享图片")      //事件操作
-                        .build());
-            } else {
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("图片详情+下+微信朋友圈")  //事件类别
-                        .setAction("分享图片")      //事件操作
-                        .build());
-            }
-        } else if (share_media == SHARE_MEDIA.SINA) {
-            //友盟统计
-            HashMap<String, String> map1 = new HashMap<String, String>();
-            map1.put("evenname", "分享图片");
-            if (wei == 0) {
-                map1.put("even", "图片详情+上+新浪微博");
-            } else {
-                map1.put("even", "图片详情+下+新浪微博");
-            }
-            MobclickAgent.onEvent(ImageDetailScrollActivity.this, "jtaction7", map1);
-            //ga统计
-            if (wei == 0) {
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("图片详情+上+新浪微博")  //事件类别
-                        .setAction("分享图片")      //事件操作
-                        .build());
-            } else {
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("图片详情+下+新浪微博")  //事件类别
-                        .setAction("分享图片")      //事件操作
-                        .build());
-            }
-        } else if (share_media == SHARE_MEDIA.QQ) {
-            //友盟统计
-            HashMap<String, String> map1 = new HashMap<String, String>();
-            map1.put("evenname", "分享图片");
-            if (wei == 0) {
-                map1.put("even", "图片详情+上+QQ");
-            } else {
-                map1.put("even", "图片详情+下+QQ");
-            }
-            MobclickAgent.onEvent(ImageDetailScrollActivity.this, "jtaction7", map1);
-            //ga统计
-            if (wei == 0) {
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("图片详情+上+QQ")  //事件类别
-                        .setAction("分享图片")      //事件操作
-                        .build());
-            } else {
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("图片详情+下+QQ")  //事件类别
-                        .setAction("分享图片")      //事件操作
-                        .build());
-            }
-        }
-        UMImage image = new UMImage(ImageDetailScrollActivity.this, mImageDetailBean.getItem_info().getImage().getImg0());
-        image.compressStyle = UMImage.CompressStyle.SCALE;//大小压缩，默认为大小压缩，适合普通很大的图
-        UMWeb web = new UMWeb("http://h5.idcool.com.cn/photo/" + mImageDetailBean.getItem_info().getItem_id());
-        web.setTitle("「" + mImageDetailBean.getUser_info().getNickname() + "」在晒家｜家图APP");//标题
-        web.setThumb(image);  //缩略图
-        String desi = mImageDetailBean.getItem_info().getDescription() + mImageDetailBean.getItem_info().getTag();
-        if (desi.length() > 160) {
-            desi = desi.substring(0, 160) + "...";
-        }
-        web.setDescription(desi);//描述
-        new ShareAction(ImageDetailScrollActivity.this).
-                setPlatform(share_media).
-                withMedia(web).
-                setCallback(umShareListener).share();
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
-    //分享
-    private UMShareListener umShareListener = new UMShareListener() {
-        @Override
-        public void onStart(SHARE_MEDIA platform) {
-            //分享开始的回调
-        }
-
-        @Override
-        public void onResult(SHARE_MEDIA platform) {
-            if (platform == SHARE_MEDIA.WEIXIN) {
-                ToastUtils.showCenter(ImageDetailScrollActivity.this, "微信好友分享成功啦");
-            } else if (platform == SHARE_MEDIA.WEIXIN_CIRCLE) {
-                ToastUtils.showCenter(ImageDetailScrollActivity.this, "微信朋友圈分享成功啦");
-            } else if (platform == SHARE_MEDIA.SINA) {
-                ToastUtils.showCenter(ImageDetailScrollActivity.this, "新浪微博分享成功啦");
-            } else if (platform == SHARE_MEDIA.QQ) {
-                ToastUtils.showCenter(ImageDetailScrollActivity.this, "QQ分享成功啦");
-            }
-
-        }
-
-        @Override
-        public void onError(SHARE_MEDIA platform, Throwable t) {
-            ToastUtils.showCenter(ImageDetailScrollActivity.this, "分享失败啦");
-        }
-
-        @Override
-        public void onCancel(SHARE_MEDIA platform) {
-            ToastUtils.showCenter(ImageDetailScrollActivity.this, "分享取消了");
-        }
-    };
-
     //回调
     @Override
     public void getUserInfo(ImageDetailBean imageDetailBean) {
 
         this.mImageDetailBean = imageDetailBean;
-        if (null != imageDetailBean && null != imageDetailBean.getUser_info() && null != imageDetailBean.getUser_info().getUser_id() && !TextUtils.isEmpty(mUserId)) {
-            if (!imageDetailBean.getUser_info().getUser_id().trim().equals(mUserId.trim())) {
-                nav_secondary_imageButton.setVisibility(View.VISIBLE);
-                tv_content_right.setVisibility(View.GONE);
-                nav_secondary_imageButton.setImageResource(R.drawable.shared_icon);
-            } else {
-                tv_content_right.setVisibility(View.VISIBLE);
-                nav_secondary_imageButton.setVisibility(View.GONE);
-                tv_content_right.setText("编辑");
-            }
+        if (!TextUtils.isEmpty(mUserId) && null != imageDetailBean && null != imageDetailBean.getUser_info() && null != imageDetailBean.getUser_info().getUser_id()) {
+            tv_content_right.setVisibility(View.VISIBLE);
+            nav_secondary_imageButton.setVisibility(View.GONE);
+            tv_content_right.setText("编辑");
+        } else {
+            nav_secondary_imageButton.setVisibility(View.VISIBLE);
+            tv_content_right.setVisibility(View.GONE);
+            nav_secondary_imageButton.setImageResource(R.drawable.shared_icon);
         }
-
     }
 
     //获取更多筛选图片
@@ -558,7 +371,7 @@ public class ImageDetailScrollActivity
 
         @Override
         public Fragment getItem(int position) {
-            return new ImageDetailFragment(mItemIdList.get(position), ImageDetailScrollActivity.this);
+            return new ImageDetaiScrollFragment(mItemIdList.get(position), ImageDetailScrollActivity.this);
         }
 
         @Override

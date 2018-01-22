@@ -30,34 +30,14 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
-import com.homechart.app.home.activity.ArticleDetailsActivity;
-import com.homechart.app.home.activity.HuoDongDetailsActivity;
-import com.homechart.app.home.activity.ImageDetailLongActivity;
 import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.LoginActivity;
-import com.homechart.app.home.activity.MessagesListActivity;
-import com.homechart.app.home.activity.SearchActivity;
-import com.homechart.app.home.activity.SearchResultActivity;
-import com.homechart.app.home.activity.ShaiXuanResultActicity;
 import com.homechart.app.home.activity.UserInfoActivity;
-import com.homechart.app.home.adapter.HomeTagAdapter;
 import com.homechart.app.home.base.BaseFragment;
-import com.homechart.app.home.bean.pictag.TagDataBean;
 import com.homechart.app.home.bean.search.SearchDataBean;
-import com.homechart.app.home.bean.search.SearchDataColorBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
-import com.homechart.app.home.bean.shouye.DataBean;
-import com.homechart.app.home.bean.shouye.SYActivityBean;
-import com.homechart.app.home.bean.shouye.SYActivityInfoBean;
-import com.homechart.app.home.bean.shouye.SYDataBean;
-import com.homechart.app.home.bean.shouye.SYDataColorBean;
-import com.homechart.app.home.bean.shouye.SYDataObjectBean;
-import com.homechart.app.home.bean.shouye.SYDataObjectImgBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
-import com.homechart.app.myview.ClearEditText;
-import com.homechart.app.myview.HomeTabPopWin;
-import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
@@ -307,13 +287,6 @@ public class SearchPicFragment
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
         mRecyclerView.setAdapter(mAdapter);
         onRefresh();
-    }
-
-    public void clickColorQiu(String item_id) {
-        Intent intent = new Intent(activity, ImageDetailLongActivity.class);
-        intent.putExtra("item_id", item_id);
-        intent.putExtra("if_click_color", true);
-        startActivity(intent);
     }
 
     @Override

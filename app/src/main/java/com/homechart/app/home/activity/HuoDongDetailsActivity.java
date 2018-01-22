@@ -68,6 +68,7 @@ import com.umeng.socialize.media.UMWeb;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -417,8 +418,13 @@ public class HuoDongDetailsActivity
                     @Override
                     public void onClick(View v) {
                         //查看单图详情
-                        Intent intent = new Intent(HuoDongDetailsActivity.this, ImageDetailLongActivity.class);
+                        List<String> item_id_list = new ArrayList<>();
+                        item_id_list.add(mListData.get(position).getItem_info().getItem_id());
+                        Intent intent = new Intent(HuoDongDetailsActivity.this, ImageDetailScrollActivity.class);
                         intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+                        intent.putExtra("type", "single");
+                        intent.putExtra("position", 0);
+                        intent.putExtra("item_id_list", (Serializable) item_id_list);
                         startActivity(intent);
                     }
                 });
@@ -455,26 +461,6 @@ public class HuoDongDetailsActivity
                     holder.getView(R.id.iv_color_left).setVisibility(View.GONE);
                     holder.getView(R.id.iv_color_center).setVisibility(View.GONE);
                 }
-                holder.getView(R.id.iv_color_right).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        clickColorQiu(mListData.get(position).getItem_info().getItem_id());
-                    }
-                });
-                holder.getView(R.id.iv_color_left).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        clickColorQiu(mListData.get(position).getItem_info().getItem_id());
-                    }
-                });
-                holder.getView(R.id.iv_color_center).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        clickColorQiu(mListData.get(position).getItem_info().getItem_id());
-                    }
-                });
             }
         };
 
@@ -487,14 +473,6 @@ public class HuoDongDetailsActivity
         mRecyclerView.setAdapter(mAdapter);
         getListData();
     }
-
-    public void clickColorQiu(String item_id) {
-        Intent intent = new Intent(HuoDongDetailsActivity.this, ImageDetailLongActivity.class);
-        intent.putExtra("item_id", item_id);
-        intent.putExtra("if_click_color", true);
-        startActivity(intent);
-    }
-
     //获取活动详情信息
     private void getHuoDongData() {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {

@@ -56,6 +56,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -228,7 +229,7 @@ public class UserInfoActivity
             public void convert(BaseViewHolder holder, final int position) {
 
                 RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.getView(R.id.iv_item_pic).getLayoutParams();
-                layoutParams.height = (int) (widthImage/mListDataImage.get(position).getItem_info().getImage().getRatio());
+                layoutParams.height = (int) (widthImage / mListDataImage.get(position).getItem_info().getImage().getRatio());
                 layoutParams.width = widthImage;
                 layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
                 holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
@@ -236,8 +237,13 @@ public class UserInfoActivity
                 holder.getView(R.id.iv_item_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(UserInfoActivity.this,ImageDetailLongActivity.class);
+                        List<String> item_id_list = new ArrayList<>();
+                        item_id_list.add(mListDataImage.get(position).getItem_info().getItem_id());
+                        Intent intent = new Intent(UserInfoActivity.this, ImageDetailScrollActivity.class);
                         intent.putExtra("item_id", mListDataImage.get(position).getItem_info().getItem_id());
+                        intent.putExtra("type", "single");
+                        intent.putExtra("position", 0);
+                        intent.putExtra("item_id_list", (Serializable) item_id_list);
                         startActivity(intent);
 
                     }

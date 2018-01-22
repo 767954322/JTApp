@@ -8,19 +8,15 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,7 +32,7 @@ import com.homechart.app.commont.contract.InterDioalod;
 import com.homechart.app.commont.contract.InterDioalod1;
 import com.homechart.app.commont.utils.MyDialog;
 import com.homechart.app.commont.utils.MyDialog1;
-import com.homechart.app.home.activity.ImageDetailLongActivity;
+import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.base.BaseActivity;
@@ -74,6 +70,7 @@ import com.umeng.socialize.media.UMWeb;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -608,8 +605,13 @@ public class InspirationDetailActivity extends BaseActivity
                 holder.getView(R.id.iv_item_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(InspirationDetailActivity.this, ImageDetailLongActivity.class);
+                        List<String> item_id_list = new ArrayList<>();
+                        item_id_list.add(mListData.get(position).getItem_info().getItem_id());
+                        Intent intent = new Intent(InspirationDetailActivity.this, ImageDetailScrollActivity.class);
                         intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+                        intent.putExtra("type", "single");
+                        intent.putExtra("position", 0);
+                        intent.putExtra("item_id_list", (Serializable) item_id_list);
                         startActivity(intent);
                     }
                 });

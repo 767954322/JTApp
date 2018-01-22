@@ -13,8 +13,6 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
-import com.homechart.app.home.activity.ArticleDetailsActivity;
-import com.homechart.app.home.activity.ImageDetailLongActivity;
 import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.base.LazyLoadFragment;
 import com.homechart.app.home.bean.msgguanzhu.MsgGZBean;
