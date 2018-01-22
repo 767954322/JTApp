@@ -67,18 +67,6 @@
             android:src="@drawable/gengduo"
             android:visibility="gone" />
 
-
-        <ImageButton
-            android:id="@+id/nav_secondary_imageButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/transparent"
-            android:padding="@dimen/size_8"
-            android:scaleType="centerInside" />
-
         <TextView
             android:id="@+id/tv_tital_comment"
             android:layout_width="wrap_content"

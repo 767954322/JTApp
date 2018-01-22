@@ -66,8 +66,6 @@ public class ImageDetailScrollActivity
     private List<String> mItemIdList;
     private CustomViewPager mViewPager;
     private MyImagePageAdater mAdapter;
-    private TextView tv_content_right;
-    private ImageButton nav_secondary_imageButton;
     private ImageDetailBean mImageDetailBean;
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
     private String type;
@@ -88,6 +86,7 @@ public class ImageDetailScrollActivity
     private RelativeLayout rl_back_unclick;
     private ImageButton iv_edit_image;
     private ImageButton iv_shared_image;
+    private ImageButton iv_more_image;
 
     @Override
     protected int getLayoutResId() {
@@ -112,6 +111,7 @@ public class ImageDetailScrollActivity
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
         iv_edit_image = (ImageButton) findViewById(R.id.iv_edit_image);
         iv_shared_image = (ImageButton) findViewById(R.id.iv_shared_image);
+        iv_more_image = (ImageButton) findViewById(R.id.iv_more_image);
         mViewPager = (CustomViewPager) findViewById(R.id.vp_viewpager);
     }
 
@@ -284,9 +284,11 @@ public class ImageDetailScrollActivity
                 && imageDetailBean.getUser_info().getUser_id().equals(mUserId)) {
             iv_edit_image.setVisibility(View.VISIBLE);
             iv_shared_image.setVisibility(View.VISIBLE);
+            iv_more_image.setVisibility(View.VISIBLE);
         } else {
             iv_edit_image.setVisibility(View.GONE);
             iv_shared_image.setVisibility(View.VISIBLE);
+            iv_more_image.setVisibility(View.VISIBLE);
         }
     }
 
