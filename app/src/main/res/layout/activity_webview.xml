@@ -8,10 +8,21 @@
         android:id="@+id/common_navbar"
         layout="@layout/view_navigation_header" />
 
+    <ProgressBar
+        android:id="@+id/pb_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:layout_below="@+id/common_navbar"
+        android:indeterminateOnly="false"
+        android:visibility="gone"
+        android:max="100"
+        android:progressDrawable="@drawable/progress_bar_states"/>
+
     <WebView
         android:id="@+id/wb_webview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/common_navbar"
+        android:layout_below="@+id/pb_progress"
         android:layerType="hardware" />
 </RelativeLayout>

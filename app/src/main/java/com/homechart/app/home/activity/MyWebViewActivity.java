@@ -12,6 +12,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.homechart.app.R;
@@ -31,6 +32,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
     private WebView mWeb;
     private ImageButton nav_left_imageButton;
     private TextView tv_tital_comment;
+    private ProgressBar pb_progress;
 
     @Override
     protected int getLayoutResId() {
@@ -49,6 +51,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
         mWeb = (WebView) findViewById(R.id.wb_webview);
         nav_left_imageButton = (ImageButton) findViewById(R.id.nav_left_imageButton);
         tv_tital_comment = (TextView) findViewById(R.id.tv_tital_comment);
+        pb_progress = (ProgressBar) findViewById(R.id.pb_progress);
     }
 
     @Override
@@ -59,6 +62,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        tv_tital_comment.setText("采集详情");
         initWebView();
         mWeb.loadUrl(weburl);
     }
@@ -81,6 +85,18 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
                                     @Override
                                     public void onReceivedTitle(WebView view, String title) {
                                         super.onReceivedTitle(view, title);
+                                    }
+
+                                    @Override
+                                    public void onProgressChanged(WebView view, int newProgress) {
+                                        super.onProgressChanged(view, newProgress);
+                                        if (newProgress == 100) {
+                                            // 网页加载完成
+                                            pb_progress.setVisibility(View.GONE);
+                                        } else {
+                                            // 加载中
+                                            pb_progress.setProgress(newProgress);
+                                        }
                                     }
                                 }
         );
