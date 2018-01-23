@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressLint("ValidFragment")
-public class DingYueFragment
+public class OtherLingGuanLiFragment
         extends BaseFragment
         implements View.OnClickListener,
         CommonAdapter.OnItemClickListener,
@@ -78,14 +78,14 @@ public class DingYueFragment
     private LoadMoreFooterView mLoadMoreFooterView;
     private int widthPic;
 
-    public DingYueFragment() {
+    public OtherLingGuanLiFragment() {
     }
 
-    public DingYueFragment(FragmentManager fragmentManager) {
+    public OtherLingGuanLiFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
 
-    public DingYueFragment(String user_id, ChangeUI changeUI) {
+    public OtherLingGuanLiFragment(String user_id, ChangeUI changeUI) {
 
         this.user_id = user_id;
         this.mChangeUI = changeUI;
@@ -94,7 +94,7 @@ public class DingYueFragment
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_dingyue;
+        return R.layout.fragment_other_lingganji;
     }
 
     @Override

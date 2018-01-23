@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -17,18 +16,13 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
-import com.homechart.app.home.activity.DingYueListActivity;
+import com.homechart.app.home.activity.LingGanCenterActivity;
 import com.homechart.app.home.activity.FenSiListActivity;
 import com.homechart.app.home.activity.GuanZuListActivity;
 import com.homechart.app.home.activity.HomeActivity;
-import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.MessagesListActivity;
 import com.homechart.app.home.activity.MyInfoActivity;
-import com.homechart.app.home.activity.SearchActivity;
 import com.homechart.app.home.activity.SetActivity;
-import com.homechart.app.home.activity.ShaiJiaListActivity;
-import com.homechart.app.home.activity.ShaiXuanResultActicity;
-import com.homechart.app.home.activity.ShouCangListActivity;
 import com.homechart.app.home.activity.YuGouQingDanActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
@@ -224,8 +218,9 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
 
                 break;
             case R.id.rl_shoucang:
-                Intent intent_shoucang = new Intent(activity, DingYueListActivity.class);
+                Intent intent_shoucang = new Intent(activity, LingGanCenterActivity.class);
                 startActivity(intent_shoucang);
+
 
                 break;
             case R.id.rl_shaijia:

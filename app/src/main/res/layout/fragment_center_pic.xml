@@ -46,8 +46,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:paddingRight="@dimen/font_21"
                         android:paddingLeft="@dimen/font_21"
+                        android:paddingRight="@dimen/font_21"
                         android:src="@drawable/ling" />
 
                 </RelativeLayout>
@@ -242,7 +242,7 @@
                             android:layout_below="@+id/tv_shoucang_num"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="@dimen/font_13"
-                            android:text="订阅" />
+                            android:text="灵感辑" />
 
                     </RelativeLayout>
 
@@ -268,7 +268,7 @@
                             android:layout_below="@+id/tv_shaijia_num"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="@dimen/font_13"
-                            android:text="灵感辑" />
+                            android:text="图片" />
 
                     </RelativeLayout>
                 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.homechart.app.home.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,39 +18,41 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.base.BaseActivity;
-import com.homechart.app.home.fragment.DingYueFragment;
-import com.homechart.app.home.fragment.ShouCangPicFragment;
+import com.homechart.app.home.fragment.OtherLingGuanLiFragment;
+import com.homechart.app.home.fragment.MyLingGuanLiFragment;
+import com.homechart.app.lingganji.ui.activity.InspirationCreateActivity;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by gumenghao on 17/6/7.
  */
 
-public class DingYueListActivity extends BaseActivity
+public class LingGanCenterActivity extends BaseActivity
         implements View.OnClickListener,
-        DingYueFragment.ChangeUI {
+        OtherLingGuanLiFragment.ChangeUI {
 
     private ImageButton mIBBack;
     private TextView mTVTital;
-    private final String[] mTitles = {"晒家"};
+    private final String[] mTitles = {"我的灵感辑", "收藏灵感辑"};
     private CustomViewPagerTab mViewPager;
-    private DingYueFragment dingYueFragment;
     //页卡标题集合
     private List<Fragment> mFragmentsList = new ArrayList<>();//页卡视图集合
     private TextView tv_content_right;
     private String user_id;
     private MyPagerAdapter mViewPagerAdapter;
     private boolean ifAllowScroll = true;
+    private MyLingGuanLiFragment myLingGuanLiFragment;
+    private OtherLingGuanLiFragment otherLingGuanLiFragment;
+    private SlidingTabLayout mTabLayout;
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.activity_dingyue_list;
+        return R.layout.activity_linggan_center;
     }
 
     @Override
@@ -60,18 +63,25 @@ public class DingYueListActivity extends BaseActivity
 
         mViewPager = (CustomViewPagerTab) findViewById(R.id.vp_view);
         mViewPager.setScanScroll(true);
+        mTabLayout = (SlidingTabLayout) findViewById(R.id.tly_slidingtablayout);
+        //设置下划线的高度
+        mTabLayout.setIndicatorHeight(4f);
+        mTabLayout.setIndicatorWidth(70f);
+        //设置tab的字体大小
+        mTabLayout.setTextsize(14f);
         initFragment();
-
         mViewPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mViewPagerAdapter);
-
+        mTabLayout.setViewPager(mViewPager);
         //初始位置
         mViewPager.setCurrentItem(0);
     }
 
     private void initFragment() {
-        dingYueFragment = new DingYueFragment(user_id, this);
-        mFragmentsList.add(dingYueFragment);
+        myLingGuanLiFragment = new MyLingGuanLiFragment(user_id);
+        otherLingGuanLiFragment = new OtherLingGuanLiFragment(user_id, this);
+        mFragmentsList.add(myLingGuanLiFragment);
+        mFragmentsList.add(otherLingGuanLiFragment);
     }
 
     @Override
@@ -128,18 +138,10 @@ public class DingYueListActivity extends BaseActivity
 
             @Override
             public void onPageSelected(int position) {
-
-                if(position == 2){
-                    //友盟统计
-                    HashMap<String, String> map4 = new HashMap<String, String>();
-                    map4.put("evenname", "收藏商品查看");
-                    map4.put("even", "收藏商品查看");
-                    MobclickAgent.onEvent(DingYueListActivity.this, "shijian22", map4);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("收藏商品查看")  //事件类别
-                            .setAction("收藏商品查看")      //事件操作
-                            .build());
+                if (position == 0) {
+                    tv_content_right.setText("新建");
+                } else if (position == 1) {
+                    tv_content_right.setText("管理");
                 }
             }
 
@@ -152,37 +154,36 @@ public class DingYueListActivity extends BaseActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        mTVTital.setText("订阅");
-        tv_content_right.setText("管理");
+        mTVTital.setText("灵感辑");
+        tv_content_right.setText("新建");
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
-                DingYueListActivity.this.finish();
+                LingGanCenterActivity.this.finish();
                 break;
             case R.id.tv_content_right:
                 if (mViewPager.getCurrentItem() == 0) {
+                    Intent intent = new Intent(LingGanCenterActivity.this, InspirationCreateActivity.class);
+                    intent.putExtra("userid", user_id);
+                    startActivityForResult(intent, 1);
+                } else if (mViewPager.getCurrentItem() == 1) {
                     if (ifAllowScroll) {
-                        if (dingYueFragment.ifHasData()) {
+                        if (otherLingGuanLiFragment.ifHasData()) {
                             mViewPager.setScanScroll(false);
                             ifAllowScroll = false;
-                            dingYueFragment.clickRightGuanLi();
+                            otherLingGuanLiFragment.clickRightGuanLi();
                         } else {
-                            ToastUtils.showCenter(DingYueListActivity.this, "先去收藏一些图片吧");
+                            ToastUtils.showCenter(LingGanCenterActivity.this, "先去收藏一些灵感辑吧");
                         }
                     } else {
                         mViewPager.setScanScroll(true);
                         ifAllowScroll = true;
-                        dingYueFragment.clickRightGuanLi();
+                        otherLingGuanLiFragment.clickRightGuanLi();
                     }
-                } else if (mViewPager.getCurrentItem() == 1) {
-
-                } else if (mViewPager.getCurrentItem() == 2) {
-
                 }
-
                 break;
         }
     }
@@ -204,6 +205,18 @@ public class DingYueListActivity extends BaseActivity
         super.onPause();
         MobclickAgent.onPageEnd("订阅列表页");
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == 1) {
+            myLingGuanLiFragment.onRefresh();
+        } else if (requestCode == 2 && resultCode == 2) {
+            otherLingGuanLiFragment.onRefresh();
+        } else if (requestCode == 3) {
+            myLingGuanLiFragment.onRefresh();
+        }
     }
 
 }
