@@ -31,6 +31,7 @@ import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.ImageEditActvity;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.MyWebViewActivity;
+import com.homechart.app.home.activity.PingListActivity;
 import com.homechart.app.home.activity.ShaiXuanResultActicity;
 import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.adapter.MyColorGridAdapter;
@@ -92,7 +93,6 @@ public class ImageDetaiScrollFragment
         HomeSharedPopWinPublic.ClickInter,
         View.OnClickListener,
         OnLoadMoreListener {
-
 
     public ImageDetaiScrollFragment() {
 
@@ -188,6 +188,9 @@ public class ImageDetaiScrollFragment
             iv_img10 = (ImageView) view.findViewById(R.id.iv_img10);
             iv_img11 = (ImageView) view.findViewById(R.id.iv_img11);
             iv_img12 = (ImageView) view.findViewById(R.id.iv_img12);
+
+            tv_pinglun = (TextView) view.findViewById(R.id.tv_pinglun);
+            rl_pinglun = (RelativeLayout) view.findViewById(R.id.rl_pinglun);
         }
     }
 
@@ -203,6 +206,7 @@ public class ImageDetaiScrollFragment
         riv_people_header.setOnClickListener(this);
         iv_shared_image.setOnClickListener(this);
         tv_goto_shop.setOnClickListener(this);
+        rl_pinglun.setOnClickListener(this);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -361,6 +365,13 @@ public class ImageDetaiScrollFragment
                     intent.putExtra("weburl", imageDetailBean.getItem_info().getFrom_url());
                     startActivity(intent);
                 }
+                break;
+            case R.id.rl_pinglun:
+                Intent intent1 = new Intent(activity, PingListActivity.class);
+                intent1.putExtra("item_id", item_id);
+                intent1.putExtra("ifopen", "false");
+                intent1.putExtra("reply_id", "");
+                startActivityForResult(intent1, 2);
                 break;
         }
     }
@@ -691,6 +702,8 @@ public class ImageDetaiScrollFragment
     }
 
     private void changeUI(ImageDetailBean imageDetailBean) {
+        //评论
+        tv_pinglun.setText(imageDetailBean.getCounter().getComment_num() + "个评论");
         //商品价格
         if (imageDetailBean.getItem_info().getIs_product().equals("0")) {
             rl_shop_tital.setVisibility(View.GONE);
@@ -1000,6 +1013,8 @@ public class ImageDetaiScrollFragment
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             getImageDetail();
+        }else if (requestCode == 2){
+            getImageDetail();
         }
     }
 
@@ -1255,6 +1270,8 @@ public class ImageDetaiScrollFragment
     private ImageView iv_img12;
     private int width_Pic;
     private int width_Imgs;
+    private TextView tv_pinglun;
+    private RelativeLayout rl_pinglun;
 
     private int height_pic = 0;
     private boolean ifchange = false;
