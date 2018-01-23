@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_item_all"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/bg_e6e6e6" />
+
+    <RadioButton
+        android:id="@+id/rb_radio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:clickable="false"
+        android:layout_marginLeft="@dimen/font_23" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/font_19"
+        android:layout_toRightOf="@+id/rb_radio"
+        android:textColor="@color/black"
+        android:textSize="@dimen/size_14" />
+
+
+    <View
+        android:layout_width="@dimen/font_1"
+        android:layout_height="@dimen/font_50"
+        android:visibility="invisible"/>
+
+</RelativeLayout>

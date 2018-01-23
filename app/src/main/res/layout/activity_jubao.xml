@@ -97,6 +97,7 @@
         android:id="@+id/mlv_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:divider="@null"
         android:layout_below="@+id/tv_name" />
 
 

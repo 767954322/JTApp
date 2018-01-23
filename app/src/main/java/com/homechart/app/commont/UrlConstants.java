@@ -116,4 +116,7 @@ public class UrlConstants {
 
     public static final String IMAGE_USER = "https://api.idcool.com.cn/item/item/getListByUserId";  //获取一个用户的所有图片
 
+
+    public static final String JUBAO_LIST = "https://api.idcool.com.cn/report/report/getList";  //获取举报选项
+
 }
