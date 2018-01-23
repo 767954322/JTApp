@@ -1,17 +1,10 @@
 package com.homechart.app.home.activity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -23,7 +16,6 @@ import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.jubaobean.JuBaoBean;
 import com.homechart.app.home.bean.jubaobean.JuBaoItemBean;
 import com.homechart.app.myview.MyListView;
-import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
@@ -87,13 +79,6 @@ public class JuBaoActivity extends BaseActivity implements View.OnClickListener,
 
         myAdapter = new MyJuBaoAdapter(JuBaoActivity.this, mList, this);
         mlv_listview.setAdapter(myAdapter);
-        mlv_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                clickPosition = position;
-                myAdapter.notifyDataSetChanged();
-            }
-        });
         getJuBaoList();
     }
 
@@ -104,8 +89,40 @@ public class JuBaoActivity extends BaseActivity implements View.OnClickListener,
                 JuBaoActivity.this.finish();
                 break;
             case R.id.tv_content_right:
+                if (mList.size() > 0 && mList.size() > clickPosition) {
+                    jubao();
+                } else {
+                    ToastUtils.showCenter(JuBaoActivity.this, "加载数据中");
+                }
                 break;
         }
+    }
+
+    private void jubao() {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtils.showCenter(JuBaoActivity.this, "举报选项获取失败！");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        ToastUtils.showCenter(JuBaoActivity.this, "家图已经收到了您的举报，非常感谢!");
+                        JuBaoActivity.this.finish();
+                    } else {
+                        ToastUtils.showCenter(JuBaoActivity.this, "抱歉，您的举报没有发送成功，请稍后再试!");
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().juBaoImage(et_liyou.getText().toString().trim(), ClassConstant.JuBao.ITEM, item_id, mList.get(clickPosition).getReport_id() + "", callBack);
     }
 
     private void getJuBaoList() {
@@ -156,6 +173,7 @@ public class JuBaoActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void clickItem(int position) {
+        this.clickPosition = position;
         myAdapter.notifyDataSetChanged();
     }
 }
