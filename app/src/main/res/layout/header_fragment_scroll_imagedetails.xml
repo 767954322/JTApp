@@ -435,7 +435,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/font_7"
             android:layout_toRightOf="@+id/iv_pinglun"
-            android:text="2个评论"
             android:textColor="@color/bg_707070"
             android:textSize="@dimen/size_12" />
 

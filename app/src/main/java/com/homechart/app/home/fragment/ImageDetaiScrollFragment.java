@@ -29,6 +29,7 @@ import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.ImageEditActvity;
+import com.homechart.app.home.activity.JuBaoActivity;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.MyWebViewActivity;
 import com.homechart.app.home.activity.PingListActivity;
@@ -46,6 +47,7 @@ import com.homechart.app.imagedetail.ImageDetailsActivity;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
 import com.homechart.app.myview.FlowLayoutBiaoQian;
 import com.homechart.app.myview.HomeSharedPopWinPublic;
+import com.homechart.app.myview.JuBaoPopWin;
 import com.homechart.app.myview.MyListView;
 import com.homechart.app.myview.ResizeRelativeLayout;
 import com.homechart.app.myview.RoundImageView;
@@ -91,8 +93,10 @@ import java.util.List;
 public class ImageDetaiScrollFragment
         extends LazyLoadFragment implements
         HomeSharedPopWinPublic.ClickInter,
+        JuBaoPopWin.ClickInter,
         View.OnClickListener,
         OnLoadMoreListener {
+
 
     public ImageDetaiScrollFragment() {
 
@@ -135,6 +139,7 @@ public class ImageDetaiScrollFragment
         tv_tital_comment = (TextView) activity.findViewById(R.id.tv_tital_comment);
 
         homeSharedPopWinPublic = new HomeSharedPopWinPublic(activity, this);
+        juBaoPopWin = new JuBaoPopWin(activity, this);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_info);
         menu_layout = (ResizeRelativeLayout) rootView.findViewById(R.id.menu_layout);
         bt_shiwu = (ImageView) rootView.findViewById(R.id.bt_shiwu);
@@ -205,6 +210,7 @@ public class ImageDetaiScrollFragment
         iv_edit_image.setOnClickListener(this);
         riv_people_header.setOnClickListener(this);
         iv_shared_image.setOnClickListener(this);
+        iv_more_image.setOnClickListener(this);
         tv_goto_shop.setOnClickListener(this);
         rl_pinglun.setOnClickListener(this);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -351,6 +357,14 @@ public class ImageDetaiScrollFragment
             case R.id.iv_shared_image:
                 if (imageDetailBean != null) {
                     homeSharedPopWinPublic.showAtLocation(activity.findViewById(R.id.menu_layout),
+                            Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
+                            0,
+                            0); //设置layout在PopupWindow中显示的位置
+                }
+                break;
+            case R.id.iv_more_image:
+                if (imageDetailBean != null) {
+                    juBaoPopWin.showAtLocation(activity.findViewById(R.id.menu_layout),
                             Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
                             0,
                             0); //设置layout在PopupWindow中显示的位置
@@ -1013,7 +1027,7 @@ public class ImageDetaiScrollFragment
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             getImageDetail();
-        }else if (requestCode == 2){
+        } else if (requestCode == 2) {
             getImageDetail();
         }
     }
@@ -1079,6 +1093,14 @@ public class ImageDetaiScrollFragment
             }
         }
     };
+
+    @Override
+    public void onJumpJuBao() {
+        juBaoPopWin.dismiss();
+        Intent intent = new Intent(activity,JuBaoActivity.class);
+        intent.putExtra("item_id",item_id);
+        startActivity(intent);
+    }
 
     public interface UserInfo {
         void getUserInfo(ImageDetailBean imageDetailBean);
@@ -1217,6 +1239,7 @@ public class ImageDetaiScrollFragment
     private ImageButton iv_edit_image;
     private ImageButton iv_shared_image;
     private ImageButton iv_more_image;
+    private JuBaoPopWin juBaoPopWin;
     private HomeSharedPopWinPublic homeSharedPopWinPublic;
     private HRecyclerView mRecyclerView;
     private ResizeRelativeLayout menu_layout;
