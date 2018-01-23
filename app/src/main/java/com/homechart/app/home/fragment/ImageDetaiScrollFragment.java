@@ -147,6 +147,9 @@ public class ImageDetaiScrollFragment
 
         if (!ifHasHeader) {
             view = LayoutInflater.from(activity).inflate(R.layout.header_fragment_scroll_imagedetails, null);
+            rl_shop_tital = (RelativeLayout) view.findViewById(R.id.rl_shop_tital);
+            tv_shop_price = (TextView) view.findViewById(R.id.tv_shop_price);
+            tv_shop_miaosu = (TextView) view.findViewById(R.id.tv_shop_miaosu);
             iv_details_image = (ImageView) view.findViewById(R.id.iv_details_image);
             view_below_image = view.findViewById(R.id.view_below_image);
             bt_shiwu2 = (ImageView) view.findViewById(R.id.bt_shiwu2);
@@ -158,6 +161,7 @@ public class ImageDetaiScrollFragment
             tv_album_name = (TextView) view.findViewById(R.id.tv_album_name);
             tv_details_time = (TextView) view.findViewById(R.id.tv_details_time);
             tv_from_where = (TextView) view.findViewById(R.id.tv_from_where);
+            tv_goto_shop = (TextView) view.findViewById(R.id.tv_goto_shop);
             tv_maybe_like = (TextView) view.findViewById(R.id.tv_maybe_like);
 
             iv_more_album = (ImageView) view.findViewById(R.id.iv_more_album);
@@ -197,6 +201,7 @@ public class ImageDetaiScrollFragment
         iv_edit_image.setOnClickListener(this);
         riv_people_header.setOnClickListener(this);
         iv_shared_image.setOnClickListener(this);
+        tv_goto_shop.setOnClickListener(this);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -345,6 +350,9 @@ public class ImageDetaiScrollFragment
                             0,
                             0); //设置layout在PopupWindow中显示的位置
                 }
+                break;
+            case R.id.tv_goto_shop:
+
                 break;
         }
     }
@@ -675,6 +683,14 @@ public class ImageDetaiScrollFragment
     }
 
     private void changeUI(ImageDetailBean imageDetailBean) {
+        //商品价格
+        if (imageDetailBean.getItem_info().getIs_product().equals("0")) {
+            rl_shop_tital.setVisibility(View.GONE);
+        } else {
+            rl_shop_tital.setVisibility(View.VISIBLE);
+            tv_shop_miaosu.setText(imageDetailBean.getItem_info().getTitle());
+            tv_shop_price.setText(imageDetailBean.getItem_info().getPrice());
+        }
         //......详情图片.........
         int wide_num = PublicUtils.getScreenWidth(activity);
         height_pic = (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio());
@@ -724,7 +740,11 @@ public class ImageDetaiScrollFragment
             } else {
                 tv_details_time.setText("1月以前" + " 发布");
             }
+            tv_goto_shop.setVisibility(View.GONE);
+            tv_from_where.setVisibility(View.GONE);
         } else if (imageDetailBean.getItem_info().getGet_way().equals("grab")) {
+            tv_goto_shop.setVisibility(View.VISIBLE);
+            tv_from_where.setVisibility(View.VISIBLE);
             tv_details_time.setText("采自 ");
             tv_from_where.setText(imageDetailBean.getItem_info().getFrom_url());
         }
@@ -1186,6 +1206,9 @@ public class ImageDetaiScrollFragment
     private View color_bottom;
     //header
     private View view;
+    private RelativeLayout rl_shop_tital;
+    private TextView tv_shop_price;
+    private TextView tv_shop_miaosu;
     private ImageView iv_details_image;
     private View view_below_image;
     private ImageView bt_shiwu2;
@@ -1197,6 +1220,7 @@ public class ImageDetaiScrollFragment
     private TextView tv_album_name;
     private TextView tv_details_time;
     private TextView tv_from_where;
+    private TextView tv_goto_shop;
     private TextView tv_maybe_like;
     private ImageView iv_more_album;
     private RelativeLayout rl_album_all;
