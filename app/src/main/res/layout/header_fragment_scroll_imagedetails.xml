@@ -70,8 +70,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/fl_tags_jubu"
+        android:layout_alignBottom="@+id/tv_details_time"
         android:layout_marginLeft="@dimen/font_5"
+        android:layout_marginTop="@dimen/font_15"
         android:layout_toRightOf="@+id/tv_details_time"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:background="@color/white"
         android:textColor="@color/bg_262626"
         android:textSize="@dimen/font_12" />

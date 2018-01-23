@@ -707,22 +707,28 @@ public class ImageDetaiScrollFragment
         }
         tv_album_name.setText(albumName);
         //图片时间
-        String[] str = imageDetailBean.getItem_info().getAdd_time().split(" ");
-        String fabuTime = str[0].replace("-", "/");
-        String[] str1 = str[0].split("-");
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date curDate = new Date(System.currentTimeMillis());
-        String strCurrent = formatter.format(curDate);
-        long data = PublicUtils.diffMathDay(imageDetailBean.getItem_info().getAdd_time(), strCurrent, "yyyy-MM-dd HH:mm:ss");
-        if (data <= 7) {
-            if (str1.length == 3) {
-                tv_details_time.setText(str1[0] + "年" + str1[1] + "月" + str1[2] + "日 " + " 发布");
+        if (imageDetailBean.getItem_info().getGet_way().equals("upload")) {
+            String[] str = imageDetailBean.getItem_info().getAdd_time().split(" ");
+            String fabuTime = str[0].replace("-", "/");
+            String[] str1 = str[0].split("-");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date curDate = new Date(System.currentTimeMillis());
+            String strCurrent = formatter.format(curDate);
+            long data = PublicUtils.diffMathDay(imageDetailBean.getItem_info().getAdd_time(), strCurrent, "yyyy-MM-dd HH:mm:ss");
+            if (data <= 7) {
+                if (str1.length == 3) {
+                    tv_details_time.setText(str1[0] + "年" + str1[1] + "月" + str1[2] + "日 " + " 发布");
+                }
+            } else if (data > 7 && data <= 30) {
+                tv_details_time.setText("1周以前" + " 发布");
+            } else {
+                tv_details_time.setText("1月以前" + " 发布");
             }
-        } else if (data > 7 && data <= 30) {
-            tv_details_time.setText("1周以前" + " 发布");
-        } else {
-            tv_details_time.setText("1月以前" + " 发布");
+        } else if (imageDetailBean.getItem_info().getGet_way().equals("grab")) {
+            tv_details_time.setText("采自 ");
+            tv_from_where.setText(imageDetailBean.getItem_info().getFrom_url());
         }
+
         //图片标题
         if (TextUtils.isEmpty(imageDetailBean.getItem_info().getDescription().trim())) {
             tv_details_tital.setVisibility(View.GONE);
@@ -783,7 +789,7 @@ public class ImageDetaiScrollFragment
                 dgv_colorlist.setAdapter(new MyColorGridAdapter(listColor, activity));
             }
         }
-        //设置图片
+        //设置灵感辑图片
         RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) iv_img1.getLayoutParams();
         layoutParams1.width = width_Imgs / 2 - UIUtils.getDimens(R.dimen.font_2);
         layoutParams1.height = width_Imgs / 2 - UIUtils.getDimens(R.dimen.font_2);
