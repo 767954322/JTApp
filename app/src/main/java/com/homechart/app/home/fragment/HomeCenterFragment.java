@@ -77,6 +77,8 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
     private int system_notice = 0;
     private int subscribe_notice = 0;
     private int addToAlbum_notice = 0;
+    private int collect_album_num = 0;
+    private int album_num = 0;
     private Boolean loginStatus;
 
     Handler handler = new Handler() {
@@ -99,6 +101,9 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
                     system_notice = jsonObject.getInt("system_notice");
                     subscribe_notice = jsonObject.getInt("subscribe_notice");
                     addToAlbum_notice = jsonObject.getInt("addToAlbum_notice");
+
+                    collect_album_num = jsonObject.getInt("collect_album_num");
+                    album_num = jsonObject.getInt("album_num");
                     changeUnReaderMsg(num);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -355,7 +360,7 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
         if (null != userCenterInfoBean && null != userCenterInfoBean.getCounter()) {
             tv_fensi_num.setText(userCenterInfoBean.getCounter().getFans_num() + "");
             tv_guanzhu_num.setText(userCenterInfoBean.getCounter().getFollow_num() + "");
-            tv_shoucang_num.setText(userCenterInfoBean.getCounter().getSubscribe_num() + "");
+            tv_shoucang_num.setText(userCenterInfoBean.getCounter().getAlbum_num() + userCenterInfoBean.getCounter().getCollect_album_num() + "");
             tv_shaijia_num.setText(userCenterInfoBean.getCounter().getAlbum_num() + "");
         }
 
