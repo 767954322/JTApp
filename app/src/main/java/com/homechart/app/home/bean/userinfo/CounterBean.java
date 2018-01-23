@@ -10,27 +10,19 @@ public class CounterBean implements Serializable{
 
     private int fans_num;
     private int follow_num;
-    private int collect_single_num;
-    private int collect_article_num;
-    private int single_num;
-    private int article_num;
     private int collect_product_num;
     private int collect_album_num;
     private int album_num;
-    private int subscribe_num;
+    private int item_num;
 
 
-    public CounterBean(int fans_num, int follow_num, int collect_single_num, int collect_article_num, int single_num, int article_num, int collect_product_num, int collect_album_num, int album_num, int subscribe_num) {
+    public CounterBean(int fans_num, int follow_num, int collect_product_num, int collect_album_num, int album_num, int item_num) {
         this.fans_num = fans_num;
         this.follow_num = follow_num;
-        this.collect_single_num = collect_single_num;
-        this.collect_article_num = collect_article_num;
-        this.single_num = single_num;
-        this.article_num = article_num;
         this.collect_product_num = collect_product_num;
         this.collect_album_num = collect_album_num;
         this.album_num = album_num;
-        this.subscribe_num = subscribe_num;
+        this.item_num = item_num;
     }
 
     public int getFans_num() {
@@ -47,38 +39,6 @@ public class CounterBean implements Serializable{
 
     public void setFollow_num(int follow_num) {
         this.follow_num = follow_num;
-    }
-
-    public int getCollect_single_num() {
-        return collect_single_num;
-    }
-
-    public void setCollect_single_num(int collect_single_num) {
-        this.collect_single_num = collect_single_num;
-    }
-
-    public int getCollect_article_num() {
-        return collect_article_num;
-    }
-
-    public void setCollect_article_num(int collect_article_num) {
-        this.collect_article_num = collect_article_num;
-    }
-
-    public int getSingle_num() {
-        return single_num;
-    }
-
-    public void setSingle_num(int single_num) {
-        this.single_num = single_num;
-    }
-
-    public int getArticle_num() {
-        return article_num;
-    }
-
-    public void setArticle_num(int article_num) {
-        this.article_num = article_num;
     }
 
     public int getCollect_product_num() {
@@ -105,12 +65,12 @@ public class CounterBean implements Serializable{
         this.album_num = album_num;
     }
 
-    public int getSubscribe_num() {
-        return subscribe_num;
+    public int getItem_num() {
+        return item_num;
     }
 
-    public void setSubscribe_num(int subscribe_num) {
-        this.subscribe_num = subscribe_num;
+    public void setItem_num(int item_num) {
+        this.item_num = item_num;
     }
 
     @Override
@@ -118,14 +78,10 @@ public class CounterBean implements Serializable{
         return "CounterBean{" +
                 "fans_num=" + fans_num +
                 ", follow_num=" + follow_num +
-                ", collect_single_num=" + collect_single_num +
-                ", collect_article_num=" + collect_article_num +
-                ", single_num=" + single_num +
-                ", article_num=" + article_num +
                 ", collect_product_num=" + collect_product_num +
                 ", collect_album_num=" + collect_album_num +
                 ", album_num=" + album_num +
-                ", subscribe_num=" + subscribe_num +
+                ", item_num=" + item_num +
                 '}';
     }
 }
