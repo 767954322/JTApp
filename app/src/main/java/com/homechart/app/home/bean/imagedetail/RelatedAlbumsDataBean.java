@@ -10,12 +10,22 @@ import java.util.List;
 public class RelatedAlbumsDataBean implements Serializable{
 
 
+    private String user_avatar;
     private String album_id;
     private List<String> images;
 
-    public RelatedAlbumsDataBean(String album_id, List<String> images) {
+    public RelatedAlbumsDataBean(String user_avatar, String album_id, List<String> images) {
+        this.user_avatar = user_avatar;
         this.album_id = album_id;
         this.images = images;
+    }
+
+    public String getUser_avatar() {
+        return user_avatar;
+    }
+
+    public void setUser_avatar(String user_avatar) {
+        this.user_avatar = user_avatar;
     }
 
     public String getAlbum_id() {
@@ -37,7 +47,8 @@ public class RelatedAlbumsDataBean implements Serializable{
     @Override
     public String toString() {
         return "RelatedAlbumsDataBean{" +
-                "album_id='" + album_id + '\'' +
+                "user_avatar='" + user_avatar + '\'' +
+                ", album_id='" + album_id + '\'' +
                 ", images=" + images +
                 '}';
     }

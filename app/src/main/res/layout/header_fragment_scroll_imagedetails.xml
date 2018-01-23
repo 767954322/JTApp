@@ -152,21 +152,25 @@
             android:layout_marginTop="@dimen/font_20"
             android:background="@color/bg_f2f2f2"
             android:scaleType="centerInside"
-            android:src="@drawable/next" />
+            android:src="@drawable/next"
+            android:visibility="gone" />
 
         <RelativeLayout
+            android:id="@+id/rl_album_all"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/rl_album_tital"
             android:layout_below="@+id/tv_details_tital"
             android:layout_marginTop="@dimen/font_20"
-            android:layout_toLeftOf="@+id/iv_more_album">
+            android:layout_toLeftOf="@+id/iv_more_album"
+            android:visibility="gone">
 
             <RelativeLayout
                 android:id="@+id/rl_images_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_marginBottom="@dimen/font_10"
                 android:background="@drawable/bt_imgdetails_album">
 
                 <ImageView
@@ -204,6 +208,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/font_10"
                 android:background="@drawable/bt_imgdetails_album">
 
                 <ImageView
@@ -241,6 +246,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/font_10"
                 android:background="@drawable/bt_imgdetails_album">
 
                 <ImageView
@@ -272,6 +278,76 @@
                     android:layout_alignParentRight="true" />
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/rl_header1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/rl_images_one"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/font_8">
+
+                <com.homechart.app.myview.RoundImageView
+                    android:id="@+id/riv_header_back1"
+                    android:layout_width="@dimen/font_22"
+                    android:layout_height="@dimen/font_22"
+                    android:layout_centerInParent="true"
+                    android:background="@color/white" />
+
+
+                <com.homechart.app.myview.RoundImageView
+                    android:id="@+id/riv_header_one"
+                    android:layout_width="@dimen/font_20"
+                    android:layout_height="@dimen/font_20"
+                    android:layout_above="@+id/riv_header_back1"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_header2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/rl_images_two"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/font_8">
+
+                <com.homechart.app.myview.RoundImageView
+                    android:id="@+id/riv_header_back2"
+                    android:layout_width="@dimen/font_22"
+                    android:layout_height="@dimen/font_22"
+                    android:layout_centerInParent="true"
+                    android:background="@color/white" />
+
+
+                <com.homechart.app.myview.RoundImageView
+                    android:id="@+id/riv_header_two"
+                    android:layout_width="@dimen/font_20"
+                    android:layout_height="@dimen/font_20"
+                    android:layout_above="@+id/riv_header_back2"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_header3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/rl_images_three"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/font_8">
+
+                <com.homechart.app.myview.RoundImageView
+                    android:id="@+id/riv_header_back3"
+                    android:layout_width="@dimen/font_22"
+                    android:layout_height="@dimen/font_22"
+                    android:layout_centerInParent="true"
+                    android:background="@color/white" />
+
+                <com.homechart.app.myview.RoundImageView
+                    android:id="@+id/riv_header_three"
+                    android:layout_width="@dimen/font_20"
+                    android:layout_height="@dimen/font_20"
+                    android:layout_above="@+id/riv_header_back3"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
 
         </RelativeLayout>
 

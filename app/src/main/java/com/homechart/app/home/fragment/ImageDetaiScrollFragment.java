@@ -92,6 +92,7 @@ public class ImageDetaiScrollFragment
         View.OnClickListener,
         OnLoadMoreListener {
 
+
     public ImageDetaiScrollFragment() {
 
     }
@@ -159,9 +160,17 @@ public class ImageDetaiScrollFragment
             tv_from_where = (TextView) view.findViewById(R.id.tv_from_where);
             tv_maybe_like = (TextView) view.findViewById(R.id.tv_maybe_like);
 
+            iv_more_album = (ImageView) view.findViewById(R.id.iv_more_album);
+            rl_album_all = (RelativeLayout) view.findViewById(R.id.rl_album_all);
             rl_images_one = (RelativeLayout) view.findViewById(R.id.rl_images_one);
             rl_images_two = (RelativeLayout) view.findViewById(R.id.rl_images_two);
             rl_images_three = (RelativeLayout) view.findViewById(R.id.rl_images_three);
+            rl_header1 = (RelativeLayout) view.findViewById(R.id.rl_header1);
+            rl_header2 = (RelativeLayout) view.findViewById(R.id.rl_header2);
+            rl_header3 = (RelativeLayout) view.findViewById(R.id.rl_header3);
+            riv_header_one = (RoundImageView) view.findViewById(R.id.riv_header_one);
+            riv_header_two = (RoundImageView) view.findViewById(R.id.riv_header_two);
+            riv_header_three = (RoundImageView) view.findViewById(R.id.riv_header_three);
             iv_img1 = (ImageView) view.findViewById(R.id.iv_img1);
             iv_img2 = (ImageView) view.findViewById(R.id.iv_img2);
             iv_img3 = (ImageView) view.findViewById(R.id.iv_img3);
@@ -812,7 +821,37 @@ public class ImageDetaiScrollFragment
         iv_img12.setLayoutParams(layoutParams4);
 
         if (imageDetailBean != null && imageDetailBean.getRelated_albums() != null && imageDetailBean.getRelated_albums().size() > 0) {
+            iv_more_album.setVisibility(View.VISIBLE);
+            rl_album_all.setVisibility(View.VISIBLE);
+            if (imageDetailBean.getRelated_albums().size() == 1) {
+                rl_images_one.setVisibility(View.VISIBLE);
+                rl_images_two.setVisibility(View.GONE);
+                rl_images_three.setVisibility(View.GONE);
+                rl_header1.setVisibility(View.VISIBLE);
+                rl_header2.setVisibility(View.GONE);
+                rl_header3.setVisibility(View.GONE);
+                ImageUtils.displayRoundImage(imageDetailBean.getRelated_albums().get(0).getData_info().getUser_avatar(), riv_header_one);
+            } else if (imageDetailBean.getRelated_albums().size() == 2) {
 
+                rl_images_one.setVisibility(View.VISIBLE);
+                rl_images_two.setVisibility(View.VISIBLE);
+                rl_images_three.setVisibility(View.GONE);
+                rl_header1.setVisibility(View.VISIBLE);
+                rl_header2.setVisibility(View.VISIBLE);
+                rl_header3.setVisibility(View.GONE);
+                ImageUtils.displayRoundImage(imageDetailBean.getRelated_albums().get(0).getData_info().getUser_avatar(), riv_header_one);
+                ImageUtils.displayRoundImage(imageDetailBean.getRelated_albums().get(1).getData_info().getUser_avatar(), riv_header_two);
+            } else if (imageDetailBean.getRelated_albums().size() == 3) {
+                rl_images_one.setVisibility(View.VISIBLE);
+                rl_images_two.setVisibility(View.VISIBLE);
+                rl_images_three.setVisibility(View.VISIBLE);
+                rl_header1.setVisibility(View.VISIBLE);
+                rl_header2.setVisibility(View.VISIBLE);
+                rl_header3.setVisibility(View.VISIBLE);
+                ImageUtils.displayRoundImage(imageDetailBean.getRelated_albums().get(0).getData_info().getUser_avatar(), riv_header_one);
+                ImageUtils.displayRoundImage(imageDetailBean.getRelated_albums().get(1).getData_info().getUser_avatar(), riv_header_two);
+                ImageUtils.displayRoundImage(imageDetailBean.getRelated_albums().get(2).getData_info().getUser_avatar(), riv_header_three);
+            }
             if (imageDetailBean.getRelated_albums().size() > 0 &&
                     null != imageDetailBean.getRelated_albums().get(0).getData_info() &&
                     null != imageDetailBean.getRelated_albums().get(0).getData_info().getImages() &&
@@ -911,21 +950,15 @@ public class ImageDetaiScrollFragment
             }
 
         } else {
-            ImageUtils.displayFilletLeftTopImage("drawable://" + R.drawable.test_color, iv_img1);
-            ImageUtils.displayFilletRightTopImage("drawable://" + R.drawable.test_color, iv_img2);
-            ImageUtils.displayFilletLeftBottomImage("drawable://" + R.drawable.test_color, iv_img3);
-            ImageUtils.displayFilletRightBottomImage("drawable://" + R.drawable.test_color, iv_img4);
-            ImageUtils.displayFilletLeftTopImage("drawable://" + R.drawable.test_color, iv_img5);
-            ImageUtils.displayFilletRightTopImage("drawable://" + R.drawable.test_color, iv_img6);
-            ImageUtils.displayFilletLeftBottomImage("drawable://" + R.drawable.test_color, iv_img7);
-            ImageUtils.displayFilletRightBottomImage("drawable://" + R.drawable.test_color, iv_img8);
-            ImageUtils.displayFilletLeftTopImage("drawable://" + R.drawable.test_color, iv_img9);
-            ImageUtils.displayFilletRightTopImage("drawable://" + R.drawable.test_color, iv_img10);
-            ImageUtils.displayFilletLeftBottomImage("drawable://" + R.drawable.test_color, iv_img11);
-            ImageUtils.displayFilletRightBottomImage("drawable://" + R.drawable.test_color, iv_img12);
+            iv_more_album.setVisibility(View.GONE);
+            rl_album_all.setVisibility(View.GONE);
+            rl_images_one.setVisibility(View.GONE);
+            rl_images_two.setVisibility(View.GONE);
+            rl_images_three.setVisibility(View.GONE);
+            rl_header1.setVisibility(View.GONE);
+            rl_header2.setVisibility(View.GONE);
+            rl_header3.setVisibility(View.GONE);
         }
-
-
     }
 
     @Override
@@ -1159,9 +1192,17 @@ public class ImageDetaiScrollFragment
     private TextView tv_details_time;
     private TextView tv_from_where;
     private TextView tv_maybe_like;
+    private ImageView iv_more_album;
+    private RelativeLayout rl_album_all;
     private RelativeLayout rl_images_one;
     private RelativeLayout rl_images_two;
     private RelativeLayout rl_images_three;
+    private RelativeLayout rl_header1;
+    private RelativeLayout rl_header2;
+    private RelativeLayout rl_header3;
+    private RoundImageView riv_header_one;
+    private RoundImageView riv_header_two;
+    private RoundImageView riv_header_three;
     private ImageView iv_img1;
     private ImageView iv_img2;
     private ImageView iv_img3;
