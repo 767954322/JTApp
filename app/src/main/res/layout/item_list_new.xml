@@ -98,7 +98,8 @@
             android:layout_centerVertical="true"
             android:paddingLeft="@dimen/font_25"
             android:paddingRight="@dimen/font_10"
-            android:src="@drawable/datuxing" />
+            android:src="@drawable/datuxing"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 
