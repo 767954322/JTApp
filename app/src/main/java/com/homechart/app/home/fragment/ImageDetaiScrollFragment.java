@@ -30,6 +30,7 @@ import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.ImageEditActvity;
 import com.homechart.app.home.activity.LoginActivity;
+import com.homechart.app.home.activity.MyWebViewActivity;
 import com.homechart.app.home.activity.ShaiXuanResultActicity;
 import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.adapter.MyColorGridAdapter;
@@ -353,6 +354,13 @@ public class ImageDetaiScrollFragment
                 break;
             case R.id.tv_goto_shop:
 
+                if (null != imageDetailBean &&
+                        null != imageDetailBean.getItem_info().getFrom_url() &&
+                        !imageDetailBean.getItem_info().getFrom_url().equals("")) {
+                    Intent intent = new Intent(activity, MyWebViewActivity.class);
+                    intent.putExtra("weburl", imageDetailBean.getItem_info().getFrom_url());
+                    startActivity(intent);
+                }
                 break;
         }
     }

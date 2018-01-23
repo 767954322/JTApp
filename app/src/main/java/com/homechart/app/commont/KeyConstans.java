@@ -17,4 +17,7 @@ public class KeyConstans {
     //启动Web链接
     public static final String ADVERTISEMENT_WEB = "http://m.idcool.com.cn/app/start";
 
+    public static String USER_AGENT = "Mozilla/5.0 (Linux; Android 5.0.2; MI 2 Build/LRX22G; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/55.0.2883.91 Mobile Safari/537.36 boosj_2.7.0";
+
+
 }
