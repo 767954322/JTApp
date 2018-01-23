@@ -947,6 +947,7 @@ public class InspirationDetailActivity extends BaseActivity
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
             InspirationDetailActivity.this.setResult(2, InspirationDetailActivity.this.getIntent());
+            InspirationDetailActivity.this.finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);

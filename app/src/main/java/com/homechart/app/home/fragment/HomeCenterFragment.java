@@ -24,6 +24,7 @@ import com.homechart.app.home.activity.MessagesListActivity;
 import com.homechart.app.home.activity.MyInfoActivity;
 import com.homechart.app.home.activity.PicCenterActivity;
 import com.homechart.app.home.activity.SetActivity;
+import com.homechart.app.home.activity.UserMessageActivity;
 import com.homechart.app.home.activity.YuGouQingDanActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
@@ -200,16 +201,17 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
                         .setAction("点击消息中心")      //事件操作
                         .build());
 
-                Intent intent_messages = new Intent(activity, MessagesListActivity.class);
-                intent_messages.putExtra("notice_num", notice_num);
-                intent_messages.putExtra("follow_notice", follow_notice);
-                intent_messages.putExtra("collect_notice", collect_notice);
-                intent_messages.putExtra("comment_notice", comment_notice);
-                intent_messages.putExtra("system_notice", system_notice);
-                intent_messages.putExtra("subscribe_notice", subscribe_notice);
-                intent_messages.putExtra("addToAlbum_notice", addToAlbum_notice);
+//                Intent intent_messages = new Intent(activity, MessagesListActivity.class);
+//                intent_messages.putExtra("notice_num", notice_num);
+//                intent_messages.putExtra("follow_notice", follow_notice);
+//                intent_messages.putExtra("collect_notice", collect_notice);
+//                intent_messages.putExtra("comment_notice", comment_notice);
+//                intent_messages.putExtra("system_notice", system_notice);
+//                intent_messages.putExtra("subscribe_notice", subscribe_notice);
+//                intent_messages.putExtra("addToAlbum_notice", addToAlbum_notice);
+//                startActivityForResult(intent_messages, 2);
+                Intent intent_messages = new Intent(activity, UserMessageActivity.class);
                 startActivityForResult(intent_messages, 2);
-
                 break;
             case R.id.rl_fensi:
                 Intent intent_fensi = new Intent(activity, FenSiListActivity.class);

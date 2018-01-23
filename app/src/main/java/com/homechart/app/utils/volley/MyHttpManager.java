@@ -936,6 +936,37 @@ public class MyHttpManager {
     }
 
     /**
+     * 关注消息列表
+     *
+     * @param page_num
+     * @param n
+     * @param callback
+     */
+    public void allMSGList(final int page_num, final int n, OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.ALL_MSG, callback) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                map.put(ClassConstant.MessageList.S, (page_num - 1) * n + "");
+                map.put(ClassConstant.MessageList.N, n + "");
+
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+
+        };
+        queue.add(okStringRequest);
+    }
+
+    /**
      * 系统消息列表
      *
      * @param page_num
