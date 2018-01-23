@@ -22,6 +22,7 @@ import com.homechart.app.home.activity.GuanZuListActivity;
 import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.activity.MessagesListActivity;
 import com.homechart.app.home.activity.MyInfoActivity;
+import com.homechart.app.home.activity.PicCenterActivity;
 import com.homechart.app.home.activity.SetActivity;
 import com.homechart.app.home.activity.YuGouQingDanActivity;
 import com.homechart.app.home.base.BaseFragment;
@@ -230,13 +231,8 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.rl_shaijia:
 
-                Intent intent_shaijia = new Intent(activity, MyLingGanlistActivity.class);
-                intent_shaijia.putExtra(ClassConstant.LoginSucces.USER_ID, mUserId);
+                Intent intent_shaijia = new Intent(activity, PicCenterActivity.class);
                 startActivity(intent_shaijia);
-
-//                Intent intent_shaijia = new Intent(activity, ShaiJiaListActivity.class);
-//                intent_shaijia.putExtra(ClassConstant.LoginSucces.USER_ID, mUserId);
-//                startActivity(intent_shaijia);
 
                 break;
             case R.id.iv_center_header:

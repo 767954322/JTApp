@@ -369,6 +369,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity
+            android:name=".home.activity.PicCenterActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity
             android:name=".home.activity.ColorShaiXuanActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
