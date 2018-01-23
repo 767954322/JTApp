@@ -28,10 +28,12 @@ import com.homechart.app.home.bean.dingyue.DingYueItemBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
 import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
+import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
+import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
@@ -123,8 +125,28 @@ public class OtherLingGuanLiFragment
     }
 
     private void buildRecyclerView() {
+        MultiItemTypeSupport<DingYueItemBean> support = new MultiItemTypeSupport<DingYueItemBean>() {
+            @Override
+            public int getLayoutId(int itemType) {
 
-        mAdapter = new CommonAdapter<DingYueItemBean>(activity, R.layout.item_dingyue_list, mListData) {
+                if (itemType == 0) {
+                    return R.layout.item_dingyue_list_left;
+                } else {
+                    return R.layout.item_dingyue_list_right;
+                }
+            }
+
+            @Override
+            public int getItemViewType(int position, DingYueItemBean s) {
+                if (position % 2 == 0) {
+                    return 0;
+                } else {
+                    return 1;
+                }
+            }
+        };
+
+        mAdapter = new MultiItemCommonAdapter<DingYueItemBean>(activity, mListData, support) {
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
 

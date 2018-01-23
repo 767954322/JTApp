@@ -11,9 +11,8 @@
     <ImageView
         android:id="@+id/iv_shoucang_image"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/font_130"
-        android:scaleType="centerCrop" />
-
+        android:layout_height="@dimen/font_96"
+        android:scaleType="fitXY" />
     <CheckBox
         android:id="@+id/cb_check"
         style="@style/ShouCangRadioButtonStyles"

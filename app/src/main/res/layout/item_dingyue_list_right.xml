@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_item_dingyue"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/font_10"
+    android:layout_marginLeft="@dimen/font_5"
+    android:layout_marginRight="@dimen/font_10"
+    android:background="@drawable/jubao_back">
+
+    <ImageView
+        android:id="@+id/iv_shoucang_image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_96"
+        android:scaleType="fitXY" />
+    <CheckBox
+        android:id="@+id/cb_check"
+        style="@style/ShouCangRadioButtonStyles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/font_10"
+        android:layout_marginTop="@dimen/font_10"
+        android:visibility="gone"/>
+
+
+    <TextView
+        android:id="@+id/tv_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/font_10"
+        android:layout_marginRight="@dimen/font_10"
+        android:layout_below="@+id/iv_shoucang_image"
+        android:textColor="@color/bg_464646"
+        android:layout_marginTop="@dimen/font_12"
+        android:maxLines="1"
+        android:lines="1"
+        android:ellipsize="end"
+        android:textSize="@dimen/font_14" />
+
+    <TextView
+        android:id="@+id/tv_item_num_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/font_10"
+        android:layout_below="@+id/tv_item_name"
+        android:layout_marginTop="@dimen/font_15"
+        android:layout_marginBottom="@dimen/font_10"
+        android:textColor="@color/bg_8f8f8f"
+        android:textSize="@dimen/font_12" />
+
+    <TextView
+        android:id="@+id/tv_item_num_dingyue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/font_10"
+        android:layout_below="@+id/tv_item_name"
+        android:layout_marginTop="@dimen/font_15"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/bg_8f8f8f"
+        android:layout_marginBottom="@dimen/font_10"
+        android:textSize="@dimen/font_12" />
+
+</RelativeLayout>
