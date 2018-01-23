@@ -739,6 +739,7 @@ public class ImageDetaiScrollFragment
                 // 跳转搜索结果页
                 Intent intent = new Intent(activity, ShaiXuanResultActicity.class);
                 String tag = text.replace("#", "");
+                tag = tag.replace("＃", "");
                 intent.putExtra("islist", true);
                 intent.putExtra("shaixuan_tag", tag.trim());
                 startActivity(intent);
