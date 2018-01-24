@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.homechart.app.R;
 import com.homechart.app.commont.contract.ItemClickJuBao;
 import com.homechart.app.home.bean.jubaobean.JuBaoItemBean;
+import com.homechart.app.myview.RoundImageView;
+import com.homechart.app.utils.UIUtils;
 
 import java.util.List;
 
@@ -54,7 +56,7 @@ public class MyJuBaoAdapter extends BaseAdapter {
         if (convertView == null) {
             myHolder = new MyHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_jubao, null);
-            myHolder.rb_radio = (RadioButton) convertView.findViewById(R.id.rb_radio);
+            myHolder.riv_icon = (RoundImageView) convertView.findViewById(R.id.riv_icon);
             myHolder.tv_name = (TextView) convertView.findViewById(R.id.tv_name);
             myHolder.rl_item_all = (RelativeLayout) convertView.findViewById(R.id.rl_item_all);
             convertView.setTag(myHolder);
@@ -65,9 +67,9 @@ public class MyJuBaoAdapter extends BaseAdapter {
         myHolder.tv_name.setText(mList.get(position).getReport_value());
 
         if (clickPosition == position) {
-            myHolder.rb_radio.setChecked(true);
+            myHolder.riv_icon.setBackgroundColor(UIUtils.getColor(R.color.bg_e79056));
         } else {
-            myHolder.rb_radio.setChecked(false);
+            myHolder.riv_icon.setBackgroundColor(UIUtils.getColor(R.color.white));
         }
 
         myHolder.rl_item_all.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +84,7 @@ public class MyJuBaoAdapter extends BaseAdapter {
 
     class MyHolder {
 
-        private RadioButton rb_radio;
+        private RoundImageView riv_icon;
         private TextView tv_name;
         private RelativeLayout rl_item_all;
     }

@@ -11,13 +11,27 @@
         android:layout_alignParentTop="true"
         android:background="@color/bg_e6e6e6" />
 
-    <RadioButton
-        android:id="@+id/rb_radio"
+    <RelativeLayout
+        android:id="@+id/rl_radio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:clickable="false"
-        android:layout_marginLeft="@dimen/font_23" />
+        android:layout_marginLeft="@dimen/font_23">
+
+        <com.homechart.app.myview.RoundImageView
+            android:layout_width="@dimen/font_10"
+            android:layout_height="@dimen/font_10"
+            android:layout_centerInParent="true"
+            android:background="@color/view_line" />
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/riv_icon"
+            android:layout_width="@dimen/font_8"
+            android:layout_height="@dimen/font_8"
+            android:layout_centerInParent="true"
+            android:background="@color/white"/>
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_name"
@@ -25,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/font_19"
-        android:layout_toRightOf="@+id/rb_radio"
+        android:layout_toRightOf="@+id/rl_radio"
         android:textColor="@color/black"
         android:textSize="@dimen/size_14" />
 
@@ -33,6 +47,6 @@
     <View
         android:layout_width="@dimen/font_1"
         android:layout_height="@dimen/font_50"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
 </RelativeLayout>
