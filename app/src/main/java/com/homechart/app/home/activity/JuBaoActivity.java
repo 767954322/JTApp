@@ -123,7 +123,7 @@ public class JuBaoActivity extends BaseActivity implements View.OnClickListener,
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
-                        ToastUtils.showCenter(JuBaoActivity.this, "家图已经收到了您的举报，非常感谢!");
+                        ToastUtils.showCenter(JuBaoActivity.this, "举报成功，我们会尽快核实！");
                         JuBaoActivity.this.finish();
                     } else {
                         ToastUtils.showCenter(JuBaoActivity.this, "抱歉，您的举报没有发送成功，请稍后再试!");

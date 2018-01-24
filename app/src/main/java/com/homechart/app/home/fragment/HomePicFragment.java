@@ -1002,7 +1002,6 @@ public class HomePicFragment
                             mAdapter.notifyItemInserted(clickPosition + 1);
                             mAdapter.notifyItemRangeChanged(clickPosition + 1, list.size()); //比较好的
 //                            mAdapter.notifyItemRangeInserted(clickPosition + 1, list.size());
-//                            mAdapter.notifyItemRangeChanged(clickPosition, list.size());
                             Log.d("test", "clickPosition:" + clickPosition + "  ;  " + "list个数:" + list.size() + "  ;  "
                                     + "list内容:" + list.toString() + "  ;  " + "mListData:" + mListData.toString());
                         } else {
