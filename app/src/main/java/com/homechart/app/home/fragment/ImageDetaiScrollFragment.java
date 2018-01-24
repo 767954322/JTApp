@@ -383,7 +383,7 @@ public class ImageDetaiScrollFragment
             case R.id.rl_pinglun:
                 Intent intent1 = new Intent(activity, PingListActivity.class);
                 intent1.putExtra("item_id", item_id);
-                intent1.putExtra("ifopen", "false");
+                intent1.putExtra("ifopen", imageDetailBean.getCounter().getComment_num() == 0 ? "true" : "false");
                 intent1.putExtra("reply_id", "");
                 startActivityForResult(intent1, 2);
                 break;
@@ -717,7 +717,11 @@ public class ImageDetaiScrollFragment
 
     private void changeUI(ImageDetailBean imageDetailBean) {
         //评论
-        tv_pinglun.setText(imageDetailBean.getCounter().getComment_num() + "个评论");
+        if (imageDetailBean.getCounter().getComment_num() == 0) {
+            tv_pinglun.setText("添加评论");
+        } else {
+            tv_pinglun.setText(imageDetailBean.getCounter().getComment_num() + "个评论");
+        }
         //商品价格
         if (imageDetailBean.getItem_info().getIs_product().equals("0")) {
             rl_shop_tital.setVisibility(View.GONE);
@@ -752,7 +756,7 @@ public class ImageDetaiScrollFragment
         }
         tv_people_name.setText(nikeName);
         //......albumName.........
-        if(null != imageDetailBean.getAlbum_info()){
+        if (null != imageDetailBean.getAlbum_info()) {
             String albumName = imageDetailBean.getAlbum_info().getAlbum_name();
             if (albumName.length() > 6) {
                 albumName = albumName.substring(0, 6) + "...";
@@ -1099,8 +1103,8 @@ public class ImageDetaiScrollFragment
     @Override
     public void onJumpJuBao() {
         juBaoPopWin.dismiss();
-        Intent intent = new Intent(activity,JuBaoActivity.class);
-        intent.putExtra("item_id",item_id);
+        Intent intent = new Intent(activity, JuBaoActivity.class);
+        intent.putExtra("item_id", item_id);
         startActivity(intent);
     }
 
