@@ -33,6 +33,7 @@ import com.homechart.app.home.activity.ImageEditActvity;
 import com.homechart.app.home.activity.JuBaoActivity;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.MyWebViewActivity;
+import com.homechart.app.home.activity.NewHuoDongDetailsActivity;
 import com.homechart.app.home.activity.PingListActivity;
 import com.homechart.app.home.activity.ShaiXuanResultActicity;
 import com.homechart.app.home.activity.UserInfoActivity;
@@ -45,6 +46,7 @@ import com.homechart.app.home.bean.imagedetail.ImageDetailBean;
 import com.homechart.app.home.bean.searchfservice.SearchSBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.imagedetail.ImageDetailsActivity;
+import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
 import com.homechart.app.lingganji.ui.activity.XGLingGanlistActivity;
 import com.homechart.app.myview.FlowLayoutBiaoQian;
@@ -208,6 +210,7 @@ public class ImageDetaiScrollFragment
         bt_shise.setOnClickListener(this);
         bt_shise2.setOnClickListener(this);
         tv_lingganji.setOnClickListener(this);
+        tv_album_name.setOnClickListener(this);
         iv_close_color.setOnClickListener(this);
         iv_details_image.setOnClickListener(this);
         iv_edit_image.setOnClickListener(this);
@@ -230,6 +233,16 @@ public class ImageDetaiScrollFragment
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_album_name:
+                if (imageDetailBean != null && imageDetailBean.getAlbum_info() != null && !TextUtils.isEmpty(imageDetailBean.getAlbum_info().getAlbum_id())) {
+                    mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
+                    Intent intent_inspi = new Intent(activity, InspirationDetailActivity.class);
+                    intent_inspi.putExtra("user_id", mUserId);
+                    intent_inspi.putExtra("ifHideEdit", true);
+                    intent_inspi.putExtra("album_id", imageDetailBean.getAlbum_info().getAlbum_id());
+                    startActivityForResult(intent_inspi, 2);
+                }
+                break;
             case R.id.rl_album_all:
             case R.id.iv_more_album:
                 Intent intent_more = new Intent(activity, XGLingGanlistActivity.class);
@@ -781,8 +794,8 @@ public class ImageDetaiScrollFragment
         //......albumName.........
         if (null != imageDetailBean.getAlbum_info() && null != imageDetailBean.getAlbum_info().getAlbum_name()) {
             String albumName = imageDetailBean.getAlbum_info().getAlbum_name();
-            if (albumName.length() > 6) {
-                albumName = albumName.substring(0, 6) + "...";
+            if (albumName.length() > 8) {
+                albumName = albumName.substring(0, 8) + "...";
             }
             tv_from.setVisibility(View.VISIBLE);
             tv_album_name.setVisibility(View.VISIBLE);
