@@ -29,7 +29,7 @@ public class MyJuBaoAdapter extends BaseAdapter {
     private List<JuBaoItemBean> mList;
     private ItemClickJuBao itemClickJuBao;
 
-    public MyJuBaoAdapter(Context mContext, List<JuBaoItemBean> mList,ItemClickJuBao itemClickJuBao) {
+    public MyJuBaoAdapter(Context mContext, List<JuBaoItemBean> mList, ItemClickJuBao itemClickJuBao) {
         this.mContext = mContext;
         this.mList = mList;
         this.itemClickJuBao = itemClickJuBao;
@@ -57,6 +57,7 @@ public class MyJuBaoAdapter extends BaseAdapter {
             myHolder = new MyHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_jubao, null);
             myHolder.riv_icon = (RoundImageView) convertView.findViewById(R.id.riv_icon);
+            myHolder.riv_icon_back = (RoundImageView) convertView.findViewById(R.id.riv_icon_back);
             myHolder.tv_name = (TextView) convertView.findViewById(R.id.tv_name);
             myHolder.rl_item_all = (RelativeLayout) convertView.findViewById(R.id.rl_item_all);
             convertView.setTag(myHolder);
@@ -67,8 +68,10 @@ public class MyJuBaoAdapter extends BaseAdapter {
         myHolder.tv_name.setText(mList.get(position).getReport_value());
 
         if (clickPosition == position) {
+            myHolder.riv_icon_back.setVisibility(View.INVISIBLE);
             myHolder.riv_icon.setBackgroundColor(UIUtils.getColor(R.color.bg_e79056));
         } else {
+            myHolder.riv_icon_back.setVisibility(View.VISIBLE);
             myHolder.riv_icon.setBackgroundColor(UIUtils.getColor(R.color.white));
         }
 
@@ -85,6 +88,7 @@ public class MyJuBaoAdapter extends BaseAdapter {
     class MyHolder {
 
         private RoundImageView riv_icon;
+        private RoundImageView riv_icon_back;
         private TextView tv_name;
         private RelativeLayout rl_item_all;
     }

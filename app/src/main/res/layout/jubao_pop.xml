@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/font_20"
-            android:src="@drawable/jubao" />
+            android:src="@drawable/jubao_1" />
 
         <TextView
             android:layout_width="wrap_content"

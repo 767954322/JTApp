@@ -19,6 +19,7 @@
         android:layout_marginLeft="@dimen/font_23">
 
         <com.homechart.app.myview.RoundImageView
+            android:id="@+id/riv_icon_back"
             android:layout_width="@dimen/font_10"
             android:layout_height="@dimen/font_10"
             android:layout_centerInParent="true"
