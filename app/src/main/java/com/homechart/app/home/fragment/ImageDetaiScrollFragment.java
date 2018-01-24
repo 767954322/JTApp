@@ -170,6 +170,7 @@ public class ImageDetaiScrollFragment
             tv_details_time = (TextView) view.findViewById(R.id.tv_details_time);
             tv_from_where = (TextView) view.findViewById(R.id.tv_from_where);
             tv_goto_shop = (TextView) view.findViewById(R.id.tv_goto_shop);
+            tv_from = (TextView) view.findViewById(R.id.tv_from);
             tv_maybe_like = (TextView) view.findViewById(R.id.tv_maybe_like);
 
             iv_more_album = (ImageView) view.findViewById(R.id.iv_more_album);
@@ -778,12 +779,17 @@ public class ImageDetaiScrollFragment
         }
         tv_people_name.setText(nikeName);
         //......albumName.........
-        if (null != imageDetailBean.getAlbum_info()) {
+        if (null != imageDetailBean.getAlbum_info() && null != imageDetailBean.getAlbum_info().getAlbum_name()) {
             String albumName = imageDetailBean.getAlbum_info().getAlbum_name();
             if (albumName.length() > 6) {
                 albumName = albumName.substring(0, 6) + "...";
             }
+            tv_from.setVisibility(View.VISIBLE);
+            tv_album_name.setVisibility(View.VISIBLE);
             tv_album_name.setText(albumName);
+        } else {
+            tv_from.setVisibility(View.GONE);
+            tv_album_name.setVisibility(View.GONE);
         }
         //图片时间
         if (imageDetailBean.getItem_info().getGet_way().equals("upload")) {
@@ -1296,6 +1302,7 @@ public class ImageDetaiScrollFragment
     private TextView tv_from_where;
     private TextView tv_goto_shop;
     private TextView tv_maybe_like;
+    private TextView tv_from;
     private ImageView iv_more_album;
     private RelativeLayout rl_album_all;
     private RelativeLayout rl_images_one;

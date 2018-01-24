@@ -187,6 +187,14 @@ public class UserMessageActivity
                     ImageUtils.displayRoundImage(mListData.get(position).getUser_info().getAvatar(), (RoundImageView) holder.getView(R.id.riv_header));
                     ((TextView) holder.getView(R.id.tv_content)).setText(mListData.get(position).getContent());
                     ((TextView) holder.getView(R.id.tv_time)).setText(mListData.get(position).getAdd_time());
+                    holder.getView(R.id.riv_header).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(UserMessageActivity.this, UserInfoActivity.class);
+                            intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+                            startActivity(intent);
+                        }
+                    });
 
                 } else if (getItemViewType(position) == 3) {
 
@@ -195,7 +203,14 @@ public class UserMessageActivity
                     ((TextView) holder.getView(R.id.tv_name)).setText(mListData.get(position).getUser_info().getNickname());
                     ((TextView) holder.getView(R.id.tv_content)).setText(mListData.get(position).getContent());
                     ((TextView) holder.getView(R.id.tv_time)).setText(mListData.get(position).getAdd_time());
-
+                    holder.getView(R.id.riv_header).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(UserMessageActivity.this, UserInfoActivity.class);
+                            intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+                            startActivity(intent);
+                        }
+                    });
                 } else if (getItemViewType(position) == 4) {
 
                     ImageUtils.displayRoundImage(mListData.get(position).getUser_info().getAvatar(), (RoundImageView) holder.getView(R.id.riv_header));
