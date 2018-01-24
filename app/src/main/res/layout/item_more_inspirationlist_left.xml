@@ -23,8 +23,8 @@
         
         <com.homechart.app.myview.RoundImageView
             android:id="@+id/riv_header"
-            android:layout_width="@dimen/font_20"
-            android:layout_height="@dimen/font_20"
+            android:layout_width="@dimen/font_24"
+            android:layout_height="@dimen/font_24"
             android:layout_marginLeft="@dimen/font_10"
             android:layout_centerVertical="true"/>
 
