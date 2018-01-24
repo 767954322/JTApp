@@ -185,7 +185,7 @@ public class UserMessageActivity
                 } else if (getItemViewType(position) == 2) {
 
                     ImageUtils.displayRoundImage(mListData.get(position).getUser_info().getAvatar(), (RoundImageView) holder.getView(R.id.riv_header));
-                    ((TextView) holder.getView(R.id.tv_content)).setText(mListData.get(position).getContent());
+                    ((TextView) holder.getView(R.id.tv_content)).setText(mListData.get(position).getUser_info().getNickname() + mListData.get(position).getContent());
                     ((TextView) holder.getView(R.id.tv_time)).setText(mListData.get(position).getAdd_time());
                     holder.getView(R.id.riv_header).setOnClickListener(new View.OnClickListener() {
                         @Override
