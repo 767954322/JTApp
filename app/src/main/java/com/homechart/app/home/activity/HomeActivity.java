@@ -459,16 +459,6 @@ public class HomeActivity
         }
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        int action = ev.getAction();
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                break;
-
-        }
-        return super.dispatchTouchEvent(ev);
-    }
 
     //退出时的时间
     private long mExitTime;
@@ -478,7 +468,6 @@ public class HomeActivity
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-
             exit();
             return true;
         }

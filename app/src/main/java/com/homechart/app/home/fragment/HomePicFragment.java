@@ -538,7 +538,7 @@ public class HomePicFragment
                         public void onClick(View v) {
                             if (ifClickAble) {
                                 holder.getView(R.id.iv_shibie_pic).startAnimation(animationSet);
-                                ifClickAble = false;
+//                                ifClickAble = false;
                                 if (mapSearch.containsKey(mListData.get(position).getItem_info().getItem_id())) {
                                     mapSearch.put(mListData.get(position).getItem_info().getItem_id(), mapSearch.get(mListData.get(position).getItem_info().getItem_id()) + 1);
                                 } else {
@@ -592,6 +592,7 @@ public class HomePicFragment
 
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        ((DefaultItemAnimator) mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         mRecyclerView.setOnRefreshListener(this);
         mRecyclerView.setOnLoadMoreListener(this);
 
@@ -981,26 +982,35 @@ public class HomePicFragment
                 int clickPosition = msg.getData().getInt("position");
                 SearchDataBean searchDataBean = (SearchDataBean) msg.obj;
                 List<SearchItemDataBean> listSearch = searchDataBean.getItem_list();
-                List<SearchItemDataBean> list = new ArrayList();
-                list.addAll(listSearch);
-                List<String> listId = new ArrayList();
-                for (int i = 0; i < listSearch.size(); i++) {
-                    listId.add(listSearch.get(i).getItem_info().getItem_id());
-                }
+                if (listSearch == null || listSearch.size() == 0) {
+                    mAdapter.notifyItemChanged(clickPosition);
+                } else {
+                    List<SearchItemDataBean> list = new ArrayList();
+                    list.addAll(listSearch);
+                    List<String> listId = new ArrayList();
+                    for (int i = 0; i < listSearch.size(); i++) {
+                        listId.add(listSearch.get(i).getItem_info().getItem_id());
+                    }
 
-                if (!curentListTag) {
-                    int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
-                    staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
-                    if ((lastPositions[0] - 2) <= clickPosition || (lastPositions[1] - 2) <= clickPosition) {
-                        mListData.addAll(clickPosition + 1, list);
-                        mItemIdList.addAll(clickPosition, listId);
-                        mAdapter.notifyItemRangeChanged(clickPosition, list.size());
-                        Log.d("test", "clickPosition:" + clickPosition + "  ;  " + "list个数:" + list.size() + "  ;  "
-                                + "list内容:" + list.toString() +"  ;  "+"mListData:" + mListData.toString());
-                    } else {
-                        mAdapter.notifyItemChanged(clickPosition);
+                    if (!curentListTag) {
+                        int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+                        staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
+                        if ((lastPositions[0] - 2) <= clickPosition || (lastPositions[1] - 2) <= clickPosition) {
+                            mListData.addAll(clickPosition + 1, list);
+                            mItemIdList.addAll(clickPosition, listId);
+                            mAdapter.notifyItemChanged(clickPosition);
+                            mAdapter.notifyItemInserted(clickPosition + 1);
+                            mAdapter.notifyItemRangeChanged(clickPosition + 1, list.size()); //比较好的
+//                            mAdapter.notifyItemRangeInserted(clickPosition + 1, list.size());
+//                            mAdapter.notifyItemRangeChanged(clickPosition, list.size());
+                            Log.d("test", "clickPosition:" + clickPosition + "  ;  " + "list个数:" + list.size() + "  ;  "
+                                    + "list内容:" + list.toString() + "  ;  " + "mListData:" + mListData.toString());
+                        } else {
+                            mAdapter.notifyItemChanged(clickPosition);
+                        }
                     }
                 }
+
                 ifClickAble = true;
             }
         }
