@@ -464,8 +464,8 @@ public class InspirationDetailActivity extends BaseActivity
             }
             mInspirationName.setText(inspirationDetailBean.getInfo().getAlbum_info().getAlbum_name());
             mInspirationNameNo.setText(inspirationDetailBean.getInfo().getAlbum_info().getAlbum_name());
-            mUserDingYue.setText(inspirationDetailBean.getInfo().getAlbum_info().getSubscribe_num() + " 订阅");
-            mUserDingYueNo.setText(inspirationDetailBean.getInfo().getAlbum_info().getSubscribe_num() + " 订阅");
+            mUserDingYue.setText(inspirationDetailBean.getInfo().getAlbum_info().getSubscribe_num() + " 收藏");
+            mUserDingYueNo.setText(inspirationDetailBean.getInfo().getAlbum_info().getSubscribe_num() + " 收藏");
             mUserPicNum.setText(inspirationDetailBean.getInfo().getAlbum_info().getItem_num() + " 张图");
             mUserPicNumNo.setText(inspirationDetailBean.getInfo().getAlbum_info().getItem_num() + " 张图");
             if (TextUtils.isEmpty(inspirationDetailBean.getInfo().getAlbum_info().getDescription().trim())) {

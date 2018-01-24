@@ -263,6 +263,7 @@ public class ImageDetaiScrollFragment
                                 .setAction("加图")      //事件操作
                                 .build());
 
+                        mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
                         Intent intent = new Intent(activity, InspirationSeriesActivity.class);
                         intent.putExtra("userid", mUserId);
                         intent.putExtra("image_url", imageDetailBean.getItem_info().getImage().getImg0());
@@ -552,7 +553,7 @@ public class ImageDetaiScrollFragment
                                     .setCategory("你可能喜欢")  //事件类别
                                     .setAction("加图")      //事件操作
                                     .build());
-
+                            mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
                             Intent intent = new Intent(activity, InspirationSeriesActivity.class);
                             intent.putExtra("userid", mUserId);
                             intent.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg0());
