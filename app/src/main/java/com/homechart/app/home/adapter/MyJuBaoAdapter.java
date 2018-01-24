@@ -22,7 +22,7 @@ import java.util.List;
 public class MyJuBaoAdapter extends BaseAdapter {
 
 
-    private int clickPosition = 0;
+    private int clickPosition = -1;
     private Context mContext;
     private List<JuBaoItemBean> mList;
     private ItemClickJuBao itemClickJuBao;

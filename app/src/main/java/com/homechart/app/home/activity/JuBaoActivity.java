@@ -38,7 +38,7 @@ public class JuBaoActivity extends BaseActivity implements View.OnClickListener,
     private TextView tv_content_right;
     private TextView et_liyou;
     private MyListView mlv_listview;
-    private int clickPosition = 0;
+    private int clickPosition = -1;
     private List<JuBaoItemBean> mList = new ArrayList<>();
     private MyJuBaoAdapter myAdapter;
 
@@ -89,10 +89,20 @@ public class JuBaoActivity extends BaseActivity implements View.OnClickListener,
                 JuBaoActivity.this.finish();
                 break;
             case R.id.tv_content_right:
-                if (mList.size() > 0 && mList.size() > clickPosition) {
-                    jubao();
+                if (-1 == clickPosition) {
+                    ToastUtils.showCenter(JuBaoActivity.this, "请先选择一项再提交举报哦~");
                 } else {
-                    ToastUtils.showCenter(JuBaoActivity.this, "加载数据中");
+                    if (3 == clickPosition && mList.size() > 0 && mList.size() > clickPosition) {
+                        if (et_liyou.getText().toString().trim().equals("")) {
+                            ToastUtils.showCenter(JuBaoActivity.this, "需要输入内容才可以提交");
+                        } else {
+                            jubao();
+                        }
+                    } else {
+                        if (-1 != clickPosition && mList.size() > 0 && mList.size() > clickPosition) {
+                            jubao();
+                        }
+                    }
                 }
                 break;
         }

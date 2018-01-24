@@ -118,7 +118,7 @@
         android:paddingLeft="@dimen/font_10"
         android:paddingRight="@dimen/font_10"
         android:paddingTop="@dimen/font_10"
-        android:textColor="@color/case_text_tital_detail"
+        android:textColor="@color/bg_464646"
         android:textColorHint="@color/bg_b2b2b2"
         android:textCursorDrawable="@null"
         android:textSize="@dimen/size_14" />
