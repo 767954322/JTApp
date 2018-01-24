@@ -27,10 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/iv_imageview_one"
             android:layout_alignTop="@+id/iv_imageview_one"
-            android:layout_marginRight="@dimen/font_7"
-            android:layout_marginTop="@dimen/font_7"
             android:clickable="true"
-            android:src="@drawable/quan" />
+            android:src="@drawable/quan1" />
 
 
         <TextView

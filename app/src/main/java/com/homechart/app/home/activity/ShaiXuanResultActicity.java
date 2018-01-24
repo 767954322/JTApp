@@ -440,29 +440,38 @@ public class ShaiXuanResultActicity
                 String info = (String) msg.obj;
                 colorBean = GsonUtil.jsonToBean(info, ColorBean.class);
                 Log.d("test", colorBean.toString());
-            } else if (msg.what == 4) {
+            }else if (msg.what == 4) {
                 int clickPosition = msg.getData().getInt("position");
                 SearchDataBean searchDataBean = (SearchDataBean) msg.obj;
                 List<SearchItemDataBean> listSearch = searchDataBean.getItem_list();
-                List<SearchItemDataBean> list = new ArrayList();
-                list.addAll(listSearch);
-                List<String> listId = new ArrayList();
-                for (int i = 0; i < listSearch.size(); i++) {
-                    listId.add(listSearch.get(i).getItem_info().getItem_id());
-                }
-                mListData.addAll(clickPosition + 1, list);
-                mItemIdList.addAll(clickPosition, listId);
+                if (listSearch == null || listSearch.size() == 0) {
+                    mAdapter.notifyItemChanged(clickPosition);
+                } else {
+                    List<SearchItemDataBean> list = new ArrayList();
+                    list.addAll(listSearch);
+                    List<String> listId = new ArrayList();
+                    for (int i = 0; i < listSearch.size(); i++) {
+                        listId.add(listSearch.get(i).getItem_info().getItem_id());
+                    }
 
-                if (!curentListTag) {
-                    int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
-                    staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
-                    if ((lastPositions[0] - 2) <= clickPosition || (lastPositions[1] - 2) <= clickPosition) {
-
-                        mAdapter.notifyItemRangeChanged(clickPosition, mListData.size() - clickPosition);
-                    } else {
-                        mAdapter.notifyItemChanged(clickPosition);
+                    if (!curentListTag) {
+                        int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+                        staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
+                        if ((lastPositions[0] - 2) <= clickPosition || (lastPositions[1] - 2) <= clickPosition) {
+                            mListData.addAll(clickPosition + 1, list);
+                            mItemIdList.addAll(clickPosition, listId);
+                            mAdapter.notifyItemChanged(clickPosition);
+                            mAdapter.notifyItemInserted(clickPosition + 1);
+                            mAdapter.notifyItemRangeChanged(clickPosition + 1, list.size()); //比较好的
+//                            mAdapter.notifyItemRangeInserted(clickPosition + 1, list.size());
+//                            Log.d("test", "clickPosition:" + clickPosition + "  ;  " + "list个数:" + list.size() + "  ;  "
+//                                    + "list内容:" + list.toString() + "  ;  " + "mListData:" + mListData.toString());
+                        } else {
+                            mAdapter.notifyItemChanged(clickPosition);
+                        }
                     }
                 }
+
                 ifClickAble = true;
             }
         }
@@ -638,7 +647,7 @@ public class ShaiXuanResultActicity
                     holder.getView(R.id.iv_shibie_pic).setAlpha(0.3f);
                 }
                 if (!curentListTag) {
-                    ((ImageView) holder.getView(R.id.iv_shibie_pic)).setImageDrawable(UIUtils.getDrawable(R.drawable.quan));
+                    ((ImageView) holder.getView(R.id.iv_shibie_pic)).setImageDrawable(UIUtils.getDrawable(R.drawable.quan1));
                     ((ImageView) holder.getView(R.id.iv_shibie_pic)).setVisibility(View.VISIBLE);
                 }
                Animation animation = holder.getView(R.id.iv_shibie_pic).getAnimation();
@@ -690,8 +699,8 @@ public class ShaiXuanResultActicity
         animationSet = new AnimationSet(true);
         animationSet.setInterpolator(new LinearInterpolator());
         //透明度
-        AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0.5f);
-        alphaAnimation.setRepeatCount(100);
+//        AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0.5f);
+//        alphaAnimation.setRepeatCount(100);
 
         //缩放（以某个点为中心缩放）
         ScaleAnimation scaleAnimation = new ScaleAnimation(1, 0.8f, 1, 0.8f,
@@ -699,7 +708,7 @@ public class ShaiXuanResultActicity
         scaleAnimation.setRepeatCount(100);
         //添加动画
         animationSet.setFillAfter(true);
-        animationSet.addAnimation(alphaAnimation);
+//        animationSet.addAnimation(alphaAnimation);
         animationSet.addAnimation(scaleAnimation);
         animationSet.setDuration(500);
         animationSet.setStartOffset(0);

@@ -1002,8 +1002,8 @@ public class HomePicFragment
                             mAdapter.notifyItemInserted(clickPosition + 1);
                             mAdapter.notifyItemRangeChanged(clickPosition + 1, list.size()); //比较好的
 //                            mAdapter.notifyItemRangeInserted(clickPosition + 1, list.size());
-                            Log.d("test", "clickPosition:" + clickPosition + "  ;  " + "list个数:" + list.size() + "  ;  "
-                                    + "list内容:" + list.toString() + "  ;  " + "mListData:" + mListData.toString());
+//                            Log.d("test", "clickPosition:" + clickPosition + "  ;  " + "list个数:" + list.size() + "  ;  "
+//                                    + "list内容:" + list.toString() + "  ;  " + "mListData:" + mListData.toString());
                         } else {
                             mAdapter.notifyItemChanged(clickPosition);
                         }
@@ -1120,8 +1120,8 @@ public class HomePicFragment
         animationSet = new AnimationSet(true);
         animationSet.setInterpolator(new LinearInterpolator());
         //透明度
-        AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0.5f);
-        alphaAnimation.setRepeatCount(100);
+//        AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0.5f);
+//        alphaAnimation.setRepeatCount(100);
 
         //缩放（以某个点为中心缩放）
         ScaleAnimation scaleAnimation = new ScaleAnimation(1, 0.8f, 1, 0.8f,
@@ -1129,7 +1129,7 @@ public class HomePicFragment
         scaleAnimation.setRepeatCount(100);
         //添加动画
         animationSet.setFillAfter(true);
-        animationSet.addAnimation(alphaAnimation);
+//        animationSet.addAnimation(alphaAnimation);
         animationSet.addAnimation(scaleAnimation);
         animationSet.setDuration(500);
         animationSet.setStartOffset(0);
