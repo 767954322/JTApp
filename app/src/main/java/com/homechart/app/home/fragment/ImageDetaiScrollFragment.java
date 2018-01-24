@@ -11,7 +11,13 @@ import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -168,11 +174,9 @@ public class ImageDetaiScrollFragment
             fl_tags_jubu = (FlowLayoutBiaoQian) view.findViewById(R.id.fl_tags_jubu);
             riv_people_header = (RoundImageView) view.findViewById(R.id.riv_people_header);
             tv_people_name = (TextView) view.findViewById(R.id.tv_people_name);
-            tv_album_name = (TextView) view.findViewById(R.id.tv_album_name);
             tv_details_time = (TextView) view.findViewById(R.id.tv_details_time);
             tv_from_where = (TextView) view.findViewById(R.id.tv_from_where);
             tv_goto_shop = (TextView) view.findViewById(R.id.tv_goto_shop);
-            tv_from = (TextView) view.findViewById(R.id.tv_from);
             tv_maybe_like = (TextView) view.findViewById(R.id.tv_maybe_like);
 
             iv_more_album = (ImageView) view.findViewById(R.id.iv_more_album);
@@ -210,12 +214,10 @@ public class ImageDetaiScrollFragment
         bt_shise.setOnClickListener(this);
         bt_shise2.setOnClickListener(this);
         tv_lingganji.setOnClickListener(this);
-        tv_album_name.setOnClickListener(this);
         iv_close_color.setOnClickListener(this);
         iv_details_image.setOnClickListener(this);
         iv_edit_image.setOnClickListener(this);
         riv_people_header.setOnClickListener(this);
-        tv_people_name.setOnClickListener(this);
         iv_shared_image.setOnClickListener(this);
         iv_more_image.setOnClickListener(this);
         tv_goto_shop.setOnClickListener(this);
@@ -234,16 +236,6 @@ public class ImageDetaiScrollFragment
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_album_name:
-                if (imageDetailBean != null && imageDetailBean.getAlbum_info() != null && !TextUtils.isEmpty(imageDetailBean.getAlbum_info().getAlbum_id())) {
-                    mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
-                    Intent intent_inspi = new Intent(activity, InspirationDetailActivity.class);
-                    intent_inspi.putExtra("user_id", mUserId);
-                    intent_inspi.putExtra("ifHideEdit", true);
-                    intent_inspi.putExtra("album_id", imageDetailBean.getAlbum_info().getAlbum_id());
-                    startActivityForResult(intent_inspi, 2);
-                }
-                break;
             case R.id.rl_album_all:
             case R.id.iv_more_album:
                 Intent intent_more = new Intent(activity, XGLingGanlistActivity.class);
@@ -374,7 +366,6 @@ public class ImageDetaiScrollFragment
                 color_bottom.setVisibility(View.GONE);
                 break;
             case R.id.riv_people_header:
-            case R.id.tv_people_name:
                 if (imageDetailBean != null) {
                     Intent intent_info = new Intent(activity, UserInfoActivity.class);
                     intent_info.putExtra(ClassConstant.LoginSucces.USER_ID, imageDetailBean.getUser_info().getUser_id());
@@ -788,24 +779,71 @@ public class ImageDetaiScrollFragment
         ImageUtils.displayRoundImage(imageDetailBean.getUser_info().getAvatar().getThumb(), riv_people_header);
 
         //......nikename.........
-        String nikeName = imageDetailBean.getUser_info().getNickname();
-        if (nikeName.length() > 6) {
-            nikeName = nikeName.substring(0, 6) + "...";
-        }
-        tv_people_name.setText(nikeName);
-        //......albumName.........
-        if (null != imageDetailBean.getAlbum_info() && null != imageDetailBean.getAlbum_info().getAlbum_name()) {
-            String albumName = imageDetailBean.getAlbum_info().getAlbum_name();
-            if (albumName.length() > 8) {
-                albumName = albumName.substring(0, 8) + "...";
+        tv_people_name.setText("");
+        String strText1 = imageDetailBean.getUser_info().getNickname();
+        SpannableString spString1 = new SpannableString(strText1);
+        spString1.setSpan(new ClickableSpan() {
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setTextSize(UIUtils.getDimens(R.dimen.size_14));//设置字体大小
+                ds.setFakeBoldText(false);//设置粗体
+                ds.setColor(UIUtils.getColor(R.color.bg_262626));//设置字体颜色
+                ds.setUnderlineText(false);//设置取消下划线
             }
-            tv_from.setVisibility(View.VISIBLE);
-            tv_album_name.setVisibility(View.VISIBLE);
-            tv_album_name.setText(albumName);
-        } else {
-            tv_from.setVisibility(View.GONE);
-            tv_album_name.setVisibility(View.GONE);
-        }
+
+            @Override
+            public void onClick(View widget) {
+                //添加点击事件
+                Message message = new Message();
+                message.what = 2;
+                mHandler.sendMessage(message);
+            }
+        }, 0, strText1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv_people_name.append(spString1);
+
+        String strText2 = "   上传至   ";
+        SpannableString spString2 = new SpannableString(strText2);
+        spString2.setSpan(new ClickableSpan() {
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setTextSize(UIUtils.getDimens(R.dimen.size_12));//设置字体大小
+                ds.setFakeBoldText(false);//设置粗体
+                ds.setColor(UIUtils.getColor(R.color.bg_8f8f8f));//设置字体颜色
+                ds.setUnderlineText(false);//设置取消下划线
+            }
+
+            @Override
+            public void onClick(View widget) {
+            }
+        }, 0, strText2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv_people_name.append(spString2);
+
+        String strText3 = imageDetailBean.getAlbum_info().getAlbum_name();
+        SpannableString spString3 = new SpannableString(strText3);
+        spString3.setSpan(new ClickableSpan() {
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setTextSize(UIUtils.getDimens(R.dimen.size_14));//设置字体大小
+                ds.setFakeBoldText(false);//设置粗体
+                ds.setColor(UIUtils.getColor(R.color.bg_262626));//设置字体颜色
+                ds.setUnderlineText(false);//设置取消下划线
+            }
+
+            @Override
+            public void onClick(View widget) {
+                //添加点击事件
+                Message message = new Message();
+                message.what = 3;
+                mHandler.sendMessage(message);
+            }
+        }, 0, strText3.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv_people_name.append(spString3);
+        tv_people_name.setMovementMethod(LinkMovementMethod.getInstance());
+        tv_people_name.setHighlightColor(getResources().getColor(android.R.color.transparent));
+
         //图片时间
         if (imageDetailBean.getItem_info().getGet_way().equals("upload")) {
             String[] str = imageDetailBean.getItem_info().getAdd_time().split(" ");
@@ -1139,6 +1177,23 @@ public class ImageDetaiScrollFragment
                     changeUI(imageDetailBean);
                     mUserInfo.getUserInfo(imageDetailBean);
                     break;
+                case 2:
+                    if (imageDetailBean != null) {
+                        Intent intent_info = new Intent(activity, UserInfoActivity.class);
+                        intent_info.putExtra(ClassConstant.LoginSucces.USER_ID, imageDetailBean.getUser_info().getUser_id());
+                        startActivityForResult(intent_info, 3);
+                    }
+                    break;
+                case 3:
+                    if (imageDetailBean != null && imageDetailBean.getAlbum_info() != null && !TextUtils.isEmpty(imageDetailBean.getAlbum_info().getAlbum_id())) {
+                        mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
+                        Intent intent_inspi = new Intent(activity, InspirationDetailActivity.class);
+                        intent_inspi.putExtra("user_id", mUserId);
+                        intent_inspi.putExtra("ifHideEdit", true);
+                        intent_inspi.putExtra("album_id", imageDetailBean.getAlbum_info().getAlbum_id());
+                        startActivityForResult(intent_inspi, 2);
+                    }
+                    break;
             }
         }
     };
@@ -1312,12 +1367,10 @@ public class ImageDetaiScrollFragment
     private FlowLayoutBiaoQian fl_tags_jubu;
     private RoundImageView riv_people_header;
     private TextView tv_people_name;
-    private TextView tv_album_name;
     private TextView tv_details_time;
     private TextView tv_from_where;
     private TextView tv_goto_shop;
     private TextView tv_maybe_like;
-    private TextView tv_from;
     private ImageView iv_more_album;
     private RelativeLayout rl_album_all;
     private RelativeLayout rl_images_one;

@@ -155,33 +155,12 @@
 
             <TextView
                 android:id="@+id/tv_people_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:lineSpacingExtra="@dimen/font_5"
                 android:textColor="@color/bg_262626"
                 android:textSize="@dimen/size_14" />
-
-            <TextView
-                android:id="@+id/tv_from"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="@dimen/font_10"
-                android:layout_toRightOf="@+id/tv_people_name"
-                android:text="上传至"
-                android:textColor="@color/bg_8f8f8f"
-                android:textSize="@dimen/size_12" />
-
-            <TextView
-                android:id="@+id/tv_album_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="@dimen/font_10"
-                android:layout_toRightOf="@+id/tv_from"
-                android:textColor="@color/bg_262626"
-                android:textSize="@dimen/size_14" />
-
         </RelativeLayout>
 
         <com.homechart.app.myview.ShangshabanChangeTextSpaceView
