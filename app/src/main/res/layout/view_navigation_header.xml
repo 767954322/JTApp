@@ -16,7 +16,7 @@
             android:layout_width="@dimen/size_40"
             android:layout_height="@dimen/size_40"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="@dimen/size_10"
+            android:layout_marginLeft="@dimen/size_5"
             android:background="@drawable/transparent"
             android:padding="@dimen/size_8"
             android:scaleType="centerInside"

@@ -90,7 +90,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/fl_tags_jubu"
-        android:layout_marginTop="@dimen/font_15">
+        android:layout_marginTop="@dimen/font_5">
 
         <TextView
             android:id="@+id/tv_details_time"
@@ -138,7 +138,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_time"
-        android:layout_marginTop="@dimen/font_27">
+        android:layout_marginTop="@dimen/font_22">
 
         <com.homechart.app.myview.RoundImageView
             android:id="@+id/riv_people_header"
@@ -193,7 +193,7 @@
             android:layout_marginRight="@dimen/font_12"
             android:layout_marginTop="@dimen/font_15"
             android:background="@color/white"
-            android:lineSpacingExtra="@dimen/font_9"
+            android:lineSpacingExtra="@dimen/font_7"
             android:textColor="@color/bg_262626"
             android:textIsSelectable="true"
             android:textSize="@dimen/size_12" />
@@ -207,7 +207,7 @@
             android:layout_marginLeft="@dimen/font_8"
             android:layout_marginRight="@dimen/font_19"
             android:layout_marginTop="@dimen/font_20"
-            android:background="@color/bg_f2f2f2"
+            android:background="@drawable/bt_next_icon"
             android:scaleType="centerInside"
             android:src="@drawable/next"
             android:visibility="gone" />
