@@ -126,13 +126,13 @@ public class ImageDetaiScrollFragment
 
     @Override
     protected void lazyLoad() {
-        if (firstLoad) {
+//        if (firstLoad) {
             initExtraBundle();
             initView();
             initListener();
             initData();
-            firstLoad = false;
-        }
+//            firstLoad = false;
+//        }
     }
 
     private void initExtraBundle() {
@@ -271,12 +271,14 @@ public class ImageDetaiScrollFragment
                                 .setAction("加图")      //事件操作
                                 .build());
 
-                        mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
-                        Intent intent = new Intent(activity, InspirationSeriesActivity.class);
-                        intent.putExtra("userid", mUserId);
-                        intent.putExtra("image_url", imageDetailBean.getItem_info().getImage().getImg0());
-                        intent.putExtra("item_id", imageDetailBean.getItem_info().getItem_id());
-                        startActivity(intent);
+                        if(imageScrollActivity.getCurrentPosition() == mPosotion){
+                            mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
+                            Intent intent = new Intent(activity, InspirationSeriesActivity.class);
+                            intent.putExtra("userid", mUserId);
+                            intent.putExtra("image_url", imageDetailBean.getItem_info().getImage().getImg0());
+                            intent.putExtra("item_id", imageDetailBean.getItem_info().getItem_id());
+                            startActivity(intent);
+                        }
                     }
                 }
                 break;
