@@ -85,7 +85,7 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="@dimen/size_12"
-            android:text="＋ 灵感辑"
+            android:text="＋灵感辑"
             android:visibility="gone" />
 
         <View
