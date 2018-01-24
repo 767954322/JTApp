@@ -320,7 +320,6 @@ public class NewHuoDongDetailsActivity
                         Intent intent = new Intent(NewHuoDongDetailsActivity.this, InspirationDetailActivity.class);
                         intent.putExtra("user_id", mUserId);
                         intent.putExtra("ifHideEdit", true);
-                        intent.putExtra("tag", "true");
                         intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
                         startActivityForResult(intent, 2);
                     }

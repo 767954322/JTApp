@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_item_inspiration"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/font_10"
+    android:layout_marginRight="@dimen/font_5"
+    android:layout_marginTop="@dimen/font_10"
+    android:background="@drawable/jubao_back">
+
+    <ImageView
+        android:id="@+id/iv_item_pic"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_96"
+        android:scaleType="fitXY" />
+
+    <RelativeLayout
+        android:id="@+id/rl_user_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_item_pic"
+        android:layout_marginTop="@dimen/font_10">
+        
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/riv_header"
+            android:layout_width="@dimen/font_20"
+            android:layout_height="@dimen/font_20"
+            android:layout_marginLeft="@dimen/font_10"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/tv_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/riv_header"
+            android:layout_marginLeft="@dimen/font_7"
+            android:layout_marginRight="@dimen/font_10"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxLines="1"
+            android:textColor="@color/bg_464646"
+            android:textSize="@dimen/font_14" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_item_num_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_user_header"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/font_10"
+        android:layout_marginLeft="@dimen/font_10"
+        android:layout_marginTop="@dimen/font_10"
+        android:textColor="@color/bg_8f8f8f"
+        android:textSize="@dimen/font_12" />
+
+    <TextView
+        android:id="@+id/tv_item_num_dingyue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/rl_user_header"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/font_10"
+        android:layout_marginRight="@dimen/font_10"
+        android:layout_marginTop="@dimen/font_10"
+        android:textColor="@color/bg_8f8f8f"
+        android:textSize="@dimen/font_12" />
+
+
+</RelativeLayout>

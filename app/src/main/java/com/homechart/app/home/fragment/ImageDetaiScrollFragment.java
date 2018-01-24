@@ -45,6 +45,7 @@ import com.homechart.app.home.bean.searchfservice.SearchSBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.imagedetail.ImageDetailsActivity;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
+import com.homechart.app.lingganji.ui.activity.XGLingGanlistActivity;
 import com.homechart.app.myview.FlowLayoutBiaoQian;
 import com.homechart.app.myview.HomeSharedPopWinPublic;
 import com.homechart.app.myview.JuBaoPopWin;
@@ -213,6 +214,8 @@ public class ImageDetaiScrollFragment
         iv_more_image.setOnClickListener(this);
         tv_goto_shop.setOnClickListener(this);
         rl_pinglun.setOnClickListener(this);
+        rl_album_all.setOnClickListener(this);
+        iv_more_album.setOnClickListener(this);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -225,6 +228,12 @@ public class ImageDetaiScrollFragment
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.rl_album_all:
+            case R.id.iv_more_album:
+                Intent intent_more = new Intent(activity, XGLingGanlistActivity.class);
+                intent_more.putExtra("item_id", item_id);
+                startActivity(intent_more);
+                break;
             case R.id.tv_lingganji:
                 loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
                 if (!loginStatus) {

@@ -9,12 +9,12 @@ import java.io.Serializable;
 public class InspirationBean implements Serializable {
 
     private InspirationInfoBean album_info;
+    private InspirationUserInfo user_info;
 
-    public InspirationBean() {
-    }
 
-    public InspirationBean(InspirationInfoBean album_info) {
+    public InspirationBean(InspirationInfoBean album_info, InspirationUserInfo user_info) {
         this.album_info = album_info;
+        this.user_info = user_info;
     }
 
     public InspirationInfoBean getAlbum_info() {
@@ -25,10 +25,19 @@ public class InspirationBean implements Serializable {
         this.album_info = album_info;
     }
 
+    public InspirationUserInfo getUser_info() {
+        return user_info;
+    }
+
+    public void setUser_info(InspirationUserInfo user_info) {
+        this.user_info = user_info;
+    }
+
     @Override
     public String toString() {
         return "InspirationBean{" +
                 "album_info=" + album_info +
+                ", user_info=" + user_info +
                 '}';
     }
 }

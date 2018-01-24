@@ -1,9 +1,7 @@
-package com.homechart.app.home.fragment;
+package com.homechart.app.lingganji.ui.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,14 +11,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
-import com.homechart.app.home.base.BaseFragment;
+import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationBean;
 import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationListBean;
-import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
+import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
@@ -28,12 +29,14 @@ import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.GsonUtil;
+import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,19 +44,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressLint("ValidFragment")
-public class MyLingGuanLiFragment
-        extends BaseFragment
+/**
+ * Created by gumenghao on 18/1/4.
+ */
+
+public class XGLingGanlistActivity
+        extends BaseActivity
         implements View.OnClickListener,
         OnLoadMoreListener,
         OnRefreshListener {
-
-    private String user_id;
-    private FragmentManager fragmentManager;
     private TextView mTital;
     private TextView mRightCreate;
     private ImageButton mBack;
-    private String mUserId;
     private HRecyclerView mRecyclerView;
     private MultiItemCommonAdapter<InspirationBean> mAdapter;
     private List<InspirationBean> mListData = new ArrayList<>();
@@ -63,43 +65,54 @@ public class MyLingGuanLiFragment
     private int page_num = 1;
     private int position;
     private int widthPic;
-    private RelativeLayout rl_no_data;
-
-    public MyLingGuanLiFragment() {
-    }
-
-    public MyLingGuanLiFragment(FragmentManager fragmentManager) {
-        this.fragmentManager = fragmentManager;
-    }
-
-    public MyLingGuanLiFragment(String user_id) {
-
-        this.user_id = user_id;
-
-    }
+    private String item_id;
+    private String mUserId;
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_my_lingganji;
+        return R.layout.activity_mylinggan_list;
+    }
+
+    @Override
+    protected void initExtraBundle() {
+        super.initExtraBundle();
+
+        item_id = (String) getIntent().getSerializableExtra("item_id");
+        mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
     }
 
     @Override
     protected void initView() {
 
-        rl_no_data = (RelativeLayout) rootView.findViewById(R.id.rl_no_data);
-        mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview);
+        mTital = (TextView) findViewById(R.id.tv_tital_comment);
+        mRightCreate = (TextView) findViewById(R.id.tv_content_right);
+        mBack = (ImageButton) findViewById(R.id.nav_left_imageButton);
+        mRecyclerView = (HRecyclerView) this.findViewById(R.id.rcy_recyclerview);
 
     }
 
     @Override
-    protected void initData(Bundle savedInstanceState) {
-
-
-        widthPic = (PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_30)) / 2;
-        buildRecyclerView();
-
+    protected void initListener() {
+        super.initListener();
+        mBack.setOnClickListener(this);
+        mRightCreate.setOnClickListener(this);
     }
 
+    @Override
+    protected void initData(Bundle savedInstanceState) {
+        mTital.setText("更多灵感辑");
+        widthPic = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_30)) / 2;
+        buildRecyclerView();
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id == R.id.nav_left_imageButton) {
+            XGLingGanlistActivity.this.finish();
+        }
+
+    }
 
     @Override
     public void onRefresh() {
@@ -121,9 +134,9 @@ public class MyLingGuanLiFragment
             public int getLayoutId(int itemType) {
 
                 if (itemType == 0) {
-                    return R.layout.item_my_inspirationlist_left;
+                    return R.layout.item_more_inspirationlist_left;
                 } else {
-                    return R.layout.item_my_inspirationlist_right;
+                    return R.layout.item_more_inspirationlist_right;
                 }
             }
 
@@ -138,36 +151,37 @@ public class MyLingGuanLiFragment
             }
         };
 
-        mAdapter = new MultiItemCommonAdapter<InspirationBean>(activity, mListData, support) {
+        mAdapter = new MultiItemCommonAdapter<InspirationBean>(XGLingGanlistActivity.this, mListData, support) {
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
 
                 ((TextView) holder.getView(R.id.tv_item_name)).setText(mListData.get(position).getAlbum_info().getAlbum_name());
                 ((TextView) holder.getView(R.id.tv_item_num_pic)).setText(mListData.get(position).getAlbum_info().getItem_num() + "张");
-                ((TextView) holder.getView(R.id.tv_item_num_dingyue)).setText(mListData.get(position).getAlbum_info().getSubscribe_num() + "收藏");
+                ((TextView) holder.getView(R.id.tv_item_num_dingyue)).setText(mListData.get(position).getAlbum_info().getCollect_num() + " 收藏");
+                ImageUtils.displayRoundImage(mListData.get(position).getUser_info().getAvatar().getThumb(), (RoundImageView) holder.getView(R.id.riv_header));
                 RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.getView(R.id.iv_item_pic).getLayoutParams();
                 layoutParams.height = widthPic;
                 layoutParams.width = widthPic;
                 layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
                 holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
                 if (TextUtils.isEmpty(mListData.get(position).getAlbum_info().getCover_image().getImg0())) {
-                    GlideImgManager.glideLoader(activity, "", R.drawable.moren, R.drawable.moren, (ImageView) holder.getView(R.id.iv_item_pic));
+                    GlideImgManager.glideLoader(XGLingGanlistActivity.this, "", R.drawable.moren, R.drawable.moren, (ImageView) holder.getView(R.id.iv_item_pic));
                 } else {
                     ImageUtils.displayFilletHalfImage(mListData.get(position).getAlbum_info().getCover_image().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
                 }
                 holder.getView(R.id.rl_item_inspiration).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(activity, InspirationDetailActivity.class);
-                        intent.putExtra("user_id", user_id);
-                        intent.putExtra("tag", "true");
+                        Intent intent = new Intent(XGLingGanlistActivity.this, InspirationDetailActivity.class);
+                        intent.putExtra("user_id", mUserId);
+                        intent.putExtra("ifHideEdit", true);
                         intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
-                        startActivityForResult(intent, 3);
+                        startActivityForResult(intent, 2);
                     }
                 });
             }
         };
-        mRecyclerView.setLayoutManager(new GridLayoutManager(activity, 2));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(XGLingGanlistActivity.this, 2));
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setOnRefreshListener(this);
         mRecyclerView.setOnLoadMoreListener(this);
@@ -188,7 +202,7 @@ public class MyLingGuanLiFragment
                 }
                 mRecyclerView.setRefreshing(false);//刷新完毕
                 mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
-                ToastUtils.showCenter(activity, "专辑列表获取失败！");
+                ToastUtils.showCenter(XGLingGanlistActivity.this, "专辑列表获取失败！");
             }
 
             @Override
@@ -219,7 +233,7 @@ public class MyLingGuanLiFragment
                 }
             }
         };
-        MyHttpManager.getInstance().getUserInspirationSeries(user_id, (page_num - 1) * 20 + "", "20", callBack);
+        MyHttpManager.getInstance().getItemInspirationSeries(item_id, (page_num - 1) * 20 + "", "20", callBack);
     }
 
     private void updateViewFromData(List<InspirationBean> listData, String state) {
@@ -229,12 +243,10 @@ public class MyLingGuanLiFragment
             case REFRESH_STATUS:
                 mListData.clear();
                 if (null != listData && listData.size() > 0) {
-                    rl_no_data.setVisibility(View.GONE);
                     mListData.addAll(listData);
                 } else {
-                    rl_no_data.setVisibility(View.VISIBLE);
                     //没有更多数据
-                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                    mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
                     page_num = 1;
                     mListData.clear();
                 }
@@ -244,16 +256,11 @@ public class MyLingGuanLiFragment
 
             case LOADMORE_STATUS:
                 if (null != listData && listData.size() > 0) {
-
-                    rl_no_data.setVisibility(View.GONE);
                     position = mListData.size();
                     mListData.addAll(listData);
                     mAdapter.notifyItem(position, mListData, listData);
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
                 } else {
-                    if(mListData.size() == 0){
-                        rl_no_data.setVisibility(View.VISIBLE);
-                    }
                     --page_num;
                     //没有更多数据
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
@@ -262,19 +269,32 @@ public class MyLingGuanLiFragment
         }
     }
 
-
     @Override
-    public void onClick(View v) {
-
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == 1) {
+            onRefresh();
+        } else if (requestCode == 2 && resultCode == 2) {
+            onRefresh();
+        }
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 3 ){
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart("灵感辑列表页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("灵感辑列表页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
 
-            onRefresh();
-        }
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("灵感辑列表页");
+        MobclickAgent.onPause(this);
     }
 }
