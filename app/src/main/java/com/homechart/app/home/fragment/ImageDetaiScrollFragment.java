@@ -113,9 +113,10 @@ public class ImageDetaiScrollFragment
     }
 
     @SuppressLint("ValidFragment")
-    public ImageDetaiScrollFragment(String item_id, UserInfo userInfo) {
+    public ImageDetaiScrollFragment(String item_id, UserInfo userInfo, int posotion) {
         this.item_id = item_id;
         this.mUserInfo = userInfo;
+        this.mPosotion = posotion;
     }
 
     @Override
@@ -1142,9 +1143,8 @@ public class ImageDetaiScrollFragment
             }
             if (imageScrollActivity.getmItemIdList().size() > 1) {
 
-                String currentItemId = imageScrollActivity.getCurrentItemId();
-
-                if (currentItemId.equals(item_id)) {
+                int position = imageScrollActivity.getCurrentPosition();
+                if (position == mPosotion) {
                     int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
                     staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
                     if (lastPositions != null && lastPositions.length == 2 && lastPositions[0] == 1 && lastPositions[1] == 1) {
@@ -1329,6 +1329,7 @@ public class ImageDetaiScrollFragment
     private boolean firstLoad = true;
     private boolean ifHasHeader = false;
 
+    private int mPosotion;
     private String mUserId;
     private String item_id;
     private UserInfo mUserInfo;

@@ -381,7 +381,7 @@ public class ImageDetailScrollActivity
 
         @Override
         public Fragment getItem(int position) {
-            return new ImageDetaiScrollFragment(mItemIdList.get(position), ImageDetailScrollActivity.this);
+            return new ImageDetaiScrollFragment(mItemIdList.get(position), ImageDetailScrollActivity.this, position);
         }
 
         @Override
@@ -397,6 +397,10 @@ public class ImageDetailScrollActivity
 
     public String getCurrentItemId() {
         return mItemIdList.get(mViewPager.getCurrentItem());
+    }
+
+    public int getCurrentPosition() {
+        return mViewPager.getCurrentItem();
     }
 
     public List<String> getmItemIdList() {
