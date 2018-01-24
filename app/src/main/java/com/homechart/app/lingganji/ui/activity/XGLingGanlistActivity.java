@@ -17,6 +17,8 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
+import com.homechart.app.home.activity.ArticleDetailsActivity;
+import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationBean;
@@ -169,6 +171,14 @@ public class XGLingGanlistActivity
                 } else {
                     ImageUtils.displayFilletHalfImage(mListData.get(position).getAlbum_info().getCover_image().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
                 }
+                holder.getView(R.id.riv_header).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(XGLingGanlistActivity.this, UserInfoActivity.class);
+                        intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+                        startActivity(intent);
+                    }
+                });
                 holder.getView(R.id.rl_item_inspiration).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
