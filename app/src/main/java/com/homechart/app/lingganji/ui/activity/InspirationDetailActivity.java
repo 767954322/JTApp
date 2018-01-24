@@ -829,7 +829,7 @@ public class InspirationDetailActivity extends BaseActivity
 //            tv_dingyue_name.setText("＋ 订阅");
 //            tv_dingyue_name_no.setText("＋ 订阅");
 //            tv_dingyue_name1.setText("＋ 订阅");
-            tv_shoucang.setText("＋ 收藏");
+            tv_shoucang.setText("＋收藏");
         }
     }
 

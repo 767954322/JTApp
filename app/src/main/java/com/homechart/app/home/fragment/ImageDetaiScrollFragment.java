@@ -215,6 +215,7 @@ public class ImageDetaiScrollFragment
         iv_details_image.setOnClickListener(this);
         iv_edit_image.setOnClickListener(this);
         riv_people_header.setOnClickListener(this);
+        tv_people_name.setOnClickListener(this);
         iv_shared_image.setOnClickListener(this);
         iv_more_image.setOnClickListener(this);
         tv_goto_shop.setOnClickListener(this);
@@ -373,6 +374,7 @@ public class ImageDetaiScrollFragment
                 color_bottom.setVisibility(View.GONE);
                 break;
             case R.id.riv_people_header:
+            case R.id.tv_people_name:
                 if (imageDetailBean != null) {
                     Intent intent_info = new Intent(activity, UserInfoActivity.class);
                     intent_info.putExtra(ClassConstant.LoginSucces.USER_ID, imageDetailBean.getUser_info().getUser_id());
