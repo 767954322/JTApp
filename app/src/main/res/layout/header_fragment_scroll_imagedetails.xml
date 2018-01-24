@@ -127,6 +127,7 @@
             android:background="@drawable/bt_guanzhu1"
             android:gravity="center"
             android:text="来源"
+            android:visibility="gone"
             android:textColor="@color/bg_707070"
             android:textSize="@dimen/font_12" />
 
@@ -418,6 +419,7 @@
         android:layout_marginTop="@dimen/font_15"
         android:background="@drawable/bt_guanzhu1"
         android:layout_below="@+id/rl_user_info"
+        android:visibility="gone"
         android:gravity="center_horizontal">
 
 

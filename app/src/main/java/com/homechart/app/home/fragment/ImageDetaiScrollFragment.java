@@ -394,11 +394,18 @@ public class ImageDetaiScrollFragment
                 }
                 break;
             case R.id.rl_pinglun:
-                Intent intent1 = new Intent(activity, PingListActivity.class);
-                intent1.putExtra("item_id", item_id);
-                intent1.putExtra("ifopen", imageDetailBean.getCounter().getComment_num() == 0 ? "true" : "false");
-                intent1.putExtra("reply_id", "");
-                startActivityForResult(intent1, 2);
+                loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                if (!loginStatus) {
+                    Intent intent = new Intent(imageScrollActivity, LoginActivity.class);
+                    startActivityForResult(intent, 1);
+                } else {
+                    Intent intent1 = new Intent(activity, PingListActivity.class);
+                    intent1.putExtra("item_id", item_id);
+                    intent1.putExtra("ifopen", imageDetailBean.getCounter().getComment_num() == 0 ? "true" : "false");
+                    intent1.putExtra("reply_id", "");
+                    startActivityForResult(intent1, 2);
+                }
+
                 break;
         }
     }
@@ -730,6 +737,7 @@ public class ImageDetaiScrollFragment
 
     private void changeUI(ImageDetailBean imageDetailBean) {
         //评论
+        rl_pinglun.setVisibility(View.VISIBLE);
         if (imageDetailBean.getCounter().getComment_num() == 0) {
             tv_pinglun.setText("添加评论");
         } else {
