@@ -218,16 +218,16 @@ public class HomePicFragment
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                if(newState == 0){
+                if (newState == 0) {
 //                    ifScroll = false;
 //                    mAdapter.notifyDataSetChanged();
-                    Log.d("test","0");
-                }else if(newState == 1){
+                    Log.d("test", "0");
+                } else if (newState == 1) {
 //                    ifScroll = true;
 //                    mAdapter.notifyDataSetChanged();
-                    Log.d("test","1");
-                }else if(newState == 2){
-                    Log.d("test","2");
+                    Log.d("test", "1");
+                } else if (newState == 2) {
+                    Log.d("test", "2");
                 }
 
 //                staggeredGridLayoutManager.invalidateSpanAssignments();
@@ -520,16 +520,16 @@ public class HomePicFragment
                         }
                     });
 
-                    if(!ifScroll){
+                    if (!ifScroll) {
                         holder.getView(R.id.iv_shibie_pic).setAlpha(1);
-                    }else {
+                    } else {
                         holder.getView(R.id.iv_shibie_pic).setAlpha(0.3f);
                     }
                     if (!curentListTag) {
                         ((ImageView) holder.getView(R.id.iv_shibie_pic)).setVisibility(View.VISIBLE);
                     }
                     Animation animation = holder.getView(R.id.iv_shibie_pic).getAnimation();
-                    if(animation != null){
+                    if (animation != null) {
                         holder.getView(R.id.iv_shibie_pic).clearAnimation();
                     }
 //                    holder.getView(R.id.iv_shibie_pic).setAlpha(0.3f);
@@ -987,14 +987,16 @@ public class HomePicFragment
                 for (int i = 0; i < listSearch.size(); i++) {
                     listId.add(listSearch.get(i).getItem_info().getItem_id());
                 }
-                mListData.addAll(clickPosition + 1, list);
-                mItemIdList.addAll(clickPosition, listId);
 
                 if (!curentListTag) {
                     int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
                     staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
                     if ((lastPositions[0] - 2) <= clickPosition || (lastPositions[1] - 2) <= clickPosition) {
-                        mAdapter.notifyItemRangeChanged(clickPosition, mListData.size() - clickPosition);
+                        mListData.addAll(clickPosition + 1, list);
+                        mItemIdList.addAll(clickPosition, listId);
+                        mAdapter.notifyItemRangeChanged(clickPosition, list.size());
+                        Log.d("test", "clickPosition:" + clickPosition + "  ;  " + "list个数:" + list.size() + "  ;  "
+                                + "list内容:" + list.toString() +"  ;  "+"mListData:" + mListData.toString());
                     } else {
                         mAdapter.notifyItemChanged(clickPosition);
                     }

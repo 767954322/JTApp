@@ -72,15 +72,6 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
     private ImageView iv_zhuanye_icon;
     private Timer timer = new Timer(true);
 
-    private int notice_num = 0;
-    private int follow_notice = 0;
-    private int collect_notice = 0;
-    private int comment_notice = 0;
-    private int system_notice = 0;
-    private int subscribe_notice = 0;
-    private int addToAlbum_notice = 0;
-    private int collect_album_num = 0;
-    private int album_num = 0;
     private Boolean loginStatus;
 
     Handler handler = new Handler() {
@@ -96,16 +87,6 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
                 try {
                     JSONObject jsonObject = new JSONObject(info);
                     String num = jsonObject.getString("notice_num");
-                    notice_num = jsonObject.getInt("notice_num");
-                    follow_notice = jsonObject.getInt("follow_notice");
-                    collect_notice = jsonObject.getInt("collect_notice");
-                    comment_notice = jsonObject.getInt("comment_notice");
-                    system_notice = jsonObject.getInt("system_notice");
-                    subscribe_notice = jsonObject.getInt("subscribe_notice");
-                    addToAlbum_notice = jsonObject.getInt("addToAlbum_notice");
-
-                    collect_album_num = jsonObject.getInt("collect_album_num");
-                    album_num = jsonObject.getInt("album_num");
                     changeUnReaderMsg(num);
                 } catch (JSONException e) {
                     e.printStackTrace();
