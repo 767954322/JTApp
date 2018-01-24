@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -384,9 +385,12 @@ public class ImageDetaiScrollFragment
                 if (null != imageDetailBean &&
                         null != imageDetailBean.getItem_info().getFrom_url() &&
                         !imageDetailBean.getItem_info().getFrom_url().equals("")) {
-                    Intent intent = new Intent(activity, MyWebViewActivity.class);
-                    intent.putExtra("weburl", imageDetailBean.getItem_info().getFrom_url());
+                    Uri uri = Uri.parse(imageDetailBean.getItem_info().getFrom_url());
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
+//                    Intent intent = new Intent(activity, MyWebViewActivity.class);
+//                    intent.putExtra("weburl", imageDetailBean.getItem_info().getFrom_url());
+//                    startActivity(intent);
                 }
                 break;
             case R.id.rl_pinglun:

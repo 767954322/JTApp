@@ -22,7 +22,7 @@
     <WebView
         android:id="@+id/wb_webview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/pb_progress"
         android:layerType="hardware" />
 </RelativeLayout>
