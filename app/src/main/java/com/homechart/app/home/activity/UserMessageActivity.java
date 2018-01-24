@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -19,6 +20,7 @@ import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.msgdingyue.DingYueItemBean;
 import com.homechart.app.home.bean.msgdingyue.MsgDingYue;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
@@ -29,6 +31,7 @@ import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.GsonUtil;
+import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
@@ -38,6 +41,7 @@ import com.homechart.app.utils.volley.OkStringRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +68,8 @@ public class UserMessageActivity
     private final String REFRESH_STATUS = "refresh";
     private final String LOADMORE_STATUS = "loadmore";
     private int width_Pic_List;
+    private RelativeLayout rl_no_data;
+    private String mUserId;
 
     @Override
     protected int getLayoutResId() {
@@ -71,8 +77,16 @@ public class UserMessageActivity
     }
 
     @Override
+    protected void initExtraBundle() {
+        super.initExtraBundle();
+
+        mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
+    }
+
+    @Override
     protected void initView() {
 
+        rl_no_data = (RelativeLayout) findViewById(R.id.rl_no_data);
         mIBBack = (ImageButton) findViewById(R.id.nav_left_imageButton);
         mTVTital = (TextView) findViewById(R.id.tv_tital_comment);
         mRecyclerView = (HRecyclerView) findViewById(R.id.rcy_recyclerview_pic);
@@ -130,7 +144,7 @@ public class UserMessageActivity
             public int getItemViewType(int position, DingYueItemBean itemMessageBean) {
 
                 if (itemMessageBean.getNotice_class().equals("system")) {//系统消息
-                    if (itemMessageBean.getType().equals("activity")) {
+                    if (itemMessageBean.getObject_type().equals("activity")) {
                         return 0;
                     } else {
                         return 1;
@@ -170,42 +184,42 @@ public class UserMessageActivity
 
                 } else if (getItemViewType(position) == 2) {
 
-//                    ImageUtils.displayRoundImage(mListData.get(position).getUser_info().getAvatar(), (RoundImageView) holder.getView(R.id.riv_header));
+                    ImageUtils.displayRoundImage(mListData.get(position).getUser_info().getAvatar(), (RoundImageView) holder.getView(R.id.riv_header));
                     ((TextView) holder.getView(R.id.tv_content)).setText(mListData.get(position).getContent());
                     ((TextView) holder.getView(R.id.tv_time)).setText(mListData.get(position).getAdd_time());
 
                 } else if (getItemViewType(position) == 3) {
 
-//                    ImageUtils.displayRoundImage(mListData.get(position).getUser_info().getAvatar(), (RoundImageView) holder.getView(R.id.riv_header));
+                    ImageUtils.displayRoundImage(mListData.get(position).getUser_info().getAvatar(), (RoundImageView) holder.getView(R.id.riv_header));
                     ImageUtils.disRectangleImage(mListData.get(position).getImage().getImg0(), (ImageView) holder.getView(R.id.iv_imageview));
-//                    ((TextView) holder.getView(R.id.tv_name)).setText(mListData.get(position).getUser_info().getNickname());
+                    ((TextView) holder.getView(R.id.tv_name)).setText(mListData.get(position).getUser_info().getNickname());
                     ((TextView) holder.getView(R.id.tv_content)).setText(mListData.get(position).getContent());
                     ((TextView) holder.getView(R.id.tv_time)).setText(mListData.get(position).getAdd_time());
 
                 } else if (getItemViewType(position) == 4) {
 
-//                    ImageUtils.displayRoundImage(mListData.get(position).getUser_info().getAvatar(), (RoundImageView) holder.getView(R.id.riv_header));
+                    ImageUtils.displayRoundImage(mListData.get(position).getUser_info().getAvatar(), (RoundImageView) holder.getView(R.id.riv_header));
                     ImageUtils.disRectangleImage(mListData.get(position).getImage().getImg0(), (ImageView) holder.getView(R.id.iv_imageview));
-//                    ((TextView) holder.getView(R.id.tv_name)).setText(mListData.get(position).getUser_info().getNickname());
+                    ((TextView) holder.getView(R.id.tv_name)).setText(mListData.get(position).getUser_info().getNickname());
                     ((TextView) holder.getView(R.id.tv_content)).setText(mListData.get(position).getContent());
                     ((TextView) holder.getView(R.id.tv_time)).setText(mListData.get(position).getAdd_time());
                     holder.getView(R.id.riv_header).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(UserMessageActivity.this, UserInfoActivity.class);
-//                            intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+                            intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
                             startActivity(intent);
                         }
                     });
 
                 } else if (getItemViewType(position) == 5 || getItemViewType(position) == 6) {
-//                    ImageUtils.displayRoundImage(mListData.get(position).getUser_info().getAvatar(), (RoundImageView) holder.getView(R.id.riv_header));
+                    ImageUtils.displayRoundImage(mListData.get(position).getUser_info().getAvatar(), (RoundImageView) holder.getView(R.id.riv_header));
                     if (TextUtils.isEmpty(mListData.get(position).getImage().getImg0())) {
                         ImageUtils.disRectangleDefaultImage("", (ImageView) holder.getView(R.id.iv_imageview));
                     } else {
                         ImageUtils.disRectangleImage(mListData.get(position).getImage().getImg0(), (ImageView) holder.getView(R.id.iv_imageview));
                     }
-//                    ((TextView) holder.getView(R.id.tv_name)).setText(mListData.get(position).getUser_info().getNickname());
+                    ((TextView) holder.getView(R.id.tv_name)).setText(mListData.get(position).getUser_info().getNickname());
                     ((TextView) holder.getView(R.id.tv_content)).setText(mListData.get(position).getContent());
                     ((TextView) holder.getView(R.id.tv_time)).setText(mListData.get(position).getAdd_time());
 
@@ -213,7 +227,7 @@ public class UserMessageActivity
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(UserMessageActivity.this, UserInfoActivity.class);
-//                            intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+                            intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
                             startActivity(intent);
                         }
                     });
@@ -250,7 +264,45 @@ public class UserMessageActivity
 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+        if (mListData.get(position).getNotice_class().equals("system")) {//系统消息
+            if (mListData.get(position).getObject_type().equals("activity")) {
+                Intent intent = new Intent(UserMessageActivity.this, NewHuoDongDetailsActivity.class);
+                intent.putExtra("activity_id", mListData.get(position).getObject_id());
+                startActivity(intent);
+            }
+        } else if (mListData.get(position).getNotice_class().equals("follow")) {//关注消息
+            Intent intent = new Intent(UserMessageActivity.this, UserInfoActivity.class);
+            intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+            startActivity(intent);
+        } else if (mListData.get(position).getNotice_class().equals("comment")) {//评论消息
+            if (mListData.get(position).getObject_type().trim().equals("item")) {//图片
+                List<String> item_id_list = new ArrayList<>();
+                item_id_list.add(mListData.get(position).getObject_id());
+                Intent intent = new Intent(UserMessageActivity.this, ImageDetailScrollActivity.class);
+                intent.putExtra("item_id", mListData.get(position).getObject_id());
+                intent.putExtra("type", "single");
+                intent.putExtra("position", 0);
+                intent.putExtra("item_id_list", (Serializable) item_id_list);
+                startActivity(intent);
+            } else if (mListData.get(position).getObject_type().trim().equals("article")) {//文章
+                Intent intent = new Intent(UserMessageActivity.this, ArticleDetailsActivity.class);
+                intent.putExtra("article_id", mListData.get(position).getObject_id());
+                startActivity(intent);
+            }
+        } else if (mListData.get(position).getNotice_class().equals("collect")) {//收藏消息
+            Intent intent = new Intent(UserMessageActivity.this, InspirationDetailActivity.class);
+            intent.putExtra("user_id", mUserId);
+            intent.putExtra("ifHideEdit", true);
+            intent.putExtra("album_id", mListData.get(position).getObject_id());
+            startActivity(intent);
+        } else if (mListData.get(position).getNotice_class().equals("addToAlbum") || mListData.get(position).getNotice_class().equals("albumUpdate")) {//加入灵感辑消息
+            Intent intent = new Intent(UserMessageActivity.this, InspirationDetailActivity.class);
+            intent.putExtra("user_id", mUserId);
+            intent.putExtra("ifHideEdit", true);
+            intent.putExtra("album_id", mListData.get(position).getObject_id());
+            startActivity(intent);
 
+        }
     }
 
     private void getListData(final String state) {
@@ -273,8 +325,10 @@ public class UserMessageActivity
                         MsgDingYue msgDingYue = GsonUtil.jsonToBean(data_msg, MsgDingYue.class);
                         List<DingYueItemBean> list = msgDingYue.getNotice_list();
                         if (null != list && 0 != list.size()) {
+                            changeNone(0);
                             updateViewFromData(list, state);
                         } else {
+                            changeNone(1);
                             updateViewFromData(null, state);
                         }
                     } else {
@@ -315,5 +369,20 @@ public class UserMessageActivity
                 break;
         }
     }
+
+
+    private void changeNone(int i) {
+        if (i == 0) {
+            rl_no_data.setVisibility(View.GONE);
+        } else if (i == 1) {
+            if (mListData.size() > 0) {
+                rl_no_data.setVisibility(View.GONE);
+            } else {
+                rl_no_data.setVisibility(View.VISIBLE);
+            }
+
+        }
+    }
+
 
 }

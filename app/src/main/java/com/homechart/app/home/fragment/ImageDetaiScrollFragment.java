@@ -752,11 +752,13 @@ public class ImageDetaiScrollFragment
         }
         tv_people_name.setText(nikeName);
         //......albumName.........
-        String albumName = imageDetailBean.getAlbum_info().getAlbum_name();
-        if (albumName.length() > 6) {
-            albumName = albumName.substring(0, 6) + "...";
+        if(null != imageDetailBean.getAlbum_info()){
+            String albumName = imageDetailBean.getAlbum_info().getAlbum_name();
+            if (albumName.length() > 6) {
+                albumName = albumName.substring(0, 6) + "...";
+            }
+            tv_album_name.setText(albumName);
         }
-        tv_album_name.setText(albumName);
         //图片时间
         if (imageDetailBean.getItem_info().getGet_way().equals("upload")) {
             String[] str = imageDetailBean.getItem_info().getAdd_time().split(" ");

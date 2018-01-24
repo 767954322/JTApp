@@ -10,7 +10,7 @@ public class DingYueItemBean implements Serializable {
 
     private String notice_id;
     private String content;
-    private String type;
+    private String object_type;
     private String object_id;
     private String add_time;
     private String notice_class;
@@ -18,10 +18,10 @@ public class DingYueItemBean implements Serializable {
     private DingYueItemUserInfoBean user_info;
 
 
-    public DingYueItemBean(String notice_id, String content, String type, String object_id, String add_time, String notice_class, DingYueItemImgBean image, DingYueItemUserInfoBean user_info) {
+    public DingYueItemBean(String notice_id, String content, String object_type, String object_id, String add_time, String notice_class, DingYueItemImgBean image, DingYueItemUserInfoBean user_info) {
         this.notice_id = notice_id;
         this.content = content;
-        this.type = type;
+        this.object_type = object_type;
         this.object_id = object_id;
         this.add_time = add_time;
         this.notice_class = notice_class;
@@ -45,12 +45,12 @@ public class DingYueItemBean implements Serializable {
         this.content = content;
     }
 
-    public String getType() {
-        return type;
+    public String getObject_type() {
+        return object_type;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setObject_type(String object_type) {
+        this.object_type = object_type;
     }
 
     public String getObject_id() {
@@ -98,7 +98,7 @@ public class DingYueItemBean implements Serializable {
         return "DingYueItemBean{" +
                 "notice_id='" + notice_id + '\'' +
                 ", content='" + content + '\'' +
-                ", type='" + type + '\'' +
+                ", object_type='" + object_type + '\'' +
                 ", object_id='" + object_id + '\'' +
                 ", add_time='" + add_time + '\'' +
                 ", notice_class='" + notice_class + '\'' +
