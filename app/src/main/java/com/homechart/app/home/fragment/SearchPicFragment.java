@@ -193,7 +193,12 @@ public class SearchPicFragment
                 }
 
                 String str = mListData.get(position).getItem_info().getDescription() + " " + "<font color='#464646'>" + strTag + "</font>";
-                ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
+                if (mListData.get(position).getItem_info().getDescription().trim().equals("") && mListData.get(position).getItem_info().getTag().trim().equals("")) {
+                    ((TextView) holder.getView(R.id.tv_image_miaosu)).setVisibility(View.GONE);
+                }else {
+                    ((TextView) holder.getView(R.id.tv_image_miaosu)).setVisibility(View.VISIBLE);
+                    ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
+                }
 
 
                 ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
@@ -230,7 +235,7 @@ public class SearchPicFragment
                     @Override
                     public void onClick(View v) {
                         loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
-                        String userid  = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
+                        String userid = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
                         if (!loginStatus) {
                             Intent intent = new Intent(activity, LoginActivity.class);
                             startActivityForResult(intent, 1);
@@ -247,8 +252,8 @@ public class SearchPicFragment
                                     .build());
                             Intent intent = new Intent(activity, InspirationSeriesActivity.class);
                             intent.putExtra("userid", userid);
-                            intent.putExtra("image_url",mListData.get(position).getItem_info().getImage().getImg0());
-                            intent.putExtra("item_id",mListData.get(position).getItem_info().getItem_id());
+                            intent.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg0());
+                            intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
                             startActivity(intent);
 
                         }
