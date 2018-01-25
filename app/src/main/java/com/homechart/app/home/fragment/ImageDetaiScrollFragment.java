@@ -514,7 +514,12 @@ public class ImageDetaiScrollFragment
                 }
 
                 String str = mListData.get(position).getItem_info().getDescription() + " " + "<font color='#464646'>" + strTag + "</font>";
-                ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
+                if(mListData.get(position).getItem_info().getDescription().trim().equals("") &&mListData.get(position).getItem_info().getTag().trim().equals("")){
+                    ((TextView) holder.getView(R.id.tv_image_miaosu)).setVisibility(View.GONE);
+                }else {
+                    ((TextView) holder.getView(R.id.tv_image_miaosu)).setVisibility(View.VISIBLE);
+                    ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
+                }
 
                 if (PublicUtils.ifHasWriteQuan(activity)) {
                     //有权限

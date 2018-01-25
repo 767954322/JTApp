@@ -96,10 +96,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_15"
             android:paddingLeft="@dimen/font_25"
             android:paddingRight="@dimen/font_10"
-            android:src="@drawable/datuxing"
-            android:visibility="gone"/>
+            android:src="@drawable/datuxing"/>
 
     </RelativeLayout>
 
