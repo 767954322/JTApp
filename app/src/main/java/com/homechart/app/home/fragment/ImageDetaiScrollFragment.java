@@ -127,10 +127,10 @@ public class ImageDetaiScrollFragment
     @Override
     protected void lazyLoad() {
 //        if (firstLoad) {
-            initExtraBundle();
-            initView();
-            initListener();
-            initData();
+        initExtraBundle();
+        initView();
+        initListener();
+        initData();
 //            firstLoad = false;
 //        }
     }
@@ -271,7 +271,7 @@ public class ImageDetaiScrollFragment
                                 .setAction("加图")      //事件操作
                                 .build());
 
-                        if(imageScrollActivity.getCurrentPosition() == mPosotion){
+                        if (imageScrollActivity.getCurrentPosition() == mPosotion) {
                             mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
                             Intent intent = new Intent(activity, InspirationSeriesActivity.class);
                             intent.putExtra("userid", mUserId);
@@ -806,6 +806,11 @@ public class ImageDetaiScrollFragment
         tv_people_name.append(spString1);
 
         String strText2 = "   上传至   ";
+        if (imageDetailBean.getItem_info().getGet_way().equals("upload")) {
+            strText2 = "   上传至   ";
+        } else {
+            strText2 = "   采集至   ";
+        }
         SpannableString spString2 = new SpannableString(strText2);
         spString2.setSpan(new ClickableSpan() {
             @Override
@@ -871,7 +876,7 @@ public class ImageDetaiScrollFragment
             tv_goto_shop.setVisibility(View.VISIBLE);
             tv_from_where.setVisibility(View.VISIBLE);
             tv_details_time.setText("采自 ");
-            tv_from_where.setText(imageDetailBean.getItem_info().getFrom_url());
+            tv_from_where.setText(imageDetailBean.getItem_info().getFrom_domain());
         }
 
         //图片标题
