@@ -590,10 +590,10 @@ public class NewHuoDongDetailsActivity
         super.onResume();
 
         MobclickAgent.onResume(this);
-        MobclickAgent.onPageStart("活动页");
+        MobclickAgent.onPageStart("新版活动页");
         Tracker t = MyApplication.getInstance().getDefaultTracker();
         // Set screen name.
-        t.setScreenName("活动页");
+        t.setScreenName("新版活动页");
         // Send a screen view.
         t.send(new HitBuilders.ScreenViewBuilder().build());
     }
@@ -601,7 +601,7 @@ public class NewHuoDongDetailsActivity
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("活动页");
+        MobclickAgent.onPageEnd("新版活动页");
         MobclickAgent.onPause(this);
     }
 

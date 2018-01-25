@@ -239,6 +239,16 @@ public class ImageDetaiScrollFragment
         switch (v.getId()) {
             case R.id.rl_album_all:
             case R.id.iv_more_album:
+                //友盟统计
+                HashMap<String, String> map8 = new HashMap<String, String>();
+                map8.put("evenname", "更多灵感辑");
+                map8.put("even", "点击更多灵感辑进入更多灵感辑页面的次数");
+                MobclickAgent.onEvent(imageScrollActivity, "shijian34", map8);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("点击更多灵感辑进入更多灵感辑页面的次数")  //事件类别
+                        .setAction("更多灵感辑")      //事件操作
+                        .build());
                 Intent intent_more = new Intent(activity, XGLingGanlistActivity.class);
                 intent_more.putExtra("item_id", item_id);
                 startActivity(intent_more);
@@ -262,13 +272,13 @@ public class ImageDetaiScrollFragment
                     if (null != imageDetailBean) {
                         //友盟统计
                         HashMap<String, String> map4 = new HashMap<String, String>();
-                        map4.put("evenname", "加图");
+                        map4.put("evenname", "加灵感辑");
                         map4.put("even", "图片详情");
-                        MobclickAgent.onEvent(activity, "shijian23", map4);
+                        MobclickAgent.onEvent(activity, "shijian30", map4);
                         //ga统计
                         MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                                 .setCategory("图片详情")  //事件类别
-                                .setAction("加图")      //事件操作
+                                .setAction("加灵感辑")      //事件操作
                                 .build());
 
                         if (imageScrollActivity.getCurrentPosition() == mPosotion) {
@@ -392,7 +402,16 @@ public class ImageDetaiScrollFragment
                 }
                 break;
             case R.id.tv_goto_shop:
-
+               //友盟统计
+                HashMap<String, String> map7 = new HashMap<String, String>();
+                map7.put("evenname", "图片来源");
+                map7.put("even", "点击来源跳转浏览器打开的次数");
+                MobclickAgent.onEvent(imageScrollActivity, "shijian33", map7);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("点击来源跳转浏览器打开的次数")  //事件类别
+                        .setAction("图片来源")      //事件操作
+                        .build());
                 if (null != imageDetailBean &&
                         null != imageDetailBean.getItem_info().getFrom_url() &&
                         !imageDetailBean.getItem_info().getFrom_url().equals("")) {
@@ -553,15 +572,16 @@ public class ImageDetaiScrollFragment
                                     .build());
                             Intent intent = new Intent(activity, LoginActivity.class);
                             startActivityForResult(intent, 1);
-                        } else {//友盟统计
+                        } else {
+                            //友盟统计
                             HashMap<String, String> map4 = new HashMap<String, String>();
-                            map4.put("evenname", "加图");
+                            map4.put("evenname", "加灵感辑");
                             map4.put("even", "你可能喜欢");
-                            MobclickAgent.onEvent(activity, "shijian23", map4);
+                            MobclickAgent.onEvent(activity, "shijian30", map4);
                             //ga统计
                             MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                                     .setCategory("你可能喜欢")  //事件类别
-                                    .setAction("加图")      //事件操作
+                                    .setAction("加灵感辑")      //事件操作
                                     .build());
                             mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
                             Intent intent = new Intent(activity, InspirationSeriesActivity.class);
@@ -1208,6 +1228,16 @@ public class ImageDetaiScrollFragment
     @Override
     public void onJumpJuBao() {
         juBaoPopWin.dismiss();
+        //友盟统计
+        HashMap<String, String> map6 = new HashMap<String, String>();
+        map6.put("evenname", "举报图片");
+        map6.put("even", " 举报不良图片");
+        MobclickAgent.onEvent(imageScrollActivity, "shijian32", map6);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory(" 举报不良图片")  //事件类别
+                .setAction("举报图片")      //事件操作
+                .build());
         Intent intent = new Intent(activity, JuBaoActivity.class);
         intent.putExtra("item_id", item_id);
         startActivity(intent);

@@ -44,6 +44,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -125,6 +126,16 @@ public class XGLingGanlistActivity
 
     @Override
     public void onLoadMore() {
+        //友盟统计
+        HashMap<String, String> map8 = new HashMap<String, String>();
+        map8.put("evenname", "加载更多灵感辑");
+        map8.put("even", "在更多灵感辑加载灵感辑的次数");
+        MobclickAgent.onEvent(this, "shijian35", map8);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("在更多灵感辑加载灵感辑的次数")  //事件类别
+                .setAction("加载更多灵感辑")      //事件操作
+                .build());
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
         ++page_num;
         getInspirationsData(LOADMORE_STATUS);
@@ -293,10 +304,10 @@ public class XGLingGanlistActivity
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        MobclickAgent.onPageStart("灵感辑列表页");
+        MobclickAgent.onPageStart("相关灵感辑列表页");
         Tracker t = MyApplication.getInstance().getDefaultTracker();
         // Set screen name.
-        t.setScreenName("灵感辑列表页");
+        t.setScreenName("相关灵感辑列表页");
         // Send a screen view.
         t.send(new HitBuilders.ScreenViewBuilder().build());
     }
@@ -304,7 +315,7 @@ public class XGLingGanlistActivity
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("灵感辑列表页");
+        MobclickAgent.onPageEnd("相关灵感辑列表页");
         MobclickAgent.onPause(this);
     }
 }

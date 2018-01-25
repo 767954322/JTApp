@@ -536,6 +536,16 @@ public class HomePicFragment
                     holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            //友盟统计
+                            HashMap<String, String> map = new HashMap<String, String>();
+                            map.put("evenname", "找相似图");
+                            map.put("even", "首页");
+                            MobclickAgent.onEvent(activity, "shijian31", map);
+                            //ga统计
+                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                    .setCategory("首页")  //事件类别
+                                    .setAction("找相似图")      //事件操作
+                                    .build());
                             if (ifClickAble) {
                                 holder.getView(R.id.iv_shibie_pic).startAnimation(animationSet);
 //                                ifClickAble = false;
@@ -569,13 +579,13 @@ public class HomePicFragment
                             } else {
                                 //友盟统计
                                 HashMap<String, String> map4 = new HashMap<String, String>();
-                                map4.put("evenname", "加图");
+                                map4.put("evenname", "加灵感辑");
                                 map4.put("even", "看图列表页");
-                                MobclickAgent.onEvent(activity, "shijian23", map4);
+                                MobclickAgent.onEvent(activity, "shijian30", map4);
                                 //ga统计
                                 MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                                         .setCategory("看图列表页")  //事件类别
-                                        .setAction("加图")      //事件操作
+                                        .setAction("加灵感辑")      //事件操作
                                         .build());
                                 Intent intent = new Intent(activity, InspirationSeriesActivity.class);
                                 intent.putExtra("userid", userId);

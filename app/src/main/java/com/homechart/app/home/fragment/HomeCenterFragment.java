@@ -213,7 +213,16 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
 
                 break;
             case R.id.rl_shaijia:
-
+                //友盟统计
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("evenname", "图片查看");
+                map.put("even", "我的");
+                MobclickAgent.onEvent(activity, "shijian36", map);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("我的")  //事件类别
+                        .setAction("图片查看")      //事件操作
+                        .build());
                 Intent intent_shaijia = new Intent(activity, PicCenterActivity.class);
                 startActivity(intent_shaijia);
 

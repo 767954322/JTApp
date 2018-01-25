@@ -58,6 +58,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -168,6 +169,16 @@ public class UserInfoActivity
                     mRecyclerView.setAdapter(mAdapter);
                     onRefresh();
                 } else if (tab.getText().equals("图片")) {
+                    //友盟统计
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put("evenname", "图片查看");
+                    map.put("even", "个人主页");
+                    MobclickAgent.onEvent(UserInfoActivity.this, "shijian41", map);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("个人主页")  //事件类别
+                            .setAction("图片查看")      //事件操作
+                            .build());
                     sort = "image";
                     mListData.clear();
                     mListDataImage.clear();
@@ -550,6 +561,16 @@ public class UserInfoActivity
         if (sort.equals("zhuanji")) {
             getInspirationsData(LOADMORE_STATUS);
         } else if (sort.equals("image")) {
+            //友盟统计
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("evenname", "图片查看加载");
+            map.put("even", "个人主页");
+            MobclickAgent.onEvent(UserInfoActivity.this, "shijian42", map);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("个人主页")  //事件类别
+                    .setAction("图片查看加载")      //事件操作
+                    .build());
             getImageByUserId(LOADMORE_STATUS);
         }
     }

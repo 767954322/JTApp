@@ -19,6 +19,7 @@ import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.home.activity.LingGanCenterActivity;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationBean;
@@ -42,6 +43,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -117,6 +119,16 @@ public class InspirationSeriesActivity extends BaseActivity
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.iv_dismiss_pop) {
+            //友盟统计
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("evenname", "取消加入灵感辑");
+            map.put("even", "点击我的-灵感辑-收藏灵感辑下的内容的次数");
+            MobclickAgent.onEvent(InspirationSeriesActivity.this, "shijian38", map);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("点击我的-灵感辑-收藏灵感辑下的内容的次数")  //事件类别
+                    .setAction("取消加入灵感辑")      //事件操作
+                    .build());
             this.finish();
         } else if (i == R.id.rl_add_inspiration) {
 

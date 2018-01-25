@@ -1,5 +1,6 @@
 package com.homechart.app.home.activity;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,7 @@ import com.homechart.app.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -139,8 +141,28 @@ public class LingGanCenterActivity extends BaseActivity
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
+                    //友盟统计
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put("evenname", "我的灵感辑");
+                    map.put("even", "点击我的-灵感辑-我的灵感辑下的内容的次数");
+                    MobclickAgent.onEvent(LingGanCenterActivity.this, "shijian36", map);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("点击我的-灵感辑-我的灵感辑下的内容的次数")  //事件类别
+                            .setAction("我的灵感辑")      //事件操作
+                            .build());
                     tv_content_right.setText("新建");
                 } else if (position == 1) {
+                    //友盟统计
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put("evenname", "收藏灵感辑");
+                    map.put("even", "点击我的-灵感辑-收藏灵感辑下的内容的次数");
+                    MobclickAgent.onEvent(LingGanCenterActivity.this, "shijian37", map);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("点击我的-灵感辑-收藏灵感辑下的内容的次数")  //事件类别
+                            .setAction("收藏灵感辑")      //事件操作
+                            .build());
                     tv_content_right.setText("管理");
                 }
             }
@@ -192,10 +214,10 @@ public class LingGanCenterActivity extends BaseActivity
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        MobclickAgent.onPageStart("订阅列表页");
+        MobclickAgent.onPageStart("灵感辑个人中心");
         Tracker t = MyApplication.getInstance().getDefaultTracker();
         // Set screen name.
-        t.setScreenName("订阅列表页");
+        t.setScreenName("灵感辑个人中心");
         // Send a screen view.
         t.send(new HitBuilders.ScreenViewBuilder().build());
     }
@@ -203,7 +225,7 @@ public class LingGanCenterActivity extends BaseActivity
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("订阅列表页");
+        MobclickAgent.onPageEnd("灵感辑个人中心");
         MobclickAgent.onPause(this);
     }
 
