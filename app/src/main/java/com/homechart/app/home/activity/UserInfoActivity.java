@@ -158,6 +158,7 @@ public class UserInfoActivity
         iv_header_desiner_center.setOnClickListener(this);
         rl_info_guanzhu.setOnClickListener(this);
         rl_info_shaijia.setOnClickListener(this);
+        rl_info_shaijia.setOnClickListener(this);
         rl_info_fensi.setOnClickListener(this);
         rl_info_pic.setOnClickListener(this);
         tl_tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -376,8 +377,30 @@ public class UserInfoActivity
                 }
                 break;
             case R.id.rl_info_pic:
-                Intent intent_shaijia = new Intent(UserInfoActivity.this, PicCenterActivity.class);
-                startActivity(intent_shaijia);
+                if (sort.equals("zhuanji")) {
+                    tl_tab.setScrollPosition(1, 0, true);
+                    sort = "image";
+                    mListData.clear();
+                    mListDataImage.clear();
+                    mAdapter.notifyDataSetChanged();
+                    mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+                    mRecyclerView.setAdapter(mAdapterImage);
+                    onRefresh();
+                }
+                break;
+            case R.id.rl_info_shaijia:
+                if (sort.equals("image")) {
+                    tl_tab.setScrollPosition(0, 0, true);
+                    page_num = 1;
+                    mListData.clear();
+                    sort = "zhuanji";
+                    mListDataImage.clear();
+                    mListData.clear();
+                    mAdapterImage.notifyDataSetChanged();
+                    mRecyclerView.setLayoutManager(new GridLayoutManager(UserInfoActivity.this, 2));
+                    mRecyclerView.setAdapter(mAdapter);
+                    onRefresh();
+                }
                 break;
             case R.id.rl_info_fensi:
                 if (!TextUtils.isEmpty(user_id)) {
