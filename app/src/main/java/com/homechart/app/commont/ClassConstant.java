@@ -90,6 +90,8 @@ public class ClassConstant {
         public static final String EMAIL = "email";
         public static final String MOBILE = "mobile";
         public static final String PROFESSION = "profession";
+
+        public static final String IS_ENABLE_ITEM_SIMILAR = "is_enable_item_similar";
     }
 
     //友盟登陆后，调用自己后台接口登陆

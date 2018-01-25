@@ -157,6 +157,7 @@ public class HomePicFragment
     private ActivityInfoBean mActivityInfoBean;
     private AnimationSet animationSet;
     private boolean ifScroll = false;
+    private String is_enable_item_similar;
 
     public HomePicFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -406,7 +407,7 @@ public class HomePicFragment
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
                 scroll_position = position;
-
+                is_enable_item_similar = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.IS_ENABLE_ITEM_SIMILAR);
                 if (position == 0 && mListData.get(position).getItem_info().getTag().equals("活动") && null != mActivityInfoBean) {
                     ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
 
@@ -534,7 +535,11 @@ public class HomePicFragment
                         holder.getView(R.id.iv_shibie_pic).setAlpha(0.3f);
                     }
                     if (!curentListTag) {
-                        ((ImageView) holder.getView(R.id.iv_shibie_pic)).setVisibility(View.VISIBLE);
+                        if (is_enable_item_similar != null && is_enable_item_similar.equals("0")) {//关闭
+                            ((ImageView) holder.getView(R.id.iv_shibie_pic)).setVisibility(View.GONE);
+                        } else {//开启
+                            ((ImageView) holder.getView(R.id.iv_shibie_pic)).setVisibility(View.VISIBLE);
+                        }
                     }
                     Animation animation = holder.getView(R.id.iv_shibie_pic).getAnimation();
                     if (animation != null) {

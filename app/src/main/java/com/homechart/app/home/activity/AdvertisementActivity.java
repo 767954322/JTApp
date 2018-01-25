@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -19,13 +20,28 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.homechart.app.R;
+import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.KeyConstans;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.home.bean.allset.AllSetBean;
+import com.homechart.app.utils.GsonUtil;
+import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
+import com.homechart.app.utils.volley.MyHttpManager;
+import com.homechart.app.utils.volley.OkStringRequest;
 import com.jaeger.library.StatusBarUtil;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Allen.Gu .
@@ -79,56 +95,34 @@ public class AdvertisementActivity extends BaseActivity implements View.OnClickL
     @SuppressLint("JavascriptInterface")
     @Override
     protected void initData(Bundle savedInstanceState) {
-//        wv_webView.setWebViewClient(new webViewClient());
-//        WebSettings settings = wv_webView.getSettings();
-//        settings.setUseWideViewPort(true);
-//        settings.setLoadWithOverviewMode(true);
-//        settings.setJavaScriptEnabled(true);
-//        wv_webView.addJavascriptInterface(new AndroidJs(AdvertisementActivity.this), "AndroidJs");
-//        wv_webView.loadUrl(KeyConstans.ADVERTISEMENT_WEB);
-//        StatusBarUtil.setTranslucentForImageView(this, 0, null);
+        getAllSet();
         handler.postDelayed(runnable, 500);
     }
 
-    class webViewClient extends WebViewClient {
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
-        }
+    private void getAllSet() {
 
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
-        }
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
 
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
-            return false;
-        }
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        AllSetBean allSetBean = GsonUtil.jsonToBean(data_msg,AllSetBean.class);
+                        SharedPreferencesUtils.writeString(ClassConstant.LoginSucces.IS_ENABLE_ITEM_SIMILAR, allSetBean.getConfig_info().getIs_enable_item_similar());
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().allSet(callBack);
 
-        @Override
-        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-            super.onReceivedError(view, request, error);
-            loadweb_success = false;
-        }
-    }
-
-    public class AndroidJs {
-        Context mContext;
-
-        AndroidJs(Context c) {
-            mContext = c;
-        }
-
-        @JavascriptInterface
-        public void jumpDesinerCenter(String desiner_id) {
-            Intent intent = new Intent(AdvertisementActivity.this, LoginActivity.class);
-            intent.putExtra("desiner_id", desiner_id);
-            startActivity(intent);
-            handler.removeCallbacksAndMessages(null);
-            AdvertisementActivity.this.finish();
-        }
     }
 
     Runnable runnable = new Runnable() {
@@ -138,17 +132,6 @@ public class AdvertisementActivity extends BaseActivity implements View.OnClickL
             startActivity(intent);
             handler.removeCallbacksAndMessages(null);
             AdvertisementActivity.this.finish();
-
-//            if (PublicUtils.isNetworkConnected(AdvertisementActivity.this) && loadweb_success) {
-//                wv_webView.setVisibility(View.VISIBLE);
-//                iv_flush.setVisibility(View.GONE);
-//                handler.postDelayed(runnable_timeui, 1000);
-//            } else {
-//                Intent intent = new Intent(AdvertisementActivity.this, LoginActivity.class);
-//                startActivity(intent);
-//                handler.removeCallbacksAndMessages(null);
-//                finish();
-//            }
         }
     };
 

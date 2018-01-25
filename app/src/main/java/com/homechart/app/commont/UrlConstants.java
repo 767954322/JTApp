@@ -74,6 +74,7 @@ public class UrlConstants {
     public static final String PING_REMOVEZAN = "https://api.idcool.com.cn/like/comment/cancel";  //取消评论的点赞
     public static final String LAST_VERSION = "https://api.idcool.com.cn/base/version/lastVersion";  //获取最新版本号
     public static final String HUODONG_LIST = "https://api.idcool.com.cn/activity/activity/getList";  //获取最新版本号
+    public static final String ALL_SET = "https://api.idcool.com.cn/base/app/getConfig";  //APP启动时获取APP配置信息
     public static final String ALL_MSG = "https://api.idcool.com.cn/notice/notice/slist";  //获取全部消息列表
     public static final String GUANZHU_MSG = "https://api.idcool.com.cn/notice/follow/slist";  //关注消息
     public static final String DINGYUE_MSG = "https://api.idcool.com.cn/notice/subscribe/slist";  //获取订阅消息列表
