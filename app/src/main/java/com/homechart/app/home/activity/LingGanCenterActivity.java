@@ -143,25 +143,25 @@ public class LingGanCenterActivity extends BaseActivity
                 if (position == 0) {
                     //友盟统计
                     HashMap<String, String> map = new HashMap<String, String>();
-                    map.put("evenname", "我的灵感辑");
+                    map.put("evenname", "查看我的灵感辑");
                     map.put("even", "点击我的-灵感辑-我的灵感辑下的内容的次数");
                     MobclickAgent.onEvent(LingGanCenterActivity.this, "shijian36", map);
                     //ga统计
                     MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                             .setCategory("点击我的-灵感辑-我的灵感辑下的内容的次数")  //事件类别
-                            .setAction("我的灵感辑")      //事件操作
+                            .setAction("查看我的灵感辑")      //事件操作
                             .build());
                     tv_content_right.setText("新建");
                 } else if (position == 1) {
                     //友盟统计
                     HashMap<String, String> map = new HashMap<String, String>();
-                    map.put("evenname", "收藏灵感辑");
+                    map.put("evenname", "查看收藏灵感辑");
                     map.put("even", "点击我的-灵感辑-收藏灵感辑下的内容的次数");
                     MobclickAgent.onEvent(LingGanCenterActivity.this, "shijian37", map);
                     //ga统计
                     MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                             .setCategory("点击我的-灵感辑-收藏灵感辑下的内容的次数")  //事件类别
-                            .setAction("收藏灵感辑")      //事件操作
+                            .setAction("查看收藏灵感辑")      //事件操作
                             .build());
                     tv_content_right.setText("管理");
                 }

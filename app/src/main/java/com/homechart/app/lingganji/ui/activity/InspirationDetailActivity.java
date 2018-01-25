@@ -988,13 +988,13 @@ public class InspirationDetailActivity extends BaseActivity
 
                         //友盟统计
                         HashMap<String, String> map = new HashMap<String, String>();
-                        map.put("evenname", "灵感辑详情取消加入灵感辑");
-                        map.put("even", "灵感辑详情取消加入灵感辑");
+                        map.put("evenname", "取消收藏灵感辑");
+                        map.put("even", "取消收藏灵感辑");
                         MobclickAgent.onEvent(InspirationDetailActivity.this, "shijian40", map);
                         //ga统计
                         MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("灵感辑详情取消加入灵感辑")  //事件类别
-                                .setAction("灵感辑详情取消加入灵感辑")      //事件操作
+                                .setCategory("取消收藏灵感辑")  //事件类别
+                                .setAction("取消收藏灵感辑")      //事件操作
                                 .build());
                     } else {
                         CustomProgress.cancelDialog();
@@ -1034,13 +1034,13 @@ public class InspirationDetailActivity extends BaseActivity
                         CustomProgress.cancelDialog();
                         //友盟统计
                         HashMap<String, String> map = new HashMap<String, String>();
-                        map.put("evenname", "灵感辑详情收藏灵感辑");
-                        map.put("even", "灵感辑详情收藏灵感辑");
+                        map.put("evenname", "收藏灵感辑");
+                        map.put("even", "收藏灵感辑");
                         MobclickAgent.onEvent(InspirationDetailActivity.this, "shijian39", map);
                         //ga统计
                         MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("灵感辑详情收藏灵感辑")  //事件类别
-                                .setAction("灵感辑详情收藏灵感辑")      //事件操作
+                                .setCategory("收藏灵感辑")  //事件类别
+                                .setAction("收藏灵感辑")      //事件操作
                                 .build());
                         ToastUtils.showCenter(InspirationDetailActivity.this, "取消收藏成功！");
                         ifClickDingYue = true;
