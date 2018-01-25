@@ -154,6 +154,7 @@ public class InspirationDetailActivity extends BaseActivity
     private Boolean loginStatus;
     private TextView tv_shoucang;
     private ImageButton mRightIcon1;
+    private String mIfshowtital;
 
     @Override
     protected int getLayoutResId() {
@@ -166,6 +167,7 @@ public class InspirationDetailActivity extends BaseActivity
         tag = getIntent().getStringExtra("tag");
         mUserId = getIntent().getStringExtra("user_id");
         mAlbumId = getIntent().getStringExtra("album_id");
+        mIfshowtital = getIntent().getStringExtra("ifshowtital");
         ifHideEdit = getIntent().getBooleanExtra("ifHideEdit", false);
     }
 
@@ -374,8 +376,15 @@ public class InspirationDetailActivity extends BaseActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
 
+        if (null != mIfshowtital && mIfshowtital.equals("true")) {
+
+            mTital.setVisibility(View.VISIBLE);
+            mTital.setText("灵感辑详情");
+        }else {
+            mTital.setVisibility(View.GONE);
+        }
         homeSharedPopWinPublic = new HomeSharedPopWinPublic(InspirationDetailActivity.this, InspirationDetailActivity.this);
-//        mTital.setText("灵感辑");
+
         mRightIcon.setImageResource(R.drawable.gengduo);
         mRightIcon1.setImageResource(R.drawable.gengduo);
         mRightIcon.setVisibility(View.GONE);
