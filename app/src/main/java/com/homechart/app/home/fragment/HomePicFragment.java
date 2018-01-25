@@ -498,6 +498,14 @@ public class HomePicFragment
                             startActivity(intent);
                         }
                     });
+                    holder.getView(R.id.tv_name_pic).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(activity, UserInfoActivity.class);
+                            intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+                            startActivity(intent);
+                        }
+                    });
                     holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

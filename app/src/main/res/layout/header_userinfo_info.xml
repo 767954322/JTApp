@@ -78,10 +78,49 @@
             android:layout_below="@+id/rl_top"
             android:layout_marginTop="@dimen/font_17">
 
+            <View
+                android:id="@+id/view_test"
+                android:layout_width="@dimen/size_0.5"
+                android:layout_height="@dimen/size_0.5"
+                android:layout_centerInParent="true"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_info_fensi"
+                android:layout_width="@dimen/font_60"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/font_10"
+                android:layout_toRightOf="@+id/view_test">
+
+                <TextView
+                    android:id="@+id/tv_info_fensi_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="0"
+                    android:textColor="@color/bg_262626"
+                    android:textSize="@dimen/size_22"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_info_fensi_num"
+                    android:layout_marginTop="@dimen/font_10"
+                    android:text="粉丝"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/bg_8f8f8f"
+                    android:textSize="@dimen/size_11"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/rl_info_guanzhu"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/font_60"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/rl_info_fensi"
+                android:layout_marginLeft="@dimen/font_20"
                 android:layout_centerInParent="true">
 
                 <TextView
@@ -107,14 +146,44 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/rl_info_pic"
+                android:layout_width="@dimen/font_60"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/font_10"
+                android:layout_toLeftOf="@+id/view_test">
+
+                <TextView
+                    android:id="@+id/tv_info_pic_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="0"
+                    android:textColor="@color/bg_262626"
+                    android:textSize="@dimen/size_22"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_info_pic_num"
+                    android:layout_marginTop="@dimen/font_10"
+                    android:text="图片"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/bg_8f8f8f"
+                    android:textSize="@dimen/size_11"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_info_shaijia"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/font_60"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/font_80"
-                android:layout_toLeftOf="@+id/rl_info_guanzhu">
+                android:layout_marginRight="@dimen/font_20"
+                android:layout_toLeftOf="@+id/rl_info_pic">
 
                 <TextView
                     android:id="@+id/tv_info_shaijia_num"
@@ -132,37 +201,6 @@
                     android:layout_below="@+id/tv_info_shaijia_num"
                     android:layout_marginTop="@dimen/font_10"
                     android:text="灵感辑"
-                    android:layout_centerHorizontal="true"
-                    android:textColor="@color/bg_8f8f8f"
-                    android:textSize="@dimen/size_11"
-                    android:textStyle="bold" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rl_info_fensi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/font_80"
-                android:layout_toRightOf="@+id/rl_info_guanzhu">
-
-                <TextView
-                    android:id="@+id/tv_info_fensi_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="0"
-                    android:textColor="@color/bg_262626"
-                    android:textSize="@dimen/size_22"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_info_fensi_num"
-                    android:layout_marginTop="@dimen/font_10"
-                    android:text="粉丝"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/bg_8f8f8f"
                     android:textSize="@dimen/size_11"

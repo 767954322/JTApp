@@ -108,6 +108,8 @@ public class UserInfoActivity
     private String sort = "zhuanji";
     private GridLayoutManager gridLayoutManager;
     private StaggeredGridLayoutManager staggeredGridLayoutManager;
+    private TextView tv_info_pic_num;
+    private RelativeLayout rl_info_pic;
 
     @Override
     protected int getLayoutResId() {
@@ -125,10 +127,12 @@ public class UserInfoActivity
 
         tv_jieshao = (TextView) headerView.findViewById(R.id.tv_jieshao);
         tv_userinfo_nikename = (TextView) headerView.findViewById(R.id.tv_userinfo_nikename);
+        tv_info_pic_num = (TextView) headerView.findViewById(R.id.tv_info_pic_num);
         tv_info_guanzhu_num = (TextView) headerView.findViewById(R.id.tv_info_guanzhu_num);
         tv_info_shaijia_num = (TextView) headerView.findViewById(R.id.tv_info_shaijia_num);
         tv_info_fensi_num = (TextView) headerView.findViewById(R.id.tv_info_fensi_num);
         btn_guanzhu_demand = (TextView) headerView.findViewById(R.id.btn_guanzhu_demand);
+        rl_info_pic = (RelativeLayout) headerView.findViewById(R.id.rl_info_pic);
         rl_info_zhunaye = (RelativeLayout) headerView.findViewById(R.id.rl_info_zhunaye);
         rl_info_guanzhu = (RelativeLayout) headerView.findViewById(R.id.rl_info_guanzhu);
         rl_info_shaijia = (RelativeLayout) headerView.findViewById(R.id.rl_info_shaijia);
@@ -155,12 +159,13 @@ public class UserInfoActivity
         rl_info_guanzhu.setOnClickListener(this);
         rl_info_shaijia.setOnClickListener(this);
         rl_info_fensi.setOnClickListener(this);
+        rl_info_pic.setOnClickListener(this);
         tl_tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 page_num = 1;
                 mListData.clear();
-                if (tab.getText().equals("专辑")) {
+                if (tab.getText().equals("灵感辑")) {
                     sort = "zhuanji";
                     mListDataImage.clear();
                     mListData.clear();
@@ -219,7 +224,7 @@ public class UserInfoActivity
         tl_tab.setTabMode(TabLayout.MODE_FIXED);
         tl_tab.setSelectedTabIndicatorHeight(UIUtils.getDimens(R.dimen.font_3));
         tl_tab.setSelectedTabIndicatorColor(UIUtils.getColor(R.color.bg_e79056));
-        tl_tab.addTab(tl_tab.newTab().setText("专辑"));
+        tl_tab.addTab(tl_tab.newTab().setText("灵感辑"));
         tl_tab.addTab(tl_tab.newTab().setText("图片"));
         PublicUtils.setIndicator(tl_tab, UIUtils.getDimens(R.dimen.font_15), UIUtils.getDimens(R.dimen.font_15));
         getUserInfo();
@@ -244,7 +249,7 @@ public class UserInfoActivity
                 layoutParams.width = widthImage;
                 layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
                 holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
-                ImageUtils.displayFilletImage(mListDataImage.get(position).getItem_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
+                ImageUtils.displayFilletImage(mListDataImage.get(position).getItem_info().getImage().getImg1(), (ImageView) holder.getView(R.id.iv_item_pic));
                 holder.getView(R.id.iv_item_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -370,6 +375,10 @@ public class UserInfoActivity
                     startActivity(intent_guanzu);
                 }
                 break;
+            case R.id.rl_info_pic:
+                Intent intent_shaijia = new Intent(UserInfoActivity.this, PicCenterActivity.class);
+                startActivity(intent_shaijia);
+                break;
             case R.id.rl_info_fensi:
                 if (!TextUtils.isEmpty(user_id)) {
                     Intent intent_fensi = new Intent(UserInfoActivity.this, FenSiListActivity.class);
@@ -493,6 +502,7 @@ public class UserInfoActivity
             ImageUtils.displayRoundImage(userCenterInfoBean.getUser_info().getAvatar().getBig(), iv_header_desiner_center);
             tv_userinfo_nikename.setText(userCenterInfoBean.getUser_info().getNickname());
             tv_info_guanzhu_num.setText(userCenterInfoBean.getCounter().getFollow_num() + "");
+            tv_info_pic_num.setText(userCenterInfoBean.getCounter().getItem_num() + "");
             tv_jieshao.setText(userCenterInfoBean.getUser_info().getSlogan());
             tv_info_shaijia_num.setText(userCenterInfoBean.getCounter().getAlbum_num() + "");
             tv_info_fensi_num.setText(userCenterInfoBean.getCounter().getFans_num() + "");

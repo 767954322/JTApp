@@ -145,7 +145,7 @@ public class PicCenterActivity
                 layoutParams.width = widthPic;
                 layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
                 holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
-                ImageUtils.displayFilletImage(mListDataImage.get(position).getItem_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
+                ImageUtils.displayFilletImage(mListDataImage.get(position).getItem_info().getImage().getImg1(), (ImageView) holder.getView(R.id.iv_item_pic));
                 holder.getView(R.id.iv_item_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
