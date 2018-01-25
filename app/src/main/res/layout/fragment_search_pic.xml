@@ -2,12 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bg_f2f2f2">
 
     <com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView
         android:id="@+id/rcy_recyclerview_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/bg_f2f2f2"
         app:loadMoreEnabled="true"
         app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer"
         app:refreshEnabled="true"

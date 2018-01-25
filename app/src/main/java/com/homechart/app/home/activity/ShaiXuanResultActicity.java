@@ -119,6 +119,7 @@ public class ShaiXuanResultActicity
     private String mUserId;
     private boolean ifScroll = false;
     private AnimationSet animationSet;
+    private String is_enable_item_similar;
 
     //取消收藏
     private void removeShouCang(final int position, String item_id) {
@@ -181,7 +182,7 @@ public class ShaiXuanResultActicity
         super.initExtraBundle();
 
 
-        islist = getIntent().getBooleanExtra("islist",true);
+        islist = getIntent().getBooleanExtra("islist", true);
         shaixuan_tag = getIntent().getStringExtra("shaixuan_tag");
         colorBean = (ColorBean) getIntent().getSerializableExtra("colorBean");
 //        mSelectListData = (Map<Integer, ColorItemBean>) getIntent().getSerializableExtra("mSelectListData");
@@ -258,6 +259,7 @@ public class ShaiXuanResultActicity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
         tv_tital_comment.setText(shaixuan_tag);
         initAnimation();
         if (mSelectListData != null && mSelectListData.size() > 0) {
@@ -266,18 +268,18 @@ public class ShaiXuanResultActicity
             tv_color_tital.setVisibility(View.GONE);
             for (Integer key : mSelectListData.keySet()) {
 
-                if(mSelectListData.get(key).getColor_value().equalsIgnoreCase("ffffff")){
+                if (mSelectListData.get(key).getColor_value().equalsIgnoreCase("ffffff")) {
                     GradientDrawable drawable = new GradientDrawable();
                     drawable.setCornerRadius(50);
-                    drawable.setColor(Color.parseColor("#"+mSelectListData.get(key).getColor_value()));
-                    drawable.setStroke(1,Color.parseColor("#262626"));
+                    drawable.setColor(Color.parseColor("#" + mSelectListData.get(key).getColor_value()));
+                    drawable.setStroke(1, Color.parseColor("#262626"));
                     bt_tag_page_item.setBackgroundDrawable(drawable);
                     bt_tag_page_item.setTextColor(UIUtils.getColor(R.color.bg_262626));
-                }else {
+                } else {
 
                     GradientDrawable drawable = new GradientDrawable();
                     drawable.setCornerRadius(50);
-                    drawable.setColor(Color.parseColor("#"+mSelectListData.get(key).getColor_value()));
+                    drawable.setColor(Color.parseColor("#" + mSelectListData.get(key).getColor_value()));
                     bt_tag_page_item.setBackgroundDrawable(drawable);
                     bt_tag_page_item.setTextColor(UIUtils.getColor(R.color.white));
                 }
@@ -440,7 +442,7 @@ public class ShaiXuanResultActicity
                 String info = (String) msg.obj;
                 colorBean = GsonUtil.jsonToBean(info, ColorBean.class);
                 Log.d("test", colorBean.toString());
-            }else if (msg.what == 4) {
+            } else if (msg.what == 4) {
                 int clickPosition = msg.getData().getInt("position");
                 SearchDataBean searchDataBean = (SearchDataBean) msg.obj;
                 List<SearchItemDataBean> listSearch = searchDataBean.getItem_list();
@@ -507,6 +509,7 @@ public class ShaiXuanResultActicity
     }
 
     List<String> listTag = new ArrayList<>();
+
     private void buildRecyclerView() {
 
         MultiItemTypeSupport<SearchItemDataBean> support = new MultiItemTypeSupport<SearchItemDataBean>() {
@@ -533,6 +536,8 @@ public class ShaiXuanResultActicity
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
                 scroll_position = position;
+
+                is_enable_item_similar = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.IS_ENABLE_ITEM_SIMILAR);
                 ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
 
                 layoutParams.height = (curentListTag ? (int) (width_Pic_List / 1.333333f) : Math.round(width_Pic_Staggered / mListData.get(position).getItem_info().getImage().getRatio()));
@@ -642,17 +647,21 @@ public class ShaiXuanResultActicity
                     }
                 });
 
-                if(!ifScroll){
+                if (!ifScroll) {
                     holder.getView(R.id.iv_shibie_pic).setAlpha(1);
-                }else {
+                } else {
                     holder.getView(R.id.iv_shibie_pic).setAlpha(0.3f);
                 }
                 if (!curentListTag) {
-                    ((ImageView) holder.getView(R.id.iv_shibie_pic)).setImageDrawable(UIUtils.getDrawable(R.drawable.quan1));
-                    ((ImageView) holder.getView(R.id.iv_shibie_pic)).setVisibility(View.VISIBLE);
+                    if (is_enable_item_similar != null && is_enable_item_similar.equals("0")) {//关闭
+                        ((ImageView) holder.getView(R.id.iv_shibie_pic)).setVisibility(View.GONE);
+                    } else {//开启
+                        ((ImageView) holder.getView(R.id.iv_shibie_pic)).setImageDrawable(UIUtils.getDrawable(R.drawable.quan1));
+                        ((ImageView) holder.getView(R.id.iv_shibie_pic)).setVisibility(View.VISIBLE);
+                    }
                 }
-               Animation animation = holder.getView(R.id.iv_shibie_pic).getAnimation();
-                if(animation != null){
+                Animation animation = holder.getView(R.id.iv_shibie_pic).getAnimation();
+                if (animation != null) {
                     holder.getView(R.id.iv_shibie_pic).clearAnimation();
                 }
 //                    holder.getView(R.id.iv_shibie_pic).setAlpha(0.3f);
@@ -684,12 +693,12 @@ public class ShaiXuanResultActicity
             }
         };
 
-        if(islist){
+        if (islist) {
             mRecyclerView.setPadding(0, 0, 0, 0);
             iv_change_frag.setImageResource(R.drawable.pubuliu);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(ShaiXuanResultActicity.this));
             curentListTag = true;
-        }else {
+        } else {
             mRecyclerView.setPadding(UIUtils.getDimens(R.dimen.font_6), 0, UIUtils.getDimens(R.dimen.font_6), 0);
             iv_change_frag.setImageResource(R.drawable.changtu);
             mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
@@ -705,6 +714,7 @@ public class ShaiXuanResultActicity
         mRecyclerView.setAdapter(mAdapter);
         onRefresh();
     }
+
     private void initAnimation() {
         //1.AnimationSet
         animationSet = new AnimationSet(true);
@@ -840,6 +850,7 @@ public class ShaiXuanResultActicity
 
 
     boolean ifClickShouCang = true;
+
     //收藏或者取消收藏，图片
     public void onShouCang(boolean ifShouCang, int position, SearchItemDataBean searchItemDataBean) {
 
@@ -893,6 +904,7 @@ public class ShaiXuanResultActicity
         };
         MyHttpManager.getInstance().addShouCang(item_id, callBack);
     }
+
     @Override
     public void qingkong() {
 
@@ -919,18 +931,18 @@ public class ShaiXuanResultActicity
                     tv_color_tital.setVisibility(View.GONE);
                     for (Integer key : mSelectListData.keySet()) {
                         bt_tag_page_item.setText(mSelectListData.get(key).getColor_name());
-                        if(mSelectListData.get(key).getColor_value().equalsIgnoreCase("ffffff")){
+                        if (mSelectListData.get(key).getColor_value().equalsIgnoreCase("ffffff")) {
                             GradientDrawable drawable = new GradientDrawable();
                             drawable.setCornerRadius(50);
-                            drawable.setColor(Color.parseColor("#"+mSelectListData.get(key).getColor_value()));
-                            drawable.setStroke(1,Color.parseColor("#262626"));
+                            drawable.setColor(Color.parseColor("#" + mSelectListData.get(key).getColor_value()));
+                            drawable.setStroke(1, Color.parseColor("#262626"));
                             bt_tag_page_item.setBackgroundDrawable(drawable);
                             bt_tag_page_item.setTextColor(UIUtils.getColor(R.color.bg_262626));
-                        }else {
+                        } else {
 
                             GradientDrawable drawable = new GradientDrawable();
                             drawable.setCornerRadius(50);
-                            drawable.setColor(Color.parseColor("#"+mSelectListData.get(key).getColor_value()));
+                            drawable.setColor(Color.parseColor("#" + mSelectListData.get(key).getColor_value()));
                             bt_tag_page_item.setBackgroundDrawable(drawable);
                             bt_tag_page_item.setTextColor(UIUtils.getColor(R.color.white));
                         }
@@ -942,6 +954,7 @@ public class ShaiXuanResultActicity
             }
         }
     }
+
     private void getSearchImage(String item_id, final int clickPosition) {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
