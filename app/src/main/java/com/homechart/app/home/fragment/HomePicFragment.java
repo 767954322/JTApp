@@ -13,6 +13,7 @@ import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -507,25 +508,45 @@ public class HomePicFragment
                             startActivity(intent);
                         }
                     });
+
                     holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 
-                            //查看单图详情
-                            Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
-                            intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+                            NewImageDetailsFragment newImageDetailsFragment = new NewImageDetailsFragment(fragmentManager);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("item_id", mListData.get(position).getItem_info().getItem_id());
                             if (mListData.get(0).getItem_info().getTag().equals("活动")) {
-                                intent.putExtra("position", position - 1);
+                                bundle.putInt("position", position - 1);
                             } else {
-                                intent.putExtra("position", position);
+                                bundle.putInt("position", position);
                             }
-                            intent.putExtra("type", "色彩");
-                            intent.putExtra("if_click_color", false);
-                            intent.putExtra("mSelectListData", (Serializable) mSelectListData);
-                            intent.putExtra("shaixuan_tag", "");
-                            intent.putExtra("page_num", page_num + 1);
-                            intent.putExtra("item_id_list", (Serializable) mItemIdList);
-                            startActivity(intent);
+                            bundle.putString("type", "色彩");
+                            bundle.putBoolean("if_click_color", false);
+                            bundle.putSerializable("mSelectListData", (Serializable) mSelectListData);
+                            bundle.putString("shaixuan_tag", "");
+                            bundle.putInt("page_num", page_num + 1);
+                            bundle.putSerializable("item_id_list", (Serializable) mItemIdList);
+                            newImageDetailsFragment.setArguments(bundle);
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newImageDetailsFragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+//                            //查看单图详情
+//                            Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
+//                            intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+//                            if (mListData.get(0).getItem_info().getTag().equals("活动")) {
+//                                intent.putExtra("position", position - 1);
+//                            } else {
+//                                intent.putExtra("position", position);
+//                            }
+//                            intent.putExtra("type", "色彩");
+//                            intent.putExtra("if_click_color", false);
+//                            intent.putExtra("mSelectListData", (Serializable) mSelectListData);
+//                            intent.putExtra("shaixuan_tag", "");
+//                            intent.putExtra("page_num", page_num + 1);
+//                            intent.putExtra("item_id_list", (Serializable) mItemIdList);
+//                            startActivity(intent);
                         }
                     });
 

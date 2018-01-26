@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.homechart.app.myview.ResizeRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/menu_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/rl_navbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_50"
+        android:background="@color/bg_f9">
+
+
+        <ImageButton
+            android:id="@+id/nav_left_imageButton"
+            android:layout_width="@dimen/size_40"
+            android:layout_height="@dimen/size_40"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/size_5"
+            android:layout_marginRight="@dimen/font_15"
+            android:background="@drawable/transparent"
+            android:padding="@dimen/size_8"
+            android:scaleType="centerInside"
+            android:src="@drawable/tital_back"
+            android:visibility="visible" />
+
+        <ImageButton
+            android:id="@+id/iv_edit_image"
+            android:layout_width="@dimen/size_40"
+            android:layout_height="@dimen/size_40"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_15"
+            android:layout_toRightOf="@+id/nav_left_imageButton"
+            android:background="@drawable/transparent"
+            android:padding="@dimen/size_8"
+            android:scaleType="centerInside"
+            android:src="@drawable/bjlgj"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/iv_shared_image"
+            android:layout_width="@dimen/size_40"
+            android:layout_height="@dimen/size_40"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_15"
+            android:layout_toRightOf="@+id/iv_edit_image"
+            android:background="@drawable/transparent"
+            android:padding="@dimen/size_8"
+            android:scaleType="centerInside"
+            android:src="@drawable/shared_icon"
+            android:visibility="gone" />
+
+
+        <ImageButton
+            android:id="@+id/iv_more_image"
+            android:layout_width="@dimen/size_40"
+            android:layout_height="@dimen/size_40"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_15"
+            android:layout_toRightOf="@+id/iv_shared_image"
+            android:background="@drawable/transparent"
+            android:padding="@dimen/size_8"
+            android:scaleType="centerInside"
+            android:src="@drawable/gengduo"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_tital_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/case_text_tital_name"
+            android:textSize="@dimen/font_18" />
+
+        <TextView
+            android:id="@+id/tv_lingganji"
+            android:layout_width="@dimen/font_75"
+            android:layout_height="@dimen/font_28"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_15"
+            android:background="@drawable/bt_shoucang"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_12"
+            android:text="＋灵感辑"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/view_navigation_header_view"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/navbar_bottom_border_color" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_navbar_tital"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_50"
+        android:background="@color/bg_f9"
+        android:visibility="gone">
+
+        <ImageButton
+            android:id="@+id/nav_left_imageButton_tital"
+            android:layout_width="@dimen/size_40"
+            android:layout_height="@dimen/size_40"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/size_5"
+            android:layout_marginRight="@dimen/font_15"
+            android:background="@drawable/transparent"
+            android:padding="@dimen/size_8"
+            android:scaleType="centerInside"
+            android:src="@drawable/tital_back"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_tital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="你可能喜欢"
+            android:textColor="@color/case_text_tital_name"
+            android:textSize="@dimen/font_18" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/navbar_bottom_border_color" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_back_unclick"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_50"
+        android:background="@color/bg_80000000"
+        android:clickable="true"
+        android:visibility="gone" />
+
+    <com.homechart.app.myview.CustomViewPager
+        android:id="@+id/vp_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/font_50"/>
+
+</com.homechart.app.myview.ResizeRelativeLayout>
