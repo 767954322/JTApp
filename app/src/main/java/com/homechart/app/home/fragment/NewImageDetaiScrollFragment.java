@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
@@ -109,7 +111,8 @@ public class NewImageDetaiScrollFragment
     }
 
     @SuppressLint("ValidFragment")
-    public NewImageDetaiScrollFragment(String item_id, UserInfo userInfo, int posotion) {
+    public NewImageDetaiScrollFragment(FragmentManager fragmentManager , String item_id, UserInfo userInfo, int posotion) {
+        this.fragmentManager = fragmentManager;
         this.item_id = item_id;
         this.mUserInfo = userInfo;
         this.mPosotion = posotion;
@@ -372,9 +375,14 @@ public class NewImageDetaiScrollFragment
                 break;
             case R.id.riv_people_header:
                 if (imageDetailBean != null) {
-                    Intent intent_info = new Intent(activity, UserInfoActivity.class);
-                    intent_info.putExtra(ClassConstant.LoginSucces.USER_ID, imageDetailBean.getUser_info().getUser_id());
-                    startActivityForResult(intent_info, 3);
+                    NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ClassConstant.LoginSucces.USER_ID, imageDetailBean.getUser_info().getUser_id());
+                    newUserInfoFragment.setArguments(bundle);
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
                 }
                 break;
             case R.id.iv_shared_image:
@@ -1457,4 +1465,5 @@ public class NewImageDetaiScrollFragment
     private int page = 1;
     private int totalDy = 0;
     private Rect rect;
+    private FragmentManager fragmentManager;
 }

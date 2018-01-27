@@ -42,7 +42,6 @@
 
     </RelativeLayout>
 
-
     <RelativeLayout
         android:id="@+id/rl_bottom"
         android:layout_width="match_parent"

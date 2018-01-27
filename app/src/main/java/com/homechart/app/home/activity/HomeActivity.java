@@ -113,6 +113,7 @@ public class HomeActivity
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private RelativeLayout rl_bottom;
 
     @Override
     protected int getLayoutResId() {
@@ -160,6 +161,7 @@ public class HomeActivity
         rl_shitu = (RelativeLayout) findViewById(R.id.rl_shitu);
         rl_yindao1 = (RelativeLayout) findViewById(R.id.rl_yindao1);
         rl_yindao2 = (RelativeLayout) findViewById(R.id.rl_yindao2);
+        rl_bottom = (RelativeLayout) findViewById(R.id.rl_bottom);
     }
 
     @Override
@@ -667,7 +669,6 @@ public class HomeActivity
                 mRadioGroup.check(R.id.radio_btn_center);
             }
         }
-
     }
 
     private List<String> list_up_toast = new ArrayList<>();
@@ -685,5 +686,16 @@ public class HomeActivity
         }
         context.startActivity(localIntent);
     }
+
+    public void bottomStatus(boolean bool) {
+
+        if(bool){
+            rl_bottom.setVisibility(View.VISIBLE);
+        }else {
+
+            rl_bottom.setVisibility(View.GONE);
+        }
+    }
+
 }
 
