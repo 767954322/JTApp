@@ -349,11 +349,17 @@ public class HomePicFragment
         } else if (requestCode == 10 && resultCode == 10) {
             String search_tag = data.getStringExtra("search_tag");
             String search_info = data.getStringExtra("search_info");
-            // 跳转搜索结果页
-            Intent intent = new Intent(activity, SearchResultActivity.class);
-            intent.putExtra("search_tag", search_tag);
-            intent.putExtra("search_info", search_info);
-            startActivity(intent);
+
+            NewSearchResultFragment newSearchResultFragment = new NewSearchResultFragment(fragmentManager,search_tag,search_info);
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newSearchResultFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+//            // 跳转搜索结果页
+//            Intent intent = new Intent(activity, SearchResultActivity.class);
+//            intent.putExtra("search_tag", search_tag);
+//            intent.putExtra("search_info", search_info);
+//            startActivity(intent);
         }
     }
 
