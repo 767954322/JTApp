@@ -43,12 +43,10 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
-import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.NewHuoDongDetailsActivity;
 import com.homechart.app.home.activity.SearchActivity;
 import com.homechart.app.home.activity.ShaiXuanResultActicity;
-import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.adapter.HomeTagAdapter;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.color.ColorBean;
@@ -495,17 +493,29 @@ public class HomePicFragment
                     holder.getView(R.id.iv_header_pic).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(activity, UserInfoActivity.class);
-                            intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-                            startActivity(intent);
+
+                            NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
+                            Bundle bundle = new Bundle();
+                            bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+                            newUserInfoFragment.setArguments(bundle);
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+
                         }
                     });
                     holder.getView(R.id.tv_name_pic).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(activity, UserInfoActivity.class);
-                            intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-                            startActivity(intent);
+                            NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
+                            Bundle bundle = new Bundle();
+                            bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+                            newUserInfoFragment.setArguments(bundle);
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
                         }
                     });
 
@@ -532,21 +542,6 @@ public class HomePicFragment
                             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newImageDetailsFragment);
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
-//                            //查看单图详情
-//                            Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
-//                            intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-//                            if (mListData.get(0).getItem_info().getTag().equals("活动")) {
-//                                intent.putExtra("position", position - 1);
-//                            } else {
-//                                intent.putExtra("position", position);
-//                            }
-//                            intent.putExtra("type", "色彩");
-//                            intent.putExtra("if_click_color", false);
-//                            intent.putExtra("mSelectListData", (Serializable) mSelectListData);
-//                            intent.putExtra("shaixuan_tag", "");
-//                            intent.putExtra("page_num", page_num + 1);
-//                            intent.putExtra("item_id_list", (Serializable) mItemIdList);
-//                            startActivity(intent);
                         }
                     });
 
