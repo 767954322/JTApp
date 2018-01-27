@@ -135,7 +135,6 @@ public class HomePicFragment
     private View view_line_back;
     boolean ifShouCang = true;
     private int last_id = 0;
-    private RelativeLayout rl_shibie;
     private int scroll_position;
     private Map<Integer, ColorItemBean> mSelectListData = new HashMap<>();
     private List<String> mItemIdList = new ArrayList<>();
@@ -185,7 +184,6 @@ public class HomePicFragment
         view_line_top = rootView.findViewById(R.id.view_line_top);
         id_main = (RelativeLayout) rootView.findViewById(R.id.id_main);
         view_line_back = rootView.findViewById(R.id.view_line_back);
-        rl_shibie = (RelativeLayout) rootView.findViewById(R.id.rl_shibie);
 
 
         rl_pic_change = (RelativeLayout) rootView.findViewById(R.id.rl_pic_change);
@@ -206,7 +204,6 @@ public class HomePicFragment
         cet_clearedit.setOnClickListener(this);
         iv_change_frag.setOnClickListener(this);
         iv_chongzhi.setOnClickListener(this);
-        rl_shibie.setOnClickListener(this);
         iv_open_pop.setOnClickListener(this);
         rl_clickable_open.setOnClickListener(this);
 
@@ -306,18 +303,6 @@ public class HomePicFragment
 
                 }
                 break;
-            case R.id.rl_shibie:
-                if (ContextCompat.checkSelfPermission(activity,
-                        Manifest.permission.CAMERA) !=
-                        PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(activity,
-                            new String[]{Manifest.permission.CAMERA}, 0);
-                } else {
-                    Intent intent1 = new Intent(activity, PhotoActivity.class);
-                    startActivity(intent1);
-                }
-                break;
-
             case R.id.iv_chongzhi:
                 mSelectListData.clear();
                 bt_tag_page_item.setVisibility(View.GONE);

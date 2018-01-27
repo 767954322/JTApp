@@ -42,6 +42,7 @@ import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.fragment.HomeCenterFragment;
+import com.homechart.app.home.fragment.HomeFaXianFragment;
 import com.homechart.app.home.fragment.HomePicFragment;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.myview.SelectPicPopupWindow;
@@ -86,11 +87,9 @@ public class HomeActivity
     private int jumpPosition = 0;
 
     private HomePicFragment mHomePicFragment;
-    private Fragment mHomeDesignerFragment;
     private Fragment mHomeCenterFragment;
     private FragmentTransaction transaction;
     private Fragment mTagFragment;
-    private ImageView iv_add_icon;
     private SelectPicPopupWindow menuWindow;
     private String type;
     private String download_url;
@@ -101,19 +100,12 @@ public class HomeActivity
     private String article_id;
     private RadioButton radio_btn_designer;
     private Boolean loginStatus;
-    private RoundImageView riv_round_five;
-    private RoundImageView riv_round_four;
-    private RoundImageView riv_round_three;
-    private RoundImageView riv_round_two;
-    private RoundImageView riv_round_one;
-    private RelativeLayout rl_shitu;
-    private RelativeLayout rl_yindao2;
-    private RelativeLayout rl_yindao1;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private RelativeLayout rl_bottom;
+    private Fragment mHomeFaXianFragment;
 
     @Override
     protected int getLayoutResId() {
@@ -152,29 +144,12 @@ public class HomeActivity
         mRadioGroup = (RadioGroup) findViewById(R.id.rg_home_radio_group);
         radio_btn_center = (RadioButton) findViewById(R.id.radio_btn_center);
         radio_btn_designer = (RadioButton) findViewById(R.id.radio_btn_designer);
-        iv_add_icon = (ImageView) findViewById(R.id.iv_add_icon);
-        riv_round_five = (RoundImageView) findViewById(R.id.riv_round_five);
-        riv_round_four = (RoundImageView) findViewById(R.id.riv_round_four);
-        riv_round_three = (RoundImageView) findViewById(R.id.riv_round_three);
-        riv_round_two = (RoundImageView) findViewById(R.id.riv_round_two);
-        riv_round_one = (RoundImageView) findViewById(R.id.riv_round_one);
-        rl_shitu = (RelativeLayout) findViewById(R.id.rl_shitu);
-        rl_yindao1 = (RelativeLayout) findViewById(R.id.rl_yindao1);
-        rl_yindao2 = (RelativeLayout) findViewById(R.id.rl_yindao2);
         rl_bottom = (RelativeLayout) findViewById(R.id.rl_bottom);
     }
 
     @Override
     protected void initListener() {
         super.initListener();
-        riv_round_five.setOnClickListener(this);
-        riv_round_four.setOnClickListener(this);
-        riv_round_three.setOnClickListener(this);
-        riv_round_two.setOnClickListener(this);
-        riv_round_one.setOnClickListener(this);
-        rl_shitu.setOnClickListener(this);
-        rl_yindao1.setOnClickListener(this);
-        rl_yindao2.setOnClickListener(this);
         mRadioGroup.setOnCheckedChangeListener(this);
     }
 
@@ -213,10 +188,6 @@ public class HomeActivity
             intent.putExtra("article_id", object_id);
             startActivity(intent);
         }
-//        if (!SharedPreferencesUtils.readBoolean("yindao")) {
-//            rl_yindao1.setVisibility(View.VISIBLE);
-//            rl_yindao2.setVisibility(View.GONE);
-//        }
         int permission = ActivityCompat.checkSelfPermission(HomeActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (permission != PackageManager.PERMISSION_GRANTED) {
@@ -240,14 +211,17 @@ public class HomeActivity
                     replaceFragment(mHomePicFragment);
                 }
                 break;
-            case R.id.radio_btn_designer:
-            case R.id.iv_add_icon:
-                if (jumpPosition == 0) {
-                    mRadioGroup.check(R.id.radio_btn_pic);
-                } else if (jumpPosition == 2) {
-                    mRadioGroup.check(R.id.radio_btn_center);
+            case R.id.radio_btn_faxian:
+                jumpPosition = 1;
+                if (null == mHomeFaXianFragment) {
+                    mHomeFaXianFragment = new HomeFaXianFragment(getSupportFragmentManager());
                 }
-
+                if (mTagFragment != mHomeFaXianFragment) {
+                    mTagFragment = mHomeFaXianFragment;
+                    replaceFragment(mHomeFaXianFragment);
+                }
+                break;
+            case R.id.radio_btn_designer:
                 if (ContextCompat.checkSelfPermission(HomeActivity.this,
                         Manifest.permission.CAMERA) !=
                         PackageManager.PERMISSION_GRANTED) {
@@ -267,15 +241,18 @@ public class HomeActivity
                     Intent intent1 = new Intent(HomeActivity.this, PhotoActivity.class);
                     startActivity(intent1);
                 }
-//                menuWindow.showAtLocation(HomeActivity.this.findViewById(R.id.main),
-//                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
-//                        0,
-//                        0); //设置layout在PopupWindow中显示的位置
+                if (jumpPosition == 0) {
+                    mRadioGroup.check(R.id.radio_btn_pic);
+                } else if (jumpPosition == 1) {
+                    mRadioGroup.check(R.id.radio_btn_faxian);
+                } else if (jumpPosition == 3) {
+                    mRadioGroup.check(R.id.radio_btn_center);
+                }
                 break;
             case R.id.radio_btn_center:
 
                 if (loginStatus) {
-                    jumpPosition = 2;
+                    jumpPosition = 3;
                     if (null == mHomeCenterFragment) {
                         mHomeCenterFragment = new HomeCenterFragment(getSupportFragmentManager());
                     }
@@ -344,17 +321,6 @@ public class HomeActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.tv_takephoto:
-//                menuWindow.dismiss();
-//                //android 6.0权限问题
-//                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-//                        ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
-//                    ToastUtils.showCenter(this, "执行了权限请求");
-//                } else {
-//                    takePhoto();
-//                }
-//                break;
             case R.id.tv_pic:
                 menuWindow.dismiss();
                 GalleryFinal.openGallerySingle(0, new GalleryFinal.OnHanlderResultCallback() {
@@ -391,72 +357,6 @@ public class HomeActivity
                 if (upApkPopupWindow.isShowing()) {
                     upApkPopupWindow.dismiss();
                 }
-
-                break;
-
-            case R.id.riv_round_five:
-            case R.id.riv_round_four:
-            case R.id.riv_round_three:
-            case R.id.riv_round_two:
-            case R.id.riv_round_one:
-            case R.id.rl_shitu:
-            case R.id.tv_takephoto:
-
-                if (jumpPosition == 0) {
-                    ((RadioButton) mRadioGroup.findViewById(R.id.radio_btn_pic)).setChecked(true);
-//                    mRadioGroup.check(R.id.radio_btn_pic);
-                } else if (jumpPosition == 2) {
-                    ((RadioButton) mRadioGroup.findViewById(R.id.radio_btn_center)).setChecked(true);
-//                    mRadioGroup.check(R.id.radio_btn_center);
-                }
-                if (ContextCompat.checkSelfPermission(HomeActivity.this,
-                        Manifest.permission.CAMERA) !=
-                        PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(HomeActivity.this,
-                            new String[]{Manifest.permission.CAMERA}, 3);
-                } else {
-                    //友盟统计
-                    HashMap<String, String> map6 = new HashMap<String, String>();
-                    map6.put("evenname", "识图入口");
-                    map6.put("even", "首页识别入口－图片识别");
-                    MobclickAgent.onEvent(HomeActivity.this, "shijian6", map6);
-                    //ga统计
-                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("首页识别入口－图片识别")  //事件类别
-                            .setAction("识图入口")      //事件操作
-                            .build());
-                    Intent intent1 = new Intent(HomeActivity.this, PhotoActivity.class);
-                    startActivity(intent1);
-                }
-                break;
-            case R.id.rl_yindao1:
-                rl_yindao1.setVisibility(View.GONE);
-                rl_yindao2.setVisibility(View.VISIBLE);
-                //友盟统计
-                HashMap<String, String> map7 = new HashMap<String, String>();
-                map7.put("evenname", "新手指引");
-                map7.put("even", "新手指引-第一张点击");
-                MobclickAgent.onEvent(HomeActivity.this, "shijian8", map7);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("新手指引-第一张点击")  //事件类别
-                        .setAction("新手指引")      //事件操作
-                        .build());
-                break;
-            case R.id.rl_yindao2:
-                SharedPreferencesUtils.writeBoolean("yindao", true);
-                rl_yindao2.setVisibility(View.GONE);
-                rl_yindao1.setVisibility(View.GONE);
-                //友盟统计
-                HashMap<String, String> map6 = new HashMap<String, String>();
-                map6.put("evenname", "新手指引");
-                map6.put("even", "新手指引-第二张点击");
-                MobclickAgent.onEvent(HomeActivity.this, "shijian8", map6);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("新手指引-第二张点击")  //事件类别
-                        .setAction("新手指引")      //事件操作
-                        .build());
                 break;
         }
     }
@@ -665,7 +565,7 @@ public class HomeActivity
 
             loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
             if (loginStatus) {
-                jumpPosition = 2;
+                jumpPosition = 3;
                 mRadioGroup.check(R.id.radio_btn_center);
             }
         }
@@ -689,9 +589,9 @@ public class HomeActivity
 
     public void bottomStatus(boolean bool) {
 
-        if(bool){
+        if (bool) {
             rl_bottom.setVisibility(View.VISIBLE);
-        }else {
+        } else {
 
             rl_bottom.setVisibility(View.GONE);
         }
