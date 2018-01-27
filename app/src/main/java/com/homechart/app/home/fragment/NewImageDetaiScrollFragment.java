@@ -120,7 +120,7 @@ public class NewImageDetaiScrollFragment
 
     @Override
     protected int setContentView() {
-        return R.layout.fragment_image_details;
+        return R.layout.fragment_new_image_details;
     }
 
     @Override

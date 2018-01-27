@@ -46,6 +46,7 @@ import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.NewHuoDongDetailsActivity;
 import com.homechart.app.home.activity.SearchActivity;
+import com.homechart.app.home.activity.SearchResultActivity;
 import com.homechart.app.home.activity.ShaiXuanResultActicity;
 import com.homechart.app.home.adapter.HomeTagAdapter;
 import com.homechart.app.home.base.BaseFragment;
@@ -284,8 +285,7 @@ public class HomePicFragment
 
                 onDismiss();
                 Intent intent = new Intent(activity, SearchActivity.class);
-                startActivity(intent);
-
+                startActivityForResult(intent, 10);
 
                 break;
             case R.id.iv_change_frag:
@@ -346,6 +346,14 @@ public class HomePicFragment
 
         } else if (requestCode == 1) {
 //            onRefresh();
+        } else if (requestCode == 10 && resultCode == 10) {
+            String search_tag = data.getStringExtra("search_tag");
+            String search_info = data.getStringExtra("search_info");
+            // 跳转搜索结果页
+            Intent intent = new Intent(activity, SearchResultActivity.class);
+            intent.putExtra("search_tag", search_tag);
+            intent.putExtra("search_info", search_info);
+            startActivity(intent);
         }
     }
 

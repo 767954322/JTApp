@@ -137,11 +137,11 @@ public class SearchActivity
         if (TextUtils.isEmpty(searchContext.trim())) {
             ToastUtils.showCenter(this, "请输入搜索内容");
         } else {
-            // 跳转搜索结果页
-            Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
-            intent.putExtra("search_info", searchContext);
-            intent.putExtra("search_tag", "");
-            startActivityForResult(intent, 1);
+            Intent intent = new Intent();
+            intent.putExtra("search_info",searchContext);
+            intent.putExtra("search_tag","");
+            setResult(10,intent);
+            SearchActivity.this.finish();
         }
 
     }
@@ -158,18 +158,16 @@ public class SearchActivity
             for (int i = 0; i < listHot.size(); i++) {
                 myData[i] = listHot.get(i);
             }
-
-
             his_flowLayout.setColorful(false);
             his_flowLayout.setData(myData);
             his_flowLayout.setOnTagClickListener(new FlowLayoutSearch.OnTagClickListener() {
                 @Override
                 public void TagClick(String text) {
-                    // 跳转搜索结果页
-                    Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
-                    intent.putExtra("search_tag", text);
-                    intent.putExtra("search_info", "");
-                    startActivityForResult(intent, 1);
+                    Intent intent = new Intent();
+                    intent.putExtra("search_tag",text);
+                    intent.putExtra("search_info","");
+                    setResult(10,intent);
+                    SearchActivity.this.finish();
                 }
             });
         }
