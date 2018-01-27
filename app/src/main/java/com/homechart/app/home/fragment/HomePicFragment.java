@@ -347,7 +347,7 @@ public class HomePicFragment
         if (requestCode == 11) {
 
         } else if (requestCode == 1) {
-//            onRefresh();
+            onRefresh();
         } else if (requestCode == 10 && resultCode == 10) {
             String search_tag = data.getStringExtra("search_tag");
             String search_info = data.getStringExtra("search_info");
