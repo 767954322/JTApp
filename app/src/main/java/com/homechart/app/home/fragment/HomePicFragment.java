@@ -43,6 +43,7 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
+import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.NewHuoDongDetailsActivity;
 import com.homechart.app.home.activity.SearchActivity;
@@ -178,6 +179,7 @@ public class HomePicFragment
     @Override
     protected void initView() {
 
+        Log.d("test","initView");
         cet_clearedit = (ClearEditText) rootView.findViewById(R.id.cet_clearedit);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_pic);
 
@@ -354,7 +356,7 @@ public class HomePicFragment
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newSearchResultFragment);
             fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
 //            // 跳转搜索结果页
 //            Intent intent = new Intent(activity, SearchResultActivity.class);
 //            intent.putExtra("search_tag", search_tag);
@@ -538,9 +540,23 @@ public class HomePicFragment
                             bundle.putSerializable("item_id_list", (Serializable) mItemIdList);
                             newImageDetailsFragment.setArguments(bundle);
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newImageDetailsFragment);
-                            fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commit();
+                            fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newImageDetailsFragment);
+                            fragmentTransaction.commitAllowingStateLoss();
+                                                        //查看单图详情
+//                            Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
+//                            intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+//                            if (mListData.get(0).getItem_info().getTag().equals("活动")) {
+//                                intent.putExtra("position", position - 1);
+//                            } else {
+//                                intent.putExtra("position", position);
+//                            }
+//                            intent.putExtra("type", "色彩");
+//                            intent.putExtra("if_click_color", false);
+//                            intent.putExtra("mSelectListData", (Serializable) mSelectListData);
+//                            intent.putExtra("shaixuan_tag", "");
+//                            intent.putExtra("page_num", page_num + 1);
+//                            intent.putExtra("item_id_list", (Serializable) mItemIdList);
+//                            startActivity(intent);
                         }
                     });
 

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -40,6 +41,7 @@ import com.umeng.socialize.UMShareAPI;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,7 +108,9 @@ public class NewImageDetailsFragment
         item_id = (String) mBundle.getString("item_id");
         type = (String) mBundle.getString("type");
         mPosition = mBundle.getInt("position", -1);
-        mItemIdList = (List<String>) mBundle.getSerializable("item_id_list");
+        List<String> itemIdList = (List<String>) mBundle.getSerializable("item_id_list");
+        mItemIdList = new ArrayList<>();
+        mItemIdList.addAll(itemIdList);
     }
 
     @Override
@@ -193,8 +197,7 @@ public class NewImageDetailsFragment
         mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
         mAdapter = new MyImagePageAdater(fragmentManager);
         mViewPager.setAdapter(mAdapter);
-        mViewPager.setCurrentItem(mPosition);
-        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOffscreenPageLimit(1);
 
         if (!TextUtils.isEmpty(type)) {
             if (type.equals("筛选")) {
@@ -218,6 +221,8 @@ public class NewImageDetailsFragment
             }
         }
         getTypeData();
+
+        mViewPager.setCurrentItem(mPosition,false);
     }
 
     private void getTypeData() {
@@ -251,8 +256,7 @@ public class NewImageDetailsFragment
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
-            case R.id.nav_left_imageButton_tital:
-                getActivity().getSupportFragmentManager().popBackStack();
+                fragmentManager.popBackStack();
                 break;
         }
 

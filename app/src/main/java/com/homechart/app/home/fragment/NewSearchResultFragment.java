@@ -75,7 +75,7 @@ public class NewSearchResultFragment
         mTabLayout.setViewPager(mViewPager);
 
         //初始位置
-        mViewPager.setCurrentItem(0);
+//        mViewPager.setCurrentItem(0);
 
     }
 
