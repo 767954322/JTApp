@@ -172,7 +172,7 @@ public class NewSearchResultFragment
 
         switch (v.getId()) {
             case R.id.tv_quxiao:
-                getActivity().getSupportFragmentManager().popBackStack();
+                fragmentManager.popBackStack();
                 break;
         }
     }

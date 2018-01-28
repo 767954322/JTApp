@@ -111,7 +111,7 @@ public class NewImageDetaiScrollFragment
     }
 
     @SuppressLint("ValidFragment")
-    public NewImageDetaiScrollFragment(FragmentManager fragmentManager , String item_id, UserInfo userInfo, int posotion) {
+    public NewImageDetaiScrollFragment(FragmentManager fragmentManager, String item_id, UserInfo userInfo, int posotion) {
         this.fragmentManager = fragmentManager;
         this.item_id = item_id;
         this.mUserInfo = userInfo;
@@ -125,10 +125,13 @@ public class NewImageDetaiScrollFragment
 
     @Override
     protected void lazyLoad() {
-        initExtraBundle();
-        initView();
-        initListener();
-        initData();
+        if (firstLoad) {
+            initExtraBundle();
+            initView();
+            initListener();
+            initData();
+            firstLoad = false;
+        }
     }
 
     private void initExtraBundle() {
@@ -539,24 +542,42 @@ public class NewImageDetaiScrollFragment
                 holder.getView(R.id.iv_header_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(activity, UserInfoActivity.class);
-                        intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-                        startActivity(intent);
+                        NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
+                        Bundle bundle = new Bundle();
+                        bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+                        newUserInfoFragment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                     }
                 });
 
                 holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //查看单图详情
-                        Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
-                        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-                        intent.putExtra("position", position);
-                        intent.putExtra("type", "色彩");
-                        intent.putExtra("if_click_color", false);
-                        intent.putExtra("page_num", page);
-                        intent.putExtra("item_id_list", (Serializable) mItemIdList);
-                        startActivity(intent);
+
+                        NewImageDetailsFragment newImageDetailsFragment = new NewImageDetailsFragment(fragmentManager);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("item_id", mListData.get(position).getItem_info().getItem_id());
+                        bundle.putInt("position", position);
+                        bundle.putString("type", "色彩");
+                        bundle.putBoolean("if_click_color", false);
+                        bundle.putInt("page_num", page);
+                        bundle.putSerializable("item_id_list", (Serializable) mItemIdList);
+                        newImageDetailsFragment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newImageDetailsFragment);
+                        fragmentTransaction.commitAllowingStateLoss();
+//                        //查看单图详情
+//                        Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
+//                        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+//                        intent.putExtra("position", position);
+//                        intent.putExtra("type", "色彩");
+//                        intent.putExtra("if_click_color", false);
+//                        intent.putExtra("page_num", page);
+//                        intent.putExtra("item_id_list", (Serializable) mItemIdList);
+//                        startActivity(intent);
                     }
                 });
 

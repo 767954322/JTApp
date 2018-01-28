@@ -256,6 +256,7 @@ public class NewImageDetailsFragment
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
+            case R.id.nav_left_imageButton_tital:
                 fragmentManager.popBackStack();
                 break;
         }

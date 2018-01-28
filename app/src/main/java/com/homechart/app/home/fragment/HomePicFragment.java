@@ -336,7 +336,7 @@ public class HomePicFragment
                 break;
             case R.id.iv_open_pop:
             case R.id.rl_clickable_open:
-                showPopwindow();
+//                showPopwindow();
                 break;
         }
     }
@@ -542,21 +542,6 @@ public class HomePicFragment
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                             fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newImageDetailsFragment);
                             fragmentTransaction.commitAllowingStateLoss();
-                                                        //查看单图详情
-//                            Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
-//                            intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-//                            if (mListData.get(0).getItem_info().getTag().equals("活动")) {
-//                                intent.putExtra("position", position - 1);
-//                            } else {
-//                                intent.putExtra("position", position);
-//                            }
-//                            intent.putExtra("type", "色彩");
-//                            intent.putExtra("if_click_color", false);
-//                            intent.putExtra("mSelectListData", (Serializable) mSelectListData);
-//                            intent.putExtra("shaixuan_tag", "");
-//                            intent.putExtra("page_num", page_num + 1);
-//                            intent.putExtra("item_id_list", (Serializable) mItemIdList);
-//                            startActivity(intent);
                         }
                     });
 
