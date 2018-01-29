@@ -58,6 +58,7 @@ import com.homechart.app.home.bean.search.ActivityInfoBean;
 import com.homechart.app.home.bean.search.SearchDataBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
 import com.homechart.app.home.bean.search.SearchItemInfoDataBean;
+import com.homechart.app.home.contract.OnVerticalScrollListener;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.view.InspirationSeriesPop;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
@@ -151,13 +152,13 @@ public class HomePicFragment
     private Boolean loginStatus;
     private View view_line_top;
     private ImageView iv_open_pop;
-    private RelativeLayout rl_clickable_open;
     private InspirationSeriesPop mInspirationSeriesPop;
     private String userId;
     private ActivityInfoBean mActivityInfoBean;
     private AnimationSet animationSet;
     private boolean ifScroll = false;
     private String is_enable_item_similar;
+    private RelativeLayout rl_new_top;
 
     public HomePicFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -189,13 +190,13 @@ public class HomePicFragment
         view_line_back = rootView.findViewById(R.id.view_line_back);
 
 
+        rl_new_top = (RelativeLayout) rootView.findViewById(R.id.rl_new_top);
         rl_pic_change = (RelativeLayout) rootView.findViewById(R.id.rl_pic_change);
         iv_chongzhi = (ImageView) rootView.findViewById(R.id.iv_chongzhi);
         iv_color_icon = (ImageView) rootView.findViewById(R.id.iv_color_icon);
         iv_change_frag = (ImageView) rootView.findViewById(R.id.iv_change_frag);
         bt_tag_page_item = (TextView) rootView.findViewById(R.id.bt_tag_page_item);
         tv_color_tital = (TextView) rootView.findViewById(R.id.tv_color_tital);
-        rl_clickable_open = (RelativeLayout) rootView.findViewById(R.id.rl_clickable_open);
 
     }
 
@@ -208,31 +209,43 @@ public class HomePicFragment
         iv_change_frag.setOnClickListener(this);
         iv_chongzhi.setOnClickListener(this);
         iv_open_pop.setOnClickListener(this);
-        rl_clickable_open.setOnClickListener(this);
-
         tv_color_tital.setOnClickListener(this);
         iv_color_icon.setOnClickListener(this);
         bt_tag_page_item.setOnClickListener(this);
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                if (newState == 0) {
-//                    ifScroll = false;
-//                    mAdapter.notifyDataSetChanged();
-                    Log.d("test", "0");
-                } else if (newState == 1) {
-//                    ifScroll = true;
-//                    mAdapter.notifyDataSetChanged();
-                    Log.d("test", "1");
-                } else if (newState == 2) {
-                    Log.d("test", "2");
-                }
-
-//                staggeredGridLayoutManager.invalidateSpanAssignments();
-            }
-        });
+//        mRecyclerView.addOnScrollListener(new OnVerticalScrollListener(){
+//            @Override
+//            public void onScrolledUp() {
+//                super.onScrolledUp();
+//                rl_new_top.setVisibility(View.VISIBLE);
+//            }
+//
+//            @Override
+//            public void onScrolledDown() {
+//                super.onScrolledDown();
+//                rl_new_top.setVisibility(View.INVISIBLE);
+//            }
+//        });
+//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//
+//                if (newState == 0) {
+////                    ifScroll = false;
+////                    mAdapter.notifyDataSetChanged();
+//                    Log.d("test", "0");
+//                } else if (newState == 1) {
+//                    rl_new_top.setVisibility(View.GONE);
+////                    ifScroll = true;
+////                    mAdapter.notifyDataSetChanged();
+//                    Log.d("test", "1");
+//                } else if (newState == 2) {
+//                    Log.d("test", "2");
+//                }
+//
+////                staggeredGridLayoutManager.invalidateSpanAssignments();
+//            }
+//        });
         mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -253,11 +266,11 @@ public class HomePicFragment
                         mMoveY = event.getY();
                         Log.e("UP", "Y" + mMoveY);
                         if (Math.abs((mMoveY - mDownY)) > 20) {
-//                            if (mMoveY > mDownY) {
-//                                rl_tos_choose.setVisibility(View.VISIBLE);
-//                            } else {
-//                                rl_tos_choose.setVisibility(View.GONE);
-//                            }
+                            if (mMoveY > mDownY) {
+                                rl_new_top.setVisibility(View.VISIBLE);
+                            } else {
+                                rl_new_top.setVisibility(View.GONE);
+                            }
                         }
                         break;
                 }
@@ -333,10 +346,6 @@ public class HomePicFragment
             case R.id.view_pop_top:
             case R.id.view_pop_bottom:
                 selectColorPopupWindow.dismiss();
-                break;
-            case R.id.iv_open_pop:
-            case R.id.rl_clickable_open:
-//                showPopwindow();
                 break;
         }
     }
@@ -845,33 +854,6 @@ public class HomePicFragment
                 }
                 break;
         }
-    }
-
-    private void showPopwindow() {
-
-        if (tagDataBean != null) {
-            if (null == newHomeTabPopWin) {
-                newHomeTabPopWin = new NewHomeTabPopWin(activity, tagDataBean, this, colorBean, null);
-            }
-            if (newHomeTabPopWin.isShowing()) {
-                iv_open_pop.setImageResource(R.drawable.shaixuan);
-                newHomeTabPopWin.dismiss();
-            } else {
-                if (Build.VERSION.SDK_INT < 24) {
-                    iv_open_pop.setImageResource(R.drawable.shaixuan1);
-                    newHomeTabPopWin.showAsDropDown(view_line_top);
-                } else {
-                    iv_open_pop.setImageResource(R.drawable.shaixuan1);
-                    // 获取控件的位置，安卓系统>7.0
-                    int[] location = new int[2];
-                    view_line_top.getLocationOnScreen(location);
-                    int screenHeight = PublicUtils.getScreenHeight(activity);
-                    newHomeTabPopWin.setHeight(screenHeight - location[1]);
-                    newHomeTabPopWin.showAtLocation(view_line_top, Gravity.NO_GRAVITY, 0, location[1]);
-                }
-            }
-        }
-
     }
 
     //关闭tab弹出框
