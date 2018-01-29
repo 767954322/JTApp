@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -20,7 +21,6 @@ import com.homechart.app.home.activity.LingGanCenterActivity;
 import com.homechart.app.home.activity.FenSiListActivity;
 import com.homechart.app.home.activity.GuanZuListActivity;
 import com.homechart.app.home.activity.HomeActivity;
-import com.homechart.app.home.activity.MessagesListActivity;
 import com.homechart.app.home.activity.MyInfoActivity;
 import com.homechart.app.home.activity.PicCenterActivity;
 import com.homechart.app.home.activity.SetActivity;
@@ -28,7 +28,6 @@ import com.homechart.app.home.activity.UserMessageActivity;
 import com.homechart.app.home.activity.YuGouQingDanActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
-import com.homechart.app.lingganji.ui.activity.MyLingGanlistActivity;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
@@ -46,7 +45,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 @SuppressLint("ValidFragment")
-public class HomeCenterFragment extends BaseFragment implements View.OnClickListener {
+public class HomeCenterFragment
+        extends BaseFragment
+        implements View.OnClickListener,
+        NewMessagesFragment.BackMessage {
 
     private UserCenterInfoBean userCenterInfoBean;
     private FragmentManager fragmentManager;
@@ -181,18 +183,12 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
                         .setCategory("点击消息中心查看消息的次数")  //事件类别
                         .setAction("点击消息中心")      //事件操作
                         .build());
-
-//                Intent intent_messages = new Intent(activity, MessagesListActivity.class);
-//                intent_messages.putExtra("notice_num", notice_num);
-//                intent_messages.putExtra("follow_notice", follow_notice);
-//                intent_messages.putExtra("collect_notice", collect_notice);
-//                intent_messages.putExtra("comment_notice", comment_notice);
-//                intent_messages.putExtra("system_notice", system_notice);
-//                intent_messages.putExtra("subscribe_notice", subscribe_notice);
-//                intent_messages.putExtra("addToAlbum_notice", addToAlbum_notice);
+                NewMessagesFragment newMessagesFragment = new NewMessagesFragment(fragmentManager,this);
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newMessagesFragment);
+                fragmentTransaction.commitAllowingStateLoss();
+//                Intent intent_messages = new Intent(activity, UserMessageActivity.class);
 //                startActivityForResult(intent_messages, 2);
-                Intent intent_messages = new Intent(activity, UserMessageActivity.class);
-                startActivityForResult(intent_messages, 2);
                 break;
             case R.id.rl_fensi:
                 Intent intent_fensi = new Intent(activity, FenSiListActivity.class);
@@ -423,4 +419,9 @@ public class HomeCenterFragment extends BaseFragment implements View.OnClickList
             getUnReaderMsg();
         }
     };
+
+    @Override
+    public void clickBackMessage() {
+        getUnReaderMsg();
+    }
 }

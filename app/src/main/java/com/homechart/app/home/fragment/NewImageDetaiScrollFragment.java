@@ -1292,9 +1292,6 @@ public class NewImageDetaiScrollFragment
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
-//        Intent intent = new Intent(activity, JuBaoActivity.class);
-//        intent.putExtra("item_id", item_id);
-//        startActivity(intent);
     }
 
     public interface UserInfo {
