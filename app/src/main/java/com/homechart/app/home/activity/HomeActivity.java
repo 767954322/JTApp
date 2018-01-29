@@ -200,8 +200,7 @@ public class HomeActivity
             case R.id.radio_btn_pic:
                 jumpPosition = 0;
 
-                transaction = getSupportFragmentManager().beginTransaction();
-                transaction.hide(mHomeCenterFragment).hide(mHomeFaXianFragment).show( mHomePicFragment).commit();
+                getSupportFragmentManager().beginTransaction().hide(mHomeCenterFragment).hide(mHomeFaXianFragment).show( mHomePicFragment).commit();
 //                transaction.commitAllowingStateLoss();
 //                if (null == mHomePicFragment) {
 //                    mHomePicFragment = new HomePicFragment(getSupportFragmentManager());
@@ -213,9 +212,7 @@ public class HomeActivity
                 break;
             case R.id.radio_btn_faxian:
                 jumpPosition = 1;
-
-                transaction = getSupportFragmentManager().beginTransaction();
-                transaction.hide(mHomePicFragment).hide(mHomeCenterFragment).show(mHomeFaXianFragment).commit();
+                getSupportFragmentManager().beginTransaction().hide(mHomePicFragment).hide(mHomeCenterFragment).show(mHomeFaXianFragment).commit();
 //                transaction.commitAllowingStateLoss();
 //                if (null == mHomeFaXianFragment) {
 //                    mHomeFaXianFragment = new HomeFaXianFragment(getSupportFragmentManager());
@@ -258,8 +255,7 @@ public class HomeActivity
                 if (loginStatus) {
                     jumpPosition = 3;
 
-                    transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.hide(mHomePicFragment).hide(mHomeFaXianFragment).show(mHomeCenterFragment).commit();
+                    getSupportFragmentManager().beginTransaction().hide(mHomePicFragment).hide(mHomeFaXianFragment).show(mHomeCenterFragment).commit();
                     mHomeCenterFragment.flushData();
 //                    transaction.commitAllowingStateLoss();
 //                    if (null == mHomeCenterFragment) {

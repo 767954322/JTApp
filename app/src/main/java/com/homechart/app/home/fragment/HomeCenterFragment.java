@@ -397,9 +397,13 @@ public class HomeCenterFragment
         mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
         //修改后的返回
         if (requestCode == 0 && resultCode == 1) {
-            getUserInfo();
+            if (!TextUtils.isEmpty(mUserId)) {
+                getUserInfo();
+            }
         } else if (requestCode == 2) {
-            getUnReaderMsg();
+            if (!TextUtils.isEmpty(mUserId)) {
+                getUnReaderMsg();
+            }
         } else if (requestCode == 3) {
             loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
             if (!loginStatus) {
@@ -411,8 +415,12 @@ public class HomeCenterFragment
     @Override
     public void onResume() {
         super.onResume();
-        getUnReaderMsg();
-        getUserInfo();
+
+        mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
+        if (!TextUtils.isEmpty(mUserId)) {
+            getUnReaderMsg();
+            getUserInfo();
+        }
         MobclickAgent.onResume(activity);
     }
 
