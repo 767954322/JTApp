@@ -102,6 +102,7 @@
             android:alwaysRetainTaskState="true"
             android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
             android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
 
             <intent-filter>

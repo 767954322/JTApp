@@ -1257,11 +1257,22 @@ public class NewImageDetaiScrollFragment
                 case 3:
                     if (imageDetailBean != null && imageDetailBean.getAlbum_info() != null && !TextUtils.isEmpty(imageDetailBean.getAlbum_info().getAlbum_id())) {
                         mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
-                        Intent intent_inspi = new Intent(activity, InspirationDetailActivity.class);
-                        intent_inspi.putExtra("user_id", mUserId);
-                        intent_inspi.putExtra("ifHideEdit", true);
-                        intent_inspi.putExtra("album_id", imageDetailBean.getAlbum_info().getAlbum_id());
-                        startActivityForResult(intent_inspi, 2);
+                        NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(fragmentManager);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("user_id", imageDetailBean.getUser_info().getUser_id());
+                        bundle.putBoolean("ifHideEdit", true);
+                        bundle.putString("album_id", imageDetailBean.getAlbum_info().getAlbum_id());
+                        newInspirationDetailsment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+
+//                        Intent intent_inspi = new Intent(activity, InspirationDetailActivity.class);
+//                        intent_inspi.putExtra("user_id", mUserId);
+//                        intent_inspi.putExtra("ifHideEdit", true);
+//                        intent_inspi.putExtra("album_id", imageDetailBean.getAlbum_info().getAlbum_id());
+//                        startActivityForResult(intent_inspi, 2);
                     }
                     break;
             }
