@@ -950,12 +950,12 @@ public class NewImageDetaiScrollFragment
             @Override
             public void TagClick(String text) {
                 // 跳转搜索结果页
-                Intent intent = new Intent(activity, ShaiXuanResultActicity.class);
-                String tag = text.replace("#", "");
-                tag = tag.replace("＃", "");
-                intent.putExtra("islist", true);
-                intent.putExtra("shaixuan_tag", tag.trim());
-                startActivity(intent);
+//                Intent intent = new Intent(activity, ShaiXuanResultActicity.class);
+//                String tag = text.replace("#", "");
+//                tag = tag.replace("＃", "");
+//                intent.putExtra("islist", true);
+//                intent.putExtra("shaixuan_tag", tag.trim());
+//                startActivity(intent);
             }
         });
         //更新颜色
@@ -1244,9 +1244,14 @@ public class NewImageDetaiScrollFragment
                     break;
                 case 2:
                     if (imageDetailBean != null) {
-                        Intent intent_info = new Intent(activity, UserInfoActivity.class);
-                        intent_info.putExtra(ClassConstant.LoginSucces.USER_ID, imageDetailBean.getUser_info().getUser_id());
-                        startActivityForResult(intent_info, 3);
+                        NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
+                        Bundle bundle = new Bundle();
+                        bundle.putString(ClassConstant.LoginSucces.USER_ID, imageDetailBean.getUser_info().getUser_id());
+                        newUserInfoFragment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                     }
                     break;
                 case 3:
