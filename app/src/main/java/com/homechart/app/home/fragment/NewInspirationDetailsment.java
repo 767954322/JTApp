@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
@@ -308,9 +309,14 @@ public class NewInspirationDetailsment
             case R.id.tv_user_name_no:
             case R.id.tv_user_name:
                 if (null != inspirationDetailBean) {
-                    Intent intent = new Intent(activity, UserInfoActivity.class);
-                    intent.putExtra(ClassConstant.LoginSucces.USER_ID, inspirationDetailBean.getInfo().getUser_info().getUser_id());
-                    startActivity(intent);
+                    NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ClassConstant.LoginSucces.USER_ID, inspirationDetailBean.getInfo().getUser_info().getUser_id());
+                    newUserInfoFragment.setArguments(bundle);
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
                 }
                 break;
         }
@@ -539,12 +545,24 @@ public class NewInspirationDetailsment
                     public void onClick(View v) {
                         List<String> item_id_list = new ArrayList<>();
                         item_id_list.add(mListData.get(position).getItem_info().getItem_id());
-                        Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
-                        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-                        intent.putExtra("type", "single");
-                        intent.putExtra("position", 0);
-                        intent.putExtra("item_id_list", (Serializable) item_id_list);
-                        startActivity(intent);
+
+
+                        NewImageDetailsFragment newImageDetailsFragment = new NewImageDetailsFragment(fragmentManager);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("item_id", mListData.get(position).getItem_info().getItem_id());
+                        bundle.putString("type", "single");
+                        bundle.putInt("position", 0);
+                        bundle.putSerializable("item_id_list", (Serializable) item_id_list);
+                        newImageDetailsFragment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newImageDetailsFragment);
+                        fragmentTransaction.commitAllowingStateLoss();
+//                        Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
+//                        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
+//                        intent.putExtra("type", "single");
+//                        intent.putExtra("position", 0);
+//                        intent.putExtra("item_id_list", (Serializable) item_id_list);
+//                        startActivity(intent);
                     }
                 });
                 holder.getView(R.id.iv_item_delete).setOnClickListener(new View.OnClickListener() {
