@@ -494,7 +494,6 @@ public class HomePicFragment
                             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
-
                         }
                     });
                     holder.getView(R.id.tv_name_pic).setOnClickListener(new View.OnClickListener() {
