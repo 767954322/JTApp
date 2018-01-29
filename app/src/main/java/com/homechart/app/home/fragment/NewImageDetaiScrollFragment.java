@@ -1282,9 +1282,19 @@ public class NewImageDetaiScrollFragment
                 .setCategory(" 举报不良图片")  //事件类别
                 .setAction("举报图片")      //事件操作
                 .build());
-        Intent intent = new Intent(activity, JuBaoActivity.class);
-        intent.putExtra("item_id", item_id);
-        startActivity(intent);
+
+        NewJuBaoFragment newJuBaoFragment = new NewJuBaoFragment(fragmentManager);
+        Bundle bundle = new Bundle();
+        bundle.putString("item_id", item_id);
+        newJuBaoFragment.setArguments(bundle);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newJuBaoFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
+//        Intent intent = new Intent(activity, JuBaoActivity.class);
+//        intent.putExtra("item_id", item_id);
+//        startActivity(intent);
     }
 
     public interface UserInfo {
