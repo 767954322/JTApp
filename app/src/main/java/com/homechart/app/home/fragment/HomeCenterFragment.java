@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -134,7 +135,6 @@ public class HomeCenterFragment
         rl_unreader_msg_double = (RelativeLayout) rootView.findViewById(R.id.rl_unreader_msg_double);
         iv_center_msgicon = (ImageView) rootView.findViewById(R.id.iv_center_msgicon);
         iv_zhuanye_icon = (ImageView) rootView.findViewById(R.id.iv_zhuanye_icon);
-        mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
 
     }
 
@@ -156,16 +156,30 @@ public class HomeCenterFragment
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        getUserInfo();
-        getUnReaderMsg();
-        try {
-            timer.schedule(task, 1000, 60000);
-        } catch (Exception e) {
+        mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
+        if (!TextUtils.isEmpty(mUserId)) {
+            getUserInfo();
+            getUnReaderMsg();
+            try {
+                timer.schedule(task, 1000, 60000);
+            } catch (Exception e) {
 
+            }
         }
-
     }
 
+    public void flushData() {
+        mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
+        if (!TextUtils.isEmpty(mUserId)) {
+            getUserInfo();
+            getUnReaderMsg();
+            try {
+                timer.schedule(task, 1000, 60000);
+            } catch (Exception e) {
+
+            }
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -379,6 +393,8 @@ public class HomeCenterFragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
+        mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
         //修改后的返回
         if (requestCode == 0 && resultCode == 1) {
             getUserInfo();
@@ -390,7 +406,6 @@ public class HomeCenterFragment
                 ((HomeActivity) activity).changeShowPic();
             }
         }
-
     }
 
     @Override

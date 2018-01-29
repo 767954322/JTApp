@@ -75,7 +75,7 @@ public class HomeActivity
     private int jumpPosition = 0;
 
     private HomePicFragment mHomePicFragment;
-    private Fragment mHomeCenterFragment;
+    private HomeCenterFragment mHomeCenterFragment;
     private FragmentTransaction transaction;
     private Fragment mTagFragment;
     private SelectPicPopupWindow menuWindow;
@@ -93,7 +93,7 @@ public class HomeActivity
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private RelativeLayout rl_bottom;
-    private Fragment mHomeFaXianFragment;
+    private HomeFaXianFragment mHomeFaXianFragment;
 
     @Override
     protected int getLayoutResId() {
@@ -260,6 +260,7 @@ public class HomeActivity
 
                     transaction = getSupportFragmentManager().beginTransaction();
                     transaction.hide(mHomePicFragment).hide(mHomeFaXianFragment).show(mHomeCenterFragment).commit();
+                    mHomeCenterFragment.flushData();
 //                    transaction.commitAllowingStateLoss();
 //                    if (null == mHomeCenterFragment) {
 //                        mHomeCenterFragment = new HomeCenterFragment(getSupportFragmentManager());
@@ -270,7 +271,11 @@ public class HomeActivity
 //                    }
                 } else {
                     if (ifJump) {
-                        mRadioGroup.check(R.id.radio_btn_pic);
+                        if(jumpPosition == 0){
+                            mRadioGroup.check(R.id.radio_btn_pic);
+                        }else if(jumpPosition == 1){
+                            mRadioGroup.check(R.id.radio_btn_faxian);
+                        }
                         //友盟统计
                         HashMap<String, String> map4 = new HashMap<String, String>();
                         map4.put("evenname", "登录入口");
@@ -570,7 +575,6 @@ public class HomeActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
-
             loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
             if (loginStatus) {
                 jumpPosition = 3;
