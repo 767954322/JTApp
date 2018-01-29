@@ -43,7 +43,7 @@
                 android:layout_marginBottom="@dimen/font_3"
                 android:layout_marginTop="@dimen/font_7"
                 android:checked="true"
-                android:drawableTop="@drawable/pic_radio_select"
+                android:drawableTop="@drawable/faxian_radio_select"
                 android:gravity="bottom|center_horizontal"
                 android:text="发现"
                 android:textSize="@dimen/size_11" />
@@ -55,7 +55,7 @@
                 android:layout_marginBottom="@dimen/font_3"
                 android:layout_marginTop="@dimen/font_7"
                 android:checked="true"
-                android:drawableTop="@drawable/linepic1"
+                android:drawableTop="@drawable/shibie_radio_select"
                 android:gravity="bottom|center_horizontal"
                 android:text="识图"
                 android:textSize="@dimen/size_11" />
