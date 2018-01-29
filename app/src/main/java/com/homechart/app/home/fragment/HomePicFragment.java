@@ -268,7 +268,6 @@ public class HomePicFragment
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
         initAnimation();
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
@@ -348,8 +347,8 @@ public class HomePicFragment
             String search_tag = data.getStringExtra("search_tag");
             String search_info = data.getStringExtra("search_info");
 
-            NewSearchResultFragment newSearchResultFragment = new NewSearchResultFragment(fragmentManager,search_tag,search_info);
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            NewSearchResultFragment newSearchResultFragment = new NewSearchResultFragment(getChildFragmentManager(),search_tag,search_info);
+            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newSearchResultFragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commitAllowingStateLoss();
@@ -486,11 +485,11 @@ public class HomePicFragment
                         @Override
                         public void onClick(View v) {
 
-                            NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
+                            NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(getChildFragmentManager());
                             Bundle bundle = new Bundle();
                             bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
                             newUserInfoFragment.setArguments(bundle);
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
@@ -499,11 +498,11 @@ public class HomePicFragment
                     holder.getView(R.id.tv_name_pic).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
+                            NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(getChildFragmentManager());
                             Bundle bundle = new Bundle();
                             bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
                             newUserInfoFragment.setArguments(bundle);
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
@@ -514,7 +513,7 @@ public class HomePicFragment
                         @Override
                         public void onClick(View v) {
 
-                            NewImageDetailsFragment newImageDetailsFragment = new NewImageDetailsFragment(fragmentManager);
+                            NewImageDetailsFragment newImageDetailsFragment = new NewImageDetailsFragment(getChildFragmentManager());
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("item_id", mListData.get(position).getItem_info().getItem_id());
                             if (mListData.get(0).getItem_info().getTag().equals("活动")) {
@@ -529,7 +528,7 @@ public class HomePicFragment
                             bundle.putInt("page_num", page_num + 1);
                             bundle.putSerializable("item_id_list", (Serializable) mItemIdList);
                             newImageDetailsFragment.setArguments(bundle);
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                             fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newImageDetailsFragment);
                             fragmentTransaction.commitAllowingStateLoss();
                         }

@@ -307,7 +307,7 @@ public class NewUserInfoFragment
 
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
-                getActivity().getSupportFragmentManager().popBackStack();
+                fragmentManager.popBackStack();
                 break;
             case R.id.rl_info_zhunaye:
                 //TODO 跳转专业用户资料页

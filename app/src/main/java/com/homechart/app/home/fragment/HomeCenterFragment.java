@@ -156,7 +156,6 @@ public class HomeCenterFragment
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
         getUserInfo();
         getUnReaderMsg();
         try {
@@ -183,8 +182,8 @@ public class HomeCenterFragment
                         .setCategory("点击消息中心查看消息的次数")  //事件类别
                         .setAction("点击消息中心")      //事件操作
                         .build());
-                NewMessagesFragment newMessagesFragment = new NewMessagesFragment(fragmentManager,this);
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                NewMessagesFragment newMessagesFragment = new NewMessagesFragment(getChildFragmentManager(), this);
+                FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                 fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newMessagesFragment);
                 fragmentTransaction.commitAllowingStateLoss();
 //                Intent intent_messages = new Intent(activity, UserMessageActivity.class);

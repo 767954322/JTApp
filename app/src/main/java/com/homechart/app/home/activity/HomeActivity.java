@@ -2,8 +2,7 @@ package com.homechart.app.home.activity;
 
 
 import android.Manifest;
-import android.app.Dialog;
-import android.app.FragmentManager;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,24 +17,20 @@ import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
-import com.google.gson.JsonArray;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
@@ -44,28 +39,21 @@ import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.fragment.HomeCenterFragment;
 import com.homechart.app.home.fragment.HomeFaXianFragment;
 import com.homechart.app.home.fragment.HomePicFragment;
-import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.myview.SelectPicPopupWindow;
 import com.homechart.app.myview.UpApkPopupWindow;
 import com.homechart.app.upapk.BroadcastUtil;
-import com.homechart.app.upapk.DialogUtils;
 import com.homechart.app.upapk.DownloadService;
-import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
-import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
-import com.homechart.app.visearch.EditPhotoActivity;
 import com.homechart.app.visearch.PhotoActivity;
-import com.jaeger.library.StatusBarUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -171,8 +159,16 @@ public class HomeActivity
             if (null == mHomePicFragment) {
                 mHomePicFragment = new HomePicFragment(getSupportFragmentManager());
             }
+            if (null == mHomeFaXianFragment) {
+                mHomeFaXianFragment = new HomeFaXianFragment(getSupportFragmentManager());
+            }
+            if (null == mHomeCenterFragment) {
+                mHomeCenterFragment = new HomeCenterFragment(getSupportFragmentManager());
+            }
             transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.main_content, mHomePicFragment).commitAllowingStateLoss();
+            getSupportFragmentManager().beginTransaction().add(R.id.main_content, mHomePicFragment).
+                    add(R.id.main_content, mHomeFaXianFragment).add(R.id.main_content, mHomeCenterFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(mHomeCenterFragment).hide(mHomeFaXianFragment).show(mHomePicFragment).commit();
 //            FragmentManager.executePendingTransactions();
         }
         ((RadioButton) mRadioGroup.findViewById(R.id.radio_btn_pic)).setChecked(true);
@@ -203,23 +199,31 @@ public class HomeActivity
         switch (checkedId) {
             case R.id.radio_btn_pic:
                 jumpPosition = 0;
-                if (null == mHomePicFragment) {
-                    mHomePicFragment = new HomePicFragment(getSupportFragmentManager());
-                }
-                if (mTagFragment != mHomePicFragment) {
-                    mTagFragment = mHomePicFragment;
-                    replaceFragment(mHomePicFragment);
-                }
+
+                transaction = getSupportFragmentManager().beginTransaction();
+                transaction.hide(mHomeCenterFragment).hide(mHomeFaXianFragment).show( mHomePicFragment).commit();
+//                transaction.commitAllowingStateLoss();
+//                if (null == mHomePicFragment) {
+//                    mHomePicFragment = new HomePicFragment(getSupportFragmentManager());
+//                }
+//                if (mTagFragment != mHomePicFragment) {
+//                    mTagFragment = mHomePicFragment;
+//                    replaceFragment(mHomePicFragment);
+//                }
                 break;
             case R.id.radio_btn_faxian:
                 jumpPosition = 1;
-                if (null == mHomeFaXianFragment) {
-                    mHomeFaXianFragment = new HomeFaXianFragment(getSupportFragmentManager());
-                }
-                if (mTagFragment != mHomeFaXianFragment) {
-                    mTagFragment = mHomeFaXianFragment;
-                    replaceFragment(mHomeFaXianFragment);
-                }
+
+                transaction = getSupportFragmentManager().beginTransaction();
+                transaction.hide(mHomePicFragment).hide(mHomeCenterFragment).show(mHomeFaXianFragment).commit();
+//                transaction.commitAllowingStateLoss();
+//                if (null == mHomeFaXianFragment) {
+//                    mHomeFaXianFragment = new HomeFaXianFragment(getSupportFragmentManager());
+//                }
+//                if (mTagFragment != mHomeFaXianFragment) {
+//                    mTagFragment = mHomeFaXianFragment;
+//                    replaceFragment(mHomeFaXianFragment);
+//                }
                 break;
             case R.id.radio_btn_designer:
                 if (ContextCompat.checkSelfPermission(HomeActivity.this,
@@ -253,13 +257,17 @@ public class HomeActivity
 
                 if (loginStatus) {
                     jumpPosition = 3;
-                    if (null == mHomeCenterFragment) {
-                        mHomeCenterFragment = new HomeCenterFragment(getSupportFragmentManager());
-                    }
-                    if (mTagFragment != mHomeCenterFragment) {
-                        mTagFragment = mHomeCenterFragment;
-                        replaceFragment(mHomeCenterFragment);
-                    }
+
+                    transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.hide(mHomePicFragment).hide(mHomeFaXianFragment).show(mHomeCenterFragment).commit();
+//                    transaction.commitAllowingStateLoss();
+//                    if (null == mHomeCenterFragment) {
+//                        mHomeCenterFragment = new HomeCenterFragment(getSupportFragmentManager());
+//                    }
+//                    if (mTagFragment != mHomeCenterFragment) {
+//                        mTagFragment = mHomeCenterFragment;
+//                        replaceFragment(mHomeCenterFragment);
+//                    }
                 } else {
                     if (ifJump) {
                         mRadioGroup.check(R.id.radio_btn_pic);
