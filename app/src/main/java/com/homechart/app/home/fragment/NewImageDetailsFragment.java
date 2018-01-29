@@ -197,7 +197,7 @@ public class NewImageDetailsFragment
         mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
         mAdapter = new MyImagePageAdater(fragmentManager);
         mViewPager.setAdapter(mAdapter);
-        mViewPager.setOffscreenPageLimit(1);
+        mViewPager.setOffscreenPageLimit(3);
 
         if (!TextUtils.isEmpty(type)) {
             if (type.equals("筛选")) {
