@@ -87,6 +87,9 @@ public class NewImageDetailsFragment
     int before_position = 0;
     boolean ifFirst = true;
     private Bundle mBundle;
+    private boolean ifBack = false;
+    private RelativeLayout rl_navbar;
+    private RelativeLayout rl_navbar_tital;
 
     public NewImageDetailsFragment() {
     }
@@ -128,6 +131,8 @@ public class NewImageDetailsFragment
         tv_lingganji = (TextView) rootView.findViewById(R.id.tv_lingganji);
         mViewPager = (CustomViewPager) rootView.findViewById(R.id.vp_viewpager);
 
+        rl_navbar = (RelativeLayout) rootView.findViewById(R.id.rl_navbar);
+        rl_navbar_tital = (RelativeLayout) rootView.findViewById(R.id.rl_navbar_tital);
     }
 
     @Override
@@ -222,7 +227,7 @@ public class NewImageDetailsFragment
         }
         getTypeData();
 
-        mViewPager.setCurrentItem(mPosition,false);
+        mViewPager.setCurrentItem(mPosition, false);
     }
 
     private void getTypeData() {
@@ -257,6 +262,7 @@ public class NewImageDetailsFragment
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
             case R.id.nav_left_imageButton_tital:
+                ifBack = true;
                 fragmentManager.popBackStack();
                 break;
         }
@@ -391,7 +397,7 @@ public class NewImageDetailsFragment
 
         @Override
         public Fragment getItem(int position) {
-            return new NewImageDetaiScrollFragment(fragmentManager,mItemIdList.get(position), NewImageDetailsFragment.this, position);
+            return new NewImageDetaiScrollFragment(fragmentManager, mItemIdList.get(position), NewImageDetailsFragment.this, position);
         }
 
         @Override
@@ -407,6 +413,11 @@ public class NewImageDetailsFragment
 
     public String getCurrentItemId() {
         return mItemIdList.get(mViewPager.getCurrentItem());
+    }
+
+    @Override
+    public boolean getIfBack() {
+        return ifBack;
     }
 
     public int getCurrentPosition() {
@@ -442,5 +453,19 @@ public class NewImageDetailsFragment
         }
 
     }
+
+    @Override
+    public void changeTital(boolean boo) {
+        if (!ifBack) {
+            if (boo) {
+                rl_navbar.setVisibility(View.VISIBLE);
+                rl_navbar_tital.setVisibility(View.INVISIBLE);
+            } else {
+                rl_navbar.setVisibility(View.INVISIBLE);
+                rl_navbar_tital.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
 
 }

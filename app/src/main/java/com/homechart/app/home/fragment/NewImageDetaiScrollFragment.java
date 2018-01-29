@@ -139,8 +139,6 @@ public class NewImageDetaiScrollFragment
     }
 
     private void initView() {
-        rl_navbar = (RelativeLayout) activity.findViewById(R.id.rl_navbar);
-        rl_navbar_tital = (RelativeLayout) activity.findViewById(R.id.rl_navbar_tital);
         tv_lingganji = (TextView) activity.findViewById(R.id.tv_lingganji);
         iv_edit_image = (ImageButton) activity.findViewById(R.id.iv_edit_image);
         iv_shared_image = (ImageButton) activity.findViewById(R.id.iv_shared_image);
@@ -819,10 +817,14 @@ public class NewImageDetaiScrollFragment
         //......改变识图识色图标的显示位置.........
         if ((height_pic + UIUtils.getDimens(R.dimen.font_50)) < PublicUtils.getScreenHeight(activity)) {
             ifchange = false;
-            updateShiBieUI(true);
+            if (!mUserInfo.getIfBack()) {
+                updateShiBieUI(true);
+            }
         } else {
             ifchange = true;
-            updateShiBieUI(false);
+            if (!mUserInfo.getIfBack()) {
+                updateShiBieUI(false);
+            }
         }
         //......user_header.........
         ImageUtils.displayRoundImage(imageDetailBean.getUser_info().getAvatar().getThumb(), riv_people_header);
@@ -1182,34 +1184,44 @@ public class NewImageDetaiScrollFragment
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            int top = Math.abs(totalDy);
-            if (height_pic != 0 && top >= height_pic) {
-                updateShiBieUI(true);
-            } else if (height_pic != 0 && top < height_pic) {
-                if (view_below_image.getLocalVisibleRect(rect)) {/*rect.contains(ivRect)*/
-                    //控件在屏幕可见区域-----显现
-                    updateShiBieUI(true);
-                } else {
-                    //控件已不在屏幕可见区域（已滑出屏幕）-----隐去
-                    updateShiBieUI(false);
-                }
-            }
-            if (mUserInfo.getmItemIdList().size() > 1) {
-
-                int position = mUserInfo.getCurrentPosition();
-                if (position == mPosotion) {
-                    int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
-                    staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
-                    if (lastPositions != null && lastPositions.length == 2 && lastPositions[0] == 1 && lastPositions[1] == 1) {
-                        rl_navbar.setVisibility(View.VISIBLE);
-                        rl_navbar_tital.setVisibility(View.INVISIBLE);
+            if (!mUserInfo.getIfBack()) {
+                int top = Math.abs(totalDy);
+                if (height_pic != 0 && top >= height_pic) {
+                    if (!mUserInfo.getIfBack()) {
+                        updateShiBieUI(true);
+                    }
+                } else if (height_pic != 0 && top < height_pic) {
+                    if (view_below_image.getLocalVisibleRect(rect)) {/*rect.contains(ivRect)*/
+                        //控件在屏幕可见区域-----显现
+                        if (!mUserInfo.getIfBack()) {
+                            updateShiBieUI(true);
+                        }
                     } else {
-                        rl_navbar.setVisibility(View.INVISIBLE);
-                        rl_navbar_tital.setVisibility(View.VISIBLE);
+                        //控件已不在屏幕可见区域（已滑出屏幕）-----隐去
+                        if (!mUserInfo.getIfBack()) {
+                            updateShiBieUI(false);
+                        }
                     }
                 }
+                if (mUserInfo.getmItemIdList().size() > 1) {
+
+                    int position = mUserInfo.getCurrentPosition();
+                    if (position == mPosotion) {
+                        int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+                        staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
+                        if (lastPositions != null && lastPositions.length == 2 && lastPositions[0] == 1 && lastPositions[1] == 1) {
+                            if (!mUserInfo.getIfBack()) {
+                                mUserInfo.changeTital(true);
+                            }
+                        } else {
+                            if (!mUserInfo.getIfBack()) {
+                                mUserInfo.changeTital(false);
+                            }
+                        }
+                    }
+                }
+                mHandler.postDelayed(this, 100);
             }
-            mHandler.postDelayed(this, 100);
         }
     };
 
@@ -1278,9 +1290,13 @@ public class NewImageDetaiScrollFragment
 
         String getCurrentItemId();
 
+        boolean getIfBack();
+
         void setTitalClickAble(boolean boo);
 
         void setViewPagerScrollAble(boolean boo);
+
+        void changeTital(boolean boo);
     }
 
     @Override
@@ -1411,8 +1427,6 @@ public class NewImageDetaiScrollFragment
     //全局
     private TextView tv_lingganji;
     private TextView tv_tital_comment;
-    private RelativeLayout rl_navbar;
-    private RelativeLayout rl_navbar_tital;
     private ImageButton iv_edit_image;
     private ImageButton iv_shared_image;
     private ImageButton iv_more_image;
