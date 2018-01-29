@@ -400,10 +400,6 @@ public class HomeCenterFragment
         getUnReaderMsg();
         getUserInfo();
         MobclickAgent.onResume(activity);
-//        if (null == userCenterInfoBean) {
-//            getUserInfo();
-//        }
-
     }
 
     @Override

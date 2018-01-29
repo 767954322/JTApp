@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -20,21 +21,14 @@ import com.android.volley.VolleyError;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
-import com.homechart.app.commont.contract.ItemClickJuBao;
 import com.homechart.app.home.activity.ArticleDetailsActivity;
 import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.NewHuoDongDetailsActivity;
-import com.homechart.app.home.activity.UserInfoActivity;
-import com.homechart.app.home.activity.UserMessageActivity;
-import com.homechart.app.home.adapter.MyJuBaoAdapter;
 import com.homechart.app.home.base.BaseFragment;
-import com.homechart.app.home.bean.jubaobean.JuBaoBean;
-import com.homechart.app.home.bean.jubaobean.JuBaoItemBean;
 import com.homechart.app.home.bean.msgdingyue.DingYueItemBean;
 import com.homechart.app.home.bean.msgdingyue.MsgDingYue;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
-import com.homechart.app.myview.MyListView;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
@@ -87,7 +81,7 @@ public class NewMessagesFragment
     public NewMessagesFragment() {
     }
 
-    public NewMessagesFragment(FragmentManager fragmentManager,BackMessage backMessage) {
+    public NewMessagesFragment(FragmentManager fragmentManager, BackMessage backMessage) {
         this.fragmentManager = fragmentManager;
         this.mBackMessage = backMessage;
     }
@@ -212,9 +206,15 @@ public class NewMessagesFragment
                     holder.getView(R.id.riv_header).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(activity, UserInfoActivity.class);
-                            intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-                            startActivity(intent);
+
+                            NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
+                            Bundle bundle = new Bundle();
+                            bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+                            newUserInfoFragment.setArguments(bundle);
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
                         }
                     });
 
@@ -228,9 +228,14 @@ public class NewMessagesFragment
                     holder.getView(R.id.riv_header).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(activity, UserInfoActivity.class);
-                            intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-                            startActivity(intent);
+                            NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
+                            Bundle bundle = new Bundle();
+                            bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+                            newUserInfoFragment.setArguments(bundle);
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
                         }
                     });
                 } else if (getItemViewType(position) == 4) {
@@ -243,9 +248,14 @@ public class NewMessagesFragment
                     holder.getView(R.id.riv_header).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(activity, UserInfoActivity.class);
-                            intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-                            startActivity(intent);
+                            NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
+                            Bundle bundle = new Bundle();
+                            bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+                            newUserInfoFragment.setArguments(bundle);
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
                         }
                     });
 
@@ -263,9 +273,14 @@ public class NewMessagesFragment
                     holder.getView(R.id.riv_header).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(activity, UserInfoActivity.class);
-                            intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-                            startActivity(intent);
+                            NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
+                            Bundle bundle = new Bundle();
+                            bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+                            newUserInfoFragment.setArguments(bundle);
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
                         }
                     });
 
@@ -308,36 +323,56 @@ public class NewMessagesFragment
                 startActivity(intent);
             }
         } else if (mListData.get(position).getNotice_class().equals("follow")) {//关注消息
-            Intent intent = new Intent(activity, UserInfoActivity.class);
-            intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-            startActivity(intent);
+            NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
+            Bundle bundle = new Bundle();
+            bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+            newUserInfoFragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         } else if (mListData.get(position).getNotice_class().equals("comment")) {//评论消息
             if (mListData.get(position).getObject_type().trim().equals("item")) {//图片
+
                 List<String> item_id_list = new ArrayList<>();
                 item_id_list.add(mListData.get(position).getObject_id());
-                Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
-                intent.putExtra("item_id", mListData.get(position).getObject_id());
-                intent.putExtra("type", "single");
-                intent.putExtra("position", 0);
-                intent.putExtra("item_id_list", (Serializable) item_id_list);
-                startActivity(intent);
+                NewImageDetailsFragment newImageDetailsFragment = new NewImageDetailsFragment(fragmentManager);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("item_id", mListData.get(position).getObject_id());
+                bundle.putInt("position", 0);
+                bundle.putString("type", "single");
+                bundle.putSerializable("item_id_list", (Serializable) item_id_list);
+                newImageDetailsFragment.setArguments(bundle);
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newImageDetailsFragment);
+                fragmentTransaction.commitAllowingStateLoss();
             } else if (mListData.get(position).getObject_type().trim().equals("article")) {//文章
-                Intent intent = new Intent(activity, ArticleDetailsActivity.class);
-                intent.putExtra("article_id", mListData.get(position).getObject_id());
-                startActivity(intent);
+//                Intent intent = new Intent(activity, ArticleDetailsActivity.class);
+//                intent.putExtra("article_id", mListData.get(position).getObject_id());
+//                startActivity(intent);
             }
         } else if (mListData.get(position).getNotice_class().equals("collect")) {//收藏消息
-            Intent intent = new Intent(activity, InspirationDetailActivity.class);
-            intent.putExtra("user_id", mUserId);
-            intent.putExtra("ifHideEdit", true);
-            intent.putExtra("album_id", mListData.get(position).getObject_id());
-            startActivity(intent);
+            NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(fragmentManager);
+            Bundle bundle = new Bundle();
+            bundle.putString("user_id", mUserId);
+            bundle.putBoolean("ifHideEdit", true);
+            bundle.putString("album_id", mListData.get(position).getObject_id());
+            newInspirationDetailsment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         } else if (mListData.get(position).getNotice_class().equals("addToAlbum") || mListData.get(position).getNotice_class().equals("albumUpdate")) {//加入灵感辑消息
-            Intent intent = new Intent(activity, InspirationDetailActivity.class);
-            intent.putExtra("user_id", mUserId);
-            intent.putExtra("ifHideEdit", true);
-            intent.putExtra("album_id", mListData.get(position).getObject_id());
-            startActivity(intent);
+            NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(fragmentManager);
+            Bundle bundle = new Bundle();
+            bundle.putString("user_id", mUserId);
+            bundle.putBoolean("ifHideEdit", true);
+            bundle.putString("album_id", mListData.get(position).getObject_id());
+            newInspirationDetailsment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
 
         }
     }
@@ -422,7 +457,7 @@ public class NewMessagesFragment
     }
 
     interface BackMessage {
-       void clickBackMessage();
+        void clickBackMessage();
     }
 
 }
