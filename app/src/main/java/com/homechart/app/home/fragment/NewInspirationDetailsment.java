@@ -6,19 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,10 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.flyco.tablayout.CustomViewPagerTab;
-import com.flyco.tablayout.SlidingTabLayout;
 import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
@@ -43,8 +35,6 @@ import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.base.BaseFragment;
-import com.homechart.app.home.bean.search.SearchDataBean;
-import com.homechart.app.home.bean.search.SearchItemDataBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.entity.inspirationdetail.InspirationDetailBean;
 import com.homechart.app.lingganji.common.entity.inspirationpics.InsPicItemBean;
@@ -52,11 +42,8 @@ import com.homechart.app.lingganji.common.entity.inspirationpics.InsPicsBean;
 import com.homechart.app.lingganji.common.view.InspirationImageEditPop;
 import com.homechart.app.lingganji.contract.InterPopBottom;
 import com.homechart.app.lingganji.ui.activity.EditInsprationImageListActivity;
-import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
 import com.homechart.app.lingganji.ui.activity.InspirationDetailEditActivity;
 import com.homechart.app.lingganji.ui.activity.InspirationEditActivity;
-import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
-import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.myview.HomeSharedPopWinPublic;
 import com.homechart.app.myview.InspritionPop;
 import com.homechart.app.myview.MiaoSuPop;
@@ -75,7 +62,6 @@ import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
-import com.homechart.app.visearch.SearchLoadingActivity;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
@@ -90,8 +76,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static android.content.Context.INPUT_METHOD_SERVICE;
 
 @SuppressLint("ValidFragment")
 public class NewInspirationDetailsment
@@ -231,8 +215,6 @@ public class NewInspirationDetailsment
         switch (id) {
             case R.id.nav_left_imageButton:
                 fragmentManager.popBackStack();
-//                InspirationDetailActivity.this.setResult(2, InspirationDetailActivity.this.getIntent());
-//                InspirationDetailActivity.this.finish();
                 break;
             case R.id.rl_check_pic:
             case R.id.rl_check_pic1:

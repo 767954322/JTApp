@@ -3,7 +3,6 @@ package com.homechart.app.home.fragment;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
@@ -11,13 +10,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.text.TextUtils;
@@ -26,8 +22,6 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.LinearInterpolator;
@@ -43,12 +37,9 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
-import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.NewHuoDongDetailsActivity;
 import com.homechart.app.home.activity.SearchActivity;
-import com.homechart.app.home.activity.SearchResultActivity;
-import com.homechart.app.home.activity.ShaiXuanResultActicity;
 import com.homechart.app.home.adapter.HomeTagAdapter;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.color.ColorBean;
@@ -58,7 +49,6 @@ import com.homechart.app.home.bean.search.ActivityInfoBean;
 import com.homechart.app.home.bean.search.SearchDataBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
 import com.homechart.app.home.bean.search.SearchItemInfoDataBean;
-import com.homechart.app.home.contract.OnVerticalScrollListener;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.view.InspirationSeriesPop;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
@@ -71,7 +61,6 @@ import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
-import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
@@ -80,8 +69,6 @@ import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
-import com.homechart.app.visearch.PhotoActivity;
-import com.homechart.app.visearch.SearchLoadingActivity;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
@@ -366,11 +353,6 @@ public class HomePicFragment
             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newSearchResultFragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commitAllowingStateLoss();
-//            // 跳转搜索结果页
-//            Intent intent = new Intent(activity, SearchResultActivity.class);
-//            intent.putExtra("search_tag", search_tag);
-//            intent.putExtra("search_info", search_info);
-//            startActivity(intent);
         }
     }
 
@@ -867,39 +849,6 @@ public class HomePicFragment
 
     @Override
     public void onItemClick(String tagStr, int mPosition) {
-        onDismiss();
-        String name = "";
-        switch (mPosition) {
-            case 0:
-                name = "空间";
-                break;
-            case 1:
-                name = "局部";
-                break;
-            case 2:
-                name = "装饰";
-                break;
-            case 3:
-                name = "收纳";
-                break;
-        }
-        //友盟统计
-        HashMap<String, String> map7 = new HashMap<String, String>();
-        map7.put("evenname", "看图筛选");
-        map7.put("even", name + "－－" + tagStr);
-        MobclickAgent.onEvent(activity, "shijian1", map7);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory(name + "－－" + tagStr)  //事件类别
-                .setAction("看图筛选")      //事件操作
-                .build());
-        //跳转到筛选结果页
-        Intent intent = new Intent(activity, ShaiXuanResultActicity.class);
-        intent.putExtra("shaixuan_tag", tagStr);
-        intent.putExtra("islist", curentListTag);
-        intent.putExtra("colorBean", colorBean);
-        intent.putExtra("shaixuan_color", (Serializable) mSelectListData);
-        startActivity(intent);
     }
 
     @Override

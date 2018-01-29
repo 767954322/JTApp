@@ -35,13 +35,10 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
-import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.ImageEditActvity;
 import com.homechart.app.home.activity.JuBaoActivity;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.PingListActivity;
-import com.homechart.app.home.activity.ShaiXuanResultActicity;
-import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.adapter.MyColorGridAdapter;
 import com.homechart.app.home.base.LazyLoadFragment;
 import com.homechart.app.home.bean.cailike.ImageLikeItemBean;
@@ -51,7 +48,6 @@ import com.homechart.app.home.bean.imagedetail.ImageDetailBean;
 import com.homechart.app.home.bean.searchfservice.SearchSBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.imagedetail.ImageDetailsActivity;
-import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
 import com.homechart.app.lingganji.ui.activity.XGLingGanlistActivity;
 import com.homechart.app.myview.FlowLayoutBiaoQian;
@@ -1267,12 +1263,6 @@ public class NewImageDetaiScrollFragment
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
-
-//                        Intent intent_inspi = new Intent(activity, InspirationDetailActivity.class);
-//                        intent_inspi.putExtra("user_id", mUserId);
-//                        intent_inspi.putExtra("ifHideEdit", true);
-//                        intent_inspi.putExtra("album_id", imageDetailBean.getAlbum_info().getAlbum_id());
-//                        startActivityForResult(intent_inspi, 2);
                     }
                     break;
             }
