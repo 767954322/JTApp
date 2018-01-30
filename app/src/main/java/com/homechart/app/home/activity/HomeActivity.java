@@ -199,7 +199,6 @@ public class HomeActivity
         switch (checkedId) {
             case R.id.radio_btn_pic:
                 jumpPosition = 0;
-
                 getSupportFragmentManager().beginTransaction().hide(mHomeCenterFragment).hide(mHomeFaXianFragment).show( mHomePicFragment).commit();
 //                transaction.commitAllowingStateLoss();
 //                if (null == mHomePicFragment) {
@@ -254,9 +253,17 @@ public class HomeActivity
 
                 if (loginStatus) {
                     jumpPosition = 3;
-
-                    getSupportFragmentManager().beginTransaction().hide(mHomePicFragment).hide(mHomeFaXianFragment).show(mHomeCenterFragment).commit();
+//                    if (null == mHomePicFragment) {
+//                        mHomePicFragment = new HomePicFragment(getSupportFragmentManager());
+//                    }
+//                    if (null == mHomeFaXianFragment) {
+//                        mHomeFaXianFragment = new HomeFaXianFragment(getSupportFragmentManager());
+//                    }
+//                    if (null == mHomeCenterFragment) {
+//                        mHomeCenterFragment = new HomeCenterFragment(getSupportFragmentManager());
+//                    }
                     mHomeCenterFragment.flushData();
+                    getSupportFragmentManager().beginTransaction().hide(mHomePicFragment).hide(mHomeFaXianFragment).show(mHomeCenterFragment).commit();
 //                    transaction.commitAllowingStateLoss();
 //                    if (null == mHomeCenterFragment) {
 //                        mHomeCenterFragment = new HomeCenterFragment(getSupportFragmentManager());
@@ -297,7 +304,7 @@ public class HomeActivity
         ifJump = false;
         jumpPosition = 0;
         mRadioGroup.check(R.id.radio_btn_pic);
-        mHomeCenterFragment = null;
+//        mHomeCenterFragment = null;
         ifJump = true;
     }
 
