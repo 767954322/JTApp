@@ -12,12 +12,23 @@ import java.util.List;
 
 public class SearchDataBean implements Serializable{
 
+    private List<RecommendItemDataBean> recommend_list;
     private List<SearchItemDataBean> item_list;
     private ActivityInfoBean ad_info;
 
-    public SearchDataBean(List<SearchItemDataBean> item_list, ActivityInfoBean ad_info) {
+
+    public SearchDataBean(List<RecommendItemDataBean> recommend_list, List<SearchItemDataBean> item_list, ActivityInfoBean ad_info) {
+        this.recommend_list = recommend_list;
         this.item_list = item_list;
         this.ad_info = ad_info;
+    }
+
+    public List<RecommendItemDataBean> getRecommend_list() {
+        return recommend_list;
+    }
+
+    public void setRecommend_list(List<RecommendItemDataBean> recommend_list) {
+        this.recommend_list = recommend_list;
     }
 
     public List<SearchItemDataBean> getItem_list() {
@@ -39,7 +50,8 @@ public class SearchDataBean implements Serializable{
     @Override
     public String toString() {
         return "SearchDataBean{" +
-                "item_list=" + item_list +
+                "recommend_list=" + recommend_list +
+                ", item_list=" + item_list +
                 ", ad_info=" + ad_info +
                 '}';
     }

@@ -3383,5 +3383,43 @@ public class MyHttpManager {
         queue.add(okStringRequest);
     }
 
+    /**
+     * 获取搜索结果
+     *
+     * @param s
+     * @param n
+     * @param callback
+     */
+    public void getFaXianList( final String q, final String tag_name, final String color_id ,final String s, final String n, OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.FAXIAN_LIST, callback) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                if (!TextUtils.isEmpty(q.trim())) {
+                    map.put(ClassConstant.SearchList.Q, q);
+                }
+                if (!TextUtils.isEmpty(tag_name.trim())) {
+                    map.put(ClassConstant.SearchList.TAG_NAME, tag_name);
+                }
+                if (!TextUtils.isEmpty(color_id.trim())) {
+                    map.put(ClassConstant.SearchList.COLOR_ID, color_id);
+                }
+                map.put(ClassConstant.SearchList.S, s);
+                map.put(ClassConstant.SearchList.N, n);
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+
+        };
+        queue.add(okStringRequest);
+    }
 
 }

@@ -62,4 +62,19 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_44"
         android:layout_below="@+id/view_line_top"/>
+
+
+    <com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView
+        android:id="@+id/rcy_recyclerview_pic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/hlv_tab2"
+        android:background="@color/bg_f2f2f2"
+        android:paddingLeft="@dimen/font_5"
+        android:paddingRight="@dimen/font_5"
+        app:loadMoreEnabled="true"
+        app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer"
+        app:refreshEnabled="true"
+        app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
+
 </RelativeLayout>

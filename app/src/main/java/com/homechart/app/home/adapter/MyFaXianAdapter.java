@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.homechart.app.R;
 import com.homechart.app.home.bean.faxianpingdao.PingDaoItemBean;
+import com.homechart.app.utils.UIUtils;
 
 import java.util.List;
 
@@ -70,9 +71,11 @@ public class MyFaXianAdapter extends BaseAdapter {
         TextPaint tp = myHolder.tv_item_pingdao.getPaint();
         if (selectPosition == position) {
             tp.setFakeBoldText(true);
+            myHolder.tv_item_pingdao.setTextColor(UIUtils.getColor(R.color.bg_262626));
             myHolder.view_bottom.setVisibility(View.VISIBLE);
         } else {
             tp.setFakeBoldText(false);
+            myHolder.tv_item_pingdao.setTextColor(UIUtils.getColor(R.color.bg_464646));
             myHolder.view_bottom.setVisibility(View.GONE);
         }
 

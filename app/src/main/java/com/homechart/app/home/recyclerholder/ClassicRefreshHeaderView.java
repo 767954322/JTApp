@@ -117,4 +117,10 @@ public class ClassicRefreshHeaderView extends RelativeLayout implements RefreshT
         ivArrow.setVisibility(GONE);
         progressBar.setVisibility(GONE);
     }
+
+    public void  onRefreshing(){
+        ivArrow.setVisibility(VISIBLE);
+        ivArrow.clearAnimation();
+        ivArrow.startAnimation(rotateDown);
+    }
 }
