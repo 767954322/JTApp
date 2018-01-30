@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.homechart.app.R;
 import com.homechart.app.commont.PublicUtils;
@@ -52,10 +53,12 @@ public class MyHuaTiAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_huati, null);
             myHolder = new MyHolder();
             myHolder.iv_imageview_one = (ImageView) convertView.findViewById(R.id.iv_imageview_one);
+            myHolder.tv_name_pic = (TextView) convertView.findViewById(R.id.tv_name_pic);
             convertView.setTag(myHolder);
         } else {
             myHolder = (MyHolder) convertView.getTag();
         }
+        myHolder.tv_name_pic.setText(list.get(position).getRecommend_info().getTitle());
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) myHolder.iv_imageview_one.getLayoutParams();
         layoutParams.height = (int) ((PublicUtils.getScreenWidth(context) - UIUtils.getDimens(R.dimen.font_20)) / list.get(position).getRecommend_info().getRatio());
         ImageUtils.displayFilletImage(list.get(position).getRecommend_info().getImage_url(), myHolder.iv_imageview_one);
@@ -65,6 +68,7 @@ public class MyHuaTiAdapter extends BaseAdapter {
 
     class MyHolder {
         private ImageView iv_imageview_one;
+        private TextView tv_name_pic;
     }
 
    public void dataChange(List<RecommendItemDataBean> list1){
