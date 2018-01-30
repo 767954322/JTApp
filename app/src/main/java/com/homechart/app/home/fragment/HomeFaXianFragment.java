@@ -14,6 +14,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -22,6 +23,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -35,9 +37,11 @@ import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.NewHuoDongDetailsActivity;
 import com.homechart.app.home.adapter.MyFaXianAdapter;
 import com.homechart.app.home.adapter.MyFaXianAdapter1;
+import com.homechart.app.home.adapter.MyHuaTiAdapter;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.faxianpingdao.PingDaoBean;
 import com.homechart.app.home.bean.faxianpingdao.PingDaoItemBean;
+import com.homechart.app.home.bean.search.RecommendItemDataBean;
 import com.homechart.app.home.bean.search.SearchDataBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
 import com.homechart.app.home.bean.search.SearchItemInfoDataBean;
@@ -45,6 +49,7 @@ import com.homechart.app.home.recyclerholder.ClassicRefreshHeaderView;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
 import com.homechart.app.myview.HorizontalListView;
+import com.homechart.app.myview.MyListView;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
@@ -103,6 +108,9 @@ public class HomeFaXianFragment
     private String userId;
     private ClassicRefreshHeaderView mRefreshHeaderView;
     private AnimationSet animationSet;
+    private View headerView;
+    private MyListView lv_faxian_header;
+    private MyHuaTiAdapter myHuaTiAdapter;
 
     public HomeFaXianFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -122,6 +130,10 @@ public class HomeFaXianFragment
         hlv_tab1 = (HorizontalListView) rootView.findViewById(R.id.hlv_tab1);
         hlv_tab2 = (HorizontalListView) rootView.findViewById(R.id.hlv_tab2);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_pic);
+
+
+        headerView = LayoutInflater.from(activity).inflate(R.layout.header_faxian, null);
+        lv_faxian_header = (MyListView) headerView.findViewById(R.id.lv_faxian_header);
 
     }
 
@@ -360,6 +372,7 @@ public class HomeFaXianFragment
         mRecyclerView.setOnLoadMoreListener(this);
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
         mRefreshHeaderView = (ClassicRefreshHeaderView) mRecyclerView.getRefreshHeaderView();
+        mRecyclerView.addHeaderView(headerView);
         mRecyclerView.setAdapter(mAdapter);
         onRefresh();
     }
@@ -492,8 +505,12 @@ public class HomeFaXianFragment
 
                         SearchDataBean searchDataBean = GsonUtil.jsonToBean(data_msg, SearchDataBean.class);
                         if (state.equals(REFRESH_STATUS)) {
-                            mListData.clear();
-                            changeZhuTi();
+                            if (null != searchDataBean.getRecommend_list() && searchDataBean.getRecommend_list().size() > 0) {
+                                mListData.clear();
+                                changeZhuTi(searchDataBean.getRecommend_list());
+                            } else {
+                                lv_faxian_header.setVisibility(View.GONE);
+                            }
                         }
                         if (null != searchDataBean.getItem_list() && 0 != searchDataBean.getItem_list().size()) {
                             updateViewFromData(searchDataBean.getItem_list(), state);
@@ -519,8 +536,16 @@ public class HomeFaXianFragment
         MyHttpManager.getInstance().getFaXianList("", tagName, "", (page_num - 1) * 20 + "", "20", callBack);
     }
 
-    private void changeZhuTi() {
-
+    private void changeZhuTi(List<RecommendItemDataBean> list) {
+        if (myHuaTiAdapter == null) {
+            myHuaTiAdapter = new MyHuaTiAdapter(list, activity);
+            lv_faxian_header.setAdapter(myHuaTiAdapter);
+            lv_faxian_header.setVisibility(View.VISIBLE);
+        } else {
+            myHuaTiAdapter.dataChange(list);
+            lv_faxian_header.setVisibility(View.VISIBLE);
+        }
+        mRecyclerView.scrollToPosition(0);
     }
 
     private void updateViewFromData(List<SearchItemDataBean> listData, String state) {
@@ -544,6 +569,7 @@ public class HomeFaXianFragment
                 }
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setRefreshing(false);//刷新完毕
+                mRecyclerView.scrollToPosition(0);
                 break;
 
             case LOADMORE_STATUS:

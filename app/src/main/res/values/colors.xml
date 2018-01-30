@@ -6,6 +6,7 @@
 
     <!-- Common color management -->
     <color name="bg_00">#000000</color>
+    <color name="bg_40000000">#40000000</color>
     <color name="bg_22">#1f1f1f</color>
     <color name="bg_33">#333333</color>
     <color name="bg_ee_33">#ee333333</color>

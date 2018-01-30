@@ -12,12 +12,15 @@ public class RecommendInfoItemDataBean implements Serializable {
     private String object_id;
     private String title;
     private String image_url;
+    private float ratio;
 
-    public RecommendInfoItemDataBean(String type, String object_id, String title, String image_url) {
+
+    public RecommendInfoItemDataBean(String type, String object_id, String title, String image_url, float ratio) {
         this.type = type;
         this.object_id = object_id;
         this.title = title;
         this.image_url = image_url;
+        this.ratio = ratio;
     }
 
     public String getType() {
@@ -52,6 +55,14 @@ public class RecommendInfoItemDataBean implements Serializable {
         this.image_url = image_url;
     }
 
+    public float getRatio() {
+        return ratio;
+    }
+
+    public void setRatio(float ratio) {
+        this.ratio = ratio;
+    }
+
     @Override
     public String toString() {
         return "RecommendInfoItemDataBean{" +
@@ -59,6 +70,7 @@ public class RecommendInfoItemDataBean implements Serializable {
                 ", object_id='" + object_id + '\'' +
                 ", title='" + title + '\'' +
                 ", image_url='" + image_url + '\'' +
+                ", ratio=" + ratio +
                 '}';
     }
 }

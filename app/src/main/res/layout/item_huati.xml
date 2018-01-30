@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_item_all"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_f2f2f2">
+
+    <ImageView
+        android:id="@+id/iv_imageview_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/font_12"
+        android:layout_marginLeft="@dimen/font_5"
+        android:layout_marginRight="@dimen/font_5"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/iv_imageview_one"
+        android:layout_alignLeft="@+id/iv_imageview_one"
+        android:layout_alignRight="@+id/iv_imageview_one"
+        android:layout_alignTop="@+id/iv_imageview_one"
+        android:background="@color/bg_40000000">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="@dimen/font_10"
+            android:layout_marginTop="@dimen/font_5"
+            android:background="@drawable/wenzhang"
+            android:gravity="center"
+            android:text="精选话题"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_11" />
+
+
+        <TextView
+            android:id="@+id/tv_name_pic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/font_40"
+            android:layout_marginRight="@dimen/font_40"
+            android:layout_centerInParent="true"
+            android:lineSpacingExtra="@dimen/font_8"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_17"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
