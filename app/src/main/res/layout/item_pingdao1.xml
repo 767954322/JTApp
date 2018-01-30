@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/font_44">
+
+
+    <TextView
+        android:id="@+id/tv_item_pingdao"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/font_28"
+        android:layout_marginTop="@dimen/font_8"
+        android:layout_marginBottom="@dimen/font_8"
+        android:layout_marginLeft="@dimen/font_15"
+        android:background="@drawable/bg_faxian_tag"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:paddingLeft="@dimen/font_17"
+        android:paddingRight="@dimen/font_17"
+        android:text="主卧"
+        android:textColor="@color/bg_262626"
+        android:textSize="@dimen/size_12" />
+
+
+</RelativeLayout>

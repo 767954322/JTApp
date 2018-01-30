@@ -16,8 +16,10 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.activity.JuBaoActivity;
 import com.homechart.app.home.adapter.MyFaXianAdapter;
+import com.homechart.app.home.adapter.MyFaXianAdapter1;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.faxianpingdao.PingDaoBean;
+import com.homechart.app.home.bean.faxianpingdao.PingDaoItemBean;
 import com.homechart.app.myview.HorizontalListView;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
@@ -26,6 +28,9 @@ import com.homechart.app.utils.volley.OkStringRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressLint("ValidFragment")
 public class HomeFaXianFragment
@@ -36,7 +41,9 @@ public class HomeFaXianFragment
     private HorizontalListView hlv_tab1;
     private HorizontalListView hlv_tab2;
     private MyFaXianAdapter myFaXianAdapter;
-
+    private MyFaXianAdapter1 myFaXianAdapter1;
+    private List<PingDaoItemBean> mListPingDao = new ArrayList<>();
+    private List<String> mListPingDao1 = new ArrayList<>();
 
     public HomeFaXianFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -65,6 +72,18 @@ public class HomeFaXianFragment
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 myFaXianAdapter.setSelectPosition(position);
+                if (mListPingDao.size() > position) {
+                    List<String> strList = mListPingDao.get(position).getRelation_tag();
+                    if (null != strList && strList.size() > 0) {
+
+                        hlv_tab2.setVisibility(View.VISIBLE);
+                        mListPingDao1.clear();
+                        mListPingDao1.addAll(strList);
+                        myFaXianAdapter1.notifyDataSetChanged();
+                    } else {
+                        hlv_tab2.setVisibility(View.GONE);
+                    }
+                }
             }
         });
     }
@@ -117,9 +136,20 @@ public class HomeFaXianFragment
                 case 1:
                     String dataStr = (String) msg.obj;
                     pingDaoBean = GsonUtil.jsonToBean(dataStr, PingDaoBean.class);
-                    pingDaoBean.getChannel_list();
-                    myFaXianAdapter = new MyFaXianAdapter(pingDaoBean.getChannel_list(), activity);
+                    List<PingDaoItemBean> list = pingDaoBean.getChannel_list();
+                    mListPingDao.clear();
+                    mListPingDao.addAll(list);
+                    myFaXianAdapter = new MyFaXianAdapter(mListPingDao, activity);
                     hlv_tab1.setAdapter(myFaXianAdapter);
+                    if (mListPingDao.size() > 0 && mListPingDao.get(0).getRelation_tag().size() > 0) {
+                        hlv_tab2.setVisibility(View.VISIBLE);
+                        mListPingDao1.clear();
+                        mListPingDao1.addAll(mListPingDao.get(0).getRelation_tag());
+                    } else {
+                        hlv_tab2.setVisibility(View.GONE);
+                    }
+                    myFaXianAdapter1 = new MyFaXianAdapter1(mListPingDao1, activity);
+                    hlv_tab2.setAdapter(myFaXianAdapter1);
                     break;
             }
         }
