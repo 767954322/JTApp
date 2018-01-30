@@ -200,26 +200,10 @@ public class HomeActivity
             case R.id.radio_btn_pic:
                 jumpPosition = 0;
                 getSupportFragmentManager().beginTransaction().hide(mHomeCenterFragment).hide(mHomeFaXianFragment).show( mHomePicFragment).commit();
-//                transaction.commitAllowingStateLoss();
-//                if (null == mHomePicFragment) {
-//                    mHomePicFragment = new HomePicFragment(getSupportFragmentManager());
-//                }
-//                if (mTagFragment != mHomePicFragment) {
-//                    mTagFragment = mHomePicFragment;
-//                    replaceFragment(mHomePicFragment);
-//                }
                 break;
             case R.id.radio_btn_faxian:
                 jumpPosition = 1;
                 getSupportFragmentManager().beginTransaction().hide(mHomePicFragment).hide(mHomeCenterFragment).show(mHomeFaXianFragment).commit();
-//                transaction.commitAllowingStateLoss();
-//                if (null == mHomeFaXianFragment) {
-//                    mHomeFaXianFragment = new HomeFaXianFragment(getSupportFragmentManager());
-//                }
-//                if (mTagFragment != mHomeFaXianFragment) {
-//                    mTagFragment = mHomeFaXianFragment;
-//                    replaceFragment(mHomeFaXianFragment);
-//                }
                 break;
             case R.id.radio_btn_designer:
                 if (ContextCompat.checkSelfPermission(HomeActivity.this,
@@ -253,25 +237,8 @@ public class HomeActivity
 
                 if (loginStatus) {
                     jumpPosition = 3;
-//                    if (null == mHomePicFragment) {
-//                        mHomePicFragment = new HomePicFragment(getSupportFragmentManager());
-//                    }
-//                    if (null == mHomeFaXianFragment) {
-//                        mHomeFaXianFragment = new HomeFaXianFragment(getSupportFragmentManager());
-//                    }
-//                    if (null == mHomeCenterFragment) {
-//                        mHomeCenterFragment = new HomeCenterFragment(getSupportFragmentManager());
-//                    }
                     mHomeCenterFragment.flushData();
                     getSupportFragmentManager().beginTransaction().hide(mHomePicFragment).hide(mHomeFaXianFragment).show(mHomeCenterFragment).commit();
-//                    transaction.commitAllowingStateLoss();
-//                    if (null == mHomeCenterFragment) {
-//                        mHomeCenterFragment = new HomeCenterFragment(getSupportFragmentManager());
-//                    }
-//                    if (mTagFragment != mHomeCenterFragment) {
-//                        mTagFragment = mHomeCenterFragment;
-//                        replaceFragment(mHomeCenterFragment);
-//                    }
                 } else {
                     if (ifJump) {
                         if(jumpPosition == 0){
