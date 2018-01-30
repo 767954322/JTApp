@@ -437,7 +437,7 @@ public class HomeFaXianFragment
                         staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
                         if ((lastPositions[0] - 2) <= clickPosition || (lastPositions[1] - 2) <= clickPosition) {
                             mListData.addAll(clickPosition + 1, list);
-                            mItemIdList.addAll(clickPosition, listId);
+                            mItemIdList.addAll(clickPosition + 1, listId);
                             mAdapter.notifyItemChanged(clickPosition);
                             mAdapter.notifyItemInserted(clickPosition + 1);
                             mAdapter.notifyItemRangeChanged(clickPosition + 1, list.size()); //比较好的
