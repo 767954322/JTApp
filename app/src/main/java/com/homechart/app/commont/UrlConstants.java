@@ -117,10 +117,8 @@ public class UrlConstants {
     public static final String ADD_HUODONG = "https://api.idcool.com.cn/activity/activity/join";  //报名参加活动
     public static final String PRIZE_USER = "https://api.idcool.com.cn/activity/activity/getPrizeUser";  //获取获奖名单
     public static final String SEARCH_IMAGE = "https://api.idcool.com.cn/ai/ai/searchItem";  //搜索相似图片
-
     public static final String IMAGE_USER = "https://api.idcool.com.cn/item/item/getListByUserId";  //获取一个用户的所有图片
-
-
     public static final String JUBAO_LIST = "https://api.idcool.com.cn/report/report/getList";  //获取举报选项
+    public static final String PINGDAO_TAGS = "https://api.idcool.com.cn/base/tag/getChannelTag";  //获取频道列表及关联标签
 
 }

@@ -4,7 +4,62 @@
     android:id="@+id/id_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/view_line"
+    android:background="@color/white"
     android:orientation="vertical">
 
+
+    <com.homechart.app.myview.ClearEditText
+        android:id="@+id/cet_clearedit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_27"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/font_8"
+        android:layout_marginLeft="@dimen/font_15"
+        android:layout_marginRight="@dimen/font_15"
+        android:layout_marginTop="@dimen/font_8"
+        android:background="@drawable/bg_edittext_search"
+        android:drawableLeft="@drawable/fdj"
+        android:drawablePadding="@dimen/font_6"
+        android:gravity="center_vertical"
+        android:hint="搜索关键词搜索"
+        android:paddingLeft="@dimen/font_10"
+        android:textColorHint="@color/bg_8f8f8f"
+        android:textSize="@dimen/size_14" />
+
+    <RelativeLayout
+        android:id="@+id/rl_tab1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_41"
+        android:layout_below="@+id/cet_clearedit"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_more"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="@dimen/font_18"
+            android:paddingRight="@dimen/font_18"
+            android:src="@drawable/gengduo_faxian" />
+
+        <com.homechart.app.myview.HorizontalListView
+            android:id="@+id/hlv_tab1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/iv_more" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_line_top"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/rl_tab1"
+        android:background="@color/view_line" />
+
+    <com.homechart.app.myview.HorizontalListView
+        android:id="@+id/hlv_tab2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_44"
+        android:layout_below="@+id/view_line_top"/>
 </RelativeLayout>
