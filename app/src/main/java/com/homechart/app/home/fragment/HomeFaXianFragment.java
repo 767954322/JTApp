@@ -553,6 +553,7 @@ public class HomeFaXianFragment
         switch (state) {
 
             case REFRESH_STATUS:
+                mListData.clear();
                 mItemIdList.clear();
                 if (null != listData && listData.size() > 0) {
                     mListData.addAll(listData);
