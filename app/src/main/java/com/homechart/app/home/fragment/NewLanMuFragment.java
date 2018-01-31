@@ -45,6 +45,7 @@ import com.homechart.app.home.bean.search.SearchDataBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
 import com.homechart.app.home.recyclerholder.ClassicRefreshHeaderView;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
 import com.homechart.app.myview.HorizontalListView;
 import com.homechart.app.myview.MyListView;
@@ -112,6 +113,9 @@ public class NewLanMuFragment
     private MyListView lv_faxian_header;
     private MyHuaTiAdapter myHuaTiAdapter;
     private int position;
+    private TextView tv_shoucang;
+    private boolean ifClickDingYue = true;
+    private GuanLianTagBean guanLianTagBean;
 
     public NewLanMuFragment() {
     }
@@ -137,6 +141,7 @@ public class NewLanMuFragment
     protected void initView() {
         mBack = (ImageButton) rootView.findViewById(R.id.nav_left_imageButton);
         mTital = (TextView) rootView.findViewById(R.id.tv_tital_comment);
+        tv_shoucang = (TextView) rootView.findViewById(R.id.tv_shoucang);
         hlv_tab2 = (HorizontalListView) rootView.findViewById(R.id.hlv_tab2);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_pic);
         headerView = LayoutInflater.from(activity).inflate(R.layout.header_faxian, null);
@@ -147,6 +152,7 @@ public class NewLanMuFragment
     protected void initListener() {
         super.initListener();
         mBack.setOnClickListener(this);
+        tv_shoucang.setOnClickListener(this);
         hlv_tab2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -181,6 +187,26 @@ public class NewLanMuFragment
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
                 fragmentManager.popBackStack();
+                break;
+            case R.id.tv_shoucang:
+                loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                if (!loginStatus) {
+
+                    Intent intent = new Intent(activity, LoginActivity.class);
+                    startActivityForResult(intent, 4);
+
+                } else {
+                    if (ifClickDingYue) {
+                        ifClickDingYue = false;
+                        if (null != guanLianTagBean && guanLianTagBean.getTag_info().getIs_subscribed().equals("1")) {
+                            //取消订阅
+                            removeDingYue(guanLianTagBean.getTag_info().getTag_id());
+                        } else if (null != guanLianTagBean && guanLianTagBean.getTag_info().getIs_subscribed().equals("0")) {
+                            //订阅
+                            addDingYue(guanLianTagBean.getTag_info().getTag_id());
+                        }
+                    }
+                }
                 break;
         }
     }
@@ -219,50 +245,61 @@ public class NewLanMuFragment
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-           int code = msg.what;
-           switch (code){
-               case 1:
-                   String dataStr = (String) msg.obj;
-                   GuanLianTagBean guanLianTagBean = GsonUtil.jsonToBean(dataStr, GuanLianTagBean.class);
-                   listHot = guanLianTagBean.getTag_info().getRelation_tag();
-                   if (null != listHot && listHot.size() > 0) {
-                       hlv_tab2.setVisibility(View.VISIBLE);
-                       mListPingDao1.clear();
-                       mListPingDao1.addAll(listHot);
-                       myFaXianAdapter1.notifyDataSetChanged();
-                   } else {
-
-                       hlv_tab2.setVisibility(View.GONE);
-                   }
-                   break;
-               case 2:
-                   int clickPosition = msg.getData().getInt("position");
-                   SearchDataBean searchDataBean = (SearchDataBean) msg.obj;
-                   List<SearchItemDataBean> listSearch = searchDataBean.getItem_list();
-                   if (listSearch == null || listSearch.size() == 0) {
-                       mAdapter.notifyItemChanged(clickPosition);
-                   } else {
-                       List<SearchItemDataBean> list = new ArrayList();
-                       list.addAll(listSearch);
-                       List<String> listId = new ArrayList();
-                       for (int i = 0; i < listSearch.size(); i++) {
-                           listId.add(listSearch.get(i).getItem_info().getItem_id());
-                       }
-                       int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
-                       staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
-                       if ((lastPositions[0] - 2) <= clickPosition || (lastPositions[1] - 2) <= clickPosition) {
-                           mListData.addAll(clickPosition + 1, list);
-                           mItemIdList.addAll(clickPosition + 1, listId);
-                           mAdapter.notifyItemChanged(clickPosition);
-                           mAdapter.notifyItemInserted(clickPosition + 1);
-                           mAdapter.notifyItemRangeChanged(clickPosition + 1, list.size()); //比较好的
-                       } else {
-                           mAdapter.notifyItemChanged(clickPosition);
-                       }
-                   }
-                   ifClickAble = true;
-                   break;
-           }
+            int code = msg.what;
+            switch (code) {
+                case 1:
+                    String dataStr = (String) msg.obj;
+                    guanLianTagBean = GsonUtil.jsonToBean(dataStr, GuanLianTagBean.class);
+                    listHot = guanLianTagBean.getTag_info().getRelation_tag();
+                    if (null != listHot && listHot.size() > 0) {
+                        hlv_tab2.setVisibility(View.VISIBLE);
+                        mListPingDao1.clear();
+                        mListPingDao1.addAll(listHot);
+                        myFaXianAdapter1.notifyDataSetChanged();
+                    } else {
+                        hlv_tab2.setVisibility(View.GONE);
+                    }
+                    tv_shoucang.setVisibility(View.VISIBLE);
+                    if (guanLianTagBean.getTag_info().getSubscribe_show().equals("0")) {//没有订阅按钮
+                        tv_shoucang.setVisibility(View.GONE);
+                    } else {//有订阅按钮
+                        if (guanLianTagBean.getTag_info().getIs_subscribed().equals("0")) {//没订阅
+                            changeDingYueStatus(false);
+                        } else if (guanLianTagBean.getTag_info().getIs_subscribed().equals("1")) {
+                            //订阅
+                            changeDingYueStatus(true);
+                        }
+                        tv_shoucang.setVisibility(View.VISIBLE);
+                    }
+                    break;
+                case 2:
+                    int clickPosition = msg.getData().getInt("position");
+                    SearchDataBean searchDataBean = (SearchDataBean) msg.obj;
+                    List<SearchItemDataBean> listSearch = searchDataBean.getItem_list();
+                    if (listSearch == null || listSearch.size() == 0) {
+                        mAdapter.notifyItemChanged(clickPosition);
+                    } else {
+                        List<SearchItemDataBean> list = new ArrayList();
+                        list.addAll(listSearch);
+                        List<String> listId = new ArrayList();
+                        for (int i = 0; i < listSearch.size(); i++) {
+                            listId.add(listSearch.get(i).getItem_info().getItem_id());
+                        }
+                        int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+                        staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
+                        if ((lastPositions[0] - 2) <= clickPosition || (lastPositions[1] - 2) <= clickPosition) {
+                            mListData.addAll(clickPosition + 1, list);
+                            mItemIdList.addAll(clickPosition + 1, listId);
+                            mAdapter.notifyItemChanged(clickPosition);
+                            mAdapter.notifyItemInserted(clickPosition + 1);
+                            mAdapter.notifyItemRangeChanged(clickPosition + 1, list.size()); //比较好的
+                        } else {
+                            mAdapter.notifyItemChanged(clickPosition);
+                        }
+                    }
+                    ifClickAble = true;
+                    break;
+            }
         }
     };
 
@@ -572,6 +609,7 @@ public class NewLanMuFragment
         }
         mRecyclerView.scrollToPosition(0);
     }
+
     private void getSearchImage(String item_id, final int clickPosition) {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
@@ -656,6 +694,101 @@ public class NewLanMuFragment
                 }
                 break;
         }
+    }
+
+    private void changeDingYueStatus(boolean dingyue) {
+        if (dingyue) {
+            tv_shoucang.setBackgroundResource(R.drawable.bt_shoucang_no);
+            tv_shoucang.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+            tv_shoucang.setText("已订阅");
+        } else {
+            tv_shoucang.setBackgroundResource(R.drawable.bt_shoucang);
+            tv_shoucang.setTextColor(UIUtils.getColor(R.color.white));
+            tv_shoucang.setText("＋订阅");
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 4) {
+            getGuanLianTags();
+        }
+    }
+
+
+    private void addDingYue(String tag_id) {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                CustomProgress.cancelDialog();
+                ToastUtils.showCenter(activity, "订阅失败！");
+                ifClickDingYue = true;
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        changeDingYueStatus(true);
+                        getGuanLianTags();
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(activity, "订阅成功！");
+                        ifClickDingYue = true;
+                    } else {
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(activity, "订阅失败！");
+                        ifClickDingYue = true;
+                    }
+                } catch (JSONException e) {
+                    CustomProgress.cancelDialog();
+                    ToastUtils.showCenter(activity, "订阅失败！");
+                    ifClickDingYue = true;
+                }
+            }
+        };
+        MyHttpManager.getInstance().addTagDingYue(tag_id, callBack);
+    }
+
+    private void removeDingYue(String tag_id) {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ifClickDingYue = true;
+                CustomProgress.cancelDialog();
+                ToastUtils.showCenter(activity, "取消订阅失败！");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        changeDingYueStatus(false);
+                        getGuanLianTags();
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(activity, "取消订阅成功！");
+                        ifClickDingYue = true;
+                    } else {
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(activity, "取消订阅失败！");
+                        ifClickDingYue = true;
+                    }
+                } catch (JSONException e) {
+                    CustomProgress.cancelDialog();
+                    ToastUtils.showCenter(activity, "取消订阅失败！");
+                    ifClickDingYue = true;
+                }
+            }
+        };
+        MyHttpManager.getInstance().removeTagDingYue(tag_id, callBack);
     }
 
 
