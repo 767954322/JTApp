@@ -57,6 +57,7 @@ import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
 import com.homechart.app.recyclerlibrary.recyclerview.RefreshHeaderLayout;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
+import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
@@ -143,8 +144,10 @@ public class HomeFaXianFragment
         hlv_tab1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                myFaXianAdapter.setSelectPosition(position);
-                if (mListPingDao.size() > position) {
+
+                if (mListPingDao.size() > position && !tagName.equals(mListPingDao.get(position).getTag_name())) {
+                    CustomProgress.show(activity, "", false, null);
+                    myFaXianAdapter.setSelectPosition(position);
                     tagName = mListPingDao.get(position).getTag_name();
                     onRefresh();
                     List<String> strList = mListPingDao.get(position).getRelation_tag();
@@ -482,7 +485,7 @@ public class HomeFaXianFragment
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                CustomProgress.cancelDialog();
                 mRecyclerView.setRefreshing(false);//刷新完毕
                 mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
                 if (state.equals(LOADMORE_STATUS)) {
@@ -496,6 +499,7 @@ public class HomeFaXianFragment
 
             @Override
             public void onResponse(String s) {
+                CustomProgress.cancelDialog();
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
