@@ -35,6 +35,7 @@ import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.JuBaoActivity;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.NewHuoDongDetailsActivity;
+import com.homechart.app.home.activity.SearchActivity;
 import com.homechart.app.home.adapter.MyFaXianAdapter;
 import com.homechart.app.home.adapter.MyFaXianAdapter1;
 import com.homechart.app.home.adapter.MyHuaTiAdapter;
@@ -48,6 +49,7 @@ import com.homechart.app.home.bean.search.SearchItemInfoDataBean;
 import com.homechart.app.home.recyclerholder.ClassicRefreshHeaderView;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
+import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.myview.HorizontalListView;
 import com.homechart.app.myview.MyListView;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
@@ -81,7 +83,7 @@ import java.util.Map;
 public class HomeFaXianFragment
         extends BaseFragment
         implements OnLoadMoreListener,
-        OnRefreshListener {
+        OnRefreshListener, View.OnClickListener {
 
     private FragmentManager fragmentManager;
     public PingDaoBean pingDaoBean;
@@ -112,6 +114,7 @@ public class HomeFaXianFragment
     private View headerView;
     private MyListView lv_faxian_header;
     private MyHuaTiAdapter myHuaTiAdapter;
+    private ClearEditText cet_clearedit;
 
     public HomeFaXianFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -127,7 +130,7 @@ public class HomeFaXianFragment
 
     @Override
     protected void initView() {
-
+        cet_clearedit = (ClearEditText) rootView.findViewById(R.id.cet_clearedit);
         hlv_tab1 = (HorizontalListView) rootView.findViewById(R.id.hlv_tab1);
         hlv_tab2 = (HorizontalListView) rootView.findViewById(R.id.hlv_tab2);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_pic);
@@ -141,6 +144,8 @@ public class HomeFaXianFragment
     @Override
     protected void initListener() {
         super.initListener();
+        cet_clearedit.setKeyListener(null);
+        cet_clearedit.setOnClickListener(this);
         hlv_tab1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -172,7 +177,7 @@ public class HomeFaXianFragment
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-               String strLanMu = mListPingDao1.get(position);
+                String strLanMu = mListPingDao1.get(position);
 
                 NewLanMuFragment newLanMuFragment = new NewLanMuFragment(getChildFragmentManager());
                 Bundle bundle = new Bundle();
@@ -680,5 +685,27 @@ public class HomeFaXianFragment
     private Map<String, Integer> mapSearch = new HashMap<>();
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.cet_clearedit:
+                Intent intent = new Intent(activity, SearchActivity.class);
+                startActivityForResult(intent, 10);
+                break;
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 10 && resultCode == 10) {
+            String search_tag = data.getStringExtra("search_tag");
+            String search_info = data.getStringExtra("search_info");
 
+            NewSearchResultFragment newSearchResultFragment = new NewSearchResultFragment(getChildFragmentManager(), search_tag, search_info);
+            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newSearchResultFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commitAllowingStateLoss();
+        }
+    }
 }
