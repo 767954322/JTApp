@@ -415,12 +415,12 @@ public class ImageDetaiScrollFragment
                 if (null != imageDetailBean &&
                         null != imageDetailBean.getItem_info().getFrom_url() &&
                         !imageDetailBean.getItem_info().getFrom_url().equals("")) {
-                    Uri uri = Uri.parse(imageDetailBean.getItem_info().getFrom_url());
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    startActivity(intent);
-//                    Intent intent = new Intent(activity, MyWebViewActivity.class);
-//                    intent.putExtra("weburl", imageDetailBean.getItem_info().getFrom_url());
+//                    Uri uri = Uri.parse(imageDetailBean.getItem_info().getFrom_url());
+//                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 //                    startActivity(intent);
+                    Intent intent = new Intent(activity, MyWebViewActivity.class);
+                    intent.putExtra("weburl", imageDetailBean.getItem_info().getFrom_url());
+                    startActivity(intent);
                 }
                 break;
             case R.id.rl_pinglun:

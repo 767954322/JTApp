@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -205,6 +206,10 @@ public class LoginActivity extends BaseActivity
                         .setCategory("关闭登录")  //事件类别
                         .setAction("关闭登录")      //事件操作
                         .build());
+                // 先隐藏键盘
+                ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+                        .hideSoftInputFromWindow(LoginActivity.this.getCurrentFocus()
+                                .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 LoginActivity.this.finish();
                 break;
         }
@@ -243,6 +248,9 @@ public class LoginActivity extends BaseActivity
 //                            intent.putExtra("object_id", object_id);
 //                        }
 //                        startActivity(intent);
+                        ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+                                .hideSoftInputFromWindow(LoginActivity.this.getCurrentFocus()
+                                        .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                         LoginActivity.this.finish();
                     } else {
                         ToastUtils.showCenter(LoginActivity.this, error_msg);
@@ -330,6 +338,9 @@ public class LoginActivity extends BaseActivity
 //                            intent.putExtra("object_id", object_id);
 //                        }
 //                        startActivity(intent);
+                        ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+                                .hideSoftInputFromWindow(LoginActivity.this.getCurrentFocus()
+                                        .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                         LoginActivity.this.finish();
                     } else {
                         if (error_code == 1006 || error_code == 1012) {
@@ -392,6 +403,9 @@ public class LoginActivity extends BaseActivity
 //                intent.putExtra("object_id", object_id);
 //            }
 //            startActivity(intent);
+            ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+                    .hideSoftInputFromWindow(LoginActivity.this.getCurrentFocus()
+                            .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             LoginActivity.this.finish();
         }
 
@@ -422,6 +436,9 @@ public class LoginActivity extends BaseActivity
             ToastUtils.showCenter(LoginActivity.this, "再次点击返回键退出");
             mExitTime = System.currentTimeMillis();
         } else {
+            ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+                    .hideSoftInputFromWindow(LoginActivity.this.getCurrentFocus()
+                            .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             LoginActivity.this.finish();
             System.exit(0);
         }
