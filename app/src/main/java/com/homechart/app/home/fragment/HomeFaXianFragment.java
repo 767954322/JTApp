@@ -32,6 +32,7 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.LoginActivity;
+import com.homechart.app.home.activity.PingDaoListActivity;
 import com.homechart.app.home.activity.SearchActivity;
 import com.homechart.app.home.adapter.MyHuaTiAdapter;
 import com.homechart.app.home.base.BaseFragment;
@@ -160,6 +161,8 @@ public class HomeFaXianFragment
                 startActivityForResult(intent, 10);
                 break;
             case R.id.iv_more:
+                Intent intent1 = new Intent(activity,PingDaoListActivity.class);
+                startActivityForResult(intent1,2);
                 break;
         }
     }
