@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_lanmu"
     android:layout_width="wrap_content"
     android:layout_height="@dimen/font_44">
 
@@ -20,5 +21,11 @@
         android:textColor="@color/bg_262626"
         android:textSize="@dimen/size_12" />
 
+    <View
+        android:id="@+id/view_last_one"
+        android:layout_width="@dimen/font_15"
+        android:layout_height="@dimen/font_1"
+        android:visibility="gone"
+        android:layout_toRightOf="@+id/tv_item_pingdao"/>
 
 </RelativeLayout>
