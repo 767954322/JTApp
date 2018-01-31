@@ -2,18 +2,15 @@ package com.homechart.app.home.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +19,8 @@ import android.view.animation.AnimationSet;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -32,30 +29,31 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
-import com.homechart.app.home.activity.JuBaoActivity;
+import com.homechart.app.commont.contract.ItemClickJuBao;
 import com.homechart.app.home.activity.LoginActivity;
-import com.homechart.app.home.activity.NewHuoDongDetailsActivity;
-import com.homechart.app.home.adapter.MyFaXianAdapter;
+import com.homechart.app.home.activity.SearchActivity;
 import com.homechart.app.home.adapter.MyFaXianAdapter1;
 import com.homechart.app.home.adapter.MyHuaTiAdapter;
+import com.homechart.app.home.adapter.MyJuBaoAdapter;
 import com.homechart.app.home.base.BaseFragment;
-import com.homechart.app.home.bean.faxianpingdao.PingDaoBean;
-import com.homechart.app.home.bean.faxianpingdao.PingDaoItemBean;
+import com.homechart.app.home.bean.guanliantags.GuanLianTagBean;
+import com.homechart.app.home.bean.hotwords.HotWordsBean;
+import com.homechart.app.home.bean.jubaobean.JuBaoBean;
+import com.homechart.app.home.bean.jubaobean.JuBaoItemBean;
 import com.homechart.app.home.bean.search.RecommendItemDataBean;
 import com.homechart.app.home.bean.search.SearchDataBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
-import com.homechart.app.home.bean.search.SearchItemInfoDataBean;
 import com.homechart.app.home.recyclerholder.ClassicRefreshHeaderView;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
 import com.homechart.app.myview.HorizontalListView;
 import com.homechart.app.myview.MyListView;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
+import com.homechart.app.recyclerlibrary.anims.animators.ViewHelper;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
-import com.homechart.app.recyclerlibrary.recyclerview.RefreshHeaderLayout;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
@@ -78,23 +76,22 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressLint("ValidFragment")
-public class HomeFaXianFragment
+public class NewLanMuFragment
         extends BaseFragment
-        implements OnLoadMoreListener,
+        implements View.OnClickListener,
+        OnLoadMoreListener,
         OnRefreshListener {
 
     private FragmentManager fragmentManager;
-    public PingDaoBean pingDaoBean;
-    private HorizontalListView hlv_tab1;
-    private HorizontalListView hlv_tab2;
-    private MyFaXianAdapter myFaXianAdapter;
-    private MyFaXianAdapter1 myFaXianAdapter1;
-    private List<PingDaoItemBean> mListPingDao = new ArrayList<>();
+    private Bundle mBundle;
+    private String tag_name;
+    private ImageButton mBack;
+    private TextView mTital;
+    private List<String> listHot;
     private List<String> mListPingDao1 = new ArrayList<>();
-    private HRecyclerView mRecyclerView;
-    private List<SearchItemDataBean> mListData = new ArrayList<>();
-    private List<String> mItemIdList = new ArrayList<>();
-    private List<String> listTag = new ArrayList<>();
+    private HorizontalListView hlv_tab2;
+    private MyFaXianAdapter1 myFaXianAdapter1;
+    private AnimationSet animationSet;
     private int scroll_position;
     private int page_num = 1;
     private MultiItemCommonAdapter<SearchItemDataBean> mAdapter;
@@ -102,73 +99,58 @@ public class HomeFaXianFragment
     private final String LOADMORE_STATUS = "loadmore";
     private StaggeredGridLayoutManager staggeredGridLayoutManager;
     private LoadMoreFooterView mLoadMoreFooterView;
-    private String tagName = "热门";
-    private int position;
+    private List<SearchItemDataBean> mListData = new ArrayList<>();
+    private List<String> listTag = new ArrayList<>();
+    private List<String> mItemIdList = new ArrayList<>();
     private int width_Pic_Staggered;
     private boolean loginStatus;
     private String userId;
-    private ClassicRefreshHeaderView mRefreshHeaderView;
-    private AnimationSet animationSet;
+    private boolean ifClickAble = true;
+    private Map<String, Integer> mapSearch = new HashMap<>();
+    private HRecyclerView mRecyclerView;
     private View headerView;
     private MyListView lv_faxian_header;
     private MyHuaTiAdapter myHuaTiAdapter;
+    private int position;
 
-    public HomeFaXianFragment(FragmentManager fragmentManager) {
-        this.fragmentManager = fragmentManager;
+    public NewLanMuFragment() {
     }
 
-    public HomeFaXianFragment() {
+    public NewLanMuFragment(FragmentManager fragmentManager) {
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_home_faxian;
+        return R.layout.fragment_lanmu;
+    }
+
+    @Override
+    protected void initExtraBundle() {
+        super.initExtraBundle();
+
+        mBundle = getArguments();
+        tag_name = (String) mBundle.getString("tag_name");
     }
 
     @Override
     protected void initView() {
-
-        hlv_tab1 = (HorizontalListView) rootView.findViewById(R.id.hlv_tab1);
+        mBack = (ImageButton) rootView.findViewById(R.id.nav_left_imageButton);
+        mTital = (TextView) rootView.findViewById(R.id.tv_tital_comment);
         hlv_tab2 = (HorizontalListView) rootView.findViewById(R.id.hlv_tab2);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_pic);
-
-
         headerView = LayoutInflater.from(activity).inflate(R.layout.header_faxian, null);
         lv_faxian_header = (MyListView) headerView.findViewById(R.id.lv_faxian_header);
-
     }
 
     @Override
     protected void initListener() {
         super.initListener();
-        hlv_tab1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                if (mListPingDao.size() > position && !tagName.equals(mListPingDao.get(position).getTag_name())) {
-                    CustomProgress.show(activity, "", false, null);
-                    myFaXianAdapter.setSelectPosition(position);
-                    tagName = mListPingDao.get(position).getTag_name();
-                    onRefresh();
-                    List<String> strList = mListPingDao.get(position).getRelation_tag();
-                    if (null != strList && strList.size() > 0) {
-
-                        hlv_tab2.setVisibility(View.VISIBLE);
-                        mListPingDao1.clear();
-                        mListPingDao1.addAll(strList);
-                        myFaXianAdapter1.notifyDataSetChanged();
-                    } else {
-                        hlv_tab2.setVisibility(View.GONE);
-                    }
-                }
-            }
-        });
+        mBack.setOnClickListener(this);
         hlv_tab2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-               String strLanMu = mListPingDao1.get(position);
-
+                String strLanMu = mListPingDao1.get(position);
                 NewLanMuFragment newLanMuFragment = new NewLanMuFragment(getChildFragmentManager());
                 Bundle bundle = new Bundle();
                 bundle.putString("tag_name", strLanMu);
@@ -184,13 +166,105 @@ public class HomeFaXianFragment
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
+        mTital.setText(tag_name);
         width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_42);
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        myFaXianAdapter1 = new MyFaXianAdapter1(mListPingDao1, activity);
+        hlv_tab2.setAdapter(myFaXianAdapter1);
+        getGuanLianTags();
         initAnimation();
-        getPingDaoTag();
         buildRecyclerView();
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.nav_left_imageButton:
+                fragmentManager.popBackStack();
+                break;
+        }
+    }
+
+    private void getGuanLianTags() {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtils.showCenter(activity, getString(R.string.searchtag_get_error));
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        Message msg = new Message();
+                        msg.obj = data_msg;
+                        msg.what = 1;
+                        mHandler.sendMessage(msg);
+                    } else {
+                        ToastUtils.showCenter(activity, error_msg);
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().getGuanLianTags(tag_name, callBack);
+
+    }
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+           int code = msg.what;
+           switch (code){
+               case 1:
+                   String dataStr = (String) msg.obj;
+                   GuanLianTagBean guanLianTagBean = GsonUtil.jsonToBean(dataStr, GuanLianTagBean.class);
+                   listHot = guanLianTagBean.getTag_info().getRelation_tag();
+                   if (null != listHot && listHot.size() > 0) {
+                       hlv_tab2.setVisibility(View.VISIBLE);
+                       mListPingDao1.clear();
+                       mListPingDao1.addAll(listHot);
+                       myFaXianAdapter1.notifyDataSetChanged();
+                   } else {
+
+                       hlv_tab2.setVisibility(View.GONE);
+                   }
+                   break;
+               case 2:
+                   int clickPosition = msg.getData().getInt("position");
+                   SearchDataBean searchDataBean = (SearchDataBean) msg.obj;
+                   List<SearchItemDataBean> listSearch = searchDataBean.getItem_list();
+                   if (listSearch == null || listSearch.size() == 0) {
+                       mAdapter.notifyItemChanged(clickPosition);
+                   } else {
+                       List<SearchItemDataBean> list = new ArrayList();
+                       list.addAll(listSearch);
+                       List<String> listId = new ArrayList();
+                       for (int i = 0; i < listSearch.size(); i++) {
+                           listId.add(listSearch.get(i).getItem_info().getItem_id());
+                       }
+                       int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+                       staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
+                       if ((lastPositions[0] - 2) <= clickPosition || (lastPositions[1] - 2) <= clickPosition) {
+                           mListData.addAll(clickPosition + 1, list);
+                           mItemIdList.addAll(clickPosition + 1, listId);
+                           mAdapter.notifyItemChanged(clickPosition);
+                           mAdapter.notifyItemInserted(clickPosition + 1);
+                           mAdapter.notifyItemRangeChanged(clickPosition + 1, list.size()); //比较好的
+                       } else {
+                           mAdapter.notifyItemChanged(clickPosition);
+                       }
+                   }
+                   ifClickAble = true;
+                   break;
+           }
+        }
+    };
 
     private void buildRecyclerView() {
         MultiItemTypeSupport<SearchItemDataBean> support = new MultiItemTypeSupport<SearchItemDataBean>() {
@@ -385,98 +459,33 @@ public class HomeFaXianFragment
         mRecyclerView.setOnRefreshListener(this);
         mRecyclerView.setOnLoadMoreListener(this);
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
-        mRefreshHeaderView = (ClassicRefreshHeaderView) mRecyclerView.getRefreshHeaderView();
         mRecyclerView.addHeaderView(headerView);
         mRecyclerView.setAdapter(mAdapter);
         onRefresh();
     }
 
-    private void getPingDaoTag() {
 
-        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                ToastUtils.showCenter(activity, "频道列表信息获取失败");
-            }
+    private void initAnimation() {
+        //1.AnimationSet
+        animationSet = new AnimationSet(true);
+        animationSet.setInterpolator(new LinearInterpolator());
+        //透明度
+//        AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0.5f);
+//        alphaAnimation.setRepeatCount(100);
 
-            @Override
-            public void onResponse(String s) {
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                    if (error_code == 0) {
-                        Message message = new Message();
-                        message.obj = data_msg;
-                        message.what = 1;
-                        mHandler.sendMessage(message);
-                        Log.d("test", data_msg);
-                    } else {
-                        ToastUtils.showCenter(activity, error_msg);
-                    }
-                } catch (JSONException e) {
-                    ToastUtils.showCenter(activity, "频道列表信息获取失败");
-                }
-            }
-        };
-        MyHttpManager.getInstance().getPingDaoTags(callBack);
-
+        //缩放（以某个点为中心缩放）
+        ScaleAnimation scaleAnimation = new ScaleAnimation(1, 0.8f, 1, 0.8f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scaleAnimation.setRepeatCount(100);
+        //添加动画
+        animationSet.setFillAfter(true);
+//        animationSet.addAnimation(alphaAnimation);
+        animationSet.addAnimation(scaleAnimation);
+        animationSet.setDuration(500);
+        animationSet.setStartOffset(0);
+        animationSet.setRepeatCount(Animation.INFINITE);
+        animationSet.setRepeatMode(Animation.REVERSE);
     }
-
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 1:
-                    String dataStr = (String) msg.obj;
-                    pingDaoBean = GsonUtil.jsonToBean(dataStr, PingDaoBean.class);
-                    List<PingDaoItemBean> list1 = pingDaoBean.getChannel_list();
-                    mListPingDao.clear();
-                    mListPingDao.addAll(list1);
-                    myFaXianAdapter = new MyFaXianAdapter(mListPingDao, activity);
-                    hlv_tab1.setAdapter(myFaXianAdapter);
-                    if (mListPingDao.size() > 0 && mListPingDao.get(0).getRelation_tag().size() > 0) {
-                        hlv_tab2.setVisibility(View.VISIBLE);
-                        mListPingDao1.clear();
-                        mListPingDao1.addAll(mListPingDao.get(0).getRelation_tag());
-                    } else {
-                        hlv_tab2.setVisibility(View.GONE);
-                    }
-                    myFaXianAdapter1 = new MyFaXianAdapter1(mListPingDao1, activity);
-                    hlv_tab2.setAdapter(myFaXianAdapter1);
-                    break;
-                case 2:
-                    int clickPosition = msg.getData().getInt("position");
-                    SearchDataBean searchDataBean = (SearchDataBean) msg.obj;
-                    List<SearchItemDataBean> listSearch = searchDataBean.getItem_list();
-                    if (listSearch == null || listSearch.size() == 0) {
-                        mAdapter.notifyItemChanged(clickPosition);
-                    } else {
-                        List<SearchItemDataBean> list = new ArrayList();
-                        list.addAll(listSearch);
-                        List<String> listId = new ArrayList();
-                        for (int i = 0; i < listSearch.size(); i++) {
-                            listId.add(listSearch.get(i).getItem_info().getItem_id());
-                        }
-                        int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
-                        staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
-                        if ((lastPositions[0] - 2) <= clickPosition || (lastPositions[1] - 2) <= clickPosition) {
-                            mListData.addAll(clickPosition + 1, list);
-                            mItemIdList.addAll(clickPosition + 1, listId);
-                            mAdapter.notifyItemChanged(clickPosition);
-                            mAdapter.notifyItemInserted(clickPosition + 1);
-                            mAdapter.notifyItemRangeChanged(clickPosition + 1, list.size()); //比较好的
-                        } else {
-                            mAdapter.notifyItemChanged(clickPosition);
-                        }
-                    }
-                    ifClickAble = true;
-                    break;
-            }
-        }
-    };
 
     @Override
     public void onRefresh() {
@@ -491,6 +500,7 @@ public class HomeFaXianFragment
         ++page_num;
         getListData(LOADMORE_STATUS);
     }
+
 
     private void getListData(final String state) {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
@@ -548,7 +558,7 @@ public class HomeFaXianFragment
                 }
             }
         };
-        MyHttpManager.getInstance().getFaXianList("", tagName, "", (page_num - 1) * 20 + "", "20", callBack);
+        MyHttpManager.getInstance().getFaXianList("", tag_name, "", (page_num - 1) * 20 + "", "20", callBack);
     }
 
     private void changeZhuTi(List<RecommendItemDataBean> list) {
@@ -561,6 +571,46 @@ public class HomeFaXianFragment
             lv_faxian_header.setVisibility(View.VISIBLE);
         }
         mRecyclerView.scrollToPosition(0);
+    }
+    private void getSearchImage(String item_id, final int clickPosition) {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ifClickAble = true;
+                mAdapter.notifyItemChanged(clickPosition);
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        SearchDataBean searchDataBean = GsonUtil.jsonToBean(data_msg, SearchDataBean.class);
+                        Message message = new Message();
+                        message.obj = searchDataBean;
+                        message.what = 2;
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("position", clickPosition);
+                        message.setData(bundle);
+                        mHandler.sendMessage(message);
+                    } else {
+
+                        mAdapter.notifyItemChanged(clickPosition);
+                        ifClickAble = true;
+                        ToastUtils.showCenter(activity, error_msg);
+
+                    }
+                } catch (JSONException e) {
+
+                    mAdapter.notifyItemChanged(clickPosition);
+                    ifClickAble = true;
+                }
+            }
+        };
+        MyHttpManager.getInstance().getSearchImage(item_id, (mapSearch.get(item_id) - 1) * 5 + "", "5", callBack);
     }
 
     private void updateViewFromData(List<SearchItemDataBean> listData, String state) {
@@ -608,70 +658,5 @@ public class HomeFaXianFragment
         }
     }
 
-    private void initAnimation() {
-        //1.AnimationSet
-        animationSet = new AnimationSet(true);
-        animationSet.setInterpolator(new LinearInterpolator());
-        //透明度
-//        AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0.5f);
-//        alphaAnimation.setRepeatCount(100);
-
-        //缩放（以某个点为中心缩放）
-        ScaleAnimation scaleAnimation = new ScaleAnimation(1, 0.8f, 1, 0.8f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        scaleAnimation.setRepeatCount(100);
-        //添加动画
-        animationSet.setFillAfter(true);
-//        animationSet.addAnimation(alphaAnimation);
-        animationSet.addAnimation(scaleAnimation);
-        animationSet.setDuration(500);
-        animationSet.setStartOffset(0);
-        animationSet.setRepeatCount(Animation.INFINITE);
-        animationSet.setRepeatMode(Animation.REVERSE);
-    }
-
-    private void getSearchImage(String item_id, final int clickPosition) {
-        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                ifClickAble = true;
-                mAdapter.notifyItemChanged(clickPosition);
-            }
-
-            @Override
-            public void onResponse(String s) {
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                    if (error_code == 0) {
-                        SearchDataBean searchDataBean = GsonUtil.jsonToBean(data_msg, SearchDataBean.class);
-                        Message message = new Message();
-                        message.obj = searchDataBean;
-                        message.what = 2;
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("position", clickPosition);
-                        message.setData(bundle);
-                        mHandler.sendMessage(message);
-                    } else {
-
-                        mAdapter.notifyItemChanged(clickPosition);
-                        ifClickAble = true;
-                        ToastUtils.showCenter(activity, error_msg);
-
-                    }
-                } catch (JSONException e) {
-
-                    mAdapter.notifyItemChanged(clickPosition);
-                    ifClickAble = true;
-                }
-            }
-        };
-        MyHttpManager.getInstance().getSearchImage(item_id, (mapSearch.get(item_id) - 1) * 5 + "", "5", callBack);
-    }
-
-    private boolean ifClickAble = true;
-    private Map<String, Integer> mapSearch = new HashMap<>();
 
 }

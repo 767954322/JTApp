@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/id_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true">
+
+    <RelativeLayout
+        android:id="@+id/rl_navr_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_50"
+        android:background="@color/bg_f9"
+        android:gravity="center_vertical">
+
+        <RelativeLayout
+            android:id="@+id/backButton_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/nav_left_imageButton"
+                android:layout_width="@dimen/size_40"
+                android:layout_height="@dimen/size_40"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/size_10"
+                android:background="@drawable/transparent"
+                android:padding="@dimen/size_8"
+                android:scaleType="centerInside"
+                android:src="@drawable/tital_back"
+                android:visibility="visible" />
+
+
+            <ImageButton
+                android:id="@+id/nav_secondary_imageButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/font_25"
+                android:layout_toRightOf="@+id/nav_left_imageButton"
+                android:background="@drawable/transparent"
+                android:padding="@dimen/size_8"
+                android:scaleType="centerInside" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_shoucang"
+            android:layout_width="@dimen/font_56"
+            android:layout_height="@dimen/font_28"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_15"
+            android:background="@drawable/bt_shoucang"
+            android:gravity="center"
+            android:text="＋订阅"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_12" />
+
+        <TextView
+            android:id="@+id/tv_tital_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/case_text_tital_name"
+            android:textSize="@dimen/font_18" />
+
+        <View
+            android:id="@+id/view_navigation_header_view"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/navbar_bottom_border_color" />
+    </RelativeLayout>
+
+    <com.homechart.app.myview.HorizontalListView
+        android:id="@+id/hlv_tab2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_44"
+        android:visibility="gone"
+        android:layout_below="@+id/rl_navr_header" />
+
+
+    <com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView
+        android:id="@+id/rcy_recyclerview_pic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/hlv_tab2"
+        android:background="@color/bg_f2f2f2"
+        android:paddingLeft="@dimen/font_5"
+        android:paddingRight="@dimen/font_5"
+        app:loadMoreEnabled="true"
+        app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer"
+        app:refreshEnabled="true"
+        app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
+
+</RelativeLayout>
