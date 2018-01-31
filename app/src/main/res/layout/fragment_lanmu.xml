@@ -73,7 +73,7 @@
             android:background="@color/navbar_bottom_border_color" />
     </RelativeLayout>
 
-    <com.homechart.app.myview.HorizontalListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/hlv_tab2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_44"

@@ -256,11 +256,6 @@ public class HomeFaXianFragment
                 holder.getView(R.id.rl_lanmu).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (position == (mListPingDao1.size() - 1)) {
-                            holder.getView(R.id.view_last_one).setVisibility(View.VISIBLE);
-                        } else {
-                            holder.getView(R.id.view_last_one).setVisibility(View.GONE);
-                        }
 
                         String strLanMu = mListPingDao1.get(position);
                         NewLanMuFragment newLanMuFragment = new NewLanMuFragment(getChildFragmentManager());

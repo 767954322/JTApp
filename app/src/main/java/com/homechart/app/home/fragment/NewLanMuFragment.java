@@ -8,6 +8,8 @@ import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.text.TextUtils;
@@ -29,28 +31,17 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
-import com.homechart.app.commont.contract.ItemClickJuBao;
 import com.homechart.app.home.activity.LoginActivity;
-import com.homechart.app.home.activity.SearchActivity;
-import com.homechart.app.home.adapter.MyFaXianAdapter1;
 import com.homechart.app.home.adapter.MyHuaTiAdapter;
-import com.homechart.app.home.adapter.MyJuBaoAdapter;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.guanliantags.GuanLianTagBean;
-import com.homechart.app.home.bean.hotwords.HotWordsBean;
-import com.homechart.app.home.bean.jubaobean.JuBaoBean;
-import com.homechart.app.home.bean.jubaobean.JuBaoItemBean;
 import com.homechart.app.home.bean.search.RecommendItemDataBean;
 import com.homechart.app.home.bean.search.SearchDataBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
-import com.homechart.app.home.recyclerholder.ClassicRefreshHeaderView;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
-import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
-import com.homechart.app.myview.HorizontalListView;
 import com.homechart.app.myview.MyListView;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
-import com.homechart.app.recyclerlibrary.anims.animators.ViewHelper;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
@@ -90,8 +81,7 @@ public class NewLanMuFragment
     private TextView mTital;
     private List<String> listHot;
     private List<String> mListPingDao1 = new ArrayList<>();
-    private HorizontalListView hlv_tab2;
-    private MyFaXianAdapter1 myFaXianAdapter1;
+    private RecyclerView mRecyclerView1;
     private AnimationSet animationSet;
     private int scroll_position;
     private int page_num = 1;
@@ -116,6 +106,7 @@ public class NewLanMuFragment
     private TextView tv_shoucang;
     private boolean ifClickDingYue = true;
     private GuanLianTagBean guanLianTagBean;
+    private MultiItemCommonAdapter<String> mAdapter1;
 
     public NewLanMuFragment() {
     }
@@ -142,7 +133,7 @@ public class NewLanMuFragment
         mBack = (ImageButton) rootView.findViewById(R.id.nav_left_imageButton);
         mTital = (TextView) rootView.findViewById(R.id.tv_tital_comment);
         tv_shoucang = (TextView) rootView.findViewById(R.id.tv_shoucang);
-        hlv_tab2 = (HorizontalListView) rootView.findViewById(R.id.hlv_tab2);
+        mRecyclerView1 = (RecyclerView) rootView.findViewById(R.id.hlv_tab2);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_pic);
         headerView = LayoutInflater.from(activity).inflate(R.layout.header_faxian, null);
         lv_faxian_header = (MyListView) headerView.findViewById(R.id.lv_faxian_header);
@@ -153,21 +144,6 @@ public class NewLanMuFragment
         super.initListener();
         mBack.setOnClickListener(this);
         tv_shoucang.setOnClickListener(this);
-        hlv_tab2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String strLanMu = mListPingDao1.get(position);
-                NewLanMuFragment newLanMuFragment = new NewLanMuFragment(getChildFragmentManager());
-                Bundle bundle = new Bundle();
-                bundle.putString("tag_name", strLanMu);
-                newLanMuFragment.setArguments(bundle);
-                FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newLanMuFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-
-            }
-        });
     }
 
     @Override
@@ -175,8 +151,7 @@ public class NewLanMuFragment
         mTital.setText(tag_name);
         width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_42);
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        myFaXianAdapter1 = new MyFaXianAdapter1(mListPingDao1, activity);
-        hlv_tab2.setAdapter(myFaXianAdapter1);
+        buildRecyclerView1();
         getGuanLianTags();
         initAnimation();
         buildRecyclerView();
@@ -241,6 +216,47 @@ public class NewLanMuFragment
 
     }
 
+    private void buildRecyclerView1() {
+        MultiItemTypeSupport<String> support = new MultiItemTypeSupport<String>() {
+            @Override
+            public int getLayoutId(int itemType) {
+                return R.layout.item_pingdao1;
+            }
+
+            @Override
+            public int getItemViewType(int position, String s) {
+                return 0;
+            }
+        };
+        mAdapter1 = new MultiItemCommonAdapter<String>(activity, mListPingDao1, support) {
+            @Override
+            public void convert(final BaseViewHolder holder, final int position) {
+                ((TextView) holder.getView(R.id.tv_item_pingdao)).setText(mListPingDao1.get(position));
+                holder.getView(R.id.rl_lanmu).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        String strLanMu = mListPingDao1.get(position);
+                        NewLanMuFragment newLanMuFragment = new NewLanMuFragment(getChildFragmentManager());
+                        Bundle bundle = new Bundle();
+                        bundle.putString("tag_name", strLanMu);
+                        newLanMuFragment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newLanMuFragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
+                });
+            }
+        };
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mRecyclerView1.setHasFixedSize(true);//设置固定大小
+        mRecyclerView1.setLayoutManager(linearLayoutManager);
+        mRecyclerView1.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView1.setAdapter(mAdapter1);
+    }
+
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -252,12 +268,12 @@ public class NewLanMuFragment
                     guanLianTagBean = GsonUtil.jsonToBean(dataStr, GuanLianTagBean.class);
                     listHot = guanLianTagBean.getTag_info().getRelation_tag();
                     if (null != listHot && listHot.size() > 0) {
-                        hlv_tab2.setVisibility(View.VISIBLE);
+                        mRecyclerView1.setVisibility(View.VISIBLE);
                         mListPingDao1.clear();
                         mListPingDao1.addAll(listHot);
-                        myFaXianAdapter1.notifyDataSetChanged();
+                        mAdapter1.notifyDataSetChanged();
                     } else {
-                        hlv_tab2.setVisibility(View.GONE);
+                        mRecyclerView1.setVisibility(View.GONE);
                     }
                     tv_shoucang.setVisibility(View.VISIBLE);
                     if (guanLianTagBean.getTag_info().getSubscribe_show().equals("0")) {//没有订阅按钮
