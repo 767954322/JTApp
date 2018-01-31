@@ -47,7 +47,8 @@
             android:id="@+id/hlv_tab1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/iv_more" />
+            android:layout_toLeftOf="@+id/iv_more"
+            android:background="@color/white" />
 
     </RelativeLayout>
 
@@ -62,6 +63,7 @@
         android:id="@+id/hlv_tab2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_44"
+        android:background="@color/white"
         android:layout_below="@+id/view_line_top"/>
 
 
