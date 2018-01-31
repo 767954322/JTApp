@@ -43,10 +43,12 @@
             android:paddingRight="@dimen/font_18"
             android:src="@drawable/gengduo_faxian" />
 
-        <com.homechart.app.myview.HorizontalListView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/hlv_tab1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            app:loadMoreEnabled="false"
+            app:refreshEnabled="false"
             android:layout_toLeftOf="@+id/iv_more" />
 
     </RelativeLayout>

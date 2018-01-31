@@ -10,8 +10,11 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,11 +35,8 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
-import com.homechart.app.home.activity.JuBaoActivity;
 import com.homechart.app.home.activity.LoginActivity;
-import com.homechart.app.home.activity.NewHuoDongDetailsActivity;
 import com.homechart.app.home.activity.SearchActivity;
-import com.homechart.app.home.adapter.MyFaXianAdapter;
 import com.homechart.app.home.adapter.MyFaXianAdapter1;
 import com.homechart.app.home.adapter.MyHuaTiAdapter;
 import com.homechart.app.home.base.BaseFragment;
@@ -45,8 +45,6 @@ import com.homechart.app.home.bean.faxianpingdao.PingDaoItemBean;
 import com.homechart.app.home.bean.search.RecommendItemDataBean;
 import com.homechart.app.home.bean.search.SearchDataBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
-import com.homechart.app.home.bean.search.SearchItemInfoDataBean;
-import com.homechart.app.home.recyclerholder.ClassicRefreshHeaderView;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
 import com.homechart.app.myview.ClearEditText;
@@ -57,7 +55,6 @@ import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
-import com.homechart.app.recyclerlibrary.recyclerview.RefreshHeaderLayout;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
@@ -87,9 +84,8 @@ public class HomeFaXianFragment
 
     private FragmentManager fragmentManager;
     public PingDaoBean pingDaoBean;
-    private HorizontalListView hlv_tab1;
+    private RecyclerView mRecyclerView1;
     private HorizontalListView hlv_tab2;
-    private MyFaXianAdapter myFaXianAdapter;
     private MyFaXianAdapter1 myFaXianAdapter1;
     private List<PingDaoItemBean> mListPingDao = new ArrayList<>();
     private List<String> mListPingDao1 = new ArrayList<>();
@@ -109,12 +105,14 @@ public class HomeFaXianFragment
     private int width_Pic_Staggered;
     private boolean loginStatus;
     private String userId;
-    private ClassicRefreshHeaderView mRefreshHeaderView;
     private AnimationSet animationSet;
     private View headerView;
     private MyListView lv_faxian_header;
     private MyHuaTiAdapter myHuaTiAdapter;
     private ClearEditText cet_clearedit;
+    private MultiItemCommonAdapter<PingDaoItemBean> mAdapter1;
+    private int selectPosition = 0;
+    private ImageView iv_more;
 
     public HomeFaXianFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -131,11 +129,10 @@ public class HomeFaXianFragment
     @Override
     protected void initView() {
         cet_clearedit = (ClearEditText) rootView.findViewById(R.id.cet_clearedit);
-        hlv_tab1 = (HorizontalListView) rootView.findViewById(R.id.hlv_tab1);
+        iv_more = (ImageView) rootView.findViewById(R.id.iv_more);
+        mRecyclerView1 = (RecyclerView) rootView.findViewById(R.id.hlv_tab1);
         hlv_tab2 = (HorizontalListView) rootView.findViewById(R.id.hlv_tab2);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_pic);
-
-
         headerView = LayoutInflater.from(activity).inflate(R.layout.header_faxian, null);
         lv_faxian_header = (MyListView) headerView.findViewById(R.id.lv_faxian_header);
 
@@ -146,33 +143,7 @@ public class HomeFaXianFragment
         super.initListener();
         cet_clearedit.setKeyListener(null);
         cet_clearedit.setOnClickListener(this);
-        hlv_tab1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                if (mListPingDao.size() > position && !tagName.equals(mListPingDao.get(position).getTag_name())) {
-                    CustomProgress.show(activity, "", false, null);
-                    myFaXianAdapter.setSelectPosition(position);
-                    tagName = mListPingDao.get(position).getTag_name();
-                    onRefresh();
-                    List<String> strList = mListPingDao.get(position).getRelation_tag();
-                    if (null != strList && strList.size() > 0) {
-
-                        hlv_tab2.setVisibility(View.VISIBLE);
-                        mListPingDao1.clear();
-                        mListPingDao1.addAll(strList);
-                        myFaXianAdapter1.notifyDataSetChanged();
-                        new Handler().postDelayed(new Runnable() {
-                            public void run() {
-                                hlv_tab2.setSelection(0);
-                            }
-                        }, 350);
-                    } else {
-                        hlv_tab2.setVisibility(View.GONE);
-                    }
-                }
-            }
-        });
+        iv_more.setOnClickListener(this);
         hlv_tab2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -194,12 +165,87 @@ public class HomeFaXianFragment
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
         width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_42);
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        buildHRecyclerView1();
         initAnimation();
         getPingDaoTag();
         buildRecyclerView();
+    }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.cet_clearedit:
+                Intent intent = new Intent(activity, SearchActivity.class);
+                startActivityForResult(intent, 10);
+                break;
+            case R.id.iv_more:
+                break;
+        }
+    }
+
+    private void buildHRecyclerView1() {
+        MultiItemTypeSupport<PingDaoItemBean> support = new MultiItemTypeSupport<PingDaoItemBean>() {
+            @Override
+            public int getLayoutId(int itemType) {
+                return R.layout.item_pingdao;
+            }
+
+            @Override
+            public int getItemViewType(int position, PingDaoItemBean s) {
+                return 0;
+            }
+        };
+        mAdapter1 = new MultiItemCommonAdapter<PingDaoItemBean>(activity, mListPingDao, support) {
+            @Override
+            public void convert(final BaseViewHolder holder, final int position) {
+
+                ((TextView) holder.getView(R.id.tv_item_pingdao)).setText(mListPingDao.get(position).getTag_name());
+                TextPaint tp = ((TextView) holder.getView(R.id.tv_item_pingdao)).getPaint();
+                if (selectPosition == position) {
+                    tp.setFakeBoldText(true);
+                    ((TextView) holder.getView(R.id.tv_item_pingdao)).setTextColor(UIUtils.getColor(R.color.bg_262626));
+                    holder.getView(R.id.view_bottom).setVisibility(View.VISIBLE);
+                } else {
+                    tp.setFakeBoldText(false);
+                    ((TextView) holder.getView(R.id.tv_item_pingdao)).setTextColor(UIUtils.getColor(R.color.bg_464646));
+                    holder.getView(R.id.view_bottom).setVisibility(View.GONE);
+                }
+                holder.getView(R.id.rl_pingdao).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mListPingDao.size() > position && !tagName.equals(mListPingDao.get(position).getTag_name())) {
+                            CustomProgress.show(activity, "", false, null);
+                            selectPosition = position;
+                            mAdapter1.notifyDataSetChanged();
+                            tagName = mListPingDao.get(position).getTag_name();
+                            onRefresh();
+                            List<String> strList = mListPingDao.get(position).getRelation_tag();
+                            if (null != strList && strList.size() > 0) {
+                                hlv_tab2.setVisibility(View.VISIBLE);
+                                mListPingDao1.clear();
+                                mListPingDao1.addAll(strList);
+                                myFaXianAdapter1.notifyDataSetChanged();
+                                new Handler().postDelayed(new Runnable() {
+                                    public void run() {
+                                        hlv_tab2.setSelection(0);
+                                    }
+                                }, 350);
+                            } else {
+                                hlv_tab2.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                });
+            }
+        };
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mRecyclerView1.setHasFixedSize(true);//设置固定大小
+        mRecyclerView1.setLayoutManager(linearLayoutManager);
+        mRecyclerView1.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView1.setAdapter(mAdapter1);
     }
 
     private void buildRecyclerView() {
@@ -395,7 +441,6 @@ public class HomeFaXianFragment
         mRecyclerView.setOnRefreshListener(this);
         mRecyclerView.setOnLoadMoreListener(this);
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
-        mRefreshHeaderView = (ClassicRefreshHeaderView) mRecyclerView.getRefreshHeaderView();
         mRecyclerView.addHeaderView(headerView);
         mRecyclerView.setAdapter(mAdapter);
         onRefresh();
@@ -445,8 +490,8 @@ public class HomeFaXianFragment
                     List<PingDaoItemBean> list1 = pingDaoBean.getChannel_list();
                     mListPingDao.clear();
                     mListPingDao.addAll(list1);
-                    myFaXianAdapter = new MyFaXianAdapter(mListPingDao, activity);
-                    hlv_tab1.setAdapter(myFaXianAdapter);
+                    mAdapter1.notifyDataSetChanged();
+
                     if (mListPingDao.size() > 0 && mListPingDao.get(0).getRelation_tag().size() > 0) {
                         hlv_tab2.setVisibility(View.VISIBLE);
                         mListPingDao1.clear();
@@ -619,20 +664,12 @@ public class HomeFaXianFragment
     }
 
     private void initAnimation() {
-        //1.AnimationSet
         animationSet = new AnimationSet(true);
         animationSet.setInterpolator(new LinearInterpolator());
-        //透明度
-//        AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0.5f);
-//        alphaAnimation.setRepeatCount(100);
-
-        //缩放（以某个点为中心缩放）
         ScaleAnimation scaleAnimation = new ScaleAnimation(1, 0.8f, 1, 0.8f,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         scaleAnimation.setRepeatCount(100);
-        //添加动画
         animationSet.setFillAfter(true);
-//        animationSet.addAnimation(alphaAnimation);
         animationSet.addAnimation(scaleAnimation);
         animationSet.setDuration(500);
         animationSet.setStartOffset(0);
@@ -684,16 +721,6 @@ public class HomeFaXianFragment
     private boolean ifClickAble = true;
     private Map<String, Integer> mapSearch = new HashMap<>();
 
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.cet_clearedit:
-                Intent intent = new Intent(activity, SearchActivity.class);
-                startActivityForResult(intent, 10);
-                break;
-        }
-    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
