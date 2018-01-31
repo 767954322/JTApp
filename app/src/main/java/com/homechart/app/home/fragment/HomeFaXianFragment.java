@@ -61,8 +61,10 @@ import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -161,11 +163,13 @@ public class HomeFaXianFragment
                 startActivityForResult(intent, 10);
                 break;
             case R.id.iv_more:
-                Intent intent1 = new Intent(activity,PingDaoListActivity.class);
-                startActivityForResult(intent1,2);
+                Intent intent1 = new Intent(activity, PingDaoListActivity.class);
+                intent1.putExtra("list", (Serializable) mListPingDao);
+                startActivityForResult(intent1, 11);
                 break;
         }
     }
+
     @Override
     public void onRefresh() {
         page_num = 1;
@@ -695,6 +699,26 @@ public class HomeFaXianFragment
             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newSearchResultFragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commitAllowingStateLoss();
+        } else if (requestCode == 11 && resultCode == 11) {
+            int clickPosition = data.getIntExtra("position", 0);
+
+            CustomProgress.show(activity, "", false, null);
+            selectPosition = clickPosition;
+            mAdapter1.notifyDataSetChanged();
+            tagName = mListPingDao.get(selectPosition).getTag_name();
+            onRefresh();
+            List<String> strList = mListPingDao.get(selectPosition).getRelation_tag();
+            if (null != strList && strList.size() > 0) {
+                mRecyclerView2.setVisibility(View.VISIBLE);
+                mListPingDao1.clear();
+                mListPingDao1.addAll(strList);
+                mAdapter2.notifyDataSetChanged();
+                mRecyclerView2.scrollToPosition(0);
+            } else {
+                mRecyclerView2.setVisibility(View.GONE);
+            }
+            mRecyclerView1.scrollToPosition(selectPosition);
+
         }
     }
 
