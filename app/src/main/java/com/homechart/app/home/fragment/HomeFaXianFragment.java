@@ -157,6 +157,11 @@ public class HomeFaXianFragment
                         mListPingDao1.clear();
                         mListPingDao1.addAll(strList);
                         myFaXianAdapter1.notifyDataSetChanged();
+                        new Handler().postDelayed(new Runnable() {
+                            public void run() {
+                                hlv_tab2.setSelection(0);
+                            }
+                        }, 350);
                     } else {
                         hlv_tab2.setVisibility(View.GONE);
                     }
@@ -673,5 +678,7 @@ public class HomeFaXianFragment
 
     private boolean ifClickAble = true;
     private Map<String, Integer> mapSearch = new HashMap<>();
+
+
 
 }

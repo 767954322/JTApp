@@ -113,6 +113,15 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
     @Override
     public void setSelection(int position) {
         //TODO: implement
+        int positionX = position * this.getWidth();
+        int maxWidth = this.getChildCount() * this.getWidth();
+        if (positionX <= 0) {
+            positionX = 0;
+        }
+        if (positionX > maxWidth) {
+            positionX = maxWidth;
+        }
+        scrollTo(positionX);
     }
 
     private void addAndMeasureChild(final View child, int viewPos) {
