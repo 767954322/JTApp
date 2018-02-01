@@ -242,9 +242,16 @@ public class NewImageDetaiScrollFragment
                         .setCategory("点击更多灵感辑进入更多灵感辑页面的次数")  //事件类别
                         .setAction("更多灵感辑")      //事件操作
                         .build());
-                Intent intent_more = new Intent(activity, XGLingGanlistActivity.class);
-                intent_more.putExtra("item_id", item_id);
-                startActivity(intent_more);
+
+                NewMoreLingGanFragment newUserInfoFragment1 = new NewMoreLingGanFragment(fragmentManager);
+                Bundle bundle3 = new Bundle();
+                bundle3.putString("item_id", item_id);
+                newUserInfoFragment1.setArguments(bundle3);
+                FragmentTransaction fragmentTransaction2 = fragmentManager.beginTransaction();
+                fragmentTransaction2.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment1);
+                fragmentTransaction2.addToBackStack(null);
+                fragmentTransaction2.commit();
+
                 break;
             case R.id.tv_lingganji:
                 loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
@@ -297,11 +304,11 @@ public class NewImageDetaiScrollFragment
                     List<String> listUrl = new ArrayList<>();
                     listUrl.add(imageDetailBean.getItem_info().getImage().getImg0());
                     Intent intent6 = new Intent(activity, ImageDetailsActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("pic_url_list", (Serializable) listUrl);
-                    bundle.putInt("click_position", 0);
-                    bundle.putInt("ifhinttital", 2);
-                    intent6.putExtras(bundle);
+                    Bundle bundle6 = new Bundle();
+                    bundle6.putSerializable("pic_url_list", (Serializable) listUrl);
+                    bundle6.putInt("click_position", 0);
+                    bundle6.putInt("ifhinttital", 2);
+                    intent6.putExtras(bundle6);
                     startActivity(intent6);
                 }
                 break;
@@ -325,9 +332,9 @@ public class NewImageDetaiScrollFragment
                         intent4.putExtra("imagePath", imageDetailBean.getItem_info().getImage().getImg0());
                         intent4.putExtra("searchstatus", "0");
                         intent4.putExtra("network", "true");
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("searchSBean", searchSBean);
-                        intent4.putExtras(bundle);
+                        Bundle bundle2 = new Bundle();
+                        bundle2.putSerializable("searchSBean", searchSBean);
+                        intent4.putExtras(bundle2);
                         startActivity(intent4);
                     } else {
                         if (null != imageDetailBean) {
@@ -374,13 +381,13 @@ public class NewImageDetaiScrollFragment
             case R.id.riv_people_header:
                 if (imageDetailBean != null) {
                     NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
-                    Bundle bundle = new Bundle();
-                    bundle.putString(ClassConstant.LoginSucces.USER_ID, imageDetailBean.getUser_info().getUser_id());
-                    newUserInfoFragment.setArguments(bundle);
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString(ClassConstant.LoginSucces.USER_ID, imageDetailBean.getUser_info().getUser_id());
+                    newUserInfoFragment.setArguments(bundle1);
+                    FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();
+                    fragmentTransaction1.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                    fragmentTransaction1.addToBackStack(null);
+                    fragmentTransaction1.commit();
                 }
                 break;
             case R.id.iv_shared_image:
