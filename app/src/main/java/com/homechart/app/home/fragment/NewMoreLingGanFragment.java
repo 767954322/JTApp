@@ -3,14 +3,10 @@ package com.homechart.app.home.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -19,25 +15,14 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
-import com.homechart.app.home.activity.DesinerInfoHeaderActivity;
-import com.homechart.app.home.activity.FenSiListActivity;
-import com.homechart.app.home.activity.GuanZuListActivity;
-import com.homechart.app.home.activity.ImageDetailScrollActivity;
-import com.homechart.app.home.activity.LoginActivity;
-import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.base.BaseFragment;
-import com.homechart.app.home.bean.userimage.ImageDataBean;
-import com.homechart.app.home.bean.userimage.UserImageBean;
-import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationBean;
 import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationListBean;
-import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
@@ -54,11 +39,8 @@ import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -210,19 +192,30 @@ public class NewMoreLingGanFragment
                 holder.getView(R.id.riv_header).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(activity, UserInfoActivity.class);
-                        intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-                        startActivity(intent);
+                        NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
+                        Bundle bundle = new Bundle();
+                        bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+                        newUserInfoFragment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                     }
                 });
                 holder.getView(R.id.rl_item_inspiration).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(activity, InspirationDetailActivity.class);
-                        intent.putExtra("user_id", mUserId);
-                        intent.putExtra("ifHideEdit", true);
-                        intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
-                        startActivityForResult(intent, 2);
+                        NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(fragmentManager);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("user_id", mUserId);
+                        bundle.putBoolean("ifHideEdit", true);
+                        bundle.putString("album_id",  mListData.get(position).getAlbum_info().getAlbum_id());
+                        bundle.putString("show_type",  mListData.get(position).getAlbum_info().getShow_type());
+                        newInspirationDetailsment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                     }
                 });
             }

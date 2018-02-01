@@ -173,12 +173,6 @@ public class MyLingGuanLiFragment
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
-//                        Intent intent = new Intent(activity, InspirationDetailActivity.class);
-//                        intent.putExtra("user_id", user_id);
-//                        intent.putExtra("tag", "true");
-//                        intent.putExtra("ifshowtital", "true");
-//                        intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
-//                        startActivityForResult(intent, 3);
                     }
                 });
             }
