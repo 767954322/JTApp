@@ -16,10 +16,12 @@ public class InspirationInfoBean implements Serializable {
     private String update_time;
     private String is_default;
     private String subscribe_num;
+    private String show_type;
     private String collect_num;
     private InspirationInfoImageBean cover_image;
 
-    public InspirationInfoBean(String album_id, String album_name, String tag, String description, String item_num, String update_time, String is_default, String subscribe_num, String collect_num, InspirationInfoImageBean cover_image) {
+
+    public InspirationInfoBean(String album_id, String album_name, String tag, String description, String item_num, String update_time, String is_default, String subscribe_num, String show_type, String collect_num, InspirationInfoImageBean cover_image) {
         this.album_id = album_id;
         this.album_name = album_name;
         this.tag = tag;
@@ -28,6 +30,7 @@ public class InspirationInfoBean implements Serializable {
         this.update_time = update_time;
         this.is_default = is_default;
         this.subscribe_num = subscribe_num;
+        this.show_type = show_type;
         this.collect_num = collect_num;
         this.cover_image = cover_image;
     }
@@ -96,6 +99,14 @@ public class InspirationInfoBean implements Serializable {
         this.subscribe_num = subscribe_num;
     }
 
+    public String getShow_type() {
+        return show_type;
+    }
+
+    public void setShow_type(String show_type) {
+        this.show_type = show_type;
+    }
+
     public String getCollect_num() {
         return collect_num;
     }
@@ -123,6 +134,7 @@ public class InspirationInfoBean implements Serializable {
                 ", update_time='" + update_time + '\'' +
                 ", is_default='" + is_default + '\'' +
                 ", subscribe_num='" + subscribe_num + '\'' +
+                ", show_type='" + show_type + '\'' +
                 ", collect_num='" + collect_num + '\'' +
                 ", cover_image=" + cover_image +
                 '}';

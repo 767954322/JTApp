@@ -87,10 +87,11 @@ public class NewInspirationDetailsment
         InterDioalod,
         InterDioalod1,
         InterPopBottom,
-        HomeSharedPopWinPublic.ClickInter{
+        HomeSharedPopWinPublic.ClickInter {
 
 
     private Bundle mBundle;
+    private String show_type;
 
     public NewInspirationDetailsment() {
     }
@@ -113,7 +114,8 @@ public class NewInspirationDetailsment
         mUserId = (String) mBundle.getString("user_id");
         mAlbumId = (String) mBundle.getString("album_id");
         mIfshowtital = (String) mBundle.getString("ifshowtital");
-        ifHideEdit = mBundle.getBoolean("ifHideEdit",false);
+        show_type = (String) mBundle.getString("show_type");
+        ifHideEdit = mBundle.getBoolean("ifHideEdit", false);
 
     }
 
@@ -215,7 +217,7 @@ public class NewInspirationDetailsment
 
         switch (id) {
             case R.id.nav_left_imageButton:
-                if( null != mClickDelete){
+                if (null != mClickDelete) {
                     mClickDelete.clickDelete();
                 }
                 fragmentManager.popBackStack();
@@ -333,7 +335,7 @@ public class NewInspirationDetailsment
 
             mTital.setVisibility(View.VISIBLE);
             mTital.setText("灵感辑详情");
-        }else {
+        } else {
             mTital.setVisibility(View.GONE);
         }
         homeSharedPopWinPublic = new HomeSharedPopWinPublic(activity, this);
@@ -658,7 +660,21 @@ public class NewInspirationDetailsment
             }
         };
 //        mRecyclerView.addHeaderView(mHeaderInspirationPic);
-        mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+        if (show_type == null || show_type.equals("") || show_type.equals("1")) {
+            tv_check_name1.setText("小图");
+            tv_check_name.setText("小图");
+            curentListTag = false;
+            iv_check_icon1.setImageResource(R.drawable.pubuliu1);
+            iv_check_icon.setImageResource(R.drawable.pubuliu1);
+            mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+        } else {
+            tv_check_name1.setText("大图");
+            tv_check_name.setText("大图");
+            curentListTag = true;
+            iv_check_icon1.setImageResource(R.drawable.changtu1);
+            iv_check_icon.setImageResource(R.drawable.changtu1);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        }
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setOnRefreshListener(this);
         mRecyclerView.setOnLoadMoreListener(this);
@@ -857,7 +873,7 @@ public class NewInspirationDetailsment
                         CustomProgress.cancelDialog();
                         ToastUtils.showCenter(activity, "删除成功！");
                         mDialog1.dismiss();
-                        if( null != mClickDelete){
+                        if (null != mClickDelete) {
                             mClickDelete.clickDelete();
                         }
                         activity.setResult(2, activity.getIntent());
@@ -1258,12 +1274,13 @@ public class NewInspirationDetailsment
             ToastUtils.showCenter(activity, "分享取消了");
         }
     };
-    public void setReflushList(ClickDelete clickDelete){
+
+    public void setReflushList(ClickDelete clickDelete) {
         mClickDelete = clickDelete;
     }
 
-    interface ClickDelete{
-       void clickDelete();
+    interface ClickDelete {
+        void clickDelete();
     }
 
     private ClickDelete mClickDelete;

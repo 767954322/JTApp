@@ -167,6 +167,7 @@ public class MyLingGuanLiFragment
                         bundle.putString("tag", "true");
                         bundle.putString("ifshowtital", "true");
                         bundle.putString("album_id",  mListData.get(position).getAlbum_info().getAlbum_id());
+                        bundle.putString("show_type",  mListData.get(position).getAlbum_info().getShow_type());
                         newInspirationDetailsment.setArguments(bundle);
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
