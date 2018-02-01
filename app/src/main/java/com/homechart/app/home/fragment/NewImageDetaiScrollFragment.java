@@ -1257,6 +1257,7 @@ public class NewImageDetaiScrollFragment
                         bundle.putString("user_id", imageDetailBean.getUser_info().getUser_id());
                         bundle.putBoolean("ifHideEdit", true);
                         bundle.putString("album_id", imageDetailBean.getAlbum_info().getAlbum_id());
+//                        bundle.putString("show_type",  imageDetailBean.getAlbum_info().getShow_type());
                         newInspirationDetailsment.setArguments(bundle);
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);

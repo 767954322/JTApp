@@ -273,6 +273,9 @@ public class PingListActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
+                ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+                        .hideSoftInputFromWindow(PingListActivity.this.getCurrentFocus()
+                                .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 PingListActivity.this.finish();
                 break;
             case R.id.iv_send:
