@@ -51,6 +51,7 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
     private RecyclerView mRecyclerView;
     private MultiItemCommonAdapter<DYItemBean> mAdapter;
     private List<DYItemBean> mListData = new ArrayList<>();
+    private Map<String, DYItemGroupItemBean> mMapSelectStatus = new HashMap<>();
     private Map<String, DYItemGroupItemBean> mMapSelect = new HashMap<>();
     private Handler mHandler = new Handler() {
         @Override
@@ -68,6 +69,7 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
                         for (int j = 0; j < mListData.get(i).getGroup_info().getTag_list().size(); j++) {
                             if (mListData.get(i).getGroup_info().getTag_list().get(j).getTag_info().getIs_subscribed().equals("1")) {
                                 mMapSelect.put(mListData.get(i).getGroup_info().getTag_list().get(j).getTag_info().getTag_id(), mListData.get(i).getGroup_info().getTag_list().get(j));
+                                mMapSelectStatus.put(mListData.get(i).getGroup_info().getTag_list().get(j).getTag_info().getTag_id(), mListData.get(i).getGroup_info().getTag_list().get(j));
                             }
                         }
                     }
@@ -96,6 +98,7 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
     protected void initListener() {
         super.initListener();
         mBack.setOnClickListener(this);
+        mRight.setOnClickListener(this);
     }
 
     @Override
@@ -112,7 +115,24 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
-                DingYueGuanLiActivity.this.finish();
+
+                if (mMapSelect.size() == mMapSelectStatus.size()) {
+                    boolean ifChanged = false;
+                    for (String key : mMapSelect.keySet()) {
+                        if (!mMapSelectStatus.containsKey(key))
+                            ifChanged = true;
+                    }
+                    if (!ifChanged) {
+                        DingYueGuanLiActivity.this.finish();
+                    } else {
+
+                    }
+                } else {
+
+                }
+                break;
+            case R.id.tv_content_right:
+
                 break;
         }
     }
