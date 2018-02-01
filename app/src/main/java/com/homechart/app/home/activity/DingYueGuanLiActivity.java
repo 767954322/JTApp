@@ -123,7 +123,6 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
-
                 if (mMapSelect.size() == mMapSelectStatus.size()) {
                     boolean ifChanged = false;
                     for (String key : mMapSelect.keySet()) {
@@ -140,7 +139,7 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
                 }
                 break;
             case R.id.tv_content_right:
-
+                saveDingYueTags();
                 break;
         }
     }
@@ -232,7 +231,48 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
 
         mDialog.dismiss();
         //保存
+        saveDingYueTags();
+    }
+
+    private void saveDingYueTags() {
+
+        String tags_ids = "";
+
+        if (mMapSelect.size() > 0) {
+            for (String key : mMapSelect.keySet()) {
+                tags_ids = tags_ids + key + ",";
+            }
+        }
+        if(tags_ids.length()>0){
+            tags_ids = tags_ids.substring(0, tags_ids.length() - 1);
+        }
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtils.showCenter(DingYueGuanLiActivity.this, "修改失败");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        ToastUtils.showCenter(DingYueGuanLiActivity.this, "修改成功");
+                        DingYueGuanLiActivity.this.finish();
+                    } else {
+                        ToastUtils.showCenter(DingYueGuanLiActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                    ToastUtils.showCenter(DingYueGuanLiActivity.this, "修改失败");
+                }
+            }
+        };
+        MyHttpManager.getInstance().saveDingYueTags(tags_ids, callBack);
 
 
     }
+
 }
