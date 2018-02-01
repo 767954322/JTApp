@@ -14,17 +14,19 @@ public class ItemHuoAlbumDataBean implements Serializable {
     private String description;
     private String item_num;
     private String subscribe_num;
+    private String show_type;
     private String update_time;
     private ItemHuoAlbumImageDataBean cover_image;
 
 
-    public ItemHuoAlbumDataBean(String album_id, String album_name, String tag, String description, String item_num, String subscribe_num, String update_time, ItemHuoAlbumImageDataBean cover_image) {
+    public ItemHuoAlbumDataBean(String album_id, String album_name, String tag, String description, String item_num, String subscribe_num, String show_type, String update_time, ItemHuoAlbumImageDataBean cover_image) {
         this.album_id = album_id;
         this.album_name = album_name;
         this.tag = tag;
         this.description = description;
         this.item_num = item_num;
         this.subscribe_num = subscribe_num;
+        this.show_type = show_type;
         this.update_time = update_time;
         this.cover_image = cover_image;
     }
@@ -77,6 +79,14 @@ public class ItemHuoAlbumDataBean implements Serializable {
         this.subscribe_num = subscribe_num;
     }
 
+    public String getShow_type() {
+        return show_type;
+    }
+
+    public void setShow_type(String show_type) {
+        this.show_type = show_type;
+    }
+
     public String getUpdate_time() {
         return update_time;
     }
@@ -102,6 +112,7 @@ public class ItemHuoAlbumDataBean implements Serializable {
                 ", description='" + description + '\'' +
                 ", item_num='" + item_num + '\'' +
                 ", subscribe_num='" + subscribe_num + '\'' +
+                ", show_type='" + show_type + '\'' +
                 ", update_time='" + update_time + '\'' +
                 ", cover_image=" + cover_image +
                 '}';

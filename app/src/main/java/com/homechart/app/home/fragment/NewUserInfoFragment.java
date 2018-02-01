@@ -222,12 +222,18 @@ public class NewUserInfoFragment
                     public void onClick(View v) {
                         List<String> item_id_list = new ArrayList<>();
                         item_id_list.add(mListDataImage.get(position).getItem_info().getItem_id());
-                        Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
-                        intent.putExtra("item_id", mListDataImage.get(position).getItem_info().getItem_id());
-                        intent.putExtra("type", "single");
-                        intent.putExtra("position", 0);
-                        intent.putExtra("item_id_list", (Serializable) item_id_list);
-                        startActivity(intent);
+
+
+                        NewImageDetailsFragment newImageDetailsFragment = new NewImageDetailsFragment(fragmentManager);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("item_id", mListDataImage.get(position).getItem_info().getItem_id());
+                        bundle.putInt("position", 0);
+                        bundle.putString("type", "single");
+                        bundle.putSerializable("item_id_list", (Serializable) item_id_list);
+                        newImageDetailsFragment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newImageDetailsFragment);
+                        fragmentTransaction.commitAllowingStateLoss();
 
                     }
                 });
@@ -279,17 +285,13 @@ public class NewUserInfoFragment
                         Bundle bundle = new Bundle();
                         bundle.putString("user_id", user_id);
                         bundle.putBoolean("ifHideEdit", true);
+                        bundle.putString("show_type", mListData.get(position).getAlbum_info().getShow_type());
                         bundle.putString("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
                         newInspirationDetailsment.setArguments(bundle);
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
-//                        Intent intent = new Intent(activity, InspirationDetailActivity.class);
-//                        intent.putExtra("user_id", user_id);
-//                        intent.putExtra("ifHideEdit", true);
-//                        intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
-//                        startActivityForResult(intent, 2);
                     }
                 });
             }
@@ -347,9 +349,15 @@ public class NewUserInfoFragment
                 break;
             case R.id.rl_info_guanzhu:
                 if (!TextUtils.isEmpty(user_id)) {
-                    Intent intent_guanzu = new Intent(activity, GuanZuListActivity.class);
-                    intent_guanzu.putExtra(ClassConstant.LoginSucces.USER_ID, user_id);
-                    startActivity(intent_guanzu);
+
+                    NewGuanZuListFragment newGuanZuListFragment = new NewGuanZuListFragment(fragmentManager);
+                    Bundle bundle_guanzu = new Bundle();
+                    bundle_guanzu.putString(ClassConstant.LoginSucces.USER_ID, user_id);
+                    newGuanZuListFragment.setArguments(bundle_guanzu);
+                    FragmentTransaction fragmentTransaction_guanzu = fragmentManager.beginTransaction();
+                    fragmentTransaction_guanzu.addToBackStack(null).replace(R.id.id_main, newGuanZuListFragment);
+                    fragmentTransaction_guanzu.commitAllowingStateLoss();
+
                 }
                 break;
             case R.id.rl_info_pic:
@@ -380,9 +388,14 @@ public class NewUserInfoFragment
                 break;
             case R.id.rl_info_fensi:
                 if (!TextUtils.isEmpty(user_id)) {
-                    Intent intent_fensi = new Intent(activity, FenSiListActivity.class);
-                    intent_fensi.putExtra(ClassConstant.LoginSucces.USER_ID, user_id);
-                    startActivity(intent_fensi);
+                    NewFenSiListFragment newFenSiListFragment = new NewFenSiListFragment(fragmentManager);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ClassConstant.LoginSucces.USER_ID, user_id);
+                    newFenSiListFragment.setArguments(bundle);
+                    FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();
+                    fragmentTransaction1.addToBackStack(null).replace(R.id.id_main, newFenSiListFragment);
+                    fragmentTransaction1.commitAllowingStateLoss();
+
                 }
                 break;
         }

@@ -52,6 +52,7 @@
         android:layout_below="@+id/tv_item_name"
         android:layout_marginTop="@dimen/font_15"
         android:layout_alignParentRight="true"
+        android:visibility="gone"
         android:textColor="@color/bg_8f8f8f"
         android:layout_marginBottom="@dimen/font_10"
         android:text="5订阅"

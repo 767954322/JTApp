@@ -326,11 +326,18 @@ public class NewHuoDongDetailsFragment
                 holder.getView(R.id.rl_item_inspiration).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(activity, InspirationDetailActivity.class);
-                        intent.putExtra("user_id", mUserId);
-                        intent.putExtra("ifHideEdit", true);
-                        intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
-                        startActivityForResult(intent, 2);
+
+                        NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(fragmentManager);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("user_id", mUserId);
+                        bundle.putBoolean("ifHideEdit",  true);
+                        bundle.putString("album_id",  mListData.get(position).getAlbum_info().getAlbum_id());
+                        bundle.putString("show_type",  mListData.get(position).getAlbum_info().getShow_type());
+                        newInspirationDetailsment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                     }
                 });
                 holder.getView(R.id.riv_header).setOnClickListener(new View.OnClickListener() {
