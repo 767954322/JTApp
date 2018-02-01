@@ -25,10 +25,12 @@ public class MyHuaTiAdapter extends BaseAdapter {
 
     private List<RecommendItemDataBean> list;
     private Context context;
+    private ClickZhuTi mClickZhuTi;
 
-    public MyHuaTiAdapter(List<RecommendItemDataBean> list, Context context) {
+    public MyHuaTiAdapter(List<RecommendItemDataBean> list, Context context,ClickZhuTi clickZhuTi) {
         this.list = list;
         this.context = context;
+        this.mClickZhuTi = clickZhuTi;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class MyHuaTiAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         MyHolder myHolder;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_huati, null);
@@ -63,6 +65,12 @@ public class MyHuaTiAdapter extends BaseAdapter {
         layoutParams.height = (int) ((PublicUtils.getScreenWidth(context) - UIUtils.getDimens(R.dimen.font_20)) / list.get(position).getRecommend_info().getRatio());
         ImageUtils.displayFilletImage(list.get(position).getRecommend_info().getImage_url(), myHolder.iv_imageview_one);
 
+        myHolder.iv_imageview_one.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mClickZhuTi.clickZhuTi(position);
+            }
+        });
         return convertView;
     }
 
@@ -74,6 +82,10 @@ public class MyHuaTiAdapter extends BaseAdapter {
    public void dataChange(List<RecommendItemDataBean> list1){
         this.list = list1;
         notifyDataSetChanged();
+    }
+
+  public interface ClickZhuTi{
+      void clickZhuTi(int position);
     }
 
 }

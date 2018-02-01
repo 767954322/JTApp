@@ -76,7 +76,7 @@ import java.util.Map;
 public class HomeFaXianFragment
         extends BaseFragment
         implements OnLoadMoreListener,
-        OnRefreshListener, View.OnClickListener {
+        OnRefreshListener, View.OnClickListener,MyHuaTiAdapter.ClickZhuTi {
 
     private FragmentManager fragmentManager;
     public PingDaoBean pingDaoBean;
@@ -114,6 +114,8 @@ public class HomeFaXianFragment
     private float mMoveY;
     private boolean ifClickAble = true;
     private Map<String, Integer> mapSearch = new HashMap<>();
+    List<RecommendItemDataBean> mListHuaTi = new ArrayList<>();
+    private String mUserId;
 
 
     public HomeFaXianFragment(FragmentManager fragmentManager) {
@@ -522,10 +524,11 @@ public class HomeFaXianFragment
         mRecyclerView.setAdapter(mAdapter);
         onRefresh();
     }
-
     private void changeZhuTi(List<RecommendItemDataBean> list) {
+        mListHuaTi.clear();
+        mListHuaTi.addAll(list);
         if (myHuaTiAdapter == null) {
-            myHuaTiAdapter = new MyHuaTiAdapter(list, activity);
+            myHuaTiAdapter = new MyHuaTiAdapter(list, activity,HomeFaXianFragment.this);
             lv_faxian_header.setAdapter(myHuaTiAdapter);
             lv_faxian_header.setVisibility(View.VISIBLE);
         } else {
@@ -817,4 +820,21 @@ public class HomeFaXianFragment
     };
 
 
+    @Override
+    public void clickZhuTi(int position) {
+        if(mListHuaTi.size() > position){
+            mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
+            NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(getChildFragmentManager());
+            Bundle bundle = new Bundle();
+            bundle.putString("user_id", mUserId);
+            bundle.putBoolean("ifHideEdit", true);
+            bundle.putString("album_id", mListHuaTi.get(position).getRecommend_info().getObject_id());
+//                        bundle.putString("show_type",  imageDetailBean.getAlbum_info().getShow_type());
+            newInspirationDetailsment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+    }
 }
