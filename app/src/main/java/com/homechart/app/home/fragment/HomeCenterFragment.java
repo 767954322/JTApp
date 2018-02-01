@@ -18,6 +18,7 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.home.activity.DingYueGuanLiActivity;
 import com.homechart.app.home.activity.LingGanCenterActivity;
 import com.homechart.app.home.activity.FenSiListActivity;
 import com.homechart.app.home.activity.GuanZuListActivity;
@@ -62,6 +63,7 @@ public class HomeCenterFragment
     private RelativeLayout rl_shaijia;
     private RelativeLayout rl_wodeanli;
     private RelativeLayout rl_yugouqingdan;
+    private RelativeLayout rl_dingyue_guanli;
     private RelativeLayout rl_set;
     private TextView tv_center_name;
     private String mUserId;
@@ -130,6 +132,7 @@ public class HomeCenterFragment
         rl_shaijia = (RelativeLayout) rootView.findViewById(R.id.rl_shaijia);
         rl_wodeanli = (RelativeLayout) rootView.findViewById(R.id.rl_wodeanli);
         rl_yugouqingdan = (RelativeLayout) rootView.findViewById(R.id.rl_yugouqingdan);
+        rl_dingyue_guanli = (RelativeLayout) rootView.findViewById(R.id.rl_dingyue_guanli);
         rl_set = (RelativeLayout) rootView.findViewById(R.id.rl_set);
         rl_unreader_msg_single = (RelativeLayout) rootView.findViewById(R.id.rl_unreader_msg_single);
         rl_unreader_msg_double = (RelativeLayout) rootView.findViewById(R.id.rl_unreader_msg_double);
@@ -151,6 +154,7 @@ public class HomeCenterFragment
         iv_center_header.setOnClickListener(this);
         iv_center_msgicon.setOnClickListener(this);
         rl_yugouqingdan.setOnClickListener(this);
+        rl_dingyue_guanli.setOnClickListener(this);
 
     }
 
@@ -267,6 +271,10 @@ public class HomeCenterFragment
 
                 Intent intent_yugou = new Intent(activity, YuGouQingDanActivity.class);
                 startActivity(intent_yugou);
+                break;
+            case R.id.rl_dingyue_guanli:
+                Intent intent_dingyue = new Intent(activity,DingYueGuanLiActivity.class);
+                startActivity(intent_dingyue);
                 break;
         }
 
