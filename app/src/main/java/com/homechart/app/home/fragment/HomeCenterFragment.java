@@ -217,9 +217,17 @@ public class HomeCenterFragment
 
                 break;
             case R.id.rl_guanzu:
-                Intent intent_guanzu = new Intent(activity, GuanZuListActivity.class);
-                intent_guanzu.putExtra(ClassConstant.LoginSucces.USER_ID, mUserId);
-                startActivity(intent_guanzu);
+                NewGuanZuListFragment newGuanZuListFragment = new NewGuanZuListFragment(getChildFragmentManager());
+                Bundle bundle_guanzu = new Bundle();
+                bundle_guanzu.putString(ClassConstant.LoginSucces.USER_ID, mUserId);
+                newGuanZuListFragment.setArguments(bundle_guanzu);
+                FragmentTransaction fragmentTransaction_guanzu = getChildFragmentManager().beginTransaction();
+                fragmentTransaction_guanzu.addToBackStack(null).replace(R.id.id_main, newGuanZuListFragment);
+                fragmentTransaction_guanzu.commitAllowingStateLoss();
+
+//                Intent intent_guanzu = new Intent(activity, GuanZuListActivity.class);
+//                intent_guanzu.putExtra(ClassConstant.LoginSucces.USER_ID, mUserId);
+//                startActivity(intent_guanzu);
 
                 break;
             case R.id.rl_shoucang:

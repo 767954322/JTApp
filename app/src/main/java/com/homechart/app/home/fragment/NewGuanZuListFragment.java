@@ -1,6 +1,7 @@
 package com.homechart.app.home.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,11 +13,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.home.activity.GuanZuListActivity;
+import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.fensi.FenSiBean;
 import com.homechart.app.home.bean.fensi.UserListBean;
+import com.homechart.app.home.bean.guanzhu.GuanZhuBean;
+import com.homechart.app.home.bean.guanzhu.GuanZhuUserListBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
@@ -30,6 +38,8 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,7 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressLint("ValidFragment")
-public class NewFenSiListFragment
+public class NewGuanZuListFragment
         extends BaseFragment
         implements View.OnClickListener,
         CommonAdapter.OnItemClickListener,
@@ -45,9 +55,9 @@ public class NewFenSiListFragment
         OnRefreshListener {
 
     private FragmentManager fragmentManager;
-    private List<UserListBean> mListData = new ArrayList<>();
+    private List<GuanZhuUserListBean> mListData = new ArrayList<>();
     private LoadMoreFooterView mLoadMoreFooterView;
-    private CommonAdapter<UserListBean> mAdapter;
+    private CommonAdapter<GuanZhuUserListBean> mAdapter;
     private HRecyclerView mRecyclerView;
     private ImageButton mIBBack;
     private TextView mTVTital;
@@ -59,16 +69,16 @@ public class NewFenSiListFragment
     private RelativeLayout rl_no_data;
     private Bundle mBundle;
 
-    public NewFenSiListFragment() {
+    public NewGuanZuListFragment() {
     }
 
-    public NewFenSiListFragment(FragmentManager fragmentManager) {
+    public NewGuanZuListFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.activity_fensi_list;
+        return R.layout.activity_guanzu_list;
     }
 
     @Override
@@ -98,15 +108,17 @@ public class NewFenSiListFragment
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        mTVTital.setText(R.string.fensi_tital);
-        mAdapter = new CommonAdapter<UserListBean>(activity, R.layout.item_fensi, mListData) {
+        mTVTital.setText("关注");
+
+        mAdapter = new CommonAdapter<GuanZhuUserListBean>(activity, R.layout.item_guanzhu, mListData) {
             @Override
             public void convert(BaseViewHolder holder, int position) {
-
+                RoundImageView iv_fensi_header = (RoundImageView) holder.getView(R.id.iv_fensi_header);
                 holder.setText(R.id.tv_fensi_name, mListData.get(position).getNickname());
 
                 ImageUtils.displayRoundImage(mListData.get(position).getAvatar().getBig(),
                         (RoundImageView) holder.getView(R.id.iv_fensi_header));
+
                 if (!mListData.get(position).getProfession().equals("0")) {
                     holder.getView(R.id.iv_fensi_zhuanye).setVisibility(View.VISIBLE);
                 } else {
@@ -118,6 +130,12 @@ public class NewFenSiListFragment
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
         mRecyclerView.setItemAnimator(null);
+
+//        ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(mAdapter);
+//        scaleAdapter.setFirstOnly(false);
+//        scaleAdapter.setDuration(500);
+
+        mAdapter.setHasStableIds(true);
         mRecyclerView.setOnRefreshListener(this);
         mRecyclerView.setOnLoadMoreListener(this);
         mRecyclerView.setAdapter(mAdapter);
@@ -125,23 +143,19 @@ public class NewFenSiListFragment
     }
 
 
-
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
-
             case R.id.nav_left_imageButton:
                 fragmentManager.popBackStack();
                 break;
-
         }
     }
 
     //RecyclerView的Item点击事件
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-
         NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
         Bundle bundle = new Bundle();
         bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_id());
@@ -150,7 +164,6 @@ public class NewFenSiListFragment
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-
     }
 
     @Override
@@ -190,7 +203,7 @@ public class NewFenSiListFragment
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
-                        FenSiBean fenSiBean = GsonUtil.jsonToBean(data_msg, FenSiBean.class);
+                        GuanZhuBean fenSiBean = GsonUtil.jsonToBean(data_msg, GuanZhuBean.class);
                         if (null != fenSiBean.getUser_list() && 0 != fenSiBean.getUser_list().size()) {
                             changeNone(0);
                             updateViewFromData(fenSiBean.getUser_list(), state);
@@ -206,12 +219,12 @@ public class NewFenSiListFragment
                 }
             }
         };
-        MyHttpManager.getInstance().getFensiList(user_id, last_id, n, callback);
-//        MyHttpManager.getInstance().getFensiList("100050", last_id, n, callback);
+        MyHttpManager.getInstance().getGuanZuList(user_id, last_id, n, callback);
+//        MyHttpManager.getInstance().getGuanZuList("100050", last_id, n, callback);
 
     }
 
-    private void updateViewFromData(List<UserListBean> listData, String state) {
+    private void updateViewFromData(List<GuanZhuUserListBean> listData, String state) {
 
         switch (state) {
 
@@ -230,9 +243,9 @@ public class NewFenSiListFragment
 
             case LOADMORE_STATUS:
                 if (null != listData) {
+
                     position = mListData.size();
                     mListData.addAll(listData);
-
 //                    mAdapter.notifyData(mListData);
                     mAdapter.notifyItem(position, mListData, listData);
 //                    mAdapter.notifyItemInserted(mListData.size() + 1);
@@ -265,5 +278,4 @@ public class NewFenSiListFragment
     }
 
     private int position;
-
 }
