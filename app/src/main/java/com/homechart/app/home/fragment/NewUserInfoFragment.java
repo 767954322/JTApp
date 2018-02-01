@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
@@ -186,13 +187,6 @@ public class NewUserInfoFragment
         gridLayoutManager = new GridLayoutManager(activity, 2);
         widthPic = (PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_3)) / 2 - UIUtils.getDimens(R.dimen.font_1);
         widthImage = (PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_24)) / 2;
-//        StatusBarUtil.setTranslucentForImageView(activity, 0, null);
-//        int statusBarHeight = PublicUtils.getStatusBarHeight(activity);
-//        ViewGroup.LayoutParams layoutParams = view_tiop.getLayoutParams();
-//        layoutParams.width = PublicUtils.getScreenWidth(activity);
-//        layoutParams.height = statusBarHeight;
-//        view_tiop.setLayoutParams(layoutParams);
-
         mTVTital.setText("");
         tl_tab.setTabMode(TabLayout.MODE_FIXED);
         tl_tab.setSelectedTabIndicatorHeight(UIUtils.getDimens(R.dimen.font_3));
@@ -281,11 +275,21 @@ public class NewUserInfoFragment
                 holder.getView(R.id.rl_item_inspiration).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(activity, InspirationDetailActivity.class);
-                        intent.putExtra("user_id", user_id);
-                        intent.putExtra("ifHideEdit", true);
-                        intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
-                        startActivityForResult(intent, 2);
+                        NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(fragmentManager);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("user_id", user_id);
+                        bundle.putBoolean("ifHideEdit", true);
+                        bundle.putString("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
+                        newInspirationDetailsment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+//                        Intent intent = new Intent(activity, InspirationDetailActivity.class);
+//                        intent.putExtra("user_id", user_id);
+//                        intent.putExtra("ifHideEdit", true);
+//                        intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
+//                        startActivityForResult(intent, 2);
                     }
                 });
             }
