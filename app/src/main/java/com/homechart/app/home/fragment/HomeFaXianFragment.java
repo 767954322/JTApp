@@ -16,6 +16,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -108,6 +109,9 @@ public class HomeFaXianFragment
     private MultiItemCommonAdapter<String> mAdapter2;
     private int selectPosition = 0;
     private ImageView iv_more;
+    private boolean move_tag = true;
+    private float mDownY;
+    private float mMoveY;
     private boolean ifClickAble = true;
     private Map<String, Integer> mapSearch = new HashMap<>();
 
@@ -142,6 +146,41 @@ public class HomeFaXianFragment
         cet_clearedit.setKeyListener(null);
         cet_clearedit.setOnClickListener(this);
         iv_more.setOnClickListener(this);
+        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if (move_tag) {
+                            mDownY = event.getY();
+                            move_tag = false;
+                        }
+                        mMoveY = event.getY();
+                        break;
+                    case MotionEvent.ACTION_UP:
+
+                        move_tag = true;
+                        mMoveY = event.getY();
+                        Log.e("UP", "Y" + mMoveY);
+                        if (Math.abs((mMoveY - mDownY)) > 20) {
+                            if (mMoveY > mDownY) {
+                                if (mListPingDao1.size() > 0) {
+                                    mRecyclerView2.setVisibility(View.VISIBLE);
+                                }else {
+                                    mRecyclerView2.setVisibility(View.GONE);
+                                }
+                            } else {
+                                mRecyclerView2.setVisibility(View.GONE);
+                            }
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -228,6 +267,7 @@ public class HomeFaXianFragment
                                 mAdapter2.notifyDataSetChanged();
                                 mRecyclerView2.scrollToPosition(0);
                             } else {
+                                mListPingDao1.clear();
                                 mRecyclerView2.setVisibility(View.GONE);
                             }
                         }
