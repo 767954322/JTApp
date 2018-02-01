@@ -8,18 +8,23 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.commont.contract.InterDioalod;
+import com.homechart.app.commont.utils.MyDialog;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.dingyueguanli.DYItemBean;
 import com.homechart.app.home.bean.dingyueguanli.DYItemGroupItemBean;
 import com.homechart.app.home.bean.dingyueguanli.DYlistBean;
 import com.homechart.app.home.bean.faxianpingdao.PingDaoItemBean;
+import com.homechart.app.lingganji.ui.activity.InspirationCreateActivity;
 import com.homechart.app.myview.FlowLayoutDingYueTags;
 import com.homechart.app.myview.FlowLayoutFaBuTags;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
@@ -42,17 +47,19 @@ import java.util.Map;
  * Created by gumenghao on 18/2/1.
  */
 
-public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickListener, FlowLayoutDingYueTags.OnTagClickListener {
+public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickListener, FlowLayoutDingYueTags.OnTagClickListener, InterDioalod {
 
 
     private TextView mTital;
     private TextView mRight;
     private ImageButton mBack;
+    private MyDialog mDialog;
     private RecyclerView mRecyclerView;
+    private RelativeLayout id_main;
     private MultiItemCommonAdapter<DYItemBean> mAdapter;
     private List<DYItemBean> mListData = new ArrayList<>();
-    private Map<String, DYItemGroupItemBean> mMapSelectStatus = new HashMap<>();
-    private Map<String, DYItemGroupItemBean> mMapSelect = new HashMap<>();
+    private Map<String, String> mMapSelectStatus = new HashMap<>();
+    private Map<String, String> mMapSelect = new HashMap<>();
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -68,8 +75,8 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
                     for (int i = 0; i < mListData.size(); i++) {
                         for (int j = 0; j < mListData.get(i).getGroup_info().getTag_list().size(); j++) {
                             if (mListData.get(i).getGroup_info().getTag_list().get(j).getTag_info().getIs_subscribed().equals("1")) {
-                                mMapSelect.put(mListData.get(i).getGroup_info().getTag_list().get(j).getTag_info().getTag_id(), mListData.get(i).getGroup_info().getTag_list().get(j));
-                                mMapSelectStatus.put(mListData.get(i).getGroup_info().getTag_list().get(j).getTag_info().getTag_id(), mListData.get(i).getGroup_info().getTag_list().get(j));
+                                mMapSelect.put(mListData.get(i).getGroup_info().getTag_list().get(j).getTag_info().getTag_id(), mListData.get(i).getGroup_info().getTag_list().get(j).getTag_info().getTag_id());
+                                mMapSelectStatus.put(mListData.get(i).getGroup_info().getTag_list().get(j).getTag_info().getTag_id(), mListData.get(i).getGroup_info().getTag_list().get(j).getTag_info().getTag_id());
                             }
                         }
                     }
@@ -87,6 +94,7 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initView() {
 
+        id_main = (RelativeLayout) findViewById(R.id.id_main);
         mTital = (TextView) findViewById(R.id.tv_tital_comment);
         mRight = (TextView) findViewById(R.id.tv_content_right);
         mBack = (ImageButton) findViewById(R.id.nav_left_imageButton);
@@ -103,7 +111,7 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
+        mDialog = new MyDialog(DingYueGuanLiActivity.this, "是否保存修改？", DingYueGuanLiActivity.this);
         mTital.setText("订阅管理");
         mRight.setText("完成");
         buildHRecyclerView();
@@ -125,10 +133,10 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
                     if (!ifChanged) {
                         DingYueGuanLiActivity.this.finish();
                     } else {
-
+                        mDialog.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                     }
                 } else {
-
+                    mDialog.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 }
                 break;
             case R.id.tv_content_right:
@@ -204,13 +212,27 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void tagClick(int position, int numTag) {
-
-
         String is_subscribed = mListData.get(numTag).getGroup_info().getTag_list().get(position).getTag_info().getIs_subscribed();
         if (is_subscribed.equals("0")) {//已经订阅
             mMapSelect.remove(mListData.get(numTag).getGroup_info().getTag_list().get(position).getTag_info().getTag_id());
         } else {
-            mMapSelect.put(mListData.get(numTag).getGroup_info().getTag_list().get(position).getTag_info().getTag_id(), mListData.get(numTag).getGroup_info().getTag_list().get(position));
+            mMapSelect.put(mListData.get(numTag).getGroup_info().getTag_list().get(position).getTag_info().getTag_id(), mListData.get(numTag).getGroup_info().getTag_list().get(position).getTag_info().getTag_id());
         }
+    }
+
+    @Override
+    public void onQuXiao() {
+
+        mDialog.dismiss();
+        DingYueGuanLiActivity.this.finish();
+    }
+
+    @Override
+    public void onQueRen() {
+
+        mDialog.dismiss();
+        //保存
+
+
     }
 }
