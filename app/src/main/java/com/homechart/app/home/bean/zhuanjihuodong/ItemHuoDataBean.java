@@ -9,9 +9,12 @@ import java.io.Serializable;
 public class ItemHuoDataBean implements Serializable {
 
     private ItemHuoAlbumDataBean album_info;
+    private ItemHuoUserInfoBean user_info;
 
-    public ItemHuoDataBean(ItemHuoAlbumDataBean album_info) {
+
+    public ItemHuoDataBean(ItemHuoAlbumDataBean album_info, ItemHuoUserInfoBean user_info) {
         this.album_info = album_info;
+        this.user_info = user_info;
     }
 
     public ItemHuoAlbumDataBean getAlbum_info() {
@@ -22,10 +25,19 @@ public class ItemHuoDataBean implements Serializable {
         this.album_info = album_info;
     }
 
+    public ItemHuoUserInfoBean getUser_info() {
+        return user_info;
+    }
+
+    public void setUser_info(ItemHuoUserInfoBean user_info) {
+        this.user_info = user_info;
+    }
+
     @Override
     public String toString() {
         return "ItemHuoDataBean{" +
                 "album_info=" + album_info +
+                ", user_info=" + user_info +
                 '}';
     }
 }

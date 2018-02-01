@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -27,6 +28,7 @@ import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.NewHuoDongDetailsActivity;
+import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.activity.ZhongJiangListActivity;
 import com.homechart.app.home.adapter.MyHuoDongJiangAdapter;
 import com.homechart.app.home.base.BaseFragment;
@@ -319,6 +321,8 @@ public class NewHuoDongDetailsFragment
                 } else {
                     ImageUtils.displayFilletHalfImage(mListData.get(position).getAlbum_info().getCover_image().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
                 }
+
+                ImageUtils.displayRoundImage(mListData.get(position).getUser_info().getAvatar().getThumb(), (RoundImageView) holder.getView(R.id.riv_header));
                 holder.getView(R.id.rl_item_inspiration).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -327,6 +331,19 @@ public class NewHuoDongDetailsFragment
                         intent.putExtra("ifHideEdit", true);
                         intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
                         startActivityForResult(intent, 2);
+                    }
+                });
+                holder.getView(R.id.riv_header).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
+                        Bundle bundle = new Bundle();
+                        bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+                        newUserInfoFragment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                     }
                 });
             }

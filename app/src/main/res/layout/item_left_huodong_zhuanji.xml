@@ -15,6 +15,35 @@
         android:scaleType="fitXY" />
 
 
+    <View
+        android:id="@+id/view_test"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/iv_item_pic"
+        android:layout_marginTop="@dimen/font_18" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_36"
+        android:layout_alignBottom="@+id/view_test">
+
+        <com.homechart.app.myview.RoundImageView
+            android:layout_width="@dimen/font_36"
+            android:layout_height="@dimen/font_36"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_10"
+            android:background="@color/white" />
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/riv_header"
+            android:layout_width="@dimen/font_32"
+            android:layout_height="@dimen/font_32"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_12" />
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/tv_item_name"
         android:layout_width="wrap_content"
@@ -24,7 +53,7 @@
         android:layout_marginRight="@dimen/font_10"
         android:layout_below="@+id/iv_item_pic"
         android:textColor="@color/bg_464646"
-        android:layout_marginTop="@dimen/font_12"
+        android:layout_marginTop="@dimen/font_15"
         android:maxLines="1"
         android:lines="1"
         android:ellipsize="end"
@@ -52,6 +81,7 @@
         android:layout_marginTop="@dimen/font_15"
         android:layout_alignParentRight="true"
         android:textColor="@color/bg_8f8f8f"
+        android:visibility="gone"
         android:layout_marginBottom="@dimen/font_10"
         android:textSize="@dimen/font_12" />
 
