@@ -109,7 +109,7 @@ public class FlowLayoutDingYueTags extends ViewGroup {
                         : width + getPaddingLeft() + getPaddingRight(),
                 modeHeight == MeasureSpec.EXACTLY ? sizeHeight : height
                         + getPaddingTop() + getPaddingBottom());
-        setPadding(UIUtils.getDimens(R.dimen.font_3), UIUtils.getDimens(R.dimen.font_15), UIUtils.getDimens(R.dimen.font_15),0);
+        setPadding(UIUtils.getDimens(R.dimen.font_3), UIUtils.getDimens(R.dimen.font_15), UIUtils.getDimens(R.dimen.font_15), 0);
     }
 
     // 储存所有的View
@@ -217,11 +217,14 @@ public class FlowLayoutDingYueTags extends ViewGroup {
         return new MarginLayoutParams(getContext(), attrs);
     }
 
+    List<DYItemGroupItemBean> mListData = new ArrayList();
     /**
      * 设置数据
      */
-    public void setListData(final List<DYItemGroupItemBean> list) {
-        int count = list.size();
+    public void setListData(final List<DYItemGroupItemBean> list, final int position) {
+        mListData.clear();
+        mListData.addAll(list);
+        int count = mListData.size();
         for (int i = 0; i < count; i++) {
             final View view = mInflater.inflate(R.layout.flowlayout_textview_dingyue_tag, this,
                     false);
@@ -233,16 +236,49 @@ public class FlowLayoutDingYueTags extends ViewGroup {
             final ImageView iv_dingyue_tag = (ImageView) view.findViewById(R.id.iv_dingyue_tag);
             final RelativeLayout rl_dingyue_tag1 = (RelativeLayout) view.findViewById(R.id.rl_dingyue_tag1);
             final RelativeLayout rl_dingyue_tag = (RelativeLayout) view.findViewById(R.id.rl_dingyue_tag);
-            tv_dingyue_tag1.setText(list.get(i).getTag_info().getTag_name());
-            tv_dingyue_tag.setText(list.get(i).getTag_info().getTag_name());
+            tv_dingyue_tag1.setText(mListData.get(i).getTag_info().getTag_name());
+            tv_dingyue_tag.setText(mListData.get(i).getTag_info().getTag_name());
 
-            if (list.get(i).getTag_info().getIs_subscribed().equals("0")) {//未订阅
+            if (mListData.get(i).getTag_info().getIs_subscribed().equals("0")) {//未订阅
                 rl_dingyue_tag.setVisibility(VISIBLE);
                 rl_dingyue_tag1.setVisibility(GONE);
             } else {//已订阅
                 rl_dingyue_tag.setVisibility(GONE);
                 rl_dingyue_tag1.setVisibility(VISIBLE);
             }
+
+            final int finalI = i;
+            rl_dingyue_tag1.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListData.get(finalI).getTag_info().getIs_subscribed().equals("0")) {
+                        mListData.get(finalI).getTag_info().setIs_subscribed("1");
+                        rl_dingyue_tag.setVisibility(VISIBLE);
+                        rl_dingyue_tag1.setVisibility(GONE);
+                    } else {
+                        mListData.get(finalI).getTag_info().setIs_subscribed("0");
+                        rl_dingyue_tag.setVisibility(VISIBLE);
+                        rl_dingyue_tag1.setVisibility(GONE);
+                    }
+                    onTagClickListener.tagClick(finalI, position);
+                }
+            });
+            rl_dingyue_tag.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListData.get(finalI).getTag_info().getIs_subscribed().equals("0")) {//未订阅
+                        mListData.get(finalI).getTag_info().setIs_subscribed("1");
+                        rl_dingyue_tag.setVisibility(GONE);
+                        rl_dingyue_tag1.setVisibility(VISIBLE);
+                    } else {
+                        mListData.get(finalI).getTag_info().setIs_subscribed("0");
+                        rl_dingyue_tag.setVisibility(GONE);
+                        rl_dingyue_tag1.setVisibility(VISIBLE);
+                    }
+                    onTagClickListener.tagClick(finalI, position);
+                }
+            });
+
 
             this.addView(view);
         }
@@ -280,8 +316,7 @@ public class FlowLayoutDingYueTags extends ViewGroup {
 
 
     public interface OnTagClickListener {
-        void tagClick(String text, int position, Map<String, String> selectMap, String type);
+        void tagClick(int position, int numTag);
 
-        void removeTagClick(String text, int position, Map<String, String> selectMap, String type);
     }
 }

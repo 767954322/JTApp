@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.dingyueguanli.DYItemBean;
+import com.homechart.app.home.bean.dingyueguanli.DYItemGroupItemBean;
 import com.homechart.app.home.bean.dingyueguanli.DYlistBean;
 import com.homechart.app.home.bean.faxianpingdao.PingDaoItemBean;
 import com.homechart.app.myview.FlowLayoutDingYueTags;
@@ -32,6 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +42,7 @@ import java.util.Map;
  * Created by gumenghao on 18/2/1.
  */
 
-public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickListener {
+public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickListener, FlowLayoutDingYueTags.OnTagClickListener {
 
 
     private TextView mTital;
@@ -48,6 +51,7 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
     private RecyclerView mRecyclerView;
     private MultiItemCommonAdapter<DYItemBean> mAdapter;
     private List<DYItemBean> mListData = new ArrayList<>();
+    private Map<String, DYItemGroupItemBean> mMapSelect = new HashMap<>();
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -60,6 +64,13 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
                     List<DYItemBean> group_list = dYlistBean.getGroup_list();
                     mListData.clear();
                     mListData.addAll(group_list);
+                    for (int i = 0; i < mListData.size(); i++) {
+                        for (int j = 0; j < mListData.get(i).getGroup_info().getTag_list().size(); j++) {
+                            if (mListData.get(i).getGroup_info().getTag_list().get(j).getTag_info().getIs_subscribed().equals("1")) {
+                                mMapSelect.put(mListData.get(i).getGroup_info().getTag_list().get(j).getTag_info().getTag_id(), mListData.get(i).getGroup_info().getTag_list().get(j));
+                            }
+                        }
+                    }
                     mAdapter.notifyDataSetChanged();
                     break;
             }
@@ -125,18 +136,8 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
                 ((TextView) holder.getView(R.id.tv_dingyue_tab)).setText(mListData.get(position).getGroup_info().getGroup_name());
 
                 ((FlowLayoutDingYueTags) holder.getView(R.id.fl_tags)).setColorful(true);
-                ((FlowLayoutDingYueTags) holder.getView(R.id.fl_tags)).setListData(mListData.get(position).getGroup_info().getTag_list());
-                ((FlowLayoutDingYueTags) holder.getView(R.id.fl_tags)).setOnTagClickListener(new FlowLayoutDingYueTags.OnTagClickListener() {
-                    @Override
-                    public void tagClick(String text, int position, Map<String, String> selectMap, String type) {
-
-                    }
-
-                    @Override
-                    public void removeTagClick(String text, int position, Map<String, String> selectMap, String type) {
-
-                    }
-                });
+                ((FlowLayoutDingYueTags) holder.getView(R.id.fl_tags)).setListData(mListData.get(position).getGroup_info().getTag_list(), position);
+                ((FlowLayoutDingYueTags) holder.getView(R.id.fl_tags)).setOnTagClickListener(DingYueGuanLiActivity.this);
 
             }
         };
@@ -180,4 +181,16 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
 
     }
 
+
+    @Override
+    public void tagClick(int position, int numTag) {
+
+
+        String is_subscribed = mListData.get(numTag).getGroup_info().getTag_list().get(position).getTag_info().getIs_subscribed();
+        if (is_subscribed.equals("0")) {//已经订阅
+            mMapSelect.remove(mListData.get(numTag).getGroup_info().getTag_list().get(position).getTag_info().getTag_id());
+        } else {
+            mMapSelect.put(mListData.get(numTag).getGroup_info().getTag_list().get(position).getTag_info().getTag_id(), mListData.get(numTag).getGroup_info().getTag_list().get(position));
+        }
+    }
 }
