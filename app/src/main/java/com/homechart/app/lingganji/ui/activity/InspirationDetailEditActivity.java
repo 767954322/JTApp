@@ -21,6 +21,7 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.contract.InterDioalod;
 import com.homechart.app.commont.utils.MyDialog;
+import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.ToastUtils;
@@ -111,6 +112,7 @@ public class InspirationDetailEditActivity extends BaseActivity
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
                 if (et_miaosu.getText().toString().equals(description)) {
+                    //软键盘如果打开的话，关闭软键盘
                     InspirationDetailEditActivity.this.finish();
                 } else {
                     //软键盘如果打开的话，关闭软键盘

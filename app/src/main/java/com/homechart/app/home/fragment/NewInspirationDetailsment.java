@@ -562,12 +562,6 @@ public class NewInspirationDetailsment
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newImageDetailsFragment);
                         fragmentTransaction.commitAllowingStateLoss();
-//                        Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
-//                        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-//                        intent.putExtra("type", "single");
-//                        intent.putExtra("position", 0);
-//                        intent.putExtra("item_id_list", (Serializable) item_id_list);
-//                        startActivity(intent);
                     }
                 });
                 holder.getView(R.id.iv_item_delete).setOnClickListener(new View.OnClickListener() {
