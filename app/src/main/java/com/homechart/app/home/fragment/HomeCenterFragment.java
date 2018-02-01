@@ -19,9 +19,6 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.activity.DingYueGuanLiActivity;
-import com.homechart.app.home.activity.LingGanCenterActivity;
-import com.homechart.app.home.activity.FenSiListActivity;
-import com.homechart.app.home.activity.GuanZuListActivity;
 import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.activity.MyInfoActivity;
 import com.homechart.app.home.activity.PicCenterActivity;
@@ -75,6 +72,7 @@ public class HomeCenterFragment
     private TextView tv_shaijia_num;
     private ImageView iv_center_msgicon;
     private ImageView iv_zhuanye_icon;
+    private NewLingGanCenterFragment newLingGanCenterFragment;
     private Timer timer = new Timer(true);
 
     private Boolean loginStatus;
@@ -225,15 +223,19 @@ public class HomeCenterFragment
                 fragmentTransaction_guanzu.addToBackStack(null).replace(R.id.id_main, newGuanZuListFragment);
                 fragmentTransaction_guanzu.commitAllowingStateLoss();
 
-//                Intent intent_guanzu = new Intent(activity, GuanZuListActivity.class);
-//                intent_guanzu.putExtra(ClassConstant.LoginSucces.USER_ID, mUserId);
-//                startActivity(intent_guanzu);
-
                 break;
             case R.id.rl_shoucang:
-                Intent intent_shoucang = new Intent(activity, LingGanCenterActivity.class);
-                startActivity(intent_shoucang);
 
+                newLingGanCenterFragment = new NewLingGanCenterFragment(getChildFragmentManager());
+                Bundle bundle_linggan = new Bundle();
+                bundle_linggan.putString(ClassConstant.LoginSucces.USER_ID, mUserId);
+                newLingGanCenterFragment.setArguments(bundle_linggan);
+                FragmentTransaction fragmentTransaction_linggan = getChildFragmentManager().beginTransaction();
+                fragmentTransaction_linggan.addToBackStack(null).replace(R.id.id_main, newLingGanCenterFragment);
+                fragmentTransaction_linggan.commitAllowingStateLoss();
+
+//                Intent intent_shoucang = new Intent(activity, LingGanCenterActivity.class);
+//                startActivity(intent_shoucang);
 
                 break;
             case R.id.rl_shaijia:
@@ -284,7 +286,7 @@ public class HomeCenterFragment
                 startActivity(intent_yugou);
                 break;
             case R.id.rl_dingyue_guanli:
-                Intent intent_dingyue = new Intent(activity,DingYueGuanLiActivity.class);
+                Intent intent_dingyue = new Intent(activity, DingYueGuanLiActivity.class);
                 startActivity(intent_dingyue);
                 break;
         }

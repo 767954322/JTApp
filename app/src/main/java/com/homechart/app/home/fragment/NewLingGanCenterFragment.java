@@ -1,6 +1,6 @@
-package com.homechart.app.home.activity;
+package com.homechart.app.home.fragment;
 
-import android.app.ListActivity;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,30 +14,26 @@ import android.widget.TextView;
 import com.flyco.tablayout.CustomViewPagerTab;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
-import com.homechart.app.home.base.BaseActivity;
-import com.homechart.app.home.fragment.OtherLingGuanLiFragment;
-import com.homechart.app.home.fragment.MyLingGuanLiFragment;
+import com.homechart.app.home.activity.HomeActivity;
+import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.lingganji.ui.activity.InspirationCreateActivity;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by gumenghao on 17/6/7.
- */
-
-public class LingGanCenterActivity extends BaseActivity
+@SuppressLint("ValidFragment")
+public class NewLingGanCenterFragment
+        extends BaseFragment
         implements View.OnClickListener,
         OtherLingGuanLiFragment.ChangeUI {
 
+    private FragmentManager fragmentManager;
     private ImageButton mIBBack;
     private TextView mTVTital;
     private final String[] mTitles = {"我的灵感辑", "收藏灵感辑"};
@@ -51,6 +47,14 @@ public class LingGanCenterActivity extends BaseActivity
     private MyLingGuanLiFragment myLingGuanLiFragment;
     private OtherLingGuanLiFragment otherLingGuanLiFragment;
     private SlidingTabLayout mTabLayout;
+    private Bundle mBundle;
+
+    public NewLingGanCenterFragment() {
+    }
+
+    public NewLingGanCenterFragment(FragmentManager fragmentManager) {
+        this.fragmentManager = fragmentManager;
+    }
 
     @Override
     protected int getLayoutResId() {
@@ -58,32 +62,19 @@ public class LingGanCenterActivity extends BaseActivity
     }
 
     @Override
-    protected void initView() {
-        mIBBack = (ImageButton) findViewById(R.id.nav_left_imageButton);
-        tv_content_right = (TextView) findViewById(R.id.tv_content_right);
-        mTVTital = (TextView) findViewById(R.id.tv_tital_comment);
-
-        mViewPager = (CustomViewPagerTab) findViewById(R.id.vp_view);
-        mViewPager.setScanScroll(true);
-        mTabLayout = (SlidingTabLayout) findViewById(R.id.tly_slidingtablayout);
-        //设置下划线的高度
-        mTabLayout.setIndicatorHeight(4f);
-        mTabLayout.setIndicatorWidth(70f);
-        //设置tab的字体大小
-        mTabLayout.setTextsize(14f);
-        initFragment();
-        mViewPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(mViewPagerAdapter);
-        mTabLayout.setViewPager(mViewPager);
-        //初始位置
-        mViewPager.setCurrentItem(0);
+    protected void initExtraBundle() {
+        super.initExtraBundle();
     }
 
-    private void initFragment() {
-//        myLingGuanLiFragment = new MyLingGuanLiFragment(user_id);
-//        otherLingGuanLiFragment = new OtherLingGuanLiFragment(user_id, this);
-        mFragmentsList.add(myLingGuanLiFragment);
-        mFragmentsList.add(otherLingGuanLiFragment);
+    @Override
+    protected void initView() {
+
+        mIBBack = (ImageButton) rootView.findViewById(R.id.nav_left_imageButton);
+        tv_content_right = (TextView) rootView.findViewById(R.id.tv_content_right);
+        mTVTital = (TextView) rootView.findViewById(R.id.tv_tital_comment);
+
+        mViewPager = (CustomViewPagerTab) rootView.findViewById(R.id.vp_view);
+        mTabLayout = (SlidingTabLayout) rootView.findViewById(R.id.tly_slidingtablayout);
     }
 
     @Override
@@ -119,13 +110,6 @@ public class LingGanCenterActivity extends BaseActivity
             return mFragmentsList.get(position);
         }
     }
-
-    @Override
-    protected void initExtraBundle() {
-        super.initExtraBundle();
-        user_id = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
-    }
-
     @Override
     protected void initListener() {
         super.initListener();
@@ -145,7 +129,7 @@ public class LingGanCenterActivity extends BaseActivity
                     HashMap<String, String> map = new HashMap<String, String>();
                     map.put("evenname", "查看我的灵感辑");
                     map.put("even", "点击我的-灵感辑-我的灵感辑下的内容的次数");
-                    MobclickAgent.onEvent(LingGanCenterActivity.this, "shijian36", map);
+                    MobclickAgent.onEvent(activity, "shijian36", map);
                     //ga统计
                     MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                             .setCategory("点击我的-灵感辑-我的灵感辑下的内容的次数")  //事件类别
@@ -157,7 +141,7 @@ public class LingGanCenterActivity extends BaseActivity
                     HashMap<String, String> map = new HashMap<String, String>();
                     map.put("evenname", "查看收藏灵感辑");
                     map.put("even", "点击我的-灵感辑-收藏灵感辑下的内容的次数");
-                    MobclickAgent.onEvent(LingGanCenterActivity.this, "shijian37", map);
+                    MobclickAgent.onEvent(activity, "shijian37", map);
                     //ga统计
                     MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
                             .setCategory("点击我的-灵感辑-收藏灵感辑下的内容的次数")  //事件类别
@@ -178,17 +162,36 @@ public class LingGanCenterActivity extends BaseActivity
     protected void initData(Bundle savedInstanceState) {
         mTVTital.setText("灵感辑");
         tv_content_right.setText("新建");
+
+        user_id = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
+
+        //设置下划线的高度
+        mTabLayout.setIndicatorHeight(4f);
+        mTabLayout.setIndicatorWidth(70f);
+        //设置tab的字体大小
+        mTabLayout.setTextsize(14f);
+        myLingGuanLiFragment = new MyLingGuanLiFragment(user_id,fragmentManager );
+        otherLingGuanLiFragment = new OtherLingGuanLiFragment(user_id, this,fragmentManager);
+        mFragmentsList.add(myLingGuanLiFragment);
+        mFragmentsList.add(otherLingGuanLiFragment);
+
+        mViewPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
+        mViewPager.setAdapter(mViewPagerAdapter);
+        mTabLayout.setViewPager(mViewPager);
+        //初始位置
+        mViewPager.setCurrentItem(0);
+        mViewPager.setScanScroll(true);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
-                LingGanCenterActivity.this.finish();
+                fragmentManager.beginTransaction().remove(this).commit();
                 break;
             case R.id.tv_content_right:
                 if (mViewPager.getCurrentItem() == 0) {
-                    Intent intent = new Intent(LingGanCenterActivity.this, InspirationCreateActivity.class);
+                    Intent intent = new Intent(activity, InspirationCreateActivity.class);
                     intent.putExtra("userid", user_id);
                     startActivityForResult(intent, 1);
                 } else if (mViewPager.getCurrentItem() == 1) {
@@ -198,7 +201,7 @@ public class LingGanCenterActivity extends BaseActivity
                             ifAllowScroll = false;
                             otherLingGuanLiFragment.clickRightGuanLi();
                         } else {
-                            ToastUtils.showCenter(LingGanCenterActivity.this, "先去收藏一些灵感辑吧");
+                            ToastUtils.showCenter(activity, "先去收藏一些灵感辑吧");
                         }
                     } else {
                         mViewPager.setScanScroll(true);
@@ -208,25 +211,6 @@ public class LingGanCenterActivity extends BaseActivity
                 }
                 break;
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-        MobclickAgent.onPageStart("灵感辑个人中心");
-        Tracker t = MyApplication.getInstance().getDefaultTracker();
-        // Set screen name.
-        t.setScreenName("灵感辑个人中心");
-        // Send a screen view.
-        t.send(new HitBuilders.ScreenViewBuilder().build());
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd("灵感辑个人中心");
-        MobclickAgent.onPause(this);
     }
 
     @Override
@@ -240,5 +224,6 @@ public class LingGanCenterActivity extends BaseActivity
             myLingGuanLiFragment.onRefresh();
         }
     }
+
 
 }

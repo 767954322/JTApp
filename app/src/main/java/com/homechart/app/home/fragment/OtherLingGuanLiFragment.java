@@ -87,11 +87,10 @@ public class OtherLingGuanLiFragment
         this.fragmentManager = fragmentManager;
     }
 
-    public OtherLingGuanLiFragment(String user_id, ChangeUI changeUI) {
-
+    public OtherLingGuanLiFragment(String user_id, ChangeUI changeUI,FragmentManager fragmentManager) {
         this.user_id = user_id;
         this.mChangeUI = changeUI;
-
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
@@ -486,4 +485,5 @@ public class OtherLingGuanLiFragment
             onRefresh();
         }
     }
+
 }

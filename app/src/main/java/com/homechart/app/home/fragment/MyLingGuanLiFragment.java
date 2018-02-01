@@ -72,9 +72,10 @@ public class MyLingGuanLiFragment
         this.fragmentManager = fragmentManager;
     }
 
-    public MyLingGuanLiFragment(String user_id) {
+    public MyLingGuanLiFragment(String user_id,FragmentManager fragmentManager) {
 
         this.user_id = user_id;
+        this.fragmentManager = fragmentManager;
 
     }
 
