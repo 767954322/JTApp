@@ -125,5 +125,6 @@ public class UrlConstants {
 
     public static final String TAG_DINGYUE = "https://api.idcool.com.cn/subscribe/tag/add";  //订阅一个可订阅的标签
     public static final String TAG_DINGYUE_QUXIAO = "https://api.idcool.com.cn/subscribe/tag/remove";  //取消已订阅的标签
+    public static final String DINGYUE_GUANLI_LIST = "https://api.idcool.com.cn/subscribe/tag/subscribeTagList";  //获取订阅管理标签列表
 
 }
