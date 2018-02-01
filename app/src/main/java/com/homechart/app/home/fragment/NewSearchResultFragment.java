@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.text.TextUtils;
@@ -29,9 +30,6 @@ import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.LoginActivity;
-import com.homechart.app.home.activity.SearchActivity;
-import com.homechart.app.home.activity.SearchResultActivity;
-import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.search.SearchDataBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
@@ -254,25 +252,34 @@ public class NewSearchResultFragment
                 holder.getView(R.id.iv_header_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(activity, UserInfoActivity.class);
-                        intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-                        startActivity(intent);
+                        NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
+                        Bundle bundle = new Bundle();
+                        bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+                        newUserInfoFragment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                     }
                 });
 
                 holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //查看单图详情
-                        Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
-                        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-                        intent.putExtra("position", position);
-                        intent.putExtra("type", "色彩");
-                        intent.putExtra("if_click_color", false);
-                        intent.putExtra("shaixuan_tag", "");
-                        intent.putExtra("page_num", page_num + 1);
-                        intent.putExtra("item_id_list", (Serializable) mItemIdList);
-                        startActivity(intent);
+
+                        NewImageDetailsFragment newImageDetailsFragment = new NewImageDetailsFragment(fragmentManager);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("item_id", mListData.get(position).getItem_info().getItem_id());
+                            bundle.putInt("position", position);
+                        bundle.putString("type", "色彩");
+                        bundle.putBoolean("if_click_color", false);
+                        bundle.putString("shaixuan_tag", "");
+                        bundle.putInt("page_num", page_num + 1);
+                        bundle.putSerializable("item_id_list", (Serializable) mItemIdList);
+                        newImageDetailsFragment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newImageDetailsFragment);
+                        fragmentTransaction.commitAllowingStateLoss();
                     }
                 });
                 holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
