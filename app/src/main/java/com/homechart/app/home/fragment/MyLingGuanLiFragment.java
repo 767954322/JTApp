@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
@@ -46,7 +47,7 @@ public class MyLingGuanLiFragment
         extends BaseFragment
         implements View.OnClickListener,
         OnLoadMoreListener,
-        OnRefreshListener {
+        OnRefreshListener ,NewInspirationDetailsment.ClickDelete {
 
     private String user_id;
     private FragmentManager fragmentManager;
@@ -159,12 +160,24 @@ public class MyLingGuanLiFragment
                 holder.getView(R.id.rl_item_inspiration).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(activity, InspirationDetailActivity.class);
-                        intent.putExtra("user_id", user_id);
-                        intent.putExtra("tag", "true");
-                        intent.putExtra("ifshowtital", "true");
-                        intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
-                        startActivityForResult(intent, 3);
+                        NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(fragmentManager);
+                        newInspirationDetailsment.setReflushList(MyLingGuanLiFragment.this);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("user_id", user_id);
+                        bundle.putString("tag", "true");
+                        bundle.putString("ifshowtital", "true");
+                        bundle.putString("album_id",  mListData.get(position).getAlbum_info().getAlbum_id());
+                        newInspirationDetailsment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+//                        Intent intent = new Intent(activity, InspirationDetailActivity.class);
+//                        intent.putExtra("user_id", user_id);
+//                        intent.putExtra("tag", "true");
+//                        intent.putExtra("ifshowtital", "true");
+//                        intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
+//                        startActivityForResult(intent, 3);
                     }
                 });
             }
@@ -278,5 +291,10 @@ public class MyLingGuanLiFragment
             onRefresh();
         }
 
+    }
+
+    @Override
+    public void clickDelete() {
+        onRefresh();
     }
 }

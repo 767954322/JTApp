@@ -215,6 +215,9 @@ public class NewInspirationDetailsment
 
         switch (id) {
             case R.id.nav_left_imageButton:
+                if( null != mClickDelete){
+                    mClickDelete.clickDelete();
+                }
                 fragmentManager.popBackStack();
                 break;
             case R.id.rl_check_pic:
@@ -853,6 +856,10 @@ public class NewInspirationDetailsment
                     if (error_code == 0) {
                         CustomProgress.cancelDialog();
                         ToastUtils.showCenter(activity, "删除成功！");
+                        mDialog1.dismiss();
+                        if( null != mClickDelete){
+                            mClickDelete.clickDelete();
+                        }
                         activity.setResult(2, activity.getIntent());
                         fragmentManager.popBackStack();
                     } else {
@@ -1251,6 +1258,15 @@ public class NewInspirationDetailsment
             ToastUtils.showCenter(activity, "分享取消了");
         }
     };
+    public void setReflushList(ClickDelete clickDelete){
+        mClickDelete = clickDelete;
+    }
+
+    interface ClickDelete{
+       void clickDelete();
+    }
+
+    private ClickDelete mClickDelete;
     private String mUserId;
     private TextView mTital;
     private TextView mRightCreate;
