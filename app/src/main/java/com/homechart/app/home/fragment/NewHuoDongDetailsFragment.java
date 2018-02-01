@@ -24,6 +24,7 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
+import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.NewHuoDongDetailsActivity;
 import com.homechart.app.home.activity.ZhongJiangListActivity;
@@ -213,6 +214,7 @@ public class NewHuoDongDetailsFragment
         buildRecycler();
         getHuoDongData();
     }
+
     @Override
     public void onClick(View v) {
 
@@ -435,7 +437,7 @@ public class NewHuoDongDetailsFragment
             bt_add.setBackgroundResource(R.drawable.bukedianji);
             bt_add.setText("中奖统计中");
             bt_add.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
-        }else if(activityInfoBean.getState_id().equals("4")){
+        } else if (activityInfoBean.getState_id().equals("4")) {
 
             iv_data_last_icon.setVisibility(View.GONE);
             tv_data_last.setVisibility(View.GONE);
@@ -704,4 +706,5 @@ public class NewHuoDongDetailsFragment
             ToastUtils.showCenter(activity, "分享取消了");
         }
     };
+
 }

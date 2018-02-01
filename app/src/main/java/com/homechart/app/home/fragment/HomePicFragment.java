@@ -37,6 +37,7 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
+import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.NewHuoDongDetailsActivity;
 import com.homechart.app.home.activity.SearchActivity;
@@ -88,7 +89,7 @@ public class HomePicFragment
         OnLoadMoreListener,
         OnRefreshListener,
         HomeTagAdapter.PopupWindowCallBack,
-        SelectColorSeCaiWindow.SureColor {
+        SelectColorSeCaiWindow.SureColor  {
 
     private FragmentManager fragmentManager;
     private ImageView iv_change_frag;
@@ -918,6 +919,7 @@ public class HomePicFragment
     @Override
     public void onResume() {
         super.onResume();
+
         MobclickAgent.onPageStart("首页");
         Tracker t = MyApplication.getInstance().getDefaultTracker();
         // Set screen name.
