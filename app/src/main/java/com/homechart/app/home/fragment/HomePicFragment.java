@@ -414,9 +414,15 @@ public class HomePicFragment
                     holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(activity, NewHuoDongDetailsActivity.class);
-                            intent.putExtra("activity_id", mActivityInfoBean.getObject_id());
-                            startActivity(intent);
+
+                            NewHuoDongDetailsFragment newHuoDongDetailsFragment = new NewHuoDongDetailsFragment(getChildFragmentManager());
+                            Bundle bundle = new Bundle();
+                            bundle.putString("activity_id", mActivityInfoBean.getObject_id());
+                            newHuoDongDetailsFragment.setArguments(bundle);
+                            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newHuoDongDetailsFragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
                         }
                     });
                 } else {

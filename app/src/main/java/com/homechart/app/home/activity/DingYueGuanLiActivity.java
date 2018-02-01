@@ -249,7 +249,7 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                ToastUtils.showCenter(DingYueGuanLiActivity.this, "修改失败");
+                ToastUtils.showCenter(DingYueGuanLiActivity.this, "保存失败");
             }
 
             @Override
@@ -260,13 +260,13 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
-                        ToastUtils.showCenter(DingYueGuanLiActivity.this, "修改成功");
+                        ToastUtils.showCenter(DingYueGuanLiActivity.this, "保存成功");
                         DingYueGuanLiActivity.this.finish();
                     } else {
                         ToastUtils.showCenter(DingYueGuanLiActivity.this, error_msg);
                     }
                 } catch (JSONException e) {
-                    ToastUtils.showCenter(DingYueGuanLiActivity.this, "修改失败");
+                    ToastUtils.showCenter(DingYueGuanLiActivity.this, "保存失败");
                 }
             }
         };
