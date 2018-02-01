@@ -8,4 +8,12 @@
     <include
         android:id="@+id/common_navbar"
         layout="@layout/view_navigation_header" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcv_list"
+        android:layout_below="@+id/common_navbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
 </RelativeLayout>
