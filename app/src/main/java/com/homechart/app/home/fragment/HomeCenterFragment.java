@@ -72,7 +72,6 @@ public class HomeCenterFragment
     private TextView tv_shaijia_num;
     private ImageView iv_center_msgicon;
     private ImageView iv_zhuanye_icon;
-    private NewLingGanCenterFragment newLingGanCenterFragment;
     private Timer timer = new Timer(true);
 
     private Boolean loginStatus;
@@ -226,7 +225,7 @@ public class HomeCenterFragment
                 break;
             case R.id.rl_shoucang:
 
-                newLingGanCenterFragment = new NewLingGanCenterFragment(getChildFragmentManager());
+                NewLingGanCenterFragment newLingGanCenterFragment = new NewLingGanCenterFragment(getChildFragmentManager());
                 Bundle bundle_linggan = new Bundle();
                 bundle_linggan.putString(ClassConstant.LoginSucces.USER_ID, mUserId);
                 newLingGanCenterFragment.setArguments(bundle_linggan);
@@ -249,8 +248,11 @@ public class HomeCenterFragment
                         .setCategory("我的")  //事件类别
                         .setAction("图片查看")      //事件操作
                         .build());
-                Intent intent_shaijia = new Intent(activity, PicCenterActivity.class);
-                startActivity(intent_shaijia);
+
+                NewPicCenterFragment newPicCenterFragment = new NewPicCenterFragment(getChildFragmentManager());
+                FragmentTransaction fragmentTransaction_piccenter = getChildFragmentManager().beginTransaction();
+                fragmentTransaction_piccenter.addToBackStack(null).replace(R.id.id_main, newPicCenterFragment);
+                fragmentTransaction_piccenter.commitAllowingStateLoss();
 
                 break;
             case R.id.iv_center_header:
