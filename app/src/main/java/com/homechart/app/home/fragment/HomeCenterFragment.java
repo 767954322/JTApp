@@ -204,13 +204,16 @@ public class HomeCenterFragment
                 FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                 fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newMessagesFragment);
                 fragmentTransaction.commitAllowingStateLoss();
-//                Intent intent_messages = new Intent(activity, UserMessageActivity.class);
-//                startActivityForResult(intent_messages, 2);
                 break;
             case R.id.rl_fensi:
-                Intent intent_fensi = new Intent(activity, FenSiListActivity.class);
-                intent_fensi.putExtra(ClassConstant.LoginSucces.USER_ID, mUserId);
-                startActivity(intent_fensi);
+
+                NewFenSiListFragment newFenSiListFragment = new NewFenSiListFragment(getChildFragmentManager());
+                Bundle bundle = new Bundle();
+                bundle.putString(ClassConstant.LoginSucces.USER_ID, mUserId);
+                newFenSiListFragment.setArguments(bundle);
+                FragmentTransaction fragmentTransaction1 = getChildFragmentManager().beginTransaction();
+                fragmentTransaction1.addToBackStack(null).replace(R.id.id_main, newFenSiListFragment);
+                fragmentTransaction1.commitAllowingStateLoss();
 
                 break;
             case R.id.rl_guanzu:
