@@ -571,15 +571,6 @@ public class NewImageDetaiScrollFragment
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newImageDetailsFragment);
                         fragmentTransaction.commitAllowingStateLoss();
-//                        //查看单图详情
-//                        Intent intent = new Intent(activity, ImageDetailScrollActivity.class);
-//                        intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-//                        intent.putExtra("position", position);
-//                        intent.putExtra("type", "色彩");
-//                        intent.putExtra("if_click_color", false);
-//                        intent.putExtra("page_num", page);
-//                        intent.putExtra("item_id_list", (Serializable) mItemIdList);
-//                        startActivity(intent);
                     }
                 });
 
@@ -953,13 +944,16 @@ public class NewImageDetaiScrollFragment
         fl_tags_jubu.setOnTagClickListener(new FlowLayoutBiaoQian.OnTagClickListener() {
             @Override
             public void TagClick(String text) {
-                // 跳转搜索结果页
-//                Intent intent = new Intent(activity, ShaiXuanResultActicity.class);
-//                String tag = text.replace("#", "");
-//                tag = tag.replace("＃", "");
-//                intent.putExtra("islist", true);
-//                intent.putExtra("shaixuan_tag", tag.trim());
-//                startActivity(intent);
+                String tag = text.replace("#", "");
+                tag = tag.replace("＃", "");
+                NewLanMuFragment newLanMuFragment = new NewLanMuFragment(fragmentManager);
+                Bundle bundle = new Bundle();
+                bundle.putString("tag_name", tag);
+                newLanMuFragment.setArguments(bundle);
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newLanMuFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
         //更新颜色
