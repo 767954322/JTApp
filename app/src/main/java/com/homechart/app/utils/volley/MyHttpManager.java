@@ -2770,12 +2770,13 @@ public class MyHttpManager {
      * @param description
      * @param callback
      */
-    public void createInspiration(final String album_name, final String description, OkStringRequest.OKResponseCallback callback) {
+    public void createInspiration(final String show_type, final String album_name, final String description, OkStringRequest.OKResponseCallback callback) {
         OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.CREATE_INSPIRATION, callback) {
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                map.put("show_type", show_type);
                 map.put("album_name", album_name);
                 map.put("description", description);
                 String signString = PublicUtils.getSinaString(map);

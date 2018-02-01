@@ -25,8 +25,10 @@ import com.homechart.app.commont.contract.InterDioalod;
 import com.homechart.app.commont.utils.MyDialog;
 import com.homechart.app.home.activity.IssueBackActivity;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.ToastUtils;
+import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.umeng.analytics.MobclickAgent;
@@ -52,6 +54,16 @@ public class InspirationCreateActivity extends BaseActivity
     private MyDialog mDialog;
     private RelativeLayout id_main;
     private InputMethodManager imm;
+    private String show_type = "1";
+    private ImageView iv_icon_pubu;
+    private TextView tv_big_name;
+    private RoundImageView riv_icon_back;
+    private RoundImageView riv_icon;
+    private ImageView iv_icon_list;
+    private TextView tv_small_name;
+    private RoundImageView riv_icon_back1;
+    private RoundImageView riv_icon1;
+
 
     @Override
     protected int getLayoutResId() {
@@ -73,6 +85,17 @@ public class InspirationCreateActivity extends BaseActivity
         mETName = (EditText) this.findViewById(R.id.et_name);
         mETMiaoSu = (EditText) this.findViewById(R.id.et_miaosu);
         mTVSure = (TextView) this.findViewById(R.id.tv_sure);
+
+        iv_icon_pubu = (ImageView) this.findViewById(R.id.iv_icon_pubu);
+        tv_big_name = (TextView) this.findViewById(R.id.tv_big_name);
+        riv_icon_back = (RoundImageView) this.findViewById(R.id.riv_icon_back);
+        riv_icon = (RoundImageView) this.findViewById(R.id.riv_icon);
+
+
+        iv_icon_list = (ImageView) this.findViewById(R.id.iv_icon_list);
+        tv_small_name = (TextView) this.findViewById(R.id.tv_small_name);
+        riv_icon_back1 = (RoundImageView) this.findViewById(R.id.riv_icon_back1);
+        riv_icon1 = (RoundImageView) this.findViewById(R.id.riv_icon1);
     }
 
     @Override
@@ -80,6 +103,14 @@ public class InspirationCreateActivity extends BaseActivity
         super.initListener();
         mDismiss.setOnClickListener(this);
         mTVSure.setOnClickListener(this);
+
+        iv_icon_pubu.setOnClickListener(this);
+        tv_big_name.setOnClickListener(this);
+        riv_icon.setOnClickListener(this);
+
+        iv_icon_list.setOnClickListener(this);
+        tv_small_name.setOnClickListener(this);
+        riv_icon1.setOnClickListener(this);
 
         mETName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -116,26 +147,45 @@ public class InspirationCreateActivity extends BaseActivity
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.iv_dismiss) {
-            String name = mETName.getText().toString();
+        switch (i) {
+            case R.id.iv_dismiss:
+                String name = mETName.getText().toString();
 
-            if (TextUtils.isEmpty(name)) {
-                this.finish();
-            } else {
-                //软键盘如果打开的话，关闭软键盘
-                boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
-                if (isOpen) {
-                    if (getCurrentFocus() != null) {//强制关闭软键盘
-                        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                if (TextUtils.isEmpty(name)) {
+                    this.finish();
+                } else {
+                    //软键盘如果打开的话，关闭软键盘
+                    boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+                    if (isOpen) {
+                        if (getCurrentFocus() != null) {//强制关闭软键盘
+                            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                        }
                     }
+                    mDialog.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 }
-                mDialog.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-            }
+                break;
+            case R.id.tv_sure:
+                ifAddInspiration();
+                break;
+            case R.id.iv_icon_pubu:
+            case R.id.tv_big_name:
+            case R.id.riv_icon:
+                riv_icon_back.setVisibility(View.GONE);
+                riv_icon_back1.setVisibility(View.VISIBLE);
+                riv_icon.setBackgroundColor(UIUtils.getColor(R.color.bg_e79056));
+                riv_icon1.setBackgroundColor(UIUtils.getColor(R.color.white));
+                show_type = "2";
+                break;
+            case R.id.iv_icon_list:
+            case R.id.tv_small_name:
+            case R.id.riv_icon1:
 
-        } else if (i == R.id.tv_sure) {
-
-            ifAddInspiration();
-
+                riv_icon_back.setVisibility(View.VISIBLE);
+                riv_icon_back1.setVisibility(View.GONE);
+                riv_icon1.setBackgroundColor(UIUtils.getColor(R.color.bg_e79056));
+                riv_icon.setBackgroundColor(UIUtils.getColor(R.color.white));
+                show_type = "1";
+                break;
         }
     }
 
@@ -205,7 +255,7 @@ public class InspirationCreateActivity extends BaseActivity
                 }
             }
         };
-        MyHttpManager.getInstance().createInspiration(name, miaosu, callBack);
+        MyHttpManager.getInstance().createInspiration(show_type,name, miaosu, callBack);
 
 
     }
