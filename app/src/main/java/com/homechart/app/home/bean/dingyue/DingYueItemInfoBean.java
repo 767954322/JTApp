@@ -15,10 +15,10 @@ public class DingYueItemInfoBean implements Serializable {
     private String item_num;
     private String subscribe_num;
     private String update_time;
+    private String show_type;
     private DingYueItemImageBean cover_image;
 
-
-    public DingYueItemInfoBean(String album_id, String album_name, String tag, String description, String item_num, String subscribe_num, String update_time, DingYueItemImageBean cover_image) {
+    public DingYueItemInfoBean(String album_id, String album_name, String tag, String description, String item_num, String subscribe_num, String update_time, String show_type, DingYueItemImageBean cover_image) {
         this.album_id = album_id;
         this.album_name = album_name;
         this.tag = tag;
@@ -26,6 +26,7 @@ public class DingYueItemInfoBean implements Serializable {
         this.item_num = item_num;
         this.subscribe_num = subscribe_num;
         this.update_time = update_time;
+        this.show_type = show_type;
         this.cover_image = cover_image;
     }
 
@@ -85,6 +86,14 @@ public class DingYueItemInfoBean implements Serializable {
         this.update_time = update_time;
     }
 
+    public String getShow_type() {
+        return show_type;
+    }
+
+    public void setShow_type(String show_type) {
+        this.show_type = show_type;
+    }
+
     public DingYueItemImageBean getCover_image() {
         return cover_image;
     }
@@ -95,7 +104,7 @@ public class DingYueItemInfoBean implements Serializable {
 
     @Override
     public String toString() {
-        return "DingYueItemBean{" +
+        return "DingYueItemInfoBean{" +
                 "album_id='" + album_id + '\'' +
                 ", album_name='" + album_name + '\'' +
                 ", tag='" + tag + '\'' +
@@ -103,6 +112,7 @@ public class DingYueItemInfoBean implements Serializable {
                 ", item_num='" + item_num + '\'' +
                 ", subscribe_num='" + subscribe_num + '\'' +
                 ", update_time='" + update_time + '\'' +
+                ", show_type='" + show_type + '\'' +
                 ", cover_image=" + cover_image +
                 '}';
     }

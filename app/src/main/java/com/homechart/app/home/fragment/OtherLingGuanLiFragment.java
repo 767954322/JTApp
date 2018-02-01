@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -89,7 +90,7 @@ public class OtherLingGuanLiFragment
         this.fragmentManager = fragmentManager;
     }
 
-    public OtherLingGuanLiFragment(String user_id, ChangeUI changeUI,FragmentManager fragmentManager) {
+    public OtherLingGuanLiFragment(String user_id, ChangeUI changeUI, FragmentManager fragmentManager) {
         this.user_id = user_id;
         this.mChangeUI = changeUI;
         this.fragmentManager = fragmentManager;
@@ -119,7 +120,7 @@ public class OtherLingGuanLiFragment
     @Override
     protected void initData(Bundle savedInstanceState) {
 
-        widthPic = (PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_30))/2;
+        widthPic = (PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_30)) / 2;
 
         buildRecyclerView();
 
@@ -166,9 +167,15 @@ public class OtherLingGuanLiFragment
                 holder.getView(R.id.riv_header).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(activity, UserInfoActivity.class);
-                        intent.putExtra(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-                        startActivity(intent);
+
+                        NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
+                        Bundle bundle = new Bundle();
+                        bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
+                        newUserInfoFragment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                     }
                 });
                 RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.getView(R.id.iv_shoucang_image).getLayoutParams();
@@ -211,11 +218,18 @@ public class OtherLingGuanLiFragment
                     public void onClick(View v) {
 
                         if (guanli_tag == 0) {//未打开管理
-                            Intent intent = new Intent(activity, InspirationDetailActivity.class);
-                            intent.putExtra("user_id", user_id);
-                            intent.putExtra("ifHideEdit", true);
-                            intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
-                            startActivityForResult(intent, 2);
+
+                            NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(fragmentManager);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("user_id", user_id);
+                            bundle.putBoolean("ifHideEdit", true);
+                            bundle.putString("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
+                            bundle.putString("show_type", mListData.get(position).getAlbum_info().getShow_type());
+                            newInspirationDetailsment.setArguments(bundle);
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
                         } else {
                             if (((CheckBox) holder.getView(R.id.cb_check)).isChecked()) {
                                 ((CheckBox) holder.getView(R.id.cb_check)).setChecked(false);

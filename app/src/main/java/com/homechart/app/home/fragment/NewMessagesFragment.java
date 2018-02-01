@@ -1,10 +1,7 @@
 package com.homechart.app.home.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,14 +18,10 @@ import com.android.volley.VolleyError;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
-import com.homechart.app.home.activity.ArticleDetailsActivity;
-import com.homechart.app.home.activity.ImageDetailScrollActivity;
-import com.homechart.app.home.activity.NewHuoDongDetailsActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.msgdingyue.DingYueItemBean;
 import com.homechart.app.home.bean.msgdingyue.MsgDingYue;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
-import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
@@ -45,10 +38,8 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -318,9 +309,14 @@ public class NewMessagesFragment
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
         if (mListData.get(position).getNotice_class().equals("system")) {//系统消息
             if (mListData.get(position).getObject_type().equals("activity")) {
-                Intent intent = new Intent(activity, NewHuoDongDetailsActivity.class);
-                intent.putExtra("activity_id", mListData.get(position).getObject_id());
-                startActivity(intent);
+                NewHuoDongDetailsFragment newHuoDongDetailsFragment = new NewHuoDongDetailsFragment(fragmentManager);
+                Bundle bundle = new Bundle();
+                bundle.putString("activity_id", mListData.get(position).getObject_id());
+                newHuoDongDetailsFragment.setArguments(bundle);
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newHuoDongDetailsFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         } else if (mListData.get(position).getNotice_class().equals("follow")) {//关注消息
             NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
@@ -347,9 +343,6 @@ public class NewMessagesFragment
                 fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newImageDetailsFragment);
                 fragmentTransaction.commitAllowingStateLoss();
             } else if (mListData.get(position).getObject_type().trim().equals("article")) {//文章
-//                Intent intent = new Intent(activity, ArticleDetailsActivity.class);
-//                intent.putExtra("article_id", mListData.get(position).getObject_id());
-//                startActivity(intent);
             }
         } else if (mListData.get(position).getNotice_class().equals("collect")) {//收藏消息
             NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(fragmentManager);
