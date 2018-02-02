@@ -84,6 +84,7 @@ public class NewSearchResultFragment
     private List<Integer> mListDataHeight = new ArrayList<>();
     private int position;
     private boolean loginStatus;
+    private Bundle bundle;
 
     public NewSearchResultFragment() {
     }
@@ -102,6 +103,10 @@ public class NewSearchResultFragment
     @Override
     protected void initExtraBundle() {
         super.initExtraBundle();
+
+        bundle = getArguments();
+        search_info =  bundle.getString("search_info");
+        search_tag =  bundle.getString("search_tag");
     }
 
     @Override
