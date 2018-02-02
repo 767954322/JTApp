@@ -355,7 +355,7 @@ public class NewInspirationDetailsment
         mDialog = new MyDialog(activity, "确定删除灵感辑图片么？", this);
         mDialog1 = new MyDialog1(activity, "确认要删除选中灵感辑？删除后其中所有图片也没有啦", this);
         mInspirationImageEditPop = new InspirationImageEditPop(activity, "确定删除灵感辑图片么？", this);
-        buildRecyclerView();
+
         getInspirationDetail();
 
     }
@@ -378,7 +378,6 @@ public class NewInspirationDetailsment
                     if (error_code == 0) {
                         String newData = "{\"info\": " + data_msg + "}";
                         inspirationDetailBean = GsonUtil.jsonToBean(newData, InspirationDetailBean.class);
-
                         changeTopUI(inspirationDetailBean);
                     } else {
                         ToastUtils.showCenter(activity, error_msg);
@@ -392,6 +391,10 @@ public class NewInspirationDetailsment
 
     private void changeTopUI(InspirationDetailBean inspirationDetailBean) {
         if (null != inspirationDetailBean) {
+            if (inspirationDetailBean.getInfo().getAlbum_info() != null) {
+                show_type = inspirationDetailBean.getInfo().getAlbum_info().getShow_type();
+            }
+            buildRecyclerView();
             if (null != inspirationDetailBean.getInfo().getUser_info() && !mMyUserId.equals(inspirationDetailBean.getInfo().getUser_info().getUser_id())) {
                 mRightIcon.setVisibility(View.VISIBLE);
                 mRightIcon1.setVisibility(View.GONE);
@@ -399,9 +402,6 @@ public class NewInspirationDetailsment
                 mRightIcon1.setImageResource(R.drawable.shared_icon);
 
                 ifUser = 1;
-//                rl_dingyue1.setVisibility(View.VISIBLE);
-//                rl_dingyueno.setVisibility(View.VISIBLE);
-//                rl_dingyue.setVisibility(View.VISIBLE);
                 tv_shoucang.setVisibility(View.VISIBLE);
                 if (inspirationDetailBean.getInfo().getAlbum_info().getIs_subscribed().equals("1")) {
                     //订阅了
