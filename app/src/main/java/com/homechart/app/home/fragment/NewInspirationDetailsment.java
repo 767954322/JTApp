@@ -389,12 +389,17 @@ public class NewInspirationDetailsment
         MyHttpManager.getInstance().getInspirationDetail(mAlbumId, callBack);
     }
 
+    boolean ifFirst = true;
+
     private void changeTopUI(InspirationDetailBean inspirationDetailBean) {
         if (null != inspirationDetailBean) {
-            if (inspirationDetailBean.getInfo().getAlbum_info() != null) {
-                show_type = inspirationDetailBean.getInfo().getAlbum_info().getShow_type();
+            if (ifFirst) {
+                if (inspirationDetailBean.getInfo().getAlbum_info() != null) {
+                    show_type = inspirationDetailBean.getInfo().getAlbum_info().getShow_type();
+                }
+                buildRecyclerView();
+                ifFirst = false;
             }
-            buildRecyclerView();
             if (null != inspirationDetailBean.getInfo().getUser_info() && !mMyUserId.equals(inspirationDetailBean.getInfo().getUser_info().getUser_id())) {
                 mRightIcon.setVisibility(View.VISIBLE);
                 mRightIcon1.setVisibility(View.GONE);

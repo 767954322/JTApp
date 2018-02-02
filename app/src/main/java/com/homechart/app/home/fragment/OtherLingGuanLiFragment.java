@@ -60,7 +60,7 @@ public class OtherLingGuanLiFragment
         implements View.OnClickListener,
         CommonAdapter.OnItemClickListener,
         OnLoadMoreListener,
-        OnRefreshListener {
+        OnRefreshListener ,NewInspirationDetailsment.ClickDelete {
 
     private FragmentManager fragmentManager;
     private TextView tv_delete_icon;
@@ -220,6 +220,7 @@ public class OtherLingGuanLiFragment
                         if (guanli_tag == 0) {//未打开管理
 
                             NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(fragmentManager);
+                            newInspirationDetailsment.setReflushList(OtherLingGuanLiFragment.this);
                             Bundle bundle = new Bundle();
                             bundle.putString("user_id", user_id);
                             bundle.putBoolean("ifHideEdit", true);
@@ -383,6 +384,11 @@ public class OtherLingGuanLiFragment
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
 
+    }
+
+    @Override
+    public void clickDelete() {
+        onRefresh();
     }
 
     public interface ChangeUI {
