@@ -181,8 +181,16 @@ public class HomeActivity
                 } else {
                     FragmentManager fragmentManager = mHomePicFragment.getChildFragmentManager();
                     List<Fragment> list = fragmentManager.getFragments();
-                    for (int i = 0 ; i < list.size() ; i++){
-                        list.get(i).getFragmentManager().popBackStack();
+                    if (list != null && list.size() > 0) {
+                        for (int i = 0; i < list.size(); i++) {
+                            try {
+                                if (null != list.get(i).getFragmentManager()) {
+                                    list.get(i).getFragmentManager().popBackStack();
+                                }
+                            } catch (Exception e) {
+
+                            }
+                        }
                     }
                 }
                 break;
@@ -194,8 +202,16 @@ public class HomeActivity
                 } else {
                     FragmentManager fragmentManager = mHomeFaXianFragment.getChildFragmentManager();
                     List<Fragment> list = fragmentManager.getFragments();
-                    for (int i = 0 ; i < list.size() ; i++){
-                        list.get(i).getFragmentManager().popBackStack();
+                    if (list != null && list.size() > 0) {
+                        for (int i = 0; i < list.size(); i++) {
+                            try {
+                                if (null != list.get(i).getFragmentManager()) {
+                                    list.get(i).getFragmentManager().popBackStack();
+                                }
+                            } catch (Exception e) {
+
+                            }
+                        }
                     }
                 }
                 break;
@@ -244,9 +260,15 @@ public class HomeActivity
                 } else {
                     FragmentManager fragmentManager = mHomeCenterFragment.getChildFragmentManager();
                     List<Fragment> list = fragmentManager.getFragments();
-                    for (int i = 0 ; i < list.size() ; i++){
-                        if(null != list.get(i).getFragmentManager()){
-                            list.get(i).getFragmentManager().popBackStack();
+                    if (list != null && list.size() > 0) {
+                        for (int i = 0; i < list.size(); i++) {
+                            try {
+                                if (null != list.get(i).getFragmentManager()) {
+                                    list.get(i).getFragmentManager().popBackStack();
+                                }
+                            } catch (Exception e) {
+
+                            }
                         }
                     }
                 }
