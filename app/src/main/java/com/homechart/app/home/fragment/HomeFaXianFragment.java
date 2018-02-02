@@ -738,6 +738,10 @@ public class HomeFaXianFragment
             String search_info = data.getStringExtra("search_info");
 
             NewSearchResultFragment newSearchResultFragment = new NewSearchResultFragment(getChildFragmentManager(), search_tag, search_info);
+            Bundle bundle = new Bundle();
+            bundle.putString("search_tag", search_tag);
+            bundle.putString("search_info", search_info);
+            newSearchResultFragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newSearchResultFragment);
             fragmentTransaction.addToBackStack(null);

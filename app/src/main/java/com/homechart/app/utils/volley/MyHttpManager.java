@@ -1283,6 +1283,54 @@ public class MyHttpManager {
     }
 
     /**
+     * 获取搜索结果
+     *
+     * @param s
+     * @param n
+     * @param callback
+     */
+    public void getSearchList1(final Map<Integer, ColorItemBean> mSelectListData, final String q, final String tag_name, final String s, final String n, OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.FAXIAN_LIST, callback) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                if (!TextUtils.isEmpty(q.trim())) {
+                    map.put(ClassConstant.SearchList.Q, q);
+                }
+                if (!TextUtils.isEmpty(tag_name.trim())) {
+                    map.put(ClassConstant.SearchList.TAG_NAME, tag_name);
+                }
+
+
+                if (null != mSelectListData && mSelectListData.size() > 0) {
+                    StringBuffer sb = new StringBuffer();
+                    for (Integer key : mSelectListData.keySet()) {
+                        sb.append(key + ",");
+                    }
+                    String color = sb.toString();
+                    color = color.substring(0, sb.length() - 1);
+                    map.put(ClassConstant.SearchList.COLOR_ID, color);
+                }
+
+                map.put(ClassConstant.SearchList.S, s);
+                map.put(ClassConstant.SearchList.N, n);
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+
+        };
+        queue.add(okStringRequest);
+    }
+
+    /**
      * 获取搜索的热词
      *
      * @param callback
