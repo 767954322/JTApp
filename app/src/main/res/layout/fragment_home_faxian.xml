@@ -41,13 +41,24 @@
             android:layout_alignParentRight="true"
             android:paddingLeft="@dimen/font_18"
             android:paddingRight="@dimen/font_18"
+            android:layout_centerVertical="true"
             android:src="@drawable/gengduo_faxian" />
+
+        <ImageView
+            android:id="@+id/iv_yinying"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/yinying_1"
+            android:layout_toLeftOf="@+id/iv_more"
+            android:layout_centerVertical="true" />
+
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/hlv_tab1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/iv_more"
+            android:layout_toLeftOf="@+id/iv_yinying"
             android:background="@color/white" />
 
     </RelativeLayout>
