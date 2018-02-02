@@ -23,8 +23,10 @@ import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.contract.InterDioalod;
 import com.homechart.app.commont.utils.MyDialog;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.ToastUtils;
+import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.umeng.analytics.MobclickAgent;
@@ -54,6 +56,16 @@ public class InspirationEditActivity extends BaseActivity
     private String mAlbum_id;
     private String mName;
     private String mDescription;
+    private ImageView iv_icon_pubu;
+    private TextView tv_big_name;
+    private RoundImageView riv_icon_back;
+    private RoundImageView riv_icon;
+    private ImageView iv_icon_list;
+    private TextView tv_small_name;
+    private RoundImageView riv_icon_back1;
+    private RoundImageView riv_icon1;
+    private String show_type = "1";
+    private String show_type_status;
 
     @Override
     protected int getLayoutResId() {
@@ -67,6 +79,8 @@ public class InspirationEditActivity extends BaseActivity
         mAlbum_id = getIntent().getStringExtra("album_id");
         mName = getIntent().getStringExtra("name");
         mDescription = getIntent().getStringExtra("description");
+        show_type = getIntent().getStringExtra("show_type");
+        show_type_status = show_type;
     }
 
     @Override
@@ -78,6 +92,18 @@ public class InspirationEditActivity extends BaseActivity
         mETMiaoSu = (EditText) this.findViewById(R.id.et_miaosu);
         mTVSure = (TextView) this.findViewById(R.id.tv_content_right);
         mTital = (TextView) this.findViewById(R.id.tv_tital_comment);
+
+
+        iv_icon_pubu = (ImageView) this.findViewById(R.id.iv_icon_pubu);
+        tv_big_name = (TextView) this.findViewById(R.id.tv_big_name);
+        riv_icon_back = (RoundImageView) this.findViewById(R.id.riv_icon_back);
+        riv_icon = (RoundImageView) this.findViewById(R.id.riv_icon);
+
+
+        iv_icon_list = (ImageView) this.findViewById(R.id.iv_icon_list);
+        tv_small_name = (TextView) this.findViewById(R.id.tv_small_name);
+        riv_icon_back1 = (RoundImageView) this.findViewById(R.id.riv_icon_back1);
+        riv_icon1 = (RoundImageView) this.findViewById(R.id.riv_icon1);
     }
 
     @Override
@@ -85,6 +111,13 @@ public class InspirationEditActivity extends BaseActivity
         super.initListener();
         mBack.setOnClickListener(this);
         mTVSure.setOnClickListener(this);
+        iv_icon_pubu.setOnClickListener(this);
+        tv_big_name.setOnClickListener(this);
+        riv_icon.setOnClickListener(this);
+
+        iv_icon_list.setOnClickListener(this);
+        tv_small_name.setOnClickListener(this);
+        riv_icon1.setOnClickListener(this);
         mETName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -119,34 +152,68 @@ public class InspirationEditActivity extends BaseActivity
         mETName.setSelection(mName.length());
         mETMiaoSu.setText(mDescription);
         mETMiaoSu.setSelection(mDescription.length());
+
+        if (show_type.equals("1")) {
+            riv_icon_back.setVisibility(View.VISIBLE);
+            riv_icon_back1.setVisibility(View.GONE);
+            riv_icon1.setBackgroundColor(UIUtils.getColor(R.color.bg_e79056));
+            riv_icon.setBackgroundColor(UIUtils.getColor(R.color.white));
+        } else if (show_type.equals("2")) {
+            riv_icon_back.setVisibility(View.GONE);
+            riv_icon_back1.setVisibility(View.VISIBLE);
+            riv_icon.setBackgroundColor(UIUtils.getColor(R.color.bg_e79056));
+            riv_icon1.setBackgroundColor(UIUtils.getColor(R.color.white));
+        }
     }
 
     @Override
     public void onClick(View v) {
-        int i = v.getId();
+
         String name = mETName.getText().toString();
         String miaosu = mETMiaoSu.getText().toString();
-        if (i == R.id.nav_left_imageButton) {
-            if (name.equals(mName) && miaosu.equals(mDescription)) {
-                this.setResult(3, this.getIntent());
-                this.finish();
-            } else {
-                //软键盘如果打开的话，关闭软键盘
-                boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
-                if (isOpen) {
-                    if (getCurrentFocus() != null) {//强制关闭软键盘
-                        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        switch (v.getId()) {
+            case R.id.nav_left_imageButton:
+                if (name.equals(mName) && miaosu.equals(mDescription) && show_type_status.equals(show_type)) {
+                    this.setResult(3, this.getIntent());
+                    this.finish();
+                } else {
+                    //软键盘如果打开的话，关闭软键盘
+                    boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+                    if (isOpen) {
+                        if (getCurrentFocus() != null) {//强制关闭软键盘
+                            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                        }
                     }
+                    mDialog.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 }
-                mDialog.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-            }
+                break;
+            case R.id.tv_content_right:
+                if (name.equals(mName) && miaosu.equals(mDescription) && show_type_status.equals(show_type)) {
+                    this.finish();
+                } else {
+                    ifAddInspiration();
+                }
+                break;
 
-        } else if (i == R.id.tv_content_right) {
-            if (name.equals(mName) && miaosu.equals(mDescription)) {
-                this.finish();
-            }else {
-                ifAddInspiration();
-            }
+            case R.id.iv_icon_pubu:
+            case R.id.tv_big_name:
+            case R.id.riv_icon:
+                riv_icon_back.setVisibility(View.GONE);
+                riv_icon_back1.setVisibility(View.VISIBLE);
+                riv_icon.setBackgroundColor(UIUtils.getColor(R.color.bg_e79056));
+                riv_icon1.setBackgroundColor(UIUtils.getColor(R.color.white));
+                show_type = "2";
+                break;
+            case R.id.iv_icon_list:
+            case R.id.tv_small_name:
+            case R.id.riv_icon1:
+
+                riv_icon_back.setVisibility(View.VISIBLE);
+                riv_icon_back1.setVisibility(View.GONE);
+                riv_icon1.setBackgroundColor(UIUtils.getColor(R.color.bg_e79056));
+                riv_icon.setBackgroundColor(UIUtils.getColor(R.color.white));
+                show_type = "1";
+                break;
         }
     }
 
@@ -210,7 +277,7 @@ public class InspirationEditActivity extends BaseActivity
                         InspirationEditActivity.this.setResult(3, InspirationEditActivity.this.getIntent());
                         InspirationEditActivity.this.finish();
                     } else {
-                        ToastUtils.showCenter(InspirationEditActivity.this, "灵感辑编辑失败");
+                        ToastUtils.showCenter(InspirationEditActivity.this, error_msg);
                     }
                 } catch (JSONException e) {
                     CustomProgress.cancelDialog();
@@ -218,7 +285,7 @@ public class InspirationEditActivity extends BaseActivity
                 }
             }
         };
-        MyHttpManager.getInstance().editInspiration(mAlbum_id, name, miaosu, callBack);
+        MyHttpManager.getInstance().editInspiration(show_type, mAlbum_id, name, miaosu, callBack);
     }
 
     @Override
@@ -232,6 +299,7 @@ public class InspirationEditActivity extends BaseActivity
         mDialog.dismiss();
         ifAddInspiration();
     }
+
     @Override
     protected void onResume() {
         super.onResume();

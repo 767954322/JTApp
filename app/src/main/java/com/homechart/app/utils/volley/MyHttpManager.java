@@ -3119,17 +3119,19 @@ public class MyHttpManager {
     /**
      * 编辑专辑
      *
+     * @param show_type
      * @param album_id
      * @param album_name
      * @param description
      * @param callback
      */
-    public void editInspiration(final String album_id, final String album_name, final String description, OkStringRequest.OKResponseCallback callback) {
+    public void editInspiration(final String show_type,final String album_id, final String album_name, final String description, OkStringRequest.OKResponseCallback callback) {
         OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.EDIT_INSPIRATION, callback) {
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                map.put("show_type", show_type);
                 map.put("album_id", album_id);
                 map.put("album_name", album_name);
                 map.put("description", description);

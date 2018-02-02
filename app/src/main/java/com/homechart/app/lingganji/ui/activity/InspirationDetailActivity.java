@@ -1070,6 +1070,7 @@ public class InspirationDetailActivity extends BaseActivity
         Intent intent = new Intent(this, InspirationEditActivity.class);
         intent.putExtra("userid", mMyUserId);
         intent.putExtra("album_id", mAlbumId);
+        intent.putExtra("album_id", inspirationDetailBean.getInfo().getAlbum_info().getShow_type());
         intent.putExtra("name", inspirationDetailBean.getInfo().getAlbum_info().getAlbum_name());
         intent.putExtra("description", inspirationDetailBean.getInfo().getAlbum_info().getDescription());
         startActivityForResult(intent, 3);

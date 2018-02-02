@@ -1014,6 +1014,7 @@ public class NewInspirationDetailsment
         Intent intent = new Intent(activity, InspirationEditActivity.class);
         intent.putExtra("userid", mMyUserId);
         intent.putExtra("album_id", mAlbumId);
+        intent.putExtra("show_type", inspirationDetailBean.getInfo().getAlbum_info().getShow_type());
         intent.putExtra("name", inspirationDetailBean.getInfo().getAlbum_info().getAlbum_name());
         intent.putExtra("description", inspirationDetailBean.getInfo().getAlbum_info().getDescription());
         startActivityForResult(intent, 3);
