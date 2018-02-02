@@ -463,6 +463,7 @@ public class OtherLingGuanLiFragment
                 } else {
                     page_num = 1;
                     mListData.clear();
+                    mAdapter.notifyDataSetChanged();
                     mRecyclerView.setRefreshing(false);//刷新完毕
                     mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
                 }
