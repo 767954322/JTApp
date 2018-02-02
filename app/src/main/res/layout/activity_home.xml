@@ -95,7 +95,7 @@
                 android:textColor="@color/bg_262626"
                 android:textSize="@dimen/size_11"
                 android:layout_marginBottom="@dimen/font_5"
-                android:text="看图"/>
+                android:text="识图"/>
 
         </RelativeLayout>
 
@@ -121,7 +121,7 @@
                 android:textColor="@color/bg_262626"
                 android:textSize="@dimen/size_11"
                 android:layout_marginBottom="@dimen/font_5"
-                android:text="看图"/>
+                android:text="我的"/>
 
         </RelativeLayout>
 
