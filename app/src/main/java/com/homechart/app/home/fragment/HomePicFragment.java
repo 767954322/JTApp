@@ -123,7 +123,6 @@ public class HomePicFragment
     private float mMoveY;
     private boolean move_tag = true;
     private RelativeLayout id_main;
-    private View view_line_back;
     boolean ifShouCang = true;
     private int last_id = 0;
     private int scroll_position;
@@ -175,7 +174,6 @@ public class HomePicFragment
         iv_open_pop = (ImageView) rootView.findViewById(R.id.iv_open_pop);
         view_line_top = rootView.findViewById(R.id.view_line_top);
         id_main = (RelativeLayout) rootView.findViewById(R.id.id_main);
-        view_line_back = rootView.findViewById(R.id.view_line_back);
 
 
         rl_new_top = (RelativeLayout) rootView.findViewById(R.id.rl_new_top);
