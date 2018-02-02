@@ -2,6 +2,7 @@ package com.homechart.app.home.activity;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,6 +12,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -99,6 +101,8 @@ public class HomeActivity
     private TextView tv_shibie;
     private TextView tv_center;
     private int position = 1;
+    //退出时的时间
+    private long mExitTime;
 
     @Override
     protected int getLayoutResId() {
@@ -163,6 +167,7 @@ public class HomeActivity
         rl_btn_center.setOnClickListener(this);
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onClick(View v) {
 
@@ -174,7 +179,11 @@ public class HomeActivity
                     changeBottomUI(1);
                     getSupportFragmentManager().beginTransaction().hide(mHomeCenterFragment).hide(mHomeFaXianFragment).show(mHomePicFragment).commit();
                 } else {
-
+                    FragmentManager fragmentManager = mHomePicFragment.getChildFragmentManager();
+                    List<Fragment> list = fragmentManager.getFragments();
+                    for (int i = 0 ; i < list.size() ; i++){
+                        list.get(i).getFragmentManager().popBackStack();
+                    }
                 }
                 break;
             case R.id.rl_btn_faxian:
@@ -183,7 +192,11 @@ public class HomeActivity
                     changeBottomUI(2);
                     getSupportFragmentManager().beginTransaction().hide(mHomePicFragment).hide(mHomeCenterFragment).show(mHomeFaXianFragment).commit();
                 } else {
-
+                    FragmentManager fragmentManager = mHomeFaXianFragment.getChildFragmentManager();
+                    List<Fragment> list = fragmentManager.getFragments();
+                    for (int i = 0 ; i < list.size() ; i++){
+                        list.get(i).getFragmentManager().popBackStack();
+                    }
                 }
                 break;
             case R.id.rl_btn_shibie:
@@ -229,7 +242,11 @@ public class HomeActivity
                         startActivityForResult(intent, 1);
                     }
                 } else {
-
+                    FragmentManager fragmentManager = mHomeCenterFragment.getChildFragmentManager();
+                    List<Fragment> list = fragmentManager.getFragments();
+                    for (int i = 0 ; i < list.size() ; i++){
+                        list.get(i).getFragmentManager().popBackStack();
+                    }
                 }
                 break;
             case R.id.tv_pic:
@@ -274,10 +291,6 @@ public class HomeActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        initFragmentData();
-    }
-
-    private void initFragmentData() {
         if (findViewById(R.id.main_content) != null) {
             if (null == mHomePicFragment) {
                 mHomePicFragment = new HomePicFragment(getSupportFragmentManager());
@@ -311,11 +324,6 @@ public class HomeActivity
         }
     }
 
-    private boolean ifJump = true;
-
-    //退出时的时间
-    private long mExitTime;
-
     //对返回键进行监听
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -348,7 +356,6 @@ public class HomeActivity
         super.onPause();
         MobclickAgent.onPause(this);
     }
-
 
     private void checkNewAPK() {
 
@@ -443,27 +450,6 @@ public class HomeActivity
             Log.d("test", getString(R.string.download_size, progress + " %"));
         }
     }
-
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            String url_Imag = (String) msg.obj;
-            Intent intent = new Intent(HomeActivity.this, FaBuActvity.class);
-            intent.putExtra("image_path", url_Imag);
-            intent.putExtra("type", "home");
-            startActivity(intent);
-
-        }
-    };
-    Handler mHandle = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            upApkPopupWindow.dismiss();
-            ToastUtils.showCenter(HomeActivity.this, "版本更新失败！");
-        }
-    };
 
     @Override
     protected void onDestroy() {
@@ -562,6 +548,28 @@ public class HomeActivity
 
         }
     }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String url_Imag = (String) msg.obj;
+            Intent intent = new Intent(HomeActivity.this, FaBuActvity.class);
+            intent.putExtra("image_path", url_Imag);
+            intent.putExtra("type", "home");
+            startActivity(intent);
+
+        }
+    };
+    Handler mHandle = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            upApkPopupWindow.dismiss();
+            ToastUtils.showCenter(HomeActivity.this, "版本更新失败！");
+        }
+    };
+
 
 }
 
