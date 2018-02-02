@@ -21,7 +21,7 @@ public abstract class BaseActivity extends FragmentActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(getLayoutResId());
         ActivityManager.getInstance().addActivity(this);
-        StatusBarUtil.setColor(this, UIUtils.getColor(R.color.bg_eeeeee));
+        StatusBarUtil.setColor(this, UIUtils.getColor(R.color.red),0);
         initExtraBundle();
         initView();
         initData(savedInstanceState);

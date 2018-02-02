@@ -255,9 +255,9 @@ public class HomePicFragment
                         Log.e("UP", "Y" + mMoveY);
                         if (Math.abs((mMoveY - mDownY)) > 20) {
                             if (mMoveY > mDownY) {
-                                rl_new_top.setVisibility(View.VISIBLE);
+                                rl_pic_change.setVisibility(View.VISIBLE);
                             } else {
-                                rl_new_top.setVisibility(View.GONE);
+                                rl_pic_change.setVisibility(View.GONE);
                             }
                         }
                         break;
