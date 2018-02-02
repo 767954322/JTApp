@@ -2,22 +2,15 @@ package com.homechart.app.home.activity;
 
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -25,9 +18,10 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
@@ -45,6 +39,7 @@ import com.homechart.app.upapk.BroadcastUtil;
 import com.homechart.app.upapk.DownloadService;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
+import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.homechart.app.visearch.PhotoActivity;
@@ -67,11 +62,9 @@ import cn.finalteam.galleryfinal.model.PhotoInfo;
  */
 public class HomeActivity
         extends BaseActivity
-        implements RadioGroup.OnCheckedChangeListener,
-        View.OnClickListener, BroadcastUtil.IReceiver {
+        implements View.OnClickListener, BroadcastUtil.IReceiver {
 
     private RadioButton radio_btn_center;
-    private RadioGroup mRadioGroup;
     private int jumpPosition = 0;
 
     private HomePicFragment mHomePicFragment;
@@ -92,8 +85,20 @@ public class HomeActivity
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    private RelativeLayout rl_bottom;
     private HomeFaXianFragment mHomeFaXianFragment;
+    private RelativeLayout rl_btn_pic;
+    private RelativeLayout rl_btn_faxian;
+    private RelativeLayout rl_btn_shibie;
+    private RelativeLayout rl_btn_center;
+    private ImageView iv_pic;
+    private ImageView iv_faxian;
+    private ImageView iv_shibie;
+    private ImageView iv_center;
+    private TextView tv_pic;
+    private TextView tv_faxian;
+    private TextView tv_shibie;
+    private TextView tv_center;
+    private int position = 1;
 
     @Override
     protected int getLayoutResId() {
@@ -129,83 +134,59 @@ public class HomeActivity
 
     @Override
     protected void initView() {
-        mRadioGroup = (RadioGroup) findViewById(R.id.rg_home_radio_group);
         radio_btn_center = (RadioButton) findViewById(R.id.radio_btn_center);
         radio_btn_designer = (RadioButton) findViewById(R.id.radio_btn_designer);
-        rl_bottom = (RelativeLayout) findViewById(R.id.rl_bottom);
+
+
+        rl_btn_pic = (RelativeLayout) findViewById(R.id.rl_btn_pic);
+        rl_btn_faxian = (RelativeLayout) findViewById(R.id.rl_btn_faxian);
+        rl_btn_shibie = (RelativeLayout) findViewById(R.id.rl_btn_shibie);
+        rl_btn_center = (RelativeLayout) findViewById(R.id.rl_btn_center);
+
+        iv_pic = (ImageView) findViewById(R.id.iv_pic);
+        iv_faxian = (ImageView) findViewById(R.id.iv_faxian);
+        iv_shibie = (ImageView) findViewById(R.id.iv_shibie);
+        iv_center = (ImageView) findViewById(R.id.iv_center);
+
+        tv_pic = (TextView) findViewById(R.id.tv_pic);
+        tv_faxian = (TextView) findViewById(R.id.tv_faxian);
+        tv_shibie = (TextView) findViewById(R.id.tv_shibie);
+        tv_center = (TextView) findViewById(R.id.tv_center);
     }
 
     @Override
     protected void initListener() {
         super.initListener();
-        mRadioGroup.setOnCheckedChangeListener(this);
+        rl_btn_pic.setOnClickListener(this);
+        rl_btn_faxian.setOnClickListener(this);
+        rl_btn_shibie.setOnClickListener(this);
+        rl_btn_center.setOnClickListener(this);
     }
 
     @Override
-    protected void initData(Bundle savedInstanceState) {
-
-//        int permission = ActivityCompat.checkSelfPermission(HomeActivity.this,
-//                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//        if (permission != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(HomeActivity.this, PERMISSIONS_STORAGE,
-//                    REQUEST_EXTERNAL_STORAGE);
-//        } else {
-        initFragmentData();
-//        }
-    }
-
-    private void initFragmentData() {
-        if (findViewById(R.id.main_content) != null) {
-            if (null == mHomePicFragment) {
-                mHomePicFragment = new HomePicFragment(getSupportFragmentManager());
-            }
-            if (null == mHomeFaXianFragment) {
-                mHomeFaXianFragment = new HomeFaXianFragment(getSupportFragmentManager());
-            }
-            if (null == mHomeCenterFragment) {
-                mHomeCenterFragment = new HomeCenterFragment(getSupportFragmentManager());
-            }
-            transaction = getSupportFragmentManager().beginTransaction();
-            getSupportFragmentManager().beginTransaction().add(R.id.main_content, mHomePicFragment).
-                    add(R.id.main_content, mHomeFaXianFragment).add(R.id.main_content, mHomeCenterFragment).commit();
-            getSupportFragmentManager().beginTransaction().hide(mHomeCenterFragment).hide(mHomeFaXianFragment).show(mHomePicFragment).commit();
-//            FragmentManager.executePendingTransactions();
-        }
-        ((RadioButton) mRadioGroup.findViewById(R.id.radio_btn_pic)).setChecked(true);
-//        mRadioGroup.check(R.id.radio_btn_pic);
-        mRadioGroup.setAlpha(0.96f);
-        menuWindow = new SelectPicPopupWindow(HomeActivity.this, HomeActivity.this);
-        upApkPopupWindow = new UpApkPopupWindow(this, this);
-        BroadcastUtil.registerReceiver(this, this, "DITing.action.download");
-        //检测是否有新版本
-        checkNewAPK();
-        if (!TextUtils.isEmpty(object_id)) {
-            Intent intent = new Intent(HomeActivity.this, ArticleDetailsActivity.class);
-            intent.putExtra("article_id", object_id);
-            startActivity(intent);
-        }
-        int permission = ActivityCompat.checkSelfPermission(HomeActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(HomeActivity.this, PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE);
-        }
-    }
-
-    @Override
-    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+    public void onClick(View v) {
 
         loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
-        switch (checkedId) {
-            case R.id.radio_btn_pic:
-                jumpPosition = 0;
-                getSupportFragmentManager().beginTransaction().hide(mHomeCenterFragment).hide(mHomeFaXianFragment).show( mHomePicFragment).commit();
+        switch (v.getId()) {
+            case R.id.rl_btn_pic:
+                if (position != 1) {
+                    position = 1;
+                    changeBottomUI(1);
+                    getSupportFragmentManager().beginTransaction().hide(mHomeCenterFragment).hide(mHomeFaXianFragment).show(mHomePicFragment).commit();
+                } else {
+
+                }
                 break;
-            case R.id.radio_btn_faxian:
-                jumpPosition = 1;
-                getSupportFragmentManager().beginTransaction().hide(mHomePicFragment).hide(mHomeCenterFragment).show(mHomeFaXianFragment).commit();
+            case R.id.rl_btn_faxian:
+                if (position != 2) {
+                    position = 2;
+                    changeBottomUI(2);
+                    getSupportFragmentManager().beginTransaction().hide(mHomePicFragment).hide(mHomeCenterFragment).show(mHomeFaXianFragment).commit();
+                } else {
+
+                }
                 break;
-            case R.id.radio_btn_designer:
+            case R.id.rl_btn_shibie:
                 if (ContextCompat.checkSelfPermission(HomeActivity.this,
                         Manifest.permission.CAMERA) !=
                         PackageManager.PERMISSION_GRANTED) {
@@ -225,27 +206,15 @@ public class HomeActivity
                     Intent intent1 = new Intent(HomeActivity.this, PhotoActivity.class);
                     startActivity(intent1);
                 }
-                if (jumpPosition == 0) {
-                    mRadioGroup.check(R.id.radio_btn_pic);
-                } else if (jumpPosition == 1) {
-                    mRadioGroup.check(R.id.radio_btn_faxian);
-                } else if (jumpPosition == 3) {
-                    mRadioGroup.check(R.id.radio_btn_center);
-                }
                 break;
-            case R.id.radio_btn_center:
-
-                if (loginStatus) {
-                    jumpPosition = 3;
-                    mHomeCenterFragment.flushData();
-                    getSupportFragmentManager().beginTransaction().hide(mHomePicFragment).hide(mHomeFaXianFragment).show(mHomeCenterFragment).commit();
-                } else {
-                    if (ifJump) {
-                        if(jumpPosition == 0){
-                            mRadioGroup.check(R.id.radio_btn_pic);
-                        }else if(jumpPosition == 1){
-                            mRadioGroup.check(R.id.radio_btn_faxian);
-                        }
+            case R.id.rl_btn_center:
+                if (position != 4) {
+                    if (loginStatus) {
+                        position = 4;
+                        changeBottomUI(4);
+                        mHomeCenterFragment.flushData();
+                        getSupportFragmentManager().beginTransaction().hide(mHomePicFragment).hide(mHomeFaXianFragment).show(mHomeCenterFragment).commit();
+                    } else {
                         //友盟统计
                         HashMap<String, String> map4 = new HashMap<String, String>();
                         map4.put("evenname", "登录入口");
@@ -259,51 +228,10 @@ public class HomeActivity
                         Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
                         startActivityForResult(intent, 1);
                     }
-                }
-
-                break;
-        }
-    }
-
-    private boolean ifJump = true;
-
-    public void changeShowPic() {
-        ifJump = false;
-        jumpPosition = 0;
-        mRadioGroup.check(R.id.radio_btn_pic);
-//        mHomeCenterFragment = null;
-        ifJump = true;
-    }
-
-    public void replaceFragment(Fragment fragment) {
-        transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_content, fragment);
-        transaction.commitAllowingStateLoss();
-    }
-
-    private void takePhoto() {
-        GalleryFinal.openCamera(0, new GalleryFinal.OnHanlderResultCallback() {
-            @Override
-            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
-                if (resultList != null && resultList.size() > 0) {
-                    Message message = new Message();
-                    message.obj = resultList.get(0).getPhotoPath().toString();
-                    handler.sendMessage(message);
                 } else {
-                    ToastUtils.showCenter(HomeActivity.this, "拍照资源获取失败");
+
                 }
-            }
-
-            @Override
-            public void onHanlderFailure(int requestCode, String errorMsg) {
-
-            }
-        });
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+                break;
             case R.id.tv_pic:
                 menuWindow.dismiss();
                 GalleryFinal.openGallerySingle(0, new GalleryFinal.OnHanlderResultCallback() {
@@ -344,6 +272,46 @@ public class HomeActivity
         }
     }
 
+    @Override
+    protected void initData(Bundle savedInstanceState) {
+        initFragmentData();
+    }
+
+    private void initFragmentData() {
+        if (findViewById(R.id.main_content) != null) {
+            if (null == mHomePicFragment) {
+                mHomePicFragment = new HomePicFragment(getSupportFragmentManager());
+            }
+            if (null == mHomeFaXianFragment) {
+                mHomeFaXianFragment = new HomeFaXianFragment(getSupportFragmentManager());
+            }
+            if (null == mHomeCenterFragment) {
+                mHomeCenterFragment = new HomeCenterFragment(getSupportFragmentManager());
+            }
+            transaction = getSupportFragmentManager().beginTransaction();
+            getSupportFragmentManager().beginTransaction().add(R.id.main_content, mHomePicFragment).
+                    add(R.id.main_content, mHomeFaXianFragment).add(R.id.main_content, mHomeCenterFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(mHomeCenterFragment).hide(mHomeFaXianFragment).show(mHomePicFragment).commit();
+        }
+        menuWindow = new SelectPicPopupWindow(HomeActivity.this, HomeActivity.this);
+        upApkPopupWindow = new UpApkPopupWindow(this, this);
+        BroadcastUtil.registerReceiver(this, this, "DITing.action.download");
+        //检测是否有新版本
+        checkNewAPK();
+        if (!TextUtils.isEmpty(object_id)) {
+            Intent intent = new Intent(HomeActivity.this, ArticleDetailsActivity.class);
+            intent.putExtra("article_id", object_id);
+            startActivity(intent);
+        }
+        int permission = ActivityCompat.checkSelfPermission(HomeActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(HomeActivity.this, PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE);
+        }
+    }
+
+    private boolean ifJump = true;
 
     //退出时的时间
     private long mExitTime;
@@ -481,12 +449,6 @@ public class HomeActivity
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String url_Imag = (String) msg.obj;
-
-//            Intent intent1 = new Intent(HomeActivity.this, EditPhotoActivity.class);
-//            intent1.putExtra("image_url", url_Imag);
-//            intent1.putExtra("type", "location");
-//            startActivity(intent1);
-
             Intent intent = new Intent(HomeActivity.this, FaBuActvity.class);
             intent.putExtra("image_path", url_Imag);
             intent.putExtra("type", "home");
@@ -547,35 +509,57 @@ public class HomeActivity
         if (requestCode == 1) {
             loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
             if (loginStatus) {
-                jumpPosition = 3;
-                mRadioGroup.check(R.id.radio_btn_center);
+
+                position = 4;
+                changeBottomUI(4);
+                mHomeCenterFragment.flushData();
+                getSupportFragmentManager().beginTransaction().hide(mHomePicFragment).hide(mHomeFaXianFragment).show(mHomeCenterFragment).commit();
+
             }
         }
     }
 
     private List<String> list_up_toast = new ArrayList<>();
 
-    public static void getAppDetailSettingIntent(Context context) {
-        Intent localIntent = new Intent();
-        localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (Build.VERSION.SDK_INT >= 9) {
-            localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-            localIntent.setData(Uri.fromParts("package", context.getPackageName(), null));
-        } else if (Build.VERSION.SDK_INT <= 8) {
-            localIntent.setAction(Intent.ACTION_VIEW);
-            localIntent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails");
-            localIntent.putExtra("com.android.settings.ApplicationPkgName", context.getPackageName());
+    private void changeBottomUI(int clickNum) {
+        switch (clickNum) {
+            case 1:
+                iv_pic.setImageResource(R.drawable.shouye);
+                iv_faxian.setImageResource(R.drawable.faxian1);
+                iv_center.setImageResource(R.drawable.wode1);
+                tv_pic.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                tv_faxian.setTextColor(UIUtils.getColor(R.color.bg_262626));
+                tv_center.setTextColor(UIUtils.getColor(R.color.bg_262626));
+                break;
+            case 2:
+
+                iv_pic.setImageResource(R.drawable.shouye1);
+                iv_faxian.setImageResource(R.drawable.faxian);
+                iv_center.setImageResource(R.drawable.wode1);
+                tv_pic.setTextColor(UIUtils.getColor(R.color.bg_262626));
+                tv_faxian.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                tv_center.setTextColor(UIUtils.getColor(R.color.bg_262626));
+                break;
+            case 4:
+
+                iv_pic.setImageResource(R.drawable.shouye1);
+                iv_faxian.setImageResource(R.drawable.faxian1);
+                iv_center.setImageResource(R.drawable.wode);
+
+                tv_pic.setTextColor(UIUtils.getColor(R.color.bg_262626));
+                tv_faxian.setTextColor(UIUtils.getColor(R.color.bg_262626));
+                tv_center.setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                break;
         }
-        context.startActivity(localIntent);
     }
 
-    public void bottomStatus(boolean bool) {
-
-        if (bool) {
-            rl_bottom.setVisibility(View.VISIBLE);
+    public void backPic() {
+        if (position != 1) {
+            position = 1;
+            changeBottomUI(1);
+            getSupportFragmentManager().beginTransaction().hide(mHomeCenterFragment).hide(mHomeFaXianFragment).show(mHomePicFragment).commit();
         } else {
 
-            rl_bottom.setVisibility(View.GONE);
         }
     }
 

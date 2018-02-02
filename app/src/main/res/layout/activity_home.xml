@@ -8,80 +8,123 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/rl_bottom"
+        android:layout_above="@+id/rl_bottom_test"
         android:orientation="vertical" />
 
-    <RelativeLayout
-        android:id="@+id/rl_bottom"
+    <LinearLayout
+        android:id="@+id/rl_bottom_test"
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_49"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/tab_yinying">
+        android:background="@drawable/tab_yinying"
+        android:orientation="horizontal">
 
-        <RadioGroup
-            android:id="@+id/rg_home_radio_group"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:id="@+id/rl_btn_pic"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_weight="1">
 
-            <!--图片-->
-            <RadioButton
-                android:id="@+id/radio_btn_pic"
-                style="@style/main_tab_bottom"
-                android:layout_marginBottom="@dimen/font_3"
-                android:layout_marginTop="@dimen/font_7"
-                android:checked="true"
-                android:drawableTop="@drawable/pic_radio_select"
-                android:gravity="bottom|center_horizontal"
-                android:text="看图"
-                android:textSize="@dimen/size_11" />
+            <ImageView
+                android:id="@+id/iv_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/tv_pic"
+                android:src="@drawable/shouye"/>
 
-            <!--设计师-->
-            <RadioButton
-                android:id="@+id/radio_btn_faxian"
-                style="@style/main_tab_bottom"
-                android:layout_marginBottom="@dimen/font_3"
-                android:layout_marginTop="@dimen/font_7"
-                android:checked="true"
-                android:drawableTop="@drawable/faxian_radio_select"
-                android:gravity="bottom|center_horizontal"
-                android:text="发现"
-                android:textSize="@dimen/size_11" />
-
-            <!--设计师-->
-            <RadioButton
-                android:id="@+id/radio_btn_designer"
-                style="@style/main_tab_bottom"
-                android:layout_marginBottom="@dimen/font_3"
-                android:layout_marginTop="@dimen/font_7"
-                android:checked="true"
-                android:drawableTop="@drawable/shibie_radio_select"
-                android:gravity="bottom|center_horizontal"
-                android:text="识图"
-                android:textSize="@dimen/size_11" />
-
-            <RadioButton
-                android:id="@+id/radio_btn_center"
-                style="@style/main_tab_bottom"
-                android:layout_marginBottom="@dimen/font_3"
-                android:layout_marginTop="@dimen/font_7"
-                android:checked="true"
-                android:drawableTop="@drawable/center_radio_select"
-                android:gravity="bottom|center_horizontal"
-                android:text="我的"
-                android:textSize="@dimen/size_11" />
+            <TextView
+                android:id="@+id/tv_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/size_11"
+                android:textColor="@color/bg_e79056"
+                android:layout_marginBottom="@dimen/font_5"
+                android:text="看图"/>
 
 
-        </RadioGroup>
+        </RelativeLayout>
 
-        <View
-            android:id="@+id/view_line"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_alignParentTop="true"
-            android:background="@color/view_line"
-            android:visibility="gone" />
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_btn_faxian"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/iv_faxian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/tv_faxian"
+                android:src="@drawable/faxian1"/>
 
+            <TextView
+                android:id="@+id/tv_faxian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/size_11"
+                android:textColor="@color/bg_262626"
+                android:layout_marginBottom="@dimen/font_5"
+                android:text="发现"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_btn_shibie"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/iv_shibie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/tv_shibie"
+                android:src="@drawable/shibie1"/>
+
+            <TextView
+                android:id="@+id/tv_shibie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/bg_262626"
+                android:textSize="@dimen/size_11"
+                android:layout_marginBottom="@dimen/font_5"
+                android:text="看图"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_btn_center"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/iv_center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/tv_center"
+                android:src="@drawable/wode1"/>
+
+            <TextView
+                android:id="@+id/tv_center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/bg_262626"
+                android:textSize="@dimen/size_11"
+                android:layout_marginBottom="@dimen/font_5"
+                android:text="看图"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

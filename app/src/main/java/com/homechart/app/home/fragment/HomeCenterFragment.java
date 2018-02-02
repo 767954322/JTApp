@@ -430,7 +430,7 @@ public class HomeCenterFragment
         } else if (requestCode == 3) {
             loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
             if (!loginStatus) {
-                ((HomeActivity) activity).changeShowPic();
+                ((HomeActivity) activity).backPic();
             }
         }
     }
