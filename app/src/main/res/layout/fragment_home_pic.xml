@@ -54,7 +54,7 @@
                 android:gravity="center_vertical"
                 android:hint="搜索你感兴趣的图片"
                 android:paddingLeft="@dimen/font_10"
-                android:textColorHint="@color/bg_8f8f8f"
+                android:textColorHint="@color/bg_b2b2b2"
                 android:textSize="@dimen/size_14" />
 
         </RelativeLayout>
