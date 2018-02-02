@@ -139,7 +139,6 @@ public class HomeFaXianFragment
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_pic);
         headerView = LayoutInflater.from(activity).inflate(R.layout.header_faxian, null);
         lv_faxian_header = (MyListView) headerView.findViewById(R.id.lv_faxian_header);
-
     }
 
     @Override
@@ -524,6 +523,7 @@ public class HomeFaXianFragment
         mRecyclerView.setAdapter(mAdapter);
         onRefresh();
     }
+
     private void changeZhuTi(List<RecommendItemDataBean> list) {
         mListHuaTi.clear();
         mListHuaTi.addAll(list);
