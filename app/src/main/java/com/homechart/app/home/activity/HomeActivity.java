@@ -245,7 +245,9 @@ public class HomeActivity
                     FragmentManager fragmentManager = mHomeCenterFragment.getChildFragmentManager();
                     List<Fragment> list = fragmentManager.getFragments();
                     for (int i = 0 ; i < list.size() ; i++){
-                        list.get(i).getFragmentManager().popBackStack();
+                        if(null != list.get(i).getFragmentManager()){
+                            list.get(i).getFragmentManager().popBackStack();
+                        }
                     }
                 }
                 break;
