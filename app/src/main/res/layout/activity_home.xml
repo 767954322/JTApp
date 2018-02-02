@@ -42,7 +42,7 @@
                 android:textSize="@dimen/size_11"
                 android:textColor="@color/bg_e79056"
                 android:layout_marginBottom="@dimen/font_5"
-                android:text="看图"/>
+                android:text="首页"/>
 
 
         </RelativeLayout>
