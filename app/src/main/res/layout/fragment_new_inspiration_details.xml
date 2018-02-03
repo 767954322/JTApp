@@ -172,8 +172,9 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/tv_inspiration_miaosu_no"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="@dimen/font_8"
-            android:layout_marginRight="@dimen/font_10"
+            android:paddingBottom="@dimen/font_8"
+            android:paddingRight="@dimen/font_10"
+            android:paddingTop="@dimen/font_15"
             android:src="@drawable/zhuanjijs"
             android:visibility="gone" />
 
@@ -345,8 +346,9 @@
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/tv_inspiration_miaosu"
                         android:layout_alignParentRight="true"
-                        android:layout_marginBottom="@dimen/font_8"
-                        android:layout_marginRight="@dimen/font_10"
+                        android:paddingBottom="@dimen/font_8"
+                        android:paddingRight="@dimen/font_10"
+                        android:paddingTop="@dimen/font_10"
                         android:src="@drawable/zhuanjijs"
                         android:visibility="gone" />
 

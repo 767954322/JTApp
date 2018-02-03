@@ -400,6 +400,26 @@ public class NewInspirationDetailsment
                 buildRecyclerView();
                 ifFirst = false;
             }
+            if(!show_type.equals(inspirationDetailBean.getInfo().getAlbum_info().getShow_type())){
+                if(inspirationDetailBean.getInfo().getAlbum_info().getShow_type().equals("1")){
+                    show_type = "1";
+                    tv_check_name1.setText("小图");
+                    tv_check_name.setText("小图");
+                    curentListTag = false;
+                    iv_check_icon1.setImageResource(R.drawable.pubuliu1);
+                    iv_check_icon.setImageResource(R.drawable.pubuliu1);
+                    mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+                }else {
+                    show_type = "2";
+                    tv_check_name1.setText("大图");
+                    tv_check_name.setText("大图");
+                    curentListTag = true;
+                    mRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
+                    iv_check_icon1.setImageResource(R.drawable.changtu1);
+                    iv_check_icon.setImageResource(R.drawable.changtu1);
+                }
+            }
+
             if (null != inspirationDetailBean.getInfo().getUser_info() && !mMyUserId.equals(inspirationDetailBean.getInfo().getUser_info().getUser_id())) {
                 mRightIcon.setVisibility(View.VISIBLE);
                 mRightIcon1.setVisibility(View.GONE);
@@ -626,21 +646,6 @@ public class NewInspirationDetailsment
                         activity.startActivityForResult(intent, 1);
                     }
                 });
-
-//                holder.getView(R.id.iv_item_miaosu_more1).setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        InspritionPop inspritionPop = new InspritionPop(InspirationDetailActivity.this, mListData.get(position));
-//                        //软键盘如果打开的话，关闭软键盘
-//                        boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
-//                        if (isOpen) {
-//                            if (getCurrentFocus() != null) {//强制关闭软键盘
-//                                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-//                            }
-//                        }
-//                        inspritionPop.showAtLocation(id_main, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-//                    }
-//                });
                 holder.getView(R.id.iv_item_miaosu_more).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -902,6 +907,7 @@ public class NewInspirationDetailsment
             }
 
         } else if (resultCode == 2 && requestCode == 2) {
+            getInspirationDetail();
             onRefresh();
         } else if (resultCode == 3 && requestCode == 3) {
             getInspirationDetail();
