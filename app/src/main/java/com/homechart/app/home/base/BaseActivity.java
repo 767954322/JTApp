@@ -30,7 +30,7 @@ public abstract class BaseActivity extends FragmentActivity {
             StatusBarUtil.setColor(this, UIUtils.getColor(R.color.white),0);
 //            getWindow().setStatusBarColor(Color.TRANSPARENT);
         }else {
-            StatusBarUtil.setColor(this, UIUtils.getColor(R.color.red),0);
+            StatusBarUtil.setColor(this, UIUtils.getColor(R.color.black),0);
         }
         initExtraBundle();
         initView();

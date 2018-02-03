@@ -27,8 +27,8 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="创建灵感辑"
-            android:textColor="@color/bg_262626"
-            android:textSize="@dimen/size_17" />
+            android:textColor="@color/case_text_tital_name"
+            android:textSize="@dimen/font_14" />
 
         <TextView
             android:id="@+id/tv_sure"

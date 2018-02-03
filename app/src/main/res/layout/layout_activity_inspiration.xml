@@ -38,8 +38,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/font_15"
             android:text="确定"
-            android:textColor="@color/bg_262626"
-            android:textSize="@dimen/size_17" />
+            android:textColor="@color/case_text_tital_name"
+            android:textSize="@dimen/font_14" />
 
     </RelativeLayout>
 
