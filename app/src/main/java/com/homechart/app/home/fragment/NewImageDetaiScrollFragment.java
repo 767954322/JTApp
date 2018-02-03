@@ -35,6 +35,7 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.ImageEditActvity;
+import com.homechart.app.home.activity.JuBaoActivity;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.MyWebViewActivity;
 import com.homechart.app.home.activity.PingListActivity;
@@ -1285,15 +1286,17 @@ public class NewImageDetaiScrollFragment
                 .setCategory(" 举报不良图片")  //事件类别
                 .setAction("举报图片")      //事件操作
                 .build());
-
-        NewJuBaoFragment newJuBaoFragment = new NewJuBaoFragment(fragmentManager);
-        Bundle bundle = new Bundle();
-        bundle.putString("item_id", item_id);
-        newJuBaoFragment.setArguments(bundle);
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.id_main, newJuBaoFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        Intent intent = new Intent(activity, JuBaoActivity.class);
+        intent.putExtra("item_id", item_id);
+        startActivity(intent);
+//        NewJuBaoFragment newJuBaoFragment = new NewJuBaoFragment(fragmentManager);
+//        Bundle bundle = new Bundle();
+//        bundle.putString("item_id", item_id);
+//        newJuBaoFragment.setArguments(bundle);
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.id_main, newJuBaoFragment);
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
 
     }
 
