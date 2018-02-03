@@ -3,7 +3,7 @@
     android:id="@+id/rl_navr_header"
     android:layout_width="match_parent"
     android:layout_height="@dimen/font_50"
-    android:background="@color/bg_f9"
+    android:background="@color/white"
     android:gravity="center_vertical">
 
     <RelativeLayout

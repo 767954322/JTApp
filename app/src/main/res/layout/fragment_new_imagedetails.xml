@@ -11,7 +11,7 @@
         android:id="@+id/rl_navbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_50"
-        android:background="@color/bg_f9">
+        android:background="@color/white">
 
 
         <ImageButton
@@ -102,7 +102,7 @@
         android:id="@+id/rl_navbar_tital"
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_50"
-        android:background="@color/bg_f9"
+        android:background="@color/white"
         android:visibility="gone">
 
         <ImageButton
