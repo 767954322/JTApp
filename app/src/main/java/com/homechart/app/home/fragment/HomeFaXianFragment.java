@@ -186,7 +186,7 @@ public class HomeFaXianFragment
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_42);
+        width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_15);
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         buildHRecyclerView1();
         buildHRecyclerView2();
