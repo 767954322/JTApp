@@ -238,6 +238,10 @@ public class PhotoActivity
                                 handler.sendMessage(message);
                             } else {
                                 allowLoadMore = true;
+                                Message message = new Message();
+                                message.arg1 = 2;
+                                message.obj = history;
+                                handler.sendMessage(message);
                             }
                         } else {
                             ToastUtils.showCenter(PhotoActivity.this, error_msg);
