@@ -245,7 +245,7 @@ public class NewImageDetaiScrollFragment
                 bundle3.putString("item_id", item_id);
                 newUserInfoFragment1.setArguments(bundle3);
                 FragmentTransaction fragmentTransaction2 = fragmentManager.beginTransaction();
-                fragmentTransaction2.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment1);
+                fragmentTransaction2.replace(R.id.id_main, newUserInfoFragment1);
                 fragmentTransaction2.addToBackStack(null);
                 fragmentTransaction2.commit();
 
@@ -382,7 +382,7 @@ public class NewImageDetaiScrollFragment
                     bundle1.putString(ClassConstant.LoginSucces.USER_ID, imageDetailBean.getUser_info().getUser_id());
                     newUserInfoFragment.setArguments(bundle1);
                     FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();
-                    fragmentTransaction1.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                    fragmentTransaction1.replace(R.id.id_main, newUserInfoFragment);
                     fragmentTransaction1.addToBackStack(null);
                     fragmentTransaction1.commit();
                 }
@@ -546,7 +546,7 @@ public class NewImageDetaiScrollFragment
                         bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
                         newUserInfoFragment.setArguments(bundle);
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                        fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
                     }
@@ -948,7 +948,7 @@ public class NewImageDetaiScrollFragment
                 bundle.putString("tag_name", tag);
                 newLanMuFragment.setArguments(bundle);
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newLanMuFragment);
+                fragmentTransaction.replace(R.id.id_main, newLanMuFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -1244,7 +1244,7 @@ public class NewImageDetaiScrollFragment
                         bundle.putString(ClassConstant.LoginSucces.USER_ID, imageDetailBean.getUser_info().getUser_id());
                         newUserInfoFragment.setArguments(bundle);
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                        fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
                     }
@@ -1260,7 +1260,7 @@ public class NewImageDetaiScrollFragment
 //                        bundle.putString("show_type",  imageDetailBean.getAlbum_info().getShow_type());
                         newInspirationDetailsment.setArguments(bundle);
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
+                        fragmentTransaction.replace(R.id.id_main, newInspirationDetailsment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
                     }
@@ -1288,7 +1288,7 @@ public class NewImageDetaiScrollFragment
         bundle.putString("item_id", item_id);
         newJuBaoFragment.setArguments(bundle);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newJuBaoFragment);
+        fragmentTransaction.replace(R.id.id_main, newJuBaoFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 

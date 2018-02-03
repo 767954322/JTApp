@@ -27,11 +27,7 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.DesinerInfoHeaderActivity;
-import com.homechart.app.home.activity.FenSiListActivity;
-import com.homechart.app.home.activity.GuanZuListActivity;
-import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.LoginActivity;
-import com.homechart.app.home.activity.UserInfoActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.userimage.ImageDataBean;
 import com.homechart.app.home.bean.userimage.UserImageBean;
@@ -39,7 +35,6 @@ import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationBean;
 import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationListBean;
-import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
@@ -55,7 +50,6 @@ import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
-import com.jaeger.library.StatusBarUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
@@ -289,7 +283,7 @@ public class NewUserInfoFragment
                         bundle.putString("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
                         newInspirationDetailsment.setArguments(bundle);
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
+                        fragmentTransaction.replace(R.id.id_main, newInspirationDetailsment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
                     }
@@ -693,7 +687,7 @@ public class NewUserInfoFragment
                     mListData.clear();
                 }
                 mAdapter.notifyDataSetChanged();
-                mRecyclerView.setRefreshing(false);//刷新完毕
+//                mRecyclerView.setRefreshing(false);//刷新完毕
                 break;
 
             case LOADMORE_STATUS:

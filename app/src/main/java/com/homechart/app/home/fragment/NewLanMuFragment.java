@@ -244,7 +244,7 @@ public class NewLanMuFragment
                         bundle.putString("tag_name", strLanMu);
                         newLanMuFragment.setArguments(bundle);
                         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newLanMuFragment);
+                        fragmentTransaction.replace(R.id.id_main, newLanMuFragment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
                     }
@@ -394,7 +394,7 @@ public class NewLanMuFragment
                         bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
                         newUserInfoFragment.setArguments(bundle);
                         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                        fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
                     }
@@ -407,7 +407,7 @@ public class NewLanMuFragment
                         bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
                         newUserInfoFragment.setArguments(bundle);
                         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                        fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
                     }
@@ -824,7 +824,7 @@ public class NewLanMuFragment
 //                        bundle.putString("show_type",  imageDetailBean.getAlbum_info().getShow_type());
             newInspirationDetailsment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
+            fragmentTransaction.replace(R.id.id_main, newInspirationDetailsment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }

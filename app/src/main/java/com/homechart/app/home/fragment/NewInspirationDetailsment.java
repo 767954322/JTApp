@@ -319,7 +319,7 @@ public class NewInspirationDetailsment
                     bundle.putString(ClassConstant.LoginSucces.USER_ID, inspirationDetailBean.getInfo().getUser_info().getUser_id());
                     newUserInfoFragment.setArguments(bundle);
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                    fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                 }

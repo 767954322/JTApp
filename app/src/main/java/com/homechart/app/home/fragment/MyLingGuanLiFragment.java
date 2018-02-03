@@ -170,7 +170,7 @@ public class MyLingGuanLiFragment
                         bundle.putString("show_type",  mListData.get(position).getAlbum_info().getShow_type());
                         newInspirationDetailsment.setArguments(bundle);
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
+                        fragmentTransaction.replace(R.id.id_main, newInspirationDetailsment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
                     }

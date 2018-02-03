@@ -352,7 +352,7 @@ public class HomePicFragment
             bundle.putString("search_info", search_info);
             newSearchResultFragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newSearchResultFragment);
+            fragmentTransaction.replace(R.id.id_main, newSearchResultFragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commitAllowingStateLoss();
         }
@@ -423,7 +423,7 @@ public class HomePicFragment
                             bundle.putString("activity_id", mActivityInfoBean.getObject_id());
                             newHuoDongDetailsFragment.setArguments(bundle);
                             FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newHuoDongDetailsFragment);
+                            fragmentTransaction.replace(R.id.id_main, newHuoDongDetailsFragment);
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
                         }
@@ -499,9 +499,9 @@ public class HomePicFragment
                             bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
                             newUserInfoFragment.setArguments(bundle);
                             FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                            fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
                             fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commit();
+                            fragmentTransaction.commitAllowingStateLoss();
                         }
                     });
                     holder.getView(R.id.tv_name_pic).setOnClickListener(new View.OnClickListener() {
@@ -512,9 +512,9 @@ public class HomePicFragment
                             bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
                             newUserInfoFragment.setArguments(bundle);
                             FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                            fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
                             fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commit();
+                            fragmentTransaction.commitAllowingStateLoss();
                         }
                     });
 

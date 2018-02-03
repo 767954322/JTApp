@@ -173,7 +173,7 @@ public class OtherLingGuanLiFragment
                         bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
                         newUserInfoFragment.setArguments(bundle);
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                        fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
                     }
@@ -228,7 +228,7 @@ public class OtherLingGuanLiFragment
                             bundle.putString("show_type", mListData.get(position).getAlbum_info().getShow_type());
                             newInspirationDetailsment.setArguments(bundle);
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
+                            fragmentTransaction.replace(R.id.id_main, newInspirationDetailsment);
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
                         } else {

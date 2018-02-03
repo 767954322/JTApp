@@ -203,7 +203,7 @@ public class NewMessagesFragment
                             bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
                             newUserInfoFragment.setArguments(bundle);
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                            fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
                         }
@@ -224,7 +224,7 @@ public class NewMessagesFragment
                             bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
                             newUserInfoFragment.setArguments(bundle);
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                            fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
                         }
@@ -244,7 +244,7 @@ public class NewMessagesFragment
                             bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
                             newUserInfoFragment.setArguments(bundle);
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                            fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
                         }
@@ -269,7 +269,7 @@ public class NewMessagesFragment
                             bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
                             newUserInfoFragment.setArguments(bundle);
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+                            fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
                         }
@@ -314,7 +314,7 @@ public class NewMessagesFragment
                 bundle.putString("activity_id", mListData.get(position).getObject_id());
                 newHuoDongDetailsFragment.setArguments(bundle);
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newHuoDongDetailsFragment);
+                fragmentTransaction.replace(R.id.id_main, newHuoDongDetailsFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -324,7 +324,7 @@ public class NewMessagesFragment
             bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
             newUserInfoFragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newUserInfoFragment);
+            fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         } else if (mListData.get(position).getNotice_class().equals("comment")) {//评论消息
@@ -352,7 +352,7 @@ public class NewMessagesFragment
             bundle.putString("album_id", mListData.get(position).getObject_id());
             newInspirationDetailsment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
+            fragmentTransaction.replace(R.id.id_main, newInspirationDetailsment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         } else if (mListData.get(position).getNotice_class().equals("addToAlbum") || mListData.get(position).getNotice_class().equals("albumUpdate")) {//加入灵感辑消息
@@ -363,7 +363,7 @@ public class NewMessagesFragment
             bundle.putString("album_id", mListData.get(position).getObject_id());
             newInspirationDetailsment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.id_main, newInspirationDetailsment);
+            fragmentTransaction.replace(R.id.id_main, newInspirationDetailsment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
