@@ -197,6 +197,7 @@ public class NewLingGanCenterFragment
                 } else if (mViewPager.getCurrentItem() == 1) {
                     if (ifAllowScroll) {
                         if (otherLingGuanLiFragment.ifHasData()) {
+                            mTabLayout.setCanScrool(false);
                             mViewPager.setScanScroll(false);
                             ifAllowScroll = false;
                             otherLingGuanLiFragment.clickRightGuanLi();
@@ -205,6 +206,7 @@ public class NewLingGanCenterFragment
                         }
                     } else {
                         mViewPager.setScanScroll(true);
+                        mTabLayout.setCanScrool(true);
                         ifAllowScroll = true;
                         otherLingGuanLiFragment.clickRightGuanLi();
                     }
