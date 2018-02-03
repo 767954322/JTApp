@@ -18,7 +18,6 @@
             android:layout_marginTop="@dimen/font_8"
             android:layout_marginBottom="@dimen/font_8"
             android:background="@drawable/bg_edittext_search"
-            android:drawableLeft="@drawable/fdj"
             android:drawablePadding="@dimen/font_6"
             android:paddingRight="@dimen/font_10"
             android:layout_marginLeft="@dimen/font_15"
