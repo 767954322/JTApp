@@ -27,9 +27,11 @@ public abstract class BaseActivity extends FragmentActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //            getWindow().setBackgroundDrawableResource(R.mipmap.window_bg);
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            StatusBarUtil.setColor(this, UIUtils.getColor(R.color.white),0);
 //            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }else {
+            StatusBarUtil.setColor(this, UIUtils.getColor(R.color.red),0);
         }
-        StatusBarUtil.setColor(this, UIUtils.getColor(R.color.white),0);
         initExtraBundle();
         initView();
         initData(savedInstanceState);
