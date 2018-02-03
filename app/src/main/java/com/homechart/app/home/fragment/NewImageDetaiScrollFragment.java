@@ -49,6 +49,7 @@ import com.homechart.app.home.bean.searchfservice.SearchSBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.imagedetail.ImageDetailsActivity;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
+import com.homechart.app.myview.ColorPopWin;
 import com.homechart.app.myview.FlowLayoutBiaoQian;
 import com.homechart.app.myview.HomeSharedPopWinPublic;
 import com.homechart.app.myview.JuBaoPopWin;
@@ -102,6 +103,7 @@ public class NewImageDetaiScrollFragment
 
 
     private View mRootView;
+    private ColorPopWin colorPopWin;
 
     public NewImageDetaiScrollFragment() {
 
@@ -360,14 +362,20 @@ public class NewImageDetaiScrollFragment
                         .setCategory("用户点开色彩详情的次数")  //事件类别
                         .setAction("色彩详情")      //事件操作
                         .build());
-                bt_shiwu.setClickable(false);
-                bt_shiwu2.setClickable(false);
-                bt_shise.setClickable(false);
-                bt_shise2.setClickable(false);
-                mUserInfo.setTitalClickAble(false);
-                mUserInfo.setViewPagerScrollAble(false);
-                rl_color.setVisibility(View.VISIBLE);
-                color_bottom.setVisibility(View.VISIBLE);
+                if (null != colorPopWin) {
+                    colorPopWin.showAtLocation(activity.findViewById(R.id.menu_layout),
+                            Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
+                            0,
+                            0); //设置layout在PopupWindow中显示的位置
+                }
+//                bt_shiwu.setClickable(false);
+//                bt_shiwu2.setClickable(false);
+//                bt_shise.setClickable(false);
+//                bt_shise2.setClickable(false);
+//                mUserInfo.setTitalClickAble(false);
+//                mUserInfo.setViewPagerScrollAble(false);
+//                rl_color.setVisibility(View.VISIBLE);
+//                color_bottom.setVisibility(View.VISIBLE);
                 break;
             case R.id.iv_close_color:
                 bt_shiwu2.setClickable(true);
@@ -960,31 +968,33 @@ public class NewImageDetaiScrollFragment
         //更新颜色
         if (ifFirst && imageDetailBean != null) {
             ifFirst = false;
-            List<ColorInfoBean> listColor = imageDetailBean.getColor_info();
-            if (listColor != null && listColor.size() > 0) {
-                int width = PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_40);
-                float float_talte = 0;
-                for (int i = 0; i < listColor.size(); i++) {
-                    float wid = Float.parseFloat(listColor.get(i).getColor_percent().trim());
-                    float_talte = float_talte + wid;
-                }
 
-                for (int i = 0; i < listColor.size(); i++) {
-                    TextView textView = new TextView(activity);
-                    float wid = Float.parseFloat(listColor.get(i).getColor_percent().trim());
-                    float per = wid / float_talte;
-
-                    if (i == listColor.size() - 1) {
-                        textView.setWidth(width);
-                    } else {
-                        textView.setWidth((int) (width * per));
-                    }
-                    textView.setHeight(UIUtils.getDimens(R.dimen.font_30));
-                    textView.setBackgroundColor(Color.parseColor("#" + listColor.get(i).getColor_value()));
-                    ll_color_lines.addView(textView);
-                }
-                dgv_colorlist.setAdapter(new MyColorGridAdapter(listColor, activity));
-            }
+            colorPopWin = new ColorPopWin(activity, imageDetailBean);
+//            List<ColorInfoBean> listColor = imageDetailBean.getColor_info();
+//            if (listColor != null && listColor.size() > 0) {
+//                int width = PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_40);
+//                float float_talte = 0;
+//                for (int i = 0; i < listColor.size(); i++) {
+//                    float wid = Float.parseFloat(listColor.get(i).getColor_percent().trim());
+//                    float_talte = float_talte + wid;
+//                }
+//
+//                for (int i = 0; i < listColor.size(); i++) {
+//                    TextView textView = new TextView(activity);
+//                    float wid = Float.parseFloat(listColor.get(i).getColor_percent().trim());
+//                    float per = wid / float_talte;
+//
+//                    if (i == listColor.size() - 1) {
+//                        textView.setWidth(width);
+//                    } else {
+//                        textView.setWidth((int) (width * per));
+//                    }
+//                    textView.setHeight(UIUtils.getDimens(R.dimen.font_30));
+//                    textView.setBackgroundColor(Color.parseColor("#" + listColor.get(i).getColor_value()));
+//                    ll_color_lines.addView(textView);
+//                }
+//                dgv_colorlist.setAdapter(new MyColorGridAdapter(listColor, activity));
+//            }
         }
         //设置灵感辑图片
         RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) iv_img1.getLayoutParams();
