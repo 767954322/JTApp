@@ -397,7 +397,7 @@ public class NewImageDetailsFragment
 
         @Override
         public Fragment getItem(int position) {
-            return new NewImageDetaiScrollFragment(fragmentManager, mItemIdList.get(position), NewImageDetailsFragment.this, position);
+            return new NewImageDetaiScrollFragment(rootView,fragmentManager, mItemIdList.get(position), NewImageDetailsFragment.this, position);
         }
 
         @Override

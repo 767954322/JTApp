@@ -100,12 +100,15 @@ public class NewImageDetaiScrollFragment
         OnLoadMoreListener {
 
 
+    private View mRootView;
+
     public NewImageDetaiScrollFragment() {
 
     }
 
     @SuppressLint("ValidFragment")
-    public NewImageDetaiScrollFragment(FragmentManager fragmentManager, String item_id, UserInfo userInfo, int posotion) {
+    public NewImageDetaiScrollFragment(View mRootView ,FragmentManager fragmentManager, String item_id, UserInfo userInfo, int posotion) {
+        this.mRootView = mRootView;
         this.fragmentManager = fragmentManager;
         this.item_id = item_id;
         this.mUserInfo = userInfo;
@@ -133,11 +136,11 @@ public class NewImageDetaiScrollFragment
     }
 
     private void initView() {
-        tv_lingganji = (TextView) activity.findViewById(R.id.tv_lingganji);
-        iv_edit_image = (ImageButton) activity.findViewById(R.id.iv_edit_image);
-        iv_shared_image = (ImageButton) activity.findViewById(R.id.iv_shared_image);
-        iv_more_image = (ImageButton) activity.findViewById(R.id.iv_more_image);
-        tv_tital_comment = (TextView) activity.findViewById(R.id.tv_tital_comment);
+        tv_lingganji = (TextView) mRootView.findViewById(R.id.tv_lingganji);
+        iv_edit_image = (ImageButton) mRootView.findViewById(R.id.iv_edit_image);
+        iv_shared_image = (ImageButton) mRootView.findViewById(R.id.iv_shared_image);
+        iv_more_image = (ImageButton) mRootView.findViewById(R.id.iv_more_image);
+        tv_tital_comment = (TextView) mRootView.findViewById(R.id.tv_tital_comment);
 
         homeSharedPopWinPublic = new HomeSharedPopWinPublic(activity, this);
         juBaoPopWin = new JuBaoPopWin(activity, this);
