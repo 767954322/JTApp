@@ -13,7 +13,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -109,6 +111,9 @@ public class NewLanMuFragment
     private MultiItemCommonAdapter<String> mAdapter1;
     List<RecommendItemDataBean> mListHuaTi = new ArrayList<>();
     private String mUserId;
+    private float mDownY;
+    private float mMoveY;
+    private boolean move_tag = true;
 
     public NewLanMuFragment() {
     }
@@ -146,6 +151,37 @@ public class NewLanMuFragment
         super.initListener();
         mBack.setOnClickListener(this);
         tv_shoucang.setOnClickListener(this);
+        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if (move_tag) {
+                            mDownY = event.getY();
+                            move_tag = false;
+                        }
+                        mMoveY = event.getY();
+                        break;
+                    case MotionEvent.ACTION_UP:
+
+                        move_tag = true;
+                        mMoveY = event.getY();
+                        Log.e("UP", "Y" + mMoveY);
+                        if (Math.abs((mMoveY - mDownY)) > 20) {
+                            if (mMoveY > mDownY) {
+                                mRecyclerView1.setVisibility(View.VISIBLE);
+                            } else {
+                                mRecyclerView1.setVisibility(View.GONE);
+                            }
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
