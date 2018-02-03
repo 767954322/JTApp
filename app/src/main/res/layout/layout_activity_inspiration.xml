@@ -19,7 +19,7 @@
             android:paddingLeft="@dimen/font_15"
             android:paddingRight="@dimen/font_15"
             android:paddingTop="@dimen/font_17"
-            android:src="@drawable/guandiao" />
+            android:src="@drawable/quxiao_you" />
 
         <TextView
             android:layout_width="wrap_content"
