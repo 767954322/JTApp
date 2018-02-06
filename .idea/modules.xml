@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/JTApp.iml" filepath="$PROJECT_DIR$/JTApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/librangeseekbar/librangeseekbar.iml" filepath="$PROJECT_DIR$/librangeseekbar/librangeseekbar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
       <module fileurl="file://$PROJECT_DIR$/visearch-android/visearch-android.iml" filepath="$PROJECT_DIR$/visearch-android/visearch-android.iml" />
     </modules>
   </component>
