@@ -341,7 +341,7 @@ public class NewMessagesFragment
                 newImageDetailsFragment.setArguments(bundle);
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newImageDetailsFragment);
-                fragmentTransaction.commitAllowingStateLoss();
+                fragmentTransaction.commit();
             } else if (mListData.get(position).getObject_type().trim().equals("article")) {//文章
             }
         } else if (mListData.get(position).getNotice_class().equals("collect")) {//收藏消息

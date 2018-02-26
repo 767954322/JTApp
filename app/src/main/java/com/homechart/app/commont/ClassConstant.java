@@ -155,4 +155,8 @@ public class ClassConstant {
         public static final String ALBUM = "album";
     }
 
+    public static class HomeStatus {
+        public static int IMAGE_STATUS = 0;
+        public static int FAXIAN_STATUS = 0;
+    }
 }

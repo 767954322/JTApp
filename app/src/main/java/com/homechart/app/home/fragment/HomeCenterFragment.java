@@ -200,7 +200,7 @@ public class HomeCenterFragment
                 NewMessagesFragment newMessagesFragment = new NewMessagesFragment(getChildFragmentManager(), this);
                 FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                 fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newMessagesFragment);
-                fragmentTransaction.commitAllowingStateLoss();
+                fragmentTransaction.commit();
                 break;
             case R.id.rl_fensi:
 
@@ -210,7 +210,7 @@ public class HomeCenterFragment
                 newFenSiListFragment.setArguments(bundle);
                 FragmentTransaction fragmentTransaction1 = getChildFragmentManager().beginTransaction();
                 fragmentTransaction1.addToBackStack(null).replace(R.id.id_main, newFenSiListFragment);
-                fragmentTransaction1.commitAllowingStateLoss();
+                fragmentTransaction1.commit();
 
                 break;
             case R.id.rl_guanzu:
@@ -220,7 +220,7 @@ public class HomeCenterFragment
                 newGuanZuListFragment.setArguments(bundle_guanzu);
                 FragmentTransaction fragmentTransaction_guanzu = getChildFragmentManager().beginTransaction();
                 fragmentTransaction_guanzu.addToBackStack(null).replace(R.id.id_main, newGuanZuListFragment);
-                fragmentTransaction_guanzu.commitAllowingStateLoss();
+                fragmentTransaction_guanzu.commit();
 
                 break;
             case R.id.rl_shoucang:
@@ -231,7 +231,7 @@ public class HomeCenterFragment
                 newLingGanCenterFragment.setArguments(bundle_linggan);
                 FragmentTransaction fragmentTransaction_linggan = getChildFragmentManager().beginTransaction();
                 fragmentTransaction_linggan.addToBackStack(null).replace(R.id.id_main, newLingGanCenterFragment);
-                fragmentTransaction_linggan.commitAllowingStateLoss();
+                fragmentTransaction_linggan.commit();
 
 //                Intent intent_shoucang = new Intent(activity, LingGanCenterActivity.class);
 //                startActivity(intent_shoucang);
@@ -252,7 +252,7 @@ public class HomeCenterFragment
                 NewPicCenterFragment newPicCenterFragment = new NewPicCenterFragment(getChildFragmentManager());
                 FragmentTransaction fragmentTransaction_piccenter = getChildFragmentManager().beginTransaction();
                 fragmentTransaction_piccenter.addToBackStack(null).replace(R.id.id_main, newPicCenterFragment);
-                fragmentTransaction_piccenter.commitAllowingStateLoss();
+                fragmentTransaction_piccenter.commit();
 
                 break;
             case R.id.iv_center_header:

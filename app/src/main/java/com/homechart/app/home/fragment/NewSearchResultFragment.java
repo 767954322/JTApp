@@ -284,7 +284,7 @@ public class NewSearchResultFragment
                         newImageDetailsFragment.setArguments(bundle);
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newImageDetailsFragment);
-                        fragmentTransaction.commitAllowingStateLoss();
+                        fragmentTransaction.commit();
                     }
                 });
                 holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {

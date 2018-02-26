@@ -227,7 +227,7 @@ public class NewUserInfoFragment
                         newImageDetailsFragment.setArguments(bundle);
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newImageDetailsFragment);
-                        fragmentTransaction.commitAllowingStateLoss();
+                        fragmentTransaction.commit();
 
                     }
                 });
@@ -350,7 +350,7 @@ public class NewUserInfoFragment
                     newGuanZuListFragment.setArguments(bundle_guanzu);
                     FragmentTransaction fragmentTransaction_guanzu = fragmentManager.beginTransaction();
                     fragmentTransaction_guanzu.addToBackStack(null).replace(R.id.id_main, newGuanZuListFragment);
-                    fragmentTransaction_guanzu.commitAllowingStateLoss();
+                    fragmentTransaction_guanzu.commit();
 
                 }
                 break;
@@ -388,7 +388,7 @@ public class NewUserInfoFragment
                     newFenSiListFragment.setArguments(bundle);
                     FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();
                     fragmentTransaction1.addToBackStack(null).replace(R.id.id_main, newFenSiListFragment);
-                    fragmentTransaction1.commitAllowingStateLoss();
+                    fragmentTransaction1.commit();
 
                 }
                 break;

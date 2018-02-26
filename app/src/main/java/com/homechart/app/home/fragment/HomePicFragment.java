@@ -89,7 +89,7 @@ public class HomePicFragment
         OnLoadMoreListener,
         OnRefreshListener,
         HomeTagAdapter.PopupWindowCallBack,
-        SelectColorSeCaiWindow.SureColor  {
+        SelectColorSeCaiWindow.SureColor {
 
     private FragmentManager fragmentManager;
     private ImageView iv_change_frag;
@@ -167,7 +167,7 @@ public class HomePicFragment
     @Override
     protected void initView() {
 
-        Log.d("test","initView");
+        Log.d("test", "initView");
         cet_clearedit = (ClearEditText) rootView.findViewById(R.id.cet_clearedit);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_pic);
 
@@ -346,7 +346,7 @@ public class HomePicFragment
             String search_tag = data.getStringExtra("search_tag");
             String search_info = data.getStringExtra("search_info");
 
-            NewSearchResultFragment newSearchResultFragment = new NewSearchResultFragment(getChildFragmentManager(),search_tag,search_info);
+            NewSearchResultFragment newSearchResultFragment = new NewSearchResultFragment(getChildFragmentManager(), search_tag, search_info);
             Bundle bundle = new Bundle();
             bundle.putString("search_tag", search_tag);
             bundle.putString("search_info", search_info);
@@ -355,6 +355,7 @@ public class HomePicFragment
             fragmentTransaction.replace(R.id.id_main, newSearchResultFragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commitAllowingStateLoss();
+            ClassConstant.HomeStatus.IMAGE_STATUS = 1;
         }
     }
 
@@ -426,6 +427,7 @@ public class HomePicFragment
                             fragmentTransaction.replace(R.id.id_main, newHuoDongDetailsFragment);
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
+                            ClassConstant.HomeStatus.IMAGE_STATUS = 1;
                         }
                     });
                 } else {
@@ -501,7 +503,8 @@ public class HomePicFragment
                             FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                             fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
                             fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commitAllowingStateLoss();
+                            fragmentTransaction.commit();
+                            ClassConstant.HomeStatus.IMAGE_STATUS = 1;
                         }
                     });
                     holder.getView(R.id.tv_name_pic).setOnClickListener(new View.OnClickListener() {
@@ -514,7 +517,8 @@ public class HomePicFragment
                             FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                             fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
                             fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commitAllowingStateLoss();
+                            fragmentTransaction.commit();
+                            ClassConstant.HomeStatus.IMAGE_STATUS = 1;
                         }
                     });
 
@@ -539,7 +543,8 @@ public class HomePicFragment
                             newImageDetailsFragment.setArguments(bundle);
                             FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                             fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newImageDetailsFragment);
-                            fragmentTransaction.commitAllowingStateLoss();
+                            fragmentTransaction.commit();
+                            ClassConstant.HomeStatus.IMAGE_STATUS = 1;
                         }
                     });
 
@@ -1113,6 +1118,13 @@ public class HomePicFragment
         animationSet.setStartOffset(0);
         animationSet.setRepeatCount(Animation.INFINITE);
         animationSet.setRepeatMode(Animation.REVERSE);
+    }
+
+    public void scrollRecyclerView() {
+        if (mListData.size() > 0) {
+            mRecyclerView.scrollToPosition(0);
+            rl_pic_change.setVisibility(View.VISIBLE);
+        }
     }
 
     private boolean ifClickAble = true;

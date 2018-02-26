@@ -179,6 +179,7 @@ public class HomeActivity
                     changeBottomUI(1);
                     getSupportFragmentManager().beginTransaction().hide(mHomeCenterFragment).hide(mHomeFaXianFragment).show(mHomePicFragment).commit();
                 } else {
+                    int before = ClassConstant.HomeStatus.IMAGE_STATUS;
                     FragmentManager fragmentManager = mHomePicFragment.getChildFragmentManager();
                     List<Fragment> list = fragmentManager.getFragments();
                     if (list != null && list.size() > 0) {
@@ -192,6 +193,11 @@ public class HomeActivity
                             }
                         }
                     }
+                    if (before == 0) {
+                        mHomePicFragment.scrollRecyclerView();
+                    } else {
+                        ClassConstant.HomeStatus.IMAGE_STATUS = 0;
+                    }
                 }
                 break;
             case R.id.rl_btn_faxian:
@@ -200,6 +206,7 @@ public class HomeActivity
                     changeBottomUI(2);
                     getSupportFragmentManager().beginTransaction().hide(mHomePicFragment).hide(mHomeCenterFragment).show(mHomeFaXianFragment).commit();
                 } else {
+                    int before = ClassConstant.HomeStatus.FAXIAN_STATUS;
                     FragmentManager fragmentManager = mHomeFaXianFragment.getChildFragmentManager();
                     List<Fragment> list = fragmentManager.getFragments();
                     if (list != null && list.size() > 0) {
@@ -212,6 +219,11 @@ public class HomeActivity
 
                             }
                         }
+                    }
+                    if (before == 0) {
+                        mHomeFaXianFragment.scrollRecyclerView();
+                    } else {
+                        ClassConstant.HomeStatus.FAXIAN_STATUS = 0;
                     }
                 }
                 break;

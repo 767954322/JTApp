@@ -76,7 +76,7 @@ import java.util.Map;
 public class HomeFaXianFragment
         extends BaseFragment
         implements OnLoadMoreListener,
-        OnRefreshListener, View.OnClickListener,MyHuaTiAdapter.ClickZhuTi {
+        OnRefreshListener, View.OnClickListener, MyHuaTiAdapter.ClickZhuTi {
 
     private FragmentManager fragmentManager;
     public PingDaoBean pingDaoBean;
@@ -170,7 +170,7 @@ public class HomeFaXianFragment
                             if (mMoveY > mDownY) {
                                 if (mListPingDao1.size() > 0) {
                                     mRecyclerView2.setVisibility(View.VISIBLE);
-                                }else {
+                                } else {
                                     mRecyclerView2.setVisibility(View.GONE);
                                 }
                             } else {
@@ -314,6 +314,7 @@ public class HomeFaXianFragment
                         fragmentTransaction.replace(R.id.id_main, newLanMuFragment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
+                        ClassConstant.HomeStatus.FAXIAN_STATUS = 1;
                     }
                 });
             }
@@ -402,6 +403,7 @@ public class HomeFaXianFragment
                         fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
+                        ClassConstant.HomeStatus.FAXIAN_STATUS = 1;
                     }
                 });
                 holder.getView(R.id.tv_name_pic).setOnClickListener(new View.OnClickListener() {
@@ -415,6 +417,7 @@ public class HomeFaXianFragment
                         fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
+                        ClassConstant.HomeStatus.FAXIAN_STATUS = 1;
                     }
                 });
 
@@ -438,7 +441,8 @@ public class HomeFaXianFragment
                         newImageDetailsFragment.setArguments(bundle);
                         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                         fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newImageDetailsFragment);
-                        fragmentTransaction.commitAllowingStateLoss();
+                        fragmentTransaction.commit();
+                        ClassConstant.HomeStatus.FAXIAN_STATUS = 1;
                     }
                 });
                 holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
@@ -528,7 +532,7 @@ public class HomeFaXianFragment
         mListHuaTi.clear();
         mListHuaTi.addAll(list);
         if (myHuaTiAdapter == null) {
-            myHuaTiAdapter = new MyHuaTiAdapter(list, activity,HomeFaXianFragment.this);
+            myHuaTiAdapter = new MyHuaTiAdapter(list, activity, HomeFaXianFragment.this);
             lv_faxian_header.setAdapter(myHuaTiAdapter);
             lv_faxian_header.setVisibility(View.VISIBLE);
         } else {
@@ -745,7 +749,8 @@ public class HomeFaXianFragment
             FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.id_main, newSearchResultFragment);
             fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commitAllowingStateLoss();
+            fragmentTransaction.commit();
+            ClassConstant.HomeStatus.FAXIAN_STATUS = 1;
         } else if (requestCode == 11 && resultCode == 11) {
             int clickPosition = data.getIntExtra("position", 0);
 
@@ -826,7 +831,7 @@ public class HomeFaXianFragment
 
     @Override
     public void clickZhuTi(int position) {
-        if(mListHuaTi.size() > position){
+        if (mListHuaTi.size() > position) {
             mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
             NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(getChildFragmentManager());
             Bundle bundle = new Bundle();
@@ -839,6 +844,19 @@ public class HomeFaXianFragment
             fragmentTransaction.replace(R.id.id_main, newInspirationDetailsment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
+            ClassConstant.HomeStatus.FAXIAN_STATUS = 1;
         }
     }
+
+    public void scrollRecyclerView() {
+        if (mListData.size() > 0) {
+            mRecyclerView.scrollToPosition(0);
+            if (mListPingDao1.size() > 0) {
+                mRecyclerView2.setVisibility(View.VISIBLE);
+            } else {
+                mRecyclerView2.setVisibility(View.GONE);
+            }
+        }
+    }
+
 }
