@@ -23,6 +23,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/font_271"
+                    android:scaleType="fitXY"
                     android:src="@drawable/backg" />
 
                 <RelativeLayout
