@@ -135,6 +135,7 @@ public class ClassConstant {
 
     public static class SearchList {
         public static final String Q = "q";
+        public static final String CHANNEL_NAME = "channel_name";
         public static final String TAG_NAME = "tag";
         public static final String S = "s";
         public static final String N = "n";

@@ -649,7 +649,7 @@ public class NewLanMuFragment
                 }
             }
         };
-        MyHttpManager.getInstance().getNewFaXianList("", tag_name, "", (page_num - 1) * 20 + "", "20", callBack);
+        MyHttpManager.getInstance().getTagPics("", tag_name, "", (page_num - 1) * 20 + "", "20", callBack);
     }
 
     private void changeZhuTi(List<RecommendItemDataBean> list) {
