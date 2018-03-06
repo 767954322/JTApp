@@ -27,8 +27,8 @@
                 android:layout_centerVertical="true"
                 android:paddingLeft="@dimen/font_10"
                 android:paddingRight="@dimen/font_15"
-                android:visibility="gone"
-                android:src="@drawable/shaixuan" />
+                android:src="@drawable/shaixuan"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/iv_top_logo"
@@ -38,19 +38,19 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/font_15"
                 android:layout_marginRight="@dimen/font_10"
-                android:visibility="gone"
-                android:src="@drawable/jiatu" />
+                android:src="@drawable/jiatu"
+                android:visibility="gone" />
 
             <com.homechart.app.myview.ClearEditText
                 android:id="@+id/cet_clearedit"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/font_27"
                 android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/font_15"
+                android:layout_marginRight="@dimen/font_15"
                 android:background="@drawable/bg_edittext_search"
                 android:drawableLeft="@drawable/fdj"
                 android:drawablePadding="@dimen/font_6"
-                android:layout_marginLeft="@dimen/font_15"
-                android:layout_marginRight="@dimen/font_15"
                 android:gravity="center_vertical"
                 android:hint="搜索你感兴趣的图片"
                 android:paddingLeft="@dimen/font_10"
@@ -135,10 +135,48 @@
         <RelativeLayout
             android:id="@+id/rl_go_dingyue"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/font_24"
+            android:layout_height="@dimen/font_40"
             android:layout_below="@+id/rl_pic_change"
-            android:visibility="gone"
-            android:background="@color/red">
+            android:background="@color/bg_e79056"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="订阅标签，定制你的专属首页"
+                    android:textColor="@drawable/white"
+                    android:textSize="@dimen/size_14" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/font_6"
+                    android:src="@drawable/dakai" />
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rl_close_dingyue"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:clickable="true">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="@dimen/font_15"
+                    android:paddingRight="@dimen/font_15"
+                    android:src="@drawable/guan_1" />
+            </RelativeLayout>
 
         </RelativeLayout>
 

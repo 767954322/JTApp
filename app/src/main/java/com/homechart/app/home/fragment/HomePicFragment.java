@@ -150,6 +150,7 @@ public class HomePicFragment
     private String is_subscribed_tag;
     private RelativeLayout rl_new_top;
     private RelativeLayout rl_go_dingyue;
+    private RelativeLayout rl_close_dingyue;
 
     public HomePicFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -181,6 +182,7 @@ public class HomePicFragment
 
 
         rl_new_top = (RelativeLayout) rootView.findViewById(R.id.rl_new_top);
+        rl_close_dingyue = (RelativeLayout) rootView.findViewById(R.id.rl_close_dingyue);
         rl_pic_change = (RelativeLayout) rootView.findViewById(R.id.rl_pic_change);
         rl_go_dingyue = (RelativeLayout) rootView.findViewById(R.id.rl_go_dingyue);
         iv_chongzhi = (ImageView) rootView.findViewById(R.id.iv_chongzhi);
@@ -203,6 +205,7 @@ public class HomePicFragment
         tv_color_tital.setOnClickListener(this);
         iv_color_icon.setOnClickListener(this);
         rl_go_dingyue.setOnClickListener(this);
+        rl_close_dingyue.setOnClickListener(this);
         bt_tag_page_item.setOnClickListener(this);
 //        mRecyclerView.addOnScrollListener(new OnVerticalScrollListener(){
 //            @Override
@@ -368,6 +371,9 @@ public class HomePicFragment
                     Intent intent_dingyue = new Intent(activity, DingYueGuanLiActivity.class);
                     startActivityForResult(intent_dingyue, 12);
                 }
+                break;
+            case R.id.rl_close_dingyue:
+                rl_go_dingyue.setVisibility(View.GONE);
                 break;
         }
     }
@@ -1043,6 +1049,7 @@ public class HomePicFragment
                         rl_go_dingyue.setVisibility(View.VISIBLE);
                     } else {//已经订阅过了，隐藏
                         rl_go_dingyue.setVisibility(View.GONE);
+                        onRefresh();
                     }
                 }
             } else if (msg.what == 6) {
