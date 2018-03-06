@@ -132,6 +132,15 @@
                 android:src="@drawable/changtu" />
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/rl_go_dingyue"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/font_24"
+            android:layout_below="@+id/rl_pic_change"
+            android:visibility="gone"
+            android:background="@color/red">
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

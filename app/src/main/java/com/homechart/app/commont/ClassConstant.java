@@ -92,6 +92,7 @@ public class ClassConstant {
         public static final String PROFESSION = "profession";
 
         public static final String IS_ENABLE_ITEM_SIMILAR = "is_enable_item_similar";
+        public static final String IS_SUBSCRIBED_TAG = "is_subscribed_tag";
     }
 
     //友盟登陆后，调用自己后台接口登陆

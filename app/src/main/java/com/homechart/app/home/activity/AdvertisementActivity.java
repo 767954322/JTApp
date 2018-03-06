@@ -116,6 +116,9 @@ public class AdvertisementActivity extends BaseActivity implements View.OnClickL
                     if (error_code == 0) {
                         AllSetBean allSetBean = GsonUtil.jsonToBean(data_msg,AllSetBean.class);
                         SharedPreferencesUtils.writeString(ClassConstant.LoginSucces.IS_ENABLE_ITEM_SIMILAR, allSetBean.getConfig_info().getIs_enable_item_similar());
+                        if(!TextUtils.isEmpty(allSetBean.getConfig_info().getIs_subscribed_tag())){
+                            SharedPreferencesUtils.writeString(ClassConstant.LoginSucces.IS_SUBSCRIBED_TAG, allSetBean.getConfig_info().getIs_subscribed_tag());
+                        }
                     }
                 } catch (JSONException e) {
                 }

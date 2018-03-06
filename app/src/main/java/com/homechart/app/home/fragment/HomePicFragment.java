@@ -37,12 +37,14 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
+import com.homechart.app.home.activity.DingYueGuanLiActivity;
 import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.NewHuoDongDetailsActivity;
 import com.homechart.app.home.activity.SearchActivity;
 import com.homechart.app.home.adapter.HomeTagAdapter;
 import com.homechart.app.home.base.BaseFragment;
+import com.homechart.app.home.bean.allset.AllSetBean;
 import com.homechart.app.home.bean.color.ColorBean;
 import com.homechart.app.home.bean.color.ColorItemBean;
 import com.homechart.app.home.bean.pictag.TagDataBean;
@@ -145,7 +147,9 @@ public class HomePicFragment
     private AnimationSet animationSet;
     private boolean ifScroll = false;
     private String is_enable_item_similar;
+    private String is_subscribed_tag;
     private RelativeLayout rl_new_top;
+    private RelativeLayout rl_go_dingyue;
 
     public HomePicFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -178,6 +182,7 @@ public class HomePicFragment
 
         rl_new_top = (RelativeLayout) rootView.findViewById(R.id.rl_new_top);
         rl_pic_change = (RelativeLayout) rootView.findViewById(R.id.rl_pic_change);
+        rl_go_dingyue = (RelativeLayout) rootView.findViewById(R.id.rl_go_dingyue);
         iv_chongzhi = (ImageView) rootView.findViewById(R.id.iv_chongzhi);
         iv_color_icon = (ImageView) rootView.findViewById(R.id.iv_color_icon);
         iv_change_frag = (ImageView) rootView.findViewById(R.id.iv_change_frag);
@@ -197,6 +202,7 @@ public class HomePicFragment
         iv_open_pop.setOnClickListener(this);
         tv_color_tital.setOnClickListener(this);
         iv_color_icon.setOnClickListener(this);
+        rl_go_dingyue.setOnClickListener(this);
         bt_tag_page_item.setOnClickListener(this);
 //        mRecyclerView.addOnScrollListener(new OnVerticalScrollListener(){
 //            @Override
@@ -272,9 +278,19 @@ public class HomePicFragment
         staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_15);
         width_Pic_List = PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_14);
+        getAllSet();
         buildRecyclerView();
         getTagData();
         getColorData();
+        is_subscribed_tag = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.IS_SUBSCRIBED_TAG);
+        if (!TextUtils.isEmpty(is_subscribed_tag)) {
+            //是否已订阅标签 1:是 0:否
+            if (is_subscribed_tag.equals("0")) {//没订阅，显示查看订阅管理页
+                rl_go_dingyue.setVisibility(View.VISIBLE);
+            } else {//已经订阅过了，隐藏
+                rl_go_dingyue.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
@@ -332,6 +348,10 @@ public class HomePicFragment
             case R.id.view_pop_bottom:
                 selectColorPopupWindow.dismiss();
                 break;
+            case R.id.rl_go_dingyue:
+                Intent intent_dingyue = new Intent(activity, DingYueGuanLiActivity.class);
+                startActivityForResult(intent_dingyue,12);
+                break;
         }
     }
 
@@ -356,6 +376,8 @@ public class HomePicFragment
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commitAllowingStateLoss();
             ClassConstant.HomeStatus.IMAGE_STATUS = 1;
+        }else if(requestCode == 12){
+            getAllSet();
         }
     }
 
@@ -994,6 +1016,16 @@ public class HomePicFragment
                 }
 
                 ifClickAble = true;
+            } else if (msg.what == 5) {
+                is_subscribed_tag = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.IS_SUBSCRIBED_TAG);
+                if (!TextUtils.isEmpty(is_subscribed_tag)) {
+                    //是否已订阅标签 1:是 0:否
+                    if (is_subscribed_tag.equals("0")) {//没订阅，显示查看订阅管理页
+                        rl_go_dingyue.setVisibility(View.VISIBLE);
+                    } else {//已经订阅过了，隐藏
+                        rl_go_dingyue.setVisibility(View.GONE);
+                    }
+                }
             }
         }
     };
@@ -1129,5 +1161,38 @@ public class HomePicFragment
 
     private boolean ifClickAble = true;
     private Map<String, Integer> mapSearch = new HashMap<>();
+
+
+    private void getAllSet() {
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        AllSetBean allSetBean = GsonUtil.jsonToBean(data_msg, AllSetBean.class);
+                        SharedPreferencesUtils.writeString(ClassConstant.LoginSucces.IS_ENABLE_ITEM_SIMILAR, allSetBean.getConfig_info().getIs_enable_item_similar());
+                        if (!TextUtils.isEmpty(allSetBean.getConfig_info().getIs_subscribed_tag())) {
+                            SharedPreferencesUtils.writeString(ClassConstant.LoginSucces.IS_SUBSCRIBED_TAG, allSetBean.getConfig_info().getIs_subscribed_tag());
+                        }
+                        Message message = new Message();
+                        message.what = 5;
+                        mHandler.sendMessage(message);
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().allSet(callBack);
+
+    }
 
 }
