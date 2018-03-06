@@ -92,7 +92,7 @@ public class PingDaoListActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
 
-                ((TextView) holder.getView(R.id.tv_item_pingdao)).setText(mListData.get(position).getTag_name());
+                ((TextView) holder.getView(R.id.tv_item_pingdao)).setText(mListData.get(position).getChannel_name());
                 holder.getView(R.id.rl_pingdao_list).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

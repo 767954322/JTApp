@@ -3464,13 +3464,12 @@ public class MyHttpManager {
     }
 
     /**
-     * 获取举报选项
+     * 获取频道列表及关联标签
      *
-     * @param type
      * @param callback
      */
     public void getPingDaoTags(OkStringRequest.OKResponseCallback callback) {
-        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.PINGDAO_TAGS, callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.NEW_PINGDAO_TAGS, callback) {
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {

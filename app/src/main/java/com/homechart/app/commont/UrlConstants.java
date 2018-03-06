@@ -121,6 +121,8 @@ public class UrlConstants {
     public static final String IMAGE_USER = "https://api.idcool.com.cn/item/item/getListByUserId";  //获取一个用户的所有图片
     public static final String JUBAO_LIST = "https://api.idcool.com.cn/report/report/getList";  //获取举报选项
     public static final String PINGDAO_TAGS = "https://api.idcool.com.cn/base/tag/getChannelTag";  //获取频道列表及关联标签
+    public static final String NEW_PINGDAO_TAGS = "https://api.idcool.com.cn/base/channel/getList";  //获取频道列表及关联标签
+
     public static final String GUANLIAN_TAGS = "https://api.idcool.com.cn/base/tag/getRelationTag";  //获取标签的关联标签
 
     public static final String TAG_DINGYUE = "https://api.idcool.com.cn/subscribe/tag/add";  //订阅一个可订阅的标签

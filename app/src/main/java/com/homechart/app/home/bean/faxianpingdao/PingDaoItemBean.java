@@ -9,20 +9,21 @@ import java.util.List;
 
 public class PingDaoItemBean implements Serializable {
 
-    private String tag_name;
+    private String channel_name;
     private List<String> relation_tag;
 
-    public PingDaoItemBean(String tag_name, List<String> relation_tag) {
-        this.tag_name = tag_name;
+
+    public PingDaoItemBean(String channel_name, List<String> relation_tag) {
+        this.channel_name = channel_name;
         this.relation_tag = relation_tag;
     }
 
-    public String getTag_name() {
-        return tag_name;
+    public String getChannel_name() {
+        return channel_name;
     }
 
-    public void setTag_name(String tag_name) {
-        this.tag_name = tag_name;
+    public void setChannel_name(String channel_name) {
+        this.channel_name = channel_name;
     }
 
     public List<String> getRelation_tag() {
@@ -36,7 +37,7 @@ public class PingDaoItemBean implements Serializable {
     @Override
     public String toString() {
         return "PingDaoItemBean{" +
-                "tag_name='" + tag_name + '\'' +
+                "channel_name='" + channel_name + '\'' +
                 ", relation_tag=" + relation_tag +
                 '}';
     }

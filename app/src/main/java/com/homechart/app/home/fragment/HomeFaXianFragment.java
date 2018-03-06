@@ -240,7 +240,7 @@ public class HomeFaXianFragment
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
 
-                ((TextView) holder.getView(R.id.tv_item_pingdao)).setText(mListPingDao.get(position).getTag_name());
+                ((TextView) holder.getView(R.id.tv_item_pingdao)).setText(mListPingDao.get(position).getChannel_name());
                 TextPaint tp = ((TextView) holder.getView(R.id.tv_item_pingdao)).getPaint();
                 if (selectPosition == position) {
                     tp.setFakeBoldText(true);
@@ -254,11 +254,11 @@ public class HomeFaXianFragment
                 holder.getView(R.id.rl_pingdao).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (mListPingDao.size() > position && !tagName.equals(mListPingDao.get(position).getTag_name())) {
+                        if (mListPingDao.size() > position && !tagName.equals(mListPingDao.get(position).getChannel_name())) {
                             CustomProgress.show(activity, "", false, null);
                             selectPosition = position;
                             mAdapter1.notifyDataSetChanged();
-                            tagName = mListPingDao.get(position).getTag_name();
+                            tagName = mListPingDao.get(position).getChannel_name();
                             onRefresh();
                             List<String> strList = mListPingDao.get(position).getRelation_tag();
                             if (null != strList && strList.size() > 0) {
@@ -757,7 +757,7 @@ public class HomeFaXianFragment
             CustomProgress.show(activity, "", false, null);
             selectPosition = clickPosition;
             mAdapter1.notifyDataSetChanged();
-            tagName = mListPingDao.get(selectPosition).getTag_name();
+            tagName = mListPingDao.get(selectPosition).getChannel_name();
             onRefresh();
             List<String> strList = mListPingDao.get(selectPosition).getRelation_tag();
             if (null != strList && strList.size() > 0) {
