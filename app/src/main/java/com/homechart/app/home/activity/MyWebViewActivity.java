@@ -128,12 +128,12 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
         settings.setLoadWithOverviewMode(true);
 
 // 是否支持Javascript，默认值false
-        settings.setJavaScriptEnabled(true);
+        settings.setJavaScriptEnabled(false);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // 5.0以上允许加载http和https混合的页面(5.0以下默认允许，5.0+默认禁止)
-            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            // 5.0以上允许加载http和https混合的页面(5.0以下默认允许，5.0+默认禁止)
+//            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+//        }
 
 //        settings.setSupportMultipleWindows(false);
 //        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);//不使用缓存
@@ -164,18 +164,36 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
 //                                    }
 //                                }
 //        );
-//        mWeb.setWebViewClient(new WebViewClient() {
-//            @Override
-//            public void onPageFinished(WebView view, String url) {
-//                super.onPageFinished(view, url);
-//            }
-//
-//            @Override
-//            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-//                super.onReceivedError(view, request, error);
-//
-//            }
-//        });
+        mWeb.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                //该方法在Build.VERSION_CODES.LOLLIPOP以前有效，从Build.VERSION_CODES.LOLLIPOP起，建议使用shouldOverrideUrlLoading(WebView, WebResourceRequest)} instead
+                //返回false，意味着请求过程里，不管有多少次的跳转请求（即新的请求地址），均交给webView自己处理，这也是此方法的默认处理
+                //返回true，说明你自己想根据url，做新的跳转，比如在判断url符合条件的情况下，我想让webView加载http://ask.csdn.net/questions/178242
+
+                if (url.toString().contains("sina.cn")){
+                    view.loadUrl("http://ask.csdn.net/questions/178242");
+                    return true;
+                }
+
+                return false;
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request)
+            {
+                //返回false，意味着请求过程里，不管有多少次的跳转请求（即新的请求地址），均交给webView自己处理，这也是此方法的默认处理
+                //返回true，说明你自己想根据url，做新的跳转，比如在判断url符合条件的情况下，我想让webView加载http://ask.csdn.net/questions/178242
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    if (request.getUrl().toString().contains("sina.cn")){
+                        view.loadUrl("http://ask.csdn.net/questions/178242");
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        });
     }
 
     @Override
