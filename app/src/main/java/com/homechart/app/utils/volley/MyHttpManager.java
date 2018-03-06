@@ -3584,7 +3584,7 @@ public class MyHttpManager {
                     map.put(ClassConstant.SearchList.Q, q);
                 }
                 if (!TextUtils.isEmpty(tag_name.trim())) {
-                    map.put(ClassConstant.SearchList.TAG_NAME, tag_name);
+                    map.put(ClassConstant.SearchList.TAG_NAME1, tag_name);
                 }
                 if (!TextUtils.isEmpty(color_id.trim())) {
                     map.put(ClassConstant.SearchList.COLOR_ID, color_id);
