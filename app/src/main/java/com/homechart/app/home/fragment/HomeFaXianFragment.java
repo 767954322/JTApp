@@ -672,7 +672,7 @@ public class HomeFaXianFragment
                 }
             }
         };
-        MyHttpManager.getInstance().getFaXianList("", tagName, "", (page_num - 1) * 20 + "", "20", callBack);
+        MyHttpManager.getInstance().getNewFaXianList("", tagName, "", (page_num - 1) * 20 + "", "20", callBack);
     }
 
     private void updateViewFromData(List<SearchItemDataBean> listData, String state) {

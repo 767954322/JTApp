@@ -43,6 +43,7 @@ public class UrlConstants {
     public static final String RECOMMEND_LIST = "https://api.idcool.com.cn/home/index/recommend";  // 获取首页推荐列表
     public static final String SEARCH_LIST = "https://api.idcool.com.cn/home/index/recommend";  // 新版获取搜索列表
     public static final String FAXIAN_LIST = "https://api.idcool.com.cn/search/search/item";  // 新版获取搜索列表
+    public static final String NEW_FAXIAN_LIST = "https://api.idcool.com.cn/item/item/getItemsByChannel";  // 新版获取搜索列表
 //    public static final String SEARCH_LIST1 = "https://api.idcool.com.cn/search/search/single";  // 获取搜索列表
     public static final String TAG_DATA = "https://api.idcool.com.cn/base/tag/getFilterTag";  // 获取筛选标签
     public static final String TUIJIAN_TAG = "https://api.idcool.com.cn/base/tag/getRecommendTag";  // 获取推荐标签
