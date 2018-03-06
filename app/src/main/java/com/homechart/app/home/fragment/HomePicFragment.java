@@ -349,8 +349,25 @@ public class HomePicFragment
                 selectColorPopupWindow.dismiss();
                 break;
             case R.id.rl_go_dingyue:
-                Intent intent_dingyue = new Intent(activity, DingYueGuanLiActivity.class);
-                startActivityForResult(intent_dingyue,12);
+                loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                userId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
+                if (!loginStatus) {
+                    //友盟统计
+                    HashMap<String, String> map4 = new HashMap<String, String>();
+                    map4.put("evenname", "登录入口");
+                    map4.put("even", "首页订阅标签入口");
+                    MobclickAgent.onEvent(activity, "shijian20", map4);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("首页订阅标签入口")  //事件类别
+                            .setAction("登录入口")      //事件操作
+                            .build());
+                    Intent intent1 = new Intent(activity, LoginActivity.class);
+                    startActivityForResult(intent1, 13);
+                } else {
+                    Intent intent_dingyue = new Intent(activity, DingYueGuanLiActivity.class);
+                    startActivityForResult(intent_dingyue, 12);
+                }
                 break;
         }
     }
@@ -376,8 +393,10 @@ public class HomePicFragment
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commitAllowingStateLoss();
             ClassConstant.HomeStatus.IMAGE_STATUS = 1;
-        }else if(requestCode == 12){
+        } else if (requestCode == 12) {
             getAllSet();
+        } else if (requestCode == 13) {
+            getAllSet1();
         }
     }
 
@@ -1026,6 +1045,18 @@ public class HomePicFragment
                         rl_go_dingyue.setVisibility(View.GONE);
                     }
                 }
+            } else if (msg.what == 6) {
+                is_subscribed_tag = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.IS_SUBSCRIBED_TAG);
+                if (!TextUtils.isEmpty(is_subscribed_tag)) {
+                    //是否已订阅标签 1:是 0:否
+                    if (is_subscribed_tag.equals("0")) {//没订阅，显示查看订阅管理页
+                        rl_go_dingyue.setVisibility(View.VISIBLE);
+                        Intent intent_dingyue = new Intent(activity, DingYueGuanLiActivity.class);
+                        startActivityForResult(intent_dingyue, 12);
+                    } else {//已经订阅过了，隐藏
+                        rl_go_dingyue.setVisibility(View.GONE);
+                    }
+                }
             }
         }
     };
@@ -1185,6 +1216,38 @@ public class HomePicFragment
                         }
                         Message message = new Message();
                         message.what = 5;
+                        mHandler.sendMessage(message);
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().allSet(callBack);
+
+    }
+
+    private void getAllSet1() {
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        AllSetBean allSetBean = GsonUtil.jsonToBean(data_msg, AllSetBean.class);
+                        SharedPreferencesUtils.writeString(ClassConstant.LoginSucces.IS_ENABLE_ITEM_SIMILAR, allSetBean.getConfig_info().getIs_enable_item_similar());
+                        if (!TextUtils.isEmpty(allSetBean.getConfig_info().getIs_subscribed_tag())) {
+                            SharedPreferencesUtils.writeString(ClassConstant.LoginSucces.IS_SUBSCRIBED_TAG, allSetBean.getConfig_info().getIs_subscribed_tag());
+                        }
+                        Message message = new Message();
+                        message.what = 6;
                         mHandler.sendMessage(message);
                     }
                 } catch (JSONException e) {
