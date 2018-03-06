@@ -240,6 +240,12 @@ public class HomeFaXianFragment
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
 
+                if(position == mListPingDao.size() - 1){
+                    holder.getView(R.id.view_lastone).setVisibility(View.VISIBLE);
+                }else {
+                    holder.getView(R.id.view_lastone).setVisibility(View.GONE);
+                }
+
                 ((TextView) holder.getView(R.id.tv_item_pingdao)).setText(mListPingDao.get(position).getChannel_name());
                 TextPaint tp = ((TextView) holder.getView(R.id.tv_item_pingdao)).getPaint();
                 if (selectPosition == position) {

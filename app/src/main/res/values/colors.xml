@@ -8,6 +8,8 @@
     <color name="bg_00">#000000</color>
     <color name="bg_40000000">#40000000</color>
     <color name="bg_00000000">#00ffffff</color>
+
+    <color name="bg_e6000000">#E6ffffff</color>
     <color name="bg_ff000000">#ffffffff</color>
     <color name="bg_22">#1f1f1f</color>
     <color name="bg_33">#333333</color>

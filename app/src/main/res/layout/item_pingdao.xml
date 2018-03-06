@@ -54,4 +54,10 @@
     </RelativeLayout>
 
 
+    <View
+        android:id="@+id/view_lastone"
+        android:layout_width="@dimen/font_49"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_toRightOf="@+id/rl_item_pingdao"/>
 </RelativeLayout>
