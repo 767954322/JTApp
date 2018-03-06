@@ -244,7 +244,7 @@ public class HomeFaXianFragment
                 TextPaint tp = ((TextView) holder.getView(R.id.tv_item_pingdao)).getPaint();
                 if (selectPosition == position) {
                     tp.setFakeBoldText(true);
-                    ((TextView) holder.getView(R.id.tv_item_pingdao)).setTextColor(UIUtils.getColor(R.color.bg_262626));
+                    ((TextView) holder.getView(R.id.tv_item_pingdao)).setTextColor(UIUtils.getColor(R.color.bg_e79056));
                     holder.getView(R.id.view_bottom).setVisibility(View.VISIBLE);
                 } else {
                     tp.setFakeBoldText(false);

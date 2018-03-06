@@ -30,15 +30,26 @@
             android:textColor="@color/bg_464646"
             android:textSize="@dimen/size_14" />
 
-        <View
+
+
+        <ImageView
             android:id="@+id/view_bottom"
-            android:layout_width="@dimen/font_26"
-            android:layout_height="@dimen/font_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/tri"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/font_2"
-            android:visibility="gone"
-            android:background="@drawable/bg_pingdao_below" />
+            android:layout_marginBottom="@dimen/font_4" />
+
+        <!--<View-->
+            <!--android:id="@+id/view_bottom"-->
+            <!--android:layout_width="@dimen/font_26"-->
+            <!--android:layout_height="@dimen/font_2"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginBottom="@dimen/font_2"-->
+            <!--android:visibility="visible"-->
+            <!--android:background="@drawable/bg_pingdao_below" />-->
 
     </RelativeLayout>
 
