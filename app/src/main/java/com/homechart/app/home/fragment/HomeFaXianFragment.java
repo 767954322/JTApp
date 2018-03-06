@@ -33,8 +33,8 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.LoginActivity;
-import com.homechart.app.home.activity.PingDaoListActivity;
 import com.homechart.app.home.activity.SearchActivity;
+import com.homechart.app.home.activity.TagsListActivity;
 import com.homechart.app.home.adapter.MyHuaTiAdapter;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.faxianpingdao.PingDaoBean;
@@ -203,7 +203,7 @@ public class HomeFaXianFragment
                 startActivityForResult(intent, 10);
                 break;
             case R.id.iv_more:
-                Intent intent1 = new Intent(activity, PingDaoListActivity.class);
+                Intent intent1 = new Intent(activity, TagsListActivity.class);
                 intent1.putExtra("list", (Serializable) mListPingDao);
                 startActivityForResult(intent1, 11);
                 break;
@@ -749,27 +749,38 @@ public class HomeFaXianFragment
             FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.id_main, newSearchResultFragment);
             fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
             ClassConstant.HomeStatus.FAXIAN_STATUS = 1;
         } else if (requestCode == 11 && resultCode == 11) {
             int clickPosition = data.getIntExtra("position", 0);
+            String tag_name = data.getStringExtra("tag_name");
 
-            CustomProgress.show(activity, "", false, null);
-            selectPosition = clickPosition;
-            mAdapter1.notifyDataSetChanged();
-            tagName = mListPingDao.get(selectPosition).getChannel_name();
-            onRefresh();
-            List<String> strList = mListPingDao.get(selectPosition).getRelation_tag();
-            if (null != strList && strList.size() > 0) {
-                mRecyclerView2.setVisibility(View.VISIBLE);
-                mListPingDao1.clear();
-                mListPingDao1.addAll(strList);
-                mAdapter2.notifyDataSetChanged();
-                mRecyclerView2.scrollToPosition(0);
-            } else {
-                mRecyclerView2.setVisibility(View.GONE);
-            }
-            mRecyclerView1.scrollToPosition(selectPosition);
+            NewLanMuFragment newLanMuFragment = new NewLanMuFragment(getChildFragmentManager());
+            Bundle bundle = new Bundle();
+            bundle.putString("tag_name", tag_name);
+            newLanMuFragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.id_main, newLanMuFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commitAllowingStateLoss();
+            ClassConstant.HomeStatus.FAXIAN_STATUS = 1;
+
+//            CustomProgress.show(activity, "", false, null);
+//            selectPosition = clickPosition;
+//            mAdapter1.notifyDataSetChanged();
+//            tagName = mListPingDao.get(selectPosition).getChannel_name();
+//            onRefresh();
+//            List<String> strList = mListPingDao.get(selectPosition).getRelation_tag();
+//            if (null != strList && strList.size() > 0) {
+//                mRecyclerView2.setVisibility(View.VISIBLE);
+//                mListPingDao1.clear();
+//                mListPingDao1.addAll(strList);
+//                mAdapter2.notifyDataSetChanged();
+//                mRecyclerView2.scrollToPosition(0);
+//            } else {
+//                mRecyclerView2.setVisibility(View.GONE);
+//            }
+//            mRecyclerView1.scrollToPosition(selectPosition);
 
         }
     }

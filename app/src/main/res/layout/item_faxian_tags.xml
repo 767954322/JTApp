@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_pingdao_list"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tv_dingyue_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/font_20"
+        android:text="空间利用"
+        android:layout_marginTop="@dimen/font_20"
+        android:textColor="@color/bg_8f8f8f"
+        android:textSize="@dimen/size_16" />
+
+    <com.homechart.app.myview.FlowLayoutFaXianTags
+        android:id="@+id/fl_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_dingyue_tab"
+        android:background="@color/white" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/fl_tags"
+        android:layout_marginLeft="@dimen/font_15"
+        android:layout_marginRight="@dimen/font_15"
+        android:background="@color/bg_e6e6e6"/>
+
+</RelativeLayout>

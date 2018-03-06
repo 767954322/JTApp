@@ -2664,7 +2664,7 @@ public class MyHttpManager {
      * @param report_id
      * @param callback
      */
-    public void juBaoImage(final String content,final String type, final String object_id, final String report_id, OkStringRequest.OKResponseCallback callback) {
+    public void juBaoImage(final String content, final String type, final String object_id, final String report_id, OkStringRequest.OKResponseCallback callback) {
         OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.JUBAO, callback) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
@@ -3173,7 +3173,7 @@ public class MyHttpManager {
      * @param description
      * @param callback
      */
-    public void editInspiration(final String show_type,final String album_id, final String album_name, final String description, OkStringRequest.OKResponseCallback callback) {
+    public void editInspiration(final String show_type, final String album_id, final String album_name, final String description, OkStringRequest.OKResponseCallback callback) {
         OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.EDIT_INSPIRATION, callback) {
 
             @Override
@@ -3496,7 +3496,7 @@ public class MyHttpManager {
      * @param n
      * @param callback
      */
-    public void getFaXianList( final String q, final String tag_name, final String color_id ,final String s, final String n, OkStringRequest.OKResponseCallback callback) {
+    public void getFaXianList(final String q, final String tag_name, final String color_id, final String s, final String n, OkStringRequest.OKResponseCallback callback) {
         OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.FAXIAN_LIST, callback) {
 
             @Override
@@ -3535,7 +3535,7 @@ public class MyHttpManager {
      * @param n
      * @param callback
      */
-    public void getChannelPics( final String q, final String channel_name, final String color_id ,final String s, final String n, OkStringRequest.OKResponseCallback callback) {
+    public void getChannelPics(final String q, final String channel_name, final String color_id, final String s, final String n, OkStringRequest.OKResponseCallback callback) {
         OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.GET_CHANNEL_PICS, callback) {
 
             @Override
@@ -3574,7 +3574,7 @@ public class MyHttpManager {
      * @param n
      * @param callback
      */
-    public void getTagPics( final String q, final String tag_name, final String color_id ,final String s, final String n, OkStringRequest.OKResponseCallback callback) {
+    public void getTagPics(final String q, final String tag_name, final String color_id, final String s, final String n, OkStringRequest.OKResponseCallback callback) {
         OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.GET_TAG_PICS, callback) {
 
             @Override
@@ -3608,17 +3608,44 @@ public class MyHttpManager {
 
 
     /**
+     * 获取标签导航列表
+     *
+     * @param callback
+     */
+    public void getTagList(OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.GET_TAG_LIST, callback) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+
+        };
+        queue.add(okStringRequest);
+    }
+
+    /**
      * 获取标签的关联标签
+     *
      * @param tag_name
      * @param callback
      */
-    public void getGuanLianTags(final String tag_name , OkStringRequest.OKResponseCallback callback) {
+    public void getGuanLianTags(final String tag_name, OkStringRequest.OKResponseCallback callback) {
         OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.GUANLIAN_TAGS, callback) {
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
-                map.put("tag_name",tag_name);
+                map.put("tag_name", tag_name);
                 String signString = PublicUtils.getSinaString(map);
                 String tabMd5String = Md5Util.getMD5twoTimes(signString);
                 map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
@@ -3661,12 +3688,12 @@ public class MyHttpManager {
     /**
      * 保存订阅管理
      */
-    public void saveDingYueTags(final String tag_ids , OkStringRequest.OKResponseCallback callback) {
+    public void saveDingYueTags(final String tag_ids, OkStringRequest.OKResponseCallback callback) {
         OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.SAVE_DINGYUE_TAGS, callback) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
-                map.put("tag_ids",tag_ids);
+                map.put("tag_ids", tag_ids);
                 String signString = PublicUtils.getSinaString(map);
                 String tabMd5String = Md5Util.getMD5twoTimes(signString);
                 map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
