@@ -187,7 +187,7 @@ public class NewLanMuFragment
     @Override
     protected void initData(Bundle savedInstanceState) {
         mTital.setText(tag_name);
-        width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_42);
+        width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_15);
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         buildRecyclerView1();
         getGuanLianTags();
