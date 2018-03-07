@@ -1006,6 +1006,7 @@ public class HomePicFragment
             } else if (msg.what == 2) {
                 String info = (String) msg.obj;
                 tagDataBean = GsonUtil.jsonToBean(info, TagDataBean.class);
+
             } else if (msg.what == 3) {
 
                 String info = (String) msg.obj;
@@ -1045,6 +1046,7 @@ public class HomePicFragment
 
                 ifClickAble = true;
             } else if (msg.what == 5) {
+
                 is_subscribed_tag = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.IS_SUBSCRIBED_TAG);
                 if (!TextUtils.isEmpty(is_subscribed_tag)) {
                     //是否已订阅标签 1:是 0:否

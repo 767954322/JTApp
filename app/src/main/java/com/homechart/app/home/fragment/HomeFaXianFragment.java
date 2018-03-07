@@ -192,7 +192,6 @@ public class HomeFaXianFragment
         buildHRecyclerView2();
         initAnimation();
         getPingDaoTag();
-        buildRecyclerView();
     }
 
     @Override
@@ -791,6 +790,7 @@ public class HomeFaXianFragment
         }
     }
 
+    boolean ifFirst = true ;
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -803,7 +803,11 @@ public class HomeFaXianFragment
                     mListPingDao.clear();
                     mListPingDao.addAll(list1);
                     mAdapter1.notifyDataSetChanged();
-
+                    if(list1.size()>0 && ifFirst){
+                        tagName = list1.get(0).getChannel_name();
+                        buildRecyclerView();
+                        ifFirst = false;
+                    }
                     if (mListPingDao.size() > 0 && mListPingDao.get(0).getRelation_tag().size() > 0) {
                         mListPingDao1.clear();
                         mListPingDao1.addAll(mListPingDao.get(0).getRelation_tag());
