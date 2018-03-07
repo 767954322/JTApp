@@ -21,7 +21,7 @@
         android:layout_alignLeft="@+id/iv_imageview_one"
         android:layout_alignRight="@+id/iv_imageview_one"
         android:layout_alignTop="@+id/iv_imageview_one"
-        android:background="@color/bg_40000000">
+        android:background="@drawable/huati">
 
         <TextView
             android:layout_width="wrap_content"
