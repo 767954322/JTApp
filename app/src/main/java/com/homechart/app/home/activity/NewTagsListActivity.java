@@ -1,6 +1,8 @@
 package com.homechart.app.home.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,20 +10,19 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.home.adapter.MyTagsAdapter;
 import com.homechart.app.home.base.BaseActivity;
-import com.homechart.app.home.bean.dingyueguanli.DYItemBean;
-import com.homechart.app.home.bean.dingyueguanli.DYlistBean;
-import com.homechart.app.home.bean.faxianpingdao.PingDaoItemBean;
 import com.homechart.app.home.bean.faxiantags.FaXianTagBean;
 import com.homechart.app.home.bean.faxiantags.ItemGroupBean;
-import com.homechart.app.myview.FlowLayoutDingYueTags;
 import com.homechart.app.myview.FlowLayoutFaXianTags;
+import com.homechart.app.myview.MyGridView;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
@@ -40,7 +41,11 @@ import java.util.List;
  * Created by gumenghao on 18/1/31.
  */
 
-public class TagsListActivity extends BaseActivity implements View.OnClickListener, FlowLayoutFaXianTags.OnTagClickListener {
+public class NewTagsListActivity
+        extends BaseActivity
+        implements View.OnClickListener,
+        MyTagsAdapter.ClickItemIns {
+
     private ImageButton mBack;
     private RecyclerView mRecyclerView;
     private MultiItemCommonAdapter<ItemGroupBean> mAdapter;
@@ -105,7 +110,7 @@ public class TagsListActivity extends BaseActivity implements View.OnClickListen
 
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
-                TagsListActivity.this.finish();
+                NewTagsListActivity.this.finish();
                 break;
         }
     }
@@ -126,19 +131,20 @@ public class TagsListActivity extends BaseActivity implements View.OnClickListen
                 return 0;
             }
         };
-        mAdapter = new MultiItemCommonAdapter<ItemGroupBean>(TagsListActivity.this, mListData, support) {
+        mAdapter = new MultiItemCommonAdapter<ItemGroupBean>(NewTagsListActivity.this, mListData, support) {
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
                 ((TextView) holder.getView(R.id.tv_dingyue_tab)).setText(mListData.get(position).getGroup_info().getGroup_name());
-
+                ((MyGridView) holder.getView(R.id.gv_content)).setSelector(new ColorDrawable(Color.TRANSPARENT));
+                ((MyGridView) holder.getView(R.id.gv_content)).setAdapter(new MyTagsAdapter(mListData.get(position).getGroup_info().getTag_list(), NewTagsListActivity.this, NewTagsListActivity.this, position));
 //                ((FlowLayoutFaXianTags) holder.getView(R.id.fl_tags)).setColorful(true);
 //                ((FlowLayoutFaXianTags) holder.getView(R.id.fl_tags)).setListData(mListData.get(position).getGroup_info().getTag_list(), position);
-//                ((FlowLayoutFaXianTags) holder.getView(R.id.fl_tags)).setOnTagClickListener(TagsListActivity.this);
+//                ((FlowLayoutFaXianTags) holder.getView(R.id.fl_tags)).setOnTagClickListener(NewTagsListActivity.this);
 
             }
         };
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(TagsListActivity.this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(NewTagsListActivity.this);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
@@ -150,7 +156,7 @@ public class TagsListActivity extends BaseActivity implements View.OnClickListen
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                ToastUtils.showCenter(TagsListActivity.this, "标签导航列表获取失败");
+                ToastUtils.showCenter(NewTagsListActivity.this, "标签导航列表获取失败");
             }
 
             @Override
@@ -166,7 +172,7 @@ public class TagsListActivity extends BaseActivity implements View.OnClickListen
                         msg.what = 1;
                         mHandler.sendMessage(msg);
                     } else {
-                        ToastUtils.showCenter(TagsListActivity.this, error_msg);
+                        ToastUtils.showCenter(NewTagsListActivity.this, error_msg);
                     }
                 } catch (JSONException e) {
                 }
@@ -177,16 +183,27 @@ public class TagsListActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    @Override
-    public void tagClick(int position, int numTag) {
+//    @Override
+//    public void tagClick(int position, int numTag) {
+//
+//        Intent intent = NewTagsListActivity.this.getIntent();
+//        intent.putExtra("position", position);
+//        String tag_name = mListData.get(numTag).getGroup_info().getTag_list().get(position).getTag_info().getTag_name();
+//        intent.putExtra("tag_name", tag_name);
+//        NewTagsListActivity.this.setResult(11, intent);
+//        NewTagsListActivity.this.finish();
+//
+//    }
 
-        Intent intent = TagsListActivity.this.getIntent();
+    @Override
+    public void clickItemPosition(int position, int numTag) {
+        Intent intent = NewTagsListActivity.this.getIntent();
         intent.putExtra("position", position);
         String tag_name = mListData.get(numTag).getGroup_info().getTag_list().get(position).getTag_info().getTag_name();
         intent.putExtra("tag_name", tag_name);
-        TagsListActivity.this.setResult(11, intent);
-        TagsListActivity.this.finish();
-
+        NewTagsListActivity.this.setResult(11, intent);
+        NewTagsListActivity.this.finish();
     }
+
 
 }

@@ -33,6 +33,7 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.LoginActivity;
+import com.homechart.app.home.activity.NewTagsListActivity;
 import com.homechart.app.home.activity.SearchActivity;
 import com.homechart.app.home.activity.TagsListActivity;
 import com.homechart.app.home.adapter.MyHuaTiAdapter;
@@ -202,7 +203,7 @@ public class HomeFaXianFragment
                 startActivityForResult(intent, 10);
                 break;
             case R.id.iv_more:
-                Intent intent1 = new Intent(activity, TagsListActivity.class);
+                Intent intent1 = new Intent(activity, NewTagsListActivity.class);
                 intent1.putExtra("list", (Serializable) mListPingDao);
                 startActivityForResult(intent1, 11);
                 break;

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/rl_dingyue_tag"
+        android:layout_width="@dimen/font_75"
+        android:layout_height="@dimen/font_28"
+        android:background="@drawable/bt_faxian_tag_no">
+
+        <TextView
+            android:id="@+id/tv_dingyue_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="客厅"
+            android:textColor="@color/bg_262626"
+            android:textSize="@dimen/size_12" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="@dimen/font_1"
+        android:layout_height="@dimen/font_14"
+        android:background="@color/white"
+        android:layout_below="@+id/rl_dingyue_tag"/>
+
+</RelativeLayout>
+
+
+
+
