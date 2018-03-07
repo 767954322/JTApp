@@ -27,7 +27,7 @@ public class MyHuaTiAdapter extends BaseAdapter {
     private Context context;
     private ClickZhuTi mClickZhuTi;
 
-    public MyHuaTiAdapter(List<RecommendItemDataBean> list, Context context,ClickZhuTi clickZhuTi) {
+    public MyHuaTiAdapter(List<RecommendItemDataBean> list, Context context, ClickZhuTi clickZhuTi) {
         this.list = list;
         this.context = context;
         this.mClickZhuTi = clickZhuTi;
@@ -56,14 +56,23 @@ public class MyHuaTiAdapter extends BaseAdapter {
             myHolder = new MyHolder();
             myHolder.iv_imageview_one = (ImageView) convertView.findViewById(R.id.iv_imageview_one);
             myHolder.tv_name_pic = (TextView) convertView.findViewById(R.id.tv_name_pic);
+            myHolder.rl_waicheng = (RelativeLayout) convertView.findViewById(R.id.rl_waicheng);
             convertView.setTag(myHolder);
         } else {
             myHolder = (MyHolder) convertView.getTag();
         }
-        myHolder.tv_name_pic.setText(list.get(position).getRecommend_info().getTitle());
+
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) myHolder.iv_imageview_one.getLayoutParams();
         layoutParams.height = (int) ((PublicUtils.getScreenWidth(context) - UIUtils.getDimens(R.dimen.font_20)) / list.get(position).getRecommend_info().getRatio());
         ImageUtils.displayFilletImage(list.get(position).getRecommend_info().getImage_url(), myHolder.iv_imageview_one);
+
+        RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) myHolder.iv_imageview_one.getLayoutParams();
+        layoutParams1.height = (int) ((PublicUtils.getScreenWidth(context) - UIUtils.getDimens(R.dimen.font_20)) / list.get(position).getRecommend_info().getRatio());
+        myHolder.rl_waicheng.setLayoutParams(layoutParams1);
+        RelativeLayout.LayoutParams layoutParams2 = (RelativeLayout.LayoutParams) myHolder.tv_name_pic.getLayoutParams();
+        layoutParams2.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+        myHolder.tv_name_pic.setLayoutParams(layoutParams2);
+        myHolder.tv_name_pic.setText(list.get(position).getRecommend_info().getTitle());
 
         myHolder.iv_imageview_one.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,15 +86,16 @@ public class MyHuaTiAdapter extends BaseAdapter {
     class MyHolder {
         private ImageView iv_imageview_one;
         private TextView tv_name_pic;
+        private RelativeLayout rl_waicheng;
     }
 
-   public void dataChange(List<RecommendItemDataBean> list1){
+    public void dataChange(List<RecommendItemDataBean> list1) {
         this.list = list1;
         notifyDataSetChanged();
     }
 
-  public interface ClickZhuTi{
-      void clickZhuTi(int position);
+    public interface ClickZhuTi {
+        void clickZhuTi(int position);
     }
 
 }
