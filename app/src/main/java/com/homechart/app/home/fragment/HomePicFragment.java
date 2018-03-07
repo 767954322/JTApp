@@ -402,7 +402,10 @@ public class HomePicFragment
         } else if (requestCode == 12) {
             getAllSet();
         } else if (requestCode == 13) {
-            getAllSet1();
+            loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+            if (loginStatus) {
+                getAllSet1();
+            }
         }
     }
 
