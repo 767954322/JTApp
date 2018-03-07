@@ -559,6 +559,7 @@ public class InspirationDetailActivity extends BaseActivity
                 if (TextUtils.isEmpty(mListData.get(position).getItem_info().getDescription().trim())) {
                     holder.getView(R.id.tv_item_miaosu).setVisibility(View.GONE);
                     holder.getView(R.id.tv_item_miaosu1).setVisibility(View.GONE);
+                    holder.getView(R.id.view_bottom).setVisibility(View.GONE);
                 } else {
                     if (mListData.get(position).getItem_info().getDescription().equals("")) {
                         holder.getView(R.id.tv_item_miaosu).setVisibility(View.GONE);

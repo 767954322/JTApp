@@ -539,6 +539,7 @@ public class NewInspirationDetailsment
                 if (TextUtils.isEmpty(mListData.get(position).getItem_info().getDescription().trim())) {
                     holder.getView(R.id.tv_item_miaosu).setVisibility(View.GONE);
                     holder.getView(R.id.tv_item_miaosu1).setVisibility(View.GONE);
+                    holder.getView(R.id.view_bottom).setVisibility(View.GONE);
                 } else {
                     if (mListData.get(position).getItem_info().getDescription().equals("")) {
                         holder.getView(R.id.tv_item_miaosu).setVisibility(View.GONE);
@@ -553,10 +554,19 @@ public class NewInspirationDetailsment
                     layoutParams.width = widthPicList;
                     layoutParams.height = Math.round(widthPicList / mListData.get(position).getItem_info().getImage().getRatio());
                     holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
-                    if (mListData.get(position).getItem_info().getImage().getRatio() > 0.5) {
-                        ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg1(), (ImageView) holder.getView(R.id.iv_item_pic));
-                    } else {
-                        GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_item_pic), 1);
+
+                    if (TextUtils.isEmpty(mListData.get(position).getItem_info().getDescription().trim()) ) {
+                        if (mListData.get(position).getItem_info().getImage().getRatio() > 0.5) {
+                            ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(), (ImageView) holder.getView(R.id.iv_item_pic));
+                        } else {
+                            GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_item_pic), 1);
+                        }
+                    }else {
+                        if (mListData.get(position).getItem_info().getImage().getRatio() > 0.5) {
+                            ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg1(), (ImageView) holder.getView(R.id.iv_item_pic));
+                        } else {
+                            GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_item_pic), 1);
+                        }
                     }
 
                 } else {
@@ -564,10 +574,18 @@ public class NewInspirationDetailsment
                     layoutParams.height = Math.round(widthPic / mListData.get(position).getItem_info().getImage().getRatio());
                     holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
 
-                    if (mListData.get(position).getItem_info().getImage().getRatio() > 0.5) {
-                        ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
-                    } else {
-                        GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg0(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_item_pic), 1);
+                    if (TextUtils.isEmpty(mListData.get(position).getItem_info().getDescription().trim()) && ifHideEdit ) {
+                        if (mListData.get(position).getItem_info().getImage().getRatio() > 0.5) {
+                            ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
+                        } else {
+                            GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg0(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_item_pic), 1);
+                        }
+                    }else {
+                        if (mListData.get(position).getItem_info().getImage().getRatio() > 0.5) {
+                            ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg0(), (ImageView) holder.getView(R.id.iv_item_pic));
+                        } else {
+                            GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg0(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_item_pic), 1);
+                        }
                     }
                 }
                 holder.getView(R.id.iv_item_pic).setOnClickListener(new View.OnClickListener() {
