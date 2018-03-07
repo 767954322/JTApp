@@ -250,10 +250,12 @@ public class HomeFaXianFragment
                 if (selectPosition == position) {
                     tp.setFakeBoldText(true);
                     ((TextView) holder.getView(R.id.tv_item_pingdao)).setTextColor(UIUtils.getColor(R.color.bg_e79056));
+                    ((TextView) holder.getView(R.id.tv_item_pingdao)).setTextSize(16);
                     holder.getView(R.id.view_bottom).setVisibility(View.VISIBLE);
                 } else {
                     tp.setFakeBoldText(false);
                     ((TextView) holder.getView(R.id.tv_item_pingdao)).setTextColor(UIUtils.getColor(R.color.bg_464646));
+                    ((TextView) holder.getView(R.id.tv_item_pingdao)).setTextSize(14);
                     holder.getView(R.id.view_bottom).setVisibility(View.GONE);
                 }
                 holder.getView(R.id.rl_pingdao).setOnClickListener(new View.OnClickListener() {
