@@ -151,6 +151,7 @@
                     android:layout_height="wrap_content"
                     android:text="订阅标签，定制你的专属首页"
                     android:textColor="@drawable/white"
+                    android:includeFontPadding="false"
                     android:textSize="@dimen/size_14" />
 
                 <ImageView
@@ -173,8 +174,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:paddingLeft="@dimen/font_15"
-                    android:paddingRight="@dimen/font_15"
+                    android:paddingLeft="@dimen/font_11"
+                    android:paddingRight="@dimen/font_11"
                     android:src="@drawable/guan_1" />
             </RelativeLayout>
 
