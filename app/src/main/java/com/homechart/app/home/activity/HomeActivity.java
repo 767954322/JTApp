@@ -21,6 +21,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -103,6 +104,7 @@ public class HomeActivity
     private int position = 1;
     //退出时的时间
     private long mExitTime;
+    private LinearLayout rl_bottom_test;
 
     @Override
     protected int getLayoutResId() {
@@ -142,6 +144,7 @@ public class HomeActivity
         radio_btn_designer = (RadioButton) findViewById(R.id.radio_btn_designer);
 
 
+        rl_bottom_test = (LinearLayout) findViewById(R.id.rl_bottom_test);
         rl_btn_pic = (RelativeLayout) findViewById(R.id.rl_btn_pic);
         rl_btn_faxian = (RelativeLayout) findViewById(R.id.rl_btn_faxian);
         rl_btn_shibie = (RelativeLayout) findViewById(R.id.rl_btn_shibie);
@@ -606,6 +609,14 @@ public class HomeActivity
         }
     };
 
+
+    public void hideBottom(boolean boo) {
+        if(boo){
+            rl_bottom_test.setVisibility(View.GONE);
+        }else {
+            rl_bottom_test.setVisibility(View.VISIBLE);
+        }
+    }
 
 }
 

@@ -187,6 +187,7 @@ public class NewLingGanCenterFragment
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
+                ((HomeActivity)activity).hideBottom(false);
                 fragmentManager.beginTransaction().remove(this).commit();
                 break;
             case R.id.tv_content_right:
@@ -194,6 +195,7 @@ public class NewLingGanCenterFragment
                     Intent intent = new Intent(activity, InspirationCreateActivity.class);
                     intent.putExtra("userid", user_id);
                     startActivityForResult(intent, 1);
+                    ((HomeActivity)activity).hideBottom(false);
                 } else if (mViewPager.getCurrentItem() == 1) {
                     if (ifAllowScroll) {
                         if (otherLingGuanLiFragment.ifHasData()) {
@@ -201,14 +203,17 @@ public class NewLingGanCenterFragment
                             mViewPager.setScanScroll(false);
                             ifAllowScroll = false;
                             otherLingGuanLiFragment.clickRightGuanLi();
+                            ((HomeActivity)activity).hideBottom(true);
                         } else {
                             ToastUtils.showCenter(activity, "先去收藏一些灵感辑吧");
+                            ((HomeActivity)activity).hideBottom(false);
                         }
                     } else {
                         mViewPager.setScanScroll(true);
                         mTabLayout.setCanScrool(true);
                         ifAllowScroll = true;
                         otherLingGuanLiFragment.clickRightGuanLi();
+                        ((HomeActivity)activity).hideBottom(false);
                     }
                 }
                 break;
