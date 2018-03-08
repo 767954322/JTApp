@@ -730,5 +730,23 @@ public class NewHuoDongDetailsFragment
             ToastUtils.showCenter(activity, "分享取消了");
         }
     };
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        MobclickAgent.onPageStart("活动页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("活动页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("活动页");
+    }
 
 }

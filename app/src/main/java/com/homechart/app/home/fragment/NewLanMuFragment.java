@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
@@ -212,9 +213,29 @@ public class NewLanMuFragment
                     if (ifClickDingYue) {
                         ifClickDingYue = false;
                         if (null != guanLianTagBean && guanLianTagBean.getTag_info().getIs_subscribed().equals("1")) {
+                            //友盟统计
+                            HashMap<String, String> map = new HashMap<String, String>();
+                            map.put("evenname", "标签订阅");
+                            map.put("even", "推荐标签页");
+                            MobclickAgent.onEvent(activity, "shijian47", map);
+                            //ga统计
+                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                    .setCategory("推荐标签页")  //事件类别
+                                    .setAction("标签订阅")      //事件操作
+                                    .build());
                             //取消订阅
                             removeDingYue(guanLianTagBean.getTag_info().getTag_id());
                         } else if (null != guanLianTagBean && guanLianTagBean.getTag_info().getIs_subscribed().equals("0")) {
+                            //友盟统计
+                            HashMap<String, String> map = new HashMap<String, String>();
+                            map.put("evenname", "取消订阅");
+                            map.put("even", "推荐标签页");
+                            MobclickAgent.onEvent(activity, "shijian48", map);
+                            //ga统计
+                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                    .setCategory("推荐标签页")  //事件类别
+                                    .setAction("取消订阅")      //事件操作
+                                    .build());
                             //订阅
                             addDingYue(guanLianTagBean.getTag_info().getTag_id());
                         }
@@ -275,6 +296,17 @@ public class NewLanMuFragment
                     public void onClick(View v) {
 
                         String strLanMu = mListPingDao1.get(position);
+                        //友盟统计
+                        HashMap<String, String> map = new HashMap<String, String>();
+                        map.put("evenname", "标签点击");
+                        map.put("even", strLanMu + "推荐标签页点击标签的次数");
+                        MobclickAgent.onEvent(activity, "shijian44", map);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory(strLanMu + "推荐标签页点击频道标签的次数")  //事件类别
+                                .setAction("标签点击")      //事件操作
+                                .build());
+
                         NewLanMuFragment newLanMuFragment = new NewLanMuFragment(getChildFragmentManager());
                         Bundle bundle = new Bundle();
                         bundle.putString("tag_name", strLanMu);
@@ -481,11 +513,11 @@ public class NewLanMuFragment
                             //友盟统计
                             HashMap<String, String> map4 = new HashMap<String, String>();
                             map4.put("evenname", "登录入口");
-                            map4.put("even", "看图列表页进行图片收藏");
+                            map4.put("even", "推荐标签页进行图片收藏");
                             MobclickAgent.onEvent(activity, "shijian20", map4);
                             //ga统计
                             MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("看图列表页进行图片收藏")  //事件类别
+                                    .setCategory("推荐标签页进行图片收藏")  //事件类别
                                     .setAction("登录入口")      //事件操作
                                     .build());
                             Intent intent = new Intent(activity, LoginActivity.class);
@@ -494,11 +526,11 @@ public class NewLanMuFragment
                             //友盟统计
                             HashMap<String, String> map4 = new HashMap<String, String>();
                             map4.put("evenname", "加灵感辑");
-                            map4.put("even", "看图列表页");
+                            map4.put("even", "推荐标签页");
                             MobclickAgent.onEvent(activity, "shijian30", map4);
                             //ga统计
                             MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("看图列表页")  //事件类别
+                                    .setCategory("推荐标签页")  //事件类别
                                     .setAction("加灵感辑")      //事件操作
                                     .build());
                             Intent intent = new Intent(activity, InspirationSeriesActivity.class);
@@ -522,11 +554,11 @@ public class NewLanMuFragment
                         //友盟统计
                         HashMap<String, String> map = new HashMap<String, String>();
                         map.put("evenname", "找相似图");
-                        map.put("even", "首页");
+                        map.put("even", "推荐标签页");
                         MobclickAgent.onEvent(activity, "shijian31", map);
                         //ga统计
                         MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("首页")  //事件类别
+                                .setCategory("推荐标签页")  //事件类别
                                 .setAction("找相似图")      //事件操作
                                 .build());
                         if (ifClickAble) {
@@ -587,6 +619,16 @@ public class NewLanMuFragment
 
     @Override
     public void onLoadMore() {
+        //友盟统计
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("evenname", "推荐标签页加载");
+        map.put("even", "推荐标签页加载次数");
+        MobclickAgent.onEvent(activity, "shijian49", map);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("推荐标签页加载次数")  //事件类别
+                .setAction("推荐标签页加载")      //事件操作
+                .build());
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
         ++page_num;
         getListData(LOADMORE_STATUS);
@@ -851,6 +893,17 @@ public class NewLanMuFragment
     @Override
     public void clickZhuTi(int position) {
         if(mListHuaTi.size() > position){
+            //友盟统计
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("evenname", "精选话题");
+            map.put("even", "推荐标签页");
+            MobclickAgent.onEvent(activity, "shijian45", map);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("推荐标签页")  //事件类别
+                    .setAction("精选话题")      //事件操作
+                    .build());
+
             mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
             NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(fragmentManager);
             Bundle bundle = new Bundle();
@@ -865,4 +918,23 @@ public class NewLanMuFragment
             fragmentTransaction.commit();
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        MobclickAgent.onPageStart("推荐标签页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("推荐标签页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("推荐标签页");
+    }
+
 }

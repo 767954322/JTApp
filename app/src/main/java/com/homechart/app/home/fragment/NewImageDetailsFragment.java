@@ -272,7 +272,6 @@ public class NewImageDetailsFragment
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onResume(activity);
         MobclickAgent.onPageStart("图片详情页");
         Tracker t = MyApplication.getInstance().getDefaultTracker();
         // Set screen name.
@@ -285,7 +284,6 @@ public class NewImageDetailsFragment
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd("图片详情页");
-        MobclickAgent.onPause(activity);
     }
 
     @Override

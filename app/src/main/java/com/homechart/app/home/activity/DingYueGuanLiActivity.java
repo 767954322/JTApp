@@ -15,6 +15,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.contract.InterDioalod;
@@ -34,6 +37,7 @@ import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -213,8 +217,28 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
     public void tagClick(int position, int numTag) {
         String is_subscribed = mListData.get(numTag).getGroup_info().getTag_list().get(position).getTag_info().getIs_subscribed();
         if (is_subscribed.equals("0")) {//已经订阅
+            //友盟统计
+            HashMap<String, String> map4 = new HashMap<String, String>();
+            map4.put("evenname", "标签订阅");
+            map4.put("even", "订阅管理页");
+            MobclickAgent.onEvent(DingYueGuanLiActivity.this, "shijian50", map4);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("订阅管理页")  //事件类别
+                    .setAction("标签订阅")      //事件操作
+                    .build());
             mMapSelect.remove(mListData.get(numTag).getGroup_info().getTag_list().get(position).getTag_info().getTag_id());
         } else {
+            //友盟统计
+            HashMap<String, String> map4 = new HashMap<String, String>();
+            map4.put("evenname", "取消订阅");
+            map4.put("even", "订阅管理页");
+            MobclickAgent.onEvent(DingYueGuanLiActivity.this, "shijian51", map4);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("订阅管理页")  //事件类别
+                    .setAction("取消订阅")      //事件操作
+                    .build());
             mMapSelect.put(mListData.get(numTag).getGroup_info().getTag_list().get(position).getTag_info().getTag_id(), mListData.get(numTag).getGroup_info().getTag_list().get(position).getTag_info().getTag_id());
         }
     }
@@ -274,5 +298,23 @@ public class DingYueGuanLiActivity extends BaseActivity implements View.OnClickL
 
 
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart("订阅管理页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("订阅管理页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("订阅管理页");
+        MobclickAgent.onPause(this);
+
+    }
 }

@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
@@ -219,6 +220,17 @@ public class HomeFaXianFragment
 
     @Override
     public void onLoadMore() {
+        //友盟统计
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("evenname", "发现页加载");
+        map.put("even", "发现页加载次数");
+        MobclickAgent.onEvent(activity, "shijian46", map);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("发现页加载次数")  //事件类别
+                .setAction("发现页加载")      //事件操作
+                .build());
+
         mLoadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
         ++page_num;
         getListData(LOADMORE_STATUS);
@@ -240,9 +252,9 @@ public class HomeFaXianFragment
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
 
-                if(position == mListPingDao.size() - 1){
+                if (position == mListPingDao.size() - 1) {
                     holder.getView(R.id.view_lastone).setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     holder.getView(R.id.view_lastone).setVisibility(View.GONE);
                 }
 
@@ -267,6 +279,17 @@ public class HomeFaXianFragment
                             selectPosition = position;
                             mAdapter1.notifyDataSetChanged();
                             tagName = mListPingDao.get(position).getChannel_name();
+
+                            //友盟统计
+                            HashMap<String, String> map = new HashMap<String, String>();
+                            map.put("evenname", "频道点击");
+                            map.put("even", "点击频道标签的次数");
+                            MobclickAgent.onEvent(activity, "shijian43", map);
+                            //ga统计
+                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                    .setCategory(tagName + "点击频道标签的次数")  //事件类别
+                                    .setAction("频道点击")      //事件操作
+                                    .build());
                             onRefresh();
                             List<String> strList = mListPingDao.get(position).getRelation_tag();
                             if (null != strList && strList.size() > 0) {
@@ -312,8 +335,18 @@ public class HomeFaXianFragment
                 holder.getView(R.id.rl_lanmu).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         String strLanMu = mListPingDao1.get(position);
+
+                        //友盟统计
+                        HashMap<String, String> map = new HashMap<String, String>();
+                        map.put("evenname", "标签点击");
+                        map.put("even", strLanMu + "发现页点击标签的次数");
+                        MobclickAgent.onEvent(activity, "shijian44", map);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory(tagName + "发现页点击频道标签的次数")  //事件类别
+                                .setAction("标签点击")      //事件操作
+                                .build());
                         NewLanMuFragment newLanMuFragment = new NewLanMuFragment(getChildFragmentManager());
                         Bundle bundle = new Bundle();
                         bundle.putString("tag_name", strLanMu);
@@ -462,11 +495,11 @@ public class HomeFaXianFragment
                             //友盟统计
                             HashMap<String, String> map4 = new HashMap<String, String>();
                             map4.put("evenname", "登录入口");
-                            map4.put("even", "看图列表页进行图片收藏");
+                            map4.put("even", "发现页进行图片收藏");
                             MobclickAgent.onEvent(activity, "shijian20", map4);
                             //ga统计
                             MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("看图列表页进行图片收藏")  //事件类别
+                                    .setCategory("发现页进行图片收藏")  //事件类别
                                     .setAction("登录入口")      //事件操作
                                     .build());
                             Intent intent = new Intent(activity, LoginActivity.class);
@@ -475,11 +508,11 @@ public class HomeFaXianFragment
                             //友盟统计
                             HashMap<String, String> map4 = new HashMap<String, String>();
                             map4.put("evenname", "加灵感辑");
-                            map4.put("even", "看图列表页");
+                            map4.put("even", "发现页");
                             MobclickAgent.onEvent(activity, "shijian30", map4);
                             //ga统计
                             MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("看图列表页")  //事件类别
+                                    .setCategory("发现页")  //事件类别
                                     .setAction("加灵感辑")      //事件操作
                                     .build());
                             Intent intent = new Intent(activity, InspirationSeriesActivity.class);
@@ -503,11 +536,11 @@ public class HomeFaXianFragment
                         //友盟统计
                         HashMap<String, String> map = new HashMap<String, String>();
                         map.put("evenname", "找相似图");
-                        map.put("even", "首页");
+                        map.put("even", "发现页");
                         MobclickAgent.onEvent(activity, "shijian31", map);
                         //ga统计
                         MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("首页")  //事件类别
+                                .setCategory("发现页")  //事件类别
                                 .setAction("找相似图")      //事件操作
                                 .build());
                         if (ifClickAble) {
@@ -793,7 +826,7 @@ public class HomeFaXianFragment
         }
     }
 
-    boolean ifFirst = true ;
+    boolean ifFirst = true;
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -806,7 +839,7 @@ public class HomeFaXianFragment
                     mListPingDao.clear();
                     mListPingDao.addAll(list1);
                     mAdapter1.notifyDataSetChanged();
-                    if(list1.size()>0 && ifFirst){
+                    if (list1.size() > 0 && ifFirst) {
                         tagName = list1.get(0).getChannel_name();
                         buildRecyclerView();
                         ifFirst = false;
@@ -856,6 +889,18 @@ public class HomeFaXianFragment
     @Override
     public void clickZhuTi(int position) {
         if (mListHuaTi.size() > position) {
+
+            //友盟统计
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("evenname", "精选话题");
+            map.put("even", "发现");
+            MobclickAgent.onEvent(activity, "shijian45", map);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("发现")  //事件类别
+                    .setAction("精选话题")      //事件操作
+                    .build());
+
             mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
             NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(getChildFragmentManager());
             Bundle bundle = new Bundle();
@@ -882,5 +927,21 @@ public class HomeFaXianFragment
             }
         }
     }
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        MobclickAgent.onPageStart("发现页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("发现页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("发现页");
+    }
 }

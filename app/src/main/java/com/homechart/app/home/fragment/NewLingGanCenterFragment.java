@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.flyco.tablayout.CustomViewPagerTab;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
@@ -230,6 +231,23 @@ public class NewLingGanCenterFragment
         } else if (requestCode == 3) {
             myLingGuanLiFragment.onRefresh();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("灵感辑个人中心");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("灵感辑个人中心");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("灵感辑个人中心");
     }
 
 

@@ -278,4 +278,22 @@ public class NewGuanZuListFragment
     }
 
     private int position;
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        MobclickAgent.onPageStart("个人中心关注列表页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("个人中心关注列表页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("个人中心关注列表页");
+    }
+
 }

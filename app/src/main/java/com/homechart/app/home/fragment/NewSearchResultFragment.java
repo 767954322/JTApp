@@ -512,7 +512,6 @@ public class NewSearchResultFragment
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onResume(activity);
         MobclickAgent.onPageStart("搜索列表页");
         Tracker t = MyApplication.getInstance().getDefaultTracker();
         // Set screen name.
@@ -525,7 +524,6 @@ public class NewSearchResultFragment
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd("搜索列表页");
-        MobclickAgent.onPause(activity);
     }
 
 

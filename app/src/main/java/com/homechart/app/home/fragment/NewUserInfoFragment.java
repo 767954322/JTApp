@@ -756,7 +756,6 @@ public class NewUserInfoFragment
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onResume(activity);
         MobclickAgent.onPageStart("个人主页");
         Tracker t = MyApplication.getInstance().getDefaultTracker();
         // Set screen name.
@@ -769,7 +768,6 @@ public class NewUserInfoFragment
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd("个人主页");
-        MobclickAgent.onPause(activity);
     }
 
     Handler handler = new Handler() {

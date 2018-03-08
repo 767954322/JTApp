@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
@@ -317,5 +318,21 @@ public class NewMoreLingGanFragment
             onRefresh();
         }
     }
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        MobclickAgent.onPageStart("更多灵感辑页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("更多灵感辑页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("更多灵感辑页");
+    }
 }

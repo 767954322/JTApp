@@ -15,6 +15,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
@@ -38,6 +41,8 @@ import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.Serializable;
@@ -452,5 +457,21 @@ public class NewMessagesFragment
     interface BackMessage {
         void clickBackMessage();
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("系统消息页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("系统消息页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        MobclickAgent.onPageEnd("系统消息页");
+    }
 }

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
@@ -444,14 +445,19 @@ public class HomeCenterFragment
             getUnReaderMsg();
             getUserInfo();
         }
-        MobclickAgent.onResume(activity);
+        MobclickAgent.onPageStart("我的");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("我的");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override
     public void onPause() {
         super.onPause();
 
-        MobclickAgent.onPause(activity);
+        MobclickAgent.onPageEnd("我的");
     }
 
     //任务
