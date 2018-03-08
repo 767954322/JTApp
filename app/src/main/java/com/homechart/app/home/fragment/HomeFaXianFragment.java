@@ -204,6 +204,16 @@ public class HomeFaXianFragment
                 startActivityForResult(intent, 10);
                 break;
             case R.id.iv_more:
+                //友盟统计
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("evenname", "标签导航");
+                map.put("even", "点击频道右边的三条杠 icon 次数");
+                MobclickAgent.onEvent(activity, "shijian52", map);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("点击频道右边的三条杠 icon 次数")  //事件类别
+                        .setAction("标签导航")      //事件操作
+                        .build());
                 Intent intent1 = new Intent(activity, NewTagsListActivity.class);
                 intent1.putExtra("list", (Serializable) mListPingDao);
                 startActivityForResult(intent1, 11);

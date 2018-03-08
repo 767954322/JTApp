@@ -15,6 +15,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.adapter.MyTagsAdapter;
@@ -30,11 +33,13 @@ import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -200,10 +205,41 @@ public class NewTagsListActivity
         Intent intent = NewTagsListActivity.this.getIntent();
         intent.putExtra("position", position);
         String tag_name = mListData.get(numTag).getGroup_info().getTag_list().get(position).getTag_info().getTag_name();
+
+        //友盟统计
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("evenname", "标签点击");
+        map.put("even", tag_name + "标签导航点击标签的次数");
+        MobclickAgent.onEvent(NewTagsListActivity.this, "shijian44", map);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory(tag_name + "标签导航点击频道标签的次数")  //事件类别
+                .setAction("标签点击")      //事件操作
+                .build());
+
         intent.putExtra("tag_name", tag_name);
         NewTagsListActivity.this.setResult(11, intent);
         NewTagsListActivity.this.finish();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart("标签导航页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("标签导航页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("标签导航页");
+        MobclickAgent.onPause(this);
+
+    }
 
 }
