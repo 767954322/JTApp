@@ -111,24 +111,25 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initWebView() {
-        mWeb.removeJavascriptInterface("searchBoxJavaBredge_");//禁止远程代码执行
+        //        mWeb.removeJavascriptInterface("searchBoxJavaBredge_");//禁止远程代码执行
         WebSettings settings = mWeb.getSettings();
         settings.setDomStorageEnabled(true);
         // 缓存(cache)
-        settings.setAppCacheEnabled(true);      // 默认值 false
+        //        settings.setAppCacheEnabled(true);      // 默认值 false
 
-// 存储(storage)
-        settings.setDatabaseEnabled(true);      // 默认值 false
+        // 存储(storage)
+        //        settings.setDatabaseEnabled(true);      // 默认值 false
 
-// 是否支持viewport属性，默认值 false
-// 页面通过`<meta name="viewport" ... />`自适应手机屏幕
+        // 是否支持viewport属性，默认值 false
+        // 页面通过`<meta name="viewport" ... />`自适应手机屏幕
         settings.setUseWideViewPort(true);
-// 是否使用overview mode加载页面，默认值 false
-// 当页面宽度大于WebView宽度时，缩小使页面宽度等于WebView宽度
+        // 是否使用overview mode加载页面，默认值 false
+        // 当页面宽度大于WebView宽度时，缩小使页面宽度等于WebView宽度
         settings.setLoadWithOverviewMode(true);
 
-// 是否支持Javascript，默认值false
-        settings.setJavaScriptEnabled(false);
+        // 是否支持Javascript，默认值false
+        settings.setJavaScriptEnabled(true);
+        settings.setBlockNetworkImage(true);
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            // 5.0以上允许加载http和https混合的页面(5.0以下默认允许，5.0+默认禁止)
