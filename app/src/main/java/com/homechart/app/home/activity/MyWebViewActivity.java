@@ -129,7 +129,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
 
         // 是否支持Javascript，默认值false
         settings.setJavaScriptEnabled(true);
-        settings.setBlockNetworkImage(true);
+//        settings.setBlockNetworkImage(true);
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            // 5.0以上允许加载http和https混合的页面(5.0以下默认允许，5.0+默认禁止)
