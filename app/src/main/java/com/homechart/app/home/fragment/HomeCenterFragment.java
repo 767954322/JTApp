@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -28,6 +29,8 @@ import com.homechart.app.home.activity.UserMessageActivity;
 import com.homechart.app.home.activity.YuGouQingDanActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
+import com.homechart.app.myview.CaiJiPopWin;
+import com.homechart.app.myview.ColorPopWin;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
@@ -48,7 +51,8 @@ import java.util.TimerTask;
 public class HomeCenterFragment
         extends BaseFragment
         implements View.OnClickListener,
-        NewMessagesFragment.BackMessage {
+        NewMessagesFragment.BackMessage ,
+        CaiJiPopWin.ClickInter {
 
     private UserCenterInfoBean userCenterInfoBean;
     private FragmentManager fragmentManager;
@@ -73,7 +77,9 @@ public class HomeCenterFragment
     private TextView tv_shaijia_num;
     private ImageView iv_center_msgicon;
     private ImageView iv_zhuanye_icon;
+    private ImageView iv_fabu;
     private Timer timer = new Timer(true);
+    private CaiJiPopWin caijiPop;
 
     private Boolean loginStatus;
 
@@ -136,6 +142,7 @@ public class HomeCenterFragment
         rl_unreader_msg_double = (RelativeLayout) rootView.findViewById(R.id.rl_unreader_msg_double);
         iv_center_msgicon = (ImageView) rootView.findViewById(R.id.iv_center_msgicon);
         iv_zhuanye_icon = (ImageView) rootView.findViewById(R.id.iv_zhuanye_icon);
+        iv_fabu = (ImageView) rootView.findViewById(R.id.iv_fabu);
 
     }
 
@@ -143,6 +150,7 @@ public class HomeCenterFragment
     protected void initListener() {
         super.initListener();
 
+        iv_fabu.setOnClickListener(this);
         rl_fensi.setOnClickListener(this);
         rl_guanzu.setOnClickListener(this);
         rl_shoucang.setOnClickListener(this);
@@ -159,6 +167,8 @@ public class HomeCenterFragment
     @Override
     protected void initData(Bundle savedInstanceState) {
         mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
+
+        caijiPop = new CaiJiPopWin(activity, this);
         if (!TextUtils.isEmpty(mUserId)) {
             getUserInfo();
             getUnReaderMsg();
@@ -291,6 +301,24 @@ public class HomeCenterFragment
             case R.id.rl_dingyue_guanli:
                 Intent intent_dingyue = new Intent(activity, DingYueGuanLiActivity.class);
                 startActivity(intent_dingyue);
+                break;
+            case R.id.iv_fabu:
+                if(null != caijiPop){
+                    caijiPop.showAtLocation(activity.findViewById(R.id.id_main),
+                            Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
+                            0,
+                            0); //设置layout在PopupWindow中显示的位置
+                }else {
+
+                    caijiPop = new CaiJiPopWin(activity, this);
+                    caijiPop.showAtLocation(activity.findViewById(R.id.id_main),
+                            Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
+                            0,
+                            0); //设置layout在PopupWindow中显示的位置
+
+                }
+
+
                 break;
         }
 
@@ -470,5 +498,20 @@ public class HomeCenterFragment
     @Override
     public void clickBackMessage() {
         getUnReaderMsg();
+    }
+
+    @Override
+    public void xiangceCaiJi() {
+
+    }
+
+    @Override
+    public void paizhaoCaiJi() {
+
+    }
+
+    @Override
+    public void wangzhiCaiJi() {
+
     }
 }

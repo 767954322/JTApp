@@ -48,9 +48,20 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:paddingLeft="@dimen/font_21"
+                        android:paddingLeft="@dimen/font_11"
                         android:paddingRight="@dimen/font_21"
                         android:src="@drawable/ling" />
+
+                    <ImageView
+                        android:id="@+id/iv_fabu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/iv_center_msgicon"
+                        android:paddingLeft="@dimen/font_21"
+                        android:paddingRight="@dimen/font_11"
+                        android:src="@drawable/fabu1"
+                        />
 
                 </RelativeLayout>
 
