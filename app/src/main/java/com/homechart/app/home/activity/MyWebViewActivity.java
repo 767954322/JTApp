@@ -1,6 +1,8 @@
 package com.homechart.app.home.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
@@ -10,12 +12,14 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.JavascriptInterface;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -26,9 +30,11 @@ import com.homechart.app.commont.KeyConstans;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.commont.UrlConstants;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.imagedetail.ImageDetailsActivity;
 import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.utils.ToastUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -42,6 +48,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
     private ProgressBar pb_progress;
     private ImageView iv_quxiao;
     private ClearEditText cet_clearedit;
+    private Button bt_caiji;
 
     @Override
     protected int getLayoutResId() {
@@ -51,6 +58,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initExtraBundle() {
         super.initExtraBundle();
+//        weburl = "http://app.jstyle.cn/jm_interface_1_2/index.php/home/article/app_articledesc?rid=44246";
         weburl = getIntent().getStringExtra("weburl");
     }
 
@@ -59,6 +67,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
 
         mWeb = (WebView) findViewById(R.id.wb_webview);
         iv_quxiao = (ImageView) findViewById(R.id.iv_quxiao);
+        bt_caiji = (Button) findViewById(R.id.bt_caiji);
         pb_progress = (ProgressBar) findViewById(R.id.pb_progress);
         cet_clearedit = (ClearEditText) findViewById(R.id.cet_clearedit);
 
@@ -69,6 +78,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
     protected void initListener() {
         super.initListener();
         iv_quxiao.setOnClickListener(this);
+        bt_caiji.setOnClickListener(this);
         cet_clearedit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
@@ -111,90 +121,45 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initWebView() {
-        //        mWeb.removeJavascriptInterface("searchBoxJavaBredge_");//禁止远程代码执行
         WebSettings settings = mWeb.getSettings();
+
         settings.setDomStorageEnabled(true);
-        // 缓存(cache)
-        //        settings.setAppCacheEnabled(true);      // 默认值 false
-
-        // 存储(storage)
-        //        settings.setDatabaseEnabled(true);      // 默认值 false
-
-        // 是否支持viewport属性，默认值 false
-        // 页面通过`<meta name="viewport" ... />`自适应手机屏幕
         settings.setUseWideViewPort(true);
-        // 是否使用overview mode加载页面，默认值 false
-        // 当页面宽度大于WebView宽度时，缩小使页面宽度等于WebView宽度
         settings.setLoadWithOverviewMode(true);
-
-        // 是否支持Javascript，默认值false
+        settings.setDefaultTextEncodingName("utf-8");
+        settings.setLoadsImagesAutomatically(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
         settings.setJavaScriptEnabled(true);
-//        settings.setBlockNetworkImage(true);
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            // 5.0以上允许加载http和https混合的页面(5.0以下默认允许，5.0+默认禁止)
-//            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-//        }
-
-//        settings.setSupportMultipleWindows(false);
-//        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);//不使用缓存
-//        settings.setUseWideViewPort(true);
-//        settings.setLoadWithOverviewMode(true);
-//        settings.setSupportZoom(true);          //支持缩放
-//        settings.setBuiltInZoomControls(false);  //不启用内置缩放装置
-//        settings.setJavaScriptEnabled(true);    //启用JS脚本
-//        mWeb.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
-//        settings.setUserAgentString(KeyConstans.USER_AGENT);
-
-//        mWeb.setWebChromeClient(new WebChromeClient() {
-//                                    @Override
-//                                    public void onReceivedTitle(WebView view, String title) {
-//                                        super.onReceivedTitle(view, title);
-//                                    }
-//
-//                                    @Override
-//                                    public void onProgressChanged(WebView view, int newProgress) {
-//                                        super.onProgressChanged(view, newProgress);
-//                                        if (newProgress == 100) {
-//                                            // 网页加载完成
-//                                            pb_progress.setVisibility(View.GONE);
-//                                        } else {
-//                                            // 加载中
-//                                            pb_progress.setProgress(newProgress);
-//                                        }
-//                                    }
-//                                }
-//        );
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+        mWeb.setBackgroundColor(0); // 设置背景色
         mWeb.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                //该方法在Build.VERSION_CODES.LOLLIPOP以前有效，从Build.VERSION_CODES.LOLLIPOP起，建议使用shouldOverrideUrlLoading(WebView, WebResourceRequest)} instead
-                //返回false，意味着请求过程里，不管有多少次的跳转请求（即新的请求地址），均交给webView自己处理，这也是此方法的默认处理
-                //返回true，说明你自己想根据url，做新的跳转，比如在判断url符合条件的情况下，我想让webView加载http://ask.csdn.net/questions/178242
-
-                if (url.toString().contains("sina.cn")){
-                    view.loadUrl("http://ask.csdn.net/questions/178242");
-                    return true;
-                }
-
                 return false;
             }
 
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request)
-            {
-                //返回false，意味着请求过程里，不管有多少次的跳转请求（即新的请求地址），均交给webView自己处理，这也是此方法的默认处理
-                //返回true，说明你自己想根据url，做新的跳转，比如在判断url符合条件的情况下，我想让webView加载http://ask.csdn.net/questions/178242
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    if (request.getUrl().toString().contains("sina.cn")){
-                        view.loadUrl("http://ask.csdn.net/questions/178242");
-                        return true;
-                    }
-                }
-
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 return false;
             }
+
+            @SuppressLint("SetJavaScriptEnabled")
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                //网页加载完成 走JS代码
+//                clickImage();
+                super.onPageFinished(view, url);
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                handler.proceed();
+                super.onReceivedSslError(view, handler, error);
+            }
         });
+        mWeb.addJavascriptInterface(new JavascriptInterface(), "imageListener");
     }
 
     @Override
@@ -207,16 +172,43 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
                                 .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 MyWebViewActivity.this.finish();
                 break;
+            case R.id.bt_caiji:
+                mWeb.loadUrl("javascript:(function(){" +
+                        "var objs = document.getElementsByTagName(\"img\"); " +
+                        "var imgUrl = \"\";" +
+                        "var filter = [\"img//EventHead.png\",\"img//kong.png\",\"hdtz//button.png\"];" +
+                        "var isShow = true;" +
+                        "for(var i=0;i<objs.length;i++){" +
+                        "if(objs[i].width>80){" +
+                        "imgUrl += objs[i].src + ',';isShow = true;" +
+                        "}" +
+                        "}" +
+                        "window.imageListener.openImage(imgUrl,'');" +
+                        "})()"
+                );
+                break;
         }
     }
 
-    /**
-     * js接口
-     */
-    final class InJavaScriptLocalObj {
-        @JavascriptInterface
-        public void showSource(String html) {
-            getHtmlContent(html);
+    public class JavascriptInterface {
+        @android.webkit.JavascriptInterface
+        public void openImage(String imageUrl, String img) {
+            int position = 0;
+            String[] imgs = imageUrl.split(",");
+            ArrayList<String> imgUrlList = new ArrayList<>();
+            for (String s : imgs) {
+                imgUrlList.add(s);
+            }
+//            for (int i = 0; i < imgUrlList.size(); i++) {
+//                if (img.equals(imgUrlList.get(i))) {
+//                    position = i;
+//                }
+//            }
+            Intent intent = new Intent(MyWebViewActivity.this, ImageDetailsActivity.class);
+            intent.putExtra("number", position);
+            intent.putExtra("pic_url_list", (Serializable) imgUrlList);
+            intent.putExtra("click_position", 0);
+            startActivity(intent);
         }
     }
 
@@ -240,4 +232,31 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
         }
         return true;
     }
+
+    private void clickImage() {
+        // 这段js函数的功能就是，遍历所有的img几点，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
+        //if(isShow && objs[i].width>80)是将小图片过滤点,不显示小图片,如果没有限制,可去掉
+        mWeb.loadUrl("javascript:(function(){" +
+                "var objs = document.getElementsByTagName(\"img\"); " +
+                "var imgUrl = \"\";" +
+                "var filter = [\"img//EventHead.png\",\"img//kong.png\",\"hdtz//button.png\"];" +
+                "var isShow = true;" +
+                "for(var i=0;i<objs.length;i++){" +
+                "for(var j=0;j<filter.length;j++){" +
+                "if(objs[i].src.indexOf(filter[j])>=0) {" +
+                "isShow = false; break;}}" +
+                "if(isShow && objs[i].width>80){" +
+                "imgUrl += objs[i].src + ',';isShow = true;" +
+                "    objs[i].onclick=function()  " +
+                "    {  "
+                + "        window.imageListener.openImage(imgUrl,this.src);" +
+                "    }" +
+                "}" +
+                "}" +
+                "})()"
+        );
+    }
+
+
 }
+
