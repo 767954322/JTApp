@@ -199,16 +199,15 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
             for (String s : imgs) {
                 imgUrlList.add(s);
             }
-//            for (int i = 0; i < imgUrlList.size(); i++) {
-//                if (img.equals(imgUrlList.get(i))) {
-//                    position = i;
-//                }
-//            }
-            Intent intent = new Intent(MyWebViewActivity.this, ImageDetailsActivity.class);
-            intent.putExtra("number", position);
-            intent.putExtra("pic_url_list", (Serializable) imgUrlList);
-            intent.putExtra("click_position", 0);
-            startActivity(intent);
+            if(imgUrlList.size() > 0){
+                Intent intent = new Intent(MyWebViewActivity.this, CaiJiImgListActivity.class);
+                intent.putExtra("number", position);
+                intent.putExtra("pic_url_list", (Serializable) imgUrlList);
+                intent.putExtra("click_position", 0);
+                startActivity(intent);
+            }else {
+                ToastUtils.showCenter(MyWebViewActivity.this,"未采集到图片信息");
+            }
         }
     }
 
