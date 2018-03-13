@@ -143,8 +143,8 @@
             android:name=".home.activity.CaiJiImgListActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".home.activity.NewUserNameActivity"
             android:alwaysRetainTaskState="true"

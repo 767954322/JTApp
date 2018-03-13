@@ -20,6 +20,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -42,13 +43,6 @@ import java.util.ArrayList;
  */
 
 public class MyWebViewActivity extends BaseActivity implements View.OnClickListener {
-    private String weburl;
-    private WebView mWeb;
-    private TextView tv_tital_comment;
-    private ProgressBar pb_progress;
-    private ImageView iv_quxiao;
-    private ClearEditText cet_clearedit;
-    private Button bt_caiji;
 
     @Override
     protected int getLayoutResId() {
@@ -69,9 +63,8 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
         iv_quxiao = (ImageView) findViewById(R.id.iv_quxiao);
         bt_caiji = (Button) findViewById(R.id.bt_caiji);
         pb_progress = (ProgressBar) findViewById(R.id.pb_progress);
-        cet_clearedit = (ClearEditText) findViewById(R.id.cet_clearedit);
+        cet_clearedit = (EditText) findViewById(R.id.cet_clearedit);
 
-        cet_clearedit.setClearIconVisible(false);
     }
 
     @Override
@@ -114,10 +107,39 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initData(Bundle savedInstanceState) {
         cet_clearedit.setText(weburl);
+//        cet_clearedit.setSelection(weburl.length());
         initWebView();
         WebSettings settings = mWeb.getSettings();
         settings.setDomStorageEnabled(true);
         mWeb.loadUrl(weburl);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_quxiao:
+                // 先隐藏键盘
+                ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+                        .hideSoftInputFromWindow(MyWebViewActivity.this.getCurrentFocus()
+                                .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                MyWebViewActivity.this.finish();
+                break;
+            case R.id.bt_caiji:
+                mWeb.loadUrl("javascript:(function(){" +
+                        "var objs = document.getElementsByTagName(\"img\"); " +
+                        "var imgUrl = \"\";" +
+                        "var filter = [\"img//EventHead.png\",\"img//kong.png\",\"hdtz//button.png\"];" +
+                        "var isShow = true;" +
+                        "for(var i=0;i<objs.length;i++){" +
+                        "if(objs[i].width>80){" +
+                        "imgUrl += objs[i].src + ',';isShow = true;" +
+                        "}" +
+                        "}" +
+                        "window.imageListener.openImage(imgUrl,'');" +
+                        "})()"
+                );
+                break;
+        }
     }
 
     private void initWebView() {
@@ -162,34 +184,6 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
         mWeb.addJavascriptInterface(new JavascriptInterface(), "imageListener");
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.iv_quxiao:
-                // 先隐藏键盘
-                ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
-                        .hideSoftInputFromWindow(MyWebViewActivity.this.getCurrentFocus()
-                                .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                MyWebViewActivity.this.finish();
-                break;
-            case R.id.bt_caiji:
-                mWeb.loadUrl("javascript:(function(){" +
-                        "var objs = document.getElementsByTagName(\"img\"); " +
-                        "var imgUrl = \"\";" +
-                        "var filter = [\"img//EventHead.png\",\"img//kong.png\",\"hdtz//button.png\"];" +
-                        "var isShow = true;" +
-                        "for(var i=0;i<objs.length;i++){" +
-                        "if(objs[i].width>80){" +
-                        "imgUrl += objs[i].src + ',';isShow = true;" +
-                        "}" +
-                        "}" +
-                        "window.imageListener.openImage(imgUrl,'');" +
-                        "})()"
-                );
-                break;
-        }
-    }
-
     public class JavascriptInterface {
         @android.webkit.JavascriptInterface
         public void openImage(String imageUrl, String img) {
@@ -218,7 +212,6 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
      */
     protected void getHtmlContent(final String html) {
     }
-
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -256,6 +249,13 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
         );
     }
 
+    private TextView tv_tital_comment;
+    private ProgressBar pb_progress;
+    private EditText cet_clearedit;
+    private ImageView iv_quxiao;
+    private Button bt_caiji;
+    private String weburl;
+    private WebView mWeb;
 
 }
 
