@@ -26,6 +26,7 @@ import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.utils.UIUtils;
+import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.visenze.visearch.android.model.Image;
 
@@ -76,7 +77,7 @@ public class CaiJiImgListActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
 
-       widthScreen = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_30)) / 3;
+        widthScreen = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_30)) / 3;
 //        widthScreen = PublicUtils.getScreenWidth(this) / 3;
         myAdapter = new MyAdapter(this, imageLists);
         gv_gridview.setAdapter(myAdapter);
@@ -132,7 +133,8 @@ public class CaiJiImgListActivity
             layoutParams.width = widthScreen;
             layoutParams.height = widthScreen;
             myHolder.iv_imageview.setLayoutParams(layoutParams);
-            ImageUtils.displayFilletImage(list.get(position), myHolder.iv_imageview);
+            GlideImgManager.glideLoader(CaiJiImgListActivity.this, list.get(position), R.color.white, R.color.white, myHolder.iv_imageview, 1);
+//            ImageUtils.displayFilletImage(list.get(position), myHolder.iv_imageview);
             return convertView;
         }
 
