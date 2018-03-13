@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.DocumentsContract;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -34,6 +36,7 @@ import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.imagedetail.ImageDetailsActivity;
 import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.utils.ToastUtils;
+import com.homechart.app.utils.UIUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -43,6 +46,7 @@ import java.util.ArrayList;
  */
 
 public class MyWebViewActivity extends BaseActivity implements View.OnClickListener {
+
 
     @Override
     protected int getLayoutResId() {
@@ -62,8 +66,12 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
         mWeb = (WebView) findViewById(R.id.wb_webview);
         iv_quxiao = (ImageView) findViewById(R.id.iv_quxiao);
         bt_caiji = (Button) findViewById(R.id.bt_caiji);
-        pb_progress = (ProgressBar) findViewById(R.id.pb_progress);
         cet_clearedit = (EditText) findViewById(R.id.cet_clearedit);
+        tv_textview1 = (TextView) findViewById(R.id.tv_textview1);
+        tv_textview2 = (TextView) findViewById(R.id.tv_textview2);
+
+        iv_back_icon = (ImageView) findViewById(R.id.iv_back_icon);
+        iv_next_icon = (ImageView) findViewById(R.id.iv_next_icon);
 
     }
 
@@ -72,6 +80,8 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
         super.initListener();
         iv_quxiao.setOnClickListener(this);
         bt_caiji.setOnClickListener(this);
+        iv_back_icon.setOnClickListener(this);
+        iv_next_icon.setOnClickListener(this);
         cet_clearedit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
@@ -111,7 +121,16 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
         initWebView();
         WebSettings settings = mWeb.getSettings();
         settings.setDomStorageEnabled(true);
-        mWeb.loadUrl(weburl);
+        if (TextUtils.isEmpty(weburl)) {
+            mWeb.setVisibility(View.GONE);
+        } else {
+            tv_textview1.setVisibility(View.GONE);
+            tv_textview2.setVisibility(View.GONE);
+            mWeb.setVisibility(View.VISIBLE);
+            mWeb.loadUrl(weburl);
+        }
+
+        mHandler.postDelayed(runnable, 100);
     }
 
     @Override
@@ -138,6 +157,18 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
                         "window.imageListener.openImage(imgUrl,'');" +
                         "})()"
                 );
+                break;
+            case R.id.iv_back_icon:
+                if (mWeb.canGoBack()) {
+                    mWeb.goBack();
+                    changeNextStatus();
+                }
+                break;
+            case R.id.iv_next_icon:
+                if (mWeb.canGoForward()) {
+                    mWeb.goForward();
+                    changeNextStatus();
+                }
                 break;
         }
     }
@@ -193,14 +224,14 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
             for (String s : imgs) {
                 imgUrlList.add(s);
             }
-            if(imgUrlList.size() > 0){
+            if (imgUrlList.size() > 0) {
                 Intent intent = new Intent(MyWebViewActivity.this, CaiJiImgListActivity.class);
                 intent.putExtra("number", position);
                 intent.putExtra("pic_url_list", (Serializable) imgUrlList);
                 intent.putExtra("click_position", 0);
                 startActivity(intent);
-            }else {
-                ToastUtils.showCenter(MyWebViewActivity.this,"未采集到图片信息");
+            } else {
+                ToastUtils.showCenter(MyWebViewActivity.this, "未采集到图片信息");
             }
         }
     }
@@ -218,6 +249,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
         // TODO Auto-generated method stub
         if (keyCode == KeyEvent.KEYCODE_BACK && mWeb.canGoBack()) {
             mWeb.goBack();
+//            mWeb.goForward();
             return true;
         } else {
             MyWebViewActivity.this.finish();
@@ -249,9 +281,34 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
         );
     }
 
+    public void changeNextStatus() {
+        if (mWeb.canGoBack()) {
+            iv_back_icon.setImageResource(R.drawable.forward_liang);
+        }else {
+            iv_back_icon.setImageResource(R.drawable.forward_an);
+        }
+        if (mWeb.canGoForward()) {
+            iv_next_icon.setImageResource(R.drawable.back_liang);
+        }else {
+            iv_next_icon.setImageResource(R.drawable.back_an);
+        }
+    }
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            changeNextStatus();
+            mHandler.postDelayed(this, 200);
+        }
+    };
+
+    Handler mHandler = new Handler() {};
     private TextView tv_tital_comment;
-    private ProgressBar pb_progress;
     private EditText cet_clearedit;
+    private TextView tv_textview1;
+    private TextView tv_textview2;
+    private ImageView iv_back_icon;
+    private ImageView iv_next_icon;
     private ImageView iv_quxiao;
     private Button bt_caiji;
     private String weburl;

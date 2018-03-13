@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/bg_eeeeee"
     android:clickable="true">
 
     <RelativeLayout
@@ -17,8 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/font_10"
-            android:layout_marginRight="@dimen/font_10"
+            android:layout_marginLeft="@dimen/font_15"
+            android:layout_marginRight="@dimen/font_15"
             android:src="@drawable/quxiao_you" />
 
 
@@ -27,53 +27,99 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/font_27"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/font_8"
             android:layout_marginBottom="@dimen/font_8"
+            android:layout_marginRight="@dimen/font_10"
+            android:layout_marginTop="@dimen/font_8"
+            android:layout_toLeftOf="@+id/bt_caiji"
+            android:layout_toRightOf="@+id/iv_quxiao"
             android:background="@drawable/bg_edittext_search"
             android:drawablePadding="@dimen/font_3"
-            android:paddingRight="@dimen/font_10"
-            android:layout_marginRight="@dimen/font_10"
-            android:gravity="center_vertical"
-            android:lines="1"
-            android:imeOptions="actionSearch"
-            android:singleLine="true"
             android:ellipsize="end"
-            android:layout_toRightOf="@+id/iv_quxiao"
-            android:layout_toLeftOf="@+id/bt_caiji"
+            android:gravity="center_vertical"
+            android:imeOptions="actionSearch"
+            android:lines="1"
             android:paddingLeft="@dimen/font_10"
+            android:paddingRight="@dimen/font_10"
+            android:singleLine="true"
             android:textColorHint="@color/bg_8f8f8f"
             android:textSize="@dimen/size_14" />
 
 
-       <Button
-           android:id="@+id/bt_caiji"
-           android:layout_width="@dimen/font_35"
-           android:layout_height="@dimen/font_25"
-           android:layout_centerVertical="true"
-           android:layout_alignParentRight="true"
-           android:layout_marginRight="@dimen/font_10"
-           android:textSize="@dimen/size_9"
-           android:background="@color/bg_e79056"
-           android:textColor="@color/white"
-           android:text="采集"/>
+        <Button
+            android:id="@+id/bt_caiji"
+            android:layout_width="@dimen/font_50"
+            android:layout_height="@dimen/font_27"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_10"
+            android:background="@drawable/bg_caiji"
+            android:text="采集"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_12" />
 
     </RelativeLayout>
-
-    <ProgressBar
-        android:id="@+id/pb_progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="2dip"
-        android:layout_below="@+id/common_navbar"
-        android:indeterminateOnly="false"
-        android:max="100"
-        android:progressDrawable="@drawable/progress_bar_states"
-        android:visibility="gone" />
 
     <WebView
         android:id="@+id/wb_webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/pb_progress"
-        android:layerType="hardware" />
+        android:layout_above="@+id/rl_bootom"
+        android:layout_below="@+id/common_navbar"
+        android:layerType="hardware"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_textview1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="输入网址，点击采集按钮"
+        android:textColor="@color/bg_8f8f8f"
+        android:textSize="@dimen/size_16" />
+
+    <TextView
+        android:id="@+id/tv_textview2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_textview1"
+        android:layout_centerHorizontal="true"
+        android:text="即可采集网页上的图片"
+        android:textColor="@color/bg_8f8f8f"
+        android:textSize="@dimen/size_16" />
+
+    <RelativeLayout
+        android:id="@+id/rl_bootom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_44"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/white">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/view_line"
+            android:layout_alignParentTop="true"/>
+
+        <ImageView
+            android:id="@+id/iv_back_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/font_15"
+            android:paddingRight="@dimen/font_36"
+            android:src="@drawable/forward_an" />
+
+        <ImageView
+            android:id="@+id/iv_next_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/font_15"
+            android:paddingRight="@dimen/font_15"
+            android:layout_marginLeft="@dimen/font_36"
+            android:layout_toRightOf="@+id/iv_back_icon"
+            android:src="@drawable/back_an" />
+
+    </RelativeLayout>
+
 </RelativeLayout>
