@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Layout;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.homechart.app.R;
 import com.homechart.app.commont.PublicUtils;
@@ -41,10 +43,12 @@ public class CaiJiImgListActivity
         implements View.OnClickListener {
     private List<String> imageLists;
     private GridView gv_gridview;
-    private ImageButton mIBBack;
+    private ImageView iv_quxiao;
     private CommonAdapter<String> mAdapter;
     private int widthScreen;
     private MyAdapter myAdapter;
+    private String title;
+    private TextView tv_tital;
 
     @Override
     protected int getLayoutResId() {
@@ -56,6 +60,7 @@ public class CaiJiImgListActivity
     protected void initExtraBundle() {
         super.initExtraBundle();
         imageLists = (List<String>) getIntent().getSerializableExtra("pic_url_list");
+        title = getIntent().getStringExtra("title");
 
     }
 
@@ -63,21 +68,26 @@ public class CaiJiImgListActivity
     protected void initView() {
 
         gv_gridview = (GridView) findViewById(R.id.gv_gridview);
-        mIBBack = (ImageButton) findViewById(R.id.nav_left_imageButton);
+        iv_quxiao = (ImageView) findViewById(R.id.iv_quxiao);
+        tv_tital = (TextView) findViewById(R.id.tv_tital);
 
     }
 
     @Override
     protected void initListener() {
         super.initListener();
-        mIBBack.setOnClickListener(this);
+        iv_quxiao.setOnClickListener(this);
 
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
 
-        widthScreen = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_30)) / 3;
+        if (!TextUtils.isEmpty(title)) {
+            tv_tital.setText("家图网－" + title);
+        }
+
+        widthScreen = (PublicUtils.getScreenWidth(this) - UIUtils.getDimens(R.dimen.font_26)) / 3;
 //        widthScreen = PublicUtils.getScreenWidth(this) / 3;
         myAdapter = new MyAdapter(this, imageLists);
         gv_gridview.setAdapter(myAdapter);
@@ -86,7 +96,7 @@ public class CaiJiImgListActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.nav_left_imageButton:
+            case R.id.iv_quxiao:
                 CaiJiImgListActivity.this.finish();
                 break;
         }

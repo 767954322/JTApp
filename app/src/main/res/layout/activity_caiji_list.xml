@@ -4,9 +4,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
+    <RelativeLayout
         android:id="@+id/common_navbar"
-        layout="@layout/view_navigation_header" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <ImageView
+            android:id="@+id/iv_quxiao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/font_12"
+            android:layout_marginBottom="@dimen/font_12"
+            android:layout_marginLeft="@dimen/font_15"
+            android:layout_marginRight="@dimen/font_15"
+            android:src="@drawable/quxiao_you" />
+
+        <TextView
+            android:id="@+id/tv_tital"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/font_50"
+            android:layout_marginRight="@dimen/font_50"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:gravity="center"/>
+
+
+
+    </RelativeLayout>
 
 
     <GridView

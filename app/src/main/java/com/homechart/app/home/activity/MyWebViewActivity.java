@@ -48,6 +48,7 @@ import java.util.ArrayList;
 public class MyWebViewActivity extends BaseActivity implements View.OnClickListener {
 
 
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_webview;
@@ -202,8 +203,10 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onPageFinished(WebView view, String url) {
                 //网页加载完成 走JS代码
+                pageTitle = view.getTitle();
 //                clickImage();
                 super.onPageFinished(view, url);
+
             }
 
             @Override
@@ -225,10 +228,11 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
                 imgUrlList.add(s);
             }
             if (imgUrlList.size() > 0) {
+
                 Intent intent = new Intent(MyWebViewActivity.this, CaiJiImgListActivity.class);
                 intent.putExtra("number", position);
                 intent.putExtra("pic_url_list", (Serializable) imgUrlList);
-                intent.putExtra("click_position", 0);
+                intent.putExtra("title", pageTitle);
                 startActivity(intent);
             } else {
                 ToastUtils.showCenter(MyWebViewActivity.this, "未采集到图片信息");
@@ -304,6 +308,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
 
     Handler mHandler = new Handler() {};
     private TextView tv_tital_comment;
+    private String pageTitle = "";
     private EditText cet_clearedit;
     private TextView tv_textview1;
     private TextView tv_textview2;
