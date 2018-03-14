@@ -28,10 +28,12 @@ import com.homechart.app.myview.SpaceItemDecoration;
 import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
+import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.glide.GlideRoundTransform;
 import com.homechart.app.utils.imageloader.ImageUtils;
+import com.homechart.app.utils.widget.CustomProgressTouMing;
 import com.visenze.visearch.android.model.Image;
 
 import java.util.List;
@@ -146,12 +148,23 @@ public class CaiJiImgListActivity
             layoutParams.height = widthScreen;
             myHolder.iv_imageview.setLayoutParams(layoutParams);
             GlideImgManager.glideLoader(CaiJiImgListActivity.this, list.get(position), R.color.white, R.color.white, myHolder.iv_imageview, 1);
+            myHolder.iv_imageview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CustomProgressTouMing.show(CaiJiImgListActivity.this, "", false, null);
+                    upImage();
+                }
+            });
             return convertView;
         }
 
         class MyHolder {
             private ImageView iv_imageview;
         }
+    }
+
+    private void upImage() {
+
     }
 
 }
