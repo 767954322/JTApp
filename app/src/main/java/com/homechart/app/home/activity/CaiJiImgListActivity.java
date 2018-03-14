@@ -224,11 +224,11 @@ public class CaiJiImgListActivity
                                 list.add(tags);
                             }
                         }
-                        CustomProgressTouMing.cancelDialog();
                         Intent intent = new Intent(CaiJiImgListActivity.this,FaBuImageActivity.class);
                         intent.putExtra("image_id",image_id);
                         intent.putExtra("image_url",url);
                         intent.putExtra("tags", (Serializable) list);
+                        CustomProgressTouMing.cancelDialog();
                         startActivity(intent);
                     } else {
                         CustomProgressTouMing.cancelDialog();

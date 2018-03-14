@@ -49,7 +49,7 @@ import java.util.List;
 public class NewTagsListActivity
         extends BaseActivity
         implements View.OnClickListener,
-        MyTagsAdapter.ClickItemIns {
+        MyTagsAdapter.ClickItemIns ,FlowLayoutFaXianTags.OnTagClickListener{
 
     private ImageButton mBack;
     private RecyclerView mRecyclerView;
@@ -139,12 +139,12 @@ public class NewTagsListActivity
         mAdapter = new MultiItemCommonAdapter<ItemGroupBean>(NewTagsListActivity.this, mListData, support) {
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
-                ((TextView) holder.getView(R.id.tv_dingyue_tab)).setText(mListData.get(position).getGroup_info().getGroup_name());
-                ((MyGridView) holder.getView(R.id.gv_content)).setSelector(new ColorDrawable(Color.TRANSPARENT));
-                ((MyGridView) holder.getView(R.id.gv_content)).setAdapter(new MyTagsAdapter(mListData.get(position).getGroup_info().getTag_list(), NewTagsListActivity.this, NewTagsListActivity.this, position));
-//                ((FlowLayoutFaXianTags) holder.getView(R.id.fl_tags)).setColorful(true);
-//                ((FlowLayoutFaXianTags) holder.getView(R.id.fl_tags)).setListData(mListData.get(position).getGroup_info().getTag_list(), position);
-//                ((FlowLayoutFaXianTags) holder.getView(R.id.fl_tags)).setOnTagClickListener(NewTagsListActivity.this);
+//                ((TextView) holder.getView(R.id.tv_dingyue_tab)).setText(mListData.get(position).getGroup_info().getGroup_name());
+//                ((MyGridView) holder.getView(R.id.gv_content)).setSelector(new ColorDrawable(Color.TRANSPARENT));
+//                ((MyGridView) holder.getView(R.id.gv_content)).setAdapter(new MyTagsAdapter(mListData.get(position).getGroup_info().getTag_list(), NewTagsListActivity.this, NewTagsListActivity.this, position));
+                ((FlowLayoutFaXianTags) holder.getView(R.id.fl_tags)).setColorful(true);
+                ((FlowLayoutFaXianTags) holder.getView(R.id.fl_tags)).setListData(mListData.get(position).getGroup_info().getTag_list(), position);
+                ((FlowLayoutFaXianTags) holder.getView(R.id.fl_tags)).setOnTagClickListener(NewTagsListActivity.this);
 
             }
         };
@@ -242,4 +242,8 @@ public class NewTagsListActivity
 
     }
 
+    @Override
+    public void tagClick(int position, int numTag) {
+       clickItemPosition(position,numTag);
+    }
 }

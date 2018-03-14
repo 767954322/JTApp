@@ -15,28 +15,28 @@
         android:textColor="@color/bg_8f8f8f"
         android:textSize="@dimen/size_16" />
 
-    <!--<com.homechart.app.myview.FlowLayoutFaXianTags-->
-        <!--android:id="@+id/fl_tags"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/tv_dingyue_tab"-->
-        <!--android:background="@color/white" />-->
-
-    <com.homechart.app.myview.MyGridView
-        android:id="@+id/gv_content"
-        android:layout_marginTop="@dimen/font_20"
+    <com.homechart.app.myview.FlowLayoutFaXianTags
+        android:id="@+id/fl_tags"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/font_15"
-        android:layout_marginRight="@dimen/font_15"
         android:layout_below="@+id/tv_dingyue_tab"
-        android:layout_marginBottom="@dimen/font_6"
-        android:numColumns="4"/>
+        android:background="@color/white" />
+
+    <!--<com.homechart.app.myview.MyGridView-->
+        <!--android:id="@+id/gv_content"-->
+        <!--android:layout_marginTop="@dimen/font_20"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="@dimen/font_15"-->
+        <!--android:layout_marginRight="@dimen/font_15"-->
+        <!--android:layout_below="@+id/tv_dingyue_tab"-->
+        <!--android:layout_marginBottom="@dimen/font_6"-->
+        <!--android:numColumns="4"/>-->
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_below="@+id/gv_content"
+        android:layout_below="@+id/fl_tags"
         android:layout_marginLeft="@dimen/font_15"
         android:layout_marginRight="@dimen/font_15"
         android:background="@color/bg_e6e6e6"/>
