@@ -29,6 +29,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.homechart.app.R;
+import com.homechart.app.commont.CaiJi;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.KeyConstans;
 import com.homechart.app.commont.PublicUtils;
@@ -60,6 +61,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
         super.initExtraBundle();
 //        weburl = "http://app.jstyle.cn/jm_interface_1_2/index.php/home/article/app_articledesc?rid=44246";
         weburl = getIntent().getStringExtra("weburl");
+//        weburl = "http://mp.weixin.qq.com/s/K6JmSxrVjCn2ZH2-NBF_Cg";//微信
     }
 
     @Override
@@ -151,22 +153,22 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
                 loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
 
                 if (!loginStatus) {
+
                     Intent intent = new Intent(MyWebViewActivity.this, LoginActivity.class);
                     startActivityForResult(intent, 1);
-                }else {
-                    mWeb.loadUrl("javascript:(function(){" +
-                            "var objs = document.getElementsByTagName(\"img\"); " +
-                            "var imgUrl = \"\";" +
-                            "var filter = [\"img//EventHead.png\",\"img//kong.png\",\"hdtz//button.png\"];" +
-                            "var isShow = true;" +
-                            "for(var i=0;i<objs.length;i++){" +
-                            "if(objs[i].width>80){" +
-                            "imgUrl += objs[i].src + ',';isShow = true;" +
-                            "}" +
-                            "}" +
-                            "window.imageListener.openImage(imgUrl,'');" +
-                            "})()"
-                    );
+
+                } else {
+
+                    if (weburl.contains("mp.weixin.qq.com")) {
+
+                        mWeb.loadUrl(CaiJi.WEIXIN);
+
+                    }else {
+
+                        mWeb.loadUrl(CaiJi.PUBLICK);
+
+                    }
+
                 }
                 break;
             case R.id.iv_back_icon:
@@ -253,6 +255,11 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
                 ToastUtils.showCenter(MyWebViewActivity.this, "未采集到图片信息");
             }
         }
+
+//        @android.webkit.JavascriptInterface
+//        public void showSource(String html) {
+//            getHtmlContent(html);
+//        }
     }
 
     /**
