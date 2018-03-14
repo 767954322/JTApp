@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <com.homechart.app.myview.RoundJiaoImageView
         android:id="@+id/iv_item_caiji"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

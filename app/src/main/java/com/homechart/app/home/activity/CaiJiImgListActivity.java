@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.homechart.app.R;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
@@ -29,6 +30,7 @@ import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.glide.GlideImgManager;
+import com.homechart.app.utils.glide.GlideRoundTransform;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.visenze.visearch.android.model.Image;
 
@@ -144,7 +146,6 @@ public class CaiJiImgListActivity
             layoutParams.height = widthScreen;
             myHolder.iv_imageview.setLayoutParams(layoutParams);
             GlideImgManager.glideLoader(CaiJiImgListActivity.this, list.get(position), R.color.white, R.color.white, myHolder.iv_imageview, 1);
-//            ImageUtils.displayFilletImage(list.get(position), myHolder.iv_imageview);
             return convertView;
         }
 
