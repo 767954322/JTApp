@@ -14,16 +14,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
-import com.homechart.app.home.adapter.MyActivitysListAdapter;
 import com.homechart.app.home.base.BaseActivity;
-import com.homechart.app.home.bean.fabu.ActivityDataBean;
+import com.homechart.app.home.bean.faxiantags.FaXianTagBean;
+import com.homechart.app.home.bean.faxiantags.TagListItemBean;
 import com.homechart.app.home.bean.pictag.TagDataBean;
 import com.homechart.app.home.bean.pictag.TagItemDataChildBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
@@ -47,11 +46,9 @@ import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -95,8 +92,9 @@ public class FaBuImageActivity
     private FlowLayoutFaBu fl_tag_flowLayout;
     private List<String> listTag = new ArrayList<>();
     private Map<String, String> selectTags = new HashMap<>();
-    private List<TagItemDataChildBean> listZiDingSelect;
+    private List<TagListItemBean> listZiDingSelect;
     private List<String> tags;
+    private FaXianTagBean faXianTagBean;
 
     @Override
     protected int getLayoutResId() {
@@ -182,8 +180,8 @@ public class FaBuImageActivity
         fl_tag_flowLayout.setColorful(false);
         fl_tag_flowLayout.setListData(listTag);
         fl_tag_flowLayout.setOnTagClickListener(this);
-//        getDefaultTag();
-        getTagData();
+//        getTagData();
+        getDingYueData();
     }
 
     private void buildRecyclerView() {
@@ -238,44 +236,6 @@ public class FaBuImageActivity
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
         mRecyclerView.setAdapter(mAdapter);
         onRefresh();
-    }
-
-    private void getDefaultTag() {
-        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                ToastUtils.showCenter(FaBuImageActivity.this, getString(R.string.fabutags_get_error));
-            }
-
-            @Override
-            public void onResponse(String s) {
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                    if (error_code == 0) {
-                        JSONObject jsonObject1 = new JSONObject(data_msg);
-                        JSONArray jsonArray = jsonObject1.getJSONArray(image_id);
-                        if (jsonArray.length() > 0) {
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                String tags = jsonArray.get(i).toString();
-                                selectTags.put(tags, tags);
-                                listTag.add("桌布");
-                            }
-                        }
-                        Message msg = new Message();
-                        msg.what = 6;
-                        mHandler.sendMessage(msg);
-                    } else {
-                        ToastUtils.showCenter(FaBuImageActivity.this, error_msg);
-                    }
-                } catch (JSONException e) {
-                    ToastUtils.showCenter(FaBuImageActivity.this, getString(R.string.fabutags_get_error));
-                }
-            }
-        };
-        MyHttpManager.getInstance().getImgDefaultTags(image_id, callBack);
     }
 
     private void getInspirationsData(final String state) {
@@ -481,7 +441,7 @@ public class FaBuImageActivity
         }
         if(null != listZiDingSelect){
             for (int i = 0; i < listZiDingSelect.size(); i++) {
-                if (text.equals(listZiDingSelect.get(i).getTag_name())) {
+                if (text.equals(listZiDingSelect.get(i).getTag_info().getTag_name())) {
                     listZiDingSelect.remove(i);
                 }
             }
@@ -497,18 +457,16 @@ public class FaBuImageActivity
         bundle.putSerializable("tags_select", myMap);
         intent.putExtras(bundle);
         intent.putExtra("zidingyi", (Serializable) listZiDingSelect);
-        intent.putExtra("tagdata", tagDataBean);
+        intent.putExtra("faXianTagBean", faXianTagBean);
         startActivityForResult(intent, 1);
 
     }
 
-    //获取tag信息
-    private void getTagData() {
-
+    private void getDingYueData() {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                ToastUtils.showCenter(FaBuImageActivity.this, getString(R.string.fabutags_get_error));
+                ToastUtils.showCenter(FaBuImageActivity.this, "标签导航列表获取失败");
             }
 
             @Override
@@ -519,21 +477,51 @@ public class FaBuImageActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
-                        data_msg = "{ \"tag_id\": " + data_msg + "}";
                         Message msg = new Message();
                         msg.obj = data_msg;
-                        msg.what = 5;
+                        msg.what = 7;
                         mHandler.sendMessage(msg);
                     } else {
                         ToastUtils.showCenter(FaBuImageActivity.this, error_msg);
                     }
                 } catch (JSONException e) {
-                    ToastUtils.showCenter(FaBuImageActivity.this, getString(R.string.fabutags_get_error));
                 }
             }
         };
-        MyHttpManager.getInstance().getPicTagData(callBack);
+        MyHttpManager.getInstance().getTagList(callBack);
     }
+//    //获取tag信息
+//    private void getTagData() {
+//
+//        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+//            @Override
+//            public void onErrorResponse(VolleyError volleyError) {
+//                ToastUtils.showCenter(FaBuImageActivity.this, getString(R.string.fabutags_get_error));
+//            }
+//
+//            @Override
+//            public void onResponse(String s) {
+//                try {
+//                    JSONObject jsonObject = new JSONObject(s);
+//                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+//                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+//                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+//                    if (error_code == 0) {
+//                        data_msg = "{ \"tag_id\": " + data_msg + "}";
+//                        Message msg = new Message();
+//                        msg.obj = data_msg;
+//                        msg.what = 5;
+//                        mHandler.sendMessage(msg);
+//                    } else {
+//                        ToastUtils.showCenter(FaBuImageActivity.this, error_msg);
+//                    }
+//                } catch (JSONException e) {
+//                    ToastUtils.showCenter(FaBuImageActivity.this, getString(R.string.fabutags_get_error));
+//                }
+//            }
+//        };
+//        MyHttpManager.getInstance().getPicTagData(callBack);
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -542,7 +530,7 @@ public class FaBuImageActivity
         if (requestCode == 1 && resultCode == 1) {
             Bundle bundle = data.getExtras();
             SerializableHashMap serializableHashMap = (SerializableHashMap) bundle.get("tags_select");
-            listZiDingSelect = (List<TagItemDataChildBean>) data.getSerializableExtra("zidingyi");
+            listZiDingSelect = (List<TagListItemBean>) data.getSerializableExtra("zidingyi");
             if (serializableHashMap != null && serializableHashMap.getMap() != null && serializableHashMap.getMap().size() > 0) {
                 selectTags = serializableHashMap.getMap();
                 Message message = new Message();
@@ -584,6 +572,9 @@ public class FaBuImageActivity
             } else if (code == 6) {
                 fl_tag_flowLayout.cleanTag();
                 fl_tag_flowLayout.setListData(listTag);
+            }else if (code == 7) {
+                String json = "{\"data\": " + (String) msg.obj + "}";
+                faXianTagBean = GsonUtil.jsonToBean(json, FaXianTagBean.class);
             }
         }
     };

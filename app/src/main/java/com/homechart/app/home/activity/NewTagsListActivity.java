@@ -139,7 +139,7 @@ public class NewTagsListActivity
         mAdapter = new MultiItemCommonAdapter<ItemGroupBean>(NewTagsListActivity.this, mListData, support) {
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
-//                ((TextView) holder.getView(R.id.tv_dingyue_tab)).setText(mListData.get(position).getGroup_info().getGroup_name());
+                ((TextView) holder.getView(R.id.tv_dingyue_tab)).setText(mListData.get(position).getGroup_info().getGroup_name());
 //                ((MyGridView) holder.getView(R.id.gv_content)).setSelector(new ColorDrawable(Color.TRANSPARENT));
 //                ((MyGridView) holder.getView(R.id.gv_content)).setAdapter(new MyTagsAdapter(mListData.get(position).getGroup_info().getTag_list(), NewTagsListActivity.this, NewTagsListActivity.this, position));
                 ((FlowLayoutFaXianTags) holder.getView(R.id.fl_tags)).setColorful(true);
