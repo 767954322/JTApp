@@ -29,12 +29,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.homechart.app.R;
+import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.KeyConstans;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.commont.UrlConstants;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.imagedetail.ImageDetailsActivity;
 import com.homechart.app.myview.ClearEditText;
+import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
 
@@ -144,19 +146,28 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
                 MyWebViewActivity.this.finish();
                 break;
             case R.id.bt_caiji:
-                mWeb.loadUrl("javascript:(function(){" +
-                        "var objs = document.getElementsByTagName(\"img\"); " +
-                        "var imgUrl = \"\";" +
-                        "var filter = [\"img//EventHead.png\",\"img//kong.png\",\"hdtz//button.png\"];" +
-                        "var isShow = true;" +
-                        "for(var i=0;i<objs.length;i++){" +
-                        "if(objs[i].width>80){" +
-                        "imgUrl += objs[i].src + ',';isShow = true;" +
-                        "}" +
-                        "}" +
-                        "window.imageListener.openImage(imgUrl,'');" +
-                        "})()"
-                );
+
+
+                loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+
+                if (!loginStatus) {
+                    Intent intent = new Intent(MyWebViewActivity.this, LoginActivity.class);
+                    startActivityForResult(intent, 1);
+                }else {
+                    mWeb.loadUrl("javascript:(function(){" +
+                            "var objs = document.getElementsByTagName(\"img\"); " +
+                            "var imgUrl = \"\";" +
+                            "var filter = [\"img//EventHead.png\",\"img//kong.png\",\"hdtz//button.png\"];" +
+                            "var isShow = true;" +
+                            "for(var i=0;i<objs.length;i++){" +
+                            "if(objs[i].width>80){" +
+                            "imgUrl += objs[i].src + ',';isShow = true;" +
+                            "}" +
+                            "}" +
+                            "window.imageListener.openImage(imgUrl,'');" +
+                            "})()"
+                    );
+                }
                 break;
             case R.id.iv_back_icon:
                 if (mWeb.canGoBack()) {
@@ -323,6 +334,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
     private Button bt_caiji;
     private String weburl;
     private WebView mWeb;
+    private Boolean loginStatus;
 
 }
 

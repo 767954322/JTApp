@@ -3,48 +3,35 @@ package com.homechart.app.home.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.text.Layout;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.android.volley.VolleyError;
-import com.bumptech.glide.Glide;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
-import com.homechart.app.home.bean.fensi.UserListBean;
-import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
-import com.homechart.app.myview.MyGridView;
-import com.homechart.app.myview.RoundImageView;
-import com.homechart.app.myview.SpaceItemDecoration;
 import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
-import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
-import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
-import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.glide.GlideImgManager;
-import com.homechart.app.utils.glide.GlideRoundTransform;
-import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.homechart.app.utils.widget.CustomProgressTouMing;
-import com.visenze.visearch.android.model.Image;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -190,15 +177,10 @@ public class CaiJiImgListActivity
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
                         try {
-                            CustomProgressTouMing.cancelDialog();
                             JSONObject jsonObject1 = new JSONObject(data_msg);
                             String image_id = jsonObject1.getString("image_id");
-                            Intent intent = new Intent(CaiJiImgListActivity.this,FaBuImageActivity.class);
-                            intent.putExtra("image_id",image_id);
-                            intent.putExtra("image_url",url);
-                            startActivity(intent);
+                            getDefaultTag(image_id,url);
                         }catch (Exception e){
-
                             ToastUtils.showCenter(CaiJiImgListActivity.this, "图片上传失败,请重新上传");
                         }
 
@@ -214,6 +196,51 @@ public class CaiJiImgListActivity
         };
         MyHttpManager.getInstance().grabPicture(url,title,"" , callBack);
 
+
+    }
+
+    private void getDefaultTag(final String image_id,final String url) {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                CustomProgressTouMing.cancelDialog();
+                ToastUtils.showCenter(CaiJiImgListActivity.this, "默认标签获取失败");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        List<String> list = new ArrayList<>();
+                        JSONObject jsonObject1 = new JSONObject(data_msg);
+                        JSONArray jsonArray = jsonObject1.getJSONArray(image_id);
+                        if (jsonArray.length() > 0) {
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                String tags = jsonArray.get(i).toString();
+                                list.add(tags);
+                            }
+                        }
+                        CustomProgressTouMing.cancelDialog();
+                        Intent intent = new Intent(CaiJiImgListActivity.this,FaBuImageActivity.class);
+                        intent.putExtra("image_id",image_id);
+                        intent.putExtra("image_url",url);
+                        intent.putExtra("tags", (Serializable) list);
+                        startActivity(intent);
+                    } else {
+                        CustomProgressTouMing.cancelDialog();
+                        ToastUtils.showCenter(CaiJiImgListActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                    CustomProgressTouMing.cancelDialog();
+                    ToastUtils.showCenter(CaiJiImgListActivity.this, "默认标签获取失败");
+                }
+            }
+        };
+        MyHttpManager.getInstance().getImgDefaultTags(image_id, callBack);
 
     }
 

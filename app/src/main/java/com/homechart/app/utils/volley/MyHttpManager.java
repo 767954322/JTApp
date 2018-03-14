@@ -3711,7 +3711,7 @@ public class MyHttpManager {
 
 
     /**
-     * 保存订阅管理
+     * 通过图片URL地址抓取图片
      */
     public void grabPicture(final String image_url, final String title, final String from_url, OkStringRequest.OKResponseCallback callback) {
         OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.GRAB_PICTURE, callback) {
@@ -3721,6 +3721,30 @@ public class MyHttpManager {
                 map.put("image_url", image_url);
                 map.put("title", title);
                 map.put("from_url", from_url);
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+
+        };
+        queue.add(okStringRequest);
+    }
+
+    /**
+     * 通过图像识别推荐标签
+     */
+    public void getImgDefaultTags(final String image_ids , OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.DEFAULT_TAGS, callback) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                map.put("image_ids", image_ids);
                 String signString = PublicUtils.getSinaString(map);
                 String tabMd5String = Md5Util.getMD5twoTimes(signString);
                 map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
