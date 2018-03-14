@@ -48,7 +48,6 @@ import java.util.ArrayList;
 public class MyWebViewActivity extends BaseActivity implements View.OnClickListener {
 
 
-
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_webview;
@@ -229,11 +228,16 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
             }
             if (imgUrlList.size() > 0) {
 
-                Intent intent = new Intent(MyWebViewActivity.this, CaiJiImgListActivity.class);
-                intent.putExtra("number", position);
-                intent.putExtra("pic_url_list", (Serializable) imgUrlList);
-                intent.putExtra("title", pageTitle);
-                startActivity(intent);
+                if (imgUrlList.size() == 1 && imgUrlList.get(0).trim().equals("")) {
+
+                    ToastUtils.showCenter(MyWebViewActivity.this, "未采集到图片信息");
+                } else {
+                    Intent intent = new Intent(MyWebViewActivity.this, CaiJiImgListActivity.class);
+                    intent.putExtra("number", position);
+                    intent.putExtra("pic_url_list", (Serializable) imgUrlList);
+                    intent.putExtra("title", pageTitle);
+                    startActivity(intent);
+                }
             } else {
                 ToastUtils.showCenter(MyWebViewActivity.this, "未采集到图片信息");
             }
@@ -288,12 +292,12 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
     public void changeNextStatus() {
         if (mWeb.canGoBack()) {
             iv_back_icon.setImageResource(R.drawable.forward_liang);
-        }else {
+        } else {
             iv_back_icon.setImageResource(R.drawable.forward_an);
         }
         if (mWeb.canGoForward()) {
             iv_next_icon.setImageResource(R.drawable.back_liang);
-        }else {
+        } else {
             iv_next_icon.setImageResource(R.drawable.back_an);
         }
     }
@@ -306,7 +310,8 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
         }
     };
 
-    Handler mHandler = new Handler() {};
+    Handler mHandler = new Handler() {
+    };
     private TextView tv_tital_comment;
     private String pageTitle = "";
     private EditText cet_clearedit;

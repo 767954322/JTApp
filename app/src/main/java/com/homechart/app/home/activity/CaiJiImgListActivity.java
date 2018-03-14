@@ -1,6 +1,7 @@
 package com.homechart.app.home.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,8 +17,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.homechart.app.R;
+import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.fensi.UserListBean;
@@ -29,12 +32,18 @@ import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.utils.CustomProgress;
+import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.glide.GlideRoundTransform;
 import com.homechart.app.utils.imageloader.ImageUtils;
+import com.homechart.app.utils.volley.MyHttpManager;
+import com.homechart.app.utils.volley.OkStringRequest;
 import com.homechart.app.utils.widget.CustomProgressTouMing;
 import com.visenze.visearch.android.model.Image;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -132,7 +141,7 @@ public class CaiJiImgListActivity
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
 
             MyHolder myHolder;
             if (convertView == null) {
@@ -152,7 +161,7 @@ public class CaiJiImgListActivity
                 @Override
                 public void onClick(View v) {
                     CustomProgressTouMing.show(CaiJiImgListActivity.this, "", false, null);
-                    upImage();
+                    upImage(list.get(position));
                 }
             });
             return convertView;
@@ -163,7 +172,48 @@ public class CaiJiImgListActivity
         }
     }
 
-    private void upImage() {
+    private void upImage(final String url) {
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                CustomProgressTouMing.cancelDialog();
+                ToastUtils.showCenter(CaiJiImgListActivity.this, "图片上传失败,请重新上传");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        try {
+                            CustomProgressTouMing.cancelDialog();
+                            JSONObject jsonObject1 = new JSONObject(data_msg);
+                            String image_id = jsonObject1.getString("image_id");
+                            Intent intent = new Intent(CaiJiImgListActivity.this,FaBuImageActivity.class);
+                            intent.putExtra("image_id",image_id);
+                            intent.putExtra("image_url",url);
+                            startActivity(intent);
+                        }catch (Exception e){
+
+                            ToastUtils.showCenter(CaiJiImgListActivity.this, "图片上传失败,请重新上传");
+                        }
+
+                    } else {
+                        CustomProgressTouMing.cancelDialog();
+                        ToastUtils.showCenter(CaiJiImgListActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                    CustomProgressTouMing.cancelDialog();
+                    ToastUtils.showCenter(CaiJiImgListActivity.this, "图片上传失败,请重新上传");
+                }
+            }
+        };
+        MyHttpManager.getInstance().grabPicture(url,title,"" , callBack);
+
 
     }
 
