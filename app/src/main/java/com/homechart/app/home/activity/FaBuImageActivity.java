@@ -490,7 +490,7 @@ public class FaBuImageActivity
 
     @Override
     public void AddTag(String text, int position) {
-        Intent intent = new Intent(FaBuImageActivity.this, FaBuTagsActivity.class);
+        Intent intent = new Intent(FaBuImageActivity.this, FaBuImageTagsActivity.class);
         SerializableHashMap myMap = new SerializableHashMap();
         myMap.setMap(selectTags);
         Bundle bundle = new Bundle();
