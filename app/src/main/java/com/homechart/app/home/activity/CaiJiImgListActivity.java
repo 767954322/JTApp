@@ -13,6 +13,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.android.volley.VolleyError;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
@@ -49,6 +50,7 @@ public class CaiJiImgListActivity
     private MyAdapter myAdapter;
     private String title;
     private TextView tv_tital;
+    private String mWebUrl;
 
     @Override
     protected int getLayoutResId() {
@@ -61,6 +63,7 @@ public class CaiJiImgListActivity
         super.initExtraBundle();
         imageLists = (List<String>) getIntent().getSerializableExtra("pic_url_list");
         title = getIntent().getStringExtra("title");
+        mWebUrl = getIntent().getStringExtra("webUrl");
 
     }
 
@@ -179,8 +182,8 @@ public class CaiJiImgListActivity
                         try {
                             JSONObject jsonObject1 = new JSONObject(data_msg);
                             String image_id = jsonObject1.getString("image_id");
-                            getDefaultTag(image_id,url);
-                        }catch (Exception e){
+                            getDefaultTag(image_id, url);
+                        } catch (Exception e) {
                             ToastUtils.showCenter(CaiJiImgListActivity.this, "图片上传失败,请重新上传");
                         }
 
@@ -194,12 +197,12 @@ public class CaiJiImgListActivity
                 }
             }
         };
-        MyHttpManager.getInstance().grabPicture(url,title,"" , callBack);
+        MyHttpManager.getInstance().grabPicture(url, title, mWebUrl, callBack);
 
 
     }
 
-    private void getDefaultTag(final String image_id,final String url) {
+    private void getDefaultTag(final String image_id, final String url) {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
@@ -224,10 +227,11 @@ public class CaiJiImgListActivity
                                 list.add(tags);
                             }
                         }
-                        Intent intent = new Intent(CaiJiImgListActivity.this,FaBuImageActivity.class);
-                        intent.putExtra("image_id",image_id);
-                        intent.putExtra("image_url",url);
+                        Intent intent = new Intent(CaiJiImgListActivity.this, FaBuImageActivity.class);
+                        intent.putExtra("image_id", image_id);
+                        intent.putExtra("image_url", url);
                         intent.putExtra("tags", (Serializable) list);
+                        intent.putExtra("webUrl", mWebUrl);
                         CustomProgressTouMing.cancelDialog();
                         startActivity(intent);
                     } else {

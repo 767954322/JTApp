@@ -2877,6 +2877,47 @@ public class MyHttpManager {
     }
 
     /**
+     * 保存单张图片至灵感辑
+     *
+     * @param album_id
+     * @param item_id
+     * @param description
+     * @param tags
+     * @param callback
+     */
+    public void saveCaiJiImage(final String album_id, final String item_id, final String description,final String tags ,final String from_url , OkStringRequest.OKResponseCallback callback) {
+        OkStringRequest okStringRequest = new OkStringRequest(Request.Method.POST, UrlConstants.SAVE_ITEM_IMAGE, callback) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                map.put("album_id", album_id);
+                map.put("image_id", item_id);
+                if (!TextUtils.isEmpty(description.trim())) {
+                    map.put("description", description);
+                }
+                if (!TextUtils.isEmpty(tags.trim())) {
+                    map.put("tag", tags);
+                }
+                if (!TextUtils.isEmpty(from_url.trim())) {
+                    map.put("from_url", from_url);
+                }
+                String signString = PublicUtils.getSinaString(map);
+                String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                return map;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return PublicUtils.getPublicHeader(MyApplication.getInstance());
+            }
+
+        };
+        queue.add(okStringRequest);
+    }
+
+    /**
      * 获取专辑详情
      *
      * @param album_id

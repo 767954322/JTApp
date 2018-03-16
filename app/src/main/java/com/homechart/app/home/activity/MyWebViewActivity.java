@@ -249,6 +249,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
                     intent.putExtra("number", position);
                     intent.putExtra("pic_url_list", (Serializable) imgUrlList);
                     intent.putExtra("title", pageTitle);
+                    intent.putExtra("webUrl", cet_clearedit.getText().toString());
                     startActivity(intent);
                 }
             } else {

@@ -95,6 +95,7 @@ public class FaBuImageActivity
     private List<TagListItemBean> listZiDingSelect;
     private List<String> tags;
     private FaXianTagBean faXianTagBean;
+    private String mWebUrl;
 
     @Override
     protected int getLayoutResId() {
@@ -107,6 +108,7 @@ public class FaBuImageActivity
         mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
         image_url = getIntent().getStringExtra("image_url");
         image_id = getIntent().getStringExtra("image_id");
+        mWebUrl = getIntent().getStringExtra("webUrl");
         tags = (List<String>)getIntent().getSerializableExtra("tags");
     }
 
@@ -333,15 +335,22 @@ public class FaBuImageActivity
     }
 
     private void addInspiration() {
-        CustomProgress.show(FaBuImageActivity.this, "加入中...", false, null);
+
+
+        CustomProgress.show(FaBuImageActivity.this, "发布中...", false, null);
         String strWhy = mRLWye.getText().toString();
+        StringBuffer sb = new StringBuffer();
+        for (String key : selectTags.keySet()) {
+            sb.append(key + " ");
+        }
+        String tagStr = sb.toString();
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
 
                 CustomProgress.cancelDialog();
 
-                ToastUtils.showCenter(FaBuImageActivity.this, "加入灵感辑失败");
+                ToastUtils.showCenter(FaBuImageActivity.this, "发布失败");
             }
 
             @Override
@@ -353,19 +362,19 @@ public class FaBuImageActivity
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
                         CustomProgress.cancelDialog();
-                        ToastUtils.showCenter(FaBuImageActivity.this, "图片已经加入“" + mListData.get(defalsePosition).getAlbum_info().getAlbum_name() + "”");
+                        ToastUtils.showCenter(FaBuImageActivity.this, "发布成功");
                         FaBuImageActivity.this.finish();
                     } else {
                         CustomProgress.cancelDialog();
-                        ToastUtils.showCenter(FaBuImageActivity.this, "加入灵感辑失败");
+                        ToastUtils.showCenter(FaBuImageActivity.this, "发布失败");
                     }
                 } catch (JSONException e) {
                     CustomProgress.cancelDialog();
-                    ToastUtils.showCenter(FaBuImageActivity.this, "加入灵感辑失败");
+                    ToastUtils.showCenter(FaBuImageActivity.this, "发布失败");
                 }
             }
         };
-        MyHttpManager.getInstance().addInpirationFromPic(mListData.get(defalsePosition).getAlbum_info().getAlbum_id(), image_id, strWhy, callBack);
+        MyHttpManager.getInstance().saveCaiJiImage(mListData.get(defalsePosition).getAlbum_info().getAlbum_id(), image_id, strWhy,tagStr,mWebUrl, callBack);
 
 
     }
