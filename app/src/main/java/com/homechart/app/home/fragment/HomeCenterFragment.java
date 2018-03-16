@@ -267,9 +267,6 @@ public class HomeCenterFragment
                 fragmentTransaction_linggan.addToBackStack(null).replace(R.id.id_main, newLingGanCenterFragment);
                 fragmentTransaction_linggan.commit();
 
-//                Intent intent_shoucang = new Intent(activity, LingGanCenterActivity.class);
-//                startActivity(intent_shoucang);
-
                 break;
             case R.id.rl_shaijia:
                 //友盟统计
@@ -282,11 +279,15 @@ public class HomeCenterFragment
                         .setCategory("我的")  //事件类别
                         .setAction("图片查看")      //事件操作
                         .build());
+                NewMyPicCenterFragment newMyPicCenterFragment = new NewMyPicCenterFragment(getChildFragmentManager());
+                FragmentTransaction fragmentTransaction_pic = getChildFragmentManager().beginTransaction();
+                fragmentTransaction_pic.addToBackStack(null).replace(R.id.id_main, newMyPicCenterFragment);
+                fragmentTransaction_pic.commit();
 
-                NewPicCenterFragment newPicCenterFragment = new NewPicCenterFragment(getChildFragmentManager());
-                FragmentTransaction fragmentTransaction_piccenter = getChildFragmentManager().beginTransaction();
-                fragmentTransaction_piccenter.addToBackStack(null).replace(R.id.id_main, newPicCenterFragment);
-                fragmentTransaction_piccenter.commit();
+//                NewPicCenterFragment newPicCenterFragment = new NewPicCenterFragment(getChildFragmentManager());
+//                FragmentTransaction fragmentTransaction_piccenter = getChildFragmentManager().beginTransaction();
+//                fragmentTransaction_piccenter.addToBackStack(null).replace(R.id.id_main, newPicCenterFragment);
+//                fragmentTransaction_piccenter.commit();
 
                 break;
             case R.id.iv_center_header:

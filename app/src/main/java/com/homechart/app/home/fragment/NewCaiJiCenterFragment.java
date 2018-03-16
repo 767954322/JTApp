@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,7 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressLint("ValidFragment")
-public class NewPicCenterFragment
+public class NewCaiJiCenterFragment
         extends BaseFragment
         implements View.OnClickListener,
         OnLoadMoreListener,
@@ -65,16 +64,16 @@ public class NewPicCenterFragment
     private int position;
     private FragmentManager fragmentManager;
 
-    public NewPicCenterFragment() {
+    public NewCaiJiCenterFragment() {
     }
 
-    public NewPicCenterFragment(FragmentManager fragmentManager) {
+    public NewCaiJiCenterFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.activity_pic_center;
+        return R.layout.activity_caiji_center;
     }
 
     @Override
