@@ -22,6 +22,7 @@ import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.userimage.ImageDataBean;
 import com.homechart.app.home.bean.userimage.UserImageBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
+import com.homechart.app.myview.TopCropImageView;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
@@ -32,6 +33,7 @@ import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
+import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
@@ -114,9 +116,9 @@ public class NewPicCenterFragment
             @Override
             public int getLayoutId(int itemType) {
                 if (itemType == 0) {
-                    return R.layout.item_center_image;
+                    return R.layout.item_top_image;
                 } else {
-                    return R.layout.item_center_image;
+                    return R.layout.item_top_image;
                 }
             }
 
@@ -135,12 +137,40 @@ public class NewPicCenterFragment
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
 
-                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.getView(R.id.iv_item_pic).getLayoutParams();
-                layoutParams.height = (int) (widthPic / mListDataImage.get(position).getItem_info().getImage().getRatio());
-                layoutParams.width = widthPic;
-                layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-                holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
-                ImageUtils.displayFilletImage(mListDataImage.get(position).getItem_info().getImage().getImg1(), (ImageView) holder.getView(R.id.iv_item_pic));
+                if (PublicUtils.ifHasWriteQuan(activity)) {
+                    if (mListDataImage.get(position).getItem_info().getImage().getRatio() > 0.6) {
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.getView(R.id.iv_item_pic).getLayoutParams();
+                        layoutParams.height = (int) (widthPic / mListDataImage.get(position).getItem_info().getImage().getRatio());
+                        layoutParams.width = widthPic;
+                        layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                        holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
+                        ImageUtils.displayFilletHalfImage(mListDataImage.get(position).getItem_info().getImage().getImg1(),
+                                (TopCropImageView) holder.getView(R.id.iv_item_pic));
+                    } else {
+                        if (mListDataImage.get(position).getItem_info().getImage().getRatio() > 0.333) {
+                            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.getView(R.id.iv_item_pic).getLayoutParams();
+                            layoutParams.height = (int) (widthPic / mListDataImage.get(position).getItem_info().getImage().getRatio());
+                            layoutParams.width = widthPic;
+                            layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                            holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
+                            GlideImgManager.glideLoader(activity, mListDataImage.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (TopCropImageView) holder.getView(R.id.iv_item_pic), 1);
+                        } else {
+                            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.getView(R.id.iv_item_pic).getLayoutParams();
+                            layoutParams.height = widthPic * 3;
+                            layoutParams.width = widthPic;
+                            layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                            holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
+                            GlideImgManager.glideLoader(activity, mListDataImage.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (TopCropImageView) holder.getView(R.id.iv_item_pic), 1);
+                        }
+                    }
+                } else {
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.getView(R.id.iv_item_pic).getLayoutParams();
+                    layoutParams.height = (int) (widthPic / mListDataImage.get(position).getItem_info().getImage().getRatio());
+                    layoutParams.width = widthPic;
+                    layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                    holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
+                    GlideImgManager.glideLoader(activity, mListDataImage.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (TopCropImageView) holder.getView(R.id.iv_item_pic), 1);
+                }
                 holder.getView(R.id.iv_item_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
