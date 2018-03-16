@@ -20,15 +20,20 @@ import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.home.activity.ArticleDetailsActivity;
 import com.homechart.app.home.activity.DingYueGuanLiActivity;
+import com.homechart.app.home.activity.FaBuActvity;
 import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.activity.MyInfoActivity;
+import com.homechart.app.home.activity.MyWebViewActivity;
 import com.homechart.app.home.activity.PicCenterActivity;
 import com.homechart.app.home.activity.SetActivity;
 import com.homechart.app.home.activity.UserMessageActivity;
 import com.homechart.app.home.activity.YuGouQingDanActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
+import com.homechart.app.imagedetail.ImageBenDiActivity;
+import com.homechart.app.imagedetail.ImageDetailsActivity;
 import com.homechart.app.myview.CaiJiPopWin;
 import com.homechart.app.myview.ColorPopWin;
 import com.homechart.app.myview.RoundImageView;
@@ -43,15 +48,21 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.model.PhotoInfo;
 
 @SuppressLint("ValidFragment")
 public class HomeCenterFragment
         extends BaseFragment
         implements View.OnClickListener,
-        NewMessagesFragment.BackMessage ,
+        NewMessagesFragment.BackMessage,
         CaiJiPopWin.ClickInter {
 
     private UserCenterInfoBean userCenterInfoBean;
@@ -100,7 +111,19 @@ public class HomeCenterFragment
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
+            } else if (tag == 2) {
+                String url_Imag = (String) msg.obj;
+                List<String> listUrl = new ArrayList<>();
+                listUrl.add(url_Imag);
+                Intent intent = new Intent(activity, ImageBenDiActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("pic_url_list", (Serializable) listUrl);
+                bundle.putInt("click_position", 0);
+                intent.putExtras(bundle);
+                startActivity(intent);
+//                Intent intent = new Intent(activity, FaBuActvity.class);
+//                intent.putExtra("image_path", url_Imag);
+//                startActivity(intent);
             }
 
 
@@ -303,12 +326,12 @@ public class HomeCenterFragment
                 startActivity(intent_dingyue);
                 break;
             case R.id.iv_fabu:
-                if(null != caijiPop){
+                if (null != caijiPop) {
                     caijiPop.showAtLocation(activity.findViewById(R.id.id_main),
                             Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
                             0,
                             0); //设置layout在PopupWindow中显示的位置
-                }else {
+                } else {
 
                     caijiPop = new CaiJiPopWin(activity, this);
                     caijiPop.showAtLocation(activity.findViewById(R.id.id_main),
@@ -503,15 +526,53 @@ public class HomeCenterFragment
     @Override
     public void xiangceCaiJi() {
 
+        GalleryFinal.openGallerySingle(33, new GalleryFinal.OnHanlderResultCallback() {
+            @Override
+            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+                if (resultList != null && resultList.size() > 0) {
+                    Message message = new Message();
+                    message.arg1 = 2;
+                    message.obj = resultList.get(0).getPhotoPath().toString();
+                    handler.sendMessage(message);
+                } else {
+                    ToastUtils.showCenter(activity, "图片资源获取失败");
+                }
+            }
+
+            @Override
+            public void onHanlderFailure(int requestCode, String errorMsg) {
+            }
+        });
     }
 
     @Override
     public void paizhaoCaiJi() {
+        GalleryFinal.openCamera(33, new GalleryFinal.OnHanlderResultCallback() {
+            @Override
+            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+                if (resultList != null && resultList.size() > 0) {
+                    Message message = new Message();
+                    message.arg1 = 2;
+                    message.obj = resultList.get(0).getPhotoPath().toString();
+                    handler.sendMessage(message);
+                } else {
+                    ToastUtils.showCenter(activity, "拍照资源获取失败");
+                }
+            }
 
+            @Override
+            public void onHanlderFailure(int requestCode, String errorMsg) {
+
+            }
+        });
     }
 
     @Override
     public void wangzhiCaiJi() {
+
+        Intent intent = new Intent(activity, MyWebViewActivity.class);
+        intent.putExtra("weburl", "");
+        startActivity(intent);
 
     }
 }

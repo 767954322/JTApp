@@ -79,7 +79,7 @@ public class MyApplication extends MultiDexApplication {
         FunctionConfig functionConfig = new FunctionConfig.Builder()
                 .setMutiSelectMaxSize(1)
                 .setEnableEdit(true)
-                .setEnableCrop(true)
+                .setEnableCrop(false)
                 .setCropSquare(true).build();
         ImageLoader imageLoader = new UILImageLoader();
         CoreConfig coreConfig = new CoreConfig.Builder(this, imageLoader, themeConfig)

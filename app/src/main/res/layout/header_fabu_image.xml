@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <com.homechart.app.myview.RoundJiaoImageView
         android:id="@+id/iv_linggan"
         android:layout_width="@dimen/font_64"
         android:layout_height="@dimen/font_64"

@@ -41,6 +41,7 @@
             android:paddingLeft="@dimen/font_10"
             android:paddingRight="@dimen/font_10"
             android:singleLine="true"
+            android:hint="请输入网址"
             android:textColorHint="@color/bg_8f8f8f"
             android:textSize="@dimen/size_14" />
 

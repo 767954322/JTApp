@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.android.volley.VolleyError;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -30,6 +31,7 @@ import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationBean
 import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationListBean;
 import com.homechart.app.lingganji.ui.activity.InspirationCreateActivity;
 import com.homechart.app.myview.FlowLayoutFaBu;
+import com.homechart.app.myview.RoundJiaoImageView;
 import com.homechart.app.myview.SerializableHashMap;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
@@ -46,9 +48,11 @@ import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,7 +76,7 @@ public class FaBuImageActivity
     private String mUserId;
     private RelativeLayout mMain;
     private ImageView mDismiss;
-    private ImageView mIVLingGan;
+    private RoundJiaoImageView mIVLingGan;
     private View mHeaderInspiration;
     private HRecyclerView mRecyclerView;
     private MultiItemCommonAdapter<InspirationBean> mAdapter;
@@ -96,6 +100,7 @@ public class FaBuImageActivity
     private List<String> tags;
     private FaXianTagBean faXianTagBean;
     private String mWebUrl;
+    private String type;
 
     @Override
     protected int getLayoutResId() {
@@ -109,7 +114,8 @@ public class FaBuImageActivity
         image_url = getIntent().getStringExtra("image_url");
         image_id = getIntent().getStringExtra("image_id");
         mWebUrl = getIntent().getStringExtra("webUrl");
-        tags = (List<String>)getIntent().getSerializableExtra("tags");
+        type = getIntent().getStringExtra("type");
+        tags = (List<String>) getIntent().getSerializableExtra("tags");
     }
 
     @Override
@@ -121,7 +127,7 @@ public class FaBuImageActivity
         mTVSureAdd = (TextView) this.findViewById(R.id.tv_sure_add);
         mRecyclerView = (HRecyclerView) this.findViewById(R.id.rcy_recyclerview);
         fl_tag_flowLayout = (FlowLayoutFaBu) mHeaderInspiration.findViewById(R.id.fl_tag_flowLayout);
-        mIVLingGan = (ImageView) mHeaderInspiration.findViewById(R.id.iv_linggan);
+        mIVLingGan = (RoundJiaoImageView) mHeaderInspiration.findViewById(R.id.iv_linggan);
         mRLWye = (EditText) mHeaderInspiration.findViewById(R.id.rt_linggan_content);
         mRLAddInspiration = (RelativeLayout) mHeaderInspiration.findViewById(R.id.rl_add_inspiration);
     }
@@ -169,12 +175,18 @@ public class FaBuImageActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        ImageUtils.displayFilletImage(image_url, mIVLingGan);
+        if (!TextUtils.isEmpty(type) && type.equals("location")) {
+            GlideImgManager.glideLoader(FaBuImageActivity.this, "file://"  + image_url, R.color.white, R.color.white, mIVLingGan, 1);
+//            ImageUtils.displayFilletImage("file://"  + image_url, mIVLingGan);
+        } else {
+            GlideImgManager.glideLoader(FaBuImageActivity.this, image_url, R.color.white, R.color.white, mIVLingGan, 1);
+//            ImageUtils.displayFilletImage(image_url, mIVLingGan);
+        }
         buildRecyclerView();
 
-        if(tags != null && tags.size() > 0){
+        if (tags != null && tags.size() > 0) {
             listTag.addAll(tags);
-            for (int i = 0 ; i < listTag.size() ; i++){
+            for (int i = 0; i < listTag.size(); i++) {
                 selectTags.put(listTag.get(i), listTag.get(i));
             }
         }
@@ -374,7 +386,7 @@ public class FaBuImageActivity
                 }
             }
         };
-        MyHttpManager.getInstance().saveCaiJiImage(mListData.get(defalsePosition).getAlbum_info().getAlbum_id(), image_id, strWhy,tagStr,mWebUrl, callBack);
+        MyHttpManager.getInstance().saveCaiJiImage(mListData.get(defalsePosition).getAlbum_info().getAlbum_id(), image_id, strWhy, tagStr, mWebUrl, callBack);
 
 
     }
@@ -448,7 +460,7 @@ public class FaBuImageActivity
         if (selectTags.containsKey(text)) {
             selectTags.remove(text);
         }
-        if(null != listZiDingSelect){
+        if (null != listZiDingSelect) {
             for (int i = 0; i < listZiDingSelect.size(); i++) {
                 if (text.equals(listZiDingSelect.get(i).getTag_info().getTag_name())) {
                     listZiDingSelect.remove(i);
@@ -581,7 +593,7 @@ public class FaBuImageActivity
             } else if (code == 6) {
                 fl_tag_flowLayout.cleanTag();
                 fl_tag_flowLayout.setListData(listTag);
-            }else if (code == 7) {
+            } else if (code == 7) {
                 String json = "{\"data\": " + (String) msg.obj + "}";
                 faXianTagBean = GsonUtil.jsonToBean(json, FaXianTagBean.class);
             }

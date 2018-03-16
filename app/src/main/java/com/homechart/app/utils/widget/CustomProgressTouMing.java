@@ -3,7 +3,9 @@ package com.homechart.app.utils.widget;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.AnimationDrawable;
+import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -61,6 +63,7 @@ public class CustomProgressTouMing extends Dialog {
     public static CustomProgressTouMing show(Context context, CharSequence message,
                                              boolean onTouchOutside, OnCancelListener cancelListener) {
         dialog = new CustomProgressTouMing(context, R.style.Custom_Progress);
+        dialog.setOnCancelListener(cancelListener);
         dialog.setTitle("");
         dialog.setContentView(R.layout.view_dialog_progress_custom);
         if (message == null || message.length() == 0) {

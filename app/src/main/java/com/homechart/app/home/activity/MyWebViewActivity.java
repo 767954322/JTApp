@@ -6,41 +6,27 @@ import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.provider.DocumentsContract;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.homechart.app.R;
 import com.homechart.app.commont.CaiJi;
 import com.homechart.app.commont.ClassConstant;
-import com.homechart.app.commont.KeyConstans;
-import com.homechart.app.commont.PublicUtils;
-import com.homechart.app.commont.UrlConstants;
 import com.homechart.app.home.base.BaseActivity;
-import com.homechart.app.imagedetail.ImageDetailsActivity;
-import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
-import com.homechart.app.utils.UIUtils;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -113,6 +99,10 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
         if (TextUtils.isEmpty(searchContext.trim())) {
             ToastUtils.showCenter(this, "请输入网址");
         } else {
+            tv_textview1.setVisibility(View.GONE);
+            tv_textview2.setVisibility(View.GONE);
+            mWeb.setVisibility(View.VISIBLE);
+            mWeb.loadUrl(weburl);
             mWeb.loadUrl(searchContext);
         }
 
@@ -120,7 +110,10 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        cet_clearedit.setText(weburl);
+        if(!TextUtils.isEmpty(weburl)){
+
+            cet_clearedit.setText(weburl);
+        }
 //        cet_clearedit.setSelection(weburl.length());
         initWebView();
         WebSettings settings = mWeb.getSettings();
