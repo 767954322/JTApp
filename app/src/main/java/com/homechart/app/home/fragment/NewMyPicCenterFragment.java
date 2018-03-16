@@ -3,10 +3,13 @@ package com.homechart.app.home.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -20,20 +23,31 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.base.BaseFragment;
-import com.homechart.app.lingganji.ui.activity.InspirationCreateActivity;
+import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
+import com.homechart.app.imagedetail.ImageBenDiActivity;
+import com.homechart.app.myview.CaiJiPopWin;
+import com.homechart.app.myview.CaiJiPopWin1;
+import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.model.PhotoInfo;
 
 @SuppressLint("ValidFragment")
 public class NewMyPicCenterFragment
         extends BaseFragment
         implements View.OnClickListener,
-        OtherLingGuanLiFragment.ChangeUI {
+        OtherLingGuanLiFragment.ChangeUI ,
+        CaiJiPopWin1.ClickInter {
 
     private FragmentManager fragmentManager;
     private ImageButton mIBBack;
@@ -51,6 +65,7 @@ public class NewMyPicCenterFragment
     private SlidingTabLayout mTabLayout;
     private Bundle mBundle;
     private ImageButton nav_secondary_imageButton;
+    private CaiJiPopWin1 caijiPop;
 
     public NewMyPicCenterFragment() {
     }
@@ -83,16 +98,8 @@ public class NewMyPicCenterFragment
 
     @Override
     public void ifShowDelete(boolean bool) {
-//        if (bool) {
-//            //打开管理
-//            tv_content_right.setText("取消");
-//            mViewPager.setScanScroll(false);
-//        } else {
-//            //关闭管理
-//            tv_content_right.setText("管理");
-//            mViewPager.setScanScroll(true);
-//        }
     }
+
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
         public MyPagerAdapter(FragmentManager fm) {
@@ -131,9 +138,9 @@ public class NewMyPicCenterFragment
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
-                    nav_secondary_imageButton.setVisibility(View.VISIBLE);
+//                    nav_secondary_imageButton.setVisibility(View.VISIBLE);
                 } else if (position == 1) {
-                    nav_secondary_imageButton.setVisibility(View.GONE);
+//                    nav_secondary_imageButton.setVisibility(View.GONE);
                 }
             }
 
@@ -146,6 +153,7 @@ public class NewMyPicCenterFragment
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        caijiPop = new CaiJiPopWin1(activity, this);
         mTVTital.setText("图片");
         nav_secondary_imageButton.setImageResource(R.drawable.fabu1);
         user_id = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
@@ -175,8 +183,21 @@ public class NewMyPicCenterFragment
                 ((HomeActivity) activity).hideBottom(false);
                 fragmentManager.beginTransaction().remove(this).commit();
                 break;
-            case R.id.tv_content_right:
             case R.id.nav_secondary_imageButton:
+                if (null != caijiPop) {
+                    caijiPop.showAtLocation(activity.findViewById(R.id.id_main),
+                            Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
+                            0,
+                            0); //设置layout在PopupWindow中显示的位置
+                } else {
+
+                    caijiPop = new CaiJiPopWin1(activity, this);
+                    caijiPop.showAtLocation(activity.findViewById(R.id.id_main),
+                            Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
+                            0,
+                            0); //设置layout在PopupWindow中显示的位置
+
+                }
                 break;
         }
     }
@@ -184,6 +205,10 @@ public class NewMyPicCenterFragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 35){
+            newCaiJiCenterFragment.onRefresh();
+            newCaiJiCenterFragment.onScrollTop();
+        }
     }
 
     @Override
@@ -202,6 +227,69 @@ public class NewMyPicCenterFragment
         super.onPause();
         MobclickAgent.onPageEnd("图片个人中心");
     }
+
+    @Override
+    public void xiangceCaiJi() {
+        GalleryFinal.openGallerySingle(33, new GalleryFinal.OnHanlderResultCallback() {
+            @Override
+            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+                if (resultList != null && resultList.size() > 0) {
+                    Message message = new Message();
+                    message.arg1 = 0;
+                    message.obj = resultList.get(0).getPhotoPath().toString();
+                    handler.sendMessage(message);
+                } else {
+                    ToastUtils.showCenter(activity, "图片资源获取失败");
+                }
+            }
+
+            @Override
+            public void onHanlderFailure(int requestCode, String errorMsg) {
+            }
+        });
+    }
+
+    @Override
+    public void paizhaoCaiJi() {
+        GalleryFinal.openCamera(33, new GalleryFinal.OnHanlderResultCallback() {
+            @Override
+            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+                if (resultList != null && resultList.size() > 0) {
+                    Message message = new Message();
+                    message.arg1 = 0;
+                    message.obj = resultList.get(0).getPhotoPath().toString();
+                    handler.sendMessage(message);
+                } else {
+                    ToastUtils.showCenter(activity, "拍照资源获取失败");
+                }
+            }
+
+            @Override
+            public void onHanlderFailure(int requestCode, String errorMsg) {
+
+            }
+        });
+    }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String info = (String) msg.obj;
+            int tag = msg.arg1;
+            if (tag == 0) {
+                String url_Imag = (String) msg.obj;
+                List<String> listUrl = new ArrayList<>();
+                listUrl.add(url_Imag);
+                Intent intent = new Intent(activity, ImageBenDiActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("pic_url_list", (Serializable) listUrl);
+                bundle.putInt("click_position", 0);
+                intent.putExtras(bundle);
+                startActivityForResult(intent,35);
+            }
+        }
+    };
 
 
 }

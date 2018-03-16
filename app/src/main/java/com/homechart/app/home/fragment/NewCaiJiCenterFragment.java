@@ -184,6 +184,12 @@ public class NewCaiJiCenterFragment
         getImageByUserId(LOADMORE_STATUS);
     }
 
+   public void onScrollTop(){
+        if(mListDataImage.size() > 0){
+            mRecyclerView.scrollToPosition(0);
+        }
+    }
+
     private void getImageByUserId(final String state) {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
