@@ -176,7 +176,7 @@ public class FaBuImageActivity
     @Override
     protected void initData(Bundle savedInstanceState) {
         if (!TextUtils.isEmpty(type) && type.equals("location")) {
-            GlideImgManager.glideLoader(FaBuImageActivity.this, "file://"  + image_url, R.color.white, R.color.white, mIVLingGan, 1);
+            GlideImgManager.glideLoader(FaBuImageActivity.this, "file://" + image_url, R.color.white, R.color.white, mIVLingGan, 1);
 //            ImageUtils.displayFilletImage("file://"  + image_url, mIVLingGan);
         } else {
             GlideImgManager.glideLoader(FaBuImageActivity.this, image_url, R.color.white, R.color.white, mIVLingGan, 1);
@@ -565,6 +565,8 @@ public class FaBuImageActivity
             }
 
         } else if (requestCode == 1) {
+            onRefresh();
+        } else if (requestCode == 11) {
             onRefresh();
         }
 
