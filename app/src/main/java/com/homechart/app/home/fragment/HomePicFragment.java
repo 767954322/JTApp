@@ -207,40 +207,6 @@ public class HomePicFragment
         rl_go_dingyue.setOnClickListener(this);
         rl_close_dingyue.setOnClickListener(this);
         bt_tag_page_item.setOnClickListener(this);
-//        mRecyclerView.addOnScrollListener(new OnVerticalScrollListener(){
-//            @Override
-//            public void onScrolledUp() {
-//                super.onScrolledUp();
-//                rl_new_top.setVisibility(View.VISIBLE);
-//            }
-//
-//            @Override
-//            public void onScrolledDown() {
-//                super.onScrolledDown();
-//                rl_new_top.setVisibility(View.INVISIBLE);
-//            }
-//        });
-//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//
-//                if (newState == 0) {
-////                    ifScroll = false;
-////                    mAdapter.notifyDataSetChanged();
-//                    Log.d("test", "0");
-//                } else if (newState == 1) {
-//                    rl_new_top.setVisibility(View.GONE);
-////                    ifScroll = true;
-////                    mAdapter.notifyDataSetChanged();
-//                    Log.d("test", "1");
-//                } else if (newState == 2) {
-//                    Log.d("test", "2");
-//                }
-//
-////                staggeredGridLayoutManager.invalidateSpanAssignments();
-//            }
-//        });
         mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -262,9 +228,9 @@ public class HomePicFragment
                         Log.e("UP", "Y" + mMoveY);
                         if (Math.abs((mMoveY - mDownY)) > 20) {
                             if (mMoveY > mDownY) {
-                                rl_pic_change.setVisibility(View.VISIBLE);
+//                                rl_pic_change.setVisibility(View.VISIBLE);
                             } else {
-                                rl_pic_change.setVisibility(View.GONE);
+//                                rl_pic_change.setVisibility(View.GONE);
                             }
                         }
                         break;

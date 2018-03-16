@@ -71,6 +71,7 @@
             android:id="@+id/rl_pic_change"
             android:layout_width="match_parent"
             android:layout_height="@dimen/font_44"
+            android:visibility="gone"
             android:layout_below="@+id/view_line_top"
             android:background="@color/white">
 
