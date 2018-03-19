@@ -32,9 +32,11 @@ import com.homechart.app.home.bean.hotwords.HotWordsBean;
 import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.myview.FlowLayoutSearch;
 import com.homechart.app.myview.MyListView;
+import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
+import com.homechart.app.utils.UIUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.umeng.analytics.MobclickAgent;
@@ -52,17 +54,7 @@ import java.util.List;
 public class SearchActivity
         extends BaseActivity
         implements View.OnClickListener {
-    private TextView tv_quxiao;
-    private FlowLayoutSearch his_flowLayout;
-    private String[] myData;
-    private ClearEditText cet_clearedit;
-    private MyListView lv_hostory_list;
-    private List<String> mListHostory;
-    private HostoryAdapter hostoryAdapter;
-    private RelativeLayout rl_search_hostory;
-    private ScrollView sv_hostory;
-    private ScrollView sv_result;
-    private ImageView iv_delete_hostory;
+
 
     @Override
     protected int getLayoutResId() {
@@ -81,11 +73,36 @@ public class SearchActivity
         sv_result = (ScrollView) findViewById(R.id.sv_result);
         iv_delete_hostory = (ImageView) findViewById(R.id.iv_delete_hostory);
 
+
+        rl_album_all = (RelativeLayout) findViewById(R.id.rl_album_all);
+        rl_images_one = (RelativeLayout) findViewById(R.id.rl_images_one);
+        rl_images_two = (RelativeLayout) findViewById(R.id.rl_images_two);
+        rl_images_three = (RelativeLayout) findViewById(R.id.rl_images_three);
+        rl_header1 = (RelativeLayout) findViewById(R.id.rl_header1);
+        rl_header2 = (RelativeLayout) findViewById(R.id.rl_header2);
+        rl_header3 = (RelativeLayout) findViewById(R.id.rl_header3);
+        riv_header_one = (RoundImageView) findViewById(R.id.riv_header_one);
+        riv_header_two = (RoundImageView) findViewById(R.id.riv_header_two);
+        riv_header_three = (RoundImageView) findViewById(R.id.riv_header_three);
+        iv_img1 = (ImageView) findViewById(R.id.iv_img1);
+        iv_img2 = (ImageView) findViewById(R.id.iv_img2);
+        iv_img3 = (ImageView) findViewById(R.id.iv_img3);
+        iv_img4 = (ImageView) findViewById(R.id.iv_img4);
+        iv_img5 = (ImageView) findViewById(R.id.iv_img5);
+        iv_img6 = (ImageView) findViewById(R.id.iv_img6);
+        iv_img7 = (ImageView) findViewById(R.id.iv_img7);
+        iv_img8 = (ImageView) findViewById(R.id.iv_img8);
+        iv_img9 = (ImageView) findViewById(R.id.iv_img9);
+        iv_img10 = (ImageView) findViewById(R.id.iv_img10);
+        iv_img11 = (ImageView) findViewById(R.id.iv_img11);
+        iv_img12 = (ImageView) findViewById(R.id.iv_img12);
+
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
 
+        width_Imgs = (PublicUtils.getScreenWidth(SearchActivity.this) - UIUtils.getDimens(R.dimen.font_50)) / 3;
         getTagData();
         mListHostory = PublicUtils.getSearchHostory();
         if (mListHostory.size() > 0) {
@@ -98,6 +115,29 @@ public class SearchActivity
             lv_hostory_list.setVisibility(View.GONE);
         }
 
+        initLing();
+
+    }
+
+    private void initLing() {
+        RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) rl_images_one.getLayoutParams();
+        layoutParams1.width = width_Imgs;
+        layoutParams1.height = width_Imgs;
+        layoutParams1.alignWithParent = true;
+        layoutParams1.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+        RelativeLayout.LayoutParams layoutParams2 = (RelativeLayout.LayoutParams) rl_images_two.getLayoutParams();
+        layoutParams2.width = width_Imgs;
+        layoutParams2.height = width_Imgs;
+        layoutParams2.alignWithParent = true;
+        layoutParams2.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        RelativeLayout.LayoutParams layoutParams3 = (RelativeLayout.LayoutParams) rl_images_three.getLayoutParams();
+        layoutParams3.width = width_Imgs;
+        layoutParams3.height = width_Imgs;
+        layoutParams3.alignWithParent = true;
+        layoutParams3.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+        rl_images_one.setLayoutParams(layoutParams1);
+        rl_images_two.setLayoutParams(layoutParams2);
+        rl_images_three.setLayoutParams(layoutParams3);
     }
 
     @Override
@@ -327,5 +367,40 @@ public class SearchActivity
         }
     }
 
+    private TextView tv_quxiao;
+    private FlowLayoutSearch his_flowLayout;
+    private String[] myData;
+    private ClearEditText cet_clearedit;
+    private MyListView lv_hostory_list;
+    private List<String> mListHostory;
+    private HostoryAdapter hostoryAdapter;
+    private RelativeLayout rl_search_hostory;
+    private ScrollView sv_hostory;
+    private ScrollView sv_result;
+    private ImageView iv_delete_hostory;
+
+    private RelativeLayout rl_album_all;
+    private RelativeLayout rl_images_one;
+    private RelativeLayout rl_images_two;
+    private RelativeLayout rl_images_three;
+    private RelativeLayout rl_header1;
+    private RelativeLayout rl_header2;
+    private RelativeLayout rl_header3;
+    private RoundImageView riv_header_one;
+    private RoundImageView riv_header_two;
+    private RoundImageView riv_header_three;
+    private ImageView iv_img1;
+    private ImageView iv_img2;
+    private ImageView iv_img3;
+    private ImageView iv_img4;
+    private ImageView iv_img5;
+    private ImageView iv_img6;
+    private ImageView iv_img7;
+    private ImageView iv_img8;
+    private ImageView iv_img9;
+    private ImageView iv_img10;
+    private ImageView iv_img11;
+    private ImageView iv_img12;
+    private int width_Imgs;
 
 }

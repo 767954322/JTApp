@@ -258,6 +258,8 @@
                     android:id="@+id/rl_album_all"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/font_15"
+                    android:layout_marginRight="@dimen/font_15"
                     android:layout_below="@+id/view_ling_list"
                     android:visibility="gone">
 
@@ -266,7 +268,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:layout_marginBottom="@dimen/font_10"
+                        android:layout_marginBottom="@dimen/font_11"
                         android:background="@drawable/bt_imgdetails_album">
 
                         <ImageView
@@ -304,7 +306,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="@dimen/font_10"
+                        android:layout_marginBottom="@dimen/font_11"
                         android:background="@drawable/bt_imgdetails_album">
 
                         <ImageView
@@ -342,7 +344,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_marginBottom="@dimen/font_10"
+                        android:layout_marginBottom="@dimen/font_11"
                         android:background="@drawable/bt_imgdetails_album">
 
                         <ImageView
@@ -380,20 +382,20 @@
                         android:layout_height="wrap_content"
                         android:layout_alignLeft="@+id/rl_images_one"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="@dimen/font_8">
+                        android:layout_marginLeft="@dimen/font_10">
 
                         <com.homechart.app.myview.RoundImageView
                             android:id="@+id/riv_header_back1"
-                            android:layout_width="@dimen/font_22"
-                            android:layout_height="@dimen/font_22"
+                            android:layout_width="@dimen/font_26"
+                            android:layout_height="@dimen/font_26"
                             android:layout_centerInParent="true"
                             android:background="@color/white" />
 
 
                         <com.homechart.app.myview.RoundImageView
                             android:id="@+id/riv_header_one"
-                            android:layout_width="@dimen/font_20"
-                            android:layout_height="@dimen/font_20"
+                            android:layout_width="@dimen/font_22"
+                            android:layout_height="@dimen/font_22"
                             android:layout_above="@+id/riv_header_back1"
                             android:layout_centerInParent="true" />
                     </RelativeLayout>
@@ -404,20 +406,20 @@
                         android:layout_height="wrap_content"
                         android:layout_alignLeft="@+id/rl_images_two"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="@dimen/font_8">
+                        android:layout_marginLeft="@dimen/font_10">
 
                         <com.homechart.app.myview.RoundImageView
                             android:id="@+id/riv_header_back2"
-                            android:layout_width="@dimen/font_22"
-                            android:layout_height="@dimen/font_22"
+                            android:layout_width="@dimen/font_26"
+                            android:layout_height="@dimen/font_26"
                             android:layout_centerInParent="true"
                             android:background="@color/white" />
 
 
                         <com.homechart.app.myview.RoundImageView
                             android:id="@+id/riv_header_two"
-                            android:layout_width="@dimen/font_20"
-                            android:layout_height="@dimen/font_20"
+                            android:layout_width="@dimen/font_22"
+                            android:layout_height="@dimen/font_22"
                             android:layout_above="@+id/riv_header_back2"
                             android:layout_centerInParent="true" />
                     </RelativeLayout>
@@ -428,19 +430,19 @@
                         android:layout_height="wrap_content"
                         android:layout_alignLeft="@+id/rl_images_three"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="@dimen/font_8">
+                        android:layout_marginLeft="@dimen/font_10">
 
                         <com.homechart.app.myview.RoundImageView
                             android:id="@+id/riv_header_back3"
-                            android:layout_width="@dimen/font_22"
-                            android:layout_height="@dimen/font_22"
+                            android:layout_width="@dimen/font_26"
+                            android:layout_height="@dimen/font_26"
                             android:layout_centerInParent="true"
                             android:background="@color/white" />
 
                         <com.homechart.app.myview.RoundImageView
                             android:id="@+id/riv_header_three"
-                            android:layout_width="@dimen/font_20"
-                            android:layout_height="@dimen/font_20"
+                            android:layout_width="@dimen/font_22"
+                            android:layout_height="@dimen/font_22"
                             android:layout_above="@+id/riv_header_back3"
                             android:layout_centerInParent="true" />
                     </RelativeLayout>
