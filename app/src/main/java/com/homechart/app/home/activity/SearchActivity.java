@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -55,6 +59,8 @@ public class SearchActivity
     private List<String> mListHostory;
     private HostoryAdapter hostoryAdapter;
     private RelativeLayout rl_search_hostory;
+    private ScrollView sv_hostory;
+    private ScrollView sv_result;
 
     @Override
     protected int getLayoutResId() {
@@ -69,6 +75,8 @@ public class SearchActivity
         cet_clearedit = (ClearEditText) findViewById(R.id.cet_clearedit);
         lv_hostory_list = (MyListView) findViewById(R.id.lv_hostory_list);
         rl_search_hostory = (RelativeLayout) findViewById(R.id.rl_search_hostory);
+        sv_hostory = (ScrollView) findViewById(R.id.sv_hostory);
+        sv_result = (ScrollView) findViewById(R.id.sv_result);
 
     }
 
@@ -93,6 +101,27 @@ public class SearchActivity
     protected void initListener() {
         super.initListener();
         tv_quxiao.setOnClickListener(this);
+        cet_clearedit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                String str_Search = s.toString();
+                if (str_Search.trim().equals("")) {
+                    sv_hostory.setVisibility(View.VISIBLE);
+                    sv_result.setVisibility(View.GONE);
+                } else {
+                    //TODO 去获取相关字段
+                    sv_hostory.setVisibility(View.GONE);
+                    sv_result.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
         cet_clearedit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
