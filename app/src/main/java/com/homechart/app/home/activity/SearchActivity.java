@@ -54,6 +54,7 @@ public class SearchActivity
     private MyListView lv_hostory_list;
     private List<String> mListHostory;
     private HostoryAdapter hostoryAdapter;
+    private RelativeLayout rl_search_hostory;
 
     @Override
     protected int getLayoutResId() {
@@ -67,6 +68,7 @@ public class SearchActivity
         his_flowLayout = (FlowLayoutSearch) findViewById(R.id.his_flowLayout);
         cet_clearedit = (ClearEditText) findViewById(R.id.cet_clearedit);
         lv_hostory_list = (MyListView) findViewById(R.id.lv_hostory_list);
+        rl_search_hostory = (RelativeLayout) findViewById(R.id.rl_search_hostory);
 
     }
 
@@ -75,8 +77,16 @@ public class SearchActivity
 
         getTagData();
         mListHostory = PublicUtils.getSearchHostory();
-        hostoryAdapter = new HostoryAdapter(SearchActivity.this, mListHostory);
-        lv_hostory_list.setAdapter(hostoryAdapter);
+        if (mListHostory.size() > 0) {
+            rl_search_hostory.setVisibility(View.VISIBLE);
+            lv_hostory_list.setVisibility(View.VISIBLE);
+            hostoryAdapter = new HostoryAdapter(SearchActivity.this, mListHostory);
+            lv_hostory_list.setAdapter(hostoryAdapter);
+        } else {
+            rl_search_hostory.setVisibility(View.GONE);
+            lv_hostory_list.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -275,7 +285,6 @@ public class SearchActivity
             private TextView tv_item_name;
         }
     }
-
 
 
 }
