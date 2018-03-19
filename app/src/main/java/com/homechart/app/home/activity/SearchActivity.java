@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -61,6 +62,7 @@ public class SearchActivity
     private RelativeLayout rl_search_hostory;
     private ScrollView sv_hostory;
     private ScrollView sv_result;
+    private ImageView iv_delete_hostory;
 
     @Override
     protected int getLayoutResId() {
@@ -77,6 +79,7 @@ public class SearchActivity
         rl_search_hostory = (RelativeLayout) findViewById(R.id.rl_search_hostory);
         sv_hostory = (ScrollView) findViewById(R.id.sv_hostory);
         sv_result = (ScrollView) findViewById(R.id.sv_result);
+        iv_delete_hostory = (ImageView) findViewById(R.id.iv_delete_hostory);
 
     }
 
@@ -101,13 +104,16 @@ public class SearchActivity
     protected void initListener() {
         super.initListener();
         tv_quxiao.setOnClickListener(this);
+        iv_delete_hostory.setOnClickListener(this);
         cet_clearedit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
+
             @Override
             public void afterTextChanged(Editable s) {
                 String str_Search = s.toString();
@@ -148,6 +154,12 @@ public class SearchActivity
         switch (v.getId()) {
             case R.id.tv_quxiao:
                 SearchActivity.this.finish();
+                break;
+            case R.id.iv_delete_hostory:
+                SharedPreferencesUtils.writeString(ClassConstant.SearchHestory.HESTORY_SEARCH, "");
+                rl_search_hostory.setVisibility(View.GONE);
+                lv_hostory_list.setVisibility(View.GONE);
+                ToastUtils.showCenter(SearchActivity.this,"已清空");
                 break;
         }
     }
