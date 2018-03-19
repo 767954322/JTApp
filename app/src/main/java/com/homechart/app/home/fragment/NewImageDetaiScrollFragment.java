@@ -57,6 +57,7 @@ import com.homechart.app.myview.MyListView;
 import com.homechart.app.myview.ResizeRelativeLayout;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.myview.ShangshabanChangeTextSpaceView;
+import com.homechart.app.myview.TopCropImageView;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
 import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
@@ -490,7 +491,7 @@ public class NewImageDetaiScrollFragment
             @Override
             public int getLayoutId(int itemType) {
                 if (itemType == TYPE_ONE) {
-                    return R.layout.item_image_details;
+                    return R.layout.item_top_image_details;
                 } else {
                     return R.layout.item_image_details;
                 }
@@ -504,11 +505,11 @@ public class NewImageDetaiScrollFragment
         mAdapter = new MultiItemCommonAdapter<ImageLikeItemBean>(activity, mListData, support) {
             @Override
             public void convert(BaseViewHolder holder, final int position) {
-                ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
-                layoutParams.height = mListData.get(position).getItem_info().getImage().getRatio() == 0
-                        ? width_Pic
-                        : Math.round(width_Pic / mListData.get(position).getItem_info().getImage().getRatio());
-                holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
+//                ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
+//                layoutParams.height = mListData.get(position).getItem_info().getImage().getRatio() == 0
+//                        ? width_Pic
+//                        : Math.round(width_Pic / mListData.get(position).getItem_info().getImage().getRatio());
+//                holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
 
                 String nikeName = mListData.get(position).getUser_info().getNickname();
                 ((TextView) holder.getView(R.id.tv_name_pic)).setText(nikeName);
@@ -535,20 +536,61 @@ public class NewImageDetaiScrollFragment
                     ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
                 }
 
+
                 if (PublicUtils.ifHasWriteQuan(activity)) {
-                    //有权限
-                    if (mListData.get(position).getItem_info().getImage().getRatio() > 0.5) {
+                    if (mListData.get(position).getItem_info().getImage().getRatio() > 0.6) {
+                        ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
+                        layoutParams.height = mListData.get(position).getItem_info().getImage().getRatio() == 0
+                                ? width_Pic
+                                : Math.round(width_Pic / mListData.get(position).getItem_info().getImage().getRatio());
+                        holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
                         ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg1(),
                                 (ImageView) holder.getView(R.id.iv_imageview_one));
                     } else {
+                        if (mListData.get(position).getItem_info().getImage().getRatio() > 0.333) {
+                            ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
+                            layoutParams.height = mListData.get(position).getItem_info().getImage().getRatio() == 0
+                                    ? width_Pic
+                                    : Math.round(width_Pic / mListData.get(position).getItem_info().getImage().getRatio());
+                            holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
+                            GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
+                        } else {
+                            ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
+                            layoutParams.height = width_Pic * 3;
+                            holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
+                            GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
+                        }
+                    }
+                } else {
+                    if (mListData.get(position).getItem_info().getImage().getRatio() > 0.333) {
+                        ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
+                        layoutParams.height = mListData.get(position).getItem_info().getImage().getRatio() == 0
+                                ? width_Pic
+                                : Math.round(width_Pic / mListData.get(position).getItem_info().getImage().getRatio());
+                        holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
+                        GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
+                    } else {
+                        ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
+                        layoutParams.height = width_Pic * 3;
+                        holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
                         GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
                     }
-                    ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
-                            (ImageView) holder.getView(R.id.iv_header_pic));
-                } else {
-                    GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
-                    GlideImgManager.glideLoader(activity, mListData.get(position).getUser_info().getAvatar().getBig(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_header_pic), 0);
                 }
+
+//                if (PublicUtils.ifHasWriteQuan(activity)) {
+//                    //有权限
+//                    if (mListData.get(position).getItem_info().getImage().getRatio() > 0.5) {
+//                        ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg1(),
+//                                (TopCropImageView) holder.getView(R.id.iv_imageview_one));
+//                    } else {
+//                        GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (TopCropImageView) holder.getView(R.id.iv_imageview_one), 1);
+//                    }
+//                    ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
+//                            (ImageView) holder.getView(R.id.iv_header_pic));
+//                } else {
+//                    GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (TopCropImageView) holder.getView(R.id.iv_imageview_one), 1);
+//                    GlideImgManager.glideLoader(activity, mListData.get(position).getUser_info().getAvatar().getBig(), R.color.white, R.color.white, (TopCropImageView) holder.getView(R.id.iv_header_pic), 0);
+//                }
 
                 holder.getView(R.id.iv_header_pic).setOnClickListener(new View.OnClickListener() {
                     @Override
