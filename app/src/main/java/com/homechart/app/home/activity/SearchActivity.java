@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -29,14 +30,18 @@ import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.hotwords.HotWordsBean;
+import com.homechart.app.home.bean.searchremind.RemindBean;
 import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.myview.FlowLayoutSearch;
 import com.homechart.app.myview.MyListView;
 import com.homechart.app.myview.RoundImageView;
+import com.homechart.app.myview.RoundJiaoImageView;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
+import com.homechart.app.utils.glide.GlideImgManager;
+import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.umeng.analytics.MobclickAgent;
@@ -44,6 +49,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -55,6 +61,13 @@ public class SearchActivity
         extends BaseActivity
         implements View.OnClickListener {
 
+
+    private List<String> mListRemindTags = new ArrayList<>();
+    private RelativeLayout rl_pic_all;
+    private RoundJiaoImageView iv_pic_one;
+    private RoundJiaoImageView iv_pic_two;
+    private RoundJiaoImageView iv_pic_three;
+    private View view_below_pics;
 
     @Override
     protected int getLayoutResId() {
@@ -97,6 +110,16 @@ public class SearchActivity
         iv_img11 = (ImageView) findViewById(R.id.iv_img11);
         iv_img12 = (ImageView) findViewById(R.id.iv_img12);
 
+        rl_result_image = (RelativeLayout) findViewById(R.id.rl_result_image);
+        rl_result_ling = (RelativeLayout) findViewById(R.id.rl_result_ling);
+        rl_pic_all = (RelativeLayout) findViewById(R.id.rl_pic_all);
+        lv_result_list = (MyListView) findViewById(R.id.lv_result_list);
+
+        iv_pic_one = (RoundJiaoImageView) findViewById(R.id.iv_pic_one);
+        iv_pic_two = (RoundJiaoImageView) findViewById(R.id.iv_pic_two);
+        iv_pic_three = (RoundJiaoImageView) findViewById(R.id.iv_pic_three);
+        view_below_pics = findViewById(R.id.view_below_pics);
+
     }
 
     @Override
@@ -114,30 +137,11 @@ public class SearchActivity
             rl_search_hostory.setVisibility(View.GONE);
             lv_hostory_list.setVisibility(View.GONE);
         }
-
         initLing();
+        initPic();
+        myPicTagsAdapter = new MyPicTagsAdapter(SearchActivity.this, mListRemindTags);
+        lv_result_list.setAdapter(myPicTagsAdapter);
 
-    }
-
-    private void initLing() {
-        RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) rl_images_one.getLayoutParams();
-        layoutParams1.width = width_Imgs;
-        layoutParams1.height = width_Imgs;
-        layoutParams1.alignWithParent = true;
-        layoutParams1.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-        RelativeLayout.LayoutParams layoutParams2 = (RelativeLayout.LayoutParams) rl_images_two.getLayoutParams();
-        layoutParams2.width = width_Imgs;
-        layoutParams2.height = width_Imgs;
-        layoutParams2.alignWithParent = true;
-        layoutParams2.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-        RelativeLayout.LayoutParams layoutParams3 = (RelativeLayout.LayoutParams) rl_images_three.getLayoutParams();
-        layoutParams3.width = width_Imgs;
-        layoutParams3.height = width_Imgs;
-        layoutParams3.alignWithParent = true;
-        layoutParams3.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-        rl_images_one.setLayoutParams(layoutParams1);
-        rl_images_two.setLayoutParams(layoutParams2);
-        rl_images_three.setLayoutParams(layoutParams3);
     }
 
     @Override
@@ -157,13 +161,14 @@ public class SearchActivity
             @Override
             public void afterTextChanged(Editable s) {
                 String str_Search = s.toString();
+                mSearchStr = str_Search.trim();
                 if (str_Search.trim().equals("")) {
+                    mRemindBean = null;
                     sv_hostory.setVisibility(View.VISIBLE);
                     sv_result.setVisibility(View.GONE);
                 } else {
                     //TODO 去获取相关字段
-                    sv_hostory.setVisibility(View.GONE);
-                    sv_result.setVisibility(View.VISIBLE);
+                    getSearchResult(mSearchStr);
                 }
 
             }
@@ -189,6 +194,50 @@ public class SearchActivity
 
     }
 
+
+    private void initPic() {
+
+        RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) iv_pic_one.getLayoutParams();
+        layoutParams1.width = width_Imgs;
+        layoutParams1.height = width_Imgs;
+        layoutParams1.alignWithParent = true;
+        layoutParams1.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+        RelativeLayout.LayoutParams layoutParams2 = (RelativeLayout.LayoutParams) iv_pic_two.getLayoutParams();
+        layoutParams2.width = width_Imgs;
+        layoutParams2.height = width_Imgs;
+        layoutParams2.alignWithParent = true;
+        layoutParams2.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        RelativeLayout.LayoutParams layoutParams3 = (RelativeLayout.LayoutParams) iv_pic_three.getLayoutParams();
+        layoutParams3.width = width_Imgs;
+        layoutParams3.height = width_Imgs;
+        layoutParams3.alignWithParent = true;
+        layoutParams3.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+        iv_pic_one.setLayoutParams(layoutParams1);
+        iv_pic_two.setLayoutParams(layoutParams2);
+        iv_pic_three.setLayoutParams(layoutParams3);
+    }
+
+    private void initLing() {
+        RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) rl_images_one.getLayoutParams();
+        layoutParams1.width = width_Imgs;
+        layoutParams1.height = width_Imgs;
+        layoutParams1.alignWithParent = true;
+        layoutParams1.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+        RelativeLayout.LayoutParams layoutParams2 = (RelativeLayout.LayoutParams) rl_images_two.getLayoutParams();
+        layoutParams2.width = width_Imgs;
+        layoutParams2.height = width_Imgs;
+        layoutParams2.alignWithParent = true;
+        layoutParams2.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        RelativeLayout.LayoutParams layoutParams3 = (RelativeLayout.LayoutParams) rl_images_three.getLayoutParams();
+        layoutParams3.width = width_Imgs;
+        layoutParams3.height = width_Imgs;
+        layoutParams3.alignWithParent = true;
+        layoutParams3.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+        rl_images_one.setLayoutParams(layoutParams1);
+        rl_images_two.setLayoutParams(layoutParams2);
+        rl_images_three.setLayoutParams(layoutParams3);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -199,7 +248,7 @@ public class SearchActivity
                 SharedPreferencesUtils.writeString(ClassConstant.SearchHestory.HESTORY_SEARCH, "");
                 rl_search_hostory.setVisibility(View.GONE);
                 lv_hostory_list.setVisibility(View.GONE);
-                ToastUtils.showCenter(SearchActivity.this,"已清空");
+                ToastUtils.showCenter(SearchActivity.this, "已清空");
                 break;
         }
     }
@@ -235,6 +284,37 @@ public class SearchActivity
 
     }
 
+    public void getSearchResult(String resultStr) {
+
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ToastUtils.showCenter(SearchActivity.this, getString(R.string.searchtag_get_error));
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        Message msg = new Message();
+                        msg.obj = data_msg;
+                        mHandler.sendMessage(msg);
+
+                    } else {
+                        ToastUtils.showCenter(SearchActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().getSearchWorldData(resultStr, callBack);
+
+    }
 
     // 搜索功能
     private void search() {
@@ -279,6 +359,246 @@ public class SearchActivity
             });
         }
     };
+
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String dataStr = (String) msg.obj;
+            RemindBean remindBean = GsonUtil.jsonToBean(dataStr, RemindBean.class);
+            if (null != remindBean && remindBean.getKw().trim().equals(mSearchStr)) {
+                mRemindBean = remindBean;
+                changeSearchUI(remindBean);
+            }
+        }
+    };
+
+    private void changeSearchUI(RemindBean remindBean) {
+
+        sv_hostory.setVisibility(View.GONE);
+        sv_result.setVisibility(View.VISIBLE);
+        if ((null != remindBean.getWord_list() && remindBean.getWord_list().size() > 0) ||
+                (null != remindBean.getItem_list() && remindBean.getItem_list().size() > 0)) {
+            rl_result_image.setVisibility(View.VISIBLE);
+        } else {
+            rl_result_image.setVisibility(View.GONE);
+        }
+        if (null != remindBean.getAlbum_list() && remindBean.getAlbum_list().size() > 0) {
+            rl_result_ling.setVisibility(View.VISIBLE);
+        } else {
+            rl_result_ling.setVisibility(View.GONE);
+        }
+
+        //文字提示
+        if (null != remindBean.getWord_list() && remindBean.getWord_list().size() > 0) {
+            mListRemindTags.clear();
+            mListRemindTags.addAll(remindBean.getWord_list());
+            myPicTagsAdapter.notifyDataSetChanged();
+            lv_result_list.setVisibility(View.VISIBLE);
+        } else {
+            lv_result_list.setVisibility(View.GONE);
+        }
+//        String urlTest = "https://t12.baidu.com/it/u=1107254696,794684901&fm=173&app=25&f=JPEG?w=500&h=333&s=6F00498B417183D45659AC170300E0C3";
+        //图片提示
+        if (null != remindBean.getItem_list() && remindBean.getItem_list().size() > 0) {
+            if (remindBean.getItem_list().size() == 1) {
+//                GlideImgManager.glideLoader(SearchActivity.this, urlTest, R.color.white, R.color.white, iv_pic_one);
+                GlideImgManager.glideLoader(SearchActivity.this, remindBean.getItem_list().get(0).getItem_info().getImage_url(), R.color.white, R.color.white, iv_pic_one);
+                iv_pic_two.setVisibility(View.GONE);
+                iv_pic_three.setVisibility(View.GONE);
+                iv_pic_one.setVisibility(View.VISIBLE);
+            } else if (remindBean.getItem_list().size() == 2) {
+//                GlideImgManager.glideLoader(SearchActivity.this, urlTest, R.color.white, R.color.white, iv_pic_one);
+//                GlideImgManager.glideLoader(SearchActivity.this, urlTest, R.color.white, R.color.white, iv_pic_two);
+                GlideImgManager.glideLoader(SearchActivity.this, remindBean.getItem_list().get(0).getItem_info().getImage_url(), R.color.white, R.color.white, iv_pic_one);
+                GlideImgManager.glideLoader(SearchActivity.this, remindBean.getItem_list().get(1).getItem_info().getImage_url(), R.color.white, R.color.white, iv_pic_two);
+                iv_pic_three.setVisibility(View.GONE);
+                iv_pic_two.setVisibility(View.VISIBLE);
+                iv_pic_one.setVisibility(View.VISIBLE);
+            } else if (remindBean.getItem_list().size() >= 3) {
+//                GlideImgManager.glideLoader(SearchActivity.this, urlTest, R.color.white, R.color.white, iv_pic_one);
+//                GlideImgManager.glideLoader(SearchActivity.this, urlTest, R.color.white, R.color.white, iv_pic_two);
+//                GlideImgManager.glideLoader(SearchActivity.this, urlTest, R.color.white, R.color.white, iv_pic_three);
+                GlideImgManager.glideLoader(SearchActivity.this, remindBean.getItem_list().get(0).getItem_info().getImage_url(), R.color.white, R.color.white, iv_pic_one);
+                GlideImgManager.glideLoader(SearchActivity.this, remindBean.getItem_list().get(1).getItem_info().getImage_url(), R.color.white, R.color.white, iv_pic_two);
+                GlideImgManager.glideLoader(SearchActivity.this, remindBean.getItem_list().get(2).getItem_info().getImage_url(), R.color.white, R.color.white, iv_pic_three);
+                iv_pic_three.setVisibility(View.VISIBLE);
+                iv_pic_two.setVisibility(View.VISIBLE);
+                iv_pic_one.setVisibility(View.VISIBLE);
+            }
+            rl_pic_all.setVisibility(View.VISIBLE);
+            view_below_pics.setVisibility(View.VISIBLE);
+        } else {
+            rl_pic_all.setVisibility(View.GONE);
+            view_below_pics.setVisibility(View.GONE);
+        }
+
+        if (null != remindBean.getAlbum_list() && remindBean.getAlbum_list().size() > 0) {
+            //设置灵感辑图片
+            RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) iv_img1.getLayoutParams();
+            layoutParams1.width = width_Imgs / 2 - UIUtils.getDimens(R.dimen.font_2);
+            layoutParams1.height = width_Imgs / 2 - UIUtils.getDimens(R.dimen.font_2);
+            layoutParams1.alignWithParent = true;
+
+            RelativeLayout.LayoutParams layoutParams2 = (RelativeLayout.LayoutParams) iv_img2.getLayoutParams();
+            layoutParams2.width = width_Imgs / 2 - UIUtils.getDimens(R.dimen.font_2);
+            layoutParams2.height = width_Imgs / 2 - UIUtils.getDimens(R.dimen.font_2);
+            layoutParams2.alignWithParent = true;
+            layoutParams2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+
+            RelativeLayout.LayoutParams layoutParams3 = (RelativeLayout.LayoutParams) iv_img3.getLayoutParams();
+            layoutParams3.width = width_Imgs / 2 - UIUtils.getDimens(R.dimen.font_2);
+            layoutParams3.height = width_Imgs / 2 - UIUtils.getDimens(R.dimen.font_2);
+            layoutParams3.alignWithParent = true;
+            layoutParams3.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+
+            RelativeLayout.LayoutParams layoutParams4 = (RelativeLayout.LayoutParams) iv_img4.getLayoutParams();
+            layoutParams4.width = width_Imgs / 2 - UIUtils.getDimens(R.dimen.font_2);
+            layoutParams4.height = width_Imgs / 2 - UIUtils.getDimens(R.dimen.font_2);
+            layoutParams4.alignWithParent = true;
+            layoutParams4.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM | RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+
+            iv_img1.setLayoutParams(layoutParams1);
+            iv_img2.setLayoutParams(layoutParams2);
+            iv_img3.setLayoutParams(layoutParams3);
+            iv_img4.setLayoutParams(layoutParams4);
+            iv_img5.setLayoutParams(layoutParams1);
+            iv_img6.setLayoutParams(layoutParams2);
+            iv_img7.setLayoutParams(layoutParams3);
+            iv_img8.setLayoutParams(layoutParams4);
+            iv_img9.setLayoutParams(layoutParams1);
+            iv_img10.setLayoutParams(layoutParams2);
+            iv_img11.setLayoutParams(layoutParams3);
+            iv_img12.setLayoutParams(layoutParams4);
+
+            if (remindBean.getAlbum_list().size() == 1) {
+                rl_images_one.setVisibility(View.VISIBLE);
+                rl_images_two.setVisibility(View.GONE);
+                rl_images_three.setVisibility(View.GONE);
+                ImageUtils.displayRoundImage(remindBean.getAlbum_list().get(0).getAlbum_info().getAvatar(), riv_header_one);
+            } else if (remindBean.getAlbum_list().size() == 2) {
+                rl_images_one.setVisibility(View.VISIBLE);
+                rl_images_two.setVisibility(View.VISIBLE);
+                rl_images_three.setVisibility(View.GONE);
+                rl_header1.setVisibility(View.VISIBLE);
+                rl_header2.setVisibility(View.VISIBLE);
+                rl_header3.setVisibility(View.GONE);
+                ImageUtils.displayRoundImage(remindBean.getAlbum_list().get(0).getAlbum_info().getAvatar(), riv_header_one);
+                ImageUtils.displayRoundImage(remindBean.getAlbum_list().get(1).getAlbum_info().getAvatar(), riv_header_two);
+            } else if (remindBean.getAlbum_list().size() >= 3) {
+                rl_images_one.setVisibility(View.VISIBLE);
+                rl_images_two.setVisibility(View.VISIBLE);
+                rl_images_three.setVisibility(View.VISIBLE);
+                rl_header1.setVisibility(View.VISIBLE);
+                rl_header2.setVisibility(View.VISIBLE);
+                rl_header3.setVisibility(View.VISIBLE);
+                ImageUtils.displayRoundImage(remindBean.getAlbum_list().get(0).getAlbum_info().getAvatar(), riv_header_one);
+                ImageUtils.displayRoundImage(remindBean.getAlbum_list().get(1).getAlbum_info().getAvatar(), riv_header_two);
+                ImageUtils.displayRoundImage(remindBean.getAlbum_list().get(2).getAlbum_info().getAvatar(), riv_header_three);
+            }
+            if (remindBean.getAlbum_list().size() > 0 &&
+                    null != remindBean.getAlbum_list().get(0).getAlbum_info() &&
+                    null != remindBean.getAlbum_list().get(0).getAlbum_info().getImages() &&
+                    remindBean.getAlbum_list().get(0).getAlbum_info().getImages().size() > 0) {
+                ImageUtils.displayFilletLeftTopImage(remindBean.getAlbum_list().get(0).getAlbum_info().getImages().get(0), iv_img1);
+            } else {
+                ImageUtils.displayFilletLeftTopImage("drawable://" + R.drawable.test_color, iv_img1);
+            }
+            if (remindBean.getAlbum_list().size() > 0 &&
+                    null != remindBean.getAlbum_list().get(0).getAlbum_info() &&
+                    null != remindBean.getAlbum_list().get(0).getAlbum_info().getImages() &&
+                    remindBean.getAlbum_list().get(0).getAlbum_info().getImages().size() > 1) {
+                ImageUtils.displayFilletRightTopImage(remindBean.getAlbum_list().get(0).getAlbum_info().getImages().get(1), iv_img2);
+            } else {
+                ImageUtils.displayFilletRightTopImage("drawable://" + R.drawable.test_color, iv_img2);
+            }
+            if (remindBean.getAlbum_list().size() > 0 &&
+                    null != remindBean.getAlbum_list().get(0).getAlbum_info() &&
+                    null != remindBean.getAlbum_list().get(0).getAlbum_info().getImages() &&
+                    remindBean.getAlbum_list().get(0).getAlbum_info().getImages().size() > 2) {
+                ImageUtils.displayFilletLeftBottomImage(remindBean.getAlbum_list().get(0).getAlbum_info().getImages().get(2), iv_img3);
+            } else {
+                ImageUtils.displayFilletLeftBottomImage("drawable://" + R.drawable.test_color, iv_img3);
+            }
+            if (remindBean.getAlbum_list().size() > 0 &&
+                    null != remindBean.getAlbum_list().get(0).getAlbum_info() &&
+                    null != remindBean.getAlbum_list().get(0).getAlbum_info().getImages() &&
+                    remindBean.getAlbum_list().get(0).getAlbum_info().getImages().size() > 3) {
+                ImageUtils.displayFilletRightBottomImage(remindBean.getAlbum_list().get(0).getAlbum_info().getImages().get(3), iv_img4);
+            } else {
+                ImageUtils.displayFilletRightBottomImage("drawable://" + R.drawable.test_color, iv_img4);
+            }
+            if (remindBean.getAlbum_list().size() > 1 &&
+                    null != remindBean.getAlbum_list().get(1).getAlbum_info() &&
+                    null != remindBean.getAlbum_list().get(1).getAlbum_info().getImages() &&
+                    remindBean.getAlbum_list().get(1).getAlbum_info().getImages().size() > 0) {
+                ImageUtils.displayFilletLeftTopImage(remindBean.getAlbum_list().get(1).getAlbum_info().getImages().get(0), iv_img5);
+            } else {
+                ImageUtils.displayFilletLeftTopImage("drawable://" + R.drawable.test_color, iv_img5);
+            }
+            if (remindBean.getAlbum_list().size() > 1 &&
+                    null != remindBean.getAlbum_list().get(1).getAlbum_info() &&
+                    null != remindBean.getAlbum_list().get(1).getAlbum_info().getImages() &&
+                    remindBean.getAlbum_list().get(1).getAlbum_info().getImages().size() > 1) {
+                ImageUtils.displayFilletRightTopImage(remindBean.getAlbum_list().get(1).getAlbum_info().getImages().get(1), iv_img6);
+            } else {
+                ImageUtils.displayFilletRightTopImage("drawable://" + R.drawable.test_color, iv_img6);
+            }
+            if (remindBean.getAlbum_list().size() > 1 &&
+                    null != remindBean.getAlbum_list().get(1).getAlbum_info() &&
+                    null != remindBean.getAlbum_list().get(1).getAlbum_info().getImages() &&
+                    remindBean.getAlbum_list().get(1).getAlbum_info().getImages().size() > 2) {
+                ImageUtils.displayFilletLeftBottomImage(remindBean.getAlbum_list().get(1).getAlbum_info().getImages().get(2), iv_img7);
+            } else {
+                ImageUtils.displayFilletLeftBottomImage("drawable://" + R.drawable.test_color, iv_img7);
+            }
+            if (remindBean.getAlbum_list().size() > 1 &&
+                    null != remindBean.getAlbum_list().get(1).getAlbum_info() &&
+                    null != remindBean.getAlbum_list().get(1).getAlbum_info().getImages() &&
+                    remindBean.getAlbum_list().get(1).getAlbum_info().getImages().size() > 3) {
+                ImageUtils.displayFilletRightBottomImage(remindBean.getAlbum_list().get(1).getAlbum_info().getImages().get(3), iv_img8);
+            } else {
+                ImageUtils.displayFilletRightBottomImage("drawable://" + R.drawable.test_color, iv_img8);
+            }
+            if (remindBean.getAlbum_list().size() > 2 &&
+                    null != remindBean.getAlbum_list().get(2).getAlbum_info() &&
+                    null != remindBean.getAlbum_list().get(2).getAlbum_info().getImages() &&
+                    remindBean.getAlbum_list().get(2).getAlbum_info().getImages().size() > 0) {
+                ImageUtils.displayFilletLeftTopImage(remindBean.getAlbum_list().get(2).getAlbum_info().getImages().get(0), iv_img9);
+            } else {
+                ImageUtils.displayFilletLeftTopImage("drawable://" + R.drawable.test_color, iv_img9);
+            }
+            if (remindBean.getAlbum_list().size() > 2 &&
+                    null != remindBean.getAlbum_list().get(2).getAlbum_info() &&
+                    null != remindBean.getAlbum_list().get(2).getAlbum_info().getImages() &&
+                    remindBean.getAlbum_list().get(2).getAlbum_info().getImages().size() > 1) {
+                ImageUtils.displayFilletRightTopImage(remindBean.getAlbum_list().get(2).getAlbum_info().getImages().get(1), iv_img10);
+            } else {
+                ImageUtils.displayFilletRightTopImage("drawable://" + R.drawable.test_color, iv_img10);
+            }
+            if (remindBean.getAlbum_list().size() > 2 &&
+                    null != remindBean.getAlbum_list().get(2).getAlbum_info() &&
+                    null != remindBean.getAlbum_list().get(2).getAlbum_info().getImages() &&
+                    remindBean.getAlbum_list().get(2).getAlbum_info().getImages().size() > 2) {
+                ImageUtils.displayFilletLeftBottomImage(remindBean.getAlbum_list().get(2).getAlbum_info().getImages().get(2), iv_img11);
+            } else {
+                ImageUtils.displayFilletLeftBottomImage("drawable://" + R.drawable.test_color, iv_img11);
+            }
+            if (remindBean.getAlbum_list().size() > 2 &&
+                    null != remindBean.getAlbum_list().get(2).getAlbum_info() &&
+                    null != remindBean.getAlbum_list().get(2).getAlbum_info().getImages() &&
+                    remindBean.getAlbum_list().get(2).getAlbum_info().getImages().size() > 3) {
+                ImageUtils.displayFilletRightBottomImage(remindBean.getAlbum_list().get(2).getAlbum_info().getImages().get(3), iv_img12);
+            } else {
+                ImageUtils.displayFilletRightBottomImage("drawable://" + R.drawable.test_color, iv_img12);
+            }
+            rl_album_all.setVisibility(View.VISIBLE);
+        } else {
+            rl_album_all.setVisibility(View.GONE);
+        }
+
+    }
 
 
     @Override
@@ -402,5 +722,59 @@ public class SearchActivity
     private ImageView iv_img11;
     private ImageView iv_img12;
     private int width_Imgs;
+    private String mSearchStr = "";
+    private RemindBean mRemindBean = null;
+    private RelativeLayout rl_result_ling;
+    private RelativeLayout rl_result_image;
+    private MyListView lv_result_list;
+    private MyPicTagsAdapter myPicTagsAdapter;
+
+
+    class MyPicTagsAdapter extends BaseAdapter {
+        private Context context;
+        private List<String> list;
+
+        public MyPicTagsAdapter(Context context, List<String> list) {
+            this.context = context;
+            this.list = list;
+        }
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return list.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            MyPicTagsHolder myPicTagsHolder;
+            if (convertView == null) {
+                convertView = LayoutInflater.from(context).inflate(R.layout.item_search_remind, null);
+                myPicTagsHolder = new MyPicTagsHolder();
+                myPicTagsHolder.tv_item_name = (TextView) convertView.findViewById(R.id.tv_item_name);
+                convertView.setTag(myPicTagsHolder);
+            } else {
+                myPicTagsHolder = (MyPicTagsHolder) convertView.getTag();
+            }
+
+            myPicTagsHolder.tv_item_name.setText(list.get(position));
+
+            return convertView;
+        }
+
+        class MyPicTagsHolder {
+            private TextView tv_item_name;
+        }
+    }
 
 }

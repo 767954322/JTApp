@@ -136,5 +136,6 @@ public class UrlConstants {
     public static final String GRAB_PICTURE = "https://api.idcool.com.cn/base/image/grabPicture";  //通过图片URL地址抓取图片
     public static final String DEFAULT_TAGS = "https://api.idcool.com.cn/base/tag/recommendTag";  //通过图像识别推荐标签
     public static final String SAVE_ITEM_IMAGE = "https://api.idcool.com.cn/item/item/saveItem";  //保存单张图片至灵感辑
+    public static final String REMIND_WORDS = "https://api.idcool.com.cn/search/search/remindWords";  //搜索框键入关键词提醒
 
 }

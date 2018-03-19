@@ -98,22 +98,22 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/font_15"
                     android:text="搜索历史"
-                    android:layout_alignParentLeft="true"
                     android:textColor="@color/bg_8f8f8f"
-                    android:layout_centerVertical="true"
                     android:textSize="@dimen/size_14" />
 
                 <ImageView
                     android:id="@+id/iv_delete_hostory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/delete_hostory"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:paddingLeft="@dimen/font_15"
                     android:paddingRight="@dimen/font_15"
-                    android:paddingLeft="@dimen/font_15"/>
+                    android:src="@drawable/delete_hostory" />
 
             </RelativeLayout>
 
@@ -135,8 +135,8 @@
         android:id="@+id/sv_result"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_f2f2f2"
         android:layout_below="@+id/view_top"
+        android:background="@color/bg_f2f2f2"
         android:visibility="gone">
 
         <RelativeLayout
@@ -149,6 +149,7 @@
                 android:id="@+id/rl_result_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/tv_result_pic_tital"
                     android:layout_width="wrap_content"
@@ -177,38 +178,65 @@
                     android:divider="@null"
                     android:visibility="gone" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rcy_recyclerview_pic"
+                <RelativeLayout
+                    android:id="@+id/rl_pic_all"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/lv_result_list"
                     android:layout_marginLeft="@dimen/font_15"
-                    android:layout_toRightOf="@+id/view_bottom"
-                    android:background="@color/white"
-                    android:scrollbars="none" />
+                    android:layout_marginRight="@dimen/font_15"
+                    android:layout_marginTop="@dimen/font_10"
+                    android:layout_marginBottom="@dimen/font_10"
+                    android:visibility="gone">
+
+                    <com.homechart.app.myview.RoundJiaoImageView
+                        android:id="@+id/iv_pic_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:layout_alignParentLeft="true" />
+
+                    <com.homechart.app.myview.RoundJiaoImageView
+                        android:id="@+id/iv_pic_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:layout_centerHorizontal="true" />
+
+                    <com.homechart.app.myview.RoundJiaoImageView
+                        android:id="@+id/iv_pic_three"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:layout_alignParentRight="true" />
+                </RelativeLayout>
 
                 <View
-                    android:id="@+id/view_result_pic"
+                    android:id="@+id/view_below_pics"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:layout_below="@+id/rcy_recyclerview_pic"
-                    android:background="@color/view_line" />
+                    android:layout_marginRight="@dimen/font_15"
+                    android:layout_marginLeft="@dimen/font_15"
+                    android:background="@color/view_line"
+                    android:visibility="gone"
+                    android:layout_below="@+id/rl_pic_all"/>
+
 
                 <RelativeLayout
                     android:id="@+id/rl_more_pic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/view_result_pic">
+                    android:layout_below="@+id/view_below_pics">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/bg_464646"
-                        android:textSize="@dimen/size_14"
+                        android:layout_marginBottom="@dimen/font_17"
                         android:layout_marginLeft="@dimen/font_15"
                         android:layout_marginTop="@dimen/font_17"
-                        android:layout_marginBottom="@dimen/font_17"
-                        android:text="查看更多图片"/>
+                        android:text="查看更多图片"
+                        android:textColor="@color/bg_464646"
+                        android:textSize="@dimen/size_14" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -216,7 +244,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/font_15"
-                        android:src="@drawable/next"/>
+                        android:src="@drawable/next" />
 
                 </RelativeLayout>
 
@@ -225,7 +253,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/font_10"
                     android:layout_below="@+id/rl_more_pic"
-                    android:background="@color/bg_f2f2f2"/>
+                    android:background="@color/bg_f2f2f2" />
 
             </RelativeLayout>
 
@@ -234,6 +262,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rl_result_image">
+
                 <TextView
                     android:id="@+id/tv_result_ling_tital"
                     android:layout_width="wrap_content"
@@ -258,9 +287,11 @@
                     android:id="@+id/rl_album_all"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/view_ling_list"
                     android:layout_marginLeft="@dimen/font_15"
                     android:layout_marginRight="@dimen/font_15"
-                    android:layout_below="@+id/view_ling_list"
+                    android:layout_marginTop="@dimen/font_10"
+                    android:layout_marginBottom="@dimen/font_10"
                     android:visibility="gone">
 
                     <RelativeLayout
@@ -461,17 +492,18 @@
                     android:id="@+id/rl_more_ling"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/font_20"
                     android:layout_below="@+id/view_result_ling">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/bg_464646"
-                        android:textSize="@dimen/size_14"
+                        android:layout_marginBottom="@dimen/font_17"
                         android:layout_marginLeft="@dimen/font_15"
                         android:layout_marginTop="@dimen/font_17"
-                        android:layout_marginBottom="@dimen/font_17"
-                        android:text="查看更多灵感辑"/>
+                        android:text="查看更多灵感辑"
+                        android:textColor="@color/bg_464646"
+                        android:textSize="@dimen/size_14" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -479,7 +511,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/font_15"
-                        android:src="@drawable/next"/>
+                        android:src="@drawable/next" />
 
                 </RelativeLayout>
 
