@@ -243,7 +243,7 @@ public class NewPicCenterFragment
                 }
             }
         };
-        MyHttpManager.getInstance().getImageByUserId(mUserId, (page_num - 1) * 20 + "", "20", callBack);
+        MyHttpManager.getInstance().getImageByUserId("1", mUserId, (page_num - 1) * 20 + "", "20", callBack);
     }
 
     private void updateViewFromDataImage(List<ImageDataBean> listData, String state) {
