@@ -18,6 +18,7 @@ import android.telephony.TelephonyManager;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
+import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -699,6 +700,73 @@ public class PublicUtils {
             p = "0.00";
         }
         return p;
+    }
+
+
+    /**
+     * 保存搜索历史
+     *
+     * @param saveHostory
+     */
+    public static void saveSearchHostory(String saveHostory) {
+
+        String hostorys = SharedPreferencesUtils.readString(ClassConstant.SearchHestory.HESTORY_SEARCH);
+        if (TextUtils.isEmpty(hostorys) || null == hostorys) {
+            hostorys = saveHostory.trim() + ",";
+            SharedPreferencesUtils.writeString(ClassConstant.SearchHestory.HESTORY_SEARCH, hostorys);
+        } else {
+            List<String> list = PublicUtils.getSearchHostory();
+            if (list.size() < 20) {
+                hostorys = saveHostory.trim() + "," + hostorys;
+            } else {
+                hostorys = saveHostory.trim() + ",";
+                for (int i = 0; i < list.size() - 1; i++) {
+                    hostorys = hostorys + list.get(i).toString().trim() + ",";
+                }
+            }
+            SharedPreferencesUtils.writeString(ClassConstant.SearchHestory.HESTORY_SEARCH, hostorys);
+        }
+    }
+
+    /**
+     * 获取搜索历史
+     */
+    public static List<String> getSearchHostory() {
+
+        List<String> searchList = new ArrayList<>();
+        String hostorys = SharedPreferencesUtils.readString(ClassConstant.SearchHestory.HESTORY_SEARCH);
+
+        if (!TextUtils.isEmpty(hostorys) && null != hostorys) {
+            String[] strArray = hostorys.split(",");
+            if (strArray.length > 0) {
+                for (int i = 0; i < strArray.length; i++) {
+                    if (!TextUtils.isEmpty(strArray[i])) {
+                        searchList.add(strArray[i]);
+                    }
+                }
+            }
+            return searchList;
+
+        } else {
+
+            return searchList;
+        }
+
+    }
+
+    /**
+     * 点击搜索历史
+     */
+    public static void replaceSearchHostory(String hostory) {
+        List<String> listHostory = getSearchHostory();
+        String replaceStr = "";
+        replaceStr = hostory + ",";
+        for (int i = 0; i < listHostory.size(); i++) {
+            if (!listHostory.get(i).trim().equals(hostory.trim())) {
+                replaceStr = replaceStr + listHostory.get(i).trim() + ",";
+            }
+        }
+        SharedPreferencesUtils.writeString(ClassConstant.SearchHestory.HESTORY_SEARCH, replaceStr);
     }
 
 }

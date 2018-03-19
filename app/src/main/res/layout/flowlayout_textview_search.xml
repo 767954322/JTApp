@@ -10,6 +10,6 @@
     android:layout_marginBottom="@dimen/font_15"
     android:layout_marginRight="@dimen/font_15"
     android:textSize="@dimen/size_14"
-    android:background="@drawable/bg_edittext_search_tag"
+    android:background="@drawable/bg_tags_back"
     android:textColor="@color/bg_262626"/>
 

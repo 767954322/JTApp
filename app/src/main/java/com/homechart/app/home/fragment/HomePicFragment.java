@@ -1187,7 +1187,7 @@ public class HomePicFragment
     public void scrollRecyclerView() {
         if (mListData.size() > 0) {
             mRecyclerView.scrollToPosition(0);
-            rl_pic_change.setVisibility(View.VISIBLE);
+//            rl_pic_change.setVisibility(View.VISIBLE);
         }
     }
 

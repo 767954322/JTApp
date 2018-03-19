@@ -137,7 +137,7 @@
             android:id="@+id/rl_go_dingyue"
             android:layout_width="match_parent"
             android:layout_height="@dimen/font_40"
-            android:layout_below="@+id/rl_pic_change"
+            android:layout_below="@+id/view_line_top"
             android:background="@color/bg_e79056"
             android:visibility="visible">
 

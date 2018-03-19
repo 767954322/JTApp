@@ -19,9 +19,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:paddingRight="@dimen/font_12"
-            android:paddingLeft="@dimen/font_10"
             android:gravity="center"
+            android:paddingLeft="@dimen/font_10"
+            android:paddingRight="@dimen/font_12"
             android:text="取消"
             android:textColor="@color/bg_464646"
             android:textSize="@dimen/size_14" />
@@ -34,41 +34,87 @@
             android:layout_toLeftOf="@+id/tv_quxiao"
             android:background="@drawable/bg_edittext_search"
             android:drawableLeft="@drawable/fdj"
-            android:textCursorDrawable="@drawable/color_cursor"
             android:drawablePadding="@dimen/font_6"
             android:gravity="center_vertical"
             android:hint="输入关键词搜索"
-            android:textColorHint="@color/bg_8f8f8f"
-            android:singleLine="true"
             android:imeOptions="actionSearch"
-            android:textSize="@dimen/size_14"
-            android:paddingLeft="@dimen/font_10" />
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/rl_search_tital"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_search"
-        android:layout_marginTop="@dimen/font_15"
-        android:background="@color/bg_f2f2f2">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/font_10"
-            android:layout_marginLeft="@dimen/font_15"
-            android:layout_marginTop="@dimen/font_15"
-            android:text="大家都在搜"
-            android:textColor="@color/bg_8f8f8f"
+            android:paddingLeft="@dimen/font_10"
+            android:singleLine="true"
+            android:textColorHint="@color/bg_8f8f8f"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="@dimen/size_14" />
-
     </RelativeLayout>
 
-    <com.homechart.app.myview.FlowLayoutSearch
-        android:id="@+id/his_flowLayout"
-        android:layout_below="@+id/rl_search_tital"
+
+    <View
+        android:id="@+id/view_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/rl_search"
+        android:layout_marginTop="@dimen/font_8"
+        android:background="@color/view_line" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/view_top">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/rl_search_tital"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/font_25">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/font_15"
+                    android:text="大家都在搜"
+                    android:textColor="@color/bg_8f8f8f"
+                    android:textSize="@dimen/size_14" />
+
+            </RelativeLayout>
+
+            <com.homechart.app.myview.FlowLayoutSearch
+                android:id="@+id/his_flowLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_search_tital" />
+
+            <RelativeLayout
+                android:id="@+id/rl_search_hostory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/his_flowLayout"
+                android:layout_marginTop="@dimen/font_15">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/font_15"
+                    android:text="搜索历史"
+                    android:textColor="@color/bg_8f8f8f"
+                    android:textSize="@dimen/size_14" />
+
+            </RelativeLayout>
+
+            <com.homechart.app.myview.MyListView
+                android:id="@+id/lv_hostory_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/font_7"
+                android:divider="@null"
+                android:layout_below="@+id/rl_search_hostory"/>
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+
 </RelativeLayout>

@@ -162,4 +162,8 @@ public class ClassConstant {
         public static int IMAGE_STATUS = 0;
         public static int FAXIAN_STATUS = 0;
     }
+
+    public static class SearchHestory {
+        public static String HESTORY_SEARCH = "hestory_search";
+    }
 }
