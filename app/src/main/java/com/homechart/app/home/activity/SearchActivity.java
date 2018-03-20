@@ -755,25 +755,38 @@ public class SearchActivity
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
 
             MyPicTagsHolder myPicTagsHolder;
             if (convertView == null) {
                 convertView = LayoutInflater.from(context).inflate(R.layout.item_search_remind, null);
                 myPicTagsHolder = new MyPicTagsHolder();
                 myPicTagsHolder.tv_item_name = (TextView) convertView.findViewById(R.id.tv_item_name);
+                myPicTagsHolder.rl_item = (RelativeLayout) convertView.findViewById(R.id.rl_item);
                 convertView.setTag(myPicTagsHolder);
             } else {
                 myPicTagsHolder = (MyPicTagsHolder) convertView.getTag();
             }
 
             myPicTagsHolder.tv_item_name.setText(list.get(position));
+            myPicTagsHolder.rl_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PublicUtils.replaceSearchHostory(list.get(position));
+                    Intent intent = new Intent();
+                    intent.putExtra("search_info", list.get(position));
+                    intent.putExtra("search_tag", "");
+                    setResult(10, intent);
+                    SearchActivity.this.finish();
+                }
+            });
 
             return convertView;
         }
 
         class MyPicTagsHolder {
             private TextView tv_item_name;
+            private RelativeLayout rl_item;
         }
     }
 
