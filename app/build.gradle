@@ -89,6 +89,7 @@ dependencies {
     compile project(':librangeseekbar')
     compile project(':library')
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.8'
+    compile 'com.android.support:multidex:1.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
