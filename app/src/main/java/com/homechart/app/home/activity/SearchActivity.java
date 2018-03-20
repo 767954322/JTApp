@@ -68,6 +68,7 @@ public class SearchActivity
     private RoundJiaoImageView iv_pic_two;
     private RoundJiaoImageView iv_pic_three;
     private View view_below_pics;
+    private RelativeLayout rl_more_pic;
 
     @Override
     protected int getLayoutResId() {
@@ -87,6 +88,7 @@ public class SearchActivity
         iv_delete_hostory = (ImageView) findViewById(R.id.iv_delete_hostory);
 
 
+        rl_more_pic = (RelativeLayout) findViewById(R.id.rl_more_pic);
         rl_album_all = (RelativeLayout) findViewById(R.id.rl_album_all);
         rl_images_one = (RelativeLayout) findViewById(R.id.rl_images_one);
         rl_images_two = (RelativeLayout) findViewById(R.id.rl_images_two);
@@ -151,7 +153,11 @@ public class SearchActivity
         iv_pic_one.setOnClickListener(this);
         iv_pic_two.setOnClickListener(this);
         iv_pic_three.setOnClickListener(this);
+        rl_images_one.setOnClickListener(this);
+        rl_images_two.setOnClickListener(this);
+        rl_images_three.setOnClickListener(this);
         iv_delete_hostory.setOnClickListener(this);
+        rl_more_pic.setOnClickListener(this);
         cet_clearedit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -284,6 +290,53 @@ public class SearchActivity
                     Intent intent = new Intent();
                     intent.putExtra("item_id", mRemindBean.getItem_list().get(2).getItem_info().getItem_id());
                     setResult(17, intent);
+                    SearchActivity.this.finish();
+                }
+                break;
+            case R.id.rl_more_pic:
+
+                if(!TextUtils.isEmpty(cet_clearedit.getText().toString().trim())){
+                    PublicUtils.replaceSearchHostory(cet_clearedit.getText().toString().trim());
+                    Intent intent = new Intent();
+                    intent.putExtra("search_info", cet_clearedit.getText().toString().trim());
+                    intent.putExtra("search_tag", "");
+                    setResult(10, intent);
+                    SearchActivity.this.finish();
+                }
+                break;
+            case R.id.rl_images_one:
+
+                if (null != mRemindBean && null != mRemindBean.getAlbum_list() && mRemindBean.getAlbum_list().size() > 0) {
+                    if(!TextUtils.isEmpty(cet_clearedit.getText().toString().trim())){
+                        PublicUtils.replaceSearchHostory(cet_clearedit.getText().toString());
+                    }
+                    Intent intent = new Intent();
+                    intent.putExtra("album_id", mRemindBean.getAlbum_list().get(0).getAlbum_info().getAlbum_id());
+                    setResult(18, intent);
+                    SearchActivity.this.finish();
+                }
+                break;
+            case R.id.rl_images_two:
+
+                if (null != mRemindBean && null != mRemindBean.getAlbum_list() && mRemindBean.getAlbum_list().size() > 1) {
+                    if(!TextUtils.isEmpty(cet_clearedit.getText().toString().trim())){
+                        PublicUtils.replaceSearchHostory(cet_clearedit.getText().toString());
+                    }
+                    Intent intent = new Intent();
+                    intent.putExtra("album_id", mRemindBean.getAlbum_list().get(1).getAlbum_info().getAlbum_id());
+                    setResult(18, intent);
+                    SearchActivity.this.finish();
+                }
+                break;
+            case R.id.rl_images_three:
+
+                if (null != mRemindBean && null != mRemindBean.getAlbum_list() && mRemindBean.getAlbum_list().size() > 2) {
+                    if(!TextUtils.isEmpty(cet_clearedit.getText().toString().trim())){
+                        PublicUtils.replaceSearchHostory(cet_clearedit.getText().toString());
+                    }
+                    Intent intent = new Intent();
+                    intent.putExtra("album_id", mRemindBean.getAlbum_list().get(2).getAlbum_info().getAlbum_id());
+                    setResult(18, intent);
                     SearchActivity.this.finish();
                 }
                 break;

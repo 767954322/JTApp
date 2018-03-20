@@ -54,6 +54,7 @@ import com.homechart.app.home.bean.search.SearchItemDataBean;
 import com.homechart.app.home.bean.search.SearchItemInfoDataBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.view.InspirationSeriesPop;
+import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
 import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.myview.NewHomeTabPopWin;
@@ -389,6 +390,19 @@ public class HomePicFragment
             fragmentTransaction.commitAllowingStateLoss();
             ClassConstant.HomeStatus.IMAGE_STATUS = 1;
 
+        }else if(requestCode == 10 && resultCode ==18){
+
+            String album_id = data.getStringExtra("album_id");
+            NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(getChildFragmentManager());
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("ifHideEdit", true);
+            bundle.putString("album_id", album_id);
+            newInspirationDetailsment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.id_main, newInspirationDetailsment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commitAllowingStateLoss();
+            ClassConstant.HomeStatus.FAXIAN_STATUS = 1;
         }
     }
 
