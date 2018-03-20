@@ -138,4 +138,6 @@ public class UrlConstants {
     public static final String SAVE_ITEM_IMAGE = "https://api.idcool.com.cn/item/item/saveItem";  //保存单张图片至灵感辑
     public static final String REMIND_WORDS = "https://api.idcool.com.cn/search/search/remindWords";  //搜索框键入关键词提醒
 
+    public static final String SEARCH_ALBUM = "https://api.idcool.com.cn/search/search/album";  //搜索灵感辑列表
+
 }

@@ -407,7 +407,7 @@ public class HomePicFragment
 
             String search_tag = data.getStringExtra("search_tag");
             String search_info = data.getStringExtra("search_info");
-            NewSearchResultFragment newSearchResultFragment = new NewSearchResultFragment(getChildFragmentManager(), search_tag, search_info);
+            NewSearchAblumResultFragment newSearchResultFragment = new NewSearchAblumResultFragment(getChildFragmentManager(), search_tag, search_info);
             Bundle bundle = new Bundle();
             bundle.putString("search_tag", search_tag);
             bundle.putString("search_info", search_info);
