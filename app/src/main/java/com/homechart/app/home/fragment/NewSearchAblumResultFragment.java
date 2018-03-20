@@ -215,7 +215,7 @@ public class NewSearchAblumResultFragment
             public void convert(BaseViewHolder holder, final int position) {
 
                 final String album_id = mListData.get(position).getAlbum_info().getAlbum_id();
-                ((TextView) holder.getView(R.id.tv_item_name)).setText("灵感辑名称");
+                ((TextView) holder.getView(R.id.tv_item_name)).setText(mListData.get(position).getAlbum_info().getAlbum_name());
                 ((TextView) holder.getView(R.id.tv_item_num_pic)).setText(mListData.get(position).getAlbum_info().getItem_num() + "张");
                 ((TextView) holder.getView(R.id.tv_item_num_dingyue)).setVisibility(View.GONE);
                 ImageUtils.displayRoundImage(mListData.get(position).getUser_info().getAvatar().getThumb(), (RoundImageView) holder.getView(R.id.riv_header));
@@ -252,7 +252,7 @@ public class NewSearchAblumResultFragment
                             Bundle bundle = new Bundle();
                             bundle.putBoolean("ifHideEdit", true);
                             bundle.putString("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
-//                            bundle.putString("show_type", mListData.get(position).getAlbum_info().getShow_type());
+                            bundle.putString("show_type", mListData.get(position).getAlbum_info().getShow_type());
                             newInspirationDetailsment.setArguments(bundle);
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                             fragmentTransaction.replace(R.id.id_main, newInspirationDetailsment);
