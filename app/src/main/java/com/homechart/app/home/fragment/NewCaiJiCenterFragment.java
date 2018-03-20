@@ -143,7 +143,7 @@ public class NewCaiJiCenterFragment
                         layoutParams.width = widthPic;
                         layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
                         holder.getView(R.id.iv_item_pic).setLayoutParams(layoutParams);
-                        ImageUtils.displayFilletHalfImage(mListDataImage.get(position).getItem_info().getImage().getImg1(),
+                        ImageUtils.displayFilletImage(mListDataImage.get(position).getItem_info().getImage().getImg1(),
                                 (TopCropImageView) holder.getView(R.id.iv_item_pic));
                     } else {
                         if (mListDataImage.get(position).getItem_info().getImage().getRatio() > 0.333) {
