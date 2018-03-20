@@ -492,7 +492,6 @@
                     android:id="@+id/rl_more_ling"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/font_20"
                     android:layout_below="@+id/view_result_ling">
 
                     <TextView
@@ -515,6 +514,12 @@
 
                 </RelativeLayout>
 
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/font_20"
+                    android:layout_below="@+id/rl_more_ling"
+                    android:background="@color/bg_f2f2f2"/>
 
             </RelativeLayout>
 

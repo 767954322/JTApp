@@ -372,6 +372,23 @@ public class HomePicFragment
             if (loginStatus) {
                 getAllSet1();
             }
+        } else if (requestCode == 10 && resultCode ==17) {
+            String item_id = data.getStringExtra("item_id");
+            List<String> item_id_list = new ArrayList<>();
+            item_id_list.add(item_id);
+            NewImageDetailsFragment newImageDetailsFragment = new NewImageDetailsFragment(fragmentManager);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("item_id", item_id);
+            bundle.putInt("position", 0);
+            bundle.putString("type", "single");
+            bundle.putSerializable("item_id_list", (Serializable) item_id_list);
+            newImageDetailsFragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.id_main, newImageDetailsFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commitAllowingStateLoss();
+            ClassConstant.HomeStatus.IMAGE_STATUS = 1;
+
         }
     }
 

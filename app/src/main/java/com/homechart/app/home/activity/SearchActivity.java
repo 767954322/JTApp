@@ -148,6 +148,9 @@ public class SearchActivity
     protected void initListener() {
         super.initListener();
         tv_quxiao.setOnClickListener(this);
+        iv_pic_one.setOnClickListener(this);
+        iv_pic_two.setOnClickListener(this);
+        iv_pic_three.setOnClickListener(this);
         iv_delete_hostory.setOnClickListener(this);
         cet_clearedit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -249,6 +252,40 @@ public class SearchActivity
                 rl_search_hostory.setVisibility(View.GONE);
                 lv_hostory_list.setVisibility(View.GONE);
                 ToastUtils.showCenter(SearchActivity.this, "已清空");
+                break;
+            case R.id.iv_pic_one:
+
+                if (null != mRemindBean && null != mRemindBean.getItem_list() && mRemindBean.getItem_list().size() > 0) {
+                    if(!TextUtils.isEmpty(cet_clearedit.getText().toString().trim())){
+                        PublicUtils.replaceSearchHostory(cet_clearedit.getText().toString());
+                    }
+                    Intent intent = new Intent();
+                    intent.putExtra("item_id", mRemindBean.getItem_list().get(0).getItem_info().getItem_id());
+                    setResult(17, intent);
+                    SearchActivity.this.finish();
+                }
+                break;
+            case R.id.iv_pic_two:
+                if (null != mRemindBean && null != mRemindBean.getItem_list() && mRemindBean.getItem_list().size() > 1) {
+                    if(!TextUtils.isEmpty(cet_clearedit.getText().toString().trim())){
+                        PublicUtils.replaceSearchHostory(cet_clearedit.getText().toString());
+                    }
+                    Intent intent = new Intent();
+                    intent.putExtra("item_id", mRemindBean.getItem_list().get(1).getItem_info().getItem_id());
+                    setResult(17, intent);
+                    SearchActivity.this.finish();
+                }
+                break;
+            case R.id.iv_pic_three:
+                if (null != mRemindBean && null != mRemindBean.getItem_list() && mRemindBean.getItem_list().size() > 2) {
+                    if(!TextUtils.isEmpty(cet_clearedit.getText().toString().trim())){
+                        PublicUtils.replaceSearchHostory(cet_clearedit.getText().toString());
+                    }
+                    Intent intent = new Intent();
+                    intent.putExtra("item_id", mRemindBean.getItem_list().get(2).getItem_info().getItem_id());
+                    setResult(17, intent);
+                    SearchActivity.this.finish();
+                }
                 break;
         }
     }
