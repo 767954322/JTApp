@@ -69,6 +69,7 @@ public class SearchActivity
     private RoundJiaoImageView iv_pic_three;
     private View view_below_pics;
     private RelativeLayout rl_more_pic;
+    private RelativeLayout rl_more_ling;
 
     @Override
     protected int getLayoutResId() {
@@ -115,6 +116,7 @@ public class SearchActivity
         rl_result_image = (RelativeLayout) findViewById(R.id.rl_result_image);
         rl_result_ling = (RelativeLayout) findViewById(R.id.rl_result_ling);
         rl_pic_all = (RelativeLayout) findViewById(R.id.rl_pic_all);
+        rl_more_ling = (RelativeLayout) findViewById(R.id.rl_more_ling);
         lv_result_list = (MyListView) findViewById(R.id.lv_result_list);
 
         iv_pic_one = (RoundJiaoImageView) findViewById(R.id.iv_pic_one);
@@ -158,6 +160,7 @@ public class SearchActivity
         rl_images_three.setOnClickListener(this);
         iv_delete_hostory.setOnClickListener(this);
         rl_more_pic.setOnClickListener(this);
+        rl_more_ling.setOnClickListener(this);
         cet_clearedit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -339,6 +342,18 @@ public class SearchActivity
                     setResult(18, intent);
                     SearchActivity.this.finish();
                 }
+                break;
+            case R.id.rl_more_ling:
+
+                if(!TextUtils.isEmpty(cet_clearedit.getText().toString().trim())){
+                    PublicUtils.replaceSearchHostory(cet_clearedit.getText().toString().trim());
+                    Intent intent = new Intent();
+                    intent.putExtra("search_info", cet_clearedit.getText().toString().trim());
+                    intent.putExtra("search_tag", "");
+                    setResult(19, intent);
+                    SearchActivity.this.finish();
+                }
+
                 break;
         }
     }

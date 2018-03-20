@@ -815,23 +815,51 @@ public class HomeFaXianFragment
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commitAllowingStateLoss();
             ClassConstant.HomeStatus.FAXIAN_STATUS = 1;
+        } else if (requestCode == 10 && resultCode == 17) {
+            String item_id = data.getStringExtra("item_id");
+            List<String> item_id_list = new ArrayList<>();
+            item_id_list.add(item_id);
+            NewImageDetailsFragment newImageDetailsFragment = new NewImageDetailsFragment(fragmentManager);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("item_id", item_id);
+            bundle.putInt("position", 0);
+            bundle.putString("type", "single");
+            bundle.putSerializable("item_id_list", (Serializable) item_id_list);
+            newImageDetailsFragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.id_main, newImageDetailsFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commitAllowingStateLoss();
+            ClassConstant.HomeStatus.IMAGE_STATUS = 1;
 
-//            CustomProgress.show(activity, "", false, null);
-//            selectPosition = clickPosition;
-//            mAdapter1.notifyDataSetChanged();
-//            tagName = mListPingDao.get(selectPosition).getChannel_name();
-//            onRefresh();
-//            List<String> strList = mListPingDao.get(selectPosition).getRelation_tag();
-//            if (null != strList && strList.size() > 0) {
-//                mRecyclerView2.setVisibility(View.VISIBLE);
-//                mListPingDao1.clear();
-//                mListPingDao1.addAll(strList);
-//                mAdapter2.notifyDataSetChanged();
-//                mRecyclerView2.scrollToPosition(0);
-//            } else {
-//                mRecyclerView2.setVisibility(View.GONE);
-//            }
-//            mRecyclerView1.scrollToPosition(selectPosition);
+        } else if (requestCode == 10 && resultCode == 18) {
+
+            String album_id = data.getStringExtra("album_id");
+            NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(getChildFragmentManager());
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("ifHideEdit", true);
+            bundle.putString("album_id", album_id);
+            newInspirationDetailsment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.id_main, newInspirationDetailsment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commitAllowingStateLoss();
+            ClassConstant.HomeStatus.FAXIAN_STATUS = 1;
+        } else if (requestCode == 10 && resultCode == 19) {
+
+
+            String search_tag = data.getStringExtra("search_tag");
+            String search_info = data.getStringExtra("search_info");
+            NewSearchResultFragment newSearchResultFragment = new NewSearchResultFragment(getChildFragmentManager(), search_tag, search_info);
+            Bundle bundle = new Bundle();
+            bundle.putString("search_tag", search_tag);
+            bundle.putString("search_info", search_info);
+            newSearchResultFragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.id_main, newSearchResultFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commitAllowingStateLoss();
+            ClassConstant.HomeStatus.IMAGE_STATUS = 1;
 
         }
     }
@@ -937,6 +965,7 @@ public class HomeFaXianFragment
             }
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();

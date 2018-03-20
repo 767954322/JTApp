@@ -373,7 +373,7 @@ public class HomePicFragment
             if (loginStatus) {
                 getAllSet1();
             }
-        } else if (requestCode == 10 && resultCode ==17) {
+        } else if (requestCode == 10 && resultCode == 17) {
             String item_id = data.getStringExtra("item_id");
             List<String> item_id_list = new ArrayList<>();
             item_id_list.add(item_id);
@@ -390,7 +390,7 @@ public class HomePicFragment
             fragmentTransaction.commitAllowingStateLoss();
             ClassConstant.HomeStatus.IMAGE_STATUS = 1;
 
-        }else if(requestCode == 10 && resultCode ==18){
+        } else if (requestCode == 10 && resultCode == 18) {
 
             String album_id = data.getStringExtra("album_id");
             NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(getChildFragmentManager());
@@ -403,6 +403,20 @@ public class HomePicFragment
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commitAllowingStateLoss();
             ClassConstant.HomeStatus.FAXIAN_STATUS = 1;
+        } else if (requestCode == 10 && resultCode == 19) {
+
+            String search_tag = data.getStringExtra("search_tag");
+            String search_info = data.getStringExtra("search_info");
+            NewSearchResultFragment newSearchResultFragment = new NewSearchResultFragment(getChildFragmentManager(), search_tag, search_info);
+            Bundle bundle = new Bundle();
+            bundle.putString("search_tag", search_tag);
+            bundle.putString("search_info", search_info);
+            newSearchResultFragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.id_main, newSearchResultFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commitAllowingStateLoss();
+            ClassConstant.HomeStatus.IMAGE_STATUS = 1;
         }
     }
 
