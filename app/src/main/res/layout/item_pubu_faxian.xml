@@ -15,11 +15,10 @@
         android:layout_marginBottom="@dimen/font_1"
         android:background="@drawable/no_line_back">
 
-        <ImageView
+        <com.homechart.app.myview.TopCropImageView
             android:id="@+id/iv_imageview_one"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY" />
+            android:layout_height="wrap_content" />
 
         <ImageView
             android:id="@+id/iv_shibie_pic"
