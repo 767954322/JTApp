@@ -100,4 +100,19 @@
         android:textColor="@color/case_text_tital_name"
         android:textSize="@dimen/size_13" />
 
+   <TextView
+        android:id="@+id/tv_toast_click"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/font_30"
+        android:paddingLeft="@dimen/font_20"
+        android:paddingRight="@dimen/font_20"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="@dimen/font_5"
+        android:paddingBottom="@dimen/font_5"
+        android:background="@drawable/bt_toast_search"
+        android:text="点击图中橙色圆点"
+        android:textColor="@color/case_text_tital_name"
+        android:textSize="@dimen/size_13" />
+
 </RelativeLayout>

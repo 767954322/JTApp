@@ -85,6 +85,7 @@ public class NewSearchResultActivity
             Environment.DIRECTORY_PICTURES).getPath() + File.separator + "JiaTuApp";
     private TextView tv_toast;
     private SearchSObjectInfoBean searchSObjectInfoBean;
+    private TextView tv_toast_click;
 
     @Override
     protected int getLayoutResId() {
@@ -116,6 +117,7 @@ public class NewSearchResultActivity
         tv_fuwei = (TextView) findViewById(R.id.tv_fuwei);
         tv_sousuo = (TextView) findViewById(R.id.tv_sousuo);
         tv_toast = (TextView) findViewById(R.id.tv_toast);
+        tv_toast_click = (TextView) findViewById(R.id.tv_toast_click);
     }
 
     @Override
@@ -170,6 +172,7 @@ public class NewSearchResultActivity
 
                 showShouSuoStatus(false);
                 tv_fuwei.setVisibility(View.GONE);
+                tv_toast_click.setVisibility(View.VISIBLE);
                 if (listSearch != null && listSearch.size() > 0) {
                     tv_toast.setVisibility(View.GONE);
                     ifOpenSearch = false;
@@ -257,6 +260,7 @@ public class NewSearchResultActivity
             ifOpenSearch = true;
             tv_fuwei.setVisibility(View.GONE);
             tv_toast.setVisibility(View.VISIBLE);
+            tv_toast_click.setVisibility(View.GONE);
             showShouSuoStatus(true);
             ScalableBox scalableBox = new ScalableBox(0, 0, 0, 0);
             editableImage.setBox(scalableBox);
@@ -285,6 +289,7 @@ public class NewSearchResultActivity
         tv_toast.setVisibility(View.VISIBLE);
         showShouSuoStatus(true);
         tv_fuwei.setVisibility(View.VISIBLE);
+        tv_toast_click.setVisibility(View.GONE);
         currentPosition = pos;
         ifMoveKuang = false;
         ifOpenSearch = true;
