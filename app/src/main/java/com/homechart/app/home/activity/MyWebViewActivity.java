@@ -27,6 +27,7 @@ import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -96,21 +97,24 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
     private void search() {
 
         String searchContext = cet_clearedit.getText().toString().trim();
+        weburl = searchContext;
         if (TextUtils.isEmpty(searchContext.trim())) {
             ToastUtils.showCenter(this, "请输入网址");
         } else {
             tv_textview1.setVisibility(View.GONE);
             tv_textview2.setVisibility(View.GONE);
             mWeb.setVisibility(View.VISIBLE);
+            if (!weburl.contains("http")) {
+                weburl = "http://" + weburl;
+            }
             mWeb.loadUrl(weburl);
-            mWeb.loadUrl(searchContext);
         }
 
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        if(!TextUtils.isEmpty(weburl)){
+        if (!TextUtils.isEmpty(weburl)) {
 
             cet_clearedit.setText(weburl);
         }
@@ -156,7 +160,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
 
                         mWeb.loadUrl(CaiJi.WEIXIN);
 
-                    }else {
+                    } else {
 
                         mWeb.loadUrl(CaiJi.PUBLICK);
 
