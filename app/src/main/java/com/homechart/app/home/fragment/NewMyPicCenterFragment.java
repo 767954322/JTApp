@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.View;
@@ -205,9 +206,24 @@ public class NewMyPicCenterFragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 35){
+        if(requestCode == 5 && resultCode == 5){
             newCaiJiCenterFragment.onRefresh();
             newCaiJiCenterFragment.onScrollTop();
+
+            String item_id = data.getStringExtra("item_id");
+            List<String> item_id_list = new ArrayList<>();
+            item_id_list.add(item_id);
+            NewImageDetailsFragment newImageDetailsFragment = new NewImageDetailsFragment(getChildFragmentManager());
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("item_id", item_id);
+            bundle.putInt("position", 0);
+            bundle.putString("type", "single");
+            bundle.putSerializable("item_id_list", (Serializable) item_id_list);
+            newImageDetailsFragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.id_main, newImageDetailsFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commitAllowingStateLoss();
         }
     }
 
@@ -286,7 +302,7 @@ public class NewMyPicCenterFragment
                 bundle.putSerializable("pic_url_list", (Serializable) listUrl);
                 bundle.putInt("click_position", 0);
                 intent.putExtras(bundle);
-                startActivityForResult(intent,35);
+                startActivityForResult(intent,5);
             }
         }
     };

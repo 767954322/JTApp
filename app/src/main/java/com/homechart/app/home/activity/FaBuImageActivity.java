@@ -375,6 +375,12 @@ public class FaBuImageActivity
                     if (error_code == 0) {
                         CustomProgress.cancelDialog();
                         ToastUtils.showCenter(FaBuImageActivity.this, "发布成功");
+                        JSONObject jsonObject1 = new JSONObject(data_msg);
+                        JSONObject item_info =  jsonObject1.getJSONObject("item_info");
+                        String item_id = item_info.getString("item_id");
+                        Intent intent = new Intent();
+                        intent.putExtra("item_id",item_id);
+                        setResult(5,intent);
                         FaBuImageActivity.this.finish();
                     } else {
                         CustomProgress.cancelDialog();

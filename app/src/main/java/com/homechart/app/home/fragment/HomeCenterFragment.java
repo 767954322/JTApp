@@ -126,7 +126,7 @@ public class HomeCenterFragment
                 bundle.putSerializable("pic_url_list", (Serializable) listUrl);
                 bundle.putInt("click_position", 0);
                 intent.putExtras(bundle);
-                startActivity(intent);
+                startActivityForResult(intent,5);
 //                Intent intent = new Intent(activity, FaBuActvity.class);
 //                intent.putExtra("image_path", url_Imag);
 //                startActivity(intent);
@@ -491,6 +491,22 @@ public class HomeCenterFragment
             if (!loginStatus) {
                 ((HomeActivity) activity).backPic();
             }
+        }else if (requestCode == 5 && resultCode == 5) {
+            String item_id = data.getStringExtra("item_id");
+            List<String> item_id_list = new ArrayList<>();
+            item_id_list.add(item_id);
+            NewImageDetailsFragment newImageDetailsFragment = new NewImageDetailsFragment(getChildFragmentManager());
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("item_id", item_id);
+            bundle.putInt("position", 0);
+            bundle.putString("type", "single");
+            bundle.putSerializable("item_id_list", (Serializable) item_id_list);
+            newImageDetailsFragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.id_main, newImageDetailsFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commitAllowingStateLoss();
+            ClassConstant.HomeStatus.IMAGE_STATUS = 1;
         }
     }
 

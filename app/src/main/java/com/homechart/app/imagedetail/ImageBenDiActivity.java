@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -33,6 +34,7 @@ import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
 import com.homechart.app.utils.volley.PutFileCallBack;
 import com.homechart.app.utils.widget.CustomProgressTouMing;
+import com.umeng.socialize.utils.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,14 +52,15 @@ import java.util.Map;
 
 public class ImageBenDiActivity
         extends BaseActivity
-        implements View.OnClickListener ,
+        implements View.OnClickListener,
         PutFileCallBack {
     private HackyViewPager mViewPager;
     private List<String> imageLists;
     private int intExtra;
     private ArrayList<String> mImageUrl = new ArrayList<>();
     private int ifhinttital;
-    private boolean ifCancle =  false;
+    private boolean ifCancle = false;
+    private LinearLayout mLinear;
 
     @Override
     protected int getLayoutResId() {
@@ -67,6 +70,7 @@ public class ImageBenDiActivity
     @Override
     protected void initView() {
         mViewPager = (HackyViewPager) findViewById(R.id.case_librafy_detail_activity_vp);
+        mLinear = (LinearLayout) findViewById(R.id.ll_linear);
     }
 
     @Override
@@ -141,7 +145,7 @@ public class ImageBenDiActivity
                 Bitmap bitmap_before = BitmapUtil.getBitmap(imageLists.get(0));
 //                Bitmap bitmap_compress = BitmapUtil.ratio(bitmap_before, 400, 800);
 //                Bitmap bitmap_compress_press = BitmapUtil.compressImage(bitmap_before);
-                if(bitmap_before != null){
+                if (bitmap_before != null) {
                     try {
                         boolean status = BitmapUtil.saveBitmap(bitmap_before, Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName + "/");
                     } catch (IOException e) {
@@ -156,9 +160,9 @@ public class ImageBenDiActivity
                             UrlConstants.PUT_IMAGE,
                             map,
                             PublicUtils.getPublicHeader(MyApplication.getInstance()));
-                }else {
+                } else {
                     CustomProgressTouMing.cancelDialog();
-                    ToastUtils.showCenter(ImageBenDiActivity.this,"上传图片失败，请重新上传图片");
+                    ToastUtils.showCenter(ImageBenDiActivity.this, "上传图片失败，请重新上传图片");
                 }
             }
         }.start();
@@ -187,7 +191,7 @@ public class ImageBenDiActivity
         } catch (JSONException e) {
             e.printStackTrace();
             CustomProgressTouMing.cancelDialog();
-            ToastUtils.showCenter(ImageBenDiActivity.this,"上传图片失败，请重新上传图片");
+            ToastUtils.showCenter(ImageBenDiActivity.this, "上传图片失败，请重新上传图片");
             ImageBenDiActivity.this.finish();
         }
     }
@@ -195,9 +199,10 @@ public class ImageBenDiActivity
     @Override
     public void onFails() {
         CustomProgressTouMing.cancelDialog();
-        ToastUtils.showCenter(ImageBenDiActivity.this,"上传图片失败，请重新上传图片");
+        ToastUtils.showCenter(ImageBenDiActivity.this, "上传图片失败，请重新上传图片");
         ImageBenDiActivity.this.finish();
     }
+
     private void getDefaultTag(final String image_id, final String url) {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
@@ -230,11 +235,12 @@ public class ImageBenDiActivity
                         intent.putExtra("tags", (Serializable) list);
                         intent.putExtra("webUrl", "");
                         intent.putExtra("type", "location");
-                        if(!ifCancle){
-                            CustomProgressTouMing.cancelDialog();
-                            startActivity(intent);
+                        if (!ifCancle) {
+//                            CustomProgressTouMing.cancelDialog();
+                            startActivityForResult(intent, 5);
                         }
-                        ImageBenDiActivity.this.finish();
+                        mLinear.setVisibility(View.GONE);
+//                        ImageBenDiActivity.this.finish();
                     } else {
                         CustomProgressTouMing.cancelDialog();
                         ToastUtils.showCenter(ImageBenDiActivity.this, error_msg);
@@ -268,7 +274,7 @@ public class ImageBenDiActivity
         @Override
         public View instantiateItem(ViewGroup container, final int position) {
             PhotoView photoView = new PhotoView(container.getContext());
-            ImageUtils.disBlackImage("file://"  + mImageUrl1.get(position), photoView);
+            ImageUtils.disBlackImage("file://" + mImageUrl1.get(position), photoView);
             container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
             photoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
@@ -303,5 +309,16 @@ public class ImageBenDiActivity
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         ImageBenDiActivity.this.finish();
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String item_id = data.getStringExtra("item_id");
+        Intent intent = new Intent();
+        intent.putExtra("item_id",item_id);
+        setResult(5,intent);
+        ImageBenDiActivity.this.finish();
+
     }
 }
