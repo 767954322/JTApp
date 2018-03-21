@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.ClipboardManager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -40,6 +41,7 @@ import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.DingYueGuanLiActivity;
 import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.activity.LoginActivity;
+import com.homechart.app.home.activity.MyWebViewActivity;
 import com.homechart.app.home.activity.NewHuoDongDetailsActivity;
 import com.homechart.app.home.activity.SearchActivity;
 import com.homechart.app.home.adapter.HomeTagAdapter;
@@ -84,6 +86,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
+import java.util.TimerTask;
 
 @SuppressLint("ValidFragment")
 public class HomePicFragment
@@ -120,7 +123,8 @@ public class HomePicFragment
     public TagDataBean tagDataBean;
     public ColorBean colorBean;
     private View view;
-    private Timer timer = new Timer(true);
+    private Timer timer_copy = new Timer(true);
+    private Timer timer_hide;
 
     private float mDownY;
     private float mMoveY;
@@ -152,6 +156,9 @@ public class HomePicFragment
     private RelativeLayout rl_new_top;
     private RelativeLayout rl_go_dingyue;
     private RelativeLayout rl_close_dingyue;
+    private ClipboardManager cm;
+    private RelativeLayout rl_copy;
+    private TextView tv_url;
 
     public HomePicFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -191,6 +198,8 @@ public class HomePicFragment
         iv_change_frag = (ImageView) rootView.findViewById(R.id.iv_change_frag);
         bt_tag_page_item = (TextView) rootView.findViewById(R.id.bt_tag_page_item);
         tv_color_tital = (TextView) rootView.findViewById(R.id.tv_color_tital);
+        rl_copy = (RelativeLayout) rootView.findViewById(R.id.rl_copy);
+        tv_url = (TextView) rootView.findViewById(R.id.tv_url);
 
     }
 
@@ -208,6 +217,7 @@ public class HomePicFragment
         rl_go_dingyue.setOnClickListener(this);
         rl_close_dingyue.setOnClickListener(this);
         bt_tag_page_item.setOnClickListener(this);
+        rl_copy.setOnClickListener(this);
         mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -261,7 +271,72 @@ public class HomePicFragment
                 rl_go_dingyue.setVisibility(View.GONE);
             }
         }
+        cm = (ClipboardManager) activity.getSystemService(activity.CLIPBOARD_SERVICE);
+        timer_copy.schedule(task_copy, 100, 500);
+
     }
+
+    //任务
+    private TimerTask task_copy = new TimerTask() {
+        public void run() {
+            try {
+                String textCopy = cm.getText().toString();
+                Message message = new Message();
+                message.obj = textCopy;
+                message.what = 1;
+                handler.sendMessage(message);
+            } catch (Exception e) {
+                rl_copy.setVisibility(View.GONE);
+            }
+        }
+    };
+
+    boolean ifHide = true;
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            int code = msg.what;
+
+            switch (code) {
+                case 1:
+                    String textMsg = (String) msg.obj;
+                    if (!TextUtils.isEmpty(textMsg)) {
+                        if (PublicUtils.isValidUrl(textMsg)) {
+                            //显示
+                            rl_copy.setVisibility(View.VISIBLE);
+                            tv_url.setText(textMsg.trim());
+                            if (ifHide) {
+                                ifHide = false;
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Message message = new Message();
+                                        message.what = 2;
+                                        handler.sendMessage(message);
+                                    }
+                                },5000);
+                            }
+                        } else {
+                            //不显示
+                            rl_copy.setVisibility(View.GONE);
+                        }
+                    } else {
+                        //不显示
+                        rl_copy.setVisibility(View.GONE);
+                        ifHide = true;
+                    }
+                    break;
+                case 2:
+                    cm.setText("");
+                    //不显示
+                    rl_copy.setVisibility(View.GONE);
+                    ifHide = true;
+                    break;
+            }
+
+        }
+    };
 
     @Override
     public void onClick(View v) {
@@ -341,6 +416,15 @@ public class HomePicFragment
                 break;
             case R.id.rl_close_dingyue:
                 rl_go_dingyue.setVisibility(View.GONE);
+                break;
+            case R.id.rl_copy:
+                rl_copy.setVisibility(View.GONE);
+                String urlWeb = cm.getText().toString().trim();
+                cm.setText("");
+                ifHide = true;
+                Intent intentcopy = new Intent(activity, MyWebViewActivity.class);
+                intentcopy.putExtra("weburl", urlWeb);
+                startActivity(intentcopy);
                 break;
         }
     }

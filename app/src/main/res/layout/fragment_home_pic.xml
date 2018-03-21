@@ -198,4 +198,55 @@
         app:refreshEnabled="true"
         app:refreshHeaderLayout="@layout/layout_hrecyclerview_refresh_header" />
 
+
+    <RelativeLayout
+        android:id="@+id/rl_copy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/back_copy"
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:id="@+id/iv_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/font_15"
+            android:layout_marginLeft="@dimen/font_30"
+            android:src="@drawable/dakai1"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/iv_next">
+
+            <TextView
+                android:id="@+id/tv_tital"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_14"
+                android:layout_marginLeft="@dimen/font_15"
+                android:layout_marginTop="@dimen/font_14"
+                android:text="打开你复制的链接"/>
+
+            <TextView
+                android:id="@+id/tv_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_14"
+                android:layout_below="@+id/tv_tital"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:text="sjdnksdnjkcsdncksdsnkjdncjksdncjksdncjksdjncksdcsdsjdnksdnjkcsdncksdsnkjdncjksdncjksdncjksdjncksdcsdsjdnksdnjkcsdncksdsnkjdncjksdncjksdncjksdjncksdcsd"
+                android:layout_marginLeft="@dimen/font_15"
+                android:layout_marginTop="@dimen/font_10"
+                android:layout_marginBottom="@dimen/font_14"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
 </RelativeLayout>

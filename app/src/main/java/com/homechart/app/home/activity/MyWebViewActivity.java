@@ -128,6 +128,9 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
             tv_textview1.setVisibility(View.GONE);
             tv_textview2.setVisibility(View.GONE);
             mWeb.setVisibility(View.VISIBLE);
+            if (!weburl.contains("http")) {
+                weburl = "http://" + weburl;
+            }
             mWeb.loadUrl(weburl);
         }
 

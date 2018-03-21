@@ -21,6 +21,7 @@ import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.util.DisplayMetrics;
+import android.util.Patterns;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -767,6 +769,16 @@ public class PublicUtils {
             }
         }
         SharedPreferencesUtils.writeString(ClassConstant.SearchHestory.HESTORY_SEARCH, replaceStr);
+    }
+
+    public static boolean isValidUrl(String url){
+        if (Patterns.WEB_URL.matcher(url).matches()) {
+            //符合标准
+            return true;
+        } else{
+            //不符合标准
+            return false;
+        }
     }
 
 }
