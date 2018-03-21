@@ -36,6 +36,7 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
+import com.homechart.app.commont.ActivityManager;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.DingYueGuanLiActivity;
@@ -307,15 +308,17 @@ public class HomePicFragment
                             rl_copy.setVisibility(View.VISIBLE);
                             tv_url.setText(textMsg.trim());
                             if (ifHide) {
-                                ifHide = false;
-                                handler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Message message = new Message();
-                                        message.what = 2;
-                                        handler.sendMessage(message);
-                                    }
-                                },5000);
+                                if(PublicUtils.isForeground(activity)){
+                                    ifHide = false;
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Message message = new Message();
+                                            message.what = 2;
+                                            handler.sendMessage(message);
+                                        }
+                                    },5000);
+                                }
                             }
                         } else {
                             //不显示

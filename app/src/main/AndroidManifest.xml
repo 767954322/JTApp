@@ -6,7 +6,6 @@
     <permission
         android:name="com.homechart.app.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.hardware.camera.autofocus" />
     <!--前置摄像头-->

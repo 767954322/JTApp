@@ -3,6 +3,7 @@ package com.homechart.app.commont;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -779,6 +780,20 @@ public class PublicUtils {
             //不符合标准
             return false;
         }
+    }
+
+    //当前应用是否处于前台
+    public static boolean isForeground(Context context) {
+        if (context != null) {
+            android.app.ActivityManager am = (android.app.ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+            ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+            String currentPackageName = cn.getPackageName();
+            if (!TextUtils.isEmpty(currentPackageName) && currentPackageName.equals(context.getPackageName())) {
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 
 }
