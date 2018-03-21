@@ -123,6 +123,15 @@
                 android:layout_marginBottom="@dimen/font_5"
                 android:text="我的"/>
 
+            <com.homechart.app.myview.RoundImageView
+                android:id="@+id/riv_unreader_msg"
+                android:layout_width="@dimen/font_5"
+                android:layout_height="@dimen/font_5"
+                android:layout_toRightOf="@+id/iv_center"
+                android:layout_alignTop="@+id/iv_center"
+                android:visibility="gone"
+                android:background="@color/red"/>
+
         </RelativeLayout>
 
     </LinearLayout>

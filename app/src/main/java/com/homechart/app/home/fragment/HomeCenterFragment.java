@@ -449,9 +449,13 @@ public class HomeCenterFragment
 
         int num_int = Integer.parseInt(num.trim());
         if (num_int == 0) {
+
+            ((HomeActivity)activity).visiableUnRedIcon(false);
             rl_unreader_msg_double.setVisibility(View.GONE);
             rl_unreader_msg_single.setVisibility(View.GONE);
         } else {
+
+            ((HomeActivity)activity).visiableUnRedIcon(true);
             if (num_int < 10) {
                 rl_unreader_msg_double.setVisibility(View.GONE);
                 rl_unreader_msg_single.setVisibility(View.VISIBLE);
@@ -490,6 +494,7 @@ public class HomeCenterFragment
             loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
             if (!loginStatus) {
                 ((HomeActivity) activity).backPic();
+                ((HomeActivity) activity).visiableUnRedIcon(false);
             }
         }else if (requestCode == 5 && resultCode == 5) {
             String item_id = data.getStringExtra("item_id");

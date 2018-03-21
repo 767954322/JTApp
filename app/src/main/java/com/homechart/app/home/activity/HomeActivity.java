@@ -36,6 +36,7 @@ import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.fragment.HomeCenterFragment;
 import com.homechart.app.home.fragment.HomeFaXianFragment;
 import com.homechart.app.home.fragment.HomePicFragment;
+import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.myview.SelectPicPopupWindow;
 import com.homechart.app.myview.UpApkPopupWindow;
 import com.homechart.app.upapk.BroadcastUtil;
@@ -105,6 +106,7 @@ public class HomeActivity
     //退出时的时间
     private long mExitTime;
     private LinearLayout rl_bottom_test;
+    private RoundImageView riv_unreader_msg;
 
     @Override
     protected int getLayoutResId() {
@@ -159,6 +161,8 @@ public class HomeActivity
         tv_faxian = (TextView) findViewById(R.id.tv_faxian);
         tv_shibie = (TextView) findViewById(R.id.tv_shibie);
         tv_center = (TextView) findViewById(R.id.tv_center);
+
+        riv_unreader_msg = (RoundImageView) findViewById(R.id.riv_unreader_msg);
     }
 
     @Override
@@ -622,6 +626,15 @@ public class HomeActivity
             rl_bottom_test.setVisibility(View.GONE);
         }else {
             rl_bottom_test.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+   public void visiableUnRedIcon(boolean bool){
+        if(bool){
+            riv_unreader_msg.setVisibility(View.VISIBLE);
+        }else {
+            riv_unreader_msg.setVisibility(View.GONE);
         }
     }
 
