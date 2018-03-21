@@ -561,6 +561,8 @@ public class NewImageDetaiScrollFragment
                             GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
                         }
                     }
+                    ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
+                            (ImageView) holder.getView(R.id.iv_header_pic));
                 } else {
                     if (mListData.get(position).getItem_info().getImage().getRatio() > 0.333) {
                         ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
@@ -575,6 +577,7 @@ public class NewImageDetaiScrollFragment
                         holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
                         GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
                     }
+                    GlideImgManager.glideLoader(activity, mListData.get(position).getUser_info().getAvatar().getBig(), R.color.white, R.color.white, (TopCropImageView) holder.getView(R.id.iv_header_pic), 0);
                 }
 
 //                if (PublicUtils.ifHasWriteQuan(activity)) {
