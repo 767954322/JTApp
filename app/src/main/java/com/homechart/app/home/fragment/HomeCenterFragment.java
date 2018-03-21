@@ -1,12 +1,17 @@
 package com.homechart.app.home.fragment;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -43,6 +48,7 @@ import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.imageloader.ImageUtils;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.homechart.app.visearch.PhotoActivity;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
@@ -548,24 +554,32 @@ public class HomeCenterFragment
 
     @Override
     public void paizhaoCaiJi() {
-        GalleryFinal.openCamera(33, new GalleryFinal.OnHanlderResultCallback() {
-            @Override
-            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
-                if (resultList != null && resultList.size() > 0) {
-                    Message message = new Message();
-                    message.arg1 = 2;
-                    message.obj = resultList.get(0).getPhotoPath().toString();
-                    handler.sendMessage(message);
-                } else {
-                    ToastUtils.showCenter(activity, "拍照资源获取失败");
+
+        if (ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.CAMERA) !=
+                PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity,
+                    new String[]{Manifest.permission.CAMERA}, 24);
+        } else {
+            GalleryFinal.openCamera(34, new GalleryFinal.OnHanlderResultCallback() {
+                @Override
+                public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+                    if (resultList != null && resultList.size() > 0) {
+                        Message message = new Message();
+                        message.arg1 = 2;
+                        message.obj = resultList.get(0).getPhotoPath().toString();
+                        handler.sendMessage(message);
+                    } else {
+                        ToastUtils.showCenter(activity, "拍照资源获取失败");
+                    }
                 }
-            }
 
-            @Override
-            public void onHanlderFailure(int requestCode, String errorMsg) {
+                @Override
+                public void onHanlderFailure(int requestCode, String errorMsg) {
 
-            }
-        });
+                }
+            });
+        }
     }
 
     @Override

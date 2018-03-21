@@ -524,6 +524,13 @@ public class HomeActivity
                     ToastUtils.showCenter(HomeActivity.this, "您没有授权该权限，请在设置中打开授权");
                 }
                 break;
+            case 24:
+                if (grantResults != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                   mHomeCenterFragment.paizhaoCaiJi();
+                } else {
+                    ToastUtils.showCenter(HomeActivity.this, "您没有授权该权限，请在设置中打开授权");
+                }
+                break;
         }
 
     }
