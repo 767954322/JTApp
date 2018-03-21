@@ -160,7 +160,11 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
 
                         mWeb.loadUrl(CaiJi.WEIXIN);
 
-                    } else {
+                    } else if(weburl.contains("www.shejiben.com")){
+
+                        mWeb.loadUrl(CaiJi.SHEJIBEN);
+
+                    }else {
 
                         mWeb.loadUrl(CaiJi.PUBLICK);
 
@@ -234,6 +238,9 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
             String[] imgs = imageUrl.split(",");
             ArrayList<String> imgUrlList = new ArrayList<>();
             for (String s : imgs) {
+                if(!s.contains("http:")){
+                    s = "http:" + s ;
+                }
                 imgUrlList.add(s);
             }
             if (imgUrlList.size() > 0) {
