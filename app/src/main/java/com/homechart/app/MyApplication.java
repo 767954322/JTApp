@@ -80,6 +80,7 @@ public class MyApplication extends MultiDexApplication {
                 .setMutiSelectMaxSize(1)
                 .setEnableEdit(true)
                 .setEnableCrop(false)
+                .setEnableRotate(true)
                 .setCropSquare(true).build();
         ImageLoader imageLoader = new UILImageLoader();
         CoreConfig coreConfig = new CoreConfig.Builder(this, imageLoader, themeConfig)
