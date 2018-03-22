@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.text.ClipboardManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -57,6 +58,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
@@ -107,7 +110,11 @@ public class HomeActivity
     private long mExitTime;
     private LinearLayout rl_bottom_test;
     private RoundImageView riv_unreader_msg;
-
+    private RelativeLayout rl_copy;
+    private TextView tv_url;
+    private ClipboardManager cm;
+    boolean ifHide = true;
+    private Timer timer_copy = new Timer(true);
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_home;
@@ -152,6 +159,9 @@ public class HomeActivity
         rl_btn_shibie = (RelativeLayout) findViewById(R.id.rl_btn_shibie);
         rl_btn_center = (RelativeLayout) findViewById(R.id.rl_btn_center);
 
+        rl_copy = (RelativeLayout) findViewById(R.id.rl_copy);
+        tv_url = (TextView) findViewById(R.id.tv_url);
+
         iv_pic = (ImageView) findViewById(R.id.iv_pic);
         iv_faxian = (ImageView) findViewById(R.id.iv_faxian);
         iv_shibie = (ImageView) findViewById(R.id.iv_shibie);
@@ -172,6 +182,7 @@ public class HomeActivity
         rl_btn_faxian.setOnClickListener(this);
         rl_btn_shibie.setOnClickListener(this);
         rl_btn_center.setOnClickListener(this);
+        rl_copy.setOnClickListener(this);
     }
 
     @SuppressLint("RestrictedApi")
@@ -329,11 +340,22 @@ public class HomeActivity
                     upApkPopupWindow.dismiss();
                 }
                 break;
+            case R.id.rl_copy:
+                rl_copy.setVisibility(View.GONE);
+                String urlWeb = cm.getText().toString().trim();
+                cm.setText("");
+                ifHide = true;
+                Intent intentcopy = new Intent(HomeActivity.this, MyWebViewActivity.class);
+                intentcopy.putExtra("weburl", urlWeb);
+                startActivity(intentcopy);
+                break;
         }
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+        cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         if (findViewById(R.id.main_content) != null) {
             if (null == mHomePicFragment) {
                 mHomePicFragment = new HomePicFragment(getSupportFragmentManager());
@@ -365,7 +387,69 @@ public class HomeActivity
             ActivityCompat.requestPermissions(HomeActivity.this, PERMISSIONS_STORAGE,
                     REQUEST_EXTERNAL_STORAGE);
         }
+        timer_copy.schedule(task_copy, 100, 500);
     }
+    //任务
+    private TimerTask task_copy = new TimerTask() {
+        public void run() {
+            try {
+                String textCopy = cm.getText().toString();
+                Message message = new Message();
+                message.obj = textCopy;
+                message.what = 1;
+                mHandler.sendMessage(message);
+            } catch (Exception e) {
+                rl_copy.setVisibility(View.GONE);
+            }
+        }
+    };
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            int code = msg.what;
+
+            switch (code) {
+                case 1:
+                    String textMsg = (String) msg.obj;
+                    if (!TextUtils.isEmpty(textMsg)) {
+                        if (PublicUtils.isValidUrl(textMsg)) {
+                            //显示
+                            rl_copy.setVisibility(View.VISIBLE);
+                            tv_url.setText(textMsg.trim());
+                            if (ifHide) {
+                                if(PublicUtils.isForeground(HomeActivity.this)){
+                                    ifHide = false;
+                                    mHandler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Message message = new Message();
+                                            message.what = 2;
+                                            mHandler.sendMessage(message);
+                                        }
+                                    },5000);
+                                }
+                            }
+                        } else {
+                            //不显示
+                            rl_copy.setVisibility(View.GONE);
+                        }
+                    } else {
+                        //不显示
+                        rl_copy.setVisibility(View.GONE);
+                        ifHide = true;
+                    }
+                    break;
+                case 2:
+                    cm.setText("");
+                    //不显示
+                    rl_copy.setVisibility(View.GONE);
+                    ifHide = true;
+                    break;
+            }
+
+        }
+    };
 
     //对返回键进行监听
     @Override

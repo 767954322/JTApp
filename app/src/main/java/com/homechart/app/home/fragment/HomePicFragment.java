@@ -273,7 +273,7 @@ public class HomePicFragment
             }
         }
         cm = (ClipboardManager) activity.getSystemService(activity.CLIPBOARD_SERVICE);
-        timer_copy.schedule(task_copy, 100, 500);
+//        timer_copy.schedule(task_copy, 100, 500);
 
     }
 

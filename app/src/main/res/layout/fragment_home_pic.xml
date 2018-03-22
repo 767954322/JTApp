@@ -48,7 +48,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="@dimen/font_15"
                 android:layout_marginRight="@dimen/font_15"
-                android:background="@drawable/bg_mywebview"
+                android:background="@drawable/bg_edittext_search"
                 android:drawableLeft="@drawable/fdj"
                 android:drawablePadding="@dimen/font_6"
                 android:gravity="center_vertical"
@@ -203,6 +203,7 @@
         android:id="@+id/rl_copy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:background="@drawable/back_copy"
         android:layout_alignParentBottom="true">
 
