@@ -5,8 +5,8 @@
 
     <com.homechart.app.myview.RoundJiaoImageView
         android:id="@+id/iv_linggan"
-        android:layout_width="@dimen/font_64"
-        android:layout_height="@dimen/font_64"
+        android:layout_width="@dimen/font_100"
+        android:layout_height="@dimen/font_100"
         android:layout_marginLeft="@dimen/font_15"
         android:layout_marginTop="@dimen/font_22"
         android:scaleType="centerCrop"/>
@@ -26,6 +26,7 @@
         android:paddingLeft="@dimen/font_10"
         android:paddingRight="@dimen/font_10"
         android:paddingTop="@dimen/font_5"
+        android:paddingBottom="@dimen/font_5"
         android:textColor="@color/bg_464646"
         android:textColorHint="@color/bg_b2b2b2"
         android:textCursorDrawable="@null"
