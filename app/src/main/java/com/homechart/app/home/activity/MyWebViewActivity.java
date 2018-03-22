@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.homechart.app.R;
 import com.homechart.app.commont.CaiJi;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
@@ -241,10 +242,12 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
             String[] imgs = imageUrl.split(",");
             ArrayList<String> imgUrlList = new ArrayList<>();
             for (String s : imgs) {
-                if(!s.contains("http:")){
-                    s = "http:" + s ;
-                }
-                imgUrlList.add(s);
+                    if(!s.contains("http")){
+                        s = "http:" + s ;
+                    }
+                    if(PublicUtils.isValidUrl(s)){
+                        imgUrlList.add(s);
+                    }
             }
             if (imgUrlList.size() > 0) {
 

@@ -100,7 +100,7 @@
             android:name=".home.activity.HomeActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="keyboardHidden|orientation|locale|layoutDirection"
-            android:launchMode="singleTop"
+            android:launchMode="standard"
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
