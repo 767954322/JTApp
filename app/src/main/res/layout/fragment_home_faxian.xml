@@ -18,7 +18,7 @@
         android:layout_marginLeft="@dimen/font_15"
         android:layout_marginRight="@dimen/font_15"
         android:layout_marginTop="@dimen/font_8"
-        android:background="@drawable/bg_edittext_search"
+        android:background="@drawable/bg_mywebview"
         android:drawableLeft="@drawable/fdj"
         android:drawablePadding="@dimen/font_6"
         android:gravity="center_vertical"

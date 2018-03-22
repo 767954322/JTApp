@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true"
+        android:background="@color/white"
         android:focusableInTouchMode="true">
 
         <ImageView
@@ -32,7 +33,7 @@
             android:layout_marginTop="@dimen/font_8"
             android:layout_toLeftOf="@+id/bt_caiji"
             android:layout_toRightOf="@+id/iv_quxiao"
-            android:background="@drawable/bg_edittext_search"
+            android:background="@drawable/bg_mywebview"
             android:drawablePadding="@dimen/font_3"
             android:ellipsize="end"
             android:gravity="center_vertical"
