@@ -314,6 +314,7 @@ public class PhotoActivity
                 intent1.putExtra("image_type", "location");
                 startActivity(intent1);
                 CustomProgress.cancelDialog();
+                photoManager.release();
                 PhotoActivity.this.finish();
 
             }
@@ -371,6 +372,7 @@ public class PhotoActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_back:
+                photoManager.release();
                 PhotoActivity.this.finish();
                 break;
             case R.id.iv_camera_shutter_button:
@@ -437,6 +439,7 @@ public class PhotoActivity
         intent1.putExtra("type", "location");
         intent1.putExtra("image_type", "location");
         startActivity(intent1);
+        photoManager.release();
         PhotoActivity.this.finish();
     }
 
@@ -454,6 +457,7 @@ public class PhotoActivity
                     intent1.putExtra("type", "location");
                     intent1.putExtra("image_type", "location");
                     startActivity(intent1);
+                    photoManager.release();
                     PhotoActivity.this.finish();
                     break;
                 case 1:
