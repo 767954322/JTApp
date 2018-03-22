@@ -175,13 +175,14 @@ public class FaBuImageActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        if (!TextUtils.isEmpty(type) && type.equals("location")) {
-            GlideImgManager.glideLoader(FaBuImageActivity.this, "file://" + image_url, R.color.white, R.color.white, mIVLingGan, 1);
-//            ImageUtils.displayFilletImage("file://"  + image_url, mIVLingGan);
-        } else {
-            GlideImgManager.glideLoader(FaBuImageActivity.this, image_url, R.color.white, R.color.white, mIVLingGan, 1);
-//            ImageUtils.displayFilletImage(image_url, mIVLingGan);
-        }
+//        if (!TextUtils.isEmpty(type) && type.equals("location")) {
+//            GlideImgManager.glideLoader(FaBuImageActivity.this, "file://" + image_url, R.color.white, R.color.white, mIVLingGan, 1);
+////            ImageUtils.displayFilletImage("file://"  + image_url, mIVLingGan);
+//        } else {
+//            GlideImgManager.glideLoader(FaBuImageActivity.this, image_url, R.color.white, R.color.white, mIVLingGan, 1);
+////            ImageUtils.displayFilletImage(image_url, mIVLingGan);
+//        }
+        ImageUtils.displayFilletImage(image_url, mIVLingGan);
         buildRecyclerView();
 
         if (tags != null && tags.size() > 0) {
@@ -376,11 +377,11 @@ public class FaBuImageActivity
                         CustomProgress.cancelDialog();
                         ToastUtils.showCenter(FaBuImageActivity.this, "发布成功");
                         JSONObject jsonObject1 = new JSONObject(data_msg);
-                        JSONObject item_info =  jsonObject1.getJSONObject("item_info");
+                        JSONObject item_info = jsonObject1.getJSONObject("item_info");
                         String item_id = item_info.getString("item_id");
                         Intent intent = new Intent();
-                        intent.putExtra("item_id",item_id);
-                        setResult(5,intent);
+                        intent.putExtra("item_id", item_id);
+                        setResult(5, intent);
                         FaBuImageActivity.this.finish();
                     } else {
                         CustomProgress.cancelDialog();

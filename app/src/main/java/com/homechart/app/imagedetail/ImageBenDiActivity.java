@@ -188,7 +188,9 @@ public class ImageBenDiActivity
             JSONObject jsonObject = new JSONObject(result);
             JSONObject jsonObject1 = jsonObject.getJSONObject("data");
             String image_id = jsonObject1.getString("immage_id");
-            getDefaultTag(image_id, "");
+            JSONObject imageJSONObject = jsonObject1.getJSONObject("image");
+            String img0 = imageJSONObject.getString("img0");
+            getDefaultTag(image_id, "",img0);
         } catch (JSONException e) {
             e.printStackTrace();
             CustomProgressTouMing.cancelDialog();
@@ -204,7 +206,7 @@ public class ImageBenDiActivity
         ImageBenDiActivity.this.finish();
     }
 
-    private void getDefaultTag(final String image_id, final String url) {
+    private void getDefaultTag(final String image_id, final String url, final String img0) {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
@@ -232,7 +234,7 @@ public class ImageBenDiActivity
                         }
                         Intent intent = new Intent(ImageBenDiActivity.this, FaBuImageActivity.class);
                         intent.putExtra("image_id", image_id);
-                        intent.putExtra("image_url", imageLists.get(0));
+                        intent.putExtra("image_url", img0);
                         intent.putExtra("tags", (Serializable) list);
                         intent.putExtra("webUrl", "");
                         intent.putExtra("type", "location");

@@ -182,7 +182,9 @@ public class CaiJiImgListActivity
                         try {
                             JSONObject jsonObject1 = new JSONObject(data_msg);
                             String image_id = jsonObject1.getString("image_id");
-                            getDefaultTag(image_id, url);
+                            JSONObject imageJSONObject = jsonObject1.getJSONObject("image");
+                            String img0 = imageJSONObject.getString("img0");
+                            getDefaultTag(image_id, url,img0);
                         } catch (Exception e) {
                             ToastUtils.showCenter(CaiJiImgListActivity.this, "图片上传失败,请重新上传");
                         }
@@ -202,7 +204,7 @@ public class CaiJiImgListActivity
 
     }
 
-    private void getDefaultTag(final String image_id, final String url) {
+    private void getDefaultTag(final String image_id, final String url, final String img0) {
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
@@ -229,7 +231,7 @@ public class CaiJiImgListActivity
                         }
                         Intent intent = new Intent(CaiJiImgListActivity.this, FaBuImageActivity.class);
                         intent.putExtra("image_id", image_id);
-                        intent.putExtra("image_url", url);
+                        intent.putExtra("image_url", img0);
                         intent.putExtra("tags", (Serializable) list);
                         intent.putExtra("webUrl", mWebUrl);
                         CustomProgressTouMing.cancelDialog();
