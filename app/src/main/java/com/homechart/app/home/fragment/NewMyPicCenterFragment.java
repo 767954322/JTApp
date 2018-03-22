@@ -23,6 +23,7 @@ import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.activity.HomeActivity;
+import com.homechart.app.home.activity.MyWebViewActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
 import com.homechart.app.imagedetail.ImageBenDiActivity;
@@ -285,6 +286,13 @@ public class NewMyPicCenterFragment
 
             }
         });
+    }
+
+    @Override
+    public void wangzhiCaiJi() {
+        Intent intent = new Intent(activity, MyWebViewActivity.class);
+        intent.putExtra("weburl", "");
+        startActivityForResult(intent,5);
     }
 
     Handler handler = new Handler() {

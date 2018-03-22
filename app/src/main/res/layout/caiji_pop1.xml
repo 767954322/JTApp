@@ -53,8 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/rl_xiangce"
-            android:paddingBottom="@dimen/font_6">
+            android:layout_below="@+id/rl_xiangce">
 
             <ImageView
                 android:id="@+id/iv_paizhao"
@@ -73,6 +72,34 @@
                 android:layout_marginLeft="@dimen/font_22"
                 android:layout_toRightOf="@+id/iv_paizhao"
                 android:text="拍照上传图片"
+                android:textColor="@color/bg_464646"
+                android:textSize="@dimen/size_14" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_caiji"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_paizhao"
+            android:paddingBottom="@dimen/font_6">
+
+            <ImageView
+                android:id="@+id/iv_icon_caiji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:paddingTop="@dimen/font_21"
+                android:paddingBottom="@dimen/font_21"
+                android:layout_marginLeft="@dimen/font_30"
+                android:src="@drawable/lianjie1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/font_22"
+                android:layout_toRightOf="@+id/iv_icon_caiji"
+                android:text="网址采集图片"
                 android:textColor="@color/bg_464646"
                 android:textSize="@dimen/size_14" />
 

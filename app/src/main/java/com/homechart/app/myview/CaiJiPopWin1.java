@@ -12,6 +12,7 @@ import com.homechart.app.R;
 public class CaiJiPopWin1
         extends PopupWindow {
 
+    private RelativeLayout rl_caiji;
     private RelativeLayout rl_xiangce;
     private RelativeLayout rl_paizhao;
     private final View view_top;
@@ -28,6 +29,7 @@ public class CaiJiPopWin1
         view_top = view.findViewById(R.id.view_top);
         rl_xiangce = (RelativeLayout) view.findViewById(R.id.rl_xiangce);
         rl_paizhao = (RelativeLayout) view.findViewById(R.id.rl_paizhao);
+        rl_caiji = (RelativeLayout) view.findViewById(R.id.rl_caiji);
 
         view_top.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +53,14 @@ public class CaiJiPopWin1
                 mClickInter.paizhaoCaiJi();
             }
         });
+        rl_caiji.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                CaiJiPopWin1.this.dismiss();
+                mClickInter.wangzhiCaiJi();
+            }
+        });
         // 设置外部可点击
         this.setOutsideTouchable(false);
         // 设置视图
@@ -71,6 +81,7 @@ public class CaiJiPopWin1
 
         void xiangceCaiJi();
         void paizhaoCaiJi();
+        void wangzhiCaiJi();
 
     }
 
