@@ -27,6 +27,7 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.commont.KeybordS;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.hotwords.HotWordsBean;
@@ -254,6 +255,7 @@ public class SearchActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_quxiao:
+                KeybordS.closeKeybord(cet_clearedit,SearchActivity.this);
                 SearchActivity.this.finish();
                 break;
             case R.id.iv_delete_hostory:
