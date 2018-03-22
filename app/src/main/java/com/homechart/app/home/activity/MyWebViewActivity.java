@@ -280,14 +280,18 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // TODO Auto-generated method stub
-        if (keyCode == KeyEvent.KEYCODE_BACK && mWeb.canGoBack()) {
-            mWeb.goBack();
-//            mWeb.goForward();
-            return true;
-        } else {
-            MyWebViewActivity.this.finish();
+
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+
+            if(mWeb.canGoBack()){
+                mWeb.goBack();
+                return true;
+            }else {
+                MyWebViewActivity.this.finish();
+            }
+
         }
+
         return true;
     }
 
