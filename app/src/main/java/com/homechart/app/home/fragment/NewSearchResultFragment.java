@@ -27,9 +27,11 @@ import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.commont.KeybordS;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.ImageDetailScrollActivity;
 import com.homechart.app.home.activity.LoginActivity;
+import com.homechart.app.home.activity.SearchActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.search.SearchDataBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
@@ -175,6 +177,7 @@ public class NewSearchResultFragment
 
         switch (v.getId()) {
             case R.id.tv_quxiao:
+                KeybordS.closeKeybord(cet_clearedit,activity);
                 fragmentManager.popBackStack();
                 break;
         }
