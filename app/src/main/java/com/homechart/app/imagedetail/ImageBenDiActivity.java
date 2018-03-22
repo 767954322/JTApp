@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -314,10 +315,13 @@ public class ImageBenDiActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String item_id = data.getStringExtra("item_id");
-        Intent intent = new Intent();
-        intent.putExtra("item_id",item_id);
-        setResult(5,intent);
+
+        if(data != null && !TextUtils.isEmpty(data.getStringExtra("item_id"))){
+            String item_id = data.getStringExtra("item_id");
+            Intent intent = new Intent();
+            intent.putExtra("item_id",item_id);
+            setResult(5,intent);
+        }
         ImageBenDiActivity.this.finish();
 
     }
