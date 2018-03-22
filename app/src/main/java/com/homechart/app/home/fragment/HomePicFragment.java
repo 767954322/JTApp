@@ -464,7 +464,7 @@ public class HomePicFragment
             String item_id = data.getStringExtra("item_id");
             List<String> item_id_list = new ArrayList<>();
             item_id_list.add(item_id);
-            NewImageDetailsFragment newImageDetailsFragment = new NewImageDetailsFragment(fragmentManager);
+            NewImageDetailsFragment newImageDetailsFragment = new NewImageDetailsFragment(getChildFragmentManager());
             Bundle bundle = new Bundle();
             bundle.putSerializable("item_id", item_id);
             bundle.putInt("position", 0);
