@@ -161,9 +161,11 @@
                 android:inputType="text"
                 android:paddingLeft="@dimen/font_5"
                 android:gravity="center_vertical"
+                android:textColorHint="@color/bg_b2b2b2"
                 android:lines="1"
                 android:maxLength="6"
-                android:textColor="@color/bg_8f8f8f"
+                android:textCursorDrawable="@drawable/edit_cursor_color"
+                android:textColor="@color/bg_262626"
                 android:textSize="@dimen/size_14" />
 
             <View
