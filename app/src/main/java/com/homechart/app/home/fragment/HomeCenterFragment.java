@@ -554,6 +554,17 @@ public class HomeCenterFragment
     @Override
     public void xiangceCaiJi() {
 
+        //友盟统计
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("evenname", "相册发布");
+        map.put("even", "相册发布-我的");
+        MobclickAgent.onEvent(activity, "shijian53", map);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("相册发布-我的")  //事件类别
+                .setAction("相册发布")      //事件操作
+                .build());
+
         GalleryFinal.openGallerySingle(33, new GalleryFinal.OnHanlderResultCallback() {
             @Override
             public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
@@ -575,6 +586,18 @@ public class HomeCenterFragment
 
     @Override
     public void paizhaoCaiJi() {
+
+
+        //友盟统计
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("evenname", "拍照发布");
+        map.put("even", "拍照发布-我的");
+        MobclickAgent.onEvent(activity, "shijian55", map);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("拍照发布-我的")  //事件类别
+                .setAction("拍照发布")      //事件操作
+                .build());
 
         if (ContextCompat.checkSelfPermission(activity,
                 Manifest.permission.CAMERA) !=
@@ -606,6 +629,16 @@ public class HomeCenterFragment
     @Override
     public void wangzhiCaiJi() {
 
+        //友盟统计
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("evenname", "采集");
+        map.put("even", "采集-我的");
+        MobclickAgent.onEvent(activity, "shijian54", map);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("采集-我的")  //事件类别
+                .setAction("采集")      //事件操作
+                .build());
         Intent intent = new Intent(activity, MyWebViewActivity.class);
         intent.putExtra("weburl", "");
         startActivity(intent);

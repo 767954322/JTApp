@@ -434,7 +434,7 @@ public class SearchActivity
         if (TextUtils.isEmpty(searchContext.trim())) {
             ToastUtils.showCenter(this, "请输入搜索内容");
         } else {
-            PublicUtils.saveSearchHostory(searchContext.trim());
+            PublicUtils.replaceSearchHostory(searchContext.trim());
             Intent intent = new Intent();
             intent.putExtra("search_info", searchContext);
             intent.putExtra("search_tag", "");
