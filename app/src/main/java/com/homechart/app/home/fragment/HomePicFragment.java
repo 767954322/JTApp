@@ -402,13 +402,13 @@ public class HomePicFragment
                 if (!loginStatus) {
                     //友盟统计
                     HashMap<String, String> map4 = new HashMap<String, String>();
-                    map4.put("evenname", "登录入口");
-                    map4.put("even", "首页订阅标签入口");
-                    MobclickAgent.onEvent(activity, "shijian20", map4);
+                    map4.put("evenname", "首页定制");
+                    map4.put("even", "首页定制");
+                    MobclickAgent.onEvent(activity, "shijian63", map4);
                     //ga统计
                     MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                            .setCategory("首页订阅标签入口")  //事件类别
-                            .setAction("登录入口")      //事件操作
+                            .setCategory("首页定制")  //事件类别
+                            .setAction("首页定制")      //事件操作
                             .build());
                     Intent intent1 = new Intent(activity, LoginActivity.class);
                     startActivityForResult(intent1, 13);
