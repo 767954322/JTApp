@@ -206,7 +206,11 @@ public class MediaManager implements SurfaceHolder.Callback {
                 }
                 bitmap.recycle();
                 bitmap = null;
-                camera.startPreview();
+                try {
+                    camera.startPreview();
+                }catch (Exception e){
+
+                }
             }
         });
     }
