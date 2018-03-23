@@ -822,10 +822,11 @@ public class HomeFaXianFragment
             String search_tag = data.getStringExtra("search_tag");
             String search_info = data.getStringExtra("search_info");
 
-            NewSearchResultFragment newSearchResultFragment = new NewSearchResultFragment(getChildFragmentManager(), search_tag, search_info);
+            NewSearchDataFragment newSearchResultFragment = new NewSearchDataFragment(getChildFragmentManager(), search_tag, search_info);
             Bundle bundle = new Bundle();
             bundle.putString("search_tag", search_tag);
             bundle.putString("search_info", search_info);
+            bundle.putString("type", "image");
             newSearchResultFragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.id_main, newSearchResultFragment);
@@ -880,10 +881,11 @@ public class HomeFaXianFragment
 
             String search_tag = data.getStringExtra("search_tag");
             String search_info = data.getStringExtra("search_info");
-            NewSearchAblumResultFragment newSearchResultFragment = new NewSearchAblumResultFragment(getChildFragmentManager(), search_tag, search_info);
+            NewSearchDataFragment newSearchResultFragment = new NewSearchDataFragment(getChildFragmentManager(), search_tag, search_info);
             Bundle bundle = new Bundle();
             bundle.putString("search_tag", search_tag);
             bundle.putString("search_info", search_info);
+            bundle.putString("type", "album");
             newSearchResultFragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.id_main, newSearchResultFragment);

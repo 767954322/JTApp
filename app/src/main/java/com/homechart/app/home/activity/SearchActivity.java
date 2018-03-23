@@ -577,7 +577,11 @@ public class SearchActivity
             RemindBean remindBean = GsonUtil.jsonToBean(dataStr, RemindBean.class);
             if (null != remindBean && remindBean.getKw().trim().equals(mSearchStr)) {
                 mRemindBean = remindBean;
-                changeSearchUI(remindBean);
+                try {
+                    changeSearchUI(remindBean);
+                }catch (Exception e){
+                   Log.d("test","崩了");
+                }
             }
         }
     };
