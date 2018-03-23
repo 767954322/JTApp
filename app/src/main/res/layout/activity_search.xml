@@ -150,6 +150,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <com.homechart.app.myview.MyListView
+                    android:id="@+id/lv_result_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@null"
+                    android:visibility="gone" />
+
                 <TextView
                     android:id="@+id/tv_result_pic_tital"
                     android:layout_width="wrap_content"
@@ -157,6 +164,7 @@
                     android:layout_marginBottom="@dimen/font_15"
                     android:layout_marginLeft="@dimen/font_15"
                     android:layout_marginTop="@dimen/font_20"
+                    android:layout_below="@+id/lv_result_list"
                     android:text="图片"
                     android:textColor="@color/bg_8f8f8f"
                     android:textSize="@dimen/size_12" />
@@ -170,19 +178,11 @@
                     android:layout_marginRight="@dimen/font_15"
                     android:background="@color/view_line" />
 
-                <com.homechart.app.myview.MyListView
-                    android:id="@+id/lv_result_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/view_result_list"
-                    android:divider="@null"
-                    android:visibility="gone" />
-
                 <RelativeLayout
                     android:id="@+id/rl_pic_all"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/lv_result_list"
+                    android:layout_below="@+id/view_result_list"
                     android:layout_marginLeft="@dimen/font_15"
                     android:layout_marginRight="@dimen/font_15"
                     android:layout_marginTop="@dimen/font_10"

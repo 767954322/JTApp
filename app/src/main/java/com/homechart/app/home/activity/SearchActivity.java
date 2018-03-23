@@ -71,6 +71,8 @@ public class SearchActivity
     private View view_below_pics;
     private RelativeLayout rl_more_pic;
     private RelativeLayout rl_more_ling;
+    private TextView tv_result_pic_tital;
+    private View view_result_list;
 
     @Override
     protected int getLayoutResId() {
@@ -124,6 +126,8 @@ public class SearchActivity
         iv_pic_two = (RoundJiaoImageView) findViewById(R.id.iv_pic_two);
         iv_pic_three = (RoundJiaoImageView) findViewById(R.id.iv_pic_three);
         view_below_pics = findViewById(R.id.view_below_pics);
+        tv_result_pic_tital = (TextView)findViewById(R.id.tv_result_pic_tital);
+        view_result_list = findViewById(R.id.view_result_list);
 
     }
 
@@ -509,6 +513,8 @@ public class SearchActivity
 //        String urlTest = "https://t12.baidu.com/it/u=1107254696,794684901&fm=173&app=25&f=JPEG?w=500&h=333&s=6F00498B417183D45659AC170300E0C3";
         //图片提示
         if (null != remindBean.getItem_list() && remindBean.getItem_list().size() > 0) {
+            tv_result_pic_tital.setVisibility(View.VISIBLE);
+            view_result_list.setVisibility(View.VISIBLE);
             if (remindBean.getItem_list().size() == 1) {
 //                GlideImgManager.glideLoader(SearchActivity.this, urlTest, R.color.white, R.color.white, iv_pic_one);
                 GlideImgManager.glideLoader(SearchActivity.this, remindBean.getItem_list().get(0).getItem_info().getImage_url(), R.color.white, R.color.white, iv_pic_one);
@@ -537,6 +543,8 @@ public class SearchActivity
             rl_pic_all.setVisibility(View.VISIBLE);
             view_below_pics.setVisibility(View.VISIBLE);
         } else {
+            tv_result_pic_tital.setVisibility(View.GONE);
+            view_result_list.setVisibility(View.GONE);
             rl_pic_all.setVisibility(View.GONE);
             view_below_pics.setVisibility(View.GONE);
         }
