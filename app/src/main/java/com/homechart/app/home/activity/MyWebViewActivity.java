@@ -105,7 +105,14 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
             tv_textview1.setVisibility(View.GONE);
             tv_textview2.setVisibility(View.GONE);
             mWeb.setVisibility(View.VISIBLE);
-            if (!weburl.contains("http")) {
+
+            String str = "123456";
+            str = str.substring(0,4);
+
+            if (!weburl.trim().substring(0, 4).contains("http")) {
+                if (!weburl.trim().substring(0, 4).contains("www.")) {
+                    weburl = "www." + weburl;
+                }
                 weburl = "http://" + weburl;
             }
             mWeb.loadUrl(weburl);
@@ -164,11 +171,11 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
 
                         mWeb.loadUrl(CaiJi.WEIXIN);
 
-                    } else if(weburl.contains("www.shejiben.com")){
+                    } else if (weburl.contains("www.shejiben.com")) {
 
                         mWeb.loadUrl(CaiJi.SHEJIBEN);
 
-                    }else {
+                    } else {
 
                         mWeb.loadUrl(CaiJi.PUBLICK);
 
@@ -237,7 +244,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void changeUi(String url) {
-        if(!TextUtils.isEmpty(url)){
+        if (!TextUtils.isEmpty(url)) {
             cet_clearedit.setText(url);
         }
     }
@@ -249,12 +256,12 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
             String[] imgs = imageUrl.split(",");
             ArrayList<String> imgUrlList = new ArrayList<>();
             for (String s : imgs) {
-                    if(!s.contains("http")){
-                        s = "http:" + s ;
-                    }
-                    if(PublicUtils.isValidUrl(s)){
-                        imgUrlList.add(s);
-                    }
+                if (!s.contains("http")) {
+                    s = "http:" + s;
+                }
+                if (PublicUtils.isValidUrl(s)) {
+                    imgUrlList.add(s);
+                }
             }
             if (imgUrlList.size() > 0) {
 
@@ -291,12 +298,12 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        if(keyCode == KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
 
-            if(mWeb.canGoBack()){
+            if (mWeb.canGoBack()) {
                 mWeb.goBack();
                 return true;
-            }else {
+            } else {
                 MyWebViewActivity.this.finish();
             }
 
