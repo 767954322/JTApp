@@ -221,6 +221,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
             public void onPageFinished(WebView view, String url) {
                 //网页加载完成 走JS代码
                 pageTitle = view.getTitle();
+                changeUi(url);
 //                clickImage();
                 super.onPageFinished(view, url);
 
@@ -233,6 +234,12 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
             }
         });
         mWeb.addJavascriptInterface(new JavascriptInterface(), "imageListener");
+    }
+
+    private void changeUi(String url) {
+        if(!TextUtils.isEmpty(url)){
+            cet_clearedit.setText(url);
+        }
     }
 
     public class JavascriptInterface {
