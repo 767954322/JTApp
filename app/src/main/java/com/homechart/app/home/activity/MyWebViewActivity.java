@@ -107,7 +107,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
             mWeb.setVisibility(View.VISIBLE);
 
             String str = "123456";
-            str = str.substring(0,4);
+            str = str.substring(0, 4);
 
             if (!weburl.trim().substring(0, 4).contains("http")) {
                 if (!weburl.trim().substring(0, 4).contains("www.")) {
@@ -252,15 +252,28 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
     public class JavascriptInterface {
         @android.webkit.JavascriptInterface
         public void openImage(String imageUrl, String img) {
-            int position = 0;
-            String[] imgs = imageUrl.split(",");
-            ArrayList<String> imgUrlList = new ArrayList<>();
-            for (String s : imgs) {
-                if (!s.contains("http")) {
-                    s = "http:" + s;
+            ArrayList<String> imgUrlList;
+            if (cet_clearedit.getText().toString().contains("mp.weixin.qq.com")) {
+                String[] imgs = imageUrl.split("http");
+                imgUrlList = new ArrayList<>();
+                for (String s : imgs) {
+                    if (!TextUtils.isEmpty(s)) {
+                        s = "http" + s;
+                        if (PublicUtils.isValidUrl(s)) {
+                            imgUrlList.add(s);
+                        }
+                    }
                 }
-                if (PublicUtils.isValidUrl(s)) {
-                    imgUrlList.add(s);
+            } else {
+                String[] imgs = imageUrl.split(",");
+                imgUrlList = new ArrayList<>();
+                for (String s : imgs) {
+                    if (!s.contains("http")) {
+                        s = "http:" + s;
+                    }
+                    if (s.length() > 5 && PublicUtils.isValidUrl(s) && !s.substring(s.length() - 3, s.length()).equalsIgnoreCase("gif")) {
+                        imgUrlList.add(s);
+                    }
                 }
             }
             if (imgUrlList.size() > 0) {
@@ -270,7 +283,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
                     ToastUtils.showCenter(MyWebViewActivity.this, "未采集到图片信息");
                 } else {
                     Intent intent = new Intent(MyWebViewActivity.this, CaiJiImgListActivity.class);
-                    intent.putExtra("number", position);
+                    intent.putExtra("number", 0);
                     intent.putExtra("pic_url_list", (Serializable) imgUrlList);
                     intent.putExtra("title", pageTitle);
                     intent.putExtra("webUrl", cet_clearedit.getText().toString());

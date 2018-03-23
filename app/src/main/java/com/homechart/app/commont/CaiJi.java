@@ -28,7 +28,7 @@ public class CaiJi {
             "var isShow = true;" +
             "for(var i=0;i<objs.length;i++){" +
             "if(objs[i].width>80){" +
-            "imgUrl += objs[i].getAttribute('data-src')?objs[i].getAttribute('data-src'):objs[i].src + ',';isShow = true;" +
+            "imgUrl += objs[i].getAttribute('data-src')?objs[i].getAttribute('data-src'):objs[i].src + '';isShow = true;" +
             "}" +
             "}" +
             "window.imageListener.openImage(imgUrl,'');" +
