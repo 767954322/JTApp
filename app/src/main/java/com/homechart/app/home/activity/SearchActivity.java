@@ -263,12 +263,33 @@ public class SearchActivity
                 SearchActivity.this.finish();
                 break;
             case R.id.iv_delete_hostory:
+                //友盟统计
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("evenname", "搜索历史清空");
+                map.put("even", "搜索历史清空");
+                MobclickAgent.onEvent(SearchActivity.this, "shijian57", map);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("搜索历史清空")  //事件类别
+                        .setAction("搜索历史清空")      //事件操作
+                        .build());
                 SharedPreferencesUtils.writeString(ClassConstant.SearchHestory.HESTORY_SEARCH, "");
                 rl_search_hostory.setVisibility(View.GONE);
                 lv_hostory_list.setVisibility(View.GONE);
                 ToastUtils.showCenter(SearchActivity.this, "已清空");
                 break;
             case R.id.iv_pic_one:
+
+                //友盟统计
+                HashMap<String, String> map4 = new HashMap<String, String>();
+                map4.put("evenname", "搜索前三图点击");
+                map4.put("even", "搜索前三图点击");
+                MobclickAgent.onEvent(SearchActivity.this, "shijian61", map4);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("搜索前三图点击")  //事件类别
+                        .setAction("搜索前三图点击")      //事件操作
+                        .build());
 
                 if (null != mRemindBean && null != mRemindBean.getItem_list() && mRemindBean.getItem_list().size() > 0) {
                     if(!TextUtils.isEmpty(cet_clearedit.getText().toString().trim())){
@@ -281,6 +302,17 @@ public class SearchActivity
                 }
                 break;
             case R.id.iv_pic_two:
+
+                //友盟统计
+                HashMap<String, String> map5 = new HashMap<String, String>();
+                map5.put("evenname", "搜索前三图点击");
+                map5.put("even", "搜索前三图点击");
+                MobclickAgent.onEvent(SearchActivity.this, "shijian61", map5);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("搜索前三图点击")  //事件类别
+                        .setAction("搜索前三图点击")      //事件操作
+                        .build());
                 if (null != mRemindBean && null != mRemindBean.getItem_list() && mRemindBean.getItem_list().size() > 1) {
                     if(!TextUtils.isEmpty(cet_clearedit.getText().toString().trim())){
                         PublicUtils.replaceSearchHostory(cet_clearedit.getText().toString());
@@ -292,6 +324,17 @@ public class SearchActivity
                 }
                 break;
             case R.id.iv_pic_three:
+
+                //友盟统计
+                HashMap<String, String> map6 = new HashMap<String, String>();
+                map6.put("evenname", "搜索前三图点击");
+                map6.put("even", "搜索前三图点击");
+                MobclickAgent.onEvent(SearchActivity.this, "shijian61", map6);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("搜索前三图点击")  //事件类别
+                        .setAction("搜索前三图点击")      //事件操作
+                        .build());
                 if (null != mRemindBean && null != mRemindBean.getItem_list() && mRemindBean.getItem_list().size() > 2) {
                     if(!TextUtils.isEmpty(cet_clearedit.getText().toString().trim())){
                         PublicUtils.replaceSearchHostory(cet_clearedit.getText().toString());
@@ -304,6 +347,17 @@ public class SearchActivity
                 break;
             case R.id.rl_more_pic:
 
+                //友盟统计
+                HashMap<String, String> map1 = new HashMap<String, String>();
+                map1.put("evenname", "更多图片搜索");
+                map1.put("even", "更多图片搜索");
+                MobclickAgent.onEvent(SearchActivity.this, "shijian58", map1);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("更多图片搜索")  //事件类别
+                        .setAction("更多图片搜索")      //事件操作
+                        .build());
+
                 if(!TextUtils.isEmpty(cet_clearedit.getText().toString().trim())){
                     PublicUtils.replaceSearchHostory(cet_clearedit.getText().toString().trim());
                     Intent intent = new Intent();
@@ -314,6 +368,17 @@ public class SearchActivity
                 }
                 break;
             case R.id.rl_images_one:
+
+                //友盟统计
+                HashMap<String, String> map2 = new HashMap<String, String>();
+                map2.put("evenname", "搜索前三灵感辑点击");
+                map2.put("even", "搜索前三灵感辑点击");
+                MobclickAgent.onEvent(SearchActivity.this, "shijian60", map2);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("搜索前三灵感辑点击")  //事件类别
+                        .setAction("搜索前三灵感辑点击")      //事件操作
+                        .build());
 
                 if (null != mRemindBean && null != mRemindBean.getAlbum_list() && mRemindBean.getAlbum_list().size() > 0) {
                     if(!TextUtils.isEmpty(cet_clearedit.getText().toString().trim())){
@@ -327,6 +392,17 @@ public class SearchActivity
                 break;
             case R.id.rl_images_two:
 
+                //友盟统计
+                HashMap<String, String> map3 = new HashMap<String, String>();
+                map3.put("evenname", "搜索前三灵感辑点击");
+                map3.put("even", "搜索前三灵感辑点击");
+                MobclickAgent.onEvent(SearchActivity.this, "shijian60", map3);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("搜索前三灵感辑点击")  //事件类别
+                        .setAction("搜索前三灵感辑点击")      //事件操作
+                        .build());
+
                 if (null != mRemindBean && null != mRemindBean.getAlbum_list() && mRemindBean.getAlbum_list().size() > 1) {
                     if(!TextUtils.isEmpty(cet_clearedit.getText().toString().trim())){
                         PublicUtils.replaceSearchHostory(cet_clearedit.getText().toString());
@@ -339,6 +415,16 @@ public class SearchActivity
                 break;
             case R.id.rl_images_three:
 
+                //友盟统计
+                HashMap<String, String> map8 = new HashMap<String, String>();
+                map8.put("evenname", "搜索前三灵感辑点击");
+                map8.put("even", "搜索前三灵感辑点击");
+                MobclickAgent.onEvent(SearchActivity.this, "shijian60", map8);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("搜索前三灵感辑点击")  //事件类别
+                        .setAction("搜索前三灵感辑点击")      //事件操作
+                        .build());
                 if (null != mRemindBean && null != mRemindBean.getAlbum_list() && mRemindBean.getAlbum_list().size() > 2) {
                     if(!TextUtils.isEmpty(cet_clearedit.getText().toString().trim())){
                         PublicUtils.replaceSearchHostory(cet_clearedit.getText().toString());
@@ -351,6 +437,16 @@ public class SearchActivity
                 break;
             case R.id.rl_more_ling:
 
+                //友盟统计
+                HashMap<String, String> map7 = new HashMap<String, String>();
+                map7.put("evenname", "更多灵感辑搜索");
+                map7.put("even", "更多灵感辑搜索");
+                MobclickAgent.onEvent(SearchActivity.this, "shijian59", map7);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("更多灵感辑搜索")  //事件类别
+                        .setAction("更多灵感辑搜索")      //事件操作
+                        .build());
                 if(!TextUtils.isEmpty(cet_clearedit.getText().toString().trim())){
                     PublicUtils.replaceSearchHostory(cet_clearedit.getText().toString().trim());
                     Intent intent = new Intent();
@@ -461,6 +557,7 @@ public class SearchActivity
             his_flowLayout.setOnTagClickListener(new FlowLayoutSearch.OnTagClickListener() {
                 @Override
                 public void TagClick(String text) {
+                    PublicUtils.replaceSearchHostory(text.trim());
                     Intent intent = new Intent();
                     intent.putExtra("search_tag", text);
                     intent.putExtra("search_info", "");
@@ -732,6 +829,7 @@ public class SearchActivity
         super.onResume();
 
         MobclickAgent.onResume(this);
+        MobclickAgent.onPageEnd("搜索页");
     }
 
 
@@ -740,6 +838,7 @@ public class SearchActivity
         super.onPause();
 
         MobclickAgent.onPause(this);
+        MobclickAgent.onPageStart("搜索页");
     }
 
 
@@ -785,6 +884,17 @@ public class SearchActivity
             myHolder.rl_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //友盟统计
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put("evenname", "搜索历史点击");
+                    map.put("even", "搜索历史点击");
+                    MobclickAgent.onEvent(SearchActivity.this, "shijian56", map);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("搜索历史点击")  //事件类别
+                            .setAction("搜索历史点击")      //事件操作
+                            .build());
+
                     PublicUtils.replaceSearchHostory(list.get(position));
                     Intent intent = new Intent();
                     intent.putExtra("search_info", list.get(position));
@@ -887,6 +997,17 @@ public class SearchActivity
             myPicTagsHolder.rl_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    //友盟统计
+                    HashMap<String, String> map7 = new HashMap<String, String>();
+                    map7.put("evenname", "联想词点击");
+                    map7.put("even", "联想词点击");
+                    MobclickAgent.onEvent(SearchActivity.this, "shijian62", map7);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("联想词点击")  //事件类别
+                            .setAction("联想词点击")      //事件操作
+                            .build());
                     PublicUtils.replaceSearchHostory(list.get(position));
                     Intent intent = new Intent();
                     intent.putExtra("search_info", list.get(position));

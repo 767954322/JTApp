@@ -43,7 +43,7 @@
                     android:layout_marginTop="@dimen/font_5"
                     android:layout_toRightOf="@+id/iv_image_fabu"
                     android:background="@null"
-                    android:hint="请输出你的故事（必选项）"
+                    android:hint="说出你的故事"
                     android:textColorHint="@color/bg_8f8f8f"
                     android:textCursorDrawable="@null"
                     android:textSize="@dimen/font_14" />
@@ -77,7 +77,7 @@
                 android:layout_marginTop="@dimen/size_20"
                 android:layout_toRightOf="@+id/tv_tag_tital"
                 android:paddingRight="@dimen/size_7"
-                android:text="(必选项)"
+                android:text=""
                 android:textColor="@color/bg_8f8f8f"
                 android:textSize="@dimen/size_14" />
 
