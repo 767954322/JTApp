@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true">
+
+
+    <RelativeLayout
+        android:id="@+id/rl_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/font_16"
+        android:background="@color/white"
+        android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/tv_quxiao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:paddingLeft="@dimen/font_10"
+            android:paddingRight="@dimen/font_12"
+            android:text="取消"
+            android:textColor="@color/bg_464646"
+            android:textSize="@dimen/size_14" />
+
+        <com.homechart.app.myview.ClearEditText
+            android:id="@+id/cet_clearedit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/font_27"
+            android:layout_marginLeft="@dimen/font_15"
+            android:layout_toLeftOf="@+id/tv_quxiao"
+            android:background="@drawable/bg_edittext_search"
+            android:drawableLeft="@drawable/fdj"
+            android:drawablePadding="@dimen/font_6"
+            android:gravity="center_vertical"
+            android:hint="输入关键词搜索"
+            android:imeOptions="actionSearch"
+            android:paddingLeft="@dimen/font_10"
+            android:singleLine="true"
+            android:textColorHint="@color/bg_8f8f8f"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="@dimen/size_14" />
+    </RelativeLayout>
+    <View
+        android:id="@+id/view_one_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_1"
+        android:layout_below="@+id/rl_search"
+        android:layout_marginTop="@dimen/font_10"
+        android:background="@color/view_line"/>
+
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/tly_slidingtablayout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#ffffff"
+        app:tl_divider_color="@color/white"
+        app:tl_divider_padding="13dp"
+        app:tl_divider_width="1dp"
+        app:tl_indicator_color="@color/bg_e79056"
+        app:tl_indicator_height="1.5dp"
+        android:layout_below="@+id/view_one_line"
+        app:tl_indicator_width_equal_title="true"
+        app:tl_tab_padding="22dp"
+        app:tl_tab_space_equal="true"
+        app:tl_textSelectColor="@color/black"
+        app:tl_textUnselectColor="@color/bg_8f8f8f"
+        app:tl_textBold="BOTH"
+        app:tl_underline_color="#1A000000"
+        app:tl_underline_height="0dp" />
+
+    <com.flyco.tablayout.CustomViewPagerTab
+        android:id="@+id/vp_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tly_slidingtablayout"/>
+</RelativeLayout>

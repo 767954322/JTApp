@@ -111,16 +111,14 @@ public class NewSearchAblumResultFragment
     protected void initExtraBundle() {
         super.initExtraBundle();
 
-        bundle = getArguments();
-        search_info =  bundle.getString("search_info");
-        search_tag =  bundle.getString("search_tag");
+//        bundle = getArguments();
+//        search_info =  bundle.getString("search_info");
+//        search_tag =  bundle.getString("search_tag");
     }
 
     @Override
     protected void initView() {
 
-        cet_clearedit = (ClearEditText) rootView.findViewById(R.id.cet_clearedit);
-        tv_quxiao = (TextView) rootView.findViewById(R.id.tv_quxiao);
 
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_info);
         rl_no_data = (RelativeLayout) rootView.findViewById(R.id.rl_no_data);
@@ -133,47 +131,12 @@ public class NewSearchAblumResultFragment
     @Override
     protected void initListener() {
         super.initListener();
-        tv_quxiao.setOnClickListener(this);
-        cet_clearedit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    // 先隐藏键盘
-                    ((InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE))
-                            .hideSoftInputFromWindow(activity.getCurrentFocus()
-                                    .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    //进行搜索操作的方法，在该方法中可以加入mEditSearchUser的非空判断
-                    String searchContext = cet_clearedit.getText().toString().trim();
-                    if (TextUtils.isEmpty(searchContext.trim())) {
-                        ToastUtils.showCenter(activity, "请输入搜索内容");
-                    } else {
-                        search_info = searchContext;
-                        search_tag = "";
-                        onRefresh();
-//                        searchPicFragment.setSearchInfo(search_info);
-                    }
-
-                    return true;
-                }
-
-                return false;
-            }
-        });
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
 
         widthPic = (PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_30)) / 2;
-        if (!TextUtils.isEmpty(search_info)) {
-            cet_clearedit.setText(search_info);
-        } else {
-            cet_clearedit.setText(search_tag);
-        }
-        cet_clearedit.setSelection(cet_clearedit.getText().length());
-
         width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_20);
         buildRecyclerView();
     }
@@ -183,10 +146,6 @@ public class NewSearchAblumResultFragment
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.tv_quxiao:
-                KeybordS.closeKeybord(cet_clearedit,activity);
-                fragmentManager.popBackStack();
-                break;
         }
     }
 
@@ -426,13 +385,17 @@ public class NewSearchAblumResultFragment
         MobclickAgent.onPageEnd("搜索列表页");
     }
 
+    public void upData(String search_info){
+
+        this.search_info = search_info;
+        onRefresh();
+
+    }
 
     private FragmentManager fragmentManager;
     private Bundle mBundle;
     private String search_info;
     private String search_tag;
-    private ClearEditText cet_clearedit;
-    private TextView tv_quxiao;
     private final String[] mTitles = {"图片"};
     private CustomViewPagerTab mViewPager;
     private SlidingTabLayout mTabLayout;
