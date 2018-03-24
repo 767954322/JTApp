@@ -101,7 +101,7 @@ public class MediaManager implements SurfaceHolder.Callback {
         this.height = height;
         try {
             setCameraParameters();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -152,67 +152,70 @@ public class MediaManager implements SurfaceHolder.Callback {
             setError(MediaErrorCode.TAKEPICTURE_FAIL);
             return;
         }
-
-        camera.takePicture(null, null, new Camera.PictureCallback() {
-            @Override
-            public void onPictureTaken(byte[] data, Camera camera) {
-                File file = createFile(path, name);
-                if (file == null) {
-                    setError(MediaErrorCode.TAKEPICTURE_FAIL);
-                    return;
-                }
-                //照片旋转
-                int rotate = 0;
-                if (mediaType == Camera.CameraInfo.CAMERA_FACING_BACK) {
-                    rotate = 90;
-                } else {
-                    rotate = 270;
-                }
-                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                if (degree <= 45 || degree > 315) {//不用旋转
-
-                } else if (degree > 45 && degree < 135) {//头在左边
-                    Matrix matrix = new Matrix();
-                    matrix.setRotate(270, bitmap.getWidth() / 2, bitmap.getHeight() / 2);
-                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-
-                } else if (degree >= 225 && degree <= 315) {//头在右边
-                    Matrix matrix = new Matrix();
-                    matrix.setRotate(90, bitmap.getWidth() / 2, bitmap.getHeight() / 2);
-                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-                } else if (degree >= 135 && degree < 225) {//头在下边
-                    Matrix matrix = new Matrix();
-                    matrix.setRotate(180, bitmap.getWidth() / 2, bitmap.getHeight() / 2);
-                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-                }
-                Matrix matrix = new Matrix();
-                matrix.preRotate(rotate);
-                bitmap = Bitmap.createBitmap(bitmap, 0, 0,
-                        bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-                try {
-                    FileOutputStream fos = new FileOutputStream(file);
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                    fos.flush();
-                    fos.close();
-                    if (mediaCallback != null) {
-                        mediaCallback.takePicture(path, name);
+        try {
+            camera.takePicture(null, null, new Camera.PictureCallback() {
+                @Override
+                public void onPictureTaken(byte[] data, Camera camera) {
+                    File file = createFile(path, name);
+                    if (file == null) {
+                        setError(MediaErrorCode.TAKEPICTURE_FAIL);
+                        return;
                     }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    setError(MediaErrorCode.TAKEPICTURE_FAIL);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    setError(MediaErrorCode.TAKEPICTURE_FAIL);
-                }
-                bitmap.recycle();
-                bitmap = null;
-                try {
-                    camera.startPreview();
-                }catch (Exception e){
+                    //照片旋转
+                    int rotate = 0;
+                    if (mediaType == Camera.CameraInfo.CAMERA_FACING_BACK) {
+                        rotate = 90;
+                    } else {
+                        rotate = 270;
+                    }
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    if (degree <= 45 || degree > 315) {//不用旋转
 
+                    } else if (degree > 45 && degree < 135) {//头在左边
+                        Matrix matrix = new Matrix();
+                        matrix.setRotate(270, bitmap.getWidth() / 2, bitmap.getHeight() / 2);
+                        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+                    } else if (degree >= 225 && degree <= 315) {//头在右边
+                        Matrix matrix = new Matrix();
+                        matrix.setRotate(90, bitmap.getWidth() / 2, bitmap.getHeight() / 2);
+                        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                    } else if (degree >= 135 && degree < 225) {//头在下边
+                        Matrix matrix = new Matrix();
+                        matrix.setRotate(180, bitmap.getWidth() / 2, bitmap.getHeight() / 2);
+                        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                    }
+                    Matrix matrix = new Matrix();
+                    matrix.preRotate(rotate);
+                    bitmap = Bitmap.createBitmap(bitmap, 0, 0,
+                            bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                    try {
+                        FileOutputStream fos = new FileOutputStream(file);
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                        fos.flush();
+                        fos.close();
+                        if (mediaCallback != null) {
+                            mediaCallback.takePicture(path, name);
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        setError(MediaErrorCode.TAKEPICTURE_FAIL);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        setError(MediaErrorCode.TAKEPICTURE_FAIL);
+                    }
+                    bitmap.recycle();
+                    bitmap = null;
+                    try {
+                        camera.startPreview();
+                    } catch (Exception e) {
+
+                    }
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+        }
+
     }
 
     /**

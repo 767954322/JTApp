@@ -383,10 +383,14 @@ public class PhotoActivity
                         photoManager.getCamera().setParameters(parameters);
                     }
                 }
-                CustomProgress.show(PhotoActivity.this, "拍照中...", false, null);
-                name = "IMG_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
-                Log.d("test", degree + "");
-                photoManager.tackPicture(photoPath, name, degree);
+                try {
+                    CustomProgress.show(PhotoActivity.this, "拍照中...", false, null);
+                    name = "IMG_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
+                    Log.d("test", degree + "");
+                    photoManager.tackPicture(photoPath, name, degree);
+                }catch (Exception e){
+                    ToastUtils.showCenter(PhotoActivity.this,"相机调取失败");
+                }
                 break;
             case R.id.camera_album_button:
 
