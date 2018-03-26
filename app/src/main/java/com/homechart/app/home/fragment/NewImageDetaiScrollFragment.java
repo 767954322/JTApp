@@ -126,12 +126,15 @@ public class NewImageDetaiScrollFragment
 
     @Override
     protected void lazyLoad() {
-        if (firstLoad) {
-            initExtraBundle();
-            initView();
-            initListener();
-            initData();
-            firstLoad = false;
+        try {
+            if (firstLoad) {
+                initExtraBundle();
+                initView();
+                initListener();
+                initData();
+                firstLoad = false;
+            }
+        }catch (Exception e){
         }
     }
 
