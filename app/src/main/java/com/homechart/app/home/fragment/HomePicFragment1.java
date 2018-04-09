@@ -41,13 +41,10 @@ import com.homechart.app.home.bean.search.ActivityInfoBean;
 import com.homechart.app.home.bean.search.SearchDataBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
 import com.homechart.app.home.bean.search.SearchItemInfoDataBean;
-import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
 import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
 import com.homechart.app.recyclerlibrary.holder.BaseViewHolder;
-import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
-import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
@@ -99,6 +96,7 @@ public class HomePicFragment1
     private String is_enable_item_similar;
     private MaterialRefreshLayout materialRefreshLayout;
     private DefaultFootItem defaultFootItem;
+    private boolean ifLoading = false;
 
     public HomePicFragment1(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -466,13 +464,16 @@ public class HomePicFragment1
         mRecyclerView.setOnLoadMoreListener(new com.homechart.app.footer.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                defaultFootItem.onBindData(mRecyclerView, RecyclerViewWithFooter.STATE_LOADING);
-                mRecyclerView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        onRecyclerLoadMore();
-                    }
-                });
+                if(!ifLoading){
+                    ifLoading = true;
+                    defaultFootItem.onBindData(mRecyclerView, RecyclerViewWithFooter.STATE_LOADING);
+                    mRecyclerView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            onRecyclerLoadMore();
+                        }
+                    });
+                }
             }
         });
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
@@ -497,7 +498,7 @@ public class HomePicFragment1
         OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                ifLoading = false;
                 materialRefreshLayout.finishRefresh();//刷新完毕
                 defaultFootItem.onBindData(mRecyclerView, RecyclerViewWithFooter.STATE_FINISH_LOADING);
                 if (state.equals(LOADMORE_STATUS)) {
@@ -517,6 +518,7 @@ public class HomePicFragment1
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
+                        ifLoading = false;
                         SearchDataBean searchDataBean = GsonUtil.jsonToBean(data_msg, SearchDataBean.class);
                         if (state.equals(REFRESH_STATUS)) {
                             mListData.clear();
@@ -535,6 +537,7 @@ public class HomePicFragment1
                             updateViewFromData(null, state);
                         }
                     } else {
+                        ifLoading = false;
                         if (state.equals(LOADMORE_STATUS)) {
                             --page_num;
                             //没有更多数据
@@ -587,10 +590,12 @@ public class HomePicFragment1
                             mItemIdList.add(listData.get(i).getItem_info().getItem_id());
                         }
                     }
+                    ifLoading = false;
                 } else {
                     --page_num;
                     //没有更多数据
                     defaultFootItem.onBindData(mRecyclerView, RecyclerViewWithFooter.STATE_END);
+                    ifLoading = false;
                 }
                 break;
         }
