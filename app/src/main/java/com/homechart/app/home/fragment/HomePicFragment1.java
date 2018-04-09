@@ -171,10 +171,8 @@ public class HomePicFragment1
 
         switch (v.getId()) {
             case R.id.cet_clearedit:
-                scrollRecyclerView();
-                materialRefreshLayout.autoRefresh();
-//                Intent intent = new Intent(activity, SearchActivity.class);
-//                startActivityForResult(intent, 10);
+                Intent intent = new Intent(activity, SearchActivity.class);
+                startActivityForResult(intent, 10);
                 break;
             case R.id.rl_go_dingyue:
                 loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
