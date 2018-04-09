@@ -111,4 +111,8 @@
     <string name="color_end">&#160;&#038; 家图AI实验室</string>
 
     <string name="download_size">"已下载 <xliff:g id="num">%s</xliff:g>"</string>
+
+    <string name="rv_with_footer_pull_load_more">上拉或点击加载更多</string>
+    <string name="rv_with_footer_loading">加载中…</string>
+    <string name="rv_with_footer_empty">没有数据啦</string>
 </resources>

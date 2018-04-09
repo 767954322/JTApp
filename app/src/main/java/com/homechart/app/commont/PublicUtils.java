@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -67,8 +68,8 @@ import java.util.Map;
  */
 
 public class PublicUtils {
-    //1................................................................................................
 
+    //1................................................................................................
     /**
      * 获取公共参数的map
      *
@@ -794,6 +795,17 @@ public class PublicUtils {
             return false;
         }
         return false;
+    }
+
+    /**
+     * Resource scheme for URIs
+     */
+    public static final String LOCAL_RESOURCE_SCHEME = "res";
+    public static Uri getUriForResourceId(int resourceId) {
+        return new Uri.Builder()
+                .scheme(LOCAL_RESOURCE_SCHEME)
+                .path(String.valueOf(resourceId))
+                .build();
     }
 
 }

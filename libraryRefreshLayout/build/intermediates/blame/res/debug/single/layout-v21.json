@@ -1,0 +1,34 @@
+[
+    {
+        "merged": "/Users/gumenghao/Desktop/Android-MaterialRefreshLayout-master/library/build/intermediates/res/merged/debug/layout-v21/notification_template_custom_big.xml",
+        "source": "/Users/gumenghao/.android/build-cache/c6bdc9b750535c6c944d9ab6e1a1771b43dd4d0b/output/res/layout-v21/notification_template_custom_big.xml"
+    },
+    {
+        "merged": "/Users/gumenghao/Desktop/Android-MaterialRefreshLayout-master/library/build/intermediates/res/merged/debug/layout-v21/notification_template_icon_group.xml",
+        "source": "/Users/gumenghao/.android/build-cache/c6bdc9b750535c6c944d9ab6e1a1771b43dd4d0b/output/res/layout-v21/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "/Users/gumenghao/Documents/gitclone/JTApp/libraryRefreshLayout/build/intermediates/res/merged/debug/layout-v21/notification_action.xml",
+        "source": "/Users/gumenghao/.android/build-cache/c6bdc9b750535c6c944d9ab6e1a1771b43dd4d0b/output/res/layout-v21/notification_action.xml"
+    },
+    {
+        "merged": "/Users/gumenghao/Desktop/Android-MaterialRefreshLayout-master/library/build/intermediates/res/merged/debug/layout-v21/notification_action.xml",
+        "source": "/Users/gumenghao/.android/build-cache/c6bdc9b750535c6c944d9ab6e1a1771b43dd4d0b/output/res/layout-v21/notification_action.xml"
+    },
+    {
+        "merged": "/Users/gumenghao/Documents/gitclone/JTApp/libraryRefreshLayout/build/intermediates/res/merged/debug/layout-v21/notification_template_custom_big.xml",
+        "source": "/Users/gumenghao/.android/build-cache/c6bdc9b750535c6c944d9ab6e1a1771b43dd4d0b/output/res/layout-v21/notification_template_custom_big.xml"
+    },
+    {
+        "merged": "/Users/gumenghao/Desktop/Android-MaterialRefreshLayout-master/library/build/intermediates/res/merged/debug/layout-v21/notification_action_tombstone.xml",
+        "source": "/Users/gumenghao/.android/build-cache/c6bdc9b750535c6c944d9ab6e1a1771b43dd4d0b/output/res/layout-v21/notification_action_tombstone.xml"
+    },
+    {
+        "merged": "/Users/gumenghao/Documents/gitclone/JTApp/libraryRefreshLayout/build/intermediates/res/merged/debug/layout-v21/notification_template_icon_group.xml",
+        "source": "/Users/gumenghao/.android/build-cache/c6bdc9b750535c6c944d9ab6e1a1771b43dd4d0b/output/res/layout-v21/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "/Users/gumenghao/Documents/gitclone/JTApp/libraryRefreshLayout/build/intermediates/res/merged/debug/layout-v21/notification_action_tombstone.xml",
+        "source": "/Users/gumenghao/.android/build-cache/c6bdc9b750535c6c944d9ab6e1a1771b43dd4d0b/output/res/layout-v21/notification_action_tombstone.xml"
+    }
+]

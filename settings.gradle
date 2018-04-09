@@ -1,1 +1,1 @@
-include ':app', ':FlycoTabLayout_Lib', ':visearch-android', ':librangeseekbar', ':library'
+include ':app', ':FlycoTabLayout_Lib', ':visearch-android', ':librangeseekbar', ':library', ':libraryRefreshLayout'

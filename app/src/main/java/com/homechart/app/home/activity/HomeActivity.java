@@ -36,7 +36,7 @@ import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.fragment.HomeCenterFragment;
 import com.homechart.app.home.fragment.HomeFaXianFragment;
-import com.homechart.app.home.fragment.HomePicFragment;
+import com.homechart.app.home.fragment.HomePicFragment1;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.myview.SelectPicPopupWindow;
 import com.homechart.app.myview.UpApkPopupWindow;
@@ -74,7 +74,7 @@ public class HomeActivity
     private RadioButton radio_btn_center;
     private int jumpPosition = 0;
 
-    private HomePicFragment mHomePicFragment;
+    private HomePicFragment1 mHomePicFragment;
     private HomeCenterFragment mHomeCenterFragment;
     private FragmentTransaction transaction;
     private Fragment mTagFragment;
@@ -358,7 +358,7 @@ public class HomeActivity
         cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         if (findViewById(R.id.main_content) != null) {
             if (null == mHomePicFragment) {
-                mHomePicFragment = new HomePicFragment(getSupportFragmentManager());
+                mHomePicFragment = new HomePicFragment1(getSupportFragmentManager());
             }
             if (null == mHomeFaXianFragment) {
                 mHomeFaXianFragment = new HomeFaXianFragment(getSupportFragmentManager());

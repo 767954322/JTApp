@@ -25,7 +25,6 @@ import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.pictag.TagDataBean;
 import com.homechart.app.home.bean.pictag.TagItemDataChildBean;
-import com.homechart.app.home.fragment.HomePicFragment;
 import com.homechart.app.myview.FlowLayoutFaBuTags;
 import com.homechart.app.myview.FlowLayoutFaBuTagsDing;
 import com.homechart.app.myview.SerializableHashMap;
