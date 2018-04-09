@@ -59,8 +59,9 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
     static final float STROKE_WIDTH_LARGE = 3f;
     /**
      * The duration of a single progress spin in milliseconds.
+     * ＊＊＊＊刷新旋转时间＊＊＊＊
      */
-    private static final int ANIMATION_DURATION = 1000 * 80 / 60;
+    private static final int ANIMATION_DURATION = 1000 * 120 / 60;
     /**
      * The number of points in the progress "star".
      */
