@@ -139,6 +139,7 @@ public class PingListActivity
         super.initListener();
         iv_send.setOnClickListener(this);
         mRecyclerView.setOnClickListener(this);
+        rl_no_data.setOnClickListener(this);
         nav_left_imageButton.setOnClickListener(this);
 //        //设置EditText的显示方式为多行文本输入
 //        cet_clearedit.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
@@ -300,6 +301,11 @@ public class PingListActivity
                 }
                 break;
             case R.id.rcy_recyclerview_pic:
+                ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+                        .hideSoftInputFromWindow(PingListActivity.this.getCurrentFocus()
+                                .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                break;
+            case R.id.rl_no_data:
                 ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
                         .hideSoftInputFromWindow(PingListActivity.this.getCurrentFocus()
                                 .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
