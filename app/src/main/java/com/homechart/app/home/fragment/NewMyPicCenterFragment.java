@@ -22,21 +22,14 @@ import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.home.activity.FaBuImageActivity;
 import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.activity.MyWebViewActivity;
 import com.homechart.app.home.base.BaseFragment;
-import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
-import com.homechart.app.imagedetail.ImageBenDiActivity;
-import com.homechart.app.myview.CaiJiPopWin;
 import com.homechart.app.myview.CaiJiPopWin1;
-import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -337,14 +330,21 @@ public class NewMyPicCenterFragment
             int tag = msg.arg1;
             if (tag == 0) {
                 String url_Imag = (String) msg.obj;
-                List<String> listUrl = new ArrayList<>();
-                listUrl.add(url_Imag);
-                Intent intent = new Intent(activity, ImageBenDiActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("pic_url_list", (Serializable) listUrl);
-                bundle.putInt("click_position", 0);
-                intent.putExtras(bundle);
-                startActivityForResult(intent,5);
+
+                Intent intent = new Intent(activity, FaBuImageActivity.class);
+                intent.putExtra("image_url", url_Imag);
+                intent.putExtra("webUrl", "");
+                intent.putExtra("type", "location");
+                startActivityForResult(intent, 5);
+
+//                List<String> listUrl = new ArrayList<>();
+//                listUrl.add(url_Imag);
+//                Intent intent = new Intent(activity, ImageBenDiActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("pic_url_list", (Serializable) listUrl);
+//                bundle.putInt("click_position", 0);
+//                intent.putExtras(bundle);
+//                startActivityForResult(intent,5);
             }
         }
     };

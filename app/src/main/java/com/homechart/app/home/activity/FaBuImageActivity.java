@@ -2,7 +2,9 @@ package com.homechart.app.home.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,11 +23,12 @@ import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
+import com.homechart.app.commont.PublicUtils;
+import com.homechart.app.commont.UrlConstants;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.faxiantags.FaXianTagBean;
 import com.homechart.app.home.bean.faxiantags.TagListItemBean;
 import com.homechart.app.home.bean.pictag.TagDataBean;
-import com.homechart.app.home.bean.pictag.TagItemDataChildBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationBean;
 import com.homechart.app.lingganji.common.entity.inspirationlist.InspirationListBean;
@@ -39,22 +42,31 @@ import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
+import com.homechart.app.utils.BitmapUtil;
 import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
+import com.homechart.app.utils.Md5Util;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.glide.GlideImgManager;
 import com.homechart.app.utils.imageloader.ImageUtils;
+import com.homechart.app.utils.volley.FileHttpManager;
 import com.homechart.app.utils.volley.MyHttpManager;
 import com.homechart.app.utils.volley.OkStringRequest;
+import com.homechart.app.utils.volley.PutFileCallBack;
+import com.homechart.app.utils.widget.CustomProgressTouMing;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,7 +81,8 @@ public class FaBuImageActivity
         FlowLayoutFaBu.OnTagClickListener,
         OnLoadMoreListener,
         OnRefreshListener,
-        View.OnTouchListener {
+        View.OnTouchListener,
+        PutFileCallBack {
 
     private View view;
     private Context mContext;
@@ -91,16 +104,15 @@ public class FaBuImageActivity
     private TextView mTVSureAdd;
     private EditText mRLWye;
     private String image_url;
-    private String image_id;
     private TagDataBean tagDataBean;
     private FlowLayoutFaBu fl_tag_flowLayout;
     private List<String> listTag = new ArrayList<>();
     private Map<String, String> selectTags = new HashMap<>();
     private List<TagListItemBean> listZiDingSelect;
-    private List<String> tags;
     private FaXianTagBean faXianTagBean;
     private String mWebUrl;
     private String type;
+    private String title;
 
     @Override
     protected int getLayoutResId() {
@@ -112,10 +124,9 @@ public class FaBuImageActivity
         super.initExtraBundle();
         mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
         image_url = getIntent().getStringExtra("image_url");
-        image_id = getIntent().getStringExtra("image_id");
         mWebUrl = getIntent().getStringExtra("webUrl");
         type = getIntent().getStringExtra("type");
-        tags = (List<String>) getIntent().getSerializableExtra("tags");
+        title = getIntent().getStringExtra("title");
     }
 
     @Override
@@ -166,7 +177,16 @@ public class FaBuImageActivity
         } else if (i == R.id.tv_sure_add) {
 
             if (mListData.size() > 0) {
-                addInspiration();
+                CustomProgress.show(FaBuImageActivity.this, "发布中...", false, null);
+                if (!TextUtils.isEmpty(type) && type.equals("location")) {
+                    //本地图片
+                    upLoaderImage();
+
+                } else {
+                    //采集图片
+                    upImage(image_url);
+                }
+
             } else {
                 ToastUtils.showCenter(mContext, "请先创建灵感辑");
             }
@@ -175,27 +195,15 @@ public class FaBuImageActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-//        if (!TextUtils.isEmpty(type) && type.equals("location")) {
-//            GlideImgManager.glideLoader(FaBuImageActivity.this, "file://" + image_url, R.color.white, R.color.white, mIVLingGan, 1);
-////            ImageUtils.displayFilletImage("file://"  + image_url, mIVLingGan);
-//        } else {
-//            GlideImgManager.glideLoader(FaBuImageActivity.this, image_url, R.color.white, R.color.white, mIVLingGan, 1);
-////            ImageUtils.displayFilletImage(image_url, mIVLingGan);
-//        }
-        ImageUtils.displayFilletImage(image_url, mIVLingGan);
-        buildRecyclerView();
-
-        if (tags != null && tags.size() > 0) {
-            listTag.addAll(tags);
-            for (int i = 0; i < listTag.size(); i++) {
-                selectTags.put(listTag.get(i), listTag.get(i));
-            }
+        if (!TextUtils.isEmpty(type) && type.equals("location")) {
+            GlideImgManager.glideLoader(FaBuImageActivity.this, "file://" + image_url, R.color.white, R.color.white, mIVLingGan, 1);
+        } else {
+            GlideImgManager.glideLoader(FaBuImageActivity.this, image_url, R.color.white, R.color.white, mIVLingGan, 1);
         }
-
+        buildRecyclerView();
         fl_tag_flowLayout.setColorful(false);
         fl_tag_flowLayout.setListData(listTag);
         fl_tag_flowLayout.setOnTagClickListener(this);
-//        getTagData();
         getDingYueData();
     }
 
@@ -347,57 +355,6 @@ public class FaBuImageActivity
         getInspirationsData(LOADMORE_STATUS);
     }
 
-    private void addInspiration() {
-
-
-        CustomProgress.show(FaBuImageActivity.this, "发布中...", false, null);
-        String strWhy = mRLWye.getText().toString();
-        StringBuffer sb = new StringBuffer();
-        for (String key : selectTags.keySet()) {
-            sb.append(key + " ");
-        }
-        String tagStr = sb.toString();
-        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-                CustomProgress.cancelDialog();
-
-                ToastUtils.showCenter(FaBuImageActivity.this, "发布失败");
-            }
-
-            @Override
-            public void onResponse(String s) {
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-                    if (error_code == 0) {
-                        CustomProgress.cancelDialog();
-                        ToastUtils.showCenter(FaBuImageActivity.this, "发布成功");
-                        JSONObject jsonObject1 = new JSONObject(data_msg);
-                        JSONObject item_info = jsonObject1.getJSONObject("item_info");
-                        String item_id = item_info.getString("item_id");
-                        Intent intent = new Intent();
-                        intent.putExtra("item_id", item_id);
-                        setResult(5, intent);
-                        FaBuImageActivity.this.finish();
-                    } else {
-                        CustomProgress.cancelDialog();
-                        ToastUtils.showCenter(FaBuImageActivity.this, "发布失败");
-                    }
-                } catch (JSONException e) {
-                    CustomProgress.cancelDialog();
-                    ToastUtils.showCenter(FaBuImageActivity.this, "发布失败");
-                }
-            }
-        };
-        MyHttpManager.getInstance().saveCaiJiImage(mListData.get(defalsePosition).getAlbum_info().getAlbum_id(), image_id, strWhy, tagStr, mWebUrl, callBack);
-
-
-    }
-
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         //触摸的是EditText并且当前EditText可以滚动则将事件交给EditText处理；否则将事件交由其父类处理
@@ -451,7 +408,6 @@ public class FaBuImageActivity
         MobclickAgent.onPageEnd("添加灵感辑");
         MobclickAgent.onPause(this);
     }
-
 
     @Override
     public void TagClick(String text, int position) {
@@ -518,38 +474,152 @@ public class FaBuImageActivity
         };
         MyHttpManager.getInstance().getTagList(callBack);
     }
-//    //获取tag信息
-//    private void getTagData() {
-//
-//        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
-//            @Override
-//            public void onErrorResponse(VolleyError volleyError) {
-//                ToastUtils.showCenter(FaBuImageActivity.this, getString(R.string.fabutags_get_error));
-//            }
-//
-//            @Override
-//            public void onResponse(String s) {
-//                try {
-//                    JSONObject jsonObject = new JSONObject(s);
-//                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
-//                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
-//                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
-//                    if (error_code == 0) {
-//                        data_msg = "{ \"tag_id\": " + data_msg + "}";
-//                        Message msg = new Message();
-//                        msg.obj = data_msg;
-//                        msg.what = 5;
-//                        mHandler.sendMessage(msg);
-//                    } else {
-//                        ToastUtils.showCenter(FaBuImageActivity.this, error_msg);
-//                    }
-//                } catch (JSONException e) {
-//                    ToastUtils.showCenter(FaBuImageActivity.this, getString(R.string.fabutags_get_error));
-//                }
-//            }
-//        };
-//        MyHttpManager.getInstance().getPicTagData(callBack);
-//    }
+
+    private void upImage(final String url) {
+
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                CustomProgress.cancelDialog();
+                ToastUtils.showCenter(FaBuImageActivity.this, "图片上传失败,请重新上传");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        try {
+                            JSONObject jsonObject1 = new JSONObject(data_msg);
+                            String image_id = jsonObject1.getString("image_id");
+                            JSONObject imageJSONObject = jsonObject1.getJSONObject("image");
+                            String img0 = imageJSONObject.getString("img0");
+
+                            addInspiration(image_id);
+                        } catch (Exception e) {
+                            CustomProgress.cancelDialog();
+                            ToastUtils.showCenter(FaBuImageActivity.this, "图片上传失败,请重新上传");
+                        }
+
+                    } else {
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(FaBuImageActivity.this, error_msg);
+                    }
+                } catch (JSONException e) {
+                    CustomProgress.cancelDialog();
+                    ToastUtils.showCenter(FaBuImageActivity.this, "图片上传失败,请重新上传");
+                }
+            }
+        };
+        MyHttpManager.getInstance().grabPicture(url, title, mWebUrl, callBack);
+    }
+
+
+    private void upLoaderImage() {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                SimpleDateFormat timesdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String fileName = timesdf.format(new Date()).toString();//获取系统时间
+                //压缩图片
+                Bitmap bitmap_before = BitmapUtil.getBitmap(image_url);
+                if (bitmap_before != null) {
+                    try {
+                        boolean status = BitmapUtil.saveBitmap(bitmap_before, Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName + "/");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Map<String, String> map = PublicUtils.getPublicMap(MyApplication.getInstance());
+                    String signString = PublicUtils.getSinaString(map);
+                    String tabMd5String = Md5Util.getMD5twoTimes(signString);
+                    map.put(ClassConstant.PublicKey.SIGN, tabMd5String);
+                    FileHttpManager.getInstance().uploadFile(FaBuImageActivity.this, new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName + "/"),
+                            UrlConstants.PUT_IMAGE,
+                            map,
+                            PublicUtils.getPublicHeader(MyApplication.getInstance()));
+                } else {
+                    CustomProgress.cancelDialog();
+                    ToastUtils.showCenter(FaBuImageActivity.this, "上传图片失败，请重新上传图片");
+                }
+            }
+        }.start();
+
+    }
+
+    @Override
+    public void onSucces(String result) {
+        try {
+            JSONObject jsonObject = new JSONObject(result);
+            JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+            String image_id = jsonObject1.getString("immage_id");
+            JSONObject imageJSONObject = jsonObject1.getJSONObject("image");
+            String img0 = imageJSONObject.getString("img0");
+            addInspiration(image_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            CustomProgressTouMing.cancelDialog();
+            ToastUtils.showCenter(FaBuImageActivity.this, "上传图片失败，请重新上传图片");
+            FaBuImageActivity.this.finish();
+        }
+    }
+
+    @Override
+    public void onFails() {
+        CustomProgress.cancelDialog();
+        ToastUtils.showCenter(FaBuImageActivity.this, "上传图片失败，请重新上传图片");
+    }
+
+    private void addInspiration(String image_id) {
+
+        String strWhy = mRLWye.getText().toString();
+        StringBuffer sb = new StringBuffer();
+        for (String key : selectTags.keySet()) {
+            sb.append(key + " ");
+        }
+        String tagStr = sb.toString();
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+                CustomProgress.cancelDialog();
+
+                ToastUtils.showCenter(FaBuImageActivity.this, "发布失败");
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(FaBuImageActivity.this, "发布成功");
+                        JSONObject jsonObject1 = new JSONObject(data_msg);
+                        JSONObject item_info = jsonObject1.getJSONObject("item_info");
+                        String item_id = item_info.getString("item_id");
+                        Intent intent = new Intent();
+                        intent.putExtra("item_id", item_id);
+                        setResult(5, intent);
+                        FaBuImageActivity.this.finish();
+                    } else {
+                        CustomProgress.cancelDialog();
+                        ToastUtils.showCenter(FaBuImageActivity.this, "发布失败");
+                    }
+                } catch (JSONException e) {
+                    CustomProgress.cancelDialog();
+                    ToastUtils.showCenter(FaBuImageActivity.this, "发布失败");
+                }
+            }
+        };
+        MyHttpManager.getInstance().saveCaiJiImage(mListData.get(defalsePosition).getAlbum_info().getAlbum_id(), image_id, strWhy, tagStr, mWebUrl, callBack);
+
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -608,6 +678,5 @@ public class FaBuImageActivity
             }
         }
     };
-
 
 }

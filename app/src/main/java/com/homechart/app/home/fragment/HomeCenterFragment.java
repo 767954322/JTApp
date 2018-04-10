@@ -28,19 +28,15 @@ import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.home.activity.ArticleDetailsActivity;
 import com.homechart.app.home.activity.DingYueGuanLiActivity;
 import com.homechart.app.home.activity.FaBuActvity;
+import com.homechart.app.home.activity.FaBuImageActivity;
 import com.homechart.app.home.activity.HomeActivity;
 import com.homechart.app.home.activity.MyInfoActivity;
 import com.homechart.app.home.activity.MyWebViewActivity;
-import com.homechart.app.home.activity.PicCenterActivity;
 import com.homechart.app.home.activity.SetActivity;
-import com.homechart.app.home.activity.UserMessageActivity;
 import com.homechart.app.home.activity.YuGouQingDanActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.userinfo.UserCenterInfoBean;
-import com.homechart.app.imagedetail.ImageBenDiActivity;
-import com.homechart.app.imagedetail.ImageDetailsActivity;
 import com.homechart.app.myview.CaiJiPopWin;
-import com.homechart.app.myview.ColorPopWin;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
@@ -118,15 +114,23 @@ public class HomeCenterFragment
                     e.printStackTrace();
                 }
             } else if (tag == 2) {
+
                 String url_Imag = (String) msg.obj;
-                List<String> listUrl = new ArrayList<>();
-                listUrl.add(url_Imag);
-                Intent intent = new Intent(activity, ImageBenDiActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("pic_url_list", (Serializable) listUrl);
-                bundle.putInt("click_position", 0);
-                intent.putExtras(bundle);
-                startActivityForResult(intent,5);
+
+                Intent intent = new Intent(activity, FaBuImageActivity.class);
+                intent.putExtra("image_url", url_Imag);
+                intent.putExtra("webUrl", "");
+                intent.putExtra("type", "location");
+                startActivityForResult(intent, 5);
+
+//                List<String> listUrl = new ArrayList<>();
+//                listUrl.add(url_Imag);
+//                Intent intent = new Intent(activity, ImageBenDiActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("pic_url_list", (Serializable) listUrl);
+//                bundle.putInt("click_position", 0);
+//                intent.putExtras(bundle);
+//                startActivityForResult(intent,5);
 //                Intent intent = new Intent(activity, FaBuActvity.class);
 //                intent.putExtra("image_path", url_Imag);
 //                startActivity(intent);
