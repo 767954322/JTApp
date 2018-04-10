@@ -246,13 +246,13 @@ public class FaBuImageTagsActivity
             fl_tags_jubu.setListData(listJuBu, mSelectMap, faXianTagBean.getData().getGroup_list().get(1).getGroup_info().getGroup_name());
             fl_tags_jubu.setOnTagClickListener(this);
 
-            fl_tags_shouna.setColorful(false);
-            fl_tags_shouna.setListData(listShouNa, mSelectMap, faXianTagBean.getData().getGroup_list().get(2).getGroup_info().getGroup_name());
-            fl_tags_shouna.setOnTagClickListener(this);
-
             fl_tags_zhuangshi.setColorful(false);
-            fl_tags_zhuangshi.setListData(listZhuangShi, mSelectMap, faXianTagBean.getData().getGroup_list().get(3).getGroup_info().getGroup_name());
+            fl_tags_zhuangshi.setListData(listShouNa, mSelectMap, faXianTagBean.getData().getGroup_list().get(2).getGroup_info().getGroup_name());
             fl_tags_zhuangshi.setOnTagClickListener(this);
+
+            fl_tags_shouna.setColorful(false);
+            fl_tags_shouna.setListData(listZhuangShi, mSelectMap, faXianTagBean.getData().getGroup_list().get(3).getGroup_info().getGroup_name());
+            fl_tags_shouna.setOnTagClickListener(this);
 
             fl_tags_gongneng.setColorful(false);
             fl_tags_gongneng.setListData(listGongNeng, mSelectMap, faXianTagBean.getData().getGroup_list().get(4).getGroup_info().getGroup_name());
