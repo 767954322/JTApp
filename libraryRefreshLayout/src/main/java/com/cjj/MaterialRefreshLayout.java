@@ -21,10 +21,10 @@ public class MaterialRefreshLayout extends FrameLayout {
 
     public static final String Tag = MaterialRefreshLayout.class.getSimpleName();
     //设置最大高度
-    private final static int DEFAULT_WAVE_HEIGHT = 280;
+    private final static int DEFAULT_WAVE_HEIGHT = 180;
     private final static int HIGHER_WAVE_HEIGHT = 180;
     //设置松开，默认的高度
-    private final static int DEFAULT_HEAD_HEIGHT = 140;
+    private final static int DEFAULT_HEAD_HEIGHT = 90;
     private final static int hIGHER_HEAD_HEIGHT = 100;
     private final static int DEFAULT_PROGRESS_SIZE = 45;//箭头大小
     private final static int BIG_PROGRESS_SIZE = 55;//箭头大小
