@@ -33,6 +33,7 @@ import com.homechart.app.footer.DefaultFootItem;
 import com.homechart.app.footer.RecyclerViewWithFooter;
 import com.homechart.app.home.activity.DingYueGuanLiActivity;
 import com.homechart.app.home.activity.LoginActivity;
+import com.homechart.app.home.activity.NewHuoDongDetailsActivity;
 import com.homechart.app.home.activity.SearchActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.allset.AllSetBean;
@@ -41,6 +42,7 @@ import com.homechart.app.home.bean.search.ActivityInfoBean;
 import com.homechart.app.home.bean.search.SearchDataBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
 import com.homechart.app.home.bean.search.SearchItemInfoDataBean;
+import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
 import com.homechart.app.myview.ClearEditText;
 import com.homechart.app.recyclerlibrary.adapter.MultiItemCommonAdapter;
@@ -150,7 +152,7 @@ public class HomePicFragment1
     protected void initData(Bundle savedInstanceState) {
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-        width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_15);
+        width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_24);
         getAllSet();
         buildRecyclerView();
         is_subscribed_tag = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.IS_SUBSCRIBED_TAG);
@@ -275,7 +277,7 @@ public class HomePicFragment1
                 } else if (itemType == TYPE_FOUR) {
                     return R.layout.item_test_huodong_pubu;
                 } else {
-                    return R.layout.item_pubu_new;
+                    return R.layout.item_pubu_last;
                 }
             }
 
@@ -341,13 +343,14 @@ public class HomePicFragment1
                         ((TextView) holder.getView(R.id.tv_image_miaosu)).setVisibility(View.VISIBLE);
                     }
                     ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
+                    ((TextView) holder.getView(R.id.tv_name_ablum)).setText(mListData.get(position).getAlbum_info().getAlbum_name());
 
                     if (PublicUtils.ifHasWriteQuan(activity)) {
                         if (mListData.get(position).getItem_info().getImage().getRatio() > 0.6) {
                             ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
                             layoutParams.height = Math.round(width_Pic_Staggered / mListData.get(position).getItem_info().getImage().getRatio());
                             holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
-                            ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg1(),
+                            ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
                                     (ImageView) holder.getView(R.id.iv_imageview_one));
                         } else {
                             if (mListData.get(position).getItem_info().getImage().getRatio() > 0.333) {
@@ -383,36 +386,6 @@ public class HomePicFragment1
                         GlideImgManager.glideLoader(activity, mListData.get(position).getUser_info().getAvatar().getBig(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_header_pic), 0);
                     }
 
-                    holder.getView(R.id.iv_header_pic).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(getChildFragmentManager());
-                            Bundle bundle = new Bundle();
-                            bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-                            newUserInfoFragment.setArguments(bundle);
-                            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
-                            fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commit();
-                            ClassConstant.HomeStatus.IMAGE_STATUS = 1;
-                        }
-                    });
-                    holder.getView(R.id.tv_name_pic).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(getChildFragmentManager());
-                            Bundle bundle = new Bundle();
-                            bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-                            newUserInfoFragment.setArguments(bundle);
-                            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
-                            fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commit();
-                            ClassConstant.HomeStatus.IMAGE_STATUS = 1;
-                        }
-                    });
-
                     holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -438,21 +411,14 @@ public class HomePicFragment1
                             ClassConstant.HomeStatus.IMAGE_STATUS = 1;
                         }
                     });
-                    holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
+
+                    holder.getView(R.id.rl_test).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
-                            userId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
-                            if (!loginStatus) {
-                                Intent intent = new Intent(activity, LoginActivity.class);
-                                startActivityForResult(intent, 1);
-                            } else {
-                                Intent intent = new Intent(activity, InspirationSeriesActivity.class);
-                                intent.putExtra("userid", userId);
-                                intent.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg0());
-                                intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-                                startActivity(intent);
-                            }
+                            Intent intent = new Intent(activity, InspirationDetailActivity.class);
+                            intent.putExtra("ifHideEdit", true);
+                            intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
+                            startActivityForResult(intent, 2);
                         }
                     });
                 }
@@ -464,7 +430,7 @@ public class HomePicFragment1
         mRecyclerView.setOnLoadMoreListener(new com.homechart.app.footer.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                if(!ifLoading){
+                if (!ifLoading) {
                     ifLoading = true;
                     defaultFootItem.onBindData(mRecyclerView, RecyclerViewWithFooter.STATE_LOADING);
                     mRecyclerView.post(new Runnable() {

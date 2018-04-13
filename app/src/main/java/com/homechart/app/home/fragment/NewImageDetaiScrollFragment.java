@@ -39,21 +39,17 @@ import com.homechart.app.home.activity.JuBaoActivity;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.activity.MyWebViewActivity;
 import com.homechart.app.home.activity.PingListActivity;
-import com.homechart.app.home.adapter.MyColorGridAdapter;
 import com.homechart.app.home.base.LazyLoadFragment;
 import com.homechart.app.home.bean.cailike.ImageLikeItemBean;
 import com.homechart.app.home.bean.cailike.LikeDataBean;
-import com.homechart.app.home.bean.imagedetail.ColorInfoBean;
 import com.homechart.app.home.bean.imagedetail.ImageDetailBean;
 import com.homechart.app.home.bean.searchfservice.SearchSBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.imagedetail.ImageDetailsActivity;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
-import com.homechart.app.myview.ColorPopWin;
 import com.homechart.app.myview.FlowLayoutBiaoQian;
 import com.homechart.app.myview.HomeSharedPopWinPublic;
 import com.homechart.app.myview.JuBaoPopWin;
-import com.homechart.app.myview.MyListView;
 import com.homechart.app.myview.ResizeRelativeLayout;
 import com.homechart.app.myview.RoundImageView;
 import com.homechart.app.myview.ShangshabanChangeTextSpaceView;
@@ -104,7 +100,6 @@ public class NewImageDetaiScrollFragment
 
 
     private View mRootView;
-    private ColorPopWin colorPopWin;
 
     public NewImageDetaiScrollFragment() {
 
@@ -154,13 +149,7 @@ public class NewImageDetaiScrollFragment
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_info);
         menu_layout = (ResizeRelativeLayout) rootView.findViewById(R.id.menu_layout);
         bt_shiwu = (ImageView) rootView.findViewById(R.id.bt_shiwu);
-        bt_shise = (ImageView) rootView.findViewById(R.id.bt_shise);
 
-        rl_color = (RelativeLayout) rootView.findViewById(R.id.rl_color);
-        iv_close_color = (ImageView) rootView.findViewById(R.id.iv_close_color);
-        dgv_colorlist = (MyListView) rootView.findViewById(R.id.dgv_colorlist);
-        ll_color_lines = (LinearLayout) rootView.findViewById(R.id.ll_color_lines);
-        color_bottom = rootView.findViewById(R.id.color_bottom);
 
         if (!ifHasHeader) {
             view = LayoutInflater.from(activity).inflate(R.layout.header_fragment_new_imagedetails, null);
@@ -170,7 +159,6 @@ public class NewImageDetaiScrollFragment
             iv_details_image = (ImageView) view.findViewById(R.id.iv_details_image);
             view_below_image = view.findViewById(R.id.view_below_image);
             bt_shiwu2 = (ImageView) view.findViewById(R.id.bt_shiwu2);
-            bt_shise2 = (ImageView) view.findViewById(R.id.bt_shise2);
             tv_details_tital = (ShangshabanChangeTextSpaceView) view.findViewById(R.id.tv_details_tital);
             fl_tags_jubu = (FlowLayoutBiaoQian) view.findViewById(R.id.fl_tags_jubu);
             riv_people_header = (RoundImageView) view.findViewById(R.id.riv_people_header);
@@ -212,10 +200,7 @@ public class NewImageDetaiScrollFragment
     private void initListener() {
         bt_shiwu.setOnClickListener(this);
         bt_shiwu2.setOnClickListener(this);
-        bt_shise.setOnClickListener(this);
-        bt_shise2.setOnClickListener(this);
         tv_lingganji.setOnClickListener(this);
-        iv_close_color.setOnClickListener(this);
         iv_details_image.setOnClickListener(this);
         iv_edit_image.setOnClickListener(this);
         riv_people_header.setOnClickListener(this);
@@ -354,43 +339,6 @@ public class NewImageDetaiScrollFragment
                     ToastUtils.showCenter(activity, "您没有授权该权限，请在设置中打开授权");
                 }
                 break;
-            case R.id.bt_shise:
-            case R.id.bt_shise2:
-                //友盟统计
-                HashMap<String, String> map6 = new HashMap<String, String>();
-                map6.put("evenname", "色彩详情");
-                map6.put("even", "用户点开色彩详情的次数");
-                MobclickAgent.onEvent(activity, "shijian9", map6);
-                //ga统计
-                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                        .setCategory("用户点开色彩详情的次数")  //事件类别
-                        .setAction("色彩详情")      //事件操作
-                        .build());
-                if (null != colorPopWin) {
-                    colorPopWin.showAtLocation(activity.findViewById(R.id.menu_layout),
-                            Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,
-                            0,
-                            0); //设置layout在PopupWindow中显示的位置
-                }
-//                bt_shiwu.setClickable(false);
-//                bt_shiwu2.setClickable(false);
-//                bt_shise.setClickable(false);
-//                bt_shise2.setClickable(false);
-//                mUserInfo.setTitalClickAble(false);
-//                mUserInfo.setViewPagerScrollAble(false);
-//                rl_color.setVisibility(View.VISIBLE);
-//                color_bottom.setVisibility(View.VISIBLE);
-                break;
-            case R.id.iv_close_color:
-                bt_shiwu2.setClickable(true);
-                bt_shiwu.setClickable(true);
-                bt_shise2.setClickable(true);
-                bt_shise.setClickable(true);
-                mUserInfo.setTitalClickAble(true);
-                mUserInfo.setViewPagerScrollAble(true);
-                rl_color.setVisibility(View.GONE);
-                color_bottom.setVisibility(View.GONE);
-                break;
             case R.id.riv_people_header:
                 if (imageDetailBean != null) {
                     NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
@@ -433,9 +381,6 @@ public class NewImageDetaiScrollFragment
                 if (null != imageDetailBean &&
                         null != imageDetailBean.getItem_info().getFrom_url() &&
                         !imageDetailBean.getItem_info().getFrom_url().equals("")) {
-//                    Uri uri = Uri.parse(imageDetailBean.getItem_info().getFrom_url());
-//                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//                    startActivity(intent);
                     Intent intent = new Intent(activity, MyWebViewActivity.class);
                     intent.putExtra("weburl", imageDetailBean.getItem_info().getFrom_url());
                     startActivity(intent);
@@ -811,15 +756,11 @@ public class NewImageDetaiScrollFragment
         if (boo) {
             //在图片上面显示
             bt_shiwu2.setVisibility(View.VISIBLE);
-            bt_shise2.setVisibility(View.VISIBLE);
             bt_shiwu.setVisibility(View.GONE);
-            bt_shise.setVisibility(View.GONE);
         } else {
             //在页面上面显示
             bt_shiwu2.setVisibility(View.GONE);
-            bt_shise2.setVisibility(View.GONE);
             bt_shiwu.setVisibility(View.VISIBLE);
-            bt_shise.setVisibility(View.VISIBLE);
         }
     }
 
@@ -1013,37 +954,6 @@ public class NewImageDetaiScrollFragment
                 fragmentTransaction.commit();
             }
         });
-        //更新颜色
-        if (ifFirst && imageDetailBean != null) {
-            ifFirst = false;
-
-            colorPopWin = new ColorPopWin(activity, imageDetailBean);
-//            List<ColorInfoBean> listColor = imageDetailBean.getColor_info();
-//            if (listColor != null && listColor.size() > 0) {
-//                int width = PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_40);
-//                float float_talte = 0;
-//                for (int i = 0; i < listColor.size(); i++) {
-//                    float wid = Float.parseFloat(listColor.get(i).getColor_percent().trim());
-//                    float_talte = float_talte + wid;
-//                }
-//
-//                for (int i = 0; i < listColor.size(); i++) {
-//                    TextView textView = new TextView(activity);
-//                    float wid = Float.parseFloat(listColor.get(i).getColor_percent().trim());
-//                    float per = wid / float_talte;
-//
-//                    if (i == listColor.size() - 1) {
-//                        textView.setWidth(width);
-//                    } else {
-//                        textView.setWidth((int) (width * per));
-//                    }
-//                    textView.setHeight(UIUtils.getDimens(R.dimen.font_30));
-//                    textView.setBackgroundColor(Color.parseColor("#" + listColor.get(i).getColor_value()));
-//                    ll_color_lines.addView(textView);
-//                }
-//                dgv_colorlist.setAdapter(new MyColorGridAdapter(listColor, activity));
-//            }
-        }
         //设置灵感辑图片
         RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) iv_img1.getLayoutParams();
         layoutParams1.width = width_Imgs / 2 - UIUtils.getDimens(R.dimen.font_2);
@@ -1347,14 +1257,6 @@ public class NewImageDetaiScrollFragment
         Intent intent = new Intent(activity, JuBaoActivity.class);
         intent.putExtra("item_id", item_id);
         startActivity(intent);
-//        NewJuBaoFragment newJuBaoFragment = new NewJuBaoFragment(fragmentManager);
-//        Bundle bundle = new Bundle();
-//        bundle.putString("item_id", item_id);
-//        newJuBaoFragment.setArguments(bundle);
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.id_main, newJuBaoFragment);
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
 
     }
 
@@ -1512,12 +1414,6 @@ public class NewImageDetaiScrollFragment
     private HRecyclerView mRecyclerView;
     private ResizeRelativeLayout menu_layout;
     private ImageView bt_shiwu;
-    private ImageView bt_shise;
-    private RelativeLayout rl_color;
-    private View iv_close_color;
-    private MyListView dgv_colorlist;
-    private LinearLayout ll_color_lines;
-    private View color_bottom;
     //header
     private View view;
     private RelativeLayout rl_shop_tital;
@@ -1526,7 +1422,6 @@ public class NewImageDetaiScrollFragment
     private ImageView iv_details_image;
     private View view_below_image;
     private ImageView bt_shiwu2;
-    private ImageView bt_shise2;
     private ShangshabanChangeTextSpaceView tv_details_tital;
     private FlowLayoutBiaoQian fl_tags_jubu;
     private RoundImageView riv_people_header;

@@ -66,16 +66,6 @@
             android:src="@drawable/tongkuan2"
             android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/bt_shise2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/bt_shiwu2"
-            android:layout_marginRight="@dimen/font_10"
-            android:layout_toLeftOf="@+id/bt_shiwu2"
-            android:src="@drawable/secai2"
-            android:visibility="gone" />
-
     </RelativeLayout>
 
     <View
