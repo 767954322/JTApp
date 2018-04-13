@@ -142,11 +142,7 @@ public class NewSearchResultFragment
         MultiItemTypeSupport<SearchItemDataBean> support = new MultiItemTypeSupport<SearchItemDataBean>() {
             @Override
             public int getLayoutId(int itemType) {
-                if (itemType == TYPE_ONE) {
-                    return R.layout.item_pubu_new;
-                } else {
-                    return R.layout.item_list_new;
-                }
+                    return R.layout.item_pubu_last;
             }
 
             @Override
@@ -159,19 +155,13 @@ public class NewSearchResultFragment
             @Override
             public void convert(BaseViewHolder holder, final int position) {
                 ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
-
-//                layoutParams.width = (curentListTag ? width_Pic_List : width_Pic_Staggered);
                 layoutParams.height = mListData.get(position).getItem_info().getImage().getRatio() == 0
                         ? width_Pic_Staggered
                         : Math.round(width_Pic_Staggered / mListData.get(position).getItem_info().getImage().getRatio());
                 holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
 
                 String nikeName = mListData.get(position).getUser_info().getNickname();
-//                if (nikeName != null && nikeName.length() > 5) {
-//                    nikeName = nikeName.substring(0, 5) + "...";
-//                }
                 ((TextView) holder.getView(R.id.tv_name_pic)).setText(nikeName);
-
 
                 String strTag = "";
                 String tag = mListData.get(position).getItem_info().getTag();
@@ -205,25 +195,8 @@ public class NewSearchResultFragment
                 } else {
                     GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
                 }
-//                ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
-//                        (ImageView) holder.getView(R.id.iv_imageview_one));
-
                 ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
                         (ImageView) holder.getView(R.id.iv_header_pic));
-
-                holder.getView(R.id.iv_header_pic).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
-                        Bundle bundle = new Bundle();
-                        bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-                        newUserInfoFragment.setArguments(bundle);
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-                    }
-                });
 
                 holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -244,55 +217,21 @@ public class NewSearchResultFragment
                         fragmentTransaction.commit();
                     }
                 });
-                holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
-                        String userid = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
-                        if (!loginStatus) {
-                            Intent intent = new Intent(activity, LoginActivity.class);
-                            startActivityForResult(intent, 1);
-                        } else {
-                            //友盟统计
-                            HashMap<String, String> map4 = new HashMap<String, String>();
-                            map4.put("evenname", "加灵感辑");
-                            map4.put("even", "搜索结果页");
-                            MobclickAgent.onEvent(activity, "shijian30", map4);
-                            //ga统计
-                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("搜索结果页")  //事件类别
-                                    .setAction("加灵感辑")      //事件操作
-                                    .build());
-                            Intent intent = new Intent(activity, InspirationSeriesActivity.class);
-                            intent.putExtra("userid", userid);
-                            intent.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg0());
-                            intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-                            startActivity(intent);
 
-                        }
-                    }
-                });
-                holder.getView(R.id.iv_shibie_pic).setVisibility(View.GONE);
-                holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
+                holder.getView(R.id.rl_test).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //友盟统计
-                        HashMap<String, String> map6 = new HashMap<String, String>();
-                        map6.put("evenname", "识图入口");
-                        map6.put("even", "搜索列表页－图片识别");
-                        MobclickAgent.onEvent(activity, "shijian6", map6);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("搜索列表页－图片识别")  //事件类别
-                                .setAction("识图入口")      //事件操作
-                                .build());
-                        Intent intent1 = new Intent(activity, SearchLoadingActivity.class);
-                        intent1.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg1());
-                        intent1.putExtra("type", "lishi");
-                        intent1.putExtra("image_id", mListData.get(position).getItem_info().getImage().getImage_id());
-                        intent1.putExtra("image_type", "network");
-                        intent1.putExtra("image_ratio", mListData.get(position).getItem_info().getImage().getRatio());
-                        startActivity(intent1);
+                        NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(fragmentManager);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("user_id", "");
+                        bundle.putBoolean("ifHideEdit", true);
+                        bundle.putString("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
+                        bundle.putString("show_type", mListData.get(position).getAlbum_info().getShow_type());
+                        newInspirationDetailsment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.id_main, newInspirationDetailsment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                     }
                 });
             }
