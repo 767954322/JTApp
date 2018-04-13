@@ -1,17 +1,20 @@
 package com.homechart.app.home.activity;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -29,6 +32,7 @@ import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.caijiimg.CaiJiImageBean;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
+import com.homechart.app.utils.UIUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -49,9 +53,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initExtraBundle() {
         super.initExtraBundle();
-//        weburl = "http://app.jstyle.cn/jm_interface_1_2/index.php/home/article/app_articledesc?rid=44246";
         weburl = getIntent().getStringExtra("weburl");
-//        weburl = "http://mp.weixin.qq.com/s/K6JmSxrVjCn2ZH2-NBF_Cg";//微信
     }
 
     @Override
@@ -60,6 +62,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
         mWeb = (WebView) findViewById(R.id.wb_webview);
         iv_quxiao = (ImageView) findViewById(R.id.iv_quxiao);
         bt_caiji = (Button) findViewById(R.id.bt_caiji);
+        bt_un_caiji = (Button) findViewById(R.id.bt_un_caiji);
         cet_clearedit = (EditText) findViewById(R.id.cet_clearedit);
         tv_textview1 = (TextView) findViewById(R.id.tv_textview1);
         tv_textview2 = (TextView) findViewById(R.id.tv_textview2);
@@ -74,6 +77,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
         super.initListener();
         iv_quxiao.setOnClickListener(this);
         bt_caiji.setOnClickListener(this);
+        bt_un_caiji.setOnClickListener(this);
         iv_back_icon.setOnClickListener(this);
         iv_next_icon.setOnClickListener(this);
         cet_clearedit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -157,31 +161,32 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
                 MyWebViewActivity.this.finish();
                 break;
             case R.id.bt_caiji:
+            case R.id.bt_un_caiji:
+                if(allowCaiJi){
+                    loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
 
+                    if (!loginStatus) {
 
-                loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
-
-                if (!loginStatus) {
-
-                    Intent intent = new Intent(MyWebViewActivity.this, LoginActivity.class);
-                    startActivityForResult(intent, 1);
-
-                } else {
-
-                    if (weburl.contains("mp.weixin.qq.com")) {
-
-                        mWeb.loadUrl(CaiJi.WEIXIN);
-
-                    } else if (weburl.contains("www.shejiben.com")) {
-
-                        mWeb.loadUrl(CaiJi.SHEJIBEN);
+                        Intent intent = new Intent(MyWebViewActivity.this, LoginActivity.class);
+                        startActivityForResult(intent, 1);
 
                     } else {
 
-                        mWeb.loadUrl(CaiJi.PUBLICK);
+                        if (weburl.contains("mp.weixin.qq.com")) {
+
+                            mWeb.loadUrl(CaiJi.WEIXIN);
+
+                        } else if (weburl.contains("www.shejiben.com")) {
+
+                            mWeb.loadUrl(CaiJi.SHEJIBEN);
+
+                        } else {
+
+                            mWeb.loadUrl(CaiJi.PUBLICK);
+
+                        }
 
                     }
-
                 }
                 break;
             case R.id.iv_back_icon:
@@ -228,25 +233,37 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onPageFinished(WebView view, String url) {
                 //网页加载完成 走JS代码
+
                 pageTitle = view.getTitle();
                 changeUi(url);
-//                clickImage();
+                if (weburl.contains("mp.weixin.qq.com")) {
+                    mWeb.loadUrl(CaiJi.WEIXIN1);
+                } else if (weburl.contains("www.shejiben.com")) {
+                    mWeb.loadUrl(CaiJi.SHEJIBEN1);
+                } else {
+                    mWeb.loadUrl(CaiJi.PUBLICK1);
+                }
                 super.onPageFinished(view, url);
-
             }
 
-            @Override
-            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                handler.proceed();
-                super.onReceivedSslError(view, handler, error);
-            }
         });
         mWeb.addJavascriptInterface(new JavascriptInterface(), "imageListener");
     }
 
+
     private void changeUi(String url) {
         if (!TextUtils.isEmpty(url)) {
             cet_clearedit.setText(url);
+        }
+    }
+
+    private void alowCai(boolean bool) {
+        if (bool) {
+            bt_un_caiji.setVisibility(View.GONE);
+            bt_caiji.setVisibility(View.VISIBLE);
+        } else {
+            bt_un_caiji.setVisibility(View.VISIBLE);
+            bt_caiji.setVisibility(View.GONE);
         }
     }
 
@@ -288,7 +305,64 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
                 ToastUtils.showCenter(MyWebViewActivity.this, "未采集到图片信息");
             }
         }
+
+        @android.webkit.JavascriptInterface
+        public void finishLoad(String imageUrl, String img) {
+
+            List<CaiJiImageBean> mListImage = new ArrayList<>();
+            String[] imgs = imageUrl.split(CaiJi.tagItem);
+            for (String s : imgs) {
+                if (!TextUtils.isEmpty(s)) {
+                    String[] imgDes = s.split(CaiJi.tagDesc);
+                    if (imgDes.length > 0) {
+                        String url = imgDes[0].contains("http") ? imgDes[0] : ("http:" + imgDes[0]);
+                        if (url.length() > 5 &&
+                                PublicUtils.isValidUrl(url) &&
+                                !s.substring(url.length() - 3, url.length()).
+                                        equalsIgnoreCase("gif")) {
+                            CaiJiImageBean caiJiImageBean = new CaiJiImageBean();
+                            caiJiImageBean.setUrl(url);
+                            caiJiImageBean.setDes(imgDes.length > 1 ? imgDes[1] : "");
+                            mListImage.add(caiJiImageBean);
+                        }
+                    }
+                }
+            }
+            if (mListImage.size() > 0) {
+                if (mListImage.size() == 1 && mListImage.get(0).getUrl().equals("")) {
+                    Message message = new Message();
+                    message.what = 1;
+                    handler.sendMessage(message);
+                } else {
+                    Message message = new Message();
+                    message.what = 2;
+                    handler.sendMessage(message);
+                }
+            } else {
+                Message message = new Message();
+                message.what = 1;
+                handler.sendMessage(message);
+            }
+        }
     }
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+           int code =  msg.what;
+           switch (code){
+               case 1:
+                   allowCaiJi = false ;
+                   alowCai(false);
+                   break;
+               case 2:
+                   allowCaiJi = true ;
+                   alowCai(true);
+                   break;
+           }
+        }
+    };
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -363,9 +437,11 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
     private ImageView iv_next_icon;
     private ImageView iv_quxiao;
     private Button bt_caiji;
+    private Button bt_un_caiji;
     private String weburl;
     private WebView mWeb;
     private Boolean loginStatus;
+    private boolean allowCaiJi = false;
 
 }
 

@@ -29,9 +29,8 @@
             android:layout_height="@dimen/font_27"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/font_8"
-            android:layout_marginRight="@dimen/font_10"
+            android:layout_marginRight="@dimen/font_70"
             android:layout_marginTop="@dimen/font_8"
-            android:layout_toLeftOf="@+id/bt_caiji"
             android:layout_toRightOf="@+id/iv_quxiao"
             android:background="@drawable/bg_mywebview"
             android:drawablePadding="@dimen/font_3"
@@ -54,9 +53,23 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/font_10"
+            android:gravity="center"
             android:background="@drawable/bg_caiji"
             android:text="采集"
+            android:visibility="gone"
             android:textColor="@color/white"
+            android:textSize="@dimen/size_12" />
+        <Button
+            android:id="@+id/bt_un_caiji"
+            android:layout_width="@dimen/font_50"
+            android:layout_height="@dimen/font_27"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_10"
+            android:gravity="center"
+            android:background="@drawable/bg_un_caiji"
+            android:text="采集"
+            android:textColor="@color/bg_8f8f8f"
             android:textSize="@dimen/size_12" />
 
     </RelativeLayout>
