@@ -32,10 +32,10 @@
         <com.homechart.app.myview.ClearEditText
             android:id="@+id/cet_clearedit"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/font_27"
+            android:layout_height="@dimen/font_32"
             android:layout_marginLeft="@dimen/font_15"
             android:layout_toLeftOf="@+id/tv_quxiao"
-            android:background="@drawable/bg_edittext_search"
+            android:background="@drawable/bg_search_line"
             android:drawableLeft="@drawable/fdj"
             android:drawablePadding="@dimen/font_6"
             android:gravity="center_vertical"
@@ -43,9 +43,9 @@
             android:imeOptions="actionSearch"
             android:paddingLeft="@dimen/font_10"
             android:singleLine="true"
-            android:textColorHint="@color/bg_8f8f8f"
             android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="@dimen/size_14" />
+            android:textColorHint="@color/bg_8f8f8f"
+            android:textSize="@dimen/size_14"/>
     </RelativeLayout>
     <View
         android:id="@+id/view_one_line"

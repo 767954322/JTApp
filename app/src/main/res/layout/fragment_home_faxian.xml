@@ -8,23 +8,22 @@
     android:clickable="true"
     android:orientation="vertical">
 
-
     <com.homechart.app.myview.ClearEditText
         android:id="@+id/cet_clearedit"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/font_27"
+        android:layout_height="@dimen/font_32"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/font_8"
         android:layout_marginLeft="@dimen/font_15"
         android:layout_marginRight="@dimen/font_15"
         android:layout_marginTop="@dimen/font_8"
-        android:background="@drawable/bg_mywebview"
+        android:background="@drawable/bg_search_line"
         android:drawableLeft="@drawable/fdj"
         android:drawablePadding="@dimen/font_6"
         android:gravity="center_vertical"
         android:hint="搜索你喜欢的内容"
         android:paddingLeft="@dimen/font_10"
-        android:textColorHint="@color/bg_b2b2b2"
+        android:textColorHint="@color/bg_8f8f8f"
         android:textSize="@dimen/size_14" />
 
     <RelativeLayout
