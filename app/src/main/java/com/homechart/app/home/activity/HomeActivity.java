@@ -115,6 +115,7 @@ public class HomeActivity
     private ClipboardManager cm;
     boolean ifHide = true;
     private Timer timer_copy = new Timer(true);
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_home;
@@ -389,17 +390,43 @@ public class HomeActivity
         }
         timer_copy.schedule(task_copy, 100, 500);
     }
+
     //任务
     private TimerTask task_copy = new TimerTask() {
         public void run() {
             try {
+                String copyurl = SharedPreferencesUtils.readString("copyurl");
                 String textCopy = cm.getText().toString();
-                Message message = new Message();
-                message.obj = textCopy;
-                message.what = 1;
-                mHandler.sendMessage(message);
+                if (copyurl == null) {
+                    SharedPreferencesUtils.writeString("copyurl", "");
+                }
+                if (!TextUtils.isEmpty(textCopy) &&
+                        PublicUtils.isValidUrl(textCopy)
+                        && (TextUtils.isEmpty(copyurl) || !copyurl.equals(textCopy))) {
+
+                    if (ifHide && PublicUtils.isForeground(HomeActivity.this)) {
+                        ifHide = false;
+                        SharedPreferencesUtils.writeString("copyurl", textCopy + "#");
+                        cm.setText(textCopy + "#");
+                        Message message = new Message();
+                        message.obj = textCopy;
+                        message.what = 1;
+                        mHandler.sendMessage(message);
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Message message = new Message();
+                                message.what = 2;
+                                mHandler.sendMessage(message);
+                            }
+                        }, 6000);
+                    }
+
+                }
             } catch (Exception e) {
-                rl_copy.setVisibility(View.GONE);
+                Message message = new Message();
+                message.what = 2;
+                mHandler.sendMessage(message);
             }
         }
     };
@@ -411,37 +438,11 @@ public class HomeActivity
 
             switch (code) {
                 case 1:
-                    String textMsg = (String) msg.obj;
-                    if (!TextUtils.isEmpty(textMsg)) {
-                        if (PublicUtils.isValidUrl(textMsg)) {
-                            //显示
-                            rl_copy.setVisibility(View.VISIBLE);
-                            tv_url.setText(textMsg.trim());
-                            if (ifHide) {
-                                if(PublicUtils.isForeground(HomeActivity.this)){
-                                    ifHide = false;
-                                    mHandler.postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Message message = new Message();
-                                            message.what = 2;
-                                            mHandler.sendMessage(message);
-                                        }
-                                    },5000);
-                                }
-                            }
-                        } else {
-                            //不显示
-                            rl_copy.setVisibility(View.GONE);
-                        }
-                    } else {
-                        //不显示
-                        rl_copy.setVisibility(View.GONE);
-                        ifHide = true;
-                    }
+                    String textCopy = (String) msg.obj;
+                    tv_url.setText(textCopy.trim());
+                    rl_copy.setVisibility(View.VISIBLE);
                     break;
                 case 2:
-                    cm.setText("");
                     //不显示
                     rl_copy.setVisibility(View.GONE);
                     ifHide = true;
@@ -614,7 +615,7 @@ public class HomeActivity
                 break;
             case 24:
                 if (grantResults != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                   mHomeCenterFragment.paizhaoCaiJi();
+                    mHomeCenterFragment.paizhaoCaiJi();
                 } else {
                     ToastUtils.showCenter(HomeActivity.this, "您没有授权该权限，请在设置中打开授权");
                 }
@@ -706,18 +707,18 @@ public class HomeActivity
 
 
     public void hideBottom(boolean boo) {
-        if(boo){
+        if (boo) {
             rl_bottom_test.setVisibility(View.GONE);
-        }else {
+        } else {
             rl_bottom_test.setVisibility(View.VISIBLE);
         }
     }
 
 
-   public void visiableUnRedIcon(boolean bool){
-        if(bool){
+    public void visiableUnRedIcon(boolean bool) {
+        if (bool) {
             riv_unreader_msg.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             riv_unreader_msg.setVisibility(View.GONE);
         }
     }

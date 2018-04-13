@@ -142,6 +142,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/font_12"
         android:layout_marginRight="@dimen/font_12"
+        android:visibility="gone"
         android:background="@drawable/back_copy"
         android:layout_above="@+id/rl_bottom_test">
 
@@ -179,7 +180,6 @@
                 android:layout_below="@+id/tv_tital"
                 android:maxLines="3"
                 android:ellipsize="end"
-                android:text="sjdnksdnjkcsdncksdsnkjdncjksdncjksdncjksdjncksdcsdsjdnksdnjkcsdncksdsnkjdncjksdncjksdncjksdjncksdcsdsjdnksdnjkcsdncksdsnkjdncjksdncjksdncjksdjncksdcsd"
                 android:layout_marginLeft="@dimen/font_15"
                 android:layout_marginTop="@dimen/font_10"
                 android:layout_marginBottom="@dimen/font_14"/>
