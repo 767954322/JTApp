@@ -41,7 +41,6 @@ public class UrlConstants {
     public static final String HOT_WORDS = "https://api.idcool.com.cn/search/search/hotWords";  // 搜索热词
     public static final String UNREADER_MSG = "https://api.idcool.com.cn/user/account/newNoticeNum";  // 未读消息数
     public static final String RECOMMEND_LIST = "https://api.idcool.com.cn/home/index/recommend";  // 获取首页推荐列表
-    public static final String SEARCH_LIST = "https://api.idcool.com.cn/home/index/recommend";  // 新版获取搜索列表
     public static final String FAXIAN_LIST = "https://api.idcool.com.cn/search/search/item";  // 新版获取搜索列表
     public static final String GET_CHANNEL_PICS = "https://api.idcool.com.cn/item/item/getItemsByChannel";  // 获取频道图片数据
     public static final String GET_TAG_PICS = "https://api.idcool.com.cn/item/item/getItemsByTag";  // 获取标签图片数据
@@ -66,6 +65,7 @@ public class UrlConstants {
     public static final String PING_REPLY = "https://api.idcool.com.cn/comment/single/reply";  //回复单图评论
     public static final String PING_IMAGE = "https://api.idcool.com.cn/comment/single/add";  //单图评论
     public static final String LIKE_CAI = "https://api.idcool.com.cn/single/single/recommend";  //猜你喜欢
+    public static final String SEARCH_LIST = "https://api.idcool.com.cn/home/index/recommend";  // 新版获取搜索列表
     public static final String ACTIVITY_IMAGE = "https://api.idcool.com.cn/activity/activity/getSingleList";  //参与活动的图片列表
     public static final String ACTIVITY_DETAILS = "https://api.idcool.com.cn/activity/activity/getInfo";  //获取活动详情
     public static final String ADD_SHARED = "https://api.idcool.com.cn/base/share/updateShareNum";  //增加分享数

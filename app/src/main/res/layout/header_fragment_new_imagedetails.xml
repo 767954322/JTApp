@@ -424,7 +424,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_pinglun"
         android:layout_marginTop="@dimen/font_7"
-        android:background="@color/bg_f2f2f2">
+        android:layout_marginBottom="@dimen/font_25">
 
         <TextView
             android:id="@+id/tv_maybe_like"
@@ -434,8 +434,9 @@
             android:layout_marginLeft="@dimen/font_10"
             android:layout_marginTop="@dimen/font_20"
             android:text="你可能喜欢"
-            android:textColor="@color/bg_8f8f8f"
-            android:textSize="@dimen/size_14" />
+            android:textStyle="bold"
+            android:textColor="@color/bg_262626"
+            android:textSize="@dimen/size_17" />
 
     </RelativeLayout>
 

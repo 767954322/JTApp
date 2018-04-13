@@ -46,6 +46,7 @@ import com.homechart.app.home.bean.imagedetail.ImageDetailBean;
 import com.homechart.app.home.bean.searchfservice.SearchSBean;
 import com.homechart.app.home.recyclerholder.LoadMoreFooterView;
 import com.homechart.app.imagedetail.ImageDetailsActivity;
+import com.homechart.app.lingganji.ui.activity.InspirationDetailActivity;
 import com.homechart.app.lingganji.ui.activity.InspirationSeriesActivity;
 import com.homechart.app.myview.FlowLayoutBiaoQian;
 import com.homechart.app.myview.HomeSharedPopWinPublic;
@@ -106,7 +107,7 @@ public class NewImageDetaiScrollFragment
     }
 
     @SuppressLint("ValidFragment")
-    public NewImageDetaiScrollFragment(View mRootView ,FragmentManager fragmentManager, String item_id, UserInfo userInfo, int posotion) {
+    public NewImageDetaiScrollFragment(View mRootView, FragmentManager fragmentManager, String item_id, UserInfo userInfo, int posotion) {
         this.mRootView = mRootView;
         this.fragmentManager = fragmentManager;
         this.item_id = item_id;
@@ -129,7 +130,7 @@ public class NewImageDetaiScrollFragment
                 initData();
                 firstLoad = false;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
         }
     }
 
@@ -406,7 +407,7 @@ public class NewImageDetaiScrollFragment
     private void initData() {
 
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        width_Pic = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_14);
+        width_Pic = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_16);
         width_Imgs = (PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_146)) / 3;
         RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) rl_images_one.getLayoutParams();
         layoutParams1.width = width_Imgs;
@@ -439,9 +440,9 @@ public class NewImageDetaiScrollFragment
             @Override
             public int getLayoutId(int itemType) {
                 if (itemType == TYPE_ONE) {
-                    return R.layout.item_top_image_details;
+                    return R.layout.item_pubu_more_like;
                 } else {
-                    return R.layout.item_image_details;
+                    return R.layout.item_pubu_more_like;
                 }
             }
 
@@ -453,11 +454,6 @@ public class NewImageDetaiScrollFragment
         mAdapter = new MultiItemCommonAdapter<ImageLikeItemBean>(activity, mListData, support) {
             @Override
             public void convert(BaseViewHolder holder, final int position) {
-//                ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
-//                layoutParams.height = mListData.get(position).getItem_info().getImage().getRatio() == 0
-//                        ? width_Pic
-//                        : Math.round(width_Pic / mListData.get(position).getItem_info().getImage().getRatio());
-//                holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
 
                 String nikeName = mListData.get(position).getUser_info().getNickname();
                 ((TextView) holder.getView(R.id.tv_name_pic)).setText(nikeName);
@@ -492,7 +488,7 @@ public class NewImageDetaiScrollFragment
                                 ? width_Pic
                                 : Math.round(width_Pic / mListData.get(position).getItem_info().getImage().getRatio());
                         holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
-                        ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg1(),
+                        ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
                                 (ImageView) holder.getView(R.id.iv_imageview_one));
                     } else {
                         if (mListData.get(position).getItem_info().getImage().getRatio() > 0.333) {
@@ -528,35 +524,6 @@ public class NewImageDetaiScrollFragment
                     GlideImgManager.glideLoader(activity, mListData.get(position).getUser_info().getAvatar().getBig(), R.color.white, R.color.white, (TopCropImageView) holder.getView(R.id.iv_header_pic), 0);
                 }
 
-//                if (PublicUtils.ifHasWriteQuan(activity)) {
-//                    //有权限
-//                    if (mListData.get(position).getItem_info().getImage().getRatio() > 0.5) {
-//                        ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg1(),
-//                                (TopCropImageView) holder.getView(R.id.iv_imageview_one));
-//                    } else {
-//                        GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (TopCropImageView) holder.getView(R.id.iv_imageview_one), 1);
-//                    }
-//                    ImageUtils.displayFilletImage(mListData.get(position).getUser_info().getAvatar().getBig(),
-//                            (ImageView) holder.getView(R.id.iv_header_pic));
-//                } else {
-//                    GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (TopCropImageView) holder.getView(R.id.iv_imageview_one), 1);
-//                    GlideImgManager.glideLoader(activity, mListData.get(position).getUser_info().getAvatar().getBig(), R.color.white, R.color.white, (TopCropImageView) holder.getView(R.id.iv_header_pic), 0);
-//                }
-
-                holder.getView(R.id.iv_header_pic).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(fragmentManager);
-                        Bundle bundle = new Bundle();
-                        bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-                        newUserInfoFragment.setArguments(bundle);
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-                    }
-                });
-
                 holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -576,66 +543,13 @@ public class NewImageDetaiScrollFragment
                     }
                 });
 
-                holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
+                holder.getView(R.id.rl_test).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
-                        if (!loginStatus) {
-                            //友盟统计
-                            HashMap<String, String> map4 = new HashMap<String, String>();
-                            map4.put("evenname", "登录入口");
-                            map4.put("even", "猜你喜欢列表进行图片收藏");
-                            MobclickAgent.onEvent(activity, "shijian20", map4);
-                            //ga统计
-                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("猜你喜欢列表进行图片收藏")  //事件类别
-                                    .setAction("登录入口")      //事件操作
-                                    .build());
-                            Intent intent = new Intent(activity, LoginActivity.class);
-                            startActivityForResult(intent, 1);
-                        } else {
-                            //友盟统计
-                            HashMap<String, String> map4 = new HashMap<String, String>();
-                            map4.put("evenname", "加灵感辑");
-                            map4.put("even", "你可能喜欢");
-                            MobclickAgent.onEvent(activity, "shijian30", map4);
-                            //ga统计
-                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("你可能喜欢")  //事件类别
-                                    .setAction("加灵感辑")      //事件操作
-                                    .build());
-                            mUserId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
-                            Intent intent = new Intent(activity, InspirationSeriesActivity.class);
-                            intent.putExtra("userid", mUserId);
-                            intent.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg0());
-                            intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-                            startActivity(intent);
-                        }
-                    }
-                });
-
-                holder.getView(R.id.iv_shibie_pic).setVisibility(View.GONE);
-                holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //友盟统计
-                        HashMap<String, String> map6 = new HashMap<String, String>();
-                        map6.put("evenname", "识图入口");
-                        map6.put("even", "图片详情－图片识别");
-                        MobclickAgent.onEvent(activity, "shijian6", map6);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("图片详情－图片识别")  //事件类别
-                                .setAction("识图入口")      //事件操作
-                                .build());
-                        Intent intent1 = new Intent(activity, SearchLoadingActivity.class);
-//                        Intent intent1 = new Intent(ShiBieActivity.this, TestActivity.class);
-                        intent1.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg1());
-                        intent1.putExtra("type", "lishi");
-                        intent1.putExtra("image_id", mListData.get(position).getItem_info().getImage().getImage_id());
-                        intent1.putExtra("image_type", "network");
-                        intent1.putExtra("image_ratio", mListData.get(position).getItem_info().getImage().getRatio());
-                        startActivity(intent1);
+//                        Intent intent = new Intent(activity, InspirationDetailActivity.class);
+//                        intent.putExtra("ifHideEdit", true);
+//                        intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
+//                        startActivityForResult(intent, 2);
                     }
                 });
             }

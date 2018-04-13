@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+
+    <RelativeLayout
+        android:id="@+id/rl_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/font_35"
+        android:layout_marginLeft="@dimen/font_8"
+        android:layout_marginRight="@dimen/font_8">
+
+        <com.homechart.app.myview.TopCropImageView
+            android:id="@+id/iv_imageview_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_image_miaosu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_imageview_one"
+            android:layout_marginTop="@dimen/font_12"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:lineSpacingExtra="@dimen/font_3"
+            android:maxLines="2"
+            android:textColor="@color/bg_464646"
+            android:textSize="@dimen/size_13" />
+
+
+        <RelativeLayout
+            android:id="@+id/rl_test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_image_miaosu"
+            android:layout_marginTop="@dimen/font_12">
+
+            <com.homechart.app.myview.RoundImageView
+                android:id="@+id/iv_header_pic"
+                android:layout_width="@dimen/font_25"
+                android:layout_height="@dimen/font_25"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/font_10" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/font_10"
+                android:layout_toRightOf="@+id/iv_header_pic">
+
+                <TextView
+                    android:id="@+id/tv_name_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@color/bg_b2b2b2"
+                    android:textSize="@dimen/font_10" />
+
+                <TextView
+                    android:id="@+id/tv_name_ablum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_name_pic"
+                    android:layout_marginTop="@dimen/font_3"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="灵感辑名称"
+                    android:textColor="@color/bg_464646"
+                    android:textSize="@dimen/font_10" />
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
