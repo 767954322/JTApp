@@ -382,7 +382,7 @@ public class HomeFaXianFragment
         MultiItemTypeSupport<SearchItemDataBean> support = new MultiItemTypeSupport<SearchItemDataBean>() {
             @Override
             public int getLayoutId(int itemType) {
-                return R.layout.item_pubu_faxian;
+                return R.layout.item_pubu_last;
             }
 
             @Override
@@ -419,10 +419,7 @@ public class HomeFaXianFragment
                     ((TextView) holder.getView(R.id.tv_image_miaosu)).setVisibility(View.VISIBLE);
                 }
                 ((TextView) holder.getView(R.id.tv_image_miaosu)).setText(Html.fromHtml(str));
-
-//                ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
-//                layoutParams.height = Math.round(width_Pic_Staggered / mListData.get(position).getItem_info().getImage().getRatio());
-//                holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
+                ((TextView) holder.getView(R.id.tv_name_ablum)).setText(mListData.get(position).getAlbum_info().getAlbum_name());
 
                 if (PublicUtils.ifHasWriteQuan(activity)) {
                     if (mListData.get(position).getItem_info().getImage().getRatio() > 0.6) {
@@ -444,12 +441,6 @@ public class HomeFaXianFragment
                             GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
                         }
                     }
-//                    if (mListData.get(position).getItem_info().getImage().getRatio() > 0.6) {
-//                        ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg1(),
-//                                (ImageView) holder.getView(R.id.iv_imageview_one));
-//                    } else {
-//                        GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
-//                    }
                 } else {
                     if (mListData.get(position).getItem_info().getImage().getRatio() > 0.333) {
                         ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
@@ -462,7 +453,6 @@ public class HomeFaXianFragment
                         holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
                         GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
                     }
-//                    GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
                 }
 
 
@@ -472,35 +462,7 @@ public class HomeFaXianFragment
                 } else {
                     GlideImgManager.glideLoader(activity, mListData.get(position).getUser_info().getAvatar().getBig(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_header_pic), 0);
                 }
-                holder.getView(R.id.iv_header_pic).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
 
-                        NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(getChildFragmentManager());
-                        Bundle bundle = new Bundle();
-                        bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-                        newUserInfoFragment.setArguments(bundle);
-                        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-                        ClassConstant.HomeStatus.FAXIAN_STATUS = 1;
-                    }
-                });
-                holder.getView(R.id.tv_name_pic).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(getChildFragmentManager());
-                        Bundle bundle = new Bundle();
-                        bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-                        newUserInfoFragment.setArguments(bundle);
-                        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-                        ClassConstant.HomeStatus.FAXIAN_STATUS = 1;
-                    }
-                });
 
                 holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -526,73 +488,21 @@ public class HomeFaXianFragment
                         ClassConstant.HomeStatus.FAXIAN_STATUS = 1;
                     }
                 });
-                holder.getView(R.id.iv_if_shoucang).setOnClickListener(new View.OnClickListener() {
+
+                holder.getView(R.id.rl_test).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
-                        userId = SharedPreferencesUtils.readString(ClassConstant.LoginSucces.USER_ID);
-                        if (!loginStatus) {
-                            //友盟统计
-                            HashMap<String, String> map4 = new HashMap<String, String>();
-                            map4.put("evenname", "登录入口");
-                            map4.put("even", "发现页进行图片收藏");
-                            MobclickAgent.onEvent(activity, "shijian20", map4);
-                            //ga统计
-                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("发现页进行图片收藏")  //事件类别
-                                    .setAction("登录入口")      //事件操作
-                                    .build());
-                            Intent intent = new Intent(activity, LoginActivity.class);
-                            startActivityForResult(intent, 1);
-                        } else {
-                            //友盟统计
-                            HashMap<String, String> map4 = new HashMap<String, String>();
-                            map4.put("evenname", "加灵感辑");
-                            map4.put("even", "发现页");
-                            MobclickAgent.onEvent(activity, "shijian30", map4);
-                            //ga统计
-                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                    .setCategory("发现页")  //事件类别
-                                    .setAction("加灵感辑")      //事件操作
-                                    .build());
-                            Intent intent = new Intent(activity, InspirationSeriesActivity.class);
-                            intent.putExtra("userid", userId);
-                            intent.putExtra("image_url", mListData.get(position).getItem_info().getImage().getImg0());
-                            intent.putExtra("item_id", mListData.get(position).getItem_info().getItem_id());
-                            startActivity(intent);
-                        }
-                    }
-                });
-
-
-                Animation animation = holder.getView(R.id.iv_shibie_pic).getAnimation();
-                if (animation != null) {
-                    holder.getView(R.id.iv_shibie_pic).clearAnimation();
-                }
-//                    holder.getView(R.id.iv_shibie_pic).setAlpha(0.3f);
-                holder.getView(R.id.iv_shibie_pic).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //友盟统计
-                        HashMap<String, String> map = new HashMap<String, String>();
-                        map.put("evenname", "找相似图");
-                        map.put("even", "发现页");
-                        MobclickAgent.onEvent(activity, "shijian31", map);
-                        //ga统计
-                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                                .setCategory("发现页")  //事件类别
-                                .setAction("找相似图")      //事件操作
-                                .build());
-                        if (ifClickAble) {
-                            holder.getView(R.id.iv_shibie_pic).startAnimation(animationSet);
-//                                ifClickAble = false;
-                            if (mapSearch.containsKey(mListData.get(position).getItem_info().getItem_id())) {
-                                mapSearch.put(mListData.get(position).getItem_info().getItem_id(), mapSearch.get(mListData.get(position).getItem_info().getItem_id()) + 1);
-                            } else {
-                                mapSearch.put(mListData.get(position).getItem_info().getItem_id(), 1);
-                            }
-                            getSearchImage(mListData.get(position).getItem_info().getItem_id(), position);
-                        }
+                        NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(getChildFragmentManager());
+                        Bundle bundle = new Bundle();
+                        bundle.putString("user_id", "");
+                        bundle.putBoolean("ifHideEdit", true);
+                        bundle.putString("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
+                        bundle.putString("show_type", mListData.get(position).getAlbum_info().getShow_type());
+                        newInspirationDetailsment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.id_main, newInspirationDetailsment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                     }
                 });
 
