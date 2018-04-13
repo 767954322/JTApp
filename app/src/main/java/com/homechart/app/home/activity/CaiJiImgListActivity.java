@@ -155,11 +155,12 @@ public class CaiJiImgListActivity
                     Intent intent = new Intent(CaiJiImgListActivity.this, FaBuImageActivity.class);
                     intent.putExtra("image_url", list.get(position).getUrl());
                     intent.putExtra("image_des", list.get(position).getDes());
+                    intent.putExtra("position", position);
                     intent.putExtra("webUrl", mWebUrl);
                     intent.putExtra("title", title);
                     intent.putExtra("type", "webview");
                     CustomProgressTouMing.cancelDialog();
-                    startActivity(intent);
+                    startActivityForResult(intent, 1);
 
                 }
             });
@@ -169,6 +170,12 @@ public class CaiJiImgListActivity
         class MyHolder {
             private ImageView iv_imageview;
         }
+
+       public void changeData(List<CaiJiImageBean> data){
+            this.list = data;
+            this.notifyDataSetChanged();
+        }
+
     }
 
     private void upImage(final String url) {
@@ -193,7 +200,7 @@ public class CaiJiImgListActivity
                             String image_id = jsonObject1.getString("image_id");
                             JSONObject imageJSONObject = jsonObject1.getJSONObject("image");
                             String img0 = imageJSONObject.getString("img0");
-                            getDefaultTag(image_id, url,img0);
+                            getDefaultTag(image_id, url, img0);
                         } catch (Exception e) {
                             ToastUtils.showCenter(CaiJiImgListActivity.this, "图片上传失败,请重新上传");
                         }
@@ -259,4 +266,19 @@ public class CaiJiImgListActivity
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == 5) {
+            int position = data.getIntExtra("position", -1);
+            if (position >= 0 && imageLists.size() > position) {
+
+                imageLists.remove(position);
+                myAdapter.changeData(imageLists);
+
+            }
+        }
+
+    }
 }

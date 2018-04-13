@@ -114,6 +114,7 @@ public class FaBuImageActivity
     private String type;
     private String title;
     private String image_des;
+    private int mClickposition;
 
     @Override
     protected int getLayoutResId() {
@@ -129,6 +130,7 @@ public class FaBuImageActivity
         type = getIntent().getStringExtra("type");
         title = getIntent().getStringExtra("title");
         image_des = getIntent().getStringExtra("image_des");
+        mClickposition = getIntent().getIntExtra("position", -1);
     }
 
     @Override
@@ -203,7 +205,7 @@ public class FaBuImageActivity
             GlideImgManager.glideLoader(FaBuImageActivity.this, image_url, R.color.white, R.color.white, mIVLingGan, 1);
         }
 
-        if(!TextUtils.isEmpty(image_des)){
+        if (!TextUtils.isEmpty(image_des)) {
             mRLWye.setText(image_des.trim());
         }
 
@@ -611,7 +613,7 @@ public class FaBuImageActivity
                         JSONObject item_info = jsonObject1.getJSONObject("item_info");
                         String item_id = item_info.getString("item_id");
                         Intent intent = new Intent();
-                        intent.putExtra("item_id", item_id);
+                        intent.putExtra("position", mClickposition);
                         setResult(5, intent);
                         FaBuImageActivity.this.finish();
                     } else {
