@@ -8,5 +8,5 @@ package com.homechart.app.utils.alertview;
  * @brief 点击确定或者取消的监听 .
  */
 public interface OnItemClickListener {
-    public void onItemClick(Object object, int position);
+    public void onItemClick(Object object, int position,String tag);
 }

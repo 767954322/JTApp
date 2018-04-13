@@ -180,12 +180,6 @@ public class MyInfoActivity
         view_jianjie.setOnClickListener(this);
         view_nikename.setOnClickListener(this);
         rg_sex.setOnCheckedChangeListener(this);
-//        et_myinfo_jianjie.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                et_myinfo_jianjie.setSelection(et_myinfo_jianjie.getText().length());
-//            }
-//        });
         et_myinfo_nikename.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -820,11 +814,11 @@ public class MyInfoActivity
     private void showDialog() {
         mAlertView = new AlertView
                 ("", "是否取消本次修改", UIUtils.getString(R.string.fabu_back_cancle), new String[]{UIUtils.getString(R.string.fabu_back_sure)},
-                        null, this, AlertView.Style.Alert, this);
+                        null, this, AlertView.Style.Alert,"", this);
     }
 
     @Override
-    public void onItemClick(Object object, int position) {
+    public void onItemClick(Object object, int position,String tag) {
 
         switch (position) {
             case 0:

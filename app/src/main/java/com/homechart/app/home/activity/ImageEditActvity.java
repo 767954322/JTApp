@@ -355,11 +355,11 @@ public class ImageEditActvity
     private void showDialog() {
         mAlertView = new AlertView
                 ("", "是否取消本次编辑", UIUtils.getString(R.string.fabu_back_cancle), new String[]{UIUtils.getString(R.string.fabu_back_sure)},
-                        null, this, AlertView.Style.Alert, this);
+                        null, this, AlertView.Style.Alert,"", this);
     }
 
     @Override
-    public void onItemClick(Object object, int position) {
+    public void onItemClick(Object object, int position,String tag) {
 
         switch (position) {
             case 0:

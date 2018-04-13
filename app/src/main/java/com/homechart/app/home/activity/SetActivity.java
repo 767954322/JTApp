@@ -60,6 +60,7 @@ public class SetActivity
     private RelativeLayout rl_set_fankui;
     private RelativeLayout rl_set_tuijian;
     private AlertView mAlertView;
+    private AlertView mOutAlertView;
     private File cacheDir;
     private File filesDir;
     private File externalCacheDir;
@@ -114,6 +115,7 @@ public class SetActivity
         externalCacheDir = getExternalCacheDir();
         tv_clear_num.setText(getCacheSize());
         showDialog();
+        showOutDialog();
     }
 
     @Override
@@ -155,16 +157,8 @@ public class SetActivity
                         0); //设置layout在PopupWindow中显示的位置
                 break;
             case R.id.btn_outlogin:
-                //清除登陆数据
-                PublicUtils.clearShared(SetActivity.this);
-                //清除所有显示Activity
-//                ActivityManager.getInstance().exit(SetActivity.this);
-                //清除友盟授权
-                clearUMengOauth();
 
-//                Intent intent1 = new Intent(SetActivity.this, LoginActivity.class);
-//                startActivity(intent1);
-                SetActivity.this.finish();
+                mOutAlertView.show();
 
                 break;
             case R.id.rl_set_haoping:
@@ -189,28 +183,54 @@ public class SetActivity
         mAlertView = new AlertView
                 ("",
                         "确认清理缓存", UIUtils.getString(R.string.cancel), new String[]{UIUtils.getString(R.string.clear_cath_sure)},
-                        null, this, AlertView.Style.Alert, this);
+                        null, this, AlertView.Style.Alert, "clear", this);
+    }
+
+
+    /***
+     * 提示框
+     */
+    private void showOutDialog() {
+        mOutAlertView = new AlertView
+                ("", "确定退出账户么？", UIUtils.getString(R.string.fabu_back_cancle), new String[]{UIUtils.getString(R.string.fabu_back_sure)},
+                        null, this, AlertView.Style.Alert, "out", this);
     }
 
     @Override
-    public void onItemClick(Object object, int position) {
-        if (object == mAlertView && position != AlertView.CANCELPOSITION) {
-            if (getCacheSize().equals("0.0B")) {
-                ToastUtils.showCenter(this, UIUtils.getString(R.string.no_cath));
-            } else {
-                CustomProgress.show(SetActivity.this, "清除缓存中...", false, null);
-                PublicUtils.clearAppCache(this);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        tv_clear_num.setText("0.0B");
-                        CustomProgress.cancelDialog();
-                        ToastUtils.showCenter(SetActivity.this, "缓存已清完");
-                    }
-                }, 1000);
+    public void onItemClick(Object object, int position, String tag) {
+        if (position != AlertView.CANCELPOSITION) {
+
+            if (tag.equals("clear")) {
+
+                if (getCacheSize().equals("0.0B")) {
+                    ToastUtils.showCenter(this, UIUtils.getString(R.string.no_cath));
+                } else {
+                    CustomProgress.show(SetActivity.this, "清除缓存中...", false, null);
+                    PublicUtils.clearAppCache(this);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            tv_clear_num.setText("0.0B");
+                            CustomProgress.cancelDialog();
+                            ToastUtils.showCenter(SetActivity.this, "缓存已清完");
+                        }
+                    }, 1000);
+                }
+            } else if (tag.equals("out")) {
+                //清除登陆数据
+                PublicUtils.clearShared(SetActivity.this);
+                //清除所有显示Activity
+//                ActivityManager.getInstance().exit(SetActivity.this);
+                //清除友盟授权
+                clearUMengOauth();
+
+                Intent intent = new Intent(SetActivity.this,LoginActivity.class);
+                startActivity(intent);
+                SetActivity.this.finish();
             }
         } else {
             return;
+
         }
         return;
     }
@@ -318,7 +338,7 @@ public class SetActivity
                 ToastUtils.showCenter(SetActivity.this, "微信朋友圈分享成功啦");
             } else if (platform == SHARE_MEDIA.SINA) {
                 ToastUtils.showCenter(SetActivity.this, "新浪微博分享成功啦");
-            }else if (platform == SHARE_MEDIA.QQ) {
+            } else if (platform == SHARE_MEDIA.QQ) {
                 ToastUtils.showCenter(SetActivity.this, "QQ分享成功啦");
             }
 

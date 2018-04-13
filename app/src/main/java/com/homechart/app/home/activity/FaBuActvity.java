@@ -278,7 +278,7 @@ public class FaBuActvity
                 Bitmap bitmap_before = BitmapUtil.getBitmap(urlImage);
 //                Bitmap bitmap_compress = BitmapUtil.ratio(bitmap_before, 400, 800);
 //                Bitmap bitmap_compress_press = BitmapUtil.compressImage(bitmap_before);
-                if(bitmap_before != null){
+                if (bitmap_before != null) {
                     try {
                         boolean status = BitmapUtil.saveBitmap(bitmap_before, Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName + "/");
                     } catch (IOException e) {
@@ -409,11 +409,11 @@ public class FaBuActvity
     private void showDialog() {
         mAlertView = new AlertView
                 ("", "是否取消本次发布", UIUtils.getString(R.string.fabu_back_cancle), new String[]{UIUtils.getString(R.string.fabu_back_sure)},
-                        null, this, AlertView.Style.Alert, this);
+                        null, this,  AlertView.Style.Alert, "",this);
     }
 
     @Override
-    public void onItemClick(Object object, int position) {
+    public void onItemClick(Object object, int position,String tag) {
 
         switch (position) {
             case 0:
@@ -458,8 +458,8 @@ public class FaBuActvity
 
                 String info = (String) msg.obj;
                 try {
-                    if(type.equals("home")){//首页
-                    }else {//活动
+                    if (type.equals("home")) {//首页
+                    } else {//活动
                     }
 
                     JSONObject jsonObject = new JSONObject(info);

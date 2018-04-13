@@ -33,6 +33,7 @@ import java.util.List;
  * 点击取消按钮返回 －1，其他按钮从0开始算.
  */
 public class AlertView {
+
     public enum Style {
         ActionSheet,
         Alert
@@ -49,6 +50,7 @@ public class AlertView {
     public static final String MSG = "msg";
     public static final int CANCELPOSITION = -1;//点击取消按钮返回 －1，其他按钮从0开始算
 
+    private String mTag;
     private String title;
     private String msg;
     private List<String> mDestructive;
@@ -72,10 +74,11 @@ public class AlertView {
     private Animation inAnim;
     private int gravity = Gravity.CENTER;
 
-    public AlertView(String title, String msg, String cancel, String[] destructive, String[] others, Context context, Style style, OnItemClickListener onItemClickListener) {
+    public AlertView(String title, String msg, String cancel, String[] destructive, String[] others, Context context, Style style, String tag, OnItemClickListener onItemClickListener) {
         this.context = context;
         if (style != null) this.style = style;
         this.onItemClickListener = onItemClickListener;
+        this.mTag = tag;
 
         initData(title, msg, cancel, destructive, others);
         initViews();
@@ -108,7 +111,7 @@ public class AlertView {
     }
 
     protected void initViews() {
-        if(context == null){
+        if (context == null) {
             return;
         }
         LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -148,7 +151,7 @@ public class AlertView {
             tvAlertTitle.setText(title);
         } else {
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) loAlertHeader.getLayoutParams();
-            layoutParams.topMargin=10;
+            layoutParams.topMargin = 10;
             tvAlertTitle.setLayoutParams(layoutParams);
 //            tvAlertTitle.setVisibility(View.GONE);
         }
@@ -179,7 +182,7 @@ public class AlertView {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 if (onItemClickListener != null)
-                    onItemClickListener.onItemClick(AlertView.this, position);
+                    onItemClickListener.onItemClick(AlertView.this, position, mTag);
                 dismiss();
             }
         });
@@ -365,7 +368,7 @@ public class AlertView {
         @Override
         public void onClick(View view) {
             if (onItemClickListener != null)
-                onItemClickListener.onItemClick(AlertView.this, position);
+                onItemClickListener.onItemClick(AlertView.this, position, mTag);
             dismiss();
         }
     }

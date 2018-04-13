@@ -163,9 +163,9 @@ public class ResetPasswordActivity
                 != PackageManager.PERMISSION_GRANTED) {
             new AlertView(UIUtils.getString(R.string.addpromiss),
                     null, UIUtils.getString(R.string.setpromiss), new String[]{UIUtils.getString(R.string.okpromiss)},
-                    null, this, AlertView.Style.Alert, new OnItemClickListener() {
+                    null, this, AlertView.Style.Alert,"", new OnItemClickListener() {
                 @Override
-                public void onItemClick(Object object, int position) {
+                public void onItemClick(Object object, int position,String tag) {
                     if (position == -1) {
                         Uri packageURI = Uri.parse(URL_HEADER + ResetPasswordActivity.this.getPackageName());
                         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
