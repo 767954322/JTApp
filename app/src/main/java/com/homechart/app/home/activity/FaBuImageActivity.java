@@ -113,6 +113,7 @@ public class FaBuImageActivity
     private String mWebUrl;
     private String type;
     private String title;
+    private String image_des;
 
     @Override
     protected int getLayoutResId() {
@@ -127,6 +128,7 @@ public class FaBuImageActivity
         mWebUrl = getIntent().getStringExtra("webUrl");
         type = getIntent().getStringExtra("type");
         title = getIntent().getStringExtra("title");
+        image_des = getIntent().getStringExtra("image_des");
     }
 
     @Override
@@ -200,6 +202,11 @@ public class FaBuImageActivity
         } else {
             GlideImgManager.glideLoader(FaBuImageActivity.this, image_url, R.color.white, R.color.white, mIVLingGan, 1);
         }
+
+        if(!TextUtils.isEmpty(image_des)){
+            mRLWye.setText(image_des.trim());
+        }
+
         buildRecyclerView();
         fl_tag_flowLayout.setColorful(false);
         fl_tag_flowLayout.setListData(listTag);

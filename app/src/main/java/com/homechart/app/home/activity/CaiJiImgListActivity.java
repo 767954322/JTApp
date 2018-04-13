@@ -19,6 +19,7 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.home.bean.caijiimg.CaiJiImageBean;
 import com.homechart.app.recyclerlibrary.adapter.CommonAdapter;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
@@ -42,7 +43,7 @@ import java.util.List;
 public class CaiJiImgListActivity
         extends BaseActivity
         implements View.OnClickListener {
-    private List<String> imageLists;
+    private List<CaiJiImageBean> imageLists;
     private GridView gv_gridview;
     private ImageView iv_quxiao;
     private CommonAdapter<String> mAdapter;
@@ -61,7 +62,7 @@ public class CaiJiImgListActivity
     @Override
     protected void initExtraBundle() {
         super.initExtraBundle();
-        imageLists = (List<String>) getIntent().getSerializableExtra("pic_url_list");
+        imageLists = (List<CaiJiImageBean>) getIntent().getSerializableExtra("pic_url_list");
         title = getIntent().getStringExtra("title");
         mWebUrl = getIntent().getStringExtra("webUrl");
 
@@ -108,9 +109,9 @@ public class CaiJiImgListActivity
     class MyAdapter extends BaseAdapter {
 
         private Context context;
-        private List<String> list;
+        private List<CaiJiImageBean> list;
 
-        public MyAdapter(Context context, List<String> list) {
+        public MyAdapter(Context context, List<CaiJiImageBean> list) {
             this.context = context;
             this.list = list;
         }
@@ -146,13 +147,14 @@ public class CaiJiImgListActivity
             layoutParams.width = widthScreen;
             layoutParams.height = widthScreen;
             myHolder.iv_imageview.setLayoutParams(layoutParams);
-            GlideImgManager.glideLoader(CaiJiImgListActivity.this, list.get(position), R.color.white, R.color.white, myHolder.iv_imageview, 1);
+            GlideImgManager.glideLoader(CaiJiImgListActivity.this, list.get(position).getUrl(), R.color.white, R.color.white, myHolder.iv_imageview, 1);
             myHolder.iv_imageview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     Intent intent = new Intent(CaiJiImgListActivity.this, FaBuImageActivity.class);
-                    intent.putExtra("image_url", list.get(position));
+                    intent.putExtra("image_url", list.get(position).getUrl());
+                    intent.putExtra("image_des", list.get(position).getDes());
                     intent.putExtra("webUrl", mWebUrl);
                     intent.putExtra("title", title);
                     intent.putExtra("type", "webview");

@@ -26,11 +26,13 @@ import com.homechart.app.commont.CaiJi;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.base.BaseActivity;
+import com.homechart.app.home.bean.caijiimg.CaiJiImageBean;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by gumenghao on 18/1/23.
@@ -126,7 +128,6 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
 
             cet_clearedit.setText(weburl);
         }
-//        cet_clearedit.setSelection(weburl.length());
         initWebView();
         WebSettings settings = mWeb.getSettings();
         settings.setDomStorageEnabled(true);
@@ -252,39 +253,33 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
     public class JavascriptInterface {
         @android.webkit.JavascriptInterface
         public void openImage(String imageUrl, String img) {
-            ArrayList<String> imgUrlList;
-            if (cet_clearedit.getText().toString().contains("mp.weixin.qq.com")) {
-                String[] imgs = imageUrl.split("http");
-                imgUrlList = new ArrayList<>();
-                for (String s : imgs) {
-                    if (!TextUtils.isEmpty(s)) {
-                        s = "http" + s;
-                        if (PublicUtils.isValidUrl(s)) {
-                            imgUrlList.add(s);
+
+            List<CaiJiImageBean> mListImage = new ArrayList<>();
+            String[] imgs = imageUrl.split(CaiJi.tagItem);
+            for (String s : imgs) {
+                if (!TextUtils.isEmpty(s)) {
+                    String[] imgDes = s.split(CaiJi.tagDesc);
+                    if (imgDes.length > 0) {
+                        String url = imgDes[0].contains("http") ? imgDes[0] : ("http:" + imgDes[0]);
+                        if (url.length() > 5 &&
+                                PublicUtils.isValidUrl(url) &&
+                                !s.substring(url.length() - 3, url.length()).
+                                        equalsIgnoreCase("gif")) {
+                            CaiJiImageBean caiJiImageBean = new CaiJiImageBean();
+                            caiJiImageBean.setUrl(url);
+                            caiJiImageBean.setDes(imgDes.length > 1 ? imgDes[1] : "");
+                            mListImage.add(caiJiImageBean);
                         }
                     }
                 }
-            } else {
-                String[] imgs = imageUrl.split(",");
-                imgUrlList = new ArrayList<>();
-                for (String s : imgs) {
-                    if (!s.contains("http")) {
-                        s = "http:" + s;
-                    }
-                    if (s.length() > 5 && PublicUtils.isValidUrl(s) && !s.substring(s.length() - 3, s.length()).equalsIgnoreCase("gif")) {
-                        imgUrlList.add(s);
-                    }
-                }
             }
-            if (imgUrlList.size() > 0) {
-
-                if (imgUrlList.size() == 1 && imgUrlList.get(0).trim().equals("")) {
-
+            if (mListImage.size() > 0) {
+                if (mListImage.size() == 1 && mListImage.get(0).getUrl().equals("")) {
                     ToastUtils.showCenter(MyWebViewActivity.this, "未采集到图片信息");
                 } else {
                     Intent intent = new Intent(MyWebViewActivity.this, CaiJiImgListActivity.class);
                     intent.putExtra("number", 0);
-                    intent.putExtra("pic_url_list", (Serializable) imgUrlList);
+                    intent.putExtra("pic_url_list", (Serializable) mListImage);
                     intent.putExtra("title", pageTitle);
                     intent.putExtra("webUrl", cet_clearedit.getText().toString());
                     startActivity(intent);
@@ -293,19 +288,6 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
                 ToastUtils.showCenter(MyWebViewActivity.this, "未采集到图片信息");
             }
         }
-
-//        @android.webkit.JavascriptInterface
-//        public void showSource(String html) {
-//            getHtmlContent(html);
-//        }
-    }
-
-    /**
-     * 获取内容
-     *
-     * @param html
-     */
-    protected void getHtmlContent(final String html) {
     }
 
     @Override

@@ -6,6 +6,17 @@ package com.homechart.app.commont;
 
 public class CaiJi {
 
+    /**
+     * var desc=img.getAttribute('alt');
+     * <p>
+     * desc=desc?desc:img.parentNode.getAttribute('title');
+     * <p>
+     * desc=desc?desc:document.title;
+     */
+
+    public static final String tagItem = "!!!@@@";
+    public static final String tagDesc = "@@@!!!";
+
     //********通用********
     public static final String PUBLICK = "javascript:(function(){" +
             "var objs = document.getElementsByTagName(\"img\"); " +
@@ -14,7 +25,10 @@ public class CaiJi {
             "var isShow = true;" +
             "for(var i=0;i<objs.length;i++){" +
             "if(objs[i].width>80){" +
-            "imgUrl += objs[i].src + ',';isShow = true;" +
+            "var desc=objs[i].getAttribute('alt');" +
+            "desc=desc?desc:objs[i].parentNode.getAttribute('title');" +
+            "desc=desc?desc:document.title;" +
+            "imgUrl += objs[i].src   +  '@@@!!!' +  desc + '!!!@@@';isShow = true;" +
             "}" +
             "}" +
             "window.imageListener.openImage(imgUrl,'');" +
@@ -28,7 +42,10 @@ public class CaiJi {
             "var isShow = true;" +
             "for(var i=0;i<objs.length;i++){" +
             "if(objs[i].width>80){" +
-            "imgUrl += objs[i].getAttribute('data-src')?objs[i].getAttribute('data-src'):objs[i].src + '';isShow = true;" +
+            "var desc=objs[i].getAttribute('alt');" +
+            "desc=desc?desc:objs[i].parentNode.getAttribute('title');" +
+            "desc=desc?desc:document.title;" +
+            "imgUrl += objs[i].getAttribute('data-src')?objs[i].getAttribute('data-src'):objs[i].src+  +  '@@@!!!' +  desc + '!!!@@@' ;isShow = true;" +
             "}" +
             "}" +
             "window.imageListener.openImage(imgUrl,'');" +
@@ -42,7 +59,10 @@ public class CaiJi {
             "var isShow = true;" +
             "for(var i=0;i<objs.length;i++){" +
             "if(objs[i].width>80){" +
-            "imgUrl += (objs[i].getAttribute('data-original')?objs[i].getAttribute('data-original'):objs[i].src) + ',';isShow = true;" +
+            "var desc=objs[i].getAttribute('alt');" +
+            "desc=desc?desc:objs[i].parentNode.getAttribute('title');" +
+            "desc=desc?desc:document.title;" +
+            "imgUrl += (objs[i].getAttribute('data-original')?objs[i].getAttribute('data-original'):objs[i].src)  +  '@@@!!!' +  desc + '!!!@@@';isShow = true;" +
             "}" +
             "}" +
             "window.imageListener.openImage(imgUrl,'');" +
