@@ -437,7 +437,7 @@ public class NewLanMuFragment
 
                 if (PublicUtils.ifHasWriteQuan(activity)) {
                     if (mListData.get(position).getItem_info().getImage().getRatio() > 0.6) {
-                        ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg1(),
+                        ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
                                 (ImageView) holder.getView(R.id.iv_imageview_one));
                     } else {
                         GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
@@ -453,33 +453,6 @@ public class NewLanMuFragment
                 } else {
                     GlideImgManager.glideLoader(activity, mListData.get(position).getUser_info().getAvatar().getBig(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_header_pic), 0);
                 }
-                holder.getView(R.id.iv_header_pic).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(getChildFragmentManager());
-                        Bundle bundle = new Bundle();
-                        bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-                        newUserInfoFragment.setArguments(bundle);
-                        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-                    }
-                });
-                holder.getView(R.id.tv_name_pic).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        NewUserInfoFragment newUserInfoFragment = new NewUserInfoFragment(getChildFragmentManager());
-                        Bundle bundle = new Bundle();
-                        bundle.putString(ClassConstant.LoginSucces.USER_ID, mListData.get(position).getUser_info().getUser_id());
-                        newUserInfoFragment.setArguments(bundle);
-                        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.id_main, newUserInfoFragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-                    }
-                });
 
                 holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -505,6 +478,22 @@ public class NewLanMuFragment
                     }
                 });
 
+                holder.getView(R.id.rl_test).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(getChildFragmentManager());
+                        Bundle bundle = new Bundle();
+                        bundle.putString("user_id", "");
+                        bundle.putBoolean("ifHideEdit", true);
+                        bundle.putString("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
+                        bundle.putString("show_type", mListData.get(position).getAlbum_info().getShow_type());
+                        newInspirationDetailsment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.id_main, newInspirationDetailsment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
+                });
             }
         };
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
