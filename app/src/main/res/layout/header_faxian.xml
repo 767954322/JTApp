@@ -3,22 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/bg_f2f2f2">
+    android:background="@color/white">
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/hlv_tab2"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/font_44"
+        android:layout_height="@dimen/font_105"
         android:background="@color/white"
+        android:layout_marginTop="@dimen/font_15"
+        android:layout_marginBottom="@dimen/font_15"
+        android:visibility="gone"
+        android:layout_marginRight="@dimen/font_5"
         android:layout_below="@+id/view_line_top"/>
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_1"
+        android:layout_below="@+id/hlv_tab2"
+        android:background="@color/view_line"/>
+
 
     <com.homechart.app.myview.MyListView
         android:id="@+id/lv_faxian_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/hlv_tab2"
+        android:layout_below="@+id/view_line"
         android:visibility="gone"
         android:divider="@null"
-        android:background="@color/bg_f2f2f2" />
+        android:background="@color/white" />
 </RelativeLayout>

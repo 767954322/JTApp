@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.homechart.app.MyApplication;
@@ -41,6 +42,7 @@ import com.homechart.app.home.adapter.MyHuaTiAdapter;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.faxianpingdao.PingDaoBean;
 import com.homechart.app.home.bean.faxianpingdao.PingDaoItemBean;
+import com.homechart.app.home.bean.faxianpingdao.PingDaoUrlItemBean;
 import com.homechart.app.home.bean.search.RecommendItemDataBean;
 import com.homechart.app.home.bean.search.SearchDataBean;
 import com.homechart.app.home.bean.search.SearchItemDataBean;
@@ -85,7 +87,7 @@ public class HomeFaXianFragment
     private RecyclerView mRecyclerView1;
     private RecyclerView mRecyclerView2;
     private List<PingDaoItemBean> mListPingDao = new ArrayList<>();
-    private List<String> mListPingDao1 = new ArrayList<>();
+    private List<PingDaoUrlItemBean> mListPingDao1 = new ArrayList<>();
     private HRecyclerView mRecyclerView;
     private List<SearchItemDataBean> mListData = new ArrayList<>();
     private List<String> mItemIdList = new ArrayList<>();
@@ -108,7 +110,7 @@ public class HomeFaXianFragment
     private MyHuaTiAdapter myHuaTiAdapter;
     private ClearEditText cet_clearedit;
     private MultiItemCommonAdapter<PingDaoItemBean> mAdapter1;
-    private MultiItemCommonAdapter<String> mAdapter2;
+    private MultiItemCommonAdapter<PingDaoUrlItemBean> mAdapter2;
     private int selectPosition = 0;
     private ImageView iv_more;
     private boolean move_tag = true;
@@ -150,41 +152,41 @@ public class HomeFaXianFragment
         cet_clearedit.setKeyListener(null);
         cet_clearedit.setOnClickListener(this);
         iv_more.setOnClickListener(this);
-        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int action = event.getAction();
-                switch (action) {
-                    case MotionEvent.ACTION_DOWN:
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        if (move_tag) {
-                            mDownY = event.getY();
-                            move_tag = false;
-                        }
-                        mMoveY = event.getY();
-                        break;
-                    case MotionEvent.ACTION_UP:
-
-                        move_tag = true;
-                        mMoveY = event.getY();
-                        Log.e("UP", "Y" + mMoveY);
-                        if (Math.abs((mMoveY - mDownY)) > 20) {
-                            if (mMoveY > mDownY) {
-                                if (mListPingDao1.size() > 0) {
-                                    mRecyclerView2.setVisibility(View.VISIBLE);
-                                } else {
-                                    mRecyclerView2.setVisibility(View.GONE);
-                                }
-                            } else {
-                                mRecyclerView2.setVisibility(View.GONE);
-                            }
-                        }
-                        break;
-                }
-                return false;
-            }
-        });
+//        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                int action = event.getAction();
+//                switch (action) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        break;
+//                    case MotionEvent.ACTION_MOVE:
+//                        if (move_tag) {
+//                            mDownY = event.getY();
+//                            move_tag = false;
+//                        }
+//                        mMoveY = event.getY();
+//                        break;
+//                    case MotionEvent.ACTION_UP:
+//
+//                        move_tag = true;
+//                        mMoveY = event.getY();
+//                        Log.e("UP", "Y" + mMoveY);
+//                        if (Math.abs((mMoveY - mDownY)) > 20) {
+//                            if (mMoveY > mDownY) {
+//                                if (mListPingDao1.size() > 0) {
+//                                    mRecyclerView2.setVisibility(View.VISIBLE);
+//                                } else {
+//                                    mRecyclerView2.setVisibility(View.GONE);
+//                                }
+//                            } else {
+//                                mRecyclerView2.setVisibility(View.GONE);
+//                            }
+//                        }
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
     }
 
     @Override
@@ -302,7 +304,7 @@ public class HomeFaXianFragment
                                     .setAction("频道点击")      //事件操作
                                     .build());
                             onRefresh();
-                            List<String> strList = mListPingDao.get(position).getRelation_tag();
+                            List<PingDaoUrlItemBean> strList = mListPingDao.get(position).getRel_tag_data();
                             if (null != strList && strList.size() > 0) {
                                 mRecyclerView2.setVisibility(View.VISIBLE);
                                 mListPingDao1.clear();
@@ -328,26 +330,27 @@ public class HomeFaXianFragment
     }
 
     private void buildHRecyclerView2() {
-        MultiItemTypeSupport<String> support = new MultiItemTypeSupport<String>() {
+        MultiItemTypeSupport<PingDaoUrlItemBean> support = new MultiItemTypeSupport<PingDaoUrlItemBean>() {
             @Override
             public int getLayoutId(int itemType) {
-                return R.layout.item_pingdao1;
+                return R.layout.item_pingdao2;
             }
 
             @Override
-            public int getItemViewType(int position, String s) {
+            public int getItemViewType(int position, PingDaoUrlItemBean s) {
                 return 0;
             }
         };
-        mAdapter2 = new MultiItemCommonAdapter<String>(activity, mListPingDao1, support) {
+        mAdapter2 = new MultiItemCommonAdapter<PingDaoUrlItemBean>(activity, mListPingDao1, support) {
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
-                ((TextView) holder.getView(R.id.tv_item_pingdao)).setText(mListPingDao1.get(position));
+                ((TextView) holder.getView(R.id.tv_item_pingdao)).setText(mListPingDao1.get(position).getTag_name());
                 holder.getView(R.id.rl_lanmu).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String strLanMu = mListPingDao1.get(position);
-
+//                        ImageUtils.displayFilletImage(mListPingDao1.get(position).getImage_url() ,(ImageView) holder.getView(R.id.iv_item_pingdao) );
+//                        GlideImgManager.glideLoader(activity, mListPingDao1.get(position).getImage_url(), R.color.bg_e79056, R.color.bg_e79056, (ImageView) holder.getView(R.id.iv_item_pingdao),1);
+                        String strLanMu = mListPingDao1.get(position).getTag_name();
                         //友盟统计
                         HashMap<String, String> map = new HashMap<String, String>();
                         map.put("evenname", "标签点击");
@@ -827,7 +830,7 @@ public class HomeFaXianFragment
                     }
                     if (mListPingDao.size() > 0 && mListPingDao.get(0).getRelation_tag().size() > 0) {
                         mListPingDao1.clear();
-                        mListPingDao1.addAll(mListPingDao.get(0).getRelation_tag());
+                        mListPingDao1.addAll(mListPingDao.get(0).getRel_tag_data());
                         mAdapter2.notifyDataSetChanged();
                         mRecyclerView2.setVisibility(View.VISIBLE);
                     } else {
