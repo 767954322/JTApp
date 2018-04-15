@@ -137,10 +137,11 @@ public class HomeFaXianFragment
         cet_clearedit = (ClearEditText) rootView.findViewById(R.id.cet_clearedit);
         iv_more = (ImageView) rootView.findViewById(R.id.iv_more);
         mRecyclerView1 = (RecyclerView) rootView.findViewById(R.id.hlv_tab1);
-        mRecyclerView2 = (RecyclerView) rootView.findViewById(R.id.hlv_tab2);
+//        mRecyclerView2 = (RecyclerView) rootView.findViewById(R.id.hlv_tab2);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_pic);
         headerView = LayoutInflater.from(activity).inflate(R.layout.header_faxian, null);
         lv_faxian_header = (MyListView) headerView.findViewById(R.id.lv_faxian_header);
+        mRecyclerView2 = (RecyclerView) headerView.findViewById(R.id.hlv_tab2);
     }
 
     @Override

@@ -5,10 +5,19 @@
     android:layout_height="wrap_content"
     android:background="@color/bg_f2f2f2">
 
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/hlv_tab2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_44"
+        android:background="@color/white"
+        android:layout_below="@+id/view_line_top"/>
+
     <com.homechart.app.myview.MyListView
         android:id="@+id/lv_faxian_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/hlv_tab2"
         android:visibility="gone"
         android:divider="@null"
         android:background="@color/bg_f2f2f2" />

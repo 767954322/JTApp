@@ -71,19 +71,11 @@
         android:layout_below="@+id/rl_tab1"
         android:background="@color/view_line" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/hlv_tab2"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/font_44"
-        android:background="@color/white"
-        android:layout_below="@+id/view_line_top"/>
-
-
     <com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView
         android:id="@+id/rcy_recyclerview_pic"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/hlv_tab2"
+        android:layout_below="@+id/view_line_top"
         android:background="@color/white"
         android:paddingLeft="@dimen/font_5"
         android:paddingRight="@dimen/font_5"
