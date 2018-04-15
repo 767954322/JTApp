@@ -431,7 +431,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/font_15"
-            android:layout_marginLeft="@dimen/font_10"
+            android:layout_marginLeft="@dimen/font_20"
             android:layout_marginTop="@dimen/font_20"
             android:text="你可能喜欢"
             android:textStyle="bold"
