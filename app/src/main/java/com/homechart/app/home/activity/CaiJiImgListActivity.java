@@ -139,15 +139,28 @@ public class CaiJiImgListActivity
                 convertView = LayoutInflater.from(context).inflate(R.layout.item_caiji_image, null);
                 myHolder = new MyHolder();
                 myHolder.iv_imageview = (ImageView) convertView.findViewById(R.id.iv_item_caiji);
+                myHolder.iv_item_back = (ImageView) convertView.findViewById(R.id.iv_item_back);
+                myHolder.tv_item_back = (TextView) convertView.findViewById(R.id.tv_item_back);
                 convertView.setTag(myHolder);
             } else {
                 myHolder = (MyHolder) convertView.getTag();
             }
+            RelativeLayout.LayoutParams layoutParamsBack = (RelativeLayout.LayoutParams) myHolder.iv_item_back.getLayoutParams();
+            layoutParamsBack.width = widthScreen;
+            layoutParamsBack.height = widthScreen;
+            myHolder.iv_item_back.setLayoutParams(layoutParamsBack);
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) myHolder.iv_imageview.getLayoutParams();
             layoutParams.width = widthScreen;
             layoutParams.height = widthScreen;
             myHolder.iv_imageview.setLayoutParams(layoutParams);
             GlideImgManager.glideLoader(CaiJiImgListActivity.this, list.get(position).getUrl(), R.color.white, R.color.white, myHolder.iv_imageview, 1);
+            if(list.get(position).isHasCaiJi()){
+                myHolder.iv_item_back.setVisibility(View.VISIBLE);
+                myHolder.tv_item_back.setVisibility(View.VISIBLE);
+            }else {
+                myHolder.iv_item_back.setVisibility(View.GONE);
+                myHolder.tv_item_back.setVisibility(View.GONE);
+            }
             myHolder.iv_imageview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -169,6 +182,8 @@ public class CaiJiImgListActivity
 
         class MyHolder {
             private ImageView iv_imageview;
+            private ImageView iv_item_back;
+            private TextView tv_item_back;
         }
 
        public void changeData(List<CaiJiImageBean> data){
@@ -274,7 +289,7 @@ public class CaiJiImgListActivity
             int position = data.getIntExtra("position", -1);
             if (position >= 0 && imageLists.size() > position) {
 
-                imageLists.remove(position);
+                imageLists.get(position).setHasCaiJi(true);
                 myAdapter.changeData(imageLists);
 
             }

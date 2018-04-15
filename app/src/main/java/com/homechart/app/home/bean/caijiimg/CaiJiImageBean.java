@@ -8,8 +8,9 @@ import java.io.Serializable;
 
 public class CaiJiImageBean implements Serializable {
 
-    private String des ;
-    private String url ;
+    private String des;
+    private String url;
+    private boolean hasCaiJi = false;
 
     public CaiJiImageBean() {
     }
@@ -17,6 +18,13 @@ public class CaiJiImageBean implements Serializable {
     public CaiJiImageBean(String des, String url) {
         this.des = des;
         this.url = url;
+    }
+
+
+    public CaiJiImageBean(String des, String url, boolean hasCaiJi) {
+        this.des = des;
+        this.url = url;
+        this.hasCaiJi = hasCaiJi;
     }
 
     public String getDes() {
@@ -35,11 +43,23 @@ public class CaiJiImageBean implements Serializable {
         this.url = url;
     }
 
+    public boolean isHasCaiJi() {
+        return hasCaiJi;
+    }
+
+    public void setHasCaiJi(boolean hasCaiJi) {
+        this.hasCaiJi = hasCaiJi;
+    }
+
+
+
+
     @Override
     public String toString() {
         return "CaiJiImageBean{" +
                 "des='" + des + '\'' +
                 ", url='" + url + '\'' +
+                ", hasCaiJi=" + hasCaiJi +
                 '}';
     }
 }

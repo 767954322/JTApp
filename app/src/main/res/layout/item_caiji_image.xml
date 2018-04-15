@@ -11,4 +11,24 @@
         android:scaleType="centerCrop"
         android:layout_marginBottom="@dimen/font_8"/>
 
+    <com.homechart.app.myview.RoundJiaoImageView
+        android:id="@+id/iv_item_back"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="@color/bg_80ffffff"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/font_8"/>
+
+    <TextView
+        android:id="@+id/tv_item_back"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/bg_707070"
+        android:textSize="@dimen/size_14"
+        android:layout_centerInParent="true"
+        android:text="已采集"/>
+
 </RelativeLayout>
