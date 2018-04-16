@@ -17,13 +17,13 @@
         android:layout_marginRight="@dimen/font_5"
         android:layout_below="@+id/view_line_top"/>
 
-    <View
+    <ImageView
         android:id="@+id/view_line"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/font_1"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/hlv_tab2"
-        android:background="@color/view_line"/>
-
+        android:scaleType="fitXY"
+        android:src="@drawable/yinying"/>
 
     <com.homechart.app.myview.MyListView
         android:id="@+id/lv_faxian_header"

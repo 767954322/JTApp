@@ -36,10 +36,9 @@
             android:id="@+id/view_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/tri"
+            android:src="@drawable/xuanzhong_1"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/font_4" />
+            android:layout_centerHorizontal="true" />
 
         <!--<View-->
             <!--android:id="@+id/view_bottom"-->
