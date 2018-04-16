@@ -349,14 +349,12 @@ public class HomeFaXianFragment
                         !TextUtils.isEmpty(mListPingDao1.get(position).getImage_url())) {
                     ImageUtils.displayFilletImage(mListPingDao1.get(position).getImage_url(), (ImageView) holder.getView(R.id.iv_item_pingdao));
                 }else {
-                    ImageUtils.displayFilletImage("drawable://" +R.drawable.addpic, (ImageView) holder.getView(R.id.iv_item_pingdao));
+//                    ImageUtils.displayFilletImage("drawable://" +R.drawable.addpic, (ImageView) holder.getView(R.id.iv_item_pingdao));
 //                    ImageUtils.displayFilletImage("https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3875436417,2934656235&fm=27&gp=0.jpg", (ImageView) holder.getView(R.id.iv_item_pingdao));
                 }
                 holder.getView(R.id.rl_lanmu).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        ImageUtils.displayFilletImage(mListPingDao1.get(position).getImage_url() ,(ImageView) holder.getView(R.id.iv_item_pingdao) );
-//                        GlideImgManager.glideLoader(activity, mListPingDao1.get(position).getImage_url(), R.color.bg_e79056, R.color.bg_e79056, (ImageView) holder.getView(R.id.iv_item_pingdao),1);
                         String strLanMu = mListPingDao1.get(position).getTag_name();
                         //友盟统计
                         HashMap<String, String> map = new HashMap<String, String>();
