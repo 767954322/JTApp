@@ -40,15 +40,6 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
 
-        <!--<View-->
-            <!--android:id="@+id/view_bottom"-->
-            <!--android:layout_width="@dimen/font_26"-->
-            <!--android:layout_height="@dimen/font_2"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_marginBottom="@dimen/font_2"-->
-            <!--android:visibility="visible"-->
-            <!--android:background="@drawable/bg_pingdao_below" />-->
 
     </RelativeLayout>
 

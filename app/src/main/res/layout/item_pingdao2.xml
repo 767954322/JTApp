@@ -2,34 +2,47 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_lanmu"
     android:layout_width="wrap_content"
-    android:background="@color/white"
+    android:layout_height="@dimen/font_105"
     android:layout_marginLeft="@dimen/font_5"
-    android:layout_height="@dimen/font_105">
+    android:background="@color/white">
 
-
-    <ImageView
-        android:id="@+id/iv_item_pingdao"
+    <RelativeLayout
+        android:id="@+id/rl_item_pingdao"
         android:layout_width="@dimen/font_105"
         android:layout_height="@dimen/font_105"
-        android:background="@color/bg_e79056"/>
+        android:background="@drawable/bg_faxian">
+
+        <ImageView
+            android:id="@+id/iv_item_pingdao"
+            android:layout_width="@dimen/font_105"
+            android:layout_height="@dimen/font_105"
+            android:background="@drawable/text_view_border" />
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="@dimen/font_105"
+            android:layout_height="@dimen/font_105"
+            android:background="@drawable/text_pingdao" />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_item_pingdao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="主卧"
-        android:textColor="@color/white"
-        android:textStyle="bold"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/font_10"
         android:layout_marginLeft="@dimen/font_10"
-        android:textSize="@dimen/size_14" />
+        android:text="主卧"
+        android:textColor="@color/white"
+        android:textSize="@dimen/size_14"
+        android:textStyle="bold" />
 
     <View
         android:id="@+id/view_last_one"
         android:layout_width="@dimen/font_15"
         android:layout_height="@dimen/font_1"
-        android:visibility="gone"
-        android:layout_toRightOf="@+id/tv_item_pingdao"/>
+        android:layout_toRightOf="@+id/tv_item_pingdao"
+        android:visibility="gone" />
 
 </RelativeLayout>

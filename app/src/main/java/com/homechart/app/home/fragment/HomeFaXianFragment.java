@@ -345,6 +345,13 @@ public class HomeFaXianFragment
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
                 ((TextView) holder.getView(R.id.tv_item_pingdao)).setText(mListPingDao1.get(position).getTag_name());
+                if (null != mListPingDao1.get(position).getImage_url() &&
+                        !TextUtils.isEmpty(mListPingDao1.get(position).getImage_url())) {
+                    ImageUtils.displayFilletImage(mListPingDao1.get(position).getImage_url(), (ImageView) holder.getView(R.id.iv_item_pingdao));
+                }else {
+                    ImageUtils.displayFilletImage("drawable://" +R.drawable.addpic, (ImageView) holder.getView(R.id.iv_item_pingdao));
+//                    ImageUtils.displayFilletImage("https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3875436417,2934656235&fm=27&gp=0.jpg", (ImageView) holder.getView(R.id.iv_item_pingdao));
+                }
                 holder.getView(R.id.rl_lanmu).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
