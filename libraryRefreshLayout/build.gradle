@@ -17,6 +17,8 @@ android {
         }
     }
     lintOptions {
+        //即使有lint报错也不停止打包
+        checkReleaseBuilds false
         abortOnError false
     }
 }

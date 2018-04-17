@@ -49,6 +49,11 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
     }
+    lintOptions {
+        //即使有lint报错也不停止打包
+        checkReleaseBuilds false
+        abortOnError false
+    }
 }
 
 dependencies {
