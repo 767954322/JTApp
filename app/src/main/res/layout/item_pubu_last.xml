@@ -6,6 +6,7 @@
     android:layout_marginTop="@dimen/font_11"
     android:layout_marginLeft="@dimen/font_7"
     android:layout_marginRight="@dimen/font_7"
+    android:layout_marginBottom="@dimen/font_32"
     android:background="@color/white">
 
 
@@ -19,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_imageview_one"
-            android:layout_marginTop="@dimen/font_12"
+            android:layout_marginTop="@dimen/font_11"
             android:ellipsize="end"
             android:includeFontPadding="false"
             android:lineSpacingExtra="@dimen/font_3"
@@ -33,7 +34,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_image_miaosu"
-            android:layout_marginBottom="@dimen/font_24"
             android:layout_marginTop="@dimen/font_10">
 
             <com.homechart.app.myview.RoundImageView

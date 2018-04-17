@@ -509,6 +509,7 @@ public class NewImageDetaiScrollFragment
 
                 String nikeName = mListData.get(position).getUser_info().getNickname();
                 ((TextView) holder.getView(R.id.tv_name_pic)).setText(nikeName);
+                ((TextView) holder.getView(R.id.tv_name_ablum)).setText(mListData.get(position).getAlbum_info().getAlbum_name());
                 String strTag = "";
                 String tag = mListData.get(position).getItem_info().getTag();
                 if (!TextUtils.isEmpty(tag)) {
@@ -598,10 +599,17 @@ public class NewImageDetaiScrollFragment
                 holder.getView(R.id.rl_test).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Intent intent = new Intent(activity, InspirationDetailActivity.class);
-//                        intent.putExtra("ifHideEdit", true);
-//                        intent.putExtra("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
-//                        startActivityForResult(intent, 2);
+                        NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(fragmentManager);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("user_id", "");
+                        bundle.putBoolean("ifHideEdit", true);
+                        bundle.putString("album_id", mListData.get(position).getAlbum_info().getAlbum_id());
+                        bundle.putString("show_type", mListData.get(position).getAlbum_info().getShow_type());
+                        newInspirationDetailsment.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.id_main, newInspirationDetailsment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                     }
                 });
             }

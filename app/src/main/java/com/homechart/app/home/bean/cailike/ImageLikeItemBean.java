@@ -12,12 +12,14 @@ public class ImageLikeItemBean implements Serializable {
     private ItemInfoBean item_info;
     private List<ColorInfoBean> color_info;
     private UserInfoBean user_info;
+    private AlbumInfoBean album_info;
 
 
-    public ImageLikeItemBean(ItemInfoBean item_info, List<ColorInfoBean> color_info, UserInfoBean user_info) {
+    public ImageLikeItemBean(ItemInfoBean item_info, List<ColorInfoBean> color_info, UserInfoBean user_info, AlbumInfoBean album_info) {
         this.item_info = item_info;
         this.color_info = color_info;
         this.user_info = user_info;
+        this.album_info = album_info;
     }
 
     public ItemInfoBean getItem_info() {
@@ -44,12 +46,21 @@ public class ImageLikeItemBean implements Serializable {
         this.user_info = user_info;
     }
 
+    public AlbumInfoBean getAlbum_info() {
+        return album_info;
+    }
+
+    public void setAlbum_info(AlbumInfoBean album_info) {
+        this.album_info = album_info;
+    }
+
     @Override
     public String toString() {
         return "ImageLikeItemBean{" +
                 "item_info=" + item_info +
                 ", color_info=" + color_info +
                 ", user_info=" + user_info +
+                ", album_info=" + album_info +
                 '}';
     }
 }
