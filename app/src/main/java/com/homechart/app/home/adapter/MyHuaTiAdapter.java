@@ -63,7 +63,7 @@ public class MyHuaTiAdapter extends BaseAdapter {
         }
 
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) myHolder.iv_imageview_one.getLayoutParams();
-        layoutParams.height = (int) ((PublicUtils.getScreenWidth(context) - UIUtils.getDimens(R.dimen.font_20)) / list.get(position).getRecommend_info().getRatio());
+        layoutParams.height = (int) ((PublicUtils.getScreenWidth(context) - UIUtils.getDimens(R.dimen.font_40)) / list.get(position).getRecommend_info().getRatio());
         ImageUtils.displayFilletImage(list.get(position).getRecommend_info().getImage_url(), myHolder.iv_imageview_one);
 
         RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) myHolder.iv_imageview_one.getLayoutParams();

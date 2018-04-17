@@ -114,8 +114,8 @@
             android:id="@+id/rcy_recyclerview_pic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="@dimen/font_10"
-            android:paddingRight="@dimen/font_10"
+            android:paddingLeft="@dimen/font_12"
+            android:paddingRight="@dimen/font_12"
             android:background="@color/white"/>
 
 
