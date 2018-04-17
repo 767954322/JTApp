@@ -42,6 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/font_8"
         android:layout_marginRight="@dimen/font_8"
+        android:layout_marginTop="@dimen/font_15"
         android:layout_below="@+id/rl_shop_tital">
 
         <ImageView

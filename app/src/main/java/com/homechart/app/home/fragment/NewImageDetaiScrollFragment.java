@@ -778,13 +778,14 @@ public class NewImageDetaiScrollFragment
             //......详情图片.........
             int wide_num = PublicUtils.getScreenWidth(activity)- UIUtils.getDimens(R.dimen.font_40);
             height_pic = (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio());
+            height_tag = height_pic + UIUtils.getDimens(R.dimen.font_15);
             ViewGroup.LayoutParams layoutParams = iv_details_image.getLayoutParams();
             layoutParams.width = wide_num;
             layoutParams.height = height_pic;
             iv_details_image.setLayoutParams(layoutParams);
             ImageUtils.displayFilletImage(imageDetailBean.getItem_info().getImage().getImg0(), iv_details_image);
             //......改变识图识色图标的显示位置.........
-            if ((height_pic + UIUtils.getDimens(R.dimen.font_50)) < PublicUtils.getScreenHeight(activity)) {
+            if ((height_pic + UIUtils.getDimens(R.dimen.font_65)) < PublicUtils.getScreenHeight(activity)) {
                 ifchange = false;
                 if (!mUserInfo.getIfBack()) {
                     updateShiBieUI(true);
@@ -1141,11 +1142,11 @@ public class NewImageDetaiScrollFragment
         public void run() {
             if (!mUserInfo.getIfBack()) {
                 int top = Math.abs(totalDy);
-                if (height_pic != 0 && top >= height_pic) {
+                if (height_tag != 0 && top >= height_tag) {
                     if (!mUserInfo.getIfBack()) {
                         updateShiBieUI(true);
                     }
-                } else if (height_pic != 0 && top < height_pic) {
+                } else if (height_tag != 0 && top < height_tag) {
                     if (view_below_image.getLocalVisibleRect(rect)) {/*rect.contains(ivRect)*/
                         //控件在屏幕可见区域-----显现
                         if (!mUserInfo.getIfBack()) {
@@ -1447,6 +1448,7 @@ public class NewImageDetaiScrollFragment
     private RelativeLayout rl_pinglun;
 
     private int height_pic = 0;
+    private int height_tag = 0;
     private boolean ifchange = false;
     private boolean loginStatus = false;
     private boolean ifFirst = true;
