@@ -244,6 +244,8 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
                     mWeb.loadUrl(CaiJi.WEIXIN1);
                 } else if (weburl.contains("www.shejiben.com")) {
                     mWeb.loadUrl(CaiJi.SHEJIBEN1);
+                } else if (weburl.contains("yidoutang.com")) {
+                    mWeb.loadUrl(CaiJi.YIDOUTANG);
                 } else {
                     mWeb.loadUrl(CaiJi.PUBLICK1);
                 }
