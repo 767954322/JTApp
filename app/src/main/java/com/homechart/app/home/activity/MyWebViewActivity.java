@@ -465,6 +465,9 @@ public class MyWebViewActivity
         String str = cm.getText().toString();
         if (null != str && !TextUtils.isEmpty(str)) {
             if (PublicUtils.isValidUrl(str)) {
+                if (!str.contains("http")) {
+                    str = "http://" + str;
+                }
                 cet_clearedit.setText(str);
                 search();
             }

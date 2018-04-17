@@ -344,7 +344,7 @@ public class HomeActivity
             case R.id.rl_copy:
                 rl_copy.setVisibility(View.GONE);
                 String urlWeb = cm.getText().toString().trim();
-                cm.setText("");
+//                cm.setText("");
                 ifHide = true;
                 Intent intentcopy = new Intent(HomeActivity.this, MyWebViewActivity.class);
                 intentcopy.putExtra("weburl", urlWeb);
