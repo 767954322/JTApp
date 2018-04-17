@@ -679,6 +679,36 @@ public class HomeActivity
             position = 1;
             changeBottomUI(1);
             getSupportFragmentManager().beginTransaction().hide(mHomeCenterFragment).hide(mHomeFaXianFragment).show(mHomePicFragment).commit();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (position != 1) {
+                        position = 1;
+                        changeBottomUI(1);
+                        getSupportFragmentManager().beginTransaction().hide(mHomeCenterFragment).hide(mHomeFaXianFragment).show(mHomePicFragment).commit();
+                    } else {
+                        int before = ClassConstant.HomeStatus.IMAGE_STATUS;
+                        FragmentManager fragmentManager = mHomePicFragment.getChildFragmentManager();
+                        @SuppressLint("RestrictedApi") List<Fragment> list = fragmentManager.getFragments();
+                        if (list != null && list.size() > 0) {
+                            for (int i = 0; i < list.size(); i++) {
+                                try {
+                                    if (null != list.get(i).getFragmentManager()) {
+                                        list.get(i).getFragmentManager().popBackStack();
+                                    }
+                                } catch (Exception e) {
+
+                                }
+                            }
+                        }
+                        if (before == 0) {
+                            mHomePicFragment.scrollRecyclerView();
+                        } else {
+                            ClassConstant.HomeStatus.IMAGE_STATUS = 0;
+                        }
+                    }
+                }
+            },100);
         } else {
 
         }
