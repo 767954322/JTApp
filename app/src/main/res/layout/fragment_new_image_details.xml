@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/et_edit"
+        android:paddingLeft="@dimen/font_12"
+        android:paddingRight="@dimen/font_12"
         android:descendantFocusability="blocksDescendants"
         app:loadMoreEnabled="true"
         app:loadMoreFooterLayout="@layout/layout_hrecyclerview_load_more_footer_huodong"
@@ -24,7 +26,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="@dimen/font_15"
-        android:layout_marginRight="@dimen/font_10"
+        android:layout_marginRight="@dimen/font_30"
         android:src="@drawable/tongkuan2"
         android:visibility="gone" />
 

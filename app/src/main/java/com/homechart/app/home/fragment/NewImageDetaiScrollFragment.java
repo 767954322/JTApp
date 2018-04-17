@@ -459,7 +459,7 @@ public class NewImageDetaiScrollFragment
     private void initData() {
 
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        width_Pic = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_16);
+        width_Pic = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_28);
         width_Imgs = (PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_146)) / 3;
         RelativeLayout.LayoutParams layoutParams1 = (RelativeLayout.LayoutParams) rl_images_one.getLayoutParams();
         layoutParams1.width = width_Imgs;
@@ -776,13 +776,13 @@ public class NewImageDetaiScrollFragment
                 tv_shop_price.setText(imageDetailBean.getItem_info().getPrice());
             }
             //......详情图片.........
-            int wide_num = PublicUtils.getScreenWidth(activity);
+            int wide_num = PublicUtils.getScreenWidth(activity)- UIUtils.getDimens(R.dimen.font_40);
             height_pic = (int) (wide_num / imageDetailBean.getItem_info().getImage().getRatio());
             ViewGroup.LayoutParams layoutParams = iv_details_image.getLayoutParams();
             layoutParams.width = wide_num;
             layoutParams.height = height_pic;
             iv_details_image.setLayoutParams(layoutParams);
-            ImageUtils.disRectangleImage(imageDetailBean.getItem_info().getImage().getImg0(), iv_details_image);
+            ImageUtils.displayFilletImage(imageDetailBean.getItem_info().getImage().getImg0(), iv_details_image);
             //......改变识图识色图标的显示位置.........
             if ((height_pic + UIUtils.getDimens(R.dimen.font_50)) < PublicUtils.getScreenHeight(activity)) {
                 ifchange = false;
