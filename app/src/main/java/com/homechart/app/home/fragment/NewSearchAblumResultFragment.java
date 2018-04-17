@@ -48,6 +48,7 @@ import com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView;
 import com.homechart.app.recyclerlibrary.recyclerview.OnLoadMoreListener;
 import com.homechart.app.recyclerlibrary.recyclerview.OnRefreshListener;
 import com.homechart.app.recyclerlibrary.support.MultiItemTypeSupport;
+import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.GsonUtil;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
@@ -168,6 +169,17 @@ public class NewSearchAblumResultFragment
             @Override
             public void convert(BaseViewHolder holder, final int position) {
 
+                holder.getView(R.id.tv_shoucang).setVisibility(View.VISIBLE);
+                if(mListData.get(position).getAlbum_info().getIs_collected().equals("0")){
+                    holder.getView(R.id.tv_shoucang).setBackgroundResource(R.drawable.bt_shoucang);
+                    ((TextView)holder.getView(R.id.tv_shoucang)).setTextColor(UIUtils.getColor(R.color.white));
+                    ((TextView)holder.getView(R.id.tv_shoucang)).setText("＋收藏");
+                }else {
+                    holder.getView(R.id.tv_shoucang).setBackgroundResource(R.drawable.bt_shoucang_no);
+                    ((TextView)holder.getView(R.id.tv_shoucang)).setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
+                    ((TextView)holder.getView(R.id.tv_shoucang)).setText("已收藏");
+                }
+
                 final String album_id = mListData.get(position).getAlbum_info().getAlbum_id();
                 ((TextView) holder.getView(R.id.tv_item_name)).setText(mListData.get(position).getAlbum_info().getAlbum_name());
                 ((TextView) holder.getView(R.id.tv_item_num_pic)).setText(mListData.get(position).getAlbum_info().getItem_num() + "张");
@@ -215,7 +227,22 @@ public class NewSearchAblumResultFragment
 
                     }
                 });
-
+                holder.getView(R.id.tv_shoucang).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(mListData.get(position).getAlbum_info().getIs_collected().equals("0")){
+                            addDingYue(mListData.get(position).getAlbum_info().getAlbum_id());
+                            ToastUtils.showCenter(activity, "收藏成功！");
+                            mListData.get(position).getAlbum_info().setIs_collected("1");
+                            mAdapter.notifyItemChanged(position);
+                        }else {
+                            removeDingYue(mListData.get(position).getAlbum_info().getAlbum_id());
+                            ToastUtils.showCenter(activity, "取消收藏成功！");
+                            mListData.get(position).getAlbum_info().setIs_collected("0");
+                            mAdapter.notifyItemChanged(position);
+                        }
+                    }
+                });
             }
         };
 
@@ -226,6 +253,52 @@ public class NewSearchAblumResultFragment
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();
         mRecyclerView.setAdapter(mAdapter);
         onRefresh();
+    }
+    private void addDingYue(String albumId) {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                CustomProgress.cancelDialog();
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                    } else {
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().addDingYue(albumId, callBack);
+    }
+
+    private void removeDingYue(String albumId) {
+        OkStringRequest.OKResponseCallback callBack = new OkStringRequest.OKResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int error_code = jsonObject.getInt(ClassConstant.Parame.ERROR_CODE);
+                    String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
+                    String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
+                    if (error_code == 0) {
+                    } else {
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        };
+        MyHttpManager.getInstance().removeDingYue(albumId, callBack);
     }
 
     @Override
