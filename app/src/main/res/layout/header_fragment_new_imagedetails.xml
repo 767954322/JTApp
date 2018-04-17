@@ -170,7 +170,7 @@
             android:layout_alignLeft="@+id/rl_album_tital"
             android:layout_below="@+id/rl_album_tital"
             android:layout_marginRight="@dimen/font_12"
-            android:layout_marginTop="@dimen/font_12"
+            android:layout_marginTop="@dimen/font_9"
             android:background="@color/white"
             android:lineSpacingExtra="@dimen/font_7"
             android:textColor="@color/bg_262626"
@@ -427,13 +427,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_pinglun"
         android:layout_marginTop="@dimen/font_5"
-        android:layout_marginBottom="@dimen/font_20">
+        android:layout_marginBottom="@dimen/font_25">
 
         <TextView
             android:id="@+id/tv_maybe_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/font_15"
             android:layout_marginLeft="@dimen/font_8"
             android:layout_marginTop="@dimen/font_20"
             android:text="你可能喜欢"
