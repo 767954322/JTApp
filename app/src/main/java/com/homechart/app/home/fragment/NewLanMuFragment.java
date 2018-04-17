@@ -408,6 +408,7 @@ public class NewLanMuFragment
                 String nikeName = mListData.get(position).getUser_info().getNickname();
                 ((TextView) holder.getView(R.id.tv_name_pic)).setText(nikeName);
 
+                ((TextView) holder.getView(R.id.tv_name_ablum)).setText(mListData.get(position).getAlbum_info().getAlbum_name());
                 String strTag = "";
                 String tag = mListData.get(position).getItem_info().getTag();
                 if (!TextUtils.isEmpty(tag)) {

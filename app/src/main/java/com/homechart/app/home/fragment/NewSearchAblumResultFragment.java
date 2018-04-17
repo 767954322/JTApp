@@ -32,6 +32,7 @@ import com.homechart.app.R;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.KeybordS;
 import com.homechart.app.commont.PublicUtils;
+import com.homechart.app.home.activity.DingYueGuanLiActivity;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.base.BaseFragment;
 import com.homechart.app.home.bean.search.SearchDataBean;
@@ -230,16 +231,23 @@ public class NewSearchAblumResultFragment
                 holder.getView(R.id.tv_shoucang).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(mListData.get(position).getAlbum_info().getIs_collected().equals("0")){
-                            addDingYue(mListData.get(position).getAlbum_info().getAlbum_id());
-                            ToastUtils.showCenter(activity, "收藏成功！");
-                            mListData.get(position).getAlbum_info().setIs_collected("1");
-                            mAdapter.notifyItemChanged(position);
-                        }else {
-                            removeDingYue(mListData.get(position).getAlbum_info().getAlbum_id());
-                            ToastUtils.showCenter(activity, "取消收藏成功！");
-                            mListData.get(position).getAlbum_info().setIs_collected("0");
-                            mAdapter.notifyItemChanged(position);
+
+                        loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
+                        if (!loginStatus) {
+                            Intent intent1 = new Intent(activity, LoginActivity.class);
+                            startActivityForResult(intent1, 13);
+                        } else {
+                            if(mListData.get(position).getAlbum_info().getIs_collected().equals("0")){
+                                addDingYue(mListData.get(position).getAlbum_info().getAlbum_id());
+                                ToastUtils.showCenter(activity, "收藏成功！");
+                                mListData.get(position).getAlbum_info().setIs_collected("1");
+                                mAdapter.notifyItemChanged(position);
+                            }else {
+                                removeDingYue(mListData.get(position).getAlbum_info().getAlbum_id());
+                                ToastUtils.showCenter(activity, "取消收藏成功！");
+                                mListData.get(position).getAlbum_info().setIs_collected("0");
+                                mAdapter.notifyItemChanged(position);
+                            }
                         }
                     }
                 });

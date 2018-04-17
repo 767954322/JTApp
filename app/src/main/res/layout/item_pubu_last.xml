@@ -6,7 +6,7 @@
     android:layout_marginTop="@dimen/font_15"
     android:layout_marginLeft="@dimen/font_8"
     android:layout_marginRight="@dimen/font_8"
-    android:layout_marginBottom="@dimen/font_28"
+    android:layout_marginBottom="@dimen/font_20"
     android:background="@color/white">
 
 
