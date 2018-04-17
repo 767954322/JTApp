@@ -388,7 +388,7 @@ public class HomeActivity
             ActivityCompat.requestPermissions(HomeActivity.this, PERMISSIONS_STORAGE,
                     REQUEST_EXTERNAL_STORAGE);
         }
-        timer_copy.schedule(task_copy, 100, 500);
+//        timer_copy.schedule(task_copy, 100, 500);
     }
 
     //任务
@@ -720,6 +720,56 @@ public class HomeActivity
             riv_unreader_msg.setVisibility(View.VISIBLE);
         } else {
             riv_unreader_msg.setVisibility(View.GONE);
+        }
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        showCopeText();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        showCopeText();
+    }
+
+    private void  showCopeText(){
+        try {
+            String copyurl = SharedPreferencesUtils.readString("copyurl");
+            String textCopy = cm.getText().toString();
+            if (copyurl == null) {
+                SharedPreferencesUtils.writeString("copyurl", "");
+            }
+            if (!TextUtils.isEmpty(textCopy) &&
+                    PublicUtils.isValidUrl(textCopy)
+                    && (TextUtils.isEmpty(copyurl) || !copyurl.equals(textCopy))) {
+
+                if (ifHide && PublicUtils.isForeground(HomeActivity.this)) {
+                    ifHide = false;
+                    SharedPreferencesUtils.writeString("copyurl", textCopy + "#");
+                    cm.setText(textCopy + "#");
+                    Message message = new Message();
+                    message.obj = textCopy;
+                    message.what = 1;
+                    mHandler.sendMessage(message);
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Message message = new Message();
+                            message.what = 2;
+                            mHandler.sendMessage(message);
+                        }
+                    }, 5000);
+                }
+
+            }
+        } catch (Exception e) {
+            Message message = new Message();
+            message.what = 2;
+            mHandler.sendMessage(message);
         }
     }
 
