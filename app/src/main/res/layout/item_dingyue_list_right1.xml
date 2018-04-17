@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_item_dingyue"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/font_10"
+    android:layout_marginLeft="@dimen/font_8"
+    android:layout_marginRight="@dimen/font_8"
+    android:background="@drawable/no_line_back">
+
+    <ImageView
+        android:id="@+id/iv_shoucang_image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_96"
+        android:scaleType="fitXY" />
+    <CheckBox
+        android:id="@+id/cb_check"
+        style="@style/ShouCangRadioButtonStyles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/font_10"
+        android:layout_marginTop="@dimen/font_10"
+        android:visibility="gone"/>
+
+
+    <View
+        android:id="@+id/view_test"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/iv_shoucang_image"
+        android:layout_marginTop="@dimen/font_18" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/font_36"
+        android:layout_alignBottom="@+id/view_test">
+
+        <com.homechart.app.myview.RoundImageView
+            android:layout_width="@dimen/font_36"
+            android:layout_height="@dimen/font_36"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_10"
+            android:background="@color/white" />
+
+        <com.homechart.app.myview.RoundImageView
+            android:id="@+id/riv_header"
+            android:layout_width="@dimen/font_32"
+            android:layout_height="@dimen/font_32"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/font_12" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/iv_shoucang_image"
+        android:textColor="@color/bg_464646"
+        android:layout_marginTop="@dimen/font_15"
+        android:maxLines="1"
+        android:lines="1"
+        android:ellipsize="end"
+        android:textSize="@dimen/font_14" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_item_name"
+        android:layout_marginTop="@dimen/font_15"
+        android:layout_marginBottom="@dimen/font_10">
+
+        <TextView
+            android:id="@+id/tv_item_num_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textColor="@color/bg_8f8f8f"
+            android:textSize="@dimen/font_12" />
+
+        <TextView
+            android:id="@+id/tv_shoucang"
+            android:layout_width="@dimen/font_56"
+            android:layout_height="@dimen/font_23"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bt_shoucang"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_12" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_item_num_dingyue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/tv_item_name"
+        android:layout_marginTop="@dimen/font_15"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/bg_8f8f8f"
+        android:layout_marginBottom="@dimen/font_10"
+        android:visibility="gone"
+        android:textSize="@dimen/font_12" />
+
+</RelativeLayout>

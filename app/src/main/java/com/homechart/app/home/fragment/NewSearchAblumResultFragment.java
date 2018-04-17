@@ -130,8 +130,8 @@ public class NewSearchAblumResultFragment
     @Override
     protected void initData(Bundle savedInstanceState) {
 
-        widthPic = (PublicUtils.getScreenWidth(activity) - UIUtils.getDimens(R.dimen.font_30)) / 2;
-        width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_20);
+        widthPic = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_28);
+        width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_28);
         buildRecyclerView();
     }
 
@@ -149,9 +149,9 @@ public class NewSearchAblumResultFragment
             @Override
             public int getLayoutId(int itemType) {
                 if (itemType == 0) {
-                    return R.layout.item_dingyue_list_left;
+                    return R.layout.item_dingyue_list_left1;
                 } else {
-                    return R.layout.item_dingyue_list_right;
+                    return R.layout.item_dingyue_list_right1;
                 }
             }
 
@@ -205,7 +205,7 @@ public class NewSearchAblumResultFragment
                 if (TextUtils.isEmpty(mListData.get(position).getAlbum_info().getCover_image())) {
                     GlideImgManager.glideLoader(activity, "", R.drawable.moren, R.drawable.moren, (ImageView) holder.getView(R.id.iv_shoucang_image));
                 } else {
-                    ImageUtils.displayFilletHalfImage(mListData.get(position).getAlbum_info().getCover_image(),
+                    ImageUtils.displayFilletImage(mListData.get(position).getAlbum_info().getCover_image(),
                             (ImageView) holder.getView(R.id.iv_shoucang_image));
                 }
 
