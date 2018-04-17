@@ -399,7 +399,7 @@ public class HomeFaXianFragment
                         ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
                         layoutParams.height = Math.round(width_Pic_Staggered / mListData.get(position).getItem_info().getImage().getRatio());
                         holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
-                        ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg1(),
+                        ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
                                 (ImageView) holder.getView(R.id.iv_imageview_one));
                     } else {
                         if (mListData.get(position).getItem_info().getImage().getRatio() > 0.333) {

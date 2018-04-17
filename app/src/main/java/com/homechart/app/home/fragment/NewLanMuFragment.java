@@ -143,7 +143,7 @@ public class NewLanMuFragment
         tv_shoucang = (TextView) rootView.findViewById(R.id.tv_shoucang);
         mRecyclerView1 = (RecyclerView) rootView.findViewById(R.id.hlv_tab2);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_pic);
-        headerView = LayoutInflater.from(activity).inflate(R.layout.header_faxian, null);
+        headerView = LayoutInflater.from(activity).inflate(R.layout.header_lanmu, null);
         lv_faxian_header = (MyListView) headerView.findViewById(R.id.lv_faxian_header);
     }
 
@@ -188,7 +188,7 @@ public class NewLanMuFragment
     @Override
     protected void initData(Bundle savedInstanceState) {
         mTital.setText(tag_name);
-        width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_15);
+        width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_28);
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         buildRecyclerView1();
         getGuanLianTags();
