@@ -23,7 +23,7 @@
             android:src="@drawable/quxiao_you" />
 
 
-        <EditText
+        <com.homechart.app.myview.MyTextView
             android:id="@+id/cet_clearedit"
             android:layout_width="match_parent"
             android:layout_height="@dimen/font_27"

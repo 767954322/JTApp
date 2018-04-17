@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.ClipboardManager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -28,8 +29,10 @@ import com.homechart.app.R;
 import com.homechart.app.commont.CaiJi;
 import com.homechart.app.commont.ClassConstant;
 import com.homechart.app.commont.PublicUtils;
+import com.homechart.app.home.CallBack;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.caijiimg.CaiJiImageBean;
+import com.homechart.app.myview.MyTextView;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
@@ -42,8 +45,13 @@ import java.util.List;
  * Created by gumenghao on 18/1/23.
  */
 
-public class MyWebViewActivity extends BaseActivity implements View.OnClickListener {
+public class MyWebViewActivity
+        extends BaseActivity
+        implements View.OnClickListener,
+        CallBack {
 
+
+    private ClipboardManager cm;
 
     @Override
     protected int getLayoutResId() {
@@ -63,7 +71,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
         iv_quxiao = (ImageView) findViewById(R.id.iv_quxiao);
         bt_caiji = (Button) findViewById(R.id.bt_caiji);
         bt_un_caiji = (Button) findViewById(R.id.bt_un_caiji);
-        cet_clearedit = (EditText) findViewById(R.id.cet_clearedit);
+        cet_clearedit = (MyTextView) findViewById(R.id.cet_clearedit);
         tv_textview1 = (TextView) findViewById(R.id.tv_textview1);
         tv_textview2 = (TextView) findViewById(R.id.tv_textview2);
 
@@ -128,6 +136,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         if (!TextUtils.isEmpty(weburl)) {
 
             cet_clearedit.setText(weburl);
@@ -272,6 +281,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
             bt_caiji.setVisibility(View.GONE);
         }
     }
+
 
     public class JavascriptInterface {
         @android.webkit.JavascriptInterface
@@ -436,7 +446,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
     };
     private TextView tv_tital_comment;
     private String pageTitle = "";
-    private EditText cet_clearedit;
+    private MyTextView cet_clearedit;
     private TextView tv_textview1;
     private TextView tv_textview2;
     private ImageView iv_back_icon;
@@ -449,5 +459,17 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
     private Boolean loginStatus;
     private boolean allowCaiJi = false;
 
+    @Override
+    public void pasteCall() {
+
+        String str = cm.getText().toString();
+        if (null != str && !TextUtils.isEmpty(str)) {
+            if (PublicUtils.isValidUrl(str)) {
+                cet_clearedit.setText(str);
+                search();
+            }
+        }
+
+    }
 }
 
