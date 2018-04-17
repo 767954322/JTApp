@@ -11,7 +11,7 @@
         android:id="@+id/rl_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/font_16"
+        android:layout_marginTop="@dimen/font_15"
         android:gravity="center">
 
 

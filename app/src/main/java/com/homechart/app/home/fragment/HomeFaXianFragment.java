@@ -139,7 +139,6 @@ public class HomeFaXianFragment
         cet_clearedit = (ClearEditText) rootView.findViewById(R.id.cet_clearedit);
         iv_more = (ImageView) rootView.findViewById(R.id.iv_more);
         mRecyclerView1 = (RecyclerView) rootView.findViewById(R.id.hlv_tab1);
-//        mRecyclerView2 = (RecyclerView) rootView.findViewById(R.id.hlv_tab2);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_pic);
         headerView = LayoutInflater.from(activity).inflate(R.layout.header_faxian, null);
         lv_faxian_header = (MyListView) headerView.findViewById(R.id.lv_faxian_header);
@@ -152,46 +151,11 @@ public class HomeFaXianFragment
         cet_clearedit.setKeyListener(null);
         cet_clearedit.setOnClickListener(this);
         iv_more.setOnClickListener(this);
-//        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                int action = event.getAction();
-//                switch (action) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        break;
-//                    case MotionEvent.ACTION_MOVE:
-//                        if (move_tag) {
-//                            mDownY = event.getY();
-//                            move_tag = false;
-//                        }
-//                        mMoveY = event.getY();
-//                        break;
-//                    case MotionEvent.ACTION_UP:
-//
-//                        move_tag = true;
-//                        mMoveY = event.getY();
-//                        Log.e("UP", "Y" + mMoveY);
-//                        if (Math.abs((mMoveY - mDownY)) > 20) {
-//                            if (mMoveY > mDownY) {
-//                                if (mListPingDao1.size() > 0) {
-//                                    mRecyclerView2.setVisibility(View.VISIBLE);
-//                                } else {
-//                                    mRecyclerView2.setVisibility(View.GONE);
-//                                }
-//                            } else {
-//                                mRecyclerView2.setVisibility(View.GONE);
-//                            }
-//                        }
-//                        break;
-//                }
-//                return false;
-//            }
-//        });
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_15);
+        width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_28);
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         buildHRecyclerView1();
         buildHRecyclerView2();
