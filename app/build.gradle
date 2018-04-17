@@ -31,6 +31,10 @@ android {
             new_xiaomishichang {}
             new_qitaqudao {}
             new_tengxun {}
+            new_qqyoulanqi {}
+            new_sougoushoujizhushou {}
+            new_yinghelianmeng {}
+            new_sanxing {}
         }
         productFlavors.all { flavor ->
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
