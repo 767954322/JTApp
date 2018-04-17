@@ -3,6 +3,7 @@ package com.homechart.app.home.activity;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -23,6 +25,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.homechart.app.R;
@@ -33,6 +36,7 @@ import com.homechart.app.home.CallBack;
 import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.caijiimg.CaiJiImageBean;
 import com.homechart.app.myview.MyTextView;
+import com.homechart.app.myview.SlowlyProgressBar;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
@@ -52,6 +56,7 @@ public class MyWebViewActivity
 
 
     private ClipboardManager cm;
+    private SlowlyProgressBar slowlyProgressBar;
 
     @Override
     protected int getLayoutResId() {
@@ -77,6 +82,11 @@ public class MyWebViewActivity
 
         iv_back_icon = (ImageView) findViewById(R.id.iv_back_icon);
         iv_next_icon = (ImageView) findViewById(R.id.iv_next_icon);
+        slowlyProgressBar =
+                new SlowlyProgressBar
+                        (
+                                (ProgressBar) findViewById(R.id.ProgressBar)
+                        );
 
     }
 
@@ -233,6 +243,10 @@ public class MyWebViewActivity
         mWeb.setBackgroundColor(0); // 设置背景色
         mWeb.setWebViewClient(new WebViewClient() {
             @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                slowlyProgressBar.onProgressStart();
+            }
+            @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 return false;
             }
@@ -261,6 +275,13 @@ public class MyWebViewActivity
                 super.onPageFinished(view, url);
             }
 
+        });
+        mWeb.setWebChromeClient(new WebChromeClient() {
+
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                slowlyProgressBar.onProgressChange(newProgress);
+            }
         });
         mWeb.addJavascriptInterface(new JavascriptInterface(), "imageListener");
     }
@@ -563,6 +584,14 @@ public class MyWebViewActivity
             }
         }
 
+    }
+    @Override
+    public void finish() {
+        super.finish();
+        if(slowlyProgressBar!=null){
+            slowlyProgressBar.destroy();
+            slowlyProgressBar = null;
+        }
     }
 }
 
