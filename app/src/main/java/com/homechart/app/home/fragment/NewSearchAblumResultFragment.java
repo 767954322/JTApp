@@ -104,16 +104,12 @@ public class NewSearchAblumResultFragment
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_search_result;
+        return R.layout.fragment_search_result_ablum;
     }
 
     @Override
     protected void initExtraBundle() {
         super.initExtraBundle();
-
-//        bundle = getArguments();
-//        search_info =  bundle.getString("search_info");
-//        search_tag =  bundle.getString("search_tag");
     }
 
     @Override
@@ -122,9 +118,6 @@ public class NewSearchAblumResultFragment
 
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_info);
         rl_no_data = (RelativeLayout) rootView.findViewById(R.id.rl_no_data);
-
-        //初始位置
-//        mViewPager.setCurrentItem(0);
 
     }
 

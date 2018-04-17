@@ -125,7 +125,7 @@ public class NewSearchResultFragment
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_20);
+        width_Pic_Staggered = PublicUtils.getScreenWidth(activity) / 2 - UIUtils.getDimens(R.dimen.font_28);
         buildRecyclerView();
     }
 
@@ -155,14 +155,12 @@ public class NewSearchResultFragment
             @Override
             public void convert(BaseViewHolder holder, final int position) {
                 ViewGroup.LayoutParams layoutParams = holder.getView(R.id.iv_imageview_one).getLayoutParams();
-                layoutParams.height = mListData.get(position).getItem_info().getImage().getRatio() == 0
-                        ? width_Pic_Staggered
-                        : Math.round(width_Pic_Staggered / mListData.get(position).getItem_info().getImage().getRatio());
+                layoutParams.height = Math.round(width_Pic_Staggered / mListData.get(position).getItem_info().getImage().getRatio());
                 holder.getView(R.id.iv_imageview_one).setLayoutParams(layoutParams);
 
                 String nikeName = mListData.get(position).getUser_info().getNickname();
                 ((TextView) holder.getView(R.id.tv_name_pic)).setText(nikeName);
-
+                ((TextView) holder.getView(R.id.tv_name_ablum)).setText(mListData.get(position).getAlbum_info().getAlbum_name());
                 String strTag = "";
                 String tag = mListData.get(position).getItem_info().getTag();
                 if (!TextUtils.isEmpty(tag)) {
@@ -187,7 +185,7 @@ public class NewSearchResultFragment
                 }
                 if (PublicUtils.ifHasWriteQuan(activity)) {
                     if (mListData.get(position).getItem_info().getImage().getRatio() > 0.6) {
-                        ImageUtils.displayFilletHalfImage(mListData.get(position).getItem_info().getImage().getImg1(),
+                        ImageUtils.displayFilletImage(mListData.get(position).getItem_info().getImage().getImg1(),
                                 (ImageView) holder.getView(R.id.iv_imageview_one));
                     } else {
                         GlideImgManager.glideLoader(activity, mListData.get(position).getItem_info().getImage().getImg1(), R.color.white, R.color.white, (ImageView) holder.getView(R.id.iv_imageview_one), 1);
@@ -239,7 +237,6 @@ public class NewSearchResultFragment
 
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         mRecyclerView.setItemAnimator(null);
-        mRecyclerView.setPadding(UIUtils.getDimens(R.dimen.font_6), 0, UIUtils.getDimens(R.dimen.font_6), 0);
         mRecyclerView.setOnRefreshListener(this);
         mRecyclerView.setOnLoadMoreListener(this);
         mLoadMoreFooterView = (LoadMoreFooterView) mRecyclerView.getLoadMoreFooterView();

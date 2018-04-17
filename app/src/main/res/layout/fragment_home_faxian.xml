@@ -14,8 +14,8 @@
         android:layout_height="@dimen/font_32"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/font_8"
-        android:layout_marginLeft="@dimen/font_15"
-        android:layout_marginRight="@dimen/font_15"
+        android:layout_marginLeft="@dimen/font_20"
+        android:layout_marginRight="@dimen/font_20"
         android:layout_marginTop="@dimen/font_15"
         android:background="@drawable/bg_search_line"
         android:drawableLeft="@drawable/fdj"
@@ -31,6 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_41"
         android:layout_below="@+id/cet_clearedit"
+        android:layout_marginBottom="@dimen/font_5"
         android:background="@color/white">
 
         <android.support.v7.widget.RecyclerView
