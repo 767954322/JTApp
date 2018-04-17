@@ -43,6 +43,7 @@
             android:layout_height="0.5dp"
             android:layout_below="@+id/rl_homepic_top"
             android:layout_marginTop="@dimen/font_7"
+            android:visibility="gone"
             android:background="@color/view_line" />
 
         <RelativeLayout
