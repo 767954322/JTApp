@@ -391,7 +391,7 @@
         android:layout_width="@dimen/font_92"
         android:layout_height="@dimen/font_30"
         android:layout_below="@+id/rl_user_info"
-        android:layout_marginBottom="@dimen/font_18"
+        android:layout_marginBottom="@dimen/font_13"
         android:layout_marginLeft="@dimen/font_67"
         android:layout_marginTop="@dimen/font_15"
         android:background="@drawable/bt_guanzhu1"
@@ -423,15 +423,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_pinglun"
-        android:layout_marginTop="@dimen/font_7"
-        android:layout_marginBottom="@dimen/font_25">
+        android:layout_marginTop="@dimen/font_5"
+        android:layout_marginBottom="@dimen/font_20">
 
         <TextView
             android:id="@+id/tv_maybe_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/font_15"
-            android:layout_marginLeft="@dimen/font_20"
+            android:layout_marginLeft="@dimen/font_12"
             android:layout_marginTop="@dimen/font_20"
             android:text="你可能喜欢"
             android:textStyle="bold"
