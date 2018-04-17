@@ -162,7 +162,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.bt_caiji:
             case R.id.bt_un_caiji:
-                if(allowCaiJi){
+                if (allowCaiJi) {
                     loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
 
                     if (!loginStatus) {
@@ -179,6 +179,10 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
                         } else if (weburl.contains("www.shejiben.com")) {
 
                             mWeb.loadUrl(CaiJi.SHEJIBEN);
+
+                        } else if (weburl.contains("yidoutang.com")) {
+
+                            mWeb.loadUrl(CaiJi.YIDOUTANG);
 
                         } else {
 
@@ -346,21 +350,21 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-           int code =  msg.what;
-           switch (code){
-               case 1:
-                   allowCaiJi = false ;
-                   alowCai(false);
-                   break;
-               case 2:
-                   allowCaiJi = true ;
-                   alowCai(true);
-                   break;
-           }
+            int code = msg.what;
+            switch (code) {
+                case 1:
+                    allowCaiJi = false;
+                    alowCai(false);
+                    break;
+                case 2:
+                    allowCaiJi = true;
+                    alowCai(true);
+                    break;
+            }
         }
     };
 

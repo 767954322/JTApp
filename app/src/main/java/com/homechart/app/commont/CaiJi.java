@@ -68,6 +68,22 @@ public class CaiJi {
             "window.imageListener.openImage(imgUrl,'');" +
             "})()";
 
+    //********一兜塘********
+    public static final String YIDOUTANG = "javascript:(function(){" +
+            "var objs = document.getElementsByTagName(\"img\"); " +
+            "var imgUrl = \"\";" +
+            "var filter = [\"img//EventHead.png\",\"img//kong.png\",\"hdtz//button.png\"];" +
+            "var isShow = true;" +
+            "for(var i=0;i<objs.length;i++){" +
+            "if(objs[i].width>80){" +
+            "var desc=objs[i].getAttribute('alt');" +
+            "desc=desc?desc:objs[i].parentNode.getAttribute('title');" +
+            "desc=desc?desc:document.title;" +
+            "imgUrl += (objs[i].getAttribute('data-src')?objs[i].getAttribute('data-src'):objs[i].src)  +  '@@@!!!' +  desc + '!!!@@@';isShow = true;" +
+            "}" +
+            "}" +
+            "window.imageListener.openImage(imgUrl,'');" +
+            "})()";
 
     public static final String PUBLICK1 = "javascript:(function(){" +
             "var objs = document.getElementsByTagName(\"img\"); " +
