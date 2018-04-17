@@ -12,7 +12,7 @@
         android:layout_height="@dimen/font_105"
         android:layout_below="@+id/view_line_top"
         android:layout_marginBottom="@dimen/font_15"
-        android:layout_marginLeft="@dimen/font_10"
+        android:layout_marginLeft="@dimen/font_5"
         android:layout_marginRight="@dimen/font_10"
         android:layout_marginTop="@dimen/font_15"
         android:background="@color/white"
