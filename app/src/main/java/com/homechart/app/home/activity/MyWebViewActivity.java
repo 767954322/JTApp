@@ -181,15 +181,15 @@ public class MyWebViewActivity
 
                     } else {
                         ifClick = true;
-                        if (weburl.contains("mp.weixin.qq.com")) {
+                        if (weburl.contains("weixin.qq.com")) {
 
                             mWeb.loadUrl(CaiJi.WEIXIN);
 
-                        } else if (weburl.contains("www.shejiben.com")) {
+                        } else if (weburl.contains("shejiben")) {
 
                             mWeb.loadUrl(CaiJi.SHEJIBEN);
 
-                        } else if (weburl.contains("yidoutang.com")) {
+                        } else if (weburl.contains("yidoutang")) {
 
                             mWeb.loadUrl(CaiJi.YIDOUTANG);
 
