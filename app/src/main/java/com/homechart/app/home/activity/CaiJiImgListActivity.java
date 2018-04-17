@@ -164,17 +164,17 @@ public class CaiJiImgListActivity
             myHolder.iv_imageview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    Intent intent = new Intent(CaiJiImgListActivity.this, FaBuImageActivity.class);
-                    intent.putExtra("image_url", list.get(position).getUrl());
-                    intent.putExtra("image_des", list.get(position).getDes());
-                    intent.putExtra("position", position);
-                    intent.putExtra("webUrl", mWebUrl);
-                    intent.putExtra("title", title);
-                    intent.putExtra("type", "webview");
-                    CustomProgressTouMing.cancelDialog();
-                    startActivityForResult(intent, 1);
-
+                    if(!list.get(position).isHasCaiJi()){
+                        Intent intent = new Intent(CaiJiImgListActivity.this, FaBuImageActivity.class);
+                        intent.putExtra("image_url", list.get(position).getUrl());
+                        intent.putExtra("image_des", list.get(position).getDes());
+                        intent.putExtra("position", position);
+                        intent.putExtra("webUrl", mWebUrl);
+                        intent.putExtra("title", title);
+                        intent.putExtra("type", "webview");
+                        CustomProgressTouMing.cancelDialog();
+                        startActivityForResult(intent, 1);
+                    }
                 }
             });
             return convertView;
