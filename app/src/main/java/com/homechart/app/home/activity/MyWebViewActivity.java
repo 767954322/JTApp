@@ -286,79 +286,165 @@ public class MyWebViewActivity
     public class JavascriptInterface {
         @android.webkit.JavascriptInterface
         public void openImage(String imageUrl, String img) {
-
-            List<CaiJiImageBean> mListImage = new ArrayList<>();
-            String[] imgs = imageUrl.split(CaiJi.tagItem);
-            for (String s : imgs) {
-                if (!TextUtils.isEmpty(s)) {
-                    String[] imgDes = s.split(CaiJi.tagDesc);
-                    if (imgDes.length > 0) {
-                        String url = imgDes[0].contains("http") ? imgDes[0] : ("http:" + imgDes[0]);
-                        if (url.length() > 5 &&
-                                PublicUtils.isValidUrl(url) &&
-                                !s.substring(url.length() - 3, url.length()).
-                                        equalsIgnoreCase("gif")) {
-                            CaiJiImageBean caiJiImageBean = new CaiJiImageBean();
-                            caiJiImageBean.setUrl(url);
-                            caiJiImageBean.setDes(imgDes.length > 1 ? imgDes[1] : "");
-                            mListImage.add(caiJiImageBean);
+            if(weburl.contains("mp.weixin.qq.com")){
+                List<CaiJiImageBean> mListImage = new ArrayList<>();
+                String[] imgs = imageUrl.split(CaiJi.tagItem);
+                for (String s : imgs) {
+                    if (!TextUtils.isEmpty(s)) {
+                        String[] imgDes = s.split(CaiJi.tagDesc);
+                        if (imgDes.length > 0) {
+                            String url = imgDes[0].contains("http") ? imgDes[0] : ("http:" + imgDes[0]);
+                            String[] imgs1 = imageUrl.split("http");
+                            for (String s1 : imgs1) {
+                                if (!TextUtils.isEmpty(s1)) {
+                                    s1 = "http" + s1;
+                                    if (s1.length() > 5 &&
+                                            PublicUtils.isValidUrl(s1) &&
+                                            !s.substring(s1.length() - 3, s1.length()).
+                                                    equalsIgnoreCase("gif")) {
+                                        CaiJiImageBean caiJiImageBean = new CaiJiImageBean();
+                                        caiJiImageBean.setUrl(s1);
+                                        caiJiImageBean.setDes(imgDes.length > 1 ? imgDes[1] : "");
+                                        mListImage.add(caiJiImageBean);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-            }
-            if (mListImage.size() > 0) {
-                if (mListImage.size() == 1 && mListImage.get(0).getUrl().equals("")) {
-                    ToastUtils.showCenter(MyWebViewActivity.this, "未采集到图片信息");
+                if (mListImage.size() > 0) {
+                    if (mListImage.size() == 1 && mListImage.get(0).getUrl().equals("")) {
+                        ToastUtils.showCenter(MyWebViewActivity.this, "未采集到图片信息");
+                    } else {
+                        Intent intent = new Intent(MyWebViewActivity.this, CaiJiImgListActivity.class);
+                        intent.putExtra("number", 0);
+                        intent.putExtra("pic_url_list", (Serializable) mListImage);
+                        intent.putExtra("title", pageTitle);
+                        intent.putExtra("webUrl", cet_clearedit.getText().toString());
+                        startActivity(intent);
+                    }
                 } else {
-                    Intent intent = new Intent(MyWebViewActivity.this, CaiJiImgListActivity.class);
-                    intent.putExtra("number", 0);
-                    intent.putExtra("pic_url_list", (Serializable) mListImage);
-                    intent.putExtra("title", pageTitle);
-                    intent.putExtra("webUrl", cet_clearedit.getText().toString());
-                    startActivity(intent);
+                    ToastUtils.showCenter(MyWebViewActivity.this, "未采集到图片信息");
                 }
-            } else {
-                ToastUtils.showCenter(MyWebViewActivity.this, "未采集到图片信息");
+            }else {
+                List<CaiJiImageBean> mListImage = new ArrayList<>();
+                String[] imgs = imageUrl.split(CaiJi.tagItem);
+                for (String s : imgs) {
+                    if (!TextUtils.isEmpty(s)) {
+                        String[] imgDes = s.split(CaiJi.tagDesc);
+                        if (imgDes.length > 0) {
+                            String url = imgDes[0].contains("http") ? imgDes[0] : ("http:" + imgDes[0]);
+                            if (url.length() > 5 &&
+                                    PublicUtils.isValidUrl(url) &&
+                                    !s.substring(url.length() - 3, url.length()).
+                                            equalsIgnoreCase("gif")) {
+                                CaiJiImageBean caiJiImageBean = new CaiJiImageBean();
+                                caiJiImageBean.setUrl(url);
+                                caiJiImageBean.setDes(imgDes.length > 1 ? imgDes[1] : "");
+                                mListImage.add(caiJiImageBean);
+                            }
+                        }
+                    }
+                }
+                if (mListImage.size() > 0) {
+                    if (mListImage.size() == 1 && mListImage.get(0).getUrl().equals("")) {
+                        ToastUtils.showCenter(MyWebViewActivity.this, "未采集到图片信息");
+                    } else {
+                        Intent intent = new Intent(MyWebViewActivity.this, CaiJiImgListActivity.class);
+                        intent.putExtra("number", 0);
+                        intent.putExtra("pic_url_list", (Serializable) mListImage);
+                        intent.putExtra("title", pageTitle);
+                        intent.putExtra("webUrl", cet_clearedit.getText().toString());
+                        startActivity(intent);
+                    }
+                } else {
+                    ToastUtils.showCenter(MyWebViewActivity.this, "未采集到图片信息");
+                }
             }
+
         }
 
         @android.webkit.JavascriptInterface
         public void finishLoad(String imageUrl, String img) {
 
-            List<CaiJiImageBean> mListImage = new ArrayList<>();
-            String[] imgs = imageUrl.split(CaiJi.tagItem);
-            for (String s : imgs) {
-                if (!TextUtils.isEmpty(s)) {
-                    String[] imgDes = s.split(CaiJi.tagDesc);
-                    if (imgDes.length > 0) {
-                        String url = imgDes[0].contains("http") ? imgDes[0] : ("http:" + imgDes[0]);
-                        if (url.length() > 5 &&
-                                PublicUtils.isValidUrl(url) &&
-                                !s.substring(url.length() - 3, url.length()).
-                                        equalsIgnoreCase("gif")) {
-                            CaiJiImageBean caiJiImageBean = new CaiJiImageBean();
-                            caiJiImageBean.setUrl(url);
-                            caiJiImageBean.setDes(imgDes.length > 1 ? imgDes[1] : "");
-                            mListImage.add(caiJiImageBean);
+            if(weburl.contains("mp.weixin.qq.com")){
+                List<CaiJiImageBean> mListImage = new ArrayList<>();
+                String[] imgs = imageUrl.split(CaiJi.tagItem);
+                for (String s : imgs) {
+                    if (!TextUtils.isEmpty(s)) {
+                        String[] imgDes = s.split(CaiJi.tagDesc);
+                        if (imgDes.length > 0) {
+                            String url = imgDes[0].contains("http") ? imgDes[0] : ("http:" + imgDes[0]);
+                            String[] imgs1 = imageUrl.split("http");
+                            for (String s1 : imgs1) {
+                                if (!TextUtils.isEmpty(s1)) {
+                                    s1 = "http" + s1;
+                                    if (s1.length() > 5 &&
+                                            PublicUtils.isValidUrl(s1) &&
+                                            !s.substring(s1.length() - 3, s1.length()).
+                                                    equalsIgnoreCase("gif")) {
+                                        CaiJiImageBean caiJiImageBean = new CaiJiImageBean();
+                                        caiJiImageBean.setUrl(s1);
+                                        caiJiImageBean.setDes(imgDes.length > 1 ? imgDes[1] : "");
+                                        mListImage.add(caiJiImageBean);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-            }
-            if (mListImage.size() > 0) {
-                if (mListImage.size() == 1 && mListImage.get(0).getUrl().equals("")) {
+                if (mListImage.size() > 0) {
+                    if (mListImage.size() == 1 && mListImage.get(0).getUrl().equals("")) {
+                        Message message = new Message();
+                        message.what = 1;
+                        handler.sendMessage(message);
+                    } else {
+                        Message message = new Message();
+                        message.what = 2;
+                        handler.sendMessage(message);
+                    }
+                } else {
                     Message message = new Message();
                     message.what = 1;
                     handler.sendMessage(message);
+                }
+            }else {
+                List<CaiJiImageBean> mListImage = new ArrayList<>();
+                String[] imgs = imageUrl.split(CaiJi.tagItem);
+                for (String s : imgs) {
+                    if (!TextUtils.isEmpty(s)) {
+                        String[] imgDes = s.split(CaiJi.tagDesc);
+                        if (imgDes.length > 0) {
+                            String url = imgDes[0].contains("http") ? imgDes[0] : ("http:" + imgDes[0]);
+                            if (url.length() > 5 &&
+                                    PublicUtils.isValidUrl(url) &&
+                                    !s.substring(url.length() - 3, url.length()).
+                                            equalsIgnoreCase("gif")) {
+                                CaiJiImageBean caiJiImageBean = new CaiJiImageBean();
+                                caiJiImageBean.setUrl(url);
+                                caiJiImageBean.setDes(imgDes.length > 1 ? imgDes[1] : "");
+                                mListImage.add(caiJiImageBean);
+                            }
+                        }
+                    }
+                }
+                if (mListImage.size() > 0) {
+                    if (mListImage.size() == 1 && mListImage.get(0).getUrl().equals("")) {
+                        Message message = new Message();
+                        message.what = 1;
+                        handler.sendMessage(message);
+                    } else {
+                        Message message = new Message();
+                        message.what = 2;
+                        handler.sendMessage(message);
+                    }
                 } else {
                     Message message = new Message();
-                    message.what = 2;
+                    message.what = 1;
                     handler.sendMessage(message);
                 }
-            } else {
-                Message message = new Message();
-                message.what = 1;
-                handler.sendMessage(message);
             }
+
         }
     }
 

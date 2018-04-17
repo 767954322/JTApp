@@ -11,6 +11,7 @@ import com.homechart.app.home.CallBack;
 
 public class MyTextView extends android.support.v7.widget.AppCompatEditText {
     private Context mContext;
+
     public MyTextView(Context context) {
         super(context);
         mContext = context;
@@ -25,9 +26,10 @@ public class MyTextView extends android.support.v7.widget.AppCompatEditText {
         super(context, attrs, defStyleAttr);
         mContext = context;
     }
+
     public boolean onTextContextMenuItem(int id) {
-        if (id == android.R.id.paste) {
-            ((CallBack)mContext).pasteCall();
+        if (id == android.R.id.paste || id == 16908337) {
+            ((CallBack) mContext).pasteCall();
         }
         return super.onTextContextMenuItem(id);
     }
