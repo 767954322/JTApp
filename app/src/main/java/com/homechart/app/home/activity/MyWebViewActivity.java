@@ -180,7 +180,7 @@ public class MyWebViewActivity
                         startActivityForResult(intent, 1);
 
                     } else {
-
+                        ifClick = true;
                         if (weburl.contains("mp.weixin.qq.com")) {
 
                             mWeb.loadUrl(CaiJi.WEIXIN);
@@ -283,6 +283,7 @@ public class MyWebViewActivity
     }
 
 
+    boolean ifClick = false ;
     public class JavascriptInterface {
         @android.webkit.JavascriptInterface
         public void openImage(String imageUrl, String img) {
@@ -312,19 +313,22 @@ public class MyWebViewActivity
                         }
                     }
                 }
-                if (mListImage.size() > 0) {
-                    if (mListImage.size() == 1 && mListImage.get(0).getUrl().equals("")) {
-                        ToastUtils.showCenter(MyWebViewActivity.this, "未采集到图片信息");
+                if(ifClick){
+                    ifClick = false;
+                    if (mListImage.size() > 0) {
+                        if (mListImage.size() == 1 && mListImage.get(0).getUrl().equals("")) {
+                            ToastUtils.showCenter(MyWebViewActivity.this, "未采集到图片信息");
+                        } else {
+                            Intent intent = new Intent(MyWebViewActivity.this, CaiJiImgListActivity.class);
+                            intent.putExtra("number", 0);
+                            intent.putExtra("pic_url_list", (Serializable) mListImage);
+                            intent.putExtra("title", pageTitle);
+                            intent.putExtra("webUrl", cet_clearedit.getText().toString());
+                            startActivity(intent);
+                        }
                     } else {
-                        Intent intent = new Intent(MyWebViewActivity.this, CaiJiImgListActivity.class);
-                        intent.putExtra("number", 0);
-                        intent.putExtra("pic_url_list", (Serializable) mListImage);
-                        intent.putExtra("title", pageTitle);
-                        intent.putExtra("webUrl", cet_clearedit.getText().toString());
-                        startActivity(intent);
+                        ToastUtils.showCenter(MyWebViewActivity.this, "未采集到图片信息");
                     }
-                } else {
-                    ToastUtils.showCenter(MyWebViewActivity.this, "未采集到图片信息");
                 }
             }else {
                 List<CaiJiImageBean> mListImage = new ArrayList<>();
