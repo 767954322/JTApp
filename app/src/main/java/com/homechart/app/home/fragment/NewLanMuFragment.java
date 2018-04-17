@@ -37,6 +37,7 @@ import com.homechart.app.commont.PublicUtils;
 import com.homechart.app.home.activity.LoginActivity;
 import com.homechart.app.home.adapter.MyHuaTiAdapter;
 import com.homechart.app.home.base.BaseFragment;
+import com.homechart.app.home.bean.faxianpingdao.PingDaoUrlItemBean;
 import com.homechart.app.home.bean.guanliantags.GuanLianTagBean;
 import com.homechart.app.home.bean.search.RecommendItemDataBean;
 import com.homechart.app.home.bean.search.SearchDataBean;
@@ -75,15 +76,15 @@ public class NewLanMuFragment
         extends BaseFragment
         implements View.OnClickListener,
         OnLoadMoreListener,
-        OnRefreshListener ,MyHuaTiAdapter.ClickZhuTi{
+        OnRefreshListener, MyHuaTiAdapter.ClickZhuTi {
 
     private FragmentManager fragmentManager;
     private Bundle mBundle;
     private String tag_name;
     private ImageButton mBack;
     private TextView mTital;
-    private List<String> listHot;
-    private List<String> mListPingDao1 = new ArrayList<>();
+    private List<PingDaoUrlItemBean> listHot;
+    private List<PingDaoUrlItemBean> mListPingDao1 = new ArrayList<>();
     private RecyclerView mRecyclerView1;
     private AnimationSet animationSet;
     private int scroll_position;
@@ -109,7 +110,7 @@ public class NewLanMuFragment
     private TextView tv_shoucang;
     private boolean ifClickDingYue = true;
     private GuanLianTagBean guanLianTagBean;
-    private MultiItemCommonAdapter<String> mAdapter1;
+    private MultiItemCommonAdapter<PingDaoUrlItemBean> mAdapter1;
     List<RecommendItemDataBean> mListHuaTi = new ArrayList<>();
     private String mUserId;
     private float mDownY;
@@ -141,10 +142,10 @@ public class NewLanMuFragment
         mBack = (ImageButton) rootView.findViewById(R.id.nav_left_imageButton);
         mTital = (TextView) rootView.findViewById(R.id.tv_tital_comment);
         tv_shoucang = (TextView) rootView.findViewById(R.id.tv_shoucang);
-        mRecyclerView1 = (RecyclerView) rootView.findViewById(R.id.hlv_tab2);
         mRecyclerView = (HRecyclerView) rootView.findViewById(R.id.rcy_recyclerview_pic);
         headerView = LayoutInflater.from(activity).inflate(R.layout.header_lanmu, null);
         lv_faxian_header = (MyListView) headerView.findViewById(R.id.lv_faxian_header);
+        mRecyclerView1 = (RecyclerView) headerView.findViewById(R.id.hlv_tab2);
     }
 
     @Override
@@ -152,37 +153,7 @@ public class NewLanMuFragment
         super.initListener();
         mBack.setOnClickListener(this);
         tv_shoucang.setOnClickListener(this);
-        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int action = event.getAction();
-                switch (action) {
-                    case MotionEvent.ACTION_DOWN:
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        if (move_tag) {
-                            mDownY = event.getY();
-                            move_tag = false;
-                        }
-                        mMoveY = event.getY();
-                        break;
-                    case MotionEvent.ACTION_UP:
 
-                        move_tag = true;
-                        mMoveY = event.getY();
-                        Log.e("UP", "Y" + mMoveY);
-                        if (Math.abs((mMoveY - mDownY)) > 20) {
-                            if (mMoveY > mDownY) {
-                                mRecyclerView1.setVisibility(View.VISIBLE);
-                            } else {
-                                mRecyclerView1.setVisibility(View.GONE);
-                            }
-                        }
-                        break;
-                }
-                return false;
-            }
-        });
     }
 
     @Override
@@ -276,26 +247,31 @@ public class NewLanMuFragment
     }
 
     private void buildRecyclerView1() {
-        MultiItemTypeSupport<String> support = new MultiItemTypeSupport<String>() {
+        MultiItemTypeSupport<PingDaoUrlItemBean> support = new MultiItemTypeSupport<PingDaoUrlItemBean>() {
             @Override
             public int getLayoutId(int itemType) {
-                return R.layout.item_pingdao1;
+                return R.layout.item_pingdao2;
             }
 
             @Override
-            public int getItemViewType(int position, String s) {
+            public int getItemViewType(int position, PingDaoUrlItemBean s) {
                 return 0;
             }
         };
-        mAdapter1 = new MultiItemCommonAdapter<String>(activity, mListPingDao1, support) {
+        mAdapter1 = new MultiItemCommonAdapter<PingDaoUrlItemBean>(activity, mListPingDao1, support) {
             @Override
             public void convert(final BaseViewHolder holder, final int position) {
-                ((TextView) holder.getView(R.id.tv_item_pingdao)).setText(mListPingDao1.get(position));
+                ((TextView) holder.getView(R.id.tv_item_pingdao)).setText(mListPingDao1.get(position).getTag_name());
+                if (null != mListPingDao1.get(position).getImage_url() &&
+                        !TextUtils.isEmpty(mListPingDao1.get(position).getImage_url())) {
+                    ImageUtils.displayFilletImage(mListPingDao1.get(position).getImage_url(), (ImageView) holder.getView(R.id.iv_item_pingdao));
+                } else {
+                }
                 holder.getView(R.id.rl_lanmu).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        String strLanMu = mListPingDao1.get(position);
+                        String strLanMu = mListPingDao1.get(position).getTag_name();
                         //友盟统计
                         HashMap<String, String> map = new HashMap<String, String>();
                         map.put("evenname", "标签点击");
@@ -336,7 +312,7 @@ public class NewLanMuFragment
                 case 1:
                     String dataStr = (String) msg.obj;
                     guanLianTagBean = GsonUtil.jsonToBean(dataStr, GuanLianTagBean.class);
-                    listHot = guanLianTagBean.getTag_info().getRelation_tag();
+                    listHot = guanLianTagBean.getTag_info().getRel_tag_data();
                     if (null != listHot && listHot.size() > 0) {
                         mRecyclerView1.setVisibility(View.VISIBLE);
                         mListPingDao1.clear();
@@ -619,7 +595,7 @@ public class NewLanMuFragment
         mListHuaTi.clear();
         mListHuaTi.addAll(list);
         if (myHuaTiAdapter == null) {
-            myHuaTiAdapter = new MyHuaTiAdapter(list, activity,NewLanMuFragment.this);
+            myHuaTiAdapter = new MyHuaTiAdapter(list, activity, NewLanMuFragment.this);
             lv_faxian_header.setAdapter(myHuaTiAdapter);
             lv_faxian_header.setVisibility(View.VISIBLE);
         } else {
@@ -813,7 +789,7 @@ public class NewLanMuFragment
 
     @Override
     public void clickZhuTi(int position) {
-        if(mListHuaTi.size() > position){
+        if (mListHuaTi.size() > position) {
             //友盟统计
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("evenname", "精选话题");

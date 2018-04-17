@@ -1,5 +1,7 @@
 package com.homechart.app.home.bean.guanliantags;
 
+import com.homechart.app.home.bean.faxianpingdao.PingDaoUrlItemBean;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,14 +16,16 @@ public class GuanLianTagInfoBean implements Serializable {
     private String subscribe_show;
     private String is_subscribed;
     private List<String> relation_tag;
+    private List<PingDaoUrlItemBean> rel_tag_data;
 
 
-    public GuanLianTagInfoBean(String tag_id, String tag_name, String subscribe_show, String is_subscribed, List<String> relation_tag) {
+    public GuanLianTagInfoBean(String tag_id, String tag_name, String subscribe_show, String is_subscribed, List<String> relation_tag, List<PingDaoUrlItemBean> rel_tag_data) {
         this.tag_id = tag_id;
         this.tag_name = tag_name;
         this.subscribe_show = subscribe_show;
         this.is_subscribed = is_subscribed;
         this.relation_tag = relation_tag;
+        this.rel_tag_data = rel_tag_data;
     }
 
     public String getTag_id() {
@@ -64,6 +68,14 @@ public class GuanLianTagInfoBean implements Serializable {
         this.relation_tag = relation_tag;
     }
 
+    public List<PingDaoUrlItemBean> getRel_tag_data() {
+        return rel_tag_data;
+    }
+
+    public void setRel_tag_data(List<PingDaoUrlItemBean> rel_tag_data) {
+        this.rel_tag_data = rel_tag_data;
+    }
+
     @Override
     public String toString() {
         return "GuanLianTagInfoBean{" +
@@ -72,6 +84,7 @@ public class GuanLianTagInfoBean implements Serializable {
                 ", subscribe_show='" + subscribe_show + '\'' +
                 ", is_subscribed='" + is_subscribed + '\'' +
                 ", relation_tag=" + relation_tag +
+                ", rel_tag_data=" + rel_tag_data +
                 '}';
     }
 }

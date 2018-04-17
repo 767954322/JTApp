@@ -73,19 +73,12 @@
             android:background="@color/navbar_bottom_border_color" />
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/hlv_tab2"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/font_44"
-        android:visibility="gone"
-        android:layout_below="@+id/rl_navr_header" />
-
 
     <com.homechart.app.recyclerlibrary.recyclerview.HRecyclerView
         android:id="@+id/rcy_recyclerview_pic"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/hlv_tab2"
+        android:layout_below="@+id/rl_navr_header"
         android:background="@color/white"
         android:paddingLeft="@dimen/font_12"
         android:paddingRight="@dimen/font_12"

@@ -10,12 +10,14 @@
         android:id="@+id/hlv_tab2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/font_105"
-        android:background="@color/white"
-        android:layout_marginTop="@dimen/font_15"
+        android:layout_below="@+id/view_line_top"
         android:layout_marginBottom="@dimen/font_15"
-        android:visibility="gone"
-        android:layout_marginRight="@dimen/font_5"
-        android:layout_below="@+id/view_line_top"/>
+        android:layout_marginLeft="@dimen/font_5"
+        android:layout_marginRight="@dimen/font_10"
+        android:layout_marginTop="@dimen/font_15"
+        android:background="@color/white"
+        android:visibility="gone" />
+
 
     <ImageView
         android:id="@+id/view_line"
@@ -23,8 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/hlv_tab2"
         android:scaleType="fitXY"
-        android:visibility="gone"
-        android:src="@drawable/yinying"/>
+        android:src="@drawable/yinying" />
 
     <com.homechart.app.myview.MyListView
         android:id="@+id/lv_faxian_header"
