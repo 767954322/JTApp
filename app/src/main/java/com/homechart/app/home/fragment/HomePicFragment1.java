@@ -306,7 +306,16 @@ public class HomePicFragment1
                     holder.getView(R.id.iv_imageview_one).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+                           //友盟统计
+                            HashMap<String, String> map = new HashMap<String, String>();
+                            map.put("evenname", "活动图片点击");
+                            map.put("even", "活动图片点击");
+                            MobclickAgent.onEvent(activity, "shijian64", map);
+                            //ga统计
+                            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                    .setCategory("活动图片点击")  //事件类别
+                                    .setAction("活动图片点击")      //事件操作
+                                    .build());
                             NewHuoDongDetailsFragment newHuoDongDetailsFragment = new NewHuoDongDetailsFragment(getChildFragmentManager());
                             Bundle bundle = new Bundle();
                             bundle.putString("activity_id", mActivityInfoBean.getObject_id());

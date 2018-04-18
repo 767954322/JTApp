@@ -420,6 +420,16 @@ public class RegisterActivity extends BaseActivity
                     String error_msg = jsonObject.getString(ClassConstant.Parame.ERROR_MSG);
                     String data_msg = jsonObject.getString(ClassConstant.Parame.DATA);
                     if (error_code == 0) {
+                        //友盟统计
+                        HashMap<String, String> map1 = new HashMap<String, String>();
+                        map1.put("evenname", "注册成功");
+                        map1.put("even", "注册成功");
+                        MobclickAgent.onEvent(RegisterActivity.this, "shijian70", map1);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("注册成功")  //事件类别
+                                .setAction("注册成功")      //事件操作
+                                .build());
                         LoginBean loginBean = GsonUtil.jsonToBean(data_msg, LoginBean.class);
                         PublicUtils.loginSucces(loginBean);
                         Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);

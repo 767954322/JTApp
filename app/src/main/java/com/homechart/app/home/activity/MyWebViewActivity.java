@@ -28,6 +28,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.homechart.app.MyApplication;
 import com.homechart.app.R;
 import com.homechart.app.commont.CaiJi;
 import com.homechart.app.commont.ClassConstant;
@@ -37,12 +40,15 @@ import com.homechart.app.home.base.BaseActivity;
 import com.homechart.app.home.bean.caijiimg.CaiJiImageBean;
 import com.homechart.app.myview.MyTextView;
 import com.homechart.app.myview.SlowlyProgressBar;
+import com.homechart.app.utils.CustomProgress;
 import com.homechart.app.utils.SharedPreferencesUtils;
 import com.homechart.app.utils.ToastUtils;
 import com.homechart.app.utils.UIUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -185,11 +191,31 @@ public class MyWebViewActivity
                     loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
 
                     if (!loginStatus) {
-
+                        //友盟统计
+                        HashMap<String, String> map1 = new HashMap<String, String>();
+                        map1.put("evenname", "采集按钮点击");
+                        map1.put("even", "未登陆跳转到登录页");
+                        MobclickAgent.onEvent(MyWebViewActivity.this, "shijian69", map1);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("未登陆跳转到登录页")  //事件类别
+                                .setAction("采集按钮点击")      //事件操作
+                                .build());
                         Intent intent = new Intent(MyWebViewActivity.this, LoginActivity.class);
                         startActivityForResult(intent, 1);
 
                     } else {
+                        //友盟统计
+                        HashMap<String, String> map1 = new HashMap<String, String>();
+                        map1.put("evenname", "采集按钮点击");
+                        map1.put("even", "登陆用户点击");
+                        MobclickAgent.onEvent(MyWebViewActivity.this, "shijian69", map1);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("登陆用户点击")  //事件类别
+                                .setAction("采集按钮点击")      //事件操作
+                                .build());
+
                         ifClick = true;
                         if (weburl.contains("weixin.qq.com")) {
 
@@ -210,6 +236,17 @@ public class MyWebViewActivity
                         }
 
                     }
+                }else {
+                    //友盟统计
+                    HashMap<String, String> map1 = new HashMap<String, String>();
+                    map1.put("evenname", "采集按钮点击");
+                    map1.put("even", "按钮无法采集状态点击");
+                    MobclickAgent.onEvent(MyWebViewActivity.this, "shijian69", map1);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("按钮无法采集状态点击")  //事件类别
+                            .setAction("采集按钮点击")      //事件操作
+                            .build());
                 }
                 break;
             case R.id.iv_back_icon:
@@ -593,5 +630,28 @@ public class MyWebViewActivity
             slowlyProgressBar = null;
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        CustomProgress.cancelDialog();
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart("内置游览器页");
+        Tracker t = MyApplication.getInstance().getDefaultTracker();
+        // Set screen name.
+        t.setScreenName("内置游览器页");
+        // Send a screen view.
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        MobclickAgent.onPageEnd("内置游览器页");
+        MobclickAgent.onPause(this);
+    }
+
 }
 

@@ -70,6 +70,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @SuppressLint("ValidFragment")
@@ -222,18 +223,58 @@ public class NewHuoDongDetailsFragment
 
         switch (v.getId()) {
             case R.id.nav_left_imageButton:
+                //友盟统计
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("evenname", "活动页返回");
+                map.put("even", "活动页返回");
+                MobclickAgent.onEvent(activity, "shijian66", map);
+                //ga统计
+                MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                        .setCategory("活动页返回")  //事件类别
+                        .setAction("活动页返回")      //事件操作
+                        .build());
                 fragmentManager.popBackStack();
                 break;
             case R.id.bt_add:
 
                 loginStatus = SharedPreferencesUtils.readBoolean(ClassConstant.LoginSucces.LOGIN_STATUS);
                 if (!loginStatus) {
+                    //友盟统计
+                    HashMap<String, String> map1 = new HashMap<String, String>();
+                    map1.put("evenname", "活动页报名夺奖点击");
+                    map1.put("even", "未登陆跳转去登陆页");
+                    MobclickAgent.onEvent(activity, "shijian67", map1);
+                    //ga统计
+                    MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                            .setCategory("未登陆跳转去登陆页")  //事件类别
+                            .setAction("活动页报名夺奖点击")      //事件操作
+                            .build());
                     Intent intent = new Intent(activity, LoginActivity.class);
                     startActivityForResult(intent, 1);
                 } else {
                     if (activityInfoBean != null && activityInfoBean.getState_id().equals("3") && !activityInfoBean.isIs_joined()) {
+                        //友盟统计
+                        HashMap<String, String> map1 = new HashMap<String, String>();
+                        map1.put("evenname", "活动页报名夺奖点击");
+                        map1.put("even", "登陆用户参加活动");
+                        MobclickAgent.onEvent(activity, "shijian67", map1);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("登陆用户参加活动")  //事件类别
+                                .setAction("活动页报名夺奖点击")      //事件操作
+                                .build());
                         addHuoDong();
                     } else if (activityInfoBean != null && activityInfoBean.getState_id().equals("4")) {
+                        //友盟统计
+                        HashMap<String, String> map1 = new HashMap<String, String>();
+                        map1.put("evenname", "活动页报名夺奖点击");
+                        map1.put("even", "查看中奖列表");
+                        MobclickAgent.onEvent(activity, "shijian67", map1);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("查看中奖列表")  //事件类别
+                                .setAction("活动页报名夺奖点击")      //事件操作
+                                .build());
                         Intent intent = new Intent(activity, ZhongJiangListActivity.class);
                         intent.putExtra("activity_id", activity_id);
                         startActivity(intent);
@@ -326,7 +367,16 @@ public class NewHuoDongDetailsFragment
                 holder.getView(R.id.rl_item_inspiration).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        //友盟统计
+                        HashMap<String, String> map1 = new HashMap<String, String>();
+                        map1.put("evenname", "活动灵感辑点击");
+                        map1.put("even", "活动灵感辑点击");
+                        MobclickAgent.onEvent(activity, "shijian68", map1);
+                        //ga统计
+                        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                                .setCategory("活动灵感辑点击")  //事件类别
+                                .setAction("活动灵感辑点击")      //事件操作
+                                .build());
                         NewInspirationDetailsment newInspirationDetailsment = new NewInspirationDetailsment(fragmentManager);
                         Bundle bundle = new Bundle();
                         bundle.putString("user_id", mUserId);
@@ -672,6 +722,16 @@ public class NewHuoDongDetailsFragment
     }
 
     private void sharedItemOpen(SHARE_MEDIA share_media) {
+        //友盟统计
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("evenname", "活动页分享");
+        map.put("even", "活动页分享");
+        MobclickAgent.onEvent(activity, "shijian65", map);
+        //ga统计
+        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("活动页分享")  //事件类别
+                .setAction("活动页分享")      //事件操作
+                .build());
         UMImage image = new UMImage(activity, activityInfoBean.getImage().getImg0());
         image.compressStyle = UMImage.CompressStyle.SCALE;//大小压缩，默认为大小压缩，适合普通很大的图
         UMWeb web = new UMWeb("http://h5.idcool.com.cn/activity/" + activityInfoBean.getActivity_id());
