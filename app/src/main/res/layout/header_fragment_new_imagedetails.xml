@@ -185,7 +185,7 @@
             android:layout_below="@+id/tv_details_tital"
             android:layout_marginLeft="@dimen/font_8"
             android:layout_marginRight="@dimen/font_19"
-            android:layout_marginTop="@dimen/font_20"
+            android:layout_marginTop="@dimen/font_15"
             android:background="@drawable/bt_next_icon"
             android:scaleType="centerInside"
             android:src="@drawable/next"
@@ -197,7 +197,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/rl_album_tital"
             android:layout_below="@+id/tv_details_tital"
-            android:layout_marginTop="@dimen/font_20"
+            android:layout_marginTop="@dimen/font_15"
             android:layout_toLeftOf="@+id/iv_more_album"
             android:visibility="gone">
 
