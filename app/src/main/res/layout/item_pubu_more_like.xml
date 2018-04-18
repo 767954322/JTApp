@@ -53,6 +53,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:singleLine="true"
+                    android:layout_marginTop="@dimen/font_1"
                     android:textColor="@color/bg_b2b2b2"
                     android:textSize="@dimen/font_10" />
 

@@ -25,8 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/font_15"
-        android:layout_marginRight="@dimen/font_30"
+        android:layout_marginBottom="@dimen/font_13"
+        android:layout_marginRight="@dimen/font_33"
         android:src="@drawable/tongkuan2"
         android:visibility="gone" />
 

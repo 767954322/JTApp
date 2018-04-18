@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_image_miaosu"
-            android:layout_marginTop="@dimen/font_8">
+            android:layout_marginTop="@dimen/font_6">
 
             <com.homechart.app.myview.RoundImageView
                 android:id="@+id/iv_header_pic"
@@ -56,6 +56,7 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textColor="@color/bg_b2b2b2"
+                    android:layout_marginTop="@dimen/font_1"
                     android:textSize="@dimen/font_10" />
 
                 <TextView

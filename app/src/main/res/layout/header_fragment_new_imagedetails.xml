@@ -64,8 +64,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/iv_details_image"
             android:layout_alignRight="@+id/iv_details_image"
-            android:layout_marginBottom="@dimen/font_15"
-            android:layout_marginRight="@dimen/font_10"
+            android:layout_marginBottom="@dimen/font_13"
+            android:layout_marginRight="@dimen/font_13"
             android:src="@drawable/tongkuan2"
             android:visibility="gone" />
 
@@ -138,7 +138,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_time"
-        android:layout_marginTop="@dimen/font_22">
+        android:layout_marginTop="@dimen/font_17">
 
         <com.homechart.app.myview.RoundImageView
             android:id="@+id/riv_people_header"
@@ -395,7 +395,7 @@
         android:layout_height="@dimen/font_30"
         android:layout_below="@+id/rl_user_info"
         android:layout_marginBottom="@dimen/font_13"
-        android:layout_marginLeft="@dimen/font_67"
+        android:layout_marginLeft="@dimen/font_63"
         android:layout_marginTop="@dimen/font_15"
         android:background="@drawable/bt_guanzhu1"
         android:gravity="center_horizontal"
@@ -427,7 +427,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_pinglun"
         android:layout_marginTop="@dimen/font_5"
-        android:layout_marginBottom="@dimen/font_25">
+        android:layout_marginBottom="@dimen/font_23">
 
         <TextView
             android:id="@+id/tv_maybe_like"
