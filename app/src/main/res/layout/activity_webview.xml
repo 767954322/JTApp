@@ -9,8 +9,8 @@
         android:id="@+id/common_navbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="true"
         android:background="@color/white"
+        android:focusable="true"
         android:focusableInTouchMode="true">
 
         <ImageView
@@ -18,8 +18,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/font_15"
-            android:layout_marginRight="@dimen/font_15"
+            android:paddingBottom="@dimen/font_12"
+            android:paddingLeft="@dimen/font_15"
+            android:paddingRight="@dimen/font_15"
+            android:paddingTop="@dimen/font_12"
             android:src="@drawable/quxiao_you" />
 
 
@@ -36,12 +38,12 @@
             android:drawablePadding="@dimen/font_3"
             android:ellipsize="end"
             android:gravity="center_vertical"
+            android:hint="请输入网址"
             android:imeOptions="actionSearch"
             android:lines="1"
             android:paddingLeft="@dimen/font_10"
             android:paddingRight="@dimen/font_10"
             android:singleLine="true"
-            android:hint="请输入网址"
             android:textColorHint="@color/bg_8f8f8f"
             android:textSize="@dimen/size_14" />
 
@@ -53,12 +55,13 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/font_10"
-            android:gravity="center"
             android:background="@drawable/bg_caiji"
+            android:gravity="center"
             android:text="采集"
-            android:visibility="gone"
             android:textColor="@color/white"
-            android:textSize="@dimen/size_12" />
+            android:textSize="@dimen/size_12"
+            android:visibility="gone" />
+
         <Button
             android:id="@+id/bt_un_caiji"
             android:layout_width="@dimen/font_50"
@@ -66,21 +69,21 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/font_10"
-            android:gravity="center"
             android:background="@drawable/bg_un_caiji"
+            android:gravity="center"
             android:text="采集"
             android:textColor="@color/bg_8f8f8f"
             android:textSize="@dimen/size_12" />
 
     </RelativeLayout>
+
     <ProgressBar
         android:id="@+id/ProgressBar"
         style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:progressDrawable="@drawable/progress_bg"
         android:layout_height="2dp"
         android:layout_below="@+id/common_navbar"
-        />
+        android:progressDrawable="@drawable/progress_bg" />
 
     <WebView
         android:id="@+id/wb_webview"
@@ -120,8 +123,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/view_line"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:background="@color/view_line" />
 
         <ImageView
             android:id="@+id/iv_back_icon"
@@ -137,10 +140,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:paddingLeft="@dimen/font_15"
-            android:paddingRight="@dimen/font_15"
             android:layout_marginLeft="@dimen/font_36"
             android:layout_toRightOf="@+id/iv_back_icon"
+            android:paddingLeft="@dimen/font_15"
+            android:paddingRight="@dimen/font_15"
             android:src="@drawable/back_an" />
 
     </RelativeLayout>
