@@ -310,28 +310,32 @@ public class NewLanMuFragment
             int code = msg.what;
             switch (code) {
                 case 1:
-                    String dataStr = (String) msg.obj;
-                    guanLianTagBean = GsonUtil.jsonToBean(dataStr, GuanLianTagBean.class);
-                    listHot = guanLianTagBean.getTag_info().getRel_tag_data();
-                    if (null != listHot && listHot.size() > 0) {
-                        mRecyclerView1.setVisibility(View.VISIBLE);
-                        mListPingDao1.clear();
-                        mListPingDao1.addAll(listHot);
-                        mAdapter1.notifyDataSetChanged();
-                    } else {
-                        mRecyclerView1.setVisibility(View.GONE);
-                    }
-                    tv_shoucang.setVisibility(View.VISIBLE);
-                    if (guanLianTagBean.getTag_info().getSubscribe_show().equals("0")) {//没有订阅按钮
-                        tv_shoucang.setVisibility(View.GONE);
-                    } else {//有订阅按钮
-                        if (guanLianTagBean.getTag_info().getIs_subscribed().equals("0")) {//没订阅
-                            changeDingYueStatus(false);
-                        } else if (guanLianTagBean.getTag_info().getIs_subscribed().equals("1")) {
-                            //订阅
-                            changeDingYueStatus(true);
+                    try {
+                        String dataStr = (String) msg.obj;
+                        guanLianTagBean = GsonUtil.jsonToBean(dataStr, GuanLianTagBean.class);
+                        listHot = guanLianTagBean.getTag_info().getRel_tag_data();
+                        if (null != listHot && listHot.size() > 0) {
+                            mRecyclerView1.setVisibility(View.VISIBLE);
+                            mListPingDao1.clear();
+                            mListPingDao1.addAll(listHot);
+                            mAdapter1.notifyDataSetChanged();
+                        } else {
+                            mRecyclerView1.setVisibility(View.GONE);
                         }
                         tv_shoucang.setVisibility(View.VISIBLE);
+                        if (guanLianTagBean.getTag_info().getSubscribe_show().equals("0")) {//没有订阅按钮
+                            tv_shoucang.setVisibility(View.GONE);
+                        } else {//有订阅按钮
+                            if (guanLianTagBean.getTag_info().getIs_subscribed().equals("0")) {//没订阅
+                                changeDingYueStatus(false);
+                            } else if (guanLianTagBean.getTag_info().getIs_subscribed().equals("1")) {
+                                //订阅
+                                changeDingYueStatus(true);
+                            }
+                            tv_shoucang.setVisibility(View.VISIBLE);
+                        }
+                    }catch (Exception e){
+
                     }
                     break;
                 case 2:
