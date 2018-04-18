@@ -89,6 +89,7 @@ public class HomePicFragment1
     private int width_Pic_Staggered;
     private Map<Integer, ColorItemBean> mSelectListData = new HashMap<>();
     private List<String> mItemIdList = new ArrayList<>();
+    private List<String> mTraceIdList = new ArrayList<>();
     private Boolean loginStatus;
     private String userId;
     private ActivityInfoBean mActivityInfoBean;
@@ -404,6 +405,7 @@ public class HomePicFragment1
                             bundle.putString("shaixuan_tag", "");
                             bundle.putInt("page_num", page_num + 1);
                             bundle.putSerializable("item_id_list", (Serializable) mItemIdList);
+                            bundle.putSerializable("trace_id_list", (Serializable) mTraceIdList);
                             newImageDetailsFragment.setArguments(bundle);
                             FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                             fragmentTransaction.addToBackStack(null).replace(R.id.id_main, newImageDetailsFragment);
@@ -535,11 +537,13 @@ public class HomePicFragment1
         switch (state) {
             case REFRESH_STATUS:
                 mItemIdList.clear();
+                mTraceIdList.clear();
                 if (null != listData && listData.size() > 0) {
                     mListData.addAll(listData);
                     for (int i = 0; i < listData.size(); i++) {
                         if (!listData.get(i).getItem_info().getTag().equals("活动")) {
                             mItemIdList.add(listData.get(i).getItem_info().getItem_id());
+                            mTraceIdList.add(listData.get(i).getItem_info().getTrace_id());
                         }
                     }
                 } else {
@@ -561,6 +565,7 @@ public class HomePicFragment1
                     for (int i = 0; i < listData.size(); i++) {
                         if (!listData.get(i).getItem_info().getTag().equals("活动")) {
                             mItemIdList.add(listData.get(i).getItem_info().getItem_id());
+                            mTraceIdList.add(listData.get(i).getItem_info().getTrace_id());
                         }
                     }
                     ifLoading = false;

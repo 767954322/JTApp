@@ -90,6 +90,7 @@ public class NewImageDetailsFragment
     private boolean ifBack = false;
     private RelativeLayout rl_navbar;
     private RelativeLayout rl_navbar_tital;
+    private List<String> mTraceIdList;
 
     public NewImageDetailsFragment() {
     }
@@ -112,6 +113,11 @@ public class NewImageDetailsFragment
         type = (String) mBundle.getString("type");
         mPosition = mBundle.getInt("position", -1);
         List<String> itemIdList = (List<String>) mBundle.getSerializable("item_id_list");
+        List<String> trace_id_list = (List<String>) mBundle.getSerializable("trace_id_list");
+        mTraceIdList = new ArrayList<>();
+        if (null != trace_id_list && trace_id_list.size() > 0) {
+            mTraceIdList.addAll(trace_id_list);
+        }
         mItemIdList = new ArrayList<>();
         mItemIdList.addAll(itemIdList);
     }
@@ -335,6 +341,9 @@ public class NewImageDetailsFragment
                             ++shuaixuan_page_num;
                             for (int i = 0; i < searchDataBean.getItem_list().size(); i++) {
                                 mItemIdList.add(searchDataBean.getItem_list().get(i).getItem_info().getItem_id());
+                                if (null != mTraceIdList && mTraceIdList.size() > 0) {
+                                    mTraceIdList.add(searchDataBean.getItem_list().get(i).getItem_info().getTrace_id());
+                                }
                             }
                             mAdapter.notifyDataSetChanged();
                             more_loding = false;
@@ -395,7 +404,11 @@ public class NewImageDetailsFragment
 
         @Override
         public Fragment getItem(int position) {
-            return new NewImageDetaiScrollFragment(rootView,fragmentManager, mItemIdList.get(position), NewImageDetailsFragment.this, position);
+            if (null != mTraceIdList && mTraceIdList.size() > 0 && mTraceIdList.size() == mItemIdList.size()) {
+                return new NewImageDetaiScrollFragment(rootView, fragmentManager, mItemIdList.get(position), NewImageDetailsFragment.this, position, mTraceIdList.get(position));
+            } else {
+                return new NewImageDetaiScrollFragment(rootView, fragmentManager, mItemIdList.get(position), NewImageDetailsFragment.this, position);
+            }
         }
 
         @Override

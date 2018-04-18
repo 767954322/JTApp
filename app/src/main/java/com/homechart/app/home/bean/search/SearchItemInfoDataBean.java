@@ -19,11 +19,12 @@ public class SearchItemInfoDataBean implements Serializable{
     private String collect_num;
     private String comment_num;
     private String is_collected;
+    private String trace_id;
 
     public SearchItemInfoDataBean() {
     }
 
-    public SearchItemInfoDataBean(String item_id, String tag, String description, SearchDataObjectImgBean image, String like_num, String collect_num, String comment_num, String is_collected) {
+    public SearchItemInfoDataBean(String item_id, String tag, String description, SearchDataObjectImgBean image, String like_num, String collect_num, String comment_num, String is_collected, String trace_id) {
         this.item_id = item_id;
         this.tag = tag;
         this.description = description;
@@ -32,6 +33,7 @@ public class SearchItemInfoDataBean implements Serializable{
         this.collect_num = collect_num;
         this.comment_num = comment_num;
         this.is_collected = is_collected;
+        this.trace_id = trace_id;
     }
 
     public String getItem_id() {
@@ -98,6 +100,14 @@ public class SearchItemInfoDataBean implements Serializable{
         this.is_collected = is_collected;
     }
 
+    public String getTrace_id() {
+        return trace_id;
+    }
+
+    public void setTrace_id(String trace_id) {
+        this.trace_id = trace_id;
+    }
+
     @Override
     public String toString() {
         return "SearchItemInfoDataBean{" +
@@ -109,6 +119,7 @@ public class SearchItemInfoDataBean implements Serializable{
                 ", collect_num='" + collect_num + '\'' +
                 ", comment_num='" + comment_num + '\'' +
                 ", is_collected='" + is_collected + '\'' +
+                ", trace_id='" + trace_id + '\'' +
                 '}';
     }
 }

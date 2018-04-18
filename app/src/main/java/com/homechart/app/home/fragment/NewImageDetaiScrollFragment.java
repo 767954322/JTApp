@@ -101,6 +101,7 @@ public class NewImageDetaiScrollFragment
         OnLoadMoreListener {
 
 
+    private String mTraceId;
     private View mRootView;
     private boolean ifDelect = false;
 
@@ -115,6 +116,15 @@ public class NewImageDetaiScrollFragment
         this.item_id = item_id;
         this.mUserInfo = userInfo;
         this.mPosotion = posotion;
+    }
+    @SuppressLint("ValidFragment")
+    public NewImageDetaiScrollFragment(View mRootView, FragmentManager fragmentManager, String item_id, UserInfo userInfo, int posotion ,String mTraceId) {
+        this.mRootView = mRootView;
+        this.fragmentManager = fragmentManager;
+        this.item_id = item_id;
+        this.mUserInfo = userInfo;
+        this.mPosotion = posotion;
+        this.mTraceId = mTraceId;
     }
 
     @Override
@@ -694,7 +704,7 @@ public class NewImageDetaiScrollFragment
             }
         };
 
-        MyHttpManager.getInstance().itemDetailsFaBu(item_id, callBack);
+        MyHttpManager.getInstance().itemNewDetailsFaBu(item_id,mTraceId, callBack);
 
     }
 
