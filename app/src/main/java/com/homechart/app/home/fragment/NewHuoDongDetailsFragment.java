@@ -496,10 +496,10 @@ public class NewHuoDongDetailsFragment
             tv_data_last.setVisibility(View.VISIBLE);
             iv_data_last_icon1.setVisibility(View.GONE);
             tv_data_last1.setVisibility(View.GONE);
-            tv_data_last.setText("敬请期待");
+            tv_data_last.setText("未开始");
 
             bt_add.setBackgroundResource(R.drawable.bukedianji);
-            bt_add.setText("报名夺奖");
+            bt_add.setText("未开始");
             bt_add.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
         } else if (activityInfoBean.getState_id().equals("1")) {
             iv_data_last_icon.setVisibility(View.GONE);
@@ -522,6 +522,16 @@ public class NewHuoDongDetailsFragment
             bt_add.setBackgroundResource(R.drawable.keyidianji);
             bt_add.setText("中奖名单");
             bt_add.setTextColor(UIUtils.getColor(R.color.white));
+        }else if(activityInfoBean.getState_id().equals("0")){
+            iv_data_last_icon.setVisibility(View.VISIBLE);
+            tv_data_last.setVisibility(View.VISIBLE);
+            iv_data_last_icon1.setVisibility(View.GONE);
+            tv_data_last1.setVisibility(View.GONE);
+            tv_data_last.setText("未上线");
+
+            bt_add.setBackgroundResource(R.drawable.bukedianji);
+            bt_add.setText("未上线");
+            bt_add.setTextColor(UIUtils.getColor(R.color.bg_8f8f8f));
         }
         TextPaint textPaint = tv_huodong_miaoshu.getPaint();
         float mTextViewPaint = textPaint.measureText(activityInfoBean.getDescription());
@@ -752,7 +762,7 @@ public class NewHuoDongDetailsFragment
         } else if (share_media == SHARE_MEDIA.SINA) {
             web.setDescription(hdDetailsBean.getData().getShare_info().getWeibo().getDescription());//描述
         } else {
-            web.setDescription(hdDetailsBean.getData().getShare_info().getQq().getTitle());//标题
+            web.setDescription(hdDetailsBean.getData().getShare_info().getQq().getDescription());//标题
         }
 
         new ShareAction(activity).
