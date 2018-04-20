@@ -11,10 +11,13 @@ public class HDDetailsDataBean implements Serializable {
 
     private ActivityInfoBean activity_info;
     private List<ItemUserBean> user_list;
+    private SharedIndoBean share_info;
 
-    public HDDetailsDataBean(ActivityInfoBean activity_info, List<ItemUserBean> user_list) {
+
+    public HDDetailsDataBean(ActivityInfoBean activity_info, List<ItemUserBean> user_list, SharedIndoBean share_info) {
         this.activity_info = activity_info;
         this.user_list = user_list;
+        this.share_info = share_info;
     }
 
     public ActivityInfoBean getActivity_info() {
@@ -33,11 +36,20 @@ public class HDDetailsDataBean implements Serializable {
         this.user_list = user_list;
     }
 
+    public SharedIndoBean getShare_info() {
+        return share_info;
+    }
+
+    public void setShare_info(SharedIndoBean share_info) {
+        this.share_info = share_info;
+    }
+
     @Override
     public String toString() {
         return "HDDetailsDataBean{" +
                 "activity_info=" + activity_info +
                 ", user_list=" + user_list +
+                ", share_info=" + share_info +
                 '}';
     }
 }
