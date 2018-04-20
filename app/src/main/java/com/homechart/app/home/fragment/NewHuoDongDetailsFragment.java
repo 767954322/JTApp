@@ -722,43 +722,47 @@ public class NewHuoDongDetailsFragment
     }
 
     private void sharedItemOpen(SHARE_MEDIA share_media) {
-        //友盟统计
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("evenname", "活动页分享");
-        map.put("even", "活动页分享");
-        MobclickAgent.onEvent(activity, "shijian65", map);
-        //ga统计
-        MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("活动页分享")  //事件类别
-                .setAction("活动页分享")      //事件操作
-                .build());
-        UMImage image = new UMImage(activity, activityInfoBean.getImage().getImg0());
-        image.compressStyle = UMImage.CompressStyle.SCALE;//大小压缩，默认为大小压缩，适合普通很大的图
-        UMWeb web = new UMWeb("http://h5.idcool.com.cn/activity/" + activityInfoBean.getActivity_id());
-        if (share_media == SHARE_MEDIA.WEIXIN) {
-            web.setTitle("小米空气净化器免费送！");//标题
-        } else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
-            web.setTitle("收藏图片赢取小米空气净化器！家图app“点亮灵感·创造梦想之家”大赛等你来参加！");//标题
-        } else if (share_media == SHARE_MEDIA.SINA) {
-            web.setTitle("点亮灵感·创造梦想之家” 来家图APP收藏图片赢取小米空气净化器，快来抢吧！" + "http://h5.idcool.com.cn/activity/" + activityInfoBean.getActivity_id());//标题
-        } else {
-            web.setTitle("小米空气净化器免费送！");//标题
-        }
-        web.setThumb(image);  //缩略图
-        if (share_media == SHARE_MEDIA.WEIXIN) {
-            web.setDescription("“点亮灵感·创造梦想之家” 来家图APP收藏图片赢取小米空气净化器，快来抢吧！");//描述
-        } else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
-            web.setDescription("收藏图片赢取小米空气净化器！家图app“点亮灵感·创造梦想之家”大赛等你来参加！");//描述
-        } else if (share_media == SHARE_MEDIA.SINA) {
-            web.setDescription("收藏图片赢取小米空气净化器！家图app“点亮灵感·创造梦想之家”大赛等你来参加！");//描述
-        } else {
-            web.setDescription("家图app“点亮灵感·创造梦想之家”，动手收藏图片赢取小米空气净化器，快来抢吧！");//标题
-        }
 
-        new ShareAction(activity).
-                setPlatform(share_media).
-                withMedia(web).
-                setCallback(umShareListener).share();
+        if(null != hdDetailsBean){
+
+            //友盟统计
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("evenname", "活动页分享");
+            map.put("even", "活动页分享");
+            MobclickAgent.onEvent(activity, "shijian65", map);
+            //ga统计
+            MyApplication.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("活动页分享")  //事件类别
+                    .setAction("活动页分享")      //事件操作
+                    .build());
+            UMImage image = new UMImage(activity, activityInfoBean.getImage().getImg0());
+            image.compressStyle = UMImage.CompressStyle.SCALE;//大小压缩，默认为大小压缩，适合普通很大的图
+            UMWeb web = new UMWeb("http://h5.idcool.com.cn/activity/" + activityInfoBean.getActivity_id());
+            if (share_media == SHARE_MEDIA.WEIXIN) {
+                web.setTitle(hdDetailsBean.getData().getActivity_info().getTitle());//标题
+            } else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
+                web.setTitle(hdDetailsBean.getData().getActivity_info().getTitle());//标题
+            } else if (share_media == SHARE_MEDIA.SINA) {
+                web.setTitle(hdDetailsBean.getData().getActivity_info().getTitle() + "http://h5.idcool.com.cn/activity/" + activityInfoBean.getActivity_id());//标题
+            } else {
+                web.setTitle(hdDetailsBean.getData().getActivity_info().getTitle());//标题
+            }
+            web.setThumb(image);  //缩略图
+            if (share_media == SHARE_MEDIA.WEIXIN) {
+                web.setDescription(hdDetailsBean.getData().getActivity_info().getDescription());//描述
+            } else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
+                web.setDescription(hdDetailsBean.getData().getActivity_info().getDescription());//描述
+            } else if (share_media == SHARE_MEDIA.SINA) {
+                web.setDescription(hdDetailsBean.getData().getActivity_info().getDescription());//描述
+            } else {
+                web.setDescription(hdDetailsBean.getData().getActivity_info().getDescription());//标题
+            }
+
+            new ShareAction(activity).
+                    setPlatform(share_media).
+                    withMedia(web).
+                    setCallback(umShareListener).share();
+        }
     }
 
     private UMShareListener umShareListener = new UMShareListener() {
