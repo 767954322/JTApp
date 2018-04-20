@@ -734,7 +734,7 @@ public class NewHuoDongDetailsFragment
                 .build());
         UMImage image = new UMImage(activity, activityInfoBean.getImage().getImg0());
         image.compressStyle = UMImage.CompressStyle.SCALE;//大小压缩，默认为大小压缩，适合普通很大的图
-        UMWeb web = new UMWeb(hdDetailsBean.getData().getShare_info().getWechat_friend().getImage_url());
+        UMWeb web = new UMWeb("http://h5.idcool.com.cn/activity/" + activityInfoBean.getActivity_id());
         if (share_media == SHARE_MEDIA.WEIXIN) {
             web.setTitle(hdDetailsBean.getData().getShare_info().getWechat_friend().getTitle());//标题
         } else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
